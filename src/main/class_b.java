@@ -21,9 +21,9 @@ final class class_b implements Runnable {
          (var2 = (TextMessage)(var1 = (MessageConnection)Connector.open(this.a)).newMessage("text")).setAddress(this.a);
          var2.setPayloadText(this.b);
          var1.send(var2);
-         Canvas.b(T1.ct);
+         Canvas.startOKDlg(T.ct);
       } catch (Exception var3) {
-         Canvas.b(T1.cu);
+         Canvas.startOKDlg(T.cu);
       }
    }
 }

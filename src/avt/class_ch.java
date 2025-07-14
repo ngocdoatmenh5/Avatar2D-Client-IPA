@@ -22,13 +22,13 @@ final class class_ch implements IAction {
       String var2 = var10001;
       MoneyScr var1 = var10000;
       if (var3.equals("")) {
-         Canvas.b(T1.en[0]);
+         Canvas.startOKDlg(T.en[0]);
       } else if (var4.equals("")) {
-         Canvas.b(T1.en[1]);
+         Canvas.startOKDlg(T.en[1]);
       } else {
          GlobalService.gI().b(var2, var3, var4);
-         var1.a(var1.ac.c, var1.ac.e);
-         Canvas.i();
+         var1.a(var1.left.c, var1.left.e);
+         Canvas.startWaitDlg();
       }
    }
 }

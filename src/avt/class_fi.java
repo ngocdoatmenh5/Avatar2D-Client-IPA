@@ -16,13 +16,13 @@ final class class_fi implements IAction {
    public final void perform() {
       if (LoadMap.p != null) {
          if (this.b.e == 4) {
-            FarmScr.a(this.a, (byte)4, this.c.a);
+            FarmScr.a(this.a, (byte)4, this.c.ID);
             this.a.M = (Animal)LoadMap.p;
             this.a.M.isStand = true;
-            this.a.M.timeStand = Canvas.j();
+            this.a.M.timeStand = Canvas.getSecond();
          }
 
-         FarmService.a().b(FarmScr.b, ((Base)LoadMap.p).IDDB, this.c.a);
+         FarmService.a().b(FarmScr.b, ((Base)LoadMap.p).IDDB, this.c.ID);
       }
 
    }

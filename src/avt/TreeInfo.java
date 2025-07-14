@@ -24,7 +24,7 @@ public final class TreeInfo {
          ImageInfo var10000 = FarmData.a[this.c[var2]];
          Graphics var7 = var1;
          ImageInfo var6 = var10000;
-         var7.drawRegion(FarmData.c[var6.b], var6.c * AvMain.hd, var6.d * AvMain.hd, var6.e * AvMain.hd, var6.f * AvMain.hd, 0, var3, var4, var5);
+         var7.drawRegion(FarmData.c[var6.bigID], var6.x0 * AvMain.hd, var6.y0 * AvMain.hd, var6.w * AvMain.hd, var6.h * AvMain.hd, 0, var3, var4, var5);
       }
    }
 }

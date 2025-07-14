@@ -22,6 +22,6 @@ final class class_gd implements IAction {
          GlobalService.gI().a(this.c.idPart, (byte)this.a);
       }
 
-      Canvas.i();
+      Canvas.startWaitDlg();
    }
 }

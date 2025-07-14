@@ -11,6 +11,6 @@ final class class_jm implements IAction {
 
    public final void perform() {
       GlobalService.gI().l(TransMoneyDlg.a(this.a)[TransMoneyDlg.b(this.a)]);
-      Canvas.i();
+      Canvas.startWaitDlg();
    }
 }

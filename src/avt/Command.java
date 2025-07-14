@@ -37,8 +37,8 @@ public class Command {
          this.b.perform();
       } else if (this.d != null) {
          this.d.a(this.c);
-      } else if (class_im.c) {
-         class_im.d().a(this.c, this.e);
+      } else if (ChatTextField.c) {
+         ChatTextField.gI().a(this.c, this.e);
       } else {
          Canvas.currentMyScreen.a(this.c, this.e);
       }

@@ -18,6 +18,6 @@ final class class_in implements IAction {
 
       ParkService.a().a(this.a.IDDB, true);
       MessageScr.b().a(var1);
-      Canvas.b(T1.y + T1.cb + this.a.name + ".");
+      Canvas.startOKDlg(T.y + T.cb + this.a.name + ".");
    }
 }

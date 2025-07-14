@@ -24,10 +24,10 @@ final class class_i extends Command {
          MapScr.a(this.g);
          PopupShop.n();
          String var1 = "";
-         PopupShop.a(var1 + AvatarData.a(this.g));
-         PopupShop.a(T1.az + Canvas.a(this.g.i[0], this.g.i[1], false));
-         PopupShop.a(T1.dx + AvatarData.b(this.g));
-         PopupShop.a(T1.em[0] + MapScr.C.lvMain);
+         PopupShop.a(var1 + AvatarData.getName(this.g));
+         PopupShop.a(T.az + Canvas.getPriceMoney(this.g.i[0], this.g.i[1], false));
+         PopupShop.a(T.dx + AvatarData.getLevel(this.g));
+         PopupShop.a(T.em[0] + MapScr.C.lvMain);
       }
 
    }

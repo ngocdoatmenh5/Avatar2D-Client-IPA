@@ -36,7 +36,7 @@ public final class FarmData {
 
    public static void a(byte var0, short[] var1, int var2, int var3) {
       byte[] var5;
-      if ((var5 = CRes.a("avatarVSFarm")) != null) {
+      if ((var5 = CRes.loadRMS("avatarVSFarm")) != null) {
          ByteArrayInputStream var4 = new ByteArrayInputStream(var5);
          DataInputStream var8 = new DataInputStream(var4);
 
@@ -44,7 +44,7 @@ public final class FarmData {
             l = var8.readInt();
             k = var8.readInt();
          } catch (IOException var6) {
-            AvatarData.b("avatarVSFarm");
+            AvatarData.delErrorRms("avatarVSFarm");
          }
       }
 
@@ -63,7 +63,7 @@ public final class FarmData {
          }
       } else if (i > 0) {
          for(var9 = 0; var9 < i; ++var9) {
-            var5 = CRes.a("avatarImgBigFarm" + var9);
+            var5 = CRes.loadRMS("avatarImgBigFarm" + var9);
             c[var9] = CRes.a(var5);
          }
       }
@@ -125,7 +125,7 @@ public final class FarmData {
       byte[] var4 = var2;
 
       try {
-         CRes.a("avatarImgBigFarm" + var1, var4);
+         CRes.saveRMS("avatarImgBigFarm" + var1, var4);
       } catch (Exception var3) {
       }
 
@@ -143,7 +143,7 @@ public final class FarmData {
       try {
          var1.writeInt(l);
          var1.writeInt(k);
-         CRes.a("avatarVSFarm", var0.toByteArray());
+         CRes.saveRMS("avatarVSFarm", var0.toByteArray());
          var1.close();
       } catch (Exception var2) {
       }
@@ -182,8 +182,8 @@ public final class FarmData {
 
       for(var4 = 0; var4 < var12; ++var4) {
          m[var4] = new Item();
-         m[var4].a = var11.readByte();
-         m[var4].d[0] = var11.readShort();
+         m[var4].ID = var11.readByte();
+         m[var4].price[0] = var11.readShort();
       }
 
       for(var4 = 0; var4 < var1; ++var4) {
@@ -191,7 +191,7 @@ public final class FarmData {
       }
 
       for(var4 = 0; var4 < var12; ++var4) {
-         m[var4].d[1] = var11.readShort();
+         m[var4].price[1] = var11.readShort();
       }
 
       short var17 = var11.readShort();
@@ -363,7 +363,7 @@ public final class FarmData {
    public static void a(byte[] var0) throws IOException, RecordStoreException {
       --h;
       c(var0);
-      CRes.a("avatarTreeInfoFarm", var0);
+      CRes.saveRMS("avatarTreeInfoFarm", var0);
       if (h == 0) {
          FarmService.a().d();
       }
@@ -372,13 +372,13 @@ public final class FarmData {
 
    private static boolean e() {
       byte[] var0;
-      if ((var0 = CRes.a("avatarTreeInfoFarm")) == null) {
+      if ((var0 = CRes.loadRMS("avatarTreeInfoFarm")) == null) {
          return false;
       } else {
          try {
             c(var0);
          } catch (Exception var1) {
-            AvatarData.b("avatarTreeInfoFarm");
+            AvatarData.delErrorRms("avatarTreeInfoFarm");
          }
 
          return true;
@@ -395,16 +395,16 @@ public final class FarmData {
       int var4;
       ImageInfo var5;
       for(var4 = 0; var4 < var1; ++var4) {
-         (var5 = new ImageInfo()).a = var7.readShort();
-         if (var5.a > var3) {
-            var3 = var5.a;
+         (var5 = new ImageInfo()).ID = var7.readShort();
+         if (var5.ID > var3) {
+            var3 = var5.ID;
          }
 
-         var5.b = var7.readShort();
-         var5.c = var7.readByte();
-         var5.d = var7.readByte();
-         var5.e = var7.readByte();
-         var5.f = var7.readByte();
+         var5.bigID = var7.readShort();
+         var5.x0 = var7.readByte();
+         var5.y0 = var7.readByte();
+         var5.w = var7.readByte();
+         var5.h = var7.readByte();
          var2.addElement(var5);
       }
 
@@ -412,7 +412,7 @@ public final class FarmData {
 
       for(var4 = 0; var4 < var1; ++var4) {
          var5 = (ImageInfo)var2.elementAt(var4);
-         a[var5.a] = var5;
+         a[var5.ID] = var5;
       }
 
    }
@@ -420,7 +420,7 @@ public final class FarmData {
    public static void b(byte[] var0) throws RecordStoreException, IOException {
       --h;
       d(var0);
-      CRes.a("avatarImgFarm", var0);
+      CRes.saveRMS("avatarImgFarm", var0);
       if (h == 0) {
          FarmService.a().d();
       }
@@ -429,13 +429,13 @@ public final class FarmData {
 
    private static boolean f() {
       byte[] var0;
-      if ((var0 = CRes.a("avatarImgFarm")) == null) {
+      if ((var0 = CRes.loadRMS("avatarImgFarm")) == null) {
          return false;
       } else {
          try {
             d(var0);
          } catch (Exception var1) {
-            AvatarData.b("avatarImgFarm");
+            AvatarData.delErrorRms("avatarImgFarm");
          }
 
          return true;
@@ -456,7 +456,7 @@ public final class FarmData {
          }
 
          byte[] var7 = var4.toByteArray();
-         CRes.a("avatarDataFarm", var7);
+         CRes.saveRMS("avatarDataFarm", var7);
          var5.close();
       } catch (Exception var6) {
       }
@@ -464,7 +464,7 @@ public final class FarmData {
 
    private static boolean g() {
       DataInputStream var0;
-      if ((var0 = AvatarData.a("avatarDataFarm")) == null) {
+      if ((var0 = AvatarData.loadRMS("avatarDataFarm")) == null) {
          return false;
       } else {
          try {
@@ -479,7 +479,7 @@ public final class FarmData {
 
             var0.close();
          } catch (IOException var2) {
-            AvatarData.b("avatarDataFarm");
+            AvatarData.delErrorRms("avatarDataFarm");
          }
 
          return true;
@@ -488,7 +488,7 @@ public final class FarmData {
 
    public static Item a(int var0) {
       for(int var1 = 0; var1 < m.length; ++var1) {
-         if (m[var1].a == var0) {
+         if (m[var1].ID == var0) {
             return m[var1];
          }
       }

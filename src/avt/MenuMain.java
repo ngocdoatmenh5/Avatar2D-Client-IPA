@@ -6,11 +6,11 @@ public class MenuMain extends AvMain {
    public void k() {
    }
 
-   public void l() {
-      super.l();
+   public void updateKey() {
+      super.updateKey();
    }
 
-   public void a(Graphics var1) {
-      super.a(var1);
+   public void paint(Graphics var1) {
+      super.paint(var1);
    }
 }

@@ -36,8 +36,8 @@ public final class class_cw {
       this.g = var2;
       this.c = var3;
       this.h = var5;
-      if (var4 == null && MessageScr.d != null) {
-         this.d = MessageScr.d.f;
+      if (var4 == null && MessageScr.me != null) {
+         this.d = MessageScr.me.f;
       } else {
          this.d = var4;
       }
@@ -48,7 +48,7 @@ public final class class_cw {
    }
 
    private void d() {
-      this.i = PaintPopup.a().e - PaintPopup.o - (AvMain.Z << 1) - 7 - (this.h ? MessageScr.c.d : 0);
+      this.i = PaintPopup.gI().e - PaintPopup.o - (AvMain.Z << 1) - 7 - (this.h ? MessageScr.c.d : 0);
    }
 
    public final void a(String var1, String var2) {
@@ -58,7 +58,7 @@ public final class class_cw {
 
    public final void a(String var1) {
       Vector var4;
-      int var2 = (var4 = Canvas.N.b(var1, Canvas.m - ((MessageScr.e << 1) + 30 + 10 * (AvMain.hd - 1)))).size();
+      int var2 = (var4 = Canvas.N.b(var1, Canvas.w - ((MessageScr.e << 1) + 30 + 10 * (AvMain.hd - 1)))).size();
 
       for(int var3 = 0; var3 < var2; ++var3) {
          this.e.addElement(var4.elementAt(var3));
@@ -87,8 +87,8 @@ public final class class_cw {
    }
 
    public final void a(Graphics var1) {
-      class_il.a().a(var1, Canvas.m - 50, 0);
-      var1.setClip(0, 0, Canvas.m - (MessageScr.e << 1), this.i + 4);
+      class_il.a().a(var1, Canvas.w - 50, 0);
+      var1.setClip(0, 0, Canvas.w - (MessageScr.e << 1), this.i + 4);
       var1.translate(0, -m);
       int var2;
       if ((var2 = m / l) < 0) {
@@ -110,40 +110,40 @@ public final class class_cw {
    public final void b() {
       ++this.t;
       boolean var1 = false;
-      if (Canvas.d[2]) {
+      if (Canvas.keyHold[2]) {
          var1 = true;
          j -= l;
-      } else if (Canvas.d[8]) {
+      } else if (Canvas.keyHold[8]) {
          j += l;
          var1 = true;
       }
 
-      if (Canvas.g) {
-         Canvas.g = false;
+      if (Canvas.isPointerClick) {
+         Canvas.isPointerClick = false;
          this.p = m;
          this.s = true;
          this.q = 0;
       }
 
       if (this.s) {
-         if (Canvas.e) {
+         if (Canvas.isPointerDown) {
             if (Canvas.gameTick % 3 == 0) {
-               this.r = Canvas.i;
+               this.r = Canvas.py;
                this.u = this.t;
             }
 
             this.q = 0;
-            if ((j = this.p + Canvas.l()) < 0 || j > k) {
-               j = this.p + Canvas.l() / 2;
+            if ((j = this.p + Canvas.dy()) < 0 || j > k) {
+               j = this.p + Canvas.dy() / 2;
             }
 
             m = j;
          }
 
-         if (Canvas.f) {
+         if (Canvas.isPointerRelease) {
             int var2 = (int)(this.t - this.u);
             int var3;
-            if (CRes.f(var3 = this.r - Canvas.i) > 40 && var2 < 10 && j > 0 && j < k) {
+            if (CRes.f(var3 = this.r - Canvas.py) > 40 && var2 < 10 && j > 0 && j < k) {
                this.q = var3 / var2 * 10;
             }
 

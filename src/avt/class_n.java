@@ -11,10 +11,10 @@ final class class_n implements IAction {
 
    public final void perform() {
       if (!Session_ME.a().c) {
-         Canvas.c(T1.M);
-         Canvas.c();
+         Canvas.startWaitDlg(T.M);
+         Canvas.mSocket();
       } else {
-         Canvas.i();
+         Canvas.startWaitDlg();
       }
 
       GlobalService.gI().a((byte)4, this.a);

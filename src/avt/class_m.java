@@ -14,9 +14,9 @@ final class class_m implements IAction {
    public final void perform() {
       if (MapScr.a(this.b)) {
          GlobalService.gI().a(this.b[0].f(), this.b[1].f());
-         Canvas.i();
+         Canvas.startWaitDlg();
          InputFace.b();
-         Canvas.A = null;
+         Canvas.currentFace = null;
       }
 
    }

@@ -17,7 +17,7 @@ public final class ChatPopup {
    private byte j = 0;
 
    static {
-      FilePack.b(T1.aw);
+      FilePack.b(T.aw);
       g = 8;
       h[0] = FrameImage.a("c", g, g);
       h[1] = FrameImage.a("cB", g, g);
@@ -47,7 +47,7 @@ public final class ChatPopup {
       if (this.e == 0) {
          return true;
       } else {
-         if (Canvas.currentMyScreen == BoardScr.i) {
+         if (Canvas.currentMyScreen == BoardScr.me) {
             if (this.b - this.c < 0) {
                this.b = this.c + 10;
             }
@@ -56,8 +56,8 @@ public final class ChatPopup {
                this.a = 32;
             }
 
-            if (this.a + 30 > Canvas.m) {
-               this.a = Canvas.m - 40;
+            if (this.a + 30 > Canvas.w) {
+               this.a = Canvas.w - 40;
             }
          }
 
@@ -86,7 +86,7 @@ public final class ChatPopup {
 
    public final void paintAnimal(Graphics var1) {
       int var2 = AvMain.hd;
-      if (Canvas.currentMyScreen == BoardScr.i) {
+      if (Canvas.currentMyScreen == BoardScr.me) {
          var2 = 1;
       }
 

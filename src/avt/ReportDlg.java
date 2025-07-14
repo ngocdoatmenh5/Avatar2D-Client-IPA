@@ -26,14 +26,14 @@ public final class ReportDlg extends Dialog {
    public final void a(int var1) {
       switch (var1) {
          case 0:
-            Canvas.h();
+            Canvas.endDlg();
             h = null;
          default:
       }
    }
 
    public ReportDlg() {
-      super.ad = new Command(T1.z, 0);
+      super.center = new Command(T.z, 0);
    }
 
    public final void k() {
@@ -41,13 +41,13 @@ public final class ReportDlg extends Dialog {
 
    public final void b() {
       if (this.a != null && this.a.size() > 0) {
-         Canvas.v = this;
+         Canvas.currentDialog = this;
       }
 
    }
 
-   public final void a(Graphics var1) {
-      Canvas.S.a(var1, this.d, this.b, this.e, this.c, 0);
+   public final void paint(Graphics var1) {
+      Canvas.paint.a(var1, this.d, this.b, this.e, this.c, 0);
       int var2 = this.b + PaintPopup.o + (5 + AvMain.Z - AvMain.ah / 2);
 
       for(int var3 = 0; var3 < this.a.size(); ++var3) {
@@ -61,6 +61,6 @@ public final class ReportDlg extends Dialog {
          var2 += AvMain.ah;
       }
 
-      super.a(var1);
+      super.paint(var1);
    }
 }

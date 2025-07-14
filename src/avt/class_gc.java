@@ -10,7 +10,7 @@ final class class_gc implements IAction {
    }
 
    public final void perform() {
-      FarmScr.a(this.a, FarmScr.L, this.b.c);
+      FarmScr.a(this.a, FarmScr.L, this.b.anchor);
       FarmScr.a(this.a);
    }
 }

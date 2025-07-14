@@ -7,7 +7,7 @@ import main.GameMidlet;
 public final class PaintPopup {
    public static FrameImage a;
    public static FrameImage b;
-   public static PaintPopup c;
+   public static PaintPopup me;
    public static int[] d;
    public int e;
    public int f;
@@ -25,24 +25,24 @@ public final class PaintPopup {
    private String s;
    public static byte o;
 
-   public static PaintPopup a() {
-      if (c == null) {
-         c = new PaintPopup();
+   public static PaintPopup gI() {
+      if (me == null) {
+         me = new PaintPopup();
       }
 
-      return c;
+      return me;
    }
 
    public PaintPopup() {
       o = (byte)(AvMain.ah << 1);
-      if (Canvas.a != null && Canvas.H) {
+      if (Canvas.instance != null && Canvas.isKeyBoard) {
          this.j = 17;
       } else {
          this.j = 10;
       }
 
-      if (Canvas.Z != 0) {
-         this.j *= Canvas.Z + 1;
+      if (Canvas.stypeInt != 0) {
+         this.j *= Canvas.stypeInt + 1;
       }
 
    }
@@ -57,14 +57,14 @@ public final class PaintPopup {
             this.s = this.s.substring(0, 10);
          }
 
-         this.i = Canvas.K.getWidth(this.s) + 10 + (Canvas.Z != 0 ? 35 * Canvas.Z : 0);
+         this.i = Canvas.K.getWidth(this.s) + 10 + (Canvas.stypeInt != 0 ? 35 * Canvas.stypeInt : 0);
       }
 
       if (this.i < 40) {
          this.i = 40;
       }
 
-      this.b();
+      this.init();
       this.l = 0;
       this.m = new int[this.p];
       this.n = new int[this.p];
@@ -72,9 +72,9 @@ public final class PaintPopup {
       this.q = 0;
    }
 
-   public final void b() {
-      this.g = Canvas.o - this.f / 2;
-      this.h = (Canvas.q - Canvas.T) / 2 - this.e / 2;
+   public final void init() {
+      this.g = Canvas.hw - this.f / 2;
+      this.h = (Canvas.q - Canvas.hTab) / 2 - this.e / 2;
    }
 
    public final void a(int var1, int var2) {
@@ -121,7 +121,7 @@ public final class PaintPopup {
    }
 
    public final int d() {
-      if (Canvas.g) {
+      if (Canvas.isPointerClick) {
          int var1;
          int var2;
          for(var2 = this.l - 1; var2 >= this.q; --var2) {
@@ -147,7 +147,7 @@ public final class PaintPopup {
    }
 
    public final void a(Graphics var1) {
-      Canvas.S.a(var1, this.g, this.h, this.e, this.f, this.l, this.q, this.j, this.i, o, this.p, this.r, this.n, this.m, this.s);
+      Canvas.paint.a(var1, this.g, this.h, this.e, this.f, this.l, this.q, this.j, this.i, o, this.p, this.r, this.n, this.m, this.s);
       Canvas.resetTrans(var1);
    }
 

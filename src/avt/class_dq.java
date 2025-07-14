@@ -8,11 +8,11 @@ final class class_dq implements IAction {
    }
 
    public final void perform() {
-      GameMidlet.e = 8;
-      GlobalMessageHandler.a().a = null;
+      GameMidlet.CLIENT_TYPE = 8;
+      GlobalMessageHandler.gI().miniGameMessageHandler = null;
       Session_ME.a().c();
-      LoginScr.b().a();
-      Canvas.t = null;
+      LoginScr.gI().a();
+      Canvas.menuMain = null;
       SoundManager.a.a();
       FarmData.a();
    }

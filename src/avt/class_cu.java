@@ -7,7 +7,7 @@ final class class_cu implements IAction {
    }
 
    public final void perform() {
-      Canvas.i();
+      Canvas.startWaitDlg();
       CasinoService.a().a(BoardScr.p);
    }
 }

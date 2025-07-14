@@ -10,7 +10,7 @@ final class class_a implements IAction {
    }
 
    public final void perform() {
-      AvatarService.a().a(Canvas.u.a(), this.a, 1);
-      Canvas.h();
+      AvatarService.gI().doSetPassMyHouse(Canvas.inputDlg.a(), this.a, 1);
+      Canvas.endDlg();
    }
 }

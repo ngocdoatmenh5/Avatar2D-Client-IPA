@@ -24,13 +24,13 @@ public final class SoundManager {
          } else {
             Vector var3 = new Vector();
             if (MapScr.t) {
-               OptionScr.b().b(OptionScr.b().c / 10);
+               OptionScr.gI().b(OptionScr.gI().c / 10);
                var4.perform();
             } else {
-               var3.addElement(new Command(T1.ep[1], new class_bj(this, var4)));
-               var3.addElement(new Command(T1.ep[2], new class_bh(this, var4)));
-               var3.addElement(new Command(T1.p, new class_bw(this)));
-               var3.addElement(new Command(T1.ep[0], new class_bt(this, var4)));
+               var3.addElement(new Command(T.ep[1], new class_bj(this, var4)));
+               var3.addElement(new Command(T.ep[2], new class_bh(this, var4)));
+               var3.addElement(new Command(T.p, new class_bw(this)));
+               var3.addElement(new Command(T.ep[0], new class_bt(this, var4)));
                Canvas.a(var1, var3);
             }
          }

@@ -14,6 +14,6 @@ final class class_de implements IAction {
       HouseScr var10000 = this.a;
       HouseScr.e(this.a, -1);
       HouseScr.d(var10000, -1);
-      Canvas.h();
+      Canvas.endDlg();
    }
 }

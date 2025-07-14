@@ -82,53 +82,53 @@ public final class CameraList {
    public final void a() {
       ++this.B;
       this.C = false;
-      if (Canvas.b[8]) {
+      if (Canvas.keyPressed[8]) {
          this.y += this.s;
          if (this.y >= this.x) {
             this.y = 0;
          }
-      } else if (Canvas.b[2]) {
+      } else if (Canvas.keyPressed[2]) {
          this.y -= this.s;
          if (this.y < 0) {
             this.y = this.x - 1;
          }
-      } else if (Canvas.b[6]) {
+      } else if (Canvas.keyPressed[6]) {
          ++this.y;
          if (this.y >= this.x) {
             this.y = 0;
          }
-      } else if (Canvas.b[4]) {
+      } else if (Canvas.keyPressed[4]) {
          --this.y;
          if (this.y < 0) {
             this.y = this.x - 1;
          }
       }
 
-      if (Canvas.b[4] || Canvas.b[6] || Canvas.b[8] || Canvas.b[2]) {
+      if (Canvas.keyPressed[4] || Canvas.keyPressed[6] || Canvas.keyPressed[8] || Canvas.keyPressed[2]) {
          this.C = true;
          Canvas.currentMyScreen.a(this.y, false);
-         Canvas.b[4] = false;
-         Canvas.b[6] = false;
-         Canvas.b[8] = false;
-         Canvas.b[2] = false;
+         Canvas.keyPressed[4] = false;
+         Canvas.keyPressed[6] = false;
+         Canvas.keyPressed[8] = false;
+         Canvas.keyPressed[2] = false;
       }
 
       if (this.C) {
          this.b();
       }
 
-      if (Canvas.t == null && Canvas.v == null) {
+      if (Canvas.menuMain == null && Canvas.currentDialog == null) {
          if (this.H > 0) {
             --this.H;
-            if (this.H == 0 && Canvas.currentMyScreen != PopupShop.a) {
+            if (this.H == 0 && Canvas.currentMyScreen != PopupShop.me) {
                Canvas.currentMyScreen.a(this.y, true);
             }
 
          } else {
-            if (Canvas.g && Canvas.a(this.w, this.e, this.q, this.r)) {
-               this.M = Canvas.k;
-               this.L = Canvas.j;
-               Canvas.g = false;
+            if (Canvas.isPointerClick && Canvas.a(this.w, this.e, this.q, this.r)) {
+               this.M = Canvas.pyLast;
+               this.L = Canvas.pxLast;
+               Canvas.isPointerClick = false;
                this.A = this.B;
                this.D = i;
                this.E = k;
@@ -139,14 +139,14 @@ public final class CameraList {
 
             if (this.p) {
                long var1 = this.B - this.A;
-               int var3 = this.M - Canvas.i;
-               this.M = Canvas.i;
-               int var4 = this.L - Canvas.h;
-               this.L = Canvas.h;
-               if (Canvas.e) {
+               int var3 = this.M - Canvas.py;
+               this.M = Canvas.py;
+               int var4 = this.L - Canvas.px;
+               this.L = Canvas.px;
+               if (Canvas.isPointerDown) {
                   if (this.B % 2L == 0L) {
-                     this.F = Canvas.i;
-                     this.G = Canvas.h;
+                     this.F = Canvas.py;
+                     this.G = Canvas.px;
                      this.J = this.B;
                      this.K = this.B;
                   }
@@ -157,21 +157,21 @@ public final class CameraList {
                      j = this.D + var3;
                      this.D = j;
                   } else {
-                     j = this.D + Canvas.l() / 2;
+                     j = this.D + Canvas.dy() / 2;
                   }
 
                   if (l > 0 && l < this.h) {
                      l = this.E + var4;
                      this.E = l;
                   } else {
-                     l = this.E + Canvas.k() / 2;
+                     l = this.E + Canvas.dx() / 2;
                   }
 
                   i = j;
                   k = l;
                   if (var1 < 20L) {
-                     var3 = (j + Canvas.i - this.e) / this.v;
-                     var4 = (l + Canvas.h - this.w) / this.u;
+                     var3 = (j + Canvas.py - this.e) / this.v;
+                     var4 = (l + Canvas.px - this.w) / this.u;
                      this.y = var3 * this.s + var4;
                      if (this.y < 0) {
                         this.y = 0;
@@ -184,7 +184,7 @@ public final class CameraList {
                      Canvas.currentMyScreen.a(this.y, false);
                   }
 
-                  if (CRes.f(Canvas.l()) < 10 * AvMain.hd && CRes.f(Canvas.k()) < 10 * AvMain.hd) {
+                  if (CRes.f(Canvas.dy()) < 10 * AvMain.hd && CRes.f(Canvas.dx()) < 10 * AvMain.hd) {
                      if (var1 > 3L && var1 < 8L) {
                         this.I = false;
                         Canvas.currentMyScreen.a(false);
@@ -194,11 +194,11 @@ public final class CameraList {
                   }
                }
 
-               if (Canvas.f) {
+               if (Canvas.isPointerRelease) {
                   this.p = false;
                   var3 = (int)(this.B - this.J);
-                  var4 = this.F - Canvas.i;
-                  int var5 = this.G - Canvas.h;
+                  var4 = this.F - Canvas.py;
+                  int var5 = this.G - Canvas.px;
                   if (CRes.f(var4) > 40 && var3 < 20 && j > 0 && j < this.c) {
                      this.n = var4 / var3 * 10;
                   }
@@ -210,13 +210,13 @@ public final class CameraList {
 
                   this.J = -1L;
                   this.K = -1L;
-                  if (CRes.f(Canvas.l()) < 10 * AvMain.hd && CRes.f(Canvas.k()) < 10 * AvMain.hd) {
+                  if (CRes.f(Canvas.dy()) < 10 * AvMain.hd && CRes.f(Canvas.dx()) < 10 * AvMain.hd) {
                      if (var1 <= 4L) {
                         this.H = 5;
                         Canvas.currentMyScreen.a(false);
                      } else {
                         Canvas.currentMyScreen.a(this.y, true);
-                        if (Canvas.currentMyScreen != PopupShop.a) {
+                        if (Canvas.currentMyScreen != PopupShop.me) {
                            Canvas.currentMyScreen.a(true);
                         }
                      }
@@ -224,7 +224,7 @@ public final class CameraList {
                      this.I = false;
                   }
 
-                  Canvas.f = false;
+                  Canvas.isPointerRelease = false;
                }
             }
 
@@ -233,7 +233,7 @@ public final class CameraList {
    }
 
    private void b() {
-      if (!Canvas.e) {
+      if (!Canvas.isPointerDown) {
          if ((j = this.y / this.s * this.v - this.r / 2 + this.v / 2) < 0) {
             j = 0;
          }

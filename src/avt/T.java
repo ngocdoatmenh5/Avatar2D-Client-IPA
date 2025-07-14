@@ -2,7 +2,7 @@ package avt;
 
 import main.Canvas;
 
-public final class T1 {
+public final class T {
    public static String a;
    public static String b;
    public static String c;
@@ -93,7 +93,7 @@ public final class T1 {
    public static String aJ;
    public static String aK;
    public static String aL;
-   public static String aM;
+   public static String getData;
    public static String aN;
    public static String aO;
    public static String aP;
@@ -308,7 +308,7 @@ public final class T1 {
    public static String eP;
    public static String eQ;
 
-   public T1() {
+   public T() {
       b = "Xin chờ";
       c = "Menu";
       d = "Đóng";
@@ -391,7 +391,7 @@ public final class T1 {
       aJ = "TK Chính";
       aK = "Thu nhập: ";
       aL = "Đang lấy dữ liệu nông trại...";
-      aM = "Đang cập nhật dữ liệu..";
+      getData = "Đang cập nhật dữ liệu..";
       aN = "Kho hàng";
       ex = new String[]{"Phòng sơ cấp", "Phòng trung cấp", "Phòng cao thủ", "Phòng thi đấu"};
       aO = "Mất kết nối";
@@ -608,7 +608,7 @@ public final class T1 {
    }
 
    public static String a() {
-      return eR[Canvas.Z];
+      return eR[Canvas.stypeInt];
    }
 
    public static String[][] b() {

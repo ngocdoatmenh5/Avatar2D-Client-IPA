@@ -36,19 +36,19 @@ public final class Card {
    }
 
    public final void a(Graphics var1) {
-      Canvas.S.a(var1, this);
+      Canvas.paint.a(var1, this);
    }
 
    public final void b(Graphics var1) {
-      Canvas.S.b(var1, this);
+      Canvas.paint.b(var1, this);
    }
 
    public final void c(Graphics var1) {
-      Canvas.S.c(var1, this);
+      Canvas.paint.c(var1, this);
    }
 
    public final void a(Graphics var1, boolean var2) {
-      Canvas.S.a(var1, this, var2);
+      Canvas.paint.a(var1, this, var2);
    }
 
    public final int a() {

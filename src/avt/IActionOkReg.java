@@ -11,16 +11,16 @@ final class IActionOkReg implements IAction {
 
    public final void perform() {
       if (this.a[0].f().equals("")) {
-         Canvas.b("Bạn chưa nhập tên");
+         Canvas.startOKDlg("Bạn chưa nhập tên");
       } else if (!this.a[1].f().equals("") && !this.a[2].f().equals("")) {
          if (!this.a[1].f().equals(this.a[2].f())) {
-            Canvas.b("Hai mật khẩu không giống nhau");
+            Canvas.startOKDlg("Hai mật khẩu không giống nhau");
          } else {
-            Canvas.A = null;
+            Canvas.currentFace = null;
             GlobalService.gI().c(this.a[0].f().toLowerCase(), this.a[1].f().toLowerCase(), this.a[3].f());
          }
       } else {
-         Canvas.b("Bạn chưa nhập mật khẩu");
+         Canvas.startOKDlg("Bạn chưa nhập mật khẩu");
       }
    }
 }

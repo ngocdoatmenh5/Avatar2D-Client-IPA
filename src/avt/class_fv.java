@@ -9,6 +9,6 @@ final class class_fv implements IAction {
 
    public final void perform() {
       GlobalService.gI().b(this.a, -1);
-      PopupShop.b().ae.b();
+      PopupShop.b().right.b();
    }
 }

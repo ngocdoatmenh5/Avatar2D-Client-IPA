@@ -18,7 +18,7 @@ final class class_gk extends Command {
    }
 
    public final void a(Graphics var1, int var2, int var3) {
-      AvatarData.a(var1, this.f.b, var2, var3 + this.g / 2 - AvMain.af - AvMain.ah - 5, 33);
+      AvatarData.a(var1, this.f.imgID, var2, var3 + this.g / 2 - AvMain.af - AvMain.ah - 5, 33);
       Canvas.N.a(var1, this.h, var2, var3 + this.g / 2 - AvMain.af, 2);
       Canvas.K.a(var1, this.i, var2, var3 + this.g / 2 - AvMain.af - AvMain.ah, 2);
    }

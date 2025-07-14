@@ -17,9 +17,9 @@ final class class_gf implements IAction {
    }
 
    public final void perform() {
-      Part var1 = AvatarData.a(this.a.idPart);
-      if (this.b == GameMidlet.avatar.IDDB && (!AvatarData.c((int)var1.zOrder) || this.c != 0)) {
-         Canvas.a(T1.es[this.c], (IAction)(new class_gd(this, this.c, this.d, this.a)));
+      Part var1 = AvatarData.getPart(this.a.idPart);
+      if (this.b == GameMidlet.avatar.IDDB && (!AvatarData.isZOrderMain((int)var1.zOrder) || this.c != 0)) {
+         Canvas.a(T.es[this.c], (IAction)(new class_gd(this, this.c, this.d, this.a)));
       }
 
    }

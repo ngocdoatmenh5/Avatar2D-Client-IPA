@@ -16,16 +16,16 @@ final class IActionTriBenh1 implements IAction {
 
       for(int var2 = 0; var2 < FarmScr.d.size(); ++var2) {
          Item var3;
-         FarmItem var4 = FarmScr.b((var3 = (Item)FarmScr.d.elementAt(var2)).a);
-         if (var3.a == 120) {
-            FarmScr.a(this.a, var4, var3.a, this.b);
+         FarmItem var4 = FarmScr.b((var3 = (Item)FarmScr.d.elementAt(var2)).ID);
+         if (var3.ID == 120) {
+            FarmScr.a(this.a, var4, var3.ID, this.b);
             var1 = true;
             break;
          }
       }
 
       if (!var1) {
-         Canvas.b(T1.dV);
+         Canvas.startOKDlg(T.dV);
          FarmScr.b().a((int)8, (int)-1);
       }
 

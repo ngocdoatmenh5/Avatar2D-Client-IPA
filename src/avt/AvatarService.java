@@ -5,195 +5,195 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class AvatarService extends IService {
-   private static AvatarService a;
+   private static AvatarService instance;
 
-   public static AvatarService a() {
-      if (a == null) {
-         a = new AvatarService();
+   public static AvatarService gI() {
+      if (instance == null) {
+         instance = new AvatarService();
       }
 
-      return a;
+      return instance;
    }
 
-   public final void b() {
-      this.e((byte)-11);
-      this.n(LoginScr.s);
-      this.k();
+   public final void getBigData() {
+      this.createMessage((byte)-11);
+      this.writeInt(LoginScr.s);
+      this.sendMessage();
    }
 
-   public final void a(short var1) {
-      this.e((byte)-14);
-      this.p(var1);
-      this.k();
-      Canvas.c(T1.aM);
+   public final void getBigImage(short var1) {
+      this.createMessage((byte)-14);
+      this.writeShort(var1);
+      this.sendMessage();
+      Canvas.startWaitDlg(T.getData);
    }
 
-   public final void c() {
-      this.e((byte)-15);
-      this.k();
-      Canvas.c(T1.aM);
+   public final void getImageData() {
+      this.createMessage((byte)-15);
+      this.sendMessage();
+      Canvas.startWaitDlg(T.getData);
    }
 
-   public final void d() {
-      this.e((byte)-16);
-      this.k();
-      Canvas.c(T1.aM);
+   public final void getAvatarPart() {
+      this.createMessage((byte)-16);
+      this.sendMessage();
+      Canvas.startWaitDlg(T.getData);
    }
 
-   public final void e() {
-      this.e((byte)-37);
-      this.k();
-      Canvas.c(T1.aM);
+   public final void getItemInfo() {
+      this.createMessage((byte)-37);
+      this.sendMessage();
+      Canvas.startWaitDlg(T.getData);
    }
 
-   public final void f() {
-      this.e((byte)-40);
-      this.k();
+   public final void getMapItemType() {
+      this.createMessage((byte)-40);
+      this.sendMessage();
    }
 
-   public final void g() {
-      this.e((byte)-41);
-      this.k();
+   public final void getMapItem() {
+      this.createMessage((byte)-41);
+      this.sendMessage();
    }
 
-   public final void a(int var1) {
-      if (GameMidlet.e == 9 || GameMidlet.e == 11) {
-         this.e((byte)57);
-         this.o(var1);
-         this.k();
+   public final void doFeel(int var1) {
+      if (GameMidlet.CLIENT_TYPE == 9 || GameMidlet.CLIENT_TYPE == 11) {
+         this.createMessage((byte)57);
+         this.writeByte(var1);
+         this.sendMessage();
       }
    }
 
-   public final void a(int var1, int var2) {
-      this.e((byte)-24);
+   public final void doBuyItem(int var1, int var2) {
+      this.createMessage((byte)-24);
 
       try {
-         super.b.c().writeShort(var1);
-         super.b.c().writeByte(var2);
+         super.m.writer().writeShort(var1);
+         super.m.writer().writeByte(var2);
       } catch (Exception var3) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
-   public final void a(short[] var1, int var2) {
-      this.e((byte)-46);
+   public final void doCreateHome(short[] var1, int var2) {
+      this.createMessage((byte)-46);
 
       try {
-         super.b.c().writeShort(var2);
-         super.b.c().writeShort(var1.length);
+         super.m.writer().writeShort(var2);
+         super.m.writer().writeShort(var1.length);
 
          for(var2 = 0; var2 < var1.length; ++var2) {
-            super.b.c().writeByte(var1[var2]);
+            super.m.writer().writeByte(var1[var2]);
          }
 
-         super.b.c().writeShort(0);
+         super.m.writer().writeShort(0);
       } catch (Exception var3) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
-   public final void a(MapItem var1) {
-      System.out.println("doBuyItemHouse; " + var1.b);
-      this.e((byte)-74);
+   public final void doBuyItemHouse(MapItem var1) {
+      System.out.println("doBuyItemHouse; " + var1.typeID);
+      this.createMessage((byte)-74);
 
       try {
-         super.b.c().writeShort(var1.b);
-         super.b.c().writeByte(var1.x / 24);
-         super.b.c().writeByte(var1.y / 24);
-         super.b.c().writeByte(var1.f);
+         super.m.writer().writeShort(var1.typeID);
+         super.m.writer().writeByte(var1.x / 24);
+         super.m.writer().writeByte(var1.y / 24);
+         super.m.writer().writeByte(var1.type);
       } catch (IOException var2) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
-   public final void b(int var1) {
-      Canvas.i();
-      this.e((byte)-65);
-      this.n(var1);
-      this.k();
+   public final void doJoinHouse(int var1) {
+      Canvas.startWaitDlg();
+      this.createMessage((byte)-65);
+      this.writeInt(var1);
+      this.sendMessage();
    }
 
-   public final void b(MapItem var1) {
-      this.e((byte)-66);
+   public final void dodelItem(MapItem var1) {
+      this.createMessage((byte)-66);
 
       try {
-         super.b.c().writeShort(var1.b);
-         super.b.c().writeByte(var1.x / 24);
-         super.b.c().writeByte(var1.y / 24);
-         super.b.c().writeByte(var1.c);
+         super.m.writer().writeShort(var1.typeID);
+         super.m.writer().writeByte(var1.x / 24);
+         super.m.writer().writeByte(var1.y / 24);
+         super.m.writer().writeByte(var1.dir);
       } catch (Exception var2) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
-   public final void c(int var1) {
-      this.e((byte)-67);
-      this.o(var1);
-      this.k();
+   public final void getTypeHouse(int var1) {
+      this.createMessage((byte)-67);
+      this.writeByte(var1);
+      this.sendMessage();
    }
 
-   public final void d(int var1) {
-      this.e((byte)-69);
-      this.n(var1);
-      this.k();
+   public final void doKickOutHome(int var1) {
+      this.createMessage((byte)-69);
+      this.writeInt(var1);
+      this.sendMessage();
    }
 
-   public final void e(int var1) {
-      this.e((byte)-70);
-      this.n(var1);
-      this.k();
+   public final void doRequestExpicePet(int var1) {
+      this.createMessage((byte)-70);
+      this.writeInt(var1);
+      this.sendMessage();
    }
 
-   public final void a(int var1, int var2, int var3, int var4, int var5, int var6) {
-      this.e((byte)-71);
+   public final void doSortItem(int var1, int var2, int var3, int var4, int var5, int var6) {
+      this.createMessage((byte)-71);
 
       try {
-         super.b.c().writeShort(var1);
-         super.b.c().writeByte(var2);
-         super.b.c().writeByte(var3);
-         super.b.c().writeByte(var4);
-         super.b.c().writeByte(var5);
-         super.b.c().writeByte(var6);
+         super.m.writer().writeShort(var1);
+         super.m.writer().writeByte(var2);
+         super.m.writer().writeByte(var3);
+         super.m.writer().writeByte(var4);
+         super.m.writer().writeByte(var5);
+         super.m.writer().writeByte(var6);
       } catch (IOException var7) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
-   public final void a(String var1, int var2, int var3) {
-      this.e((byte)-75);
+   public final void doSetPassMyHouse(String var1, int var2, int var3) {
+      this.createMessage((byte)-75);
 
       try {
-         super.b.c().writeByte(var3);
-         super.b.c().writeUTF(var1);
+         super.m.writer().writeByte(var3);
+         super.m.writer().writeUTF(var1);
          if (var3 == 1) {
-            super.b.c().writeInt(var2);
+            super.m.writer().writeInt(var2);
          }
       } catch (IOException var4) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
-   public final void b(short var1) {
-      this.e((byte)-80);
-      this.p(var1);
-      this.k();
+   public final void doGetImgIcon(short var1) {
+      this.createMessage((byte)-80);
+      this.writeShort(var1);
+      this.sendMessage();
    }
 
-   public final void c(short var1) {
-      this.e((byte)-84);
-      this.o(var1);
-      this.k();
+   public final void doRequestEffectData(short var1) {
+      this.createMessage((byte)-84);
+      this.writeByte(var1);
+      this.sendMessage();
    }
 
-   public final void f(int var1) {
-      this.e((byte)-104);
-      this.n(var1);
-      this.k();
+   public final void doJoinHouse4(int var1) {
+      this.createMessage((byte)-104);
+      this.writeInt(var1);
+      this.sendMessage();
    }
 }

@@ -8,7 +8,7 @@ final class class_bt implements IAction {
    }
 
    public final void perform() {
-      OptionScr.b().b(20);
+      OptionScr.gI().b(20);
       this.a.perform();
    }
 }

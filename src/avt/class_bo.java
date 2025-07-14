@@ -12,7 +12,7 @@ final class class_bo implements IAction {
    }
 
    public final void perform() {
-      GlobalService.gI().a(this.a, this.b, Canvas.u.a());
-      Canvas.h();
+      GlobalService.gI().a(this.a, this.b, Canvas.inputDlg.a());
+      Canvas.endDlg();
    }
 }

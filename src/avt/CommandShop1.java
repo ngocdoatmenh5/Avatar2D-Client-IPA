@@ -27,9 +27,9 @@ final class CommandShop1 extends Command {
          PopupShop.n();
          Part var1;
          if (GameMidlet.avatar.gender == 1) {
-            var1 = AvatarData.a(this.i);
+            var1 = AvatarData.getPart(this.i);
          } else {
-            var1 = AvatarData.a(this.j);
+            var1 = AvatarData.getPart(this.j);
          }
 
          if (var1.IDPart != -1) {
@@ -48,7 +48,7 @@ final class CommandShop1 extends Command {
          }
 
          if (this.k >= 0) {
-            PopupShop.a(T1.az + Canvas.getMoneys(this.k) + " Tim");
+            PopupShop.a(T.az + Canvas.getMoneys(this.k) + " Tim");
          }
       }
 
@@ -57,9 +57,9 @@ final class CommandShop1 extends Command {
    public final void a(Graphics var1, int var2, int var3) {
       Part var4;
       if (GameMidlet.avatar.gender == 1) {
-         var4 = AvatarData.a(this.i);
+         var4 = AvatarData.getPart(this.i);
       } else {
-         var4 = AvatarData.a(this.j);
+         var4 = AvatarData.getPart(this.j);
       }
 
       var4.paintIcon(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 0, 3);

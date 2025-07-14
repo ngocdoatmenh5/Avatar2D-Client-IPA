@@ -8,6 +8,6 @@ final class class_ec implements IAction {
 
    public final void perform() {
       GlobalService.gI().g(0);
-      Canvas.i();
+      Canvas.startWaitDlg();
    }
 }

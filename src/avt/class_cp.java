@@ -76,7 +76,7 @@ public final class class_cp {
 
       if (this.e <= 0) {
          int var2 = AvMain.hd;
-         if (Canvas.currentMyScreen == BoardScr.i && (BoardScr.j || BoardScr.k) || Canvas.currentMyScreen == RaceScr.a) {
+         if (Canvas.currentMyScreen == BoardScr.me && (BoardScr.j || BoardScr.k) || Canvas.currentMyScreen == RaceScr.a) {
             var2 = 1;
          }
 

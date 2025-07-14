@@ -20,7 +20,7 @@ public final class EffectData {
          ImageInfo var10000;
          label23: {
             for(int var8 = 0; var8 < var6.b.length; ++var8) {
-               if (var6.b[var8].a == var7) {
+               if (var6.b[var8].ID == var7) {
                   var10000 = var6.b[var8];
                   break label23;
                }
@@ -30,7 +30,7 @@ public final class EffectData {
          }
 
          ImageInfo var10 = var10000;
-         var1.drawRegion(this.c, var10.c * AvMain.hd, var10.d * AvMain.hd, var10.e * AvMain.hd, var10.f * AvMain.hd, 0, var2 * AvMain.hd + var9.b[var5] * AvMain.hd, var3 * AvMain.hd + var9.c[var5] * AvMain.hd, 0);
+         var1.drawRegion(this.c, var10.x0 * AvMain.hd, var10.y0 * AvMain.hd, var10.w * AvMain.hd, var10.h * AvMain.hd, 0, var2 * AvMain.hd + var9.b[var5] * AvMain.hd, var3 * AvMain.hd + var9.c[var5] * AvMain.hd, 0);
       }
 
    }

@@ -9,28 +9,28 @@ public final class GlobalLogicHandler {
    public static boolean a;
 
    public static void a(String var0) {
-      Canvas.b(var0);
+      Canvas.startOKDlg(var0);
    }
 
    public static void a() {
-      AvatarMsgHandler.a();
-      if (AvatarData.d == -1) {
-         AvatarService.a().b();
+      AvatarMsgHandler.onHandler();
+      if (AvatarData.playing == -1) {
+         AvatarService.gI().getBigData();
       } else {
-         MapScr.gI().t();
+         MapScr.gI().joinCitymap();
       }
 
-      AvatarService.a().e(GameMidlet.avatar.IDDB);
-      AvatarData.h = new Hashtable();
-      AvatarData.i = new Hashtable();
+      AvatarService.gI().doRequestExpicePet(GameMidlet.avatar.IDDB);
+      AvatarData.listImgIcon = new Hashtable();
+      AvatarData.listImgPart = new Hashtable();
    }
 
    public final void a(String var1, String var2) {
       class_dv var4 = new class_dv(this, var2);
       Vector var3;
-      (var3 = new Vector()).addElement(new Command(T1.z, var4));
-      var3.addElement(new Command(T1.d, new class_dw(this)));
-      Canvas.s.a(false);
+      (var3 = new Vector()).addElement(new Command(T.z, var4));
+      var3.addElement(new Command(T.d, new class_dw(this)));
+      Canvas.msgdlg.setIsWaiting(false);
       Canvas.a(var1, var3);
       a = true;
    }
@@ -39,17 +39,17 @@ public final class GlobalLogicHandler {
       if (var2) {
          Canvas.b(var1, new class_dq(this));
       } else {
-         Canvas.b(var1);
+         Canvas.startOKDlg(var1);
       }
    }
 
    public static void a(byte var0) {
-      if (GameMidlet.e == 9) {
+      if (GameMidlet.CLIENT_TYPE == 9) {
          a = false;
       }
 
       System.out.println("doGetHandler: " + var0 + "    " + MapScr.g);
-      if (GlobalMessageHandler.a().a != null) {
+      if (GlobalMessageHandler.gI().miniGameMessageHandler != null) {
          switch (var0) {
             case 3:
                CasinoMsgHandler.a();
@@ -63,48 +63,48 @@ public final class GlobalLogicHandler {
                break;
             case 8:
                MapScr.gI().y = true;
-               AvatarMsgHandler.a();
+               AvatarMsgHandler.onHandler();
                if (MapScr.D != -1) {
                   GlobalService.gI().j(MapScr.D);
                   MapScr.D = -1;
                } else if (MapScr.g != -1) {
-                  Canvas.x.e(57 + MapScr.g);
-                  if (Canvas.I && LoadMap.a == 57) {
+                  Canvas.loadMap.e(57 + MapScr.g);
+                  if (Canvas.isDoubleImage && LoadMap.TYPEMAP == 57) {
                      (Canvas.D = new Welcome()).b(MapScr.a);
                   }
 
                   GameMidlet.avatar.setFeel(4);
-                  Canvas.h();
+                  Canvas.endDlg();
                } else {
-                  MapScr.gI().t();
-                  Canvas.h();
+                  MapScr.gI().joinCitymap();
+                  Canvas.endDlg();
                }
                break;
             case 9:
                ParkMsgHandler.a();
                if (LoadMap.H == -1) {
                   if (!OnScreen.b) {
-                     if (GameMidlet.e == 12) {
+                     if (GameMidlet.CLIENT_TYPE == 12) {
                         LoadMap.i = 24;
                         LoadMap.t = -1;
                         ParkService.a().a(MapScr.m, -1);
-                     } else if (GameMidlet.e == 3) {
-                        Canvas.S.i();
+                     } else if (GameMidlet.CLIENT_TYPE == 3) {
+                        Canvas.paint.i();
                         ParkService.a().a(MapScr.m, -1);
                      } else if (MapScr.g != -1) {
                         MapScr.gI();
                         MapScr.x();
                      } else if (MapScr.G != -1) {
-                        Canvas.i();
+                        Canvas.startWaitDlg();
                         ParkService.a().a(MapScr.G, -1);
                         MapScr.G = -1;
                      } else {
                         MapScr.gI().s();
                      }
                   } else {
-                     Canvas.S.i();
+                     Canvas.paint.i();
                      OnScreen.e().a();
-                     Canvas.h();
+                     Canvas.endDlg();
                   }
                } else {
                   LoadMap.y = -1;
@@ -115,12 +115,12 @@ public final class GlobalLogicHandler {
                   FarmMsgHandler.a = new FarmMsgHandler();
                }
 
-               GlobalMessageHandler.a().a = FarmMsgHandler.a;
+               GlobalMessageHandler.gI().miniGameMessageHandler = FarmMsgHandler.a;
                if (FarmData.h == -1) {
                   FarmService var2;
-                  (var2 = FarmService.a()).e((byte)51);
-                  var2.c(AvatarData.l);
-                  var2.k();
+                  (var2 = FarmService.a()).createMessage((byte)51);
+                  var2.writeUTF(AvatarData.l);
+                  var2.sendMessage();
                } else if (FarmScr.f == null) {
                   FarmService.a().d();
                } else {
@@ -131,11 +131,11 @@ public final class GlobalLogicHandler {
                break;
             case 11:
                HomeMsgHandler.a();
-               LoadMap.a = -1;
+               LoadMap.TYPEMAP = -1;
                ParkService.a().a(21, 0);
                if (MapScr.v != -1) {
-                  Canvas.i();
-                  AvatarService.a().c((int)0);
+                  Canvas.startWaitDlg();
+                  AvatarService.gI().getTypeHouse((int)0);
                }
                break;
             case 12:
@@ -143,23 +143,23 @@ public final class GlobalLogicHandler {
                   class_jz.a = new class_jz();
                }
 
-               GlobalMessageHandler.a().a = class_jz.a;
+               GlobalMessageHandler.gI().miniGameMessageHandler = class_jz.a;
                GlobalService var1 = GlobalService.gI();
-               Canvas.i();
-               var1.e((byte)1);
-               var1.k();
+               Canvas.startWaitDlg();
+               var1.createMessage((byte)1);
+               var1.sendMessage();
          }
       }
 
-      GameMidlet.e = var0;
+      GameMidlet.CLIENT_TYPE = var0;
    }
 
    public final void a(int var1, byte var2, String[] var3, String var4, String var5, boolean[] var6) {
-      if (Canvas.t != null) {
-         Canvas.t = null;
+      if (Canvas.menuMain != null) {
+         Canvas.menuMain = null;
       }
 
-      Canvas.h();
+      Canvas.endDlg();
       Vector var7 = new Vector();
 
       for(int var8 = 0; var8 < var3.length; ++var8) {
@@ -177,7 +177,7 @@ public final class GlobalLogicHandler {
       if (var2 == 0) {
          Canvas.a(var3, (IAction)(new class_ds(this, var1)));
       } else {
-         Canvas.b(var3);
+         Canvas.startOKDlg(var3);
       }
    }
 }

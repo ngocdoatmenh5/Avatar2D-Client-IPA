@@ -25,7 +25,7 @@ final class class_fj extends Command {
       label50: {
          var2 = 40 * AvMain.hd;
          var3 = 15 * AvMain.hd;
-         Canvas.N.a(var1, T1.aA + this.f.name, 0, var2, 0);
+         Canvas.N.a(var1, T.aA + this.f.name, 0, var2, 0);
          FontX var10000;
          Graphics var10001;
          StringBuffer var10002;
@@ -37,7 +37,7 @@ final class class_fj extends Command {
 
             var10000 = Canvas.N;
             var10001 = var1;
-            var10002 = (new StringBuffer(String.valueOf(T1.em[0]))).append(GameMidlet.j.g).append(" + ").append(GameMidlet.j.f);
+            var10002 = (new StringBuffer(String.valueOf(T.em[0]))).append(GameMidlet.j.g).append(" + ").append(GameMidlet.j.f);
             var10003 = "%";
          } else {
             if (this.f.lvMain <= 0 && this.f.perLvFarm <= 0) {
@@ -46,7 +46,7 @@ final class class_fj extends Command {
 
             var10000 = Canvas.N;
             var10001 = var1;
-            var10002 = (new StringBuffer(String.valueOf(T1.em[0]))).append(this.f.lvMain).append(" + ");
+            var10002 = (new StringBuffer(String.valueOf(T.em[0]))).append(this.f.lvMain).append(" + ");
             var10003 = this.f.perLvFarm > 0 ? this.f.perLvFarm + "%" : "";
          }
 
@@ -54,7 +54,7 @@ final class class_fj extends Command {
       }
 
       if (this.f.lvFarm > 0 || this.f.dirFirst > 0) {
-         Canvas.N.a(var1, T1.em[1] + this.f.lvFarm + " + " + (this.f.dirFirst > 0 ? this.f.dirFirst + "%" : ""), 0, var2 += var3, 0);
+         Canvas.N.a(var1, T.em[1] + this.f.lvFarm + " + " + (this.f.dirFirst > 0 ? this.f.dirFirst + "%" : ""), 0, var2 += var3, 0);
       }
 
       int var4 = 0;
@@ -67,7 +67,7 @@ final class class_fj extends Command {
 
       Canvas.N.a(var1, this.h.a, 0 - var4, var2 += var3, 0);
       if (MapScr.isNewVersion) {
-         Canvas.N.a(var1, T1.dE + this.f.money[3] + T1.l(), 0, var2 + var3, 0);
+         Canvas.N.a(var1, T.dE + this.f.money[3] + T.l(), 0, var2 + var3, 0);
       }
 
    }

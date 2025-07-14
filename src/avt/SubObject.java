@@ -6,7 +6,7 @@ import main.Canvas;
 import main.GameMidlet;
 
 public class SubObject extends MyObject {
-   public int f;
+   public int type;
    public short g;
 
    public SubObject() {
@@ -15,17 +15,17 @@ public class SubObject extends MyObject {
 
    public SubObject(int var1, int var2, int var3, int var4) {
       super.catagory = 1;
-      this.f = var1;
+      this.type = var1;
       super.x = var2;
       super.y = var3;
       this.g = (short)var4;
    }
 
    public void paint(Graphics var1) {
-      if (this.f >= 0 || super.x * MyObject.hd + this.g / 2 >= AvCamera.gI().xCam && super.x * MyObject.hd - this.g / 2 <= AvCamera.gI().xCam + Canvas.m) {
+      if (this.type >= 0 || super.x * MyObject.hd + this.g / 2 >= AvCamera.gI().xCam && super.x * MyObject.hd - this.g / 2 <= AvCamera.gI().xCam + Canvas.w) {
          int var2 = super.x * MyObject.hd;
          int var3 = super.y * MyObject.hd;
-         switch (this.f) {
+         switch (this.type) {
             case -10:
             case -3:
                var1.drawImage(FarmScr.m, var2, var3, 40);
@@ -74,15 +74,15 @@ public class SubObject extends MyObject {
    private static void a(Graphics var0, int var1, int var2, Vector var3) {
       for(int var4 = 0; var4 < var3.size(); ++var4) {
          AvPosition var5;
-         if ((var5 = (AvPosition)var3.elementAt(var4)).a * MyObject.hd == var1 && var5.b * MyObject.hd == var2) {
+         if ((var5 = (AvPosition)var3.elementAt(var4)).x * MyObject.hd == var1 && var5.y * MyObject.hd == var2) {
             AnimalInfo var6;
-            if ((var6 = FarmData.getAnimalByID(var5.c)).iconO != -1) {
+            if ((var6 = FarmData.getAnimalByID(var5.anchor)).iconO != -1) {
                AvatarData.a(var0, var6.iconO, var1, var2, 3);
             }
 
             for(int var7 = 0; var7 < FarmScr.i.size(); ++var7) {
                Animal var8;
-               if ((var8 = (Animal)FarmScr.i.elementAt(var7)).species == var5.c && var8.numEggOne > 0) {
+               if ((var8 = (Animal)FarmScr.i.elementAt(var7)).species == var5.anchor && var8.numEggOne > 0) {
                   AvatarData.a(var0, var6.iconProduct, var1, var2, 3);
                   return;
                }

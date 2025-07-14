@@ -17,13 +17,13 @@ public final class OnSplashScr extends MyScreen {
    }
 
    public final void a() {
-      Canvas.C.removeAllElements();
-      Canvas.U = 0;
-      Canvas.a.b();
+      Canvas.listInfoSV.removeAllElements();
+      Canvas.transTab = 0;
+      Canvas.instance.b();
       OnScreen.b = true;
 
       try {
-         c = Image.createImage(T1.a() + "/on/logo.on");
+         c = Image.createImage(T.a() + "/on/logo.on");
       } catch (IOException var2) {
          var2.printStackTrace();
       }
@@ -37,16 +37,16 @@ public final class OnSplashScr extends MyScreen {
          LoadMap.C = GameMidlet.avatar.y;
          OnScreen.e().a();
       } else if (this.b == 0) {
-         Canvas.S.f();
+         Canvas.paint.f();
       }
 
       ++this.b;
    }
 
-   public final void a(Graphics var1) {
-      Canvas.S.b(var1);
+   public final void paint(Graphics var1) {
+      Canvas.paint.b(var1);
       if (this.b > 1) {
-         var1.drawImage(c, Canvas.o, Canvas.q / 2, 3);
+         var1.drawImage(c, Canvas.hw, Canvas.q / 2, 3);
       }
 
       Canvas.a(var1);

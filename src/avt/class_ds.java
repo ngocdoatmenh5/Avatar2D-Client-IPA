@@ -16,6 +16,6 @@ final class class_ds implements IAction {
          GlobalService.gI().i(1);
       }
 
-      Canvas.i();
+      Canvas.startWaitDlg();
    }
 }

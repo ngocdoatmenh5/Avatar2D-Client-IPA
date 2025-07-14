@@ -22,7 +22,7 @@ public final class InputFace extends Face {
    public final void a(int var1, int var2) {
       switch (var1) {
          case 0:
-            Canvas.A = null;
+            Canvas.currentFace = null;
             return;
          default:
             Canvas.currentMyScreen.a(var1, var2);
@@ -30,22 +30,22 @@ public final class InputFace extends Face {
    }
 
    public InputFace() {
-      this.f = 200 + Canvas.Z * 88;
-      this.d = (Canvas.m - this.f) / 2;
+      this.f = 200 + Canvas.stypeInt * 88;
+      this.d = (Canvas.w - this.f) / 2;
    }
 
    public final void a(TField[] var1, String var2, String[][] var3, Command var4) {
-      super.ac = new Command(T1.d, 0);
-      super.ad = var4;
+      super.left = new Command(T.d, 0);
+      super.center = var4;
       this.c = var2;
       this.b = var1;
       this.j = var3;
-      this.g = MyScreen.at + AvMain.Z + AvMain.ah + (var1[0].d << 1) * var1.length + Canvas.Z * 12;
-      this.e = (Canvas.n - Canvas.T - this.g) / 2;
+      this.g = MyScreen.at + AvMain.Z + AvMain.ah + (var1[0].d << 1) * var1.length + Canvas.stypeInt * 12;
+      this.e = (Canvas.h - Canvas.hTab - this.g) / 2;
 
       for(int var5 = 0; var5 < var1.length; ++var5) {
-         var1[var5].c = this.f - 50 * (Canvas.Z + 1) - Canvas.K.getWidth(var3[0][0]);
-         var1[var5].a = this.d + this.f - var1[var5].c - 10 * (Canvas.Z + 1);
+         var1[var5].c = this.f - 50 * (Canvas.stypeInt + 1) - Canvas.K.getWidth(var3[0][0]);
+         var1[var5].a = this.d + this.f - var1[var5].c - 10 * (Canvas.stypeInt + 1);
          var1[var5].b = this.e + PaintPopup.o + AvMain.Z + AvMain.ah + (var1[0].d * var5 << 1);
       }
 
@@ -57,7 +57,7 @@ public final class InputFace extends Face {
       this.d();
    }
 
-   public final void l() {
+   public final void updateKey() {
       for(int var1 = 0; var1 < this.b.length; ++var1) {
          this.b[var1].e();
       }
@@ -83,7 +83,7 @@ public final class InputFace extends Face {
          this.d();
       }
 
-      super.l();
+      super.updateKey();
    }
 
    private void d() {
@@ -92,7 +92,7 @@ public final class InputFace extends Face {
       }
 
       this.b[this.h].a(true);
-      super.ae = this.b[this.h].a();
+      super.right = this.b[this.h].a();
    }
 
    public final void d(int var1) {
@@ -105,9 +105,9 @@ public final class InputFace extends Face {
       super.d(var1);
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      Canvas.S.a(var1, this.d, this.e, this.g, this.f, 0, 0, PaintPopup.a().j, this.i, PaintPopup.o, 1, 1, PaintPopup.a().n, PaintPopup.a().m, this.c);
+      Canvas.paint.a(var1, this.d, this.e, this.g, this.f, 0, 0, PaintPopup.gI().j, this.i, PaintPopup.o, 1, 1, PaintPopup.gI().n, PaintPopup.gI().m, this.c);
 
       for(int var2 = 0; var2 < this.b.length; ++var2) {
          var1.setClip(this.d + 4 * AvMain.hd, this.e, this.f - 8 * AvMain.hd, this.g);
@@ -128,6 +128,6 @@ public final class InputFace extends Face {
          this.b[var2].a(var1);
       }
 
-      super.a(var1);
+      super.paint(var1);
    }
 }

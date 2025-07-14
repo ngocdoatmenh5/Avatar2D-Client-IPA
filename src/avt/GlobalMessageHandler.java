@@ -10,9 +10,9 @@ import main.GameMidlet;
 public final class GlobalMessageHandler extends IService implements IMessageHandler {
    private GlobalLogicHandler c = new GlobalLogicHandler();
    private static GlobalMessageHandler d;
-   public IMiniGameMsgHandler a;
+   public IMiniGameMsgHandler miniGameMessageHandler;
 
-   public static GlobalMessageHandler a() {
+   public static GlobalMessageHandler gI() {
       if (d == null) {
          d = new GlobalMessageHandler();
       }
@@ -22,25 +22,25 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
 
    public final void b() {
       System.out.println("onConnectionFail");
-      Canvas.b(T1.Y);
+      Canvas.startOKDlg(T.Y);
    }
 
    public final void c() {
       System.out.println("onDisconnected");
-      Canvas.h();
-      GameMidlet.e = 8;
+      Canvas.endDlg();
+      GameMidlet.CLIENT_TYPE = 8;
       if (Canvas.currentMyScreen != LoginScr.a) {
-         Canvas.b(T1.aO, new class_du());
+         Canvas.b(T.aO, new class_du());
       } else {
-         Canvas.b(T1.aO);
+         Canvas.startOKDlg(T.aO);
       }
 
-      Canvas.t = null;
+      Canvas.menuMain = null;
       HouseScr.a = null;
-      MessageScr.d = null;
+      MessageScr.me = null;
       SoundManager.a.a();
-      if (class_im.d().ac.b != null) {
-         class_im.d().ac.b.perform();
+      if (ChatTextField.gI().left.b != null) {
+         ChatTextField.gI().left.b.perform();
       }
 
       FarmData.a();
@@ -81,7 +81,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
          label823:
          switch (var1.a) {
             case -107:
-               byte var265 = var1.b().readByte();
+               byte var265 = var1.reader().readByte();
                String var266 = null;
                String[] var267 = null;
                String[] var174 = null;
@@ -93,8 +93,8 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                int var181;
                short var269;
                if (var265 == 0) {
-                  var266 = var1.b().readUTF();
-                  var267 = new String[var269 = var1.b().readShort()];
+                  var266 = var1.reader().readUTF();
+                  var267 = new String[var269 = var1.reader().readShort()];
                   var176 = new short[var269];
                   var174 = new String[var269];
                   var268 = new String[var269];
@@ -102,16 +102,16 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   var178 = new short[var269];
 
                   for(var181 = 0; var181 < var269; ++var181) {
-                     var177[var181] = var1.b().readShort();
-                     var176[var181] = var1.b().readShort();
-                     var178[var181] = var1.b().readShort();
-                     var267[var181] = var1.b().readUTF();
-                     var174[var181] = var1.b().readUTF();
-                     var268[var181] = var1.b().readUTF();
+                     var177[var181] = var1.reader().readShort();
+                     var176[var181] = var1.reader().readShort();
+                     var178[var181] = var1.reader().readShort();
+                     var267[var181] = var1.reader().readUTF();
+                     var174[var181] = var1.reader().readUTF();
+                     var268[var181] = var1.reader().readUTF();
                   }
                } else if (var265 == 1) {
-                  var266 = var1.b().readUTF();
-                  var177 = new short[var269 = var1.b().readShort()];
+                  var266 = var1.reader().readUTF();
+                  var177 = new short[var269 = var1.reader().readShort()];
                   var267 = new String[var269];
                   var176 = new short[var269];
                   var179 = new int[var269];
@@ -120,44 +120,44 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   var174 = new String[var269];
 
                   for(var181 = 0; var181 < var269; ++var181) {
-                     var177[var181] = var1.b().readShort();
-                     var267[var181] = var1.b().readUTF();
-                     var174[var181] = var1.b().readUTF();
-                     var176[var181] = var1.b().readShort();
-                     var178[var181] = var1.b().readShort();
-                     var179[var181] = var1.b().readInt();
-                     var268[var181] = var1.b().readUTF();
+                     var177[var181] = var1.reader().readShort();
+                     var267[var181] = var1.reader().readUTF();
+                     var174[var181] = var1.reader().readUTF();
+                     var176[var181] = var1.reader().readShort();
+                     var178[var181] = var1.reader().readShort();
+                     var179[var181] = var1.reader().readInt();
+                     var268[var181] = var1.reader().readUTF();
                   }
                }
 
                HouseScr.b().a(var265, var266, var267, var176, var177, var174, var268, var179, var178);
                return;
             case -105:
-               byte var169 = var1.b().readByte();
+               byte var169 = var1.reader().readByte();
                Vector var170 = new Vector();
 
                for(int var171 = 0; var171 < var169; ++var171) {
-                  short var172 = var1.b().readShort();
-                  String var173 = var1.b().readUTF();
+                  short var172 = var1.reader().readShort();
+                  String var173 = var1.reader().readUTF();
                   CommandFlower var175 = new CommandFlower(this, var173, new class_br(this, var171), var172);
                   var170.addElement(var175);
                }
 
-               Canvas.h();
+               Canvas.endDlg();
                FarmScr.b();
                FarmScr.a(var170);
                break;
             case -103:
-               Avatar var164 = LoadMap.g(var1.b().readInt());
-               if (var1.b().readByte() == 0) {
-                  var164.idImg = var1.b().readShort();
+               Avatar var164 = LoadMap.g(var1.reader().readInt());
+               if (var1.reader().readByte() == 0) {
+                  var164.idImg = var1.reader().readShort();
                } else {
-                  var164.idWedding = var1.b().readShort();
+                  var164.idWedding = var1.reader().readShort();
                }
                break;
             case -102:
-               int var166 = var1.b().readInt();
-               int var167 = var1.b().readInt();
+               int var166 = var1.reader().readInt();
+               int var167 = var1.reader().readInt();
                Avatar var168;
                if (OnScreen.b) {
                   var168 = BoardScr.h(var166);
@@ -171,14 +171,14 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
 
                return;
             case -101:
-               var262 = var1.b().readByte();
-               short var263 = var1.b().readShort();
+               var262 = var1.reader().readByte();
+               short var263 = var1.reader().readShort();
                if (var262 == 1) {
                   StringObj var163;
                   (var163 = new StringObj()).e = var263;
-                  var163.a = var1.b().readUTF();
-                  var163.d = var1.b().readShort();
-                  var163.f = var1.b().readByte();
+                  var163.a = var1.reader().readUTF();
+                  var163.d = var1.reader().readShort();
+                  var163.type = var1.reader().readByte();
                   MapScr.o.addElement(var163);
                   if (Canvas.currentMyScreen == PopupShop.b()) {
                      PopupShop.b().d();
@@ -207,36 +207,36 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   }
                }
             case -99:
-               byte var155 = var1.b().readByte();
-               byte var156 = var1.b().readByte();
+               byte var155 = var1.reader().readByte();
+               byte var156 = var1.reader().readByte();
                Vector var157 = new Vector();
 
                for(int var158 = 0; var158 < var156; ++var158) {
                   Avatar var159;
-                  (var159 = new Avatar()).IDDB = var1.b().readInt();
-                  var159.setName(var1.b().readUTF());
-                  byte var160 = var1.b().readByte();
+                  (var159 = new Avatar()).IDDB = var1.reader().readInt();
+                  var159.setName(var1.reader().readUTF());
+                  byte var160 = var1.reader().readByte();
 
                   for(int var161 = 0; var161 < var160; ++var161) {
-                     var159.addSeri(new SeriPart(var1.b().readShort()));
+                     var159.addSeri(new SeriPart(var1.reader().readShort()));
                   }
 
-                  var159.x = var1.b().readShort();
-                  var159.y = var1.b().readShort();
-                  var159.blogNews = var1.b().readByte();
-                  var159.hungerPet = (byte)(100 - var1.b().readByte());
-                  var159.idImg = var1.b().readShort();
-                  var262 = var1.b().readByte();
+                  var159.x = var1.reader().readShort();
+                  var159.y = var1.reader().readShort();
+                  var159.blogNews = var1.reader().readByte();
+                  var159.hungerPet = (byte)(100 - var1.reader().readByte());
+                  var159.idImg = var1.reader().readShort();
+                  var262 = var1.reader().readByte();
                   var159.textChat = new String[var262];
 
                   for(int var162 = 0; var162 < var262; ++var162) {
-                     var159.textChat[var162] = var1.b().readUTF();
+                     var159.textChat[var162] = var1.reader().readUTF();
                   }
 
                   var157.addElement(var159);
                }
 
-               short var259 = var1.b().readShort();
+               short var259 = var1.reader().readShort();
                Vector var260 = null;
                Vector var261 = null;
                if (var259 > 0) {
@@ -247,16 +247,16 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                MapScr.gI().a(var155, var157, var260, var261);
                break;
             case -98:
-               short var257 = var1.b().readShort();
-               byte[] var258 = new byte[var1.b().readShort()];
-               var1.b().read(var258);
-               AvatarData.i.put("" + var257, new ImageIcon(CRes.a(var258)));
+               short var257 = var1.reader().readShort();
+               byte[] var258 = new byte[var1.reader().readShort()];
+               var1.reader().read(var258);
+               AvatarData.listImgPart.put("" + var257, new ImageIcon(CRes.a(var258)));
                return;
             case -97:
-               byte[] var144 = new byte[var1.b().available()];
-               var1.b().read(var144);
-               Part var146 = (Part)AvatarData.a(var144, true).elementAt(0);
-               AvatarData.j.put("" + var146.IDPart, var146);
+               byte[] var144 = new byte[var1.reader().available()];
+               var1.reader().read(var144);
+               Part var146 = (Part)AvatarData.readAvatarPart(var144, true).elementAt(0);
+               AvatarData.listPartDynamic.put("" + var146.IDPart, var146);
 
                for(int var147 = 0; var147 < LoadMap.m.size(); ++var147) {
                   MyObject var148;
@@ -268,43 +268,43 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
 
                return;
             case -96:
-               Canvas.h();
+               Canvas.endDlg();
                MapScr.gI().n();
                OnSplashScr.b().a();
                OnSplashScr.b().b = 0;
                return;
             case -94:
-               byte var142 = var1.b().readByte();
-               byte[] var143 = new byte[var1.b().available()];
-               var1.b().read(var143);
-               Canvas.x.a(var142, var143);
+               byte var142 = var1.reader().readByte();
+               byte[] var143 = new byte[var1.reader().available()];
+               var1.reader().read(var143);
+               Canvas.loadMap.a(var142, var143);
                return;
             case -93:
-               byte var253 = var1.b().readByte();
-               byte var254 = var1.b().readByte();
-               var1.b().readShort();
-               byte var132 = var1.b().readByte();
-               byte[] var134 = new byte[var1.b().readShort()];
-               var1.b().read(var134);
+               byte var253 = var1.reader().readByte();
+               byte var254 = var1.reader().readByte();
+               var1.reader().readShort();
+               byte var132 = var1.reader().readByte();
+               byte[] var134 = new byte[var1.reader().readShort()];
+               var1.reader().read(var134);
                short[] var135 = null;
                byte var136;
-               if ((var136 = var1.b().readByte()) > 0) {
+               if ((var136 = var1.reader().readByte()) > 0) {
                   var135 = new short[var136];
 
                   for(int var137 = 0; var137 < var136; ++var137) {
-                     var135[var137] = var1.b().readShort();
+                     var135[var137] = var1.reader().readShort();
                   }
                }
 
-               short var255 = var1.b().readShort();
+               short var255 = var1.reader().readShort();
                Image var138 = null;
                if (var255 > 0) {
                   byte[] var139 = new byte[var255];
-                  var1.b().read(var139);
+                  var1.reader().read(var139);
                   var138 = CRes.a(var139);
                }
 
-               short var256 = var1.b().readShort();
+               short var256 = var1.reader().readShort();
                Vector var140 = null;
                Vector var141 = null;
                if (var256 > 0) {
@@ -316,87 +316,87 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                MapScr.a(var134, var253, var254, var132, var138, var135, var140, var141);
                return;
             case -92:
-               var1.b().readByte();
-               byte[] var125 = new byte[var1.b().readInt()];
-               var1.b().read(var125);
-               int var126 = var1.b().readInt();
-               var1.b().readByte();
+               var1.reader().readByte();
+               byte[] var125 = new byte[var1.reader().readInt()];
+               var1.reader().read(var125);
+               int var126 = var1.reader().readInt();
+               var1.reader().readByte();
                byte[] var127 = new byte[var126];
 
                for(int var128 = 0; var128 < var126; ++var128) {
-                  var127[var128] = var1.b().readByte();
+                  var127[var128] = var1.reader().readByte();
                }
 
-               byte var252 = var1.b().readByte();
+               byte var252 = var1.reader().readByte();
                Vector var129 = new Vector();
 
                for(int var130 = 0; var130 < var252; ++var130) {
                   class_kb var131 = new class_kb();
-                  var1.b().readByte();
-                  var131.d = var1.b().readShort();
-                  var131.c = var1.b().readUTF();
-                  var131.a = var1.b().readByte();
-                  var131.b = var1.b().readByte();
+                  var1.reader().readByte();
+                  var131.d = var1.reader().readShort();
+                  var131.c = var1.reader().readUTF();
+                  var131.a = var1.reader().readByte();
+                  var131.b = var1.reader().readByte();
                   var129.addElement(var131);
                }
 
                MiniMap.j = false;
                MiniMap.gI().a();
-               LoadMap.a = -1;
+               LoadMap.TYPEMAP = -1;
                LoadMap.D = -108;
                LoadMap.E = -1;
                return;
             case -90:
             case -53:
-               var206 = var1.b().readByte();
-               var190 = var1.b().readUTF();
+               var206 = var1.reader().readByte();
+               var190 = var1.reader().readUTF();
                this.c.a((byte)(var1.a == -53 ? 0 : 1), var206, var190);
                return;
             case -89:
-               HouseScr.b().a(var1.b().readBoolean(), var1.b().readUTF());
+               HouseScr.b().a(var1.reader().readBoolean(), var1.reader().readUTF());
                return;
             case -88:
                HouseScr.b();
                HouseScr.g();
                return;
             case -87:
-               short var117 = var1.b().readShort();
+               short var117 = var1.reader().readShort();
                Vector var118 = new Vector();
 
                int var119;
                for(var119 = 0; var119 < var117; ++var119) {
                   SeriPart var120;
-                  (var120 = new SeriPart()).idPart = var1.b().readShort();
-                  var120.b = var1.b().readByte();
-                  var120.c = var1.b().readUTF();
+                  (var120 = new SeriPart()).idPart = var1.reader().readShort();
+                  var120.b = var1.reader().readByte();
+                  var120.c = var1.reader().readUTF();
                   var118.addElement(var120);
                }
 
-               var119 = var1.b().readInt();
-               byte var251 = var1.b().readByte();
-               short var121 = var1.b().readShort();
+               var119 = var1.reader().readInt();
+               byte var251 = var1.reader().readByte();
+               short var121 = var1.reader().readShort();
                Vector var122 = new Vector();
 
                for(int var123 = 0; var123 < var121; ++var123) {
                   SeriPart var124;
-                  (var124 = new SeriPart()).idPart = var1.b().readShort();
-                  var124.b = var1.b().readByte();
-                  var124.c = var1.b().readUTF();
+                  (var124 = new SeriPart()).idPart = var1.reader().readShort();
+                  var124.b = var1.reader().readByte();
+                  var124.c = var1.reader().readUTF();
                   var122.addElement(var124);
                }
 
                HouseScr.b().a(var118, var122, var119, var251);
                return;
             case -85:
-               var107 = var1.b().readInt();
-               byte var241 = var1.b().readByte();
+               var107 = var1.reader().readInt();
+               byte var241 = var1.reader().readByte();
                Vector var244 = new Vector();
 
                for(var110 = 0; var110 < var241; ++var110) {
                   Emotion var249 = new Emotion(this);
-                  var1.b().readByte();
-                  var249.a = var1.b().readShort();
-                  var249.b = var1.b().readShort();
+                  var1.reader().readByte();
+                  var249.a = var1.reader().readShort();
+                  var249.b = var1.reader().readShort();
                   var244.addElement(var249);
                }
 
@@ -404,41 +404,41 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                MapScr.a(var107, var244);
                return;
             case -84:
-               var234 = var1.b().readByte();
+               var234 = var1.reader().readByte();
                byte var238;
-               if ((var238 = var1.b().readByte()) != 5 && var238 != 2) {
+               if ((var238 = var1.reader().readByte()) != 5 && var238 != 2) {
                   int var111;
                   byte var245;
                   if (var234 == 0) {
-                     if (AvatarData.d((short)var238) == null) {
-                        AvatarService.a().c((short)var238);
+                     if (AvatarData.getEffect((short)var238) == null) {
+                        AvatarService.gI().doRequestEffectData((short)var238);
                      }
 
                      EffectManager var240;
                      (var240 = new EffectManager()).a = var238;
-                     var240.k = var1.b().readByte();
-                     var240.c = var240.g = var1.b().readByte();
+                     var240.k = var1.reader().readByte();
+                     var240.c = var240.g = var1.reader().readByte();
                      if (var240.k != 4) {
-                        var240.b = var1.b().readShort();
-                        var240.l = var1.b().readByte();
+                        var240.b = var1.reader().readShort();
+                        var240.l = var1.reader().readByte();
                         if (var240.l == 1) {
-                           var240.d = var1.b().readShort();
+                           var240.d = var1.reader().readShort();
                         } else if (var240.l == 2) {
-                           byte var243 = var1.b().readByte();
+                           byte var243 = var1.reader().readByte();
                            var240.m = new short[var243];
                            var240.n = new short[var243];
 
                            for(var110 = 0; var110 < var243; ++var110) {
-                              var240.m[var110] = var1.b().readShort();
-                              var240.n[var110] = var1.b().readShort();
+                              var240.m[var110] = var1.reader().readShort();
+                              var240.n[var110] = var1.reader().readShort();
                            }
                         }
 
                         if (var240.k == 0) {
-                           var240.j = var1.b().readInt();
+                           var240.j = var1.reader().readInt();
                         } else {
-                           var240.e = var1.b().readShort();
-                           var240.f = var1.b().readShort();
+                           var240.e = var1.reader().readShort();
+                           var240.f = var1.reader().readShort();
                         }
 
                         MapScr.gI();
@@ -446,11 +446,11 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                         return;
                      }
 
-                     var109 = var1.b().readShort();
-                     var245 = var1.b().readByte();
-                     if (Canvas.B.size() > 0) {
-                        for(var111 = 0; var111 < Canvas.B.size(); ++var111) {
-                           if (((Effect) Canvas.B.elementAt(var111)).c == var238) {
+                     var109 = var1.reader().readShort();
+                     var245 = var1.reader().readByte();
+                     if (Canvas.currentEffect.size() > 0) {
+                        for(var111 = 0; var111 < Canvas.currentEffect.size(); ++var111) {
+                           if (((Effect) Canvas.currentEffect.elementAt(var111)).c == var238) {
                               return;
                            }
                         }
@@ -465,73 +465,73 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
 
                   EffectData var239;
                   (var239 = new EffectData()).e = var238;
-                  byte[] var242 = new byte[var1.b().readShort()];
-                  var1.b().read(var242);
+                  byte[] var242 = new byte[var1.reader().readShort()];
+                  var1.reader().read(var242);
                   var239.c = CRes.a(var242);
-                  var245 = var1.b().readByte();
+                  var245 = var1.reader().readByte();
                   var239.b = new ImageInfo[var245];
 
                   for(var111 = 0; var111 < var245; ++var111) {
                      var239.b[var111] = new ImageInfo();
-                     var239.b[var111].a = var1.b().readByte();
-                     var239.b[var111].c = var1.b().readByte();
-                     var239.b[var111].d = var1.b().readByte();
-                     var239.b[var111].e = var1.b().readByte();
-                     var239.b[var111].f = var1.b().readByte();
+                     var239.b[var111].ID = var1.reader().readByte();
+                     var239.b[var111].x0 = var1.reader().readByte();
+                     var239.b[var111].y0 = var1.reader().readByte();
+                     var239.b[var111].w = var1.reader().readByte();
+                     var239.b[var111].h = var1.reader().readByte();
                   }
 
-                  byte var246 = var1.b().readByte();
+                  byte var246 = var1.reader().readByte();
                   var239.d = new Frame[var246];
 
                   int var250;
                   for(int var112 = 0; var112 < var246; ++var112) {
                      var239.d[var112] = new Frame(this);
-                     var250 = var1.b().readByte();
+                     var250 = var1.reader().readByte();
                      var239.d[var112].b = new short[var250];
                      var239.d[var112].c = new short[var250];
                      var239.d[var112].a = new byte[var250];
 
                      for(var114 = 0; var114 < var250; ++var114) {
-                        var239.d[var112].b[var114] = var1.b().readByte();
-                        var239.d[var112].c[var114] = var1.b().readByte();
-                        var239.d[var112].a[var114] = var1.b().readByte();
+                        var239.d[var112].b[var114] = var1.reader().readByte();
+                        var239.d[var112].c[var114] = var1.reader().readByte();
+                        var239.d[var112].a[var114] = var1.reader().readByte();
                      }
                   }
 
-                  byte var248 = var1.b().readByte();
+                  byte var248 = var1.reader().readByte();
                   var239.a = new byte[var248];
 
                   for(var250 = 0; var250 < var248; ++var250) {
-                     var239.a[var250] = var1.b().readByte();
+                     var239.a[var250] = var1.reader().readByte();
                   }
 
-                  AvatarData.k.addElement(var239);
+                  AvatarData.effectList.addElement(var239);
                   return;
                }
 
                return;
             case -83:
-               byte var92 = var1.b().readByte();
+               byte var92 = var1.reader().readByte();
                Vector var93 = new Vector();
 
                for(var94 = 0; var94 < var92; ++var94) {
                   StringObj var231;
-                  (var231 = new StringObj()).e = var1.b().readShort();
-                  var231.a = var1.b().readUTF();
-                  var231.d = var1.b().readShort();
+                  (var231 = new StringObj()).e = var1.reader().readShort();
+                  var231.a = var1.reader().readUTF();
+                  var231.d = var1.reader().readShort();
                   var93.addElement(var231);
                }
 
                MapScr.gI().b(var93);
                return;
             case -82:
-               int var90 = var1.b().readInt();
-               short var91 = var1.b().readShort();
+               int var90 = var1.reader().readInt();
+               short var91 = var1.reader().readShort();
                MapScr.gI();
                MapScr.b(var90, var91);
                return;
             case -81:
-               String var87 = var1.b().readUTF();
+               String var87 = var1.reader().readUTF();
                int var88 = 0;
 
                for(int var89 = 0; var89 < var87.length(); ++var89) {
@@ -540,11 +540,11 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   }
                }
 
-               byte[] var230 = new byte[var1.b().available()];
-               var1.b().read(var230);
+               byte[] var230 = new byte[var1.reader().available()];
+               var1.reader().read(var230);
                if (var88 != 2 && !var87.equals(ListScr.h)) {
                   ListScr.b().a(var230, var87);
-                  Canvas.h();
+                  Canvas.endDlg();
                   return;
                }
 
@@ -552,18 +552,18 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                ListScr.b().a(var87);
                return;
             case -80:
-               var84 = var1.b().readShort();
-               byte[] var86 = new byte[var1.b().readShort()];
-               var1.b().read(var86);
-               AvatarData.h.put("" + var84, new ImageIcon(CRes.a(var86)));
+               var84 = var1.reader().readShort();
+               byte[] var86 = new byte[var1.reader().readShort()];
+               var1.reader().read(var86);
+               AvatarData.listImgIcon.put("" + var84, new ImageIcon(CRes.a(var86)));
                return;
             case -78:
-               byte var232 = var1.b().readByte();
-               int var100 = var1.b().readInt();
-               byte var101 = var1.b().readByte();
-               String var102 = var1.b().readUTF();
+               byte var232 = var1.reader().readByte();
+               int var100 = var1.reader().readInt();
+               byte var101 = var1.reader().readByte();
+               String var102 = var1.reader().readUTF();
                short var103;
-               if ((var103 = var1.b().readShort()) > 0) {
+               if ((var103 = var1.reader().readShort()) > 0) {
                   short[] var233 = new short[var103];
                   String[] var235 = new String[var103];
                   String[] var237 = null;
@@ -572,10 +572,10 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   }
 
                   for(var107 = 0; var107 < var103; ++var107) {
-                     var233[var107] = var1.b().readShort();
-                     var235[var107] = var1.b().readUTF();
+                     var233[var107] = var1.reader().readShort();
+                     var235[var107] = var1.reader().readUTF();
                      if (var232 == 1) {
-                        var237[var107] = var1.b().readUTF();
+                        var237[var107] = var1.reader().readUTF();
                      }
                   }
 
@@ -584,60 +584,60 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
 
                return;
             case -77:
-               var94 = var1.b().readInt();
-               byte var95 = var1.b().readByte();
-               String var96 = var1.b().readUTF();
+               var94 = var1.reader().readInt();
+               byte var95 = var1.reader().readByte();
+               String var96 = var1.reader().readUTF();
                byte var97;
-               String[] var98 = new String[var97 = var1.b().readByte()];
+               String[] var98 = new String[var97 = var1.reader().readByte()];
 
                for(int var99 = 0; var99 < var97; ++var99) {
-                  var98[var99] = var1.b().readUTF();
+                  var98[var99] = var1.reader().readUTF();
                }
 
-               if (PopupShop.a != Canvas.currentMyScreen) {
+               if (PopupShop.me != Canvas.currentMyScreen) {
                   MapScr.gI().a(var94, var95, var96, var98);
                }
 
                return;
             case -74:
                MapItem var180;
-               (var180 = new MapItem()).b = var1.b().readShort();
-               var180.x = 24 * var1.b().readByte();
-               var180.y = 24 * var1.b().readByte();
+               (var180 = new MapItem()).typeID = var1.reader().readShort();
+               var180.x = 24 * var1.reader().readByte();
+               var180.y = 24 * var1.reader().readByte();
                HouseScr.b().a(var180);
                return;
             case -70:
-               var82 = var1.b().readInt();
-               byte var229 = (byte)(100 - var1.b().readByte());
+               var82 = var1.reader().readInt();
+               byte var229 = (byte)(100 - var1.reader().readByte());
                MapScr.gI();
                MapScr.b(var82, var229);
                return;
             case -64:
-               int var78 = var1.b().readInt();
-               short var79 = var1.b().readShort();
-               byte var80 = var1.b().readByte();
+               int var78 = var1.reader().readInt();
+               short var79 = var1.reader().readShort();
+               byte var80 = var1.reader().readByte();
                Vector var81 = new Vector();
 
                for(var82 = 0; var82 < var80; ++var82) {
                   Gift var83;
-                  (var83 = new Gift()).b = var1.b().readByte();
+                  (var83 = new Gift()).b = var1.reader().readByte();
                   switch (var83.b) {
                      case 1:
-                        var83.a = var1.b().readShort();
-                        if ((var84 = var1.b().readByte()) == -1) {
-                           var83.h = "(" + T1.cQ + ")";
+                        var83.a = var1.reader().readShort();
+                        if ((var84 = var1.reader().readByte()) == -1) {
+                           var83.h = "(" + T.cQ + ")";
                         } else {
-                           var83.h = "(" + var84 + " " + T1.cM + ")";
+                           var83.h = "(" + var84 + " " + T.cM + ")";
                         }
                         break;
                      case 2:
-                        var83.c = var1.b().readInt();
+                        var83.c = var1.reader().readInt();
                         break;
                      case 3:
-                        var83.f = var1.b().readInt();
+                        var83.f = var1.reader().readInt();
                         break;
                      case 4:
-                        var83.g = var1.b().readInt();
+                        var83.g = var1.reader().readInt();
                   }
 
                   var81.addElement(var83);
@@ -646,90 +646,90 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                DialLuckyScr.b().a(var78, var79, var81);
                return;
             case -63:
-               LoadMap.a(var1.b().readByte());
+               LoadMap.a(var1.reader().readByte());
                return;
             case -62:
                System.out.println("CHANGE_PASS");
-               LoginScr.b().c.a(var1.b().readUTF());
-               LoginScr.b().g();
+               LoginScr.gI().c.a(var1.reader().readUTF());
+               LoginScr.gI().g();
                break;
             case -60:
-               var72 = var1.b().readInt();
-               byte var73 = var1.b().readByte();
-               String var74 = var1.b().readUTF();
-               byte var75 = var1.b().readByte();
+               var72 = var1.reader().readInt();
+               byte var73 = var1.reader().readByte();
+               String var74 = var1.reader().readUTF();
+               byte var75 = var1.reader().readByte();
                byte[] var76 = null;
-               if (var1.b().available() > 0) {
-                  var76 = new byte[var1.b().readShort()];
-                  var1.b().read(var76);
+               if (var1.reader().available() > 0) {
+                  var76 = new byte[var1.reader().readShort()];
+                  var1.reader().read(var76);
                }
 
-               Canvas.u.a(var74, new class_bo(this, var72, var73), var75);
+               Canvas.inputDlg.a(var74, new class_bo(this, var72, var73), var75);
                if (var76 != null) {
-                  Canvas.u.a(Image.createImage(var76, 0, var76.length));
+                  Canvas.inputDlg.a(Image.createImage(var76, 0, var76.length));
                }
 
                return;
             case -59:
-               if (Canvas.v == Canvas.s) {
-                  Canvas.v = null;
+               if (Canvas.currentDialog == Canvas.msgdlg) {
+                  Canvas.currentDialog = null;
                }
 
-               if (Canvas.v != null) {
+               if (Canvas.currentDialog != null) {
                   return;
                }
 
-               var64 = var1.b().readInt();
-               byte var225 = var1.b().readByte();
+               var64 = var1.reader().readInt();
+               byte var225 = var1.reader().readByte();
                byte var226;
-               String[] var227 = new String[var226 = var1.b().readByte()];
+               String[] var227 = new String[var226 = var1.reader().readByte()];
                short[] var68 = new short[var226];
 
                int var69;
                for(var69 = 0; var69 < var226; ++var69) {
-                  var227[var69] = var1.b().readUTF();
+                  var227[var69] = var1.reader().readUTF();
                }
 
-               if (var1.b().available() > 0) {
+               if (var1.reader().available() > 0) {
                   for(var69 = 0; var69 < var226; ++var69) {
-                     var68[var69] = var1.b().readShort();
+                     var68[var69] = var1.reader().readShort();
                   }
                }
 
                String var228 = null;
                String var70 = null;
                boolean[] var71 = null;
-               if (var1.b().available() > 0) {
-                  var228 = var1.b().readUTF();
-                  var70 = var1.b().readUTF();
+               if (var1.reader().available() > 0) {
+                  var228 = var1.reader().readUTF();
+                  var70 = var1.reader().readUTF();
                   var71 = new boolean[var226];
 
                   for(var72 = 0; var72 < var226; ++var72) {
-                     var71[var72] = var1.b().readBoolean();
+                     var71[var72] = var1.reader().readBoolean();
                   }
                }
 
                this.c.a(var64, var225, var227, var228, var70, var71);
                return;
             case -58:
-               var206 = var1.b().readByte();
+               var206 = var1.reader().readByte();
                Hashtable var219 = new Hashtable();
 
                for(var4 = 0; var4 < var206; ++var4) {
-                  var200 = var1.b().readShort();
-                  byte[] var223 = new byte[var1.b().readShort()];
-                  var1.b().read(var223);
+                  var200 = var1.reader().readShort();
+                  byte[] var223 = new byte[var1.reader().readShort()];
+                  var1.reader().read(var223);
                   Image var224 = CRes.a(var223);
                   var219.put("" + var200, var224);
                }
 
-               var194 = var1.b().readUTF();
-               var202 = var1.b().readUTF();
+               var194 = var1.reader().readUTF();
+               var202 = var1.reader().readUTF();
                System.err.println("CUSTOM_TAB: " + var194);
                System.err.println("CUSTOM_TAB111: " + var202);
                byte var217 = -1;
-               if (var1.b().available() > 0) {
-                  var217 = var1.b().readByte();
+               if (var1.reader().available() > 0) {
+                  var217 = var1.reader().readByte();
                }
 
                CustomTab.a = null;
@@ -737,57 +737,57 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                CustomTab.b().a();
                return;
             case -54:
-               var188 = var1.b().readUTF();
-               var190 = var1.b().readUTF();
-               var194 = var1.b().readUTF();
-               Canvas.h();
+               var188 = var1.reader().readUTF();
+               var190 = var1.reader().readUTF();
+               var194 = var1.reader().readUTF();
+               Canvas.endDlg();
                Canvas.a(var188, (IAction)(new class_bm(this, var190, var194)));
                break;
             case -52:
-               var188 = var1.b().readUTF();
-               var1.b().readInt();
-               LoginScr.b().a(var188);
+               var188 = var1.reader().readUTF();
+               var1.reader().readInt();
+               LoginScr.gI().a(var188);
                return;
             case -51:
-               var206 = var1.b().readByte();
-               byte[] var218 = new byte[var1.b().available()];
-               var1.b().read(var218);
+               var206 = var1.reader().readByte();
+               byte[] var218 = new byte[var1.reader().available()];
+               var1.reader().read(var218);
                SoundManager.a.a(var218, var206);
                return;
             case -50:
-               var204 = var1.b().readUTF();
-               var206 = var1.b().readByte();
+               var204 = var1.reader().readUTF();
+               var206 = var1.reader().readByte();
                SoundManager.a.a(var204, var206);
                return;
             case -49:
-               var206 = var1.b().readByte();
+               var206 = var1.reader().readByte();
                System.out.println("OPEN_SHOP: " + var206);
-               var190 = var1.b().readUTF();
+               var190 = var1.reader().readUTF();
                short[] var210 = null;
-               if ((var200 = var1.b().readShort()) > 0) {
+               if ((var200 = var1.reader().readShort()) > 0) {
                   var210 = new short[var200];
 
                   for(var209 = 0; var209 < var200; ++var209) {
-                     var210[var209] = var1.b().readShort();
+                     var210[var209] = var1.reader().readShort();
                   }
                }
 
                MapScr.gI().a((byte)0, var206, var190, var210, -1, (String[])null);
                return;
             case -48:
-               var3 = var1.b().readInt();
-               var199 = var1.b().readShort();
+               var3 = var1.reader().readInt();
+               var199 = var1.reader().readShort();
                MapScr.gI();
                MapScr.a(var3, var199);
                return;
             case -47:
                Vector var215 = new Vector();
-               var201 = var1.b().readShort();
+               var201 = var1.reader().readShort();
 
                for(var3 = 0; var3 < var201; ++var3) {
-                  (var207 = new SeriPart()).idPart = var1.b().readShort();
-                  var207.b = var1.b().readByte();
-                  var207.c = var1.b().readUTF();
+                  (var207 = new SeriPart()).idPart = var1.reader().readShort();
+                  var207.b = var1.reader().readByte();
+                  var207.c = var1.reader().readUTF();
                   var215.addElement(var207);
                }
 
@@ -795,24 +795,24 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                return;
             case -42:
                var6 = new Vector();
-               var201 = var1.b().readByte();
+               var201 = var1.reader().readByte();
 
                for(var3 = 0; var3 < var201; ++var3) {
                   ObjAd var205 = new ObjAd(this);
-                  var1.b().readShort();
-                  var205.b = var1.b().readUTF();
-                  var205.c = var1.b().readUTF();
-                  var205.d = var1.b().readUTF();
-                  var205.e = var1.b().readUTF();
-                  var205.f = var1.b().readUTF();
+                  var1.reader().readShort();
+                  var205.b = var1.reader().readUTF();
+                  var205.c = var1.reader().readUTF();
+                  var205.d = var1.reader().readUTF();
+                  var205.e = var1.reader().readUTF();
+                  var205.f = var1.reader().readUTF();
                   var205.g = new Vector();
-                  var200 = var1.b().readByte();
+                  var200 = var1.reader().readByte();
 
                   for(var7 = 0; var7 < var200; ++var7) {
                      AvPosition var213;
-                     (var213 = new AvPosition()).c = var1.b().readByte();
-                     var213.a = var1.b().readByte();
-                     var213.b = var1.b().readByte();
+                     (var213 = new AvPosition()).anchor = var1.reader().readByte();
+                     var213.x = var1.reader().readByte();
+                     var213.y = var1.reader().readByte();
                      var205.g.addElement(var213);
                   }
 
@@ -820,104 +820,104 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                }
 
                for(var3 = 0; var3 < var201; ++var3) {
-                  ((ObjAd)var6.elementAt(var3)).a = var1.b().readByte();
+                  ((ObjAd)var6.elementAt(var3)).a = var1.reader().readByte();
                }
 
-               AvatarData.a(var6);
+               AvatarData.onMapAd(var6);
                return;
             case -38:
-               short var150 = var1.b().readShort();
+               short var150 = var1.reader().readShort();
                int var151 = 0;
                if (var150 != -1) {
-                  var151 = var1.b().readInt();
+                  var151 = var1.reader().readInt();
                }
 
-               int var152 = var1.b().readInt();
-               int var153 = var1.b().readInt();
-               int var154 = var1.b().readInt();
+               int var152 = var1.reader().readInt();
+               int var153 = var1.reader().readInt();
+               int var154 = var1.reader().readInt();
                GameMidlet.avatar.updateMoney(var152, var153, var154);
                MapScr.gI();
                MapScr.a(var150, var151);
                return;
             case -36:
-               var2 = var1.b().readInt();
-               short var208 = var1.b().readShort();
+               var2 = var1.reader().readInt();
+               short var208 = var1.reader().readShort();
                MapScr.gI();
                MapScr.b(var2, (int)var208);
                return;
             case -35:
-               var191 = var1.b().readBoolean();
+               var191 = var1.reader().readBoolean();
                RegisterScr.b();
                RegisterScr.b(var191);
                return;
             case -33:
-               var3 = var1.b().readInt();
-               var199 = var1.b().readByte();
+               var3 = var1.reader().readInt();
+               var199 = var1.reader().readByte();
                if (var3 != 0 && var199 != 1 && var199 == 2 && var199 == 5) {
                   GameMidlet.avatar.setMoneyNew(GameMidlet.avatar.money[3] + var3);
                   Canvas.a(var3 + "xeng", GameMidlet.avatar.x, GameMidlet.avatar.y, -1, 0, -1);
                }
 
-               var5 = var1.b().readInt();
-               var7 = var1.b().readInt();
-               var8 = var1.b().readInt();
+               var5 = var1.reader().readInt();
+               var7 = var1.reader().readInt();
+               var8 = var1.reader().readInt();
                GameMidlet.avatar.updateMoney(var5, var7, var8);
                return;
             case -25:
-               var199 = var1.b().readByte();
+               var199 = var1.reader().readByte();
                var188 = null;
                var190 = null;
                var202 = null;
                if (var199 == 2) {
-                  var190 = var1.b().readUTF();
-                  var202 = var1.b().readUTF();
+                  var190 = var1.reader().readUTF();
+                  var202 = var1.reader().readUTF();
                } else {
-                  var188 = var1.b().readUTF();
+                  var188 = var1.reader().readUTF();
                }
 
                MiniMap.gI().a((byte)var199, var188, var190, var202);
                break;
             case -24:
-               if ((var110 = var1.b().readShort()) != -1) {
-                  var1.b().readInt();
-                  var1.b().readByte();
+               if ((var110 = var1.reader().readShort()) != -1) {
+                  var1.reader().readInt();
+                  var1.reader().readByte();
                }
 
-               String var113 = var1.b().readUTF();
-               var114 = var1.b().readInt();
-               int var115 = var1.b().readInt();
-               int var116 = var1.b().readInt();
+               String var113 = var1.reader().readUTF();
+               var114 = var1.reader().readInt();
+               int var115 = var1.reader().readInt();
+               int var116 = var1.reader().readInt();
                MapScr.gI();
                MapScr.a((short)var110, var113, var114, var115, var116);
                return;
             case -23:
                Vector var193 = new Vector();
 
-               while(var1.b().available() > 0) {
+               while(var1.reader().available() > 0) {
                   MoneyInfo var198;
-                  (var198 = new MoneyInfo()).a = var1.b().readUTF();
-                  var198.c = var1.b().readUTF();
-                  var1.b().readUTF();
-                  var198.b = var1.b().readUTF();
+                  (var198 = new MoneyInfo()).a = var1.reader().readUTF();
+                  var198.c = var1.reader().readUTF();
+                  var1.reader().readUTF();
+                  var198.b = var1.reader().readUTF();
                   var193.addElement(var198);
                }
 
                MoneyScr.b().a(var193);
                MoneyScr.b().a(Canvas.currentMyScreen);
-               Canvas.h();
+               Canvas.endDlg();
                return;
             case -22:
-               var2 = var1.b().readInt();
+               var2 = var1.reader().readInt();
                class_kp var197;
-               (var197 = new class_kp()).g = var1.b().readByte();
-               var197.f = var1.b().readByte();
-               var197.a = var1.b().readByte();
-               var197.b = var1.b().readByte();
-               var197.e = var1.b().readByte();
-               var197.c = var1.b().readByte();
-               var197.d = var1.b().readByte();
+               (var197 = new class_kp()).g = var1.reader().readByte();
+               var197.f = var1.reader().readByte();
+               var197.a = var1.reader().readByte();
+               var197.b = var1.reader().readByte();
+               var197.e = var1.reader().readByte();
+               var197.c = var1.reader().readByte();
+               var197.d = var1.reader().readByte();
                Avatar var195 = null;
-               var5 = var1.b().readInt();
+               var5 = var1.reader().readInt();
                var204 = "";
                String var203 = "";
                short var211 = 0;
@@ -927,77 +927,77 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                String var12 = "";
                if (var5 != -1) {
                   (var195 = new Avatar()).IDDB = var5;
-                  var195.setName(var1.b().readUTF());
-                  var200 = var1.b().readByte();
+                  var195.setName(var1.reader().readUTF());
+                  var200 = var1.reader().readByte();
 
                   for(var209 = 0; var209 < var200; ++var209) {
-                     var195.addSeri(new SeriPart(var1.b().readShort()));
+                     var195.addSeri(new SeriPart(var1.reader().readShort()));
                   }
 
-                  var204 = var1.b().readUTF();
-                  var211 = var1.b().readShort();
-                  var212 = var1.b().readByte();
-                  var10 = var1.b().readByte();
-                  var203 = var1.b().readUTF();
-                  if ((var11 = var1.b().readShort()) != -1) {
-                     var12 = var1.b().readUTF();
+                  var204 = var1.reader().readUTF();
+                  var211 = var1.reader().readShort();
+                  var212 = var1.reader().readByte();
+                  var10 = var1.reader().readByte();
+                  var203 = var1.reader().readUTF();
+                  if ((var11 = var1.reader().readShort()) != -1) {
+                     var12 = var1.reader().readUTF();
                   }
                }
 
-               if (var1.b().available() > 0) {
-                  GameMidlet.avatar.lvMain = GameMidlet.j.g = var197.g = var1.b().readShort();
+               if (var1.reader().available() > 0) {
+                  GameMidlet.avatar.lvMain = GameMidlet.j.g = var197.g = var1.reader().readShort();
                }
 
                MapScr.gI().a(var2, var197, var195, var204, var211, var212, var10, var203, var11, var12);
                return;
             case -21:
                Avatar var196;
-               (var196 = new Avatar()).IDDB = var1.b().readInt();
-               var196.name = var1.b().readUTF();
-               var188 = var1.b().readUTF();
+               (var196 = new Avatar()).IDDB = var1.reader().readInt();
+               var196.name = var1.reader().readUTF();
+               var188 = var1.reader().readUTF();
                MapScr.gI().a(var196, var188);
                return;
             case -19:
                Avatar var189;
-               (var189 = new Avatar()).IDDB = var1.b().readInt();
-               var189.name = var1.b().readUTF();
-               var191 = var1.b().readBoolean();
-               var190 = var1.b().readUTF();
+               (var189 = new Avatar()).IDDB = var1.reader().readInt();
+               var189.name = var1.reader().readUTF();
+               var191 = var1.reader().readBoolean();
+               var190 = var1.reader().readUTF();
                MapScr.gI();
                MapScr.a(var191, var190);
                return;
             case -17:
-               GameMidlet.f = var1.b().readByte();
-               GameMidlet.g = var1.b().readUTF();
+               GameMidlet.f = var1.reader().readByte();
+               GameMidlet.g = var1.reader().readUTF();
                AvatarData.c();
                break;
             case -12:
-               var188 = var1.b().readUTF();
-               var190 = var1.b().readUTF();
-               LoginScr.b().a(var188, var190);
+               var188 = var1.reader().readUTF();
+               var190 = var1.reader().readUTF();
+               LoginScr.gI().a(var188, var190);
                break;
             case -10:
-               var188 = var1.b().readUTF();
+               var188 = var1.reader().readUTF();
                boolean var192 = false;
-               if (var1.b().available() > 0) {
-                  var192 = var1.b().readBoolean();
+               if (var1.reader().available() > 0) {
+                  var192 = var1.reader().readBoolean();
                }
 
                this.c.a(var188, var192);
                return;
             case -9:
-               Canvas.b(var1.b().readUTF());
+               Canvas.startOKDlg(var1.reader().readUTF());
                return;
             case -8:
-               Canvas.a(var1.b().readUTF());
+               Canvas.a(var1.reader().readUTF());
                return;
             case -7:
-               this.c.a(var1.b().readUTF(), var1.b().readUTF());
+               this.c.a(var1.reader().readUTF(), var1.reader().readUTF());
                return;
             case -6:
-               var2 = var1.b().readInt();
-               var190 = var1.b().readUTF();
-               var194 = var1.b().readUTF();
+               var2 = var1.reader().readInt();
+               var190 = var1.reader().readUTF();
+               var194 = var1.reader().readUTF();
                if (Canvas.currentMyScreen != MessageScr.b()) {
                   ++MyScreen.as;
                }
@@ -1005,38 +1005,38 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                MessageScr.b().a(var2, var190, var194);
                return;
             case -1:
-               GlobalLogicHandler.a(var1.b().readByte());
+               GlobalLogicHandler.a(var1.reader().readByte());
                return;
             case 34:
-               if (var1.b().readInt() != -1) {
-                  var204 = var1.b().readUTF();
-                  var2 = var1.b().readInt();
-                  var1.b().readShort();
-                  var3 = var1.b().readInt();
-                  var4 = var1.b().readInt();
-                  var5 = var1.b().readInt();
-                  var7 = var1.b().readInt();
-                  var8 = var1.b().readInt();
+               if (var1.reader().readInt() != -1) {
+                  var204 = var1.reader().readUTF();
+                  var2 = var1.reader().readInt();
+                  var1.reader().readShort();
+                  var3 = var1.reader().readInt();
+                  var4 = var1.reader().readInt();
+                  var5 = var1.reader().readInt();
+                  var7 = var1.reader().readInt();
+                  var8 = var1.reader().readInt();
                   Avatar var9;
                   (var9 = new Avatar()).setExp(var3);
-                  Canvas.b(T1.aA + var204 + ". " + T1.ao + var2 + "$. Level: " + var9.lvMain + "+" + var9.perLvFarm + "%. " + T1.aP + ": " + var4 + ". " + T1.aQ + ": " + var5 + ". " + T1.aR + ": " + var7 + ". " + T1.aS + ": " + var8);
+                  Canvas.startOKDlg(T.aA + var204 + ". " + T.ao + var2 + "$. Level: " + var9.lvMain + "+" + var9.perLvFarm + "%. " + T.aP + ": " + var4 + ". " + T.aQ + ": " + var5 + ". " + T.aR + ": " + var7 + ". " + T.aS + ": " + var8);
                }
 
                return;
             case 50:
-               if (this.a == FarmMsgHandler.a || this.a == ParkMsgHandler.a || this.a == HomeMsgHandler.a) {
-                  var2 = var1.b().readByte();
-                  var3 = var1.b().readByte();
+               if (this.miniGameMessageHandler == FarmMsgHandler.a || this.miniGameMessageHandler == ParkMsgHandler.a || this.miniGameMessageHandler == HomeMsgHandler.a) {
+                  var2 = var1.reader().readByte();
+                  var3 = var1.reader().readByte();
                   var4 = 0;
                   var5 = 0;
                   var6 = new Vector();
                   if (var3 != -1 && var3 != -2) {
-                     var4 = var1.b().readShort();
-                     var5 = var1.b().readShort();
+                     var4 = var1.reader().readShort();
+                     var5 = var1.reader().readShort();
                      var6 = b(var1);
                   }
 
-                  var64 = var1.b().readShort();
+                  var64 = var1.reader().readShort();
                   Vector var65 = null;
                   Vector var66 = null;
                   if (var64 > 0) {
@@ -1044,48 +1044,48 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                      var66 = e(var1);
                   }
 
-                  if (GameMidlet.e == 9) {
+                  if (GameMidlet.CLIENT_TYPE == 9) {
                      for(int var67 = 0; var67 < var6.size(); ++var67) {
-                        ((Avatar)var6.elementAt(var67)).idWedding = var1.b().readShort();
+                        ((Avatar)var6.elementAt(var67)).idWedding = var1.reader().readShort();
                      }
                   }
 
                   MapScr.gI().a((byte)var2, (byte)var3, (short)var4, (short)var5, var6, var65, var66);
-                  if (LoadMap.a == 21) {
-                     Canvas.J = 0;
+                  if (LoadMap.TYPEMAP == 21) {
+                     Canvas.load = 0;
                      HomeMsgHandler.a();
-                     AvatarService.a().c((int)0);
-                     Canvas.i();
+                     AvatarService.gI().getTypeHouse((int)0);
+                     Canvas.startWaitDlg();
                   }
                }
                break;
             case 89:
-               byte var104 = var1.b().readByte();
-               System.out.println("DROP_PART: " + var104 + "    " + var1.b().available());
+               byte var104 = var1.reader().readByte();
+               System.out.println("DROP_PART: " + var104 + "    " + var1.reader().available());
                if (var104 == 0) {
-                  var234 = var1.b().readByte();
-                  short var236 = var1.b().readShort();
-                  var107 = var1.b().readInt();
-                  int var108 = var1.b().readInt();
+                  var234 = var1.reader().readByte();
+                  short var236 = var1.reader().readShort();
+                  var107 = var1.reader().readInt();
+                  int var108 = var1.reader().readInt();
                   System.out.println("aaaaaa: " + var234 + "   " + var236 + "   " + var107 + "   " + var108);
-                  var109 = var1.b().readShort();
-                  var110 = var1.b().readShort();
+                  var109 = var1.reader().readShort();
+                  var110 = var1.reader().readShort();
                   MapScr.gI();
                   MapScr.a(var234, var108, var236, var107, var109, (short)var110);
                   return;
                }
 
-               int var105 = var1.b().readInt();
-               int var106 = var1.b().readInt();
+               int var105 = var1.reader().readInt();
+               int var106 = var1.reader().readInt();
                MapScr.gI();
                MapScr.c(var105, var106);
                return;
             case 122:
-               var1.b().readByte();
-               byte var182 = var1.b().readByte();
-               byte var183 = var1.b().readByte();
-               short var184 = var1.b().readShort();
-               short var185 = var1.b().readShort();
+               var1.reader().readByte();
+               byte var182 = var1.reader().readByte();
+               byte var183 = var1.reader().readByte();
+               short var184 = var1.reader().readShort();
+               short var185 = var1.reader().readShort();
                LoadMap.a(var182, var183, var184, var185);
                return;
          }
@@ -1093,107 +1093,107 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
          var187.printStackTrace();
       }
 
-      if (this.a != null) {
-         this.a.onMessage(var1);
+      if (this.miniGameMessageHandler != null) {
+         this.miniGameMessageHandler.onMessage(var1);
       } else {
          try {
             System.out.println("cmd: " + var1.a);
             switch (var1.a) {
                case -5:
-                  GlobalLogicHandler.a(var1.b().readUTF());
+                  GlobalLogicHandler.a(var1.reader().readUTF());
                   return;
                case -4:
-                  LoginScr.b().g();
-                  (GameMidlet.avatar = new Avatar()).IDDB = var1.b().readInt();
-                  var206 = var1.b().readByte();
+                  LoginScr.gI().g();
+                  (GameMidlet.avatar = new Avatar()).IDDB = var1.reader().readInt();
+                  var206 = var1.reader().readByte();
                   GameMidlet.avatar.seriPart = new Vector();
 
                   for(var3 = 0; var3 < var206; ++var3) {
-                     (var207 = new SeriPart()).idPart = var1.b().readShort();
+                     (var207 = new SeriPart()).idPart = var1.reader().readShort();
                      GameMidlet.avatar.addSeri(var207);
                   }
 
-                  GameMidlet.avatar.gender = var1.b().readByte();
-                  GameMidlet.j.g = var1.b().readByte();
-                  GameMidlet.j.f = var1.b().readByte();
-                  GameMidlet.avatar.setMoney(var1.b().readInt());
-                  GameMidlet.j.a = var1.b().readByte();
-                  GameMidlet.j.b = var1.b().readByte();
-                  GameMidlet.j.e = var1.b().readByte();
-                  GameMidlet.j.c = var1.b().readByte();
-                  GameMidlet.j.d = var1.b().readByte();
-                  GameMidlet.avatar.money[2] = var1.b().readInt();
-                  GameMidlet.avatar.blogNews = var1.b().readByte();
+                  GameMidlet.avatar.gender = var1.reader().readByte();
+                  GameMidlet.j.g = var1.reader().readByte();
+                  GameMidlet.j.f = var1.reader().readByte();
+                  GameMidlet.avatar.setMoney(var1.reader().readInt());
+                  GameMidlet.j.a = var1.reader().readByte();
+                  GameMidlet.j.b = var1.reader().readByte();
+                  GameMidlet.j.e = var1.reader().readByte();
+                  GameMidlet.j.c = var1.reader().readByte();
+                  GameMidlet.j.d = var1.reader().readByte();
+                  GameMidlet.avatar.money[2] = var1.reader().readInt();
+                  GameMidlet.avatar.blogNews = var1.reader().readByte();
 
                   for(var3 = 0; var3 < GameMidlet.avatar.seriPart.size(); ++var3) {
-                     (var207 = (SeriPart)GameMidlet.avatar.seriPart.elementAt(var3)).b = var1.b().readByte();
-                     var207.c = var1.b().readUTF();
+                     (var207 = (SeriPart)GameMidlet.avatar.seriPart.elementAt(var3)).b = var1.reader().readByte();
+                     var207.c = var1.reader().readUTF();
                   }
 
-                  GameMidlet.avatar.idImg = var1.b().readShort();
+                  GameMidlet.avatar.idImg = var1.reader().readShort();
                   MapScr.n = new Vector();
-                  byte var221 = var1.b().readByte();
+                  byte var221 = var1.reader().readByte();
 
                   for(var4 = 0; var4 < var221; ++var4) {
                      StringObj var216;
-                     (var216 = new StringObj()).a = var1.b().readUTF();
-                     var216.d = var1.b().readShort();
+                     (var216 = new StringObj()).a = var1.reader().readUTF();
+                     var216.d = var1.reader().readShort();
                      MapScr.n.addElement(var216);
                   }
 
                   MapScr.o = new Vector();
-                  byte var220 = var1.b().readByte();
+                  byte var220 = var1.reader().readByte();
 
                   for(var2 = 0; var2 < var220; ++var2) {
                      StringObj var222;
-                     (var222 = new StringObj()).e = var1.b().readShort();
-                     var222.a = var1.b().readUTF();
-                     var222.d = var1.b().readShort();
+                     (var222 = new StringObj()).e = var1.reader().readShort();
+                     var222.a = var1.reader().readUTF();
+                     var222.d = var1.reader().readShort();
                      MapScr.o.addElement(var222);
                   }
 
-                  MapScr.gI().y = var1.b().readBoolean();
-                  if (var1.b().available() > 0) {
+                  MapScr.gI().y = var1.reader().readBoolean();
+                  if (var1.reader().available() > 0) {
                      for(var2 = 0; var2 < var220; ++var2) {
-                        ((StringObj)MapScr.o.elementAt(var2)).f = var1.b().readByte();
+                        ((StringObj)MapScr.o.elementAt(var2)).type = var1.reader().readByte();
                      }
                   }
 
-                  if (var1.b().available() > 0) {
-                     Canvas.W = var1.b().readByte();
+                  if (var1.reader().available() > 0) {
+                     Canvas.W = var1.reader().readByte();
                   }
 
-                  GameMidlet.avatar.lvMain = GameMidlet.j.g = var1.b().readShort();
+                  GameMidlet.avatar.lvMain = GameMidlet.j.g = var1.reader().readShort();
                   if (Canvas.W == 1 || Canvas.W == 2) {
-                     T1.ek = T1.el;
+                     T.ek = T.el;
                   }
 
-                  GameMidlet.avatar.idWedding = var1.b().readShort();
-                  if (var1.b().available() > 0) {
-                     MapScr.isNewVersion = var1.b().readBoolean();
+                  GameMidlet.avatar.idWedding = var1.reader().readShort();
+                  if (var1.reader().available() > 0) {
+                     MapScr.isNewVersion = var1.reader().readBoolean();
                   }
 
                   if (MapScr.isNewVersion) {
-                     GameMidlet.avatar.money[3] = var1.b().readInt();
+                     GameMidlet.avatar.money[3] = var1.reader().readInt();
                   }
 
                   MapScr.q = new Vector();
-                  var206 = var1.b().readByte();
+                  var206 = var1.reader().readByte();
 
                   for(var3 = 0; var3 < var206; ++var3) {
                      class_km var214;
-                     (var214 = new class_km()).a = var1.b().readShort();
-                     var214.c = var1.b().readUTF();
-                     var214.b = var1.b().readShort();
-                     var214.d = var1.b().readInt();
-                     var214.e = var1.b().readByte();
+                     (var214 = new class_km()).a = var1.reader().readShort();
+                     var214.c = var1.reader().readUTF();
+                     var214.b = var1.reader().readShort();
+                     var214.d = var1.reader().readInt();
+                     var214.e = var1.reader().readByte();
                      MapScr.q.addElement(var214);
                   }
 
-                  GameMidlet.avatar.setGold(var1.b().readInt());
-                  GameMidlet.avatar.luongKhoa = var1.b().readInt();
-                  var1.b().readByte();
-                  var202 = var1.b().readUTF();
+                  GameMidlet.avatar.setGold(var1.reader().readInt());
+                  GameMidlet.avatar.luongKhoa = var1.reader().readInt();
+                  var1.reader().readByte();
+                  var202 = var1.reader().readUTF();
                   GameMidlet.avatar.setName(var202);
                   System.out.println("money: " + GameMidlet.avatar.money[2] + "    " + var202);
                   GlobalLogicHandler.a();
@@ -1210,55 +1210,55 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
       Vector var1 = new Vector();
 
       try {
-         byte var2 = var0.b().readByte();
+         byte var2 = var0.reader().readByte();
 
          int var3;
          int var5;
          for(var3 = 0; var3 < var2; ++var3) {
             Avatar var4;
-            (var4 = new Avatar()).IDDB = var0.b().readInt();
-            var4.setName(var0.b().readUTF());
-            var5 = var0.b().readByte();
+            (var4 = new Avatar()).IDDB = var0.reader().readInt();
+            var4.setName(var0.reader().readUTF());
+            var5 = var0.reader().readByte();
 
             for(int var6 = 0; var6 < var5; ++var6) {
-               short var7 = var0.b().readShort();
+               short var7 = var0.reader().readShort();
                var4.addSeri(new SeriPart(var7));
             }
 
-            var4.x = var0.b().readShort();
-            var4.y = var0.b().readShort();
-            var4.blogNews = var0.b().readByte();
+            var4.x = var0.reader().readShort();
+            var4.y = var0.reader().readShort();
+            var4.blogNews = var0.reader().readByte();
             var1.addElement(var4);
          }
 
          for(var3 = 0; var3 < var2; ++var3) {
-            ((Avatar)var1.elementAt(var3)).direct = var0.b().readByte();
+            ((Avatar)var1.elementAt(var3)).direct = var0.reader().readByte();
          }
 
          for(var3 = 0; var3 < var2; ++var3) {
-            ((Avatar)var1.elementAt(var3)).hungerPet = (byte)(100 - var0.b().readByte());
+            ((Avatar)var1.elementAt(var3)).hungerPet = (byte)(100 - var0.reader().readByte());
          }
 
          for(var3 = 0; var3 < var2; ++var3) {
-            ((Avatar)var1.elementAt(var3)).idImg = var0.b().readShort();
+            ((Avatar)var1.elementAt(var3)).idImg = var0.reader().readShort();
          }
 
-         byte var12 = var0.b().readByte();
+         byte var12 = var0.reader().readByte();
 
          for(int var9 = 0; var9 < var12; ++var9) {
             Drop_Part var11;
-            (var11 = new Drop_Part()).e = var0.b().readByte();
-            var11.a = var0.b().readShort();
-            var11.d = var0.b().readInt();
-            var11.x = var0.b().readShort();
-            var11.y = var0.b().readShort();
+            (var11 = new Drop_Part()).e = var0.reader().readByte();
+            var11.a = var0.reader().readShort();
+            var11.d = var0.reader().readInt();
+            var11.x = var0.reader().readShort();
+            var11.y = var0.reader().readShort();
             var1.addElement(var11);
          }
 
          LoadMap.o = null;
          byte var10 = 0;
-         if (var0.b().available() > 0) {
-            var10 = var0.b().readByte();
+         if (var0.reader().available() > 0) {
+            var10 = var0.reader().readByte();
          }
 
          if (var10 > 0) {
@@ -1266,10 +1266,10 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
 
             for(var5 = 0; var5 < var10; ++var5) {
                AvPosition var13;
-               (var13 = new AvPosition()).c = var0.b().readShort();
-               var13.a = var0.b().readShort();
-               var13.b = var0.b().readShort();
-               var13.d = var0.b().readByte();
+               (var13 = new AvPosition()).anchor = var0.reader().readShort();
+               var13.x = var0.reader().readShort();
+               var13.y = var0.reader().readShort();
+               var13.d = var0.reader().readByte();
                LoadMap.o.addElement(var13);
             }
          }
@@ -1282,16 +1282,16 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
 
    private static Vector e(Message var0) {
       try {
-         byte var1 = var0.b().readByte();
+         byte var1 = var0.reader().readByte();
          System.out.println("readMapItemaaaa: " + var1);
          Vector var2 = new Vector();
 
          for(int var3 = 0; var3 < var1; ++var3) {
             MapItem var4;
-            (var4 = new MapItem()).f = var0.b().readByte();
-            var4.b = var0.b().readByte();
-            var4.x = var0.b().readByte();
-            var4.y = var0.b().readByte();
+            (var4 = new MapItem()).type = var0.reader().readByte();
+            var4.typeID = var0.reader().readByte();
+            var4.x = var0.reader().readByte();
+            var4.y = var0.reader().readByte();
             var4.d = true;
             var2.addElement(var4);
          }
@@ -1305,25 +1305,25 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
 
    private static Vector f(Message var0) {
       try {
-         byte var1 = var0.b().readByte();
+         byte var1 = var0.reader().readByte();
          Vector var2 = new Vector();
          System.out.println("size item: " + var1);
 
          for(int var3 = 0; var3 < var1; ++var3) {
             MapItemType var4;
-            (var4 = new MapItemType()).a = var0.b().readByte();
-            var4.b = var0.b().readShort();
-            var4.c = var0.b().readByte();
-            var4.e = var0.b().readShort();
-            var4.f = var0.b().readShort();
-            byte var5 = var0.b().readByte();
-            var4.j = new Vector();
+            (var4 = new MapItemType()).idType = var0.reader().readByte();
+            var4.imgID = var0.reader().readShort();
+            var4.iconID = var0.reader().readByte();
+            var4.dx = var0.reader().readShort();
+            var4.dy = var0.reader().readShort();
+            byte var5 = var0.reader().readByte();
+            var4.listNotTrans = new Vector();
 
             for(int var6 = 0; var6 < var5; ++var6) {
                AvPosition var7;
-               (var7 = new AvPosition()).a = var0.b().readByte();
-               var7.b = var0.b().readByte();
-               var4.j.addElement(var7);
+               (var7 = new AvPosition()).x = var0.reader().readByte();
+               var7.y = var0.reader().readByte();
+               var4.listNotTrans.addElement(var7);
             }
 
             var2.addElement(var4);
@@ -1337,13 +1337,13 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
    }
 
    public static void c(Message var0) throws IOException {
-      int var1 = var0.b().readInt();
-      short var2 = var0.b().readShort();
-      short var3 = var0.b().readShort();
-      byte var4 = var0.b().readByte();
+      int var1 = var0.reader().readInt();
+      short var2 = var0.reader().readShort();
+      short var3 = var0.reader().readShort();
+      byte var4 = var0.reader().readByte();
       short var5 = 0;
-      if (var0.b().available() > 0) {
-         var5 = var0.b().readShort();
+      if (var0.reader().available() > 0) {
+         var5 = var0.reader().readShort();
       }
 
       MapScr.gI();
@@ -1351,8 +1351,8 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
    }
 
    public static void d(Message var0) throws IOException {
-      int var1 = var0.b().readInt();
-      String var2 = var0.b().readUTF();
+      int var1 = var0.reader().readInt();
+      String var2 = var0.reader().readUTF();
       MapScr.gI();
       MapScr.a(var1, var2);
    }

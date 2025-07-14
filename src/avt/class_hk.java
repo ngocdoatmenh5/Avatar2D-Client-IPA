@@ -28,11 +28,11 @@ public final class class_hk extends MyScreen {
    public final void a(int var1, int var2) {
       switch (var1) {
          case 0:
-            Canvas.y.m = false;
+            Canvas.cameraList.m = false;
             this.c.a();
             return;
          case 1:
-            Canvas.y.m = false;
+            Canvas.cameraList.m = false;
             this.c.a();
             ParkService.a().a(MapScr.b, super.ar);
          default:
@@ -40,26 +40,26 @@ public final class class_hk extends MyScreen {
    }
 
    public class_hk() {
-      super.ae = new Command(T1.d, 0);
-      super.ad = new Command(T1.O, 1);
+      super.right = new Command(T.d, 0);
+      super.center = new Command(T.O, 1);
       this.e = 20;
-      if (Canvas.Z > 0) {
-         this.e = Canvas.Z * 30;
+      if (Canvas.stypeInt > 0) {
+         this.e = Canvas.stypeInt * 30;
       }
 
-      if (Canvas.m < 176) {
+      if (Canvas.w < 176) {
          this.e = 15;
       }
 
-      if (this.f * this.e > Canvas.n - Canvas.T) {
-         this.f = (Canvas.n - Canvas.T) / this.e;
+      if (this.f * this.e > Canvas.h - Canvas.hTab) {
+         this.f = (Canvas.h - Canvas.hTab) / this.e;
       }
 
    }
 
    public final void a(int var1, boolean var2) {
-      if (var2 && super.ar == var1 && super.ad != null) {
-         super.ad.b();
+      if (var2 && super.ar == var1 && super.center != null) {
+         super.center.b();
       }
 
       super.a(var1, var2);
@@ -67,23 +67,23 @@ public final class class_hk extends MyScreen {
 
    public final void a(int[] var1) {
       this.b = var1;
-      Canvas.y.a(Canvas.o - (this.e * this.d + 10) / 2 + 4, Canvas.hh - this.e * this.f / 2, this.e, this.e, this.d * this.e, this.b.length / this.d * this.e, this.e * this.d, this.e * this.f - (Canvas.Z == 0 ? 30 : 0), var1.length);
+      Canvas.cameraList.a(Canvas.hw - (this.e * this.d + 10) / 2 + 4, Canvas.hh - this.e * this.f / 2, this.e, this.e, this.d * this.e, this.b.length / this.d * this.e, this.e * this.d, this.e * this.f - (Canvas.stypeInt == 0 ? 30 : 0), var1.length);
    }
 
-   public final void l() {
-      super.l();
+   public final void updateKey() {
+      super.updateKey();
    }
 
    public final void k() {
       this.c.k();
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       var1.translate(0, 0);
-      var1.setClip(0, 0, Canvas.m, Canvas.n);
+      var1.setClip(0, 0, Canvas.w, Canvas.h);
       this.c.b(var1);
-      Canvas.S.a(var1, Canvas.o - (this.e * this.d + 10) / 2, Canvas.hh - this.e * this.f / 2, this.e * this.d + 10, this.e * this.f);
-      Canvas.S.a(var1, this.e, this.d, this.f, super.aj, super.ar, this.b);
-      super.a(var1);
+      Canvas.paint.a(var1, Canvas.hw - (this.e * this.d + 10) / 2, Canvas.hh - this.e * this.f / 2, this.e * this.d + 10, this.e * this.f);
+      Canvas.paint.a(var1, this.e, this.d, this.f, super.aj, super.ar, this.b);
+      super.paint(var1);
    }
 }

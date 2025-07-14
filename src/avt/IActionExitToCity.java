@@ -7,11 +7,11 @@ final class IActionExitToCity implements IAction {
    }
 
    public final void perform() {
-      Canvas.i();
-      if (LoadMap.a == 108) {
+      Canvas.startWaitDlg();
+      if (LoadMap.TYPEMAP == 108) {
          ParkService.a().a(9, -1);
       } else {
-         Canvas.i();
+         Canvas.startWaitDlg();
          GlobalService.gI().d((int)9);
       }
    }

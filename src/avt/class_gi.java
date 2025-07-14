@@ -20,14 +20,14 @@ final class class_gi implements IAction {
          HouseScr.b(this.a, HouseScr.c(this.a));
          GameMidlet.avatar.x = HouseScr.b(this.a) * 24;
          GameMidlet.avatar.y = HouseScr.c(this.a) * 24;
-         AvCamera.gI().a(GameMidlet.avatar.x * AvMain.hd, GameMidlet.avatar.y * AvMain.hd);
+         AvCamera.gI().setToPos(GameMidlet.avatar.x * AvMain.hd, GameMidlet.avatar.y * AvMain.hd);
       }
 
       HouseScr.b = true;
       HouseScr.e = true;
       HouseScr.c(this.a, this.b);
-      this.a.ad = new Command(T1.cS, new class_gh(this, this.b, this.c));
-      this.a.ac = null;
-      this.a.ae = null;
+      this.a.center = new Command(T.cS, new class_gh(this, this.b, this.c));
+      this.a.left = null;
+      this.a.right = null;
    }
 }

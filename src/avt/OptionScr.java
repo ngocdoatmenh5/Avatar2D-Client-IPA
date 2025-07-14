@@ -21,7 +21,7 @@ public final class OptionScr extends MyScreen {
    public static boolean e = false;
    private boolean[] l;
 
-   public static OptionScr b() {
+   public static OptionScr gI() {
       if (a == null) {
          a = new OptionScr();
       }
@@ -50,9 +50,9 @@ public final class OptionScr extends MyScreen {
    }
 
    public final void e() {
-      super.ac = new Command(T1.aV, 0);
+      super.left = new Command(T.aV, 0);
       this.j = MyScreen.av;
-      this.i = Canvas.n;
+      this.i = Canvas.h;
       int var1 = PaintPopup.o + (AvMain.Z << 1);
       if (this.l != null) {
          int var2;
@@ -63,11 +63,11 @@ public final class OptionScr extends MyScreen {
          }
 
          var2 = 176;
-         if (Canvas.m < 176) {
-            var2 = Canvas.m;
+         if (Canvas.w < 176) {
+            var2 = Canvas.w;
          }
 
-         PaintPopup.a().a(T1.ab, var2 * AvMain.hd, var1, 1);
+         PaintPopup.gI().a(T.ab, var2 * AvMain.hd, var1, 1);
          if (Canvas.currentMyScreen != this) {
             for(var1 = 0; var1 < 3; ++var1) {
                this.l[var1] = true;
@@ -99,7 +99,7 @@ public final class OptionScr extends MyScreen {
       }
 
       try {
-         CRes.a("avatarShowName", var2.toByteArray());
+         CRes.saveRMS("avatarShowName", var2.toByteArray());
          var3.close();
       } catch (Exception var5) {
          var5.printStackTrace();
@@ -111,7 +111,7 @@ public final class OptionScr extends MyScreen {
 
    public final void f() {
       this.e();
-      DataInputStream var1 = AvatarData.a("avatarShowName");
+      DataInputStream var1 = AvatarData.loadRMS("avatarShowName");
       d = false;
       if (var1 != null) {
          try {
@@ -127,7 +127,7 @@ public final class OptionScr extends MyScreen {
 
             var1.close();
          } catch (Exception var3) {
-            AvatarData.b("avatarShowName");
+            AvatarData.delErrorRms("avatarShowName");
          }
 
          this.g();
@@ -143,8 +143,8 @@ public final class OptionScr extends MyScreen {
       Canvas.a();
    }
 
-   public final void l() {
-      super.l();
+   public final void updateKey() {
+      super.updateKey();
       if (Canvas.a(2)) {
          this.c(-1);
       } else if (Canvas.a(8)) {
@@ -155,11 +155,11 @@ public final class OptionScr extends MyScreen {
          this.e(1);
       }
 
-      if (Canvas.g && Canvas.a(PaintPopup.a().g, PaintPopup.a().h, PaintPopup.a().f, PaintPopup.a().e)) {
-         Canvas.g = false;
-         if (Canvas.a(PaintPopup.a().g, PaintPopup.a().h, PaintPopup.a().f, PaintPopup.a().e)) {
+      if (Canvas.isPointerClick && Canvas.a(PaintPopup.gI().g, PaintPopup.gI().h, PaintPopup.gI().f, PaintPopup.gI().e)) {
+         Canvas.isPointerClick = false;
+         if (Canvas.a(PaintPopup.gI().g, PaintPopup.gI().h, PaintPopup.gI().f, PaintPopup.gI().e)) {
             int var1;
-            for(int var2 = var1 = (Canvas.i - (PaintPopup.a().h + PaintPopup.o + AvMain.Z)) / this.j; var2 >= 0; --var2) {
+            for(int var2 = var1 = (Canvas.py - (PaintPopup.gI().h + PaintPopup.o + AvMain.Z)) / this.j; var2 >= 0; --var2) {
                if (!this.l[var2]) {
                   ++var1;
                }
@@ -235,17 +235,17 @@ public final class OptionScr extends MyScreen {
 
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       this.k.b(var1);
       this.b(var1);
-      super.a(var1);
+      super.paint(var1);
    }
 
    public final void b(Graphics var1) {
       var1.translate(-var1.getTranslateX(), -var1.getTranslateY());
       var1.translate(0, this.i);
-      PaintPopup.a().a(var1);
-      var1.translate(Canvas.o - 65, PaintPopup.a().h + PaintPopup.o + AvMain.Z);
+      PaintPopup.gI().a(var1);
+      var1.translate(Canvas.hw - 65, PaintPopup.gI().h + PaintPopup.o + AvMain.Z);
       if (this.f >= 4) {
          this.f = 0;
       }
@@ -255,11 +255,11 @@ public final class OptionScr extends MyScreen {
 
       for(int var5 = 0; var5 < this.h; ++var5) {
          if (this.l[var5]) {
-            Canvas.K.a(var1, T1.eG[var5][2], -50 * (AvMain.hd - 1), var4 + var3, 0);
-            Canvas.K.a(var1, T1.eG[var5][this.b[var5]], 52 + 50 * AvMain.hd, var4 + var3 - 1, 2);
+            Canvas.K.a(var1, T.eG[var5][2], -50 * (AvMain.hd - 1), var4 + var3, 0);
+            Canvas.K.a(var1, T.eG[var5][this.b[var5]], 52 + 50 * AvMain.hd, var4 + var3 - 1, 2);
             byte var2 = 0;
             int var6;
-            if ((var6 = Canvas.K.getWidth(T1.eG[var5][this.b[var5]]) + 10 + 15 * (Canvas.Z + 1) + PaintPopup.b.a) < 25 * AvMain.hd) {
+            if ((var6 = Canvas.K.getWidth(T.eG[var5][this.b[var5]]) + 10 + 15 * (Canvas.stypeInt + 1) + PaintPopup.b.a) < 25 * AvMain.hd) {
                var6 = 25 * AvMain.hd;
             }
 

@@ -48,7 +48,7 @@ public final class Dog extends Animal {
          super.cycle = 200;
       }
 
-      if (super.isEat && CRes.a(s.a, s.b, super.x, super.y) < 18) {
+      if (super.isEat && CRes.a(s.x, s.y, super.x, super.y) < 18) {
          super.isEat = false;
          super.hunger = false;
          super.cycle = 200;

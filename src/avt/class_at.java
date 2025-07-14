@@ -8,6 +8,6 @@ final class class_at implements IAction {
    }
 
    public final void perform() {
-      AvatarService.a().a(this.a.IDPart, 1);
+      AvatarService.gI().doBuyItem(this.a.IDPart, 1);
    }
 }

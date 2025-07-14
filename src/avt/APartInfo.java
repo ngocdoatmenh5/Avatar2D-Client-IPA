@@ -13,13 +13,13 @@ public final class APartInfo extends Part {
       if (super.IDPart != -1) {
          if (super.IDPart >= 2000) {
             ImageIcon var6;
-            if ((var6 = AvatarData.b(this.imgID[var2])).count != -1) {
+            if ((var6 = AvatarData.getImagePart(this.imgID[var2])).count != -1) {
                var1.drawRegion(var6.img, 0, 0, var6.b, var6.c, var5, var3 + this.dx[var2] * AvMain.hd - (var5 == Base.LEFT ? (this.dx[var2] * AvMain.hd << 1) + var6.b : 0), var4 + this.dy[var2] * AvMain.hd, 0);
                return;
             }
          } else {
             ImageInfo var7 = AvatarData.listImgInfo[this.imgID[var2]];
-            AvatarData.a(var1, var7.b, var7.c, var7.d, var7.e, var7.f, var3 + this.dx[var2] * AvMain.hd - (var5 == Base.LEFT ? (this.dx[var2] * AvMain.hd << 1) + var7.e * AvMain.hd : 0), var4 + this.dy[var2] * AvMain.hd, var5, 0);
+            AvatarData.a(var1, var7.bigID, var7.x0, var7.y0, var7.w, var7.h, var3 + this.dx[var2] * AvMain.hd - (var5 == Base.LEFT ? (this.dx[var2] * AvMain.hd << 1) + var7.w * AvMain.hd : 0), var4 + this.dy[var2] * AvMain.hd, var5, 0);
          }
       }
 

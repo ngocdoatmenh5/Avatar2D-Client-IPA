@@ -22,40 +22,40 @@ public final class Pet extends Animal {
       super.catagory = 4;
       this.r = var1;
       super.posNext = new AvPosition();
-      super.posNext.a = this.r.x - 40 + CRes.rnd(80);
-      super.posNext.b = this.r.y - 20 + CRes.rnd(40);
-      super.xCur = super.x = super.posNext.a;
-      super.yCur = super.y = super.posNext.b;
-      APartInfo var2 = (APartInfo)AvatarData.a(this.r.idPet);
+      super.posNext.x = this.r.x - 40 + CRes.rnd(80);
+      super.posNext.y = this.r.y - 20 + CRes.rnd(40);
+      super.xCur = super.x = super.posNext.x;
+      super.yCur = super.y = super.posNext.y;
+      APartInfo var2 = (APartInfo)AvatarData.getPart(this.r.idPet);
       this.Q = var2.level;
    }
 
    public final void setPos() {
       if (this.t.size() > 0) {
          AvPosition var1 = (AvPosition)this.t.elementAt(0);
-         super.posNext.a = var1.a;
-         super.posNext.b = var1.b;
+         super.posNext.x = var1.x;
+         super.posNext.y = var1.y;
          this.t.removeElementAt(0);
       } else {
          int var2 = CRes.rnd(20) - 10;
-         if (CRes.f(super.posNext.a + var2 - GameMidlet.avatar.x) >= 35) {
+         if (CRes.f(super.posNext.x + var2 - GameMidlet.avatar.x) >= 35) {
             var2 = 0;
          }
 
          AvPosition var10000 = super.posNext;
-         var10000.a += var2;
-         super.posNext.b = super.y;
+         var10000.x += var2;
+         super.posNext.y = super.y;
       }
 
-      if (super.posNext.a < 0) {
-         super.posNext.a = 5;
-      } else if (super.posNext.a > LoadMap.wMap * 24) {
-         super.posNext.a = LoadMap.wMap * 24 - 5;
-      } else if (super.posNext.b < 0) {
-         super.posNext.b = 5;
+      if (super.posNext.x < 0) {
+         super.posNext.x = 5;
+      } else if (super.posNext.x > LoadMap.wMap * 24) {
+         super.posNext.x = LoadMap.wMap * 24 - 5;
+      } else if (super.posNext.y < 0) {
+         super.posNext.y = 5;
       } else {
-         if (super.posNext.b > LoadMap.f * 24 - 24) {
-            super.posNext.b = LoadMap.f * 24 - 30;
+         if (super.posNext.y > LoadMap.Hmap * 24 - 24) {
+            super.posNext.y = LoadMap.Hmap * 24 - 30;
          }
 
       }
@@ -128,7 +128,7 @@ public final class Pet extends Animal {
 
          } else {
             this.setPos();
-            if (super.posNext.a > super.x) {
+            if (super.posNext.x > super.x) {
                super.direct = 0;
             } else {
                super.direct = Base.LEFT;
@@ -147,7 +147,7 @@ public final class Pet extends Animal {
       super.cycle = 50 + CRes.rnd(100);
       if (this.t.size() > 0) {
          this.setPos();
-         if (super.posNext.a > super.x) {
+         if (super.posNext.x > super.x) {
             super.direct = 0;
          } else {
             super.direct = Base.LEFT;
@@ -164,12 +164,12 @@ public final class Pet extends Animal {
    }
 
    public final void paint(Graphics var1) {
-      if ((super.x + 15) * MyObject.hd >= AvCamera.gI().xCam && (super.x - 15) * MyObject.hd <= AvCamera.gI().xCam + Canvas.m && !this.r.ableShow && (Canvas.Z <= 0 || Canvas.currentMyScreen != MenuCenter.gI())) {
+      if ((super.x + 15) * MyObject.hd >= AvCamera.gI().xCam && (super.x - 15) * MyObject.hd <= AvCamera.gI().xCam + Canvas.w && !this.r.ableShow && (Canvas.stypeInt <= 0 || Canvas.currentMyScreen != MenuCenter.gI())) {
          APartInfo var2;
-         if ((var2 = (APartInfo)AvatarData.a(this.r.idPet)).IDPart != -1) {
+         if ((var2 = (APartInfo)AvatarData.getPart(this.r.idPet)).IDPart != -1) {
             if (var2.IDPart >= 2000) {
                ImageIcon var3;
-               if ((var3 = AvatarData.b(var2.imgID[U[super.action][super.frame]])).count != -1) {
+               if ((var3 = AvatarData.getImagePart(var2.imgID[U[super.action][super.frame]])).count != -1) {
                   if (!this.T && var2.dy[0] + var3.c < -10 && var3.c > 0) {
                      this.T = true;
                      this.S = 1;
@@ -181,18 +181,18 @@ public final class Pet extends Animal {
                }
             } else {
                ImageInfo var4 = AvatarData.listImgInfo[var2.imgID[U[super.action][super.frame]]];
-               if (!this.T && var2.dy[0] + var4.f < -10 && var4.f > 0) {
+               if (!this.T && var2.dy[0] + var4.h < -10 && var4.h > 0) {
                   this.T = true;
                   this.S = 1;
                }
 
                var1.drawImage(s[this.T ? 0 : 1], super.x * MyObject.hd, (super.y - 1) * MyObject.hd, 3);
-               int var10002 = var4.c * MyObject.hd;
-               int var10003 = var4.d * MyObject.hd;
-               int var10004 = var4.e * MyObject.hd;
-               int var10005 = var4.f * MyObject.hd;
-               int var10007 = super.x * MyObject.hd + var2.dx[U[super.action][super.frame]] * MyObject.hd - (super.direct == Base.LEFT ? (var2.dx[U[super.action][super.frame]] * AvMain.hd << 1) + var4.e * AvMain.hd : 0);
-               var1.drawRegion(AvatarData.a((int)var4.b).e, var10002, var10003, var10004, var10005, super.direct, var10007, (super.y + this.R) * MyObject.hd + var2.dy[U[super.action][super.frame]] * MyObject.hd, 0);
+               int var10002 = var4.x0 * MyObject.hd;
+               int var10003 = var4.y0 * MyObject.hd;
+               int var10004 = var4.w * MyObject.hd;
+               int var10005 = var4.h * MyObject.hd;
+               int var10007 = super.x * MyObject.hd + var2.dx[U[super.action][super.frame]] * MyObject.hd - (super.direct == Base.LEFT ? (var2.dx[U[super.action][super.frame]] * AvMain.hd << 1) + var4.w * AvMain.hd : 0);
+               var1.drawRegion(AvatarData.getBigImgInfo((int)var4.bigID).img, var10002, var10003, var10004, var10005, super.direct, var10007, (super.y + this.R) * MyObject.hd + var2.dy[U[super.action][super.frame]] * MyObject.hd, 0);
             }
          }
 
@@ -201,7 +201,7 @@ public final class Pet extends Animal {
 
    public final void a(Graphics var1, int var2, int var3, int var4) {
       APartInfo var5;
-      if ((var5 = (APartInfo)AvatarData.a(this.r.idPet)).IDPart != -1) {
+      if ((var5 = (APartInfo)AvatarData.getPart(this.r.idPet)).IDPart != -1) {
          int var6 = var3 + var5.dy[U[super.action][super.frame]];
          PaintPopup.a(var2 - 10, var6 - 10, 20, 3, 11381824, var1);
          var1.setColor(11072024);
@@ -209,7 +209,7 @@ public final class Pet extends Animal {
          PaintPopup.a(var2 - 9, var6 - 9, var4 * 20 / 100, 2, 16644608, var1);
          if (var5.IDPart >= 2000) {
             ImageIcon var7;
-            if ((var7 = AvatarData.b(var5.imgID[U[super.action][super.frame]])).count != -1) {
+            if ((var7 = AvatarData.getImagePart(var5.imgID[U[super.action][super.frame]])).count != -1) {
                var1.drawImage(s[this.T ? 0 : 1], var2, var3 - 1, 3);
                var1.drawRegion(var7.img, 0, 0, var7.b, var7.c, super.direct, var2 + var5.dx[U[super.action][super.frame]] * MyObject.hd - (super.direct == Base.LEFT ? (var5.dx[U[super.action][super.frame]] * AvMain.hd << 1) + var7.b * AvMain.hd : 0), var6 + this.R, 0);
                return;
@@ -217,12 +217,12 @@ public final class Pet extends Animal {
          } else {
             ImageInfo var8 = AvatarData.listImgInfo[var5.imgID[U[super.action][super.frame]]];
             var1.drawImage(s[this.T ? 0 : 1], var2, var3 - 1, 3);
-            int var10002 = var8.c * MyObject.hd;
-            int var10003 = var8.d * MyObject.hd;
-            int var10004 = var8.e * MyObject.hd;
-            int var10005 = var8.f * MyObject.hd;
+            int var10002 = var8.x0 * MyObject.hd;
+            int var10003 = var8.y0 * MyObject.hd;
+            int var10004 = var8.w * MyObject.hd;
+            int var10005 = var8.h * MyObject.hd;
             int var10007 = var2 + var5.dx[U[super.action][super.frame]] * MyObject.hd;
-            var1.drawRegion(AvatarData.a((int)var8.b).e, var10002, var10003, var10004, var10005, super.direct, var10007 - (super.direct == Base.LEFT ? (var5.dx[U[super.action][super.frame]] * AvMain.hd << 1) + var8.e * AvMain.hd : 0), var6 + this.R, 0);
+            var1.drawRegion(AvatarData.getBigImgInfo((int)var8.bigID).img, var10002, var10003, var10004, var10005, super.direct, var10007 - (super.direct == Base.LEFT ? (var5.dx[U[super.action][super.frame]] * AvMain.hd << 1) + var8.w * AvMain.hd : 0), var6 + this.R, 0);
          }
       }
 

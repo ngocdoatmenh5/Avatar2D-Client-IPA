@@ -4,28 +4,28 @@ import javax.microedition.lcdui.Graphics;
 import main.Canvas;
 
 public final class MapItem extends SubObject {
-   public short a;
-   public short b;
-   public byte c;
+   public short ID;
+   public short typeID;
+   public byte dir;
    public boolean d = false;
 
    public MapItem() {
    }
 
    public MapItem(int var1, int var2, int var3, int var4, short var5) {
-      super.f = (byte)var1;
+      super.type = (byte)var1;
       super.x = var2;
       super.y = var3;
-      this.a = (short)var4;
-      this.b = var5;
+      this.ID = (short)var4;
+      this.typeID = var5;
    }
 
    public final void paint(Graphics var1) {
       MapItemType var2;
       if (this.d) {
-         var2 = LoadMap.f(this.b);
+         var2 = LoadMap.f(this.typeID);
       } else {
-         var2 = AvatarData.b((int)this.b);
+         var2 = AvatarData.getMapItemTypeByID((int)this.typeID);
       }
 
       int var3;
@@ -35,38 +35,38 @@ public final class MapItem extends SubObject {
       Graphics var10001;
       int var10003;
       int var10004;
-      if (!this.d && LoadMap.a != 68 && LoadMap.a != 69 && LoadMap.a != 70 && LoadMap.a != 110) {
-         ImageInfo var10 = AvatarData.listImgInfo[var2.b];
-         if ((super.x + var2.e + var10.e) * MyObject.hd >= AvCamera.gI().xCam && (super.x + var2.e - var10.e) * MyObject.hd <= AvCamera.gI().xCam + Canvas.m && (super.y + var10.f) * MyObject.hd >= AvCamera.gI().yCam && (super.y + var2.f - var10.f) * MyObject.hd <= AvCamera.gI().yCam + Canvas.n) {
+      if (!this.d && LoadMap.TYPEMAP != 68 && LoadMap.TYPEMAP != 69 && LoadMap.TYPEMAP != 70 && LoadMap.TYPEMAP != 110) {
+         ImageInfo var10 = AvatarData.listImgInfo[var2.imgID];
+         if ((super.x + var2.dx + var10.w) * MyObject.hd >= AvCamera.gI().xCam && (super.x + var2.dx - var10.w) * MyObject.hd <= AvCamera.gI().xCam + Canvas.w && (super.y + var10.h) * MyObject.hd >= AvCamera.gI().yCam && (super.y + var2.dy - var10.h) * MyObject.hd <= AvCamera.gI().yCam + Canvas.h) {
             ImageInfo var10000 = var10;
             var10001 = var1;
-            int var10002 = (super.x + var2.e) * MyObject.hd;
-            var10003 = (super.y + var2.f) * MyObject.hd;
+            int var10002 = (super.x + var2.dx) * MyObject.hd;
+            var10003 = (super.y + var2.dy) * MyObject.hd;
             var6 = false;
-            byte var11 = this.c;
+            byte var11 = this.dir;
             var4 = var10003;
             var3 = var10002;
             var8 = var10001;
             ImageInfo var7 = var10000;
-            var10002 = var7.c * AvMain.hd;
-            var10003 = var7.d * AvMain.hd;
-            var10004 = var7.e * AvMain.hd;
-            int var10005 = var7.f * AvMain.hd;
-            var8.drawRegion(AvatarData.a((int)var7.b).e, var10002, var10003, var10004, var10005, var11, var3, var4, 0);
+            var10002 = var7.x0 * AvMain.hd;
+            var10003 = var7.y0 * AvMain.hd;
+            var10004 = var7.w * AvMain.hd;
+            int var10005 = var7.h * AvMain.hd;
+            var8.drawRegion(AvatarData.getBigImgInfo((int)var7.bigID).img, var10002, var10003, var10004, var10005, var11, var3, var4, 0);
          }
       } else {
          var10001 = var1;
-         var10003 = (super.x + var2.e) * MyObject.hd;
-         var10004 = (super.y + var2.f) * MyObject.hd;
+         var10003 = (super.x + var2.dx) * MyObject.hd;
+         var10004 = (super.y + var2.dy) * MyObject.hd;
          var6 = false;
          int var5 = var10004;
          var4 = var10003;
-         var3 = var2.b;
+         var3 = var2.imgID;
          var8 = var10001;
-         ImageIcon var9 = AvatarData.c((short)var3);
-         if (var4 + var9.b >= AvCamera.gI().xCam && var4 <= AvCamera.gI().xCam + Canvas.m && var5 + var9.c >= AvCamera.gI().yCam && var5 <= AvCamera.gI().yCam + Canvas.n) {
+         ImageIcon var9 = AvatarData.getImgIcon((short)var3);
+         if (var4 + var9.b >= AvCamera.gI().xCam && var4 <= AvCamera.gI().xCam + Canvas.w && var5 + var9.c >= AvCamera.gI().yCam && var5 <= AvCamera.gI().yCam + Canvas.h) {
             if (var9.count != -1) {
-               var8.drawRegion(var9.img, 0, 0, var9.b, var9.c, this.c, var4, var5, 0);
+               var8.drawRegion(var9.img, 0, 0, var9.b, var9.c, this.dir, var4, var5, 0);
             }
 
          }

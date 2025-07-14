@@ -55,23 +55,23 @@ public final class OnScreen extends MyScreen {
 
    public final void a() {
       super.ar = 2;
-      Canvas.t = null;
-      Canvas.h();
+      Canvas.menuMain = null;
+      Canvas.endDlg();
       if (l == null) {
-         FilePack.b(T1.aw);
+         FilePack.b(T.aw);
          FrameImage.a("up", 13 * AvMain.hd, 11 * AvMain.hd);
          FilePack.a();
 
          try {
             int var1 = 70 * AvMain.hd;
-            if (Canvas.Z == 0) {
+            if (Canvas.stypeInt == 0) {
                var1 = 40;
             }
 
-            l = new FrameImage(Image.createImage(T1.a() + "/on/iconGame0.on"), var1, var1);
-            s = Image.createImage(T1.a() + "/on/select.on");
+            l = new FrameImage(Image.createImage(T.a() + "/on/iconGame0.on"), var1, var1);
+            s = Image.createImage(T.a() + "/on/select.on");
             if (OnSplashScr.c == null) {
-               OnSplashScr.c = Image.createImage(T1.a() + "/on/logo.on");
+               OnSplashScr.c = Image.createImage(T.a() + "/on/logo.on");
             }
          } catch (IOException var2) {
             var2.printStackTrace();
@@ -79,27 +79,27 @@ public final class OnScreen extends MyScreen {
       }
 
       super.a();
-      this.g = Canvas.n / 2 - AvMain.ah;
+      this.g = Canvas.h / 2 - AvMain.ah;
       this.j = 4;
       this.k = 70 * AvMain.hd;
-      if (Canvas.Z == 0) {
+      if (Canvas.stypeInt == 0) {
          this.k = 40;
       }
 
-      this.h = Canvas.m / this.j;
+      this.h = Canvas.w / this.j;
       if (this.h > 100 * AvMain.hd) {
          this.h = 100 * AvMain.hd;
       }
 
       this.i = l.b + AvMain.ah + 5 * AvMain.hd;
-      this.f = (Canvas.m - this.j * this.h) / 2 + this.h / 2;
-      if ((q = this.j * this.h - Canvas.m) < 0) {
+      this.f = (Canvas.w - this.j * this.h) / 2 + this.h / 2;
+      if ((q = this.j * this.h - Canvas.w) < 0) {
          q = 0;
       }
 
       g();
-      if (Canvas.J == 0) {
-         Canvas.J = 1;
+      if (Canvas.load == 0) {
+         Canvas.load = 1;
       }
 
       r = true;
@@ -107,15 +107,15 @@ public final class OnScreen extends MyScreen {
    }
 
    private static void g() {
-      Canvas.T = MyScreen.av;
-      if (Canvas.Z == 0) {
-         Canvas.T = AvMain.ag + 5;
+      Canvas.hTab = MyScreen.av;
+      if (Canvas.stypeInt == 0) {
+         Canvas.hTab = AvMain.ag + 5;
       }
 
-      Canvas.n = Canvas.a.getHeight() - Canvas.T;
+      Canvas.h = Canvas.instance.getHeight() - Canvas.hTab;
 
       for(int var0 = 0; var0 < 3; ++var0) {
-         Canvas.ae[var0].b = Canvas.q - Canvas.T;
+         Canvas.ae[var0].y = Canvas.q - Canvas.hTab;
       }
 
    }
@@ -129,7 +129,7 @@ public final class OnScreen extends MyScreen {
                case 2:
                case 3:
                   var1 = this.e;
-                  Canvas.i();
+                  Canvas.startWaitDlg();
                   GlobalService.gI().d((int)3);
                   MapScr.i = (byte)var1;
                   return;
@@ -140,15 +140,15 @@ public final class OnScreen extends MyScreen {
             }
          case 1:
             c = 1;
-            Canvas.y.m = false;
+            Canvas.cameraList.m = false;
             GlobalService var3;
-            (var3 = GlobalService.gI()).e((byte)-96);
-            var3.k();
-            Canvas.i();
+            (var3 = GlobalService.gI()).createMessage((byte)-96);
+            var3.sendMessage();
+            Canvas.startWaitDlg();
             return;
          case 2:
             GlobalService.gI().h(1);
-            Canvas.i();
+            Canvas.startWaitDlg();
             return;
          case 3:
             this.h();
@@ -157,11 +157,11 @@ public final class OnScreen extends MyScreen {
    }
 
    public OnScreen() {
-      this.d = new Command(T1.O, 0);
-      super.ae = new Command(T1.x, 1);
-      super.ac = new Command("Top", 2);
-      if (Canvas.Z == 0) {
-         super.ad = new Command(T1.O, 3);
+      this.d = new Command(T.O, 0);
+      super.right = new Command(T.x, 1);
+      super.left = new Command("Top", 2);
+      if (Canvas.stypeInt == 0) {
+         super.center = new Command(T.O, 3);
       }
 
    }
@@ -178,7 +178,7 @@ public final class OnScreen extends MyScreen {
    public final void k() {
       if (this.w > 0) {
          --this.w;
-         if (this.w == 0 && Canvas.currentMyScreen != PopupShop.a) {
+         if (this.w == 0 && Canvas.currentMyScreen != PopupShop.me) {
             this.h();
          }
       }
@@ -227,7 +227,7 @@ public final class OnScreen extends MyScreen {
 
    }
 
-   public final void l() {
+   public final void updateKey() {
       ++this.x;
       if (Canvas.a(4)) {
          if (this.e % this.j > 0) {
@@ -246,14 +246,14 @@ public final class OnScreen extends MyScreen {
       }
 
       int var1;
-      if (Canvas.g) {
-         for(var1 = 0; var1 < T1.eA.length; ++var1) {
+      if (Canvas.isPointerClick) {
+         for(var1 = 0; var1 < T.eA.length; ++var1) {
             if (Canvas.b(this.f + var1 % this.j * this.h - this.k / 2, this.g + var1 / this.j * this.i - this.k / 2, this.k, this.k + AvMain.ah + 10)) {
-               this.B = Canvas.j;
+               this.B = Canvas.pxLast;
                this.y = this.x;
                this.t = n;
                this.u = 0;
-               Canvas.g = false;
+               Canvas.isPointerClick = false;
                this.A = true;
                break;
             }
@@ -262,12 +262,12 @@ public final class OnScreen extends MyScreen {
 
       if (this.A) {
          var1 = this.x - this.y;
-         int var2 = this.B - Canvas.h;
-         this.B = Canvas.h;
+         int var2 = this.B - Canvas.px;
+         this.B = Canvas.px;
          int var3;
-         if (Canvas.e) {
+         if (Canvas.isPointerDown) {
             if (this.x % 2 == 0) {
-               this.v = Canvas.h;
+               this.v = Canvas.px;
                this.z = this.x;
             }
 
@@ -276,24 +276,24 @@ public final class OnScreen extends MyScreen {
                m = this.t + var2;
                this.t = m;
             } else {
-               m = this.t + Canvas.k() / 2;
+               m = this.t + Canvas.dx() / 2;
             }
 
             n = m;
             if (var1 < 20) {
-               var2 = (m + Canvas.h - (this.f - this.h / 2)) / this.h;
-               var3 = (Canvas.i - (this.g - this.h / 2)) / this.i;
+               var2 = (m + Canvas.px - (this.f - this.h / 2)) / this.h;
+               var3 = (Canvas.py - (this.g - this.h / 2)) / this.i;
                this.e = var3 * this.j + var2;
                if (this.e < 0) {
                   this.e = 0;
                }
 
-               if (this.e >= T1.eA.length) {
-                  this.e = T1.eA.length - 1;
+               if (this.e >= T.eA.length) {
+                  this.e = T.eA.length - 1;
                }
             }
 
-            if (CRes.f(Canvas.l()) < 10 * AvMain.hd && CRes.f(Canvas.k()) < 10 * AvMain.hd) {
+            if (CRes.f(Canvas.dy()) < 10 * AvMain.hd && CRes.f(Canvas.dx()) < 10 * AvMain.hd) {
                if (var1 > 3 && var1 < 8) {
                   r = false;
                }
@@ -302,15 +302,15 @@ public final class OnScreen extends MyScreen {
             }
          }
 
-         if (Canvas.f) {
-            var2 = this.v - Canvas.h;
+         if (Canvas.isPointerRelease) {
+            var2 = this.v - Canvas.px;
             var3 = this.x - this.z;
             if (CRes.f(var2) > 40 && var3 < 20 && m > 0 && m < q) {
                this.u = var2 / var3 * 10;
             }
 
             this.z = -1;
-            if (CRes.f(Canvas.l()) < 10 * AvMain.hd && CRes.f(Canvas.k()) < 10 * AvMain.hd) {
+            if (CRes.f(Canvas.dy()) < 10 * AvMain.hd && CRes.f(Canvas.dx()) < 10 * AvMain.hd) {
                if (var1 <= 4) {
                   this.w = 5;
                   r = false;
@@ -320,49 +320,49 @@ public final class OnScreen extends MyScreen {
             }
 
             this.A = false;
-            Canvas.f = false;
+            Canvas.isPointerRelease = false;
          }
       }
 
-      if (Canvas.Z != 0) {
-         Canvas.S.a(super.ac, super.ad, super.ae);
+      if (Canvas.stypeInt != 0) {
+         Canvas.paint.a(super.left, super.center, super.right);
       } else {
-         super.l();
+         super.updateKey();
       }
    }
 
    public final void b(Graphics var1) {
-      Canvas.S.b(var1);
+      Canvas.paint.b(var1);
       if (Canvas.W != 2) {
-         Canvas.S.a(var1, Canvas.o, (this.g - l.b / 2) / 2);
+         Canvas.paint.a(var1, Canvas.hw, (this.g - l.b / 2) / 2);
       }
 
       var1.translate(this.f, this.g);
       var1.translate(-n, 0);
 
-      for(int var2 = 0; var2 < T1.eA.length; ++var2) {
+      for(int var2 = 0; var2 < T.eA.length; ++var2) {
          l.drawFrame(var2, var2 % this.j * this.h, var2 / this.j * this.i, 0, 3, var1);
-         Canvas.M.a(var1, T1.eA[var2], var2 % this.j * this.h, var2 / this.j * this.i + l.b / 2 + 5, 2);
-         if (this.e == var2 && (!Canvas.H || !r)) {
+         Canvas.M.a(var1, T.eA[var2], var2 % this.j * this.h, var2 / this.j * this.i + l.b / 2 + 5, 2);
+         if (this.e == var2 && (!Canvas.isKeyBoard || !r)) {
             var1.drawImage(s, var2 % this.j * this.h, var2 / this.j * this.i, 3);
          }
       }
 
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
       this.b(var1);
-      a(var1, super.ac, super.ad, super.ae);
+      a(var1, super.left, super.center, super.right);
       Canvas.resetTrans(var1);
       Canvas.b(var1);
    }
 
    public static void a(Graphics var0, Command var1, Command var2, Command var3) {
       Canvas.resetTrans(var0);
-      Canvas.S.c(var0);
-      if (Canvas.t == null && (Canvas.v == null || Canvas.v == TransMoneyDlg.a)) {
-         Canvas.S.b(var0, var1, var2, var3);
+      Canvas.paint.c(var0);
+      if (Canvas.menuMain == null && (Canvas.currentDialog == null || Canvas.currentDialog == TransMoneyDlg.a)) {
+         Canvas.paint.b(var0, var1, var2, var3);
       }
 
    }
@@ -370,8 +370,8 @@ public final class OnScreen extends MyScreen {
    public static void f() {
       if (b && OptionScr.d) {
          OptionScr.d = false;
-         OptionScr.b().b[4] = 0;
-         Canvas.a.b();
+         OptionScr.gI().b[4] = 0;
+         Canvas.instance.b();
          g();
       }
 

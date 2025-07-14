@@ -19,7 +19,7 @@ public final class EffectObj extends Base {
 
    public final void update() {
       EffectData var1;
-      if ((var1 = AvatarData.d(this.a)) != null) {
+      if ((var1 = AvatarData.getEffect(this.a)) != null) {
          ++this.f;
          if (this.f < var1.a.length) {
             return;
@@ -30,9 +30,9 @@ public final class EffectObj extends Base {
    }
 
    public final void paint(Graphics var1) {
-      if (Canvas.Z <= 0 || Canvas.currentMyScreen != MenuCenter.gI()) {
+      if (Canvas.stypeInt <= 0 || Canvas.currentMyScreen != MenuCenter.gI()) {
          EffectData var2;
-         if ((var2 = AvatarData.d(this.a)) != null) {
+         if ((var2 = AvatarData.getEffect(this.a)) != null) {
             if (this.e == 0) {
                Avatar var3;
                if ((var3 = LoadMap.g(this.d)) == null) {

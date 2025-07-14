@@ -9,7 +9,7 @@ public final class ImageObj extends SubObject {
 
    public ImageObj(int var1, int var2, int var3, int var4) {
       super(var1, var2, var3, 0);
-      FilePack.b(T1.at);
+      FilePack.b(T.at);
       this.a = FilePack.a("" + var1);
       if (this.a != null) {
          this.a.getWidth();
@@ -23,16 +23,16 @@ public final class ImageObj extends SubObject {
 
    public final void paint(Graphics var1) {
       if (this.a == null) {
-         super.g = AvatarData.c((short)super.f).b;
-         AvatarData.a(var1, super.f, super.x * MyObject.hd, super.y * MyObject.hd, 33);
+         super.g = AvatarData.getImgIcon((short)super.type).b;
+         AvatarData.a(var1, super.type, super.x * MyObject.hd, super.y * MyObject.hd, 33);
       } else {
          var1.drawImage(this.a, super.x * MyObject.hd, super.y * MyObject.hd, 33);
       }
 
-      if (super.f == 846) {
+      if (super.type == 846) {
          Canvas.N.a(var1, String.valueOf(MapScr.c), super.x * MyObject.hd, super.y * MyObject.hd - 30 * MyObject.hd, 2);
       } else {
-         if (super.f == 1029 && FarmScr.V != 0) {
+         if (super.type == 1029 && FarmScr.V != 0) {
             FarmItem var2 = FarmScr.b(FarmData.b(FarmScr.V).b);
             String var3 = "";
             int var4;
@@ -52,9 +52,9 @@ public final class ImageObj extends SubObject {
             }
 
             FarmScr.W = super.x - Canvas.smallFontYellow.getWidth(var3) / 2 / MyObject.hd;
-            FarmScr.X = super.y - AvatarData.c((short)super.f).c / MyObject.hd - 10;
-            FarmData.a(var1, var2.b, super.x * MyObject.hd - Canvas.smallFontYellow.getWidth(var3) / 2, super.y * MyObject.hd - AvatarData.c((short)super.f).c - 10 * MyObject.hd, 3);
-            Canvas.smallFontYellow.a(var1, var3, super.x * MyObject.hd - Canvas.smallFontYellow.getWidth(var3) / 2 + 10 * MyObject.hd, super.y * MyObject.hd - AvatarData.c((short)super.f).c - 10 * MyObject.hd - AvMain.ai / 2 + 2, 0);
+            FarmScr.X = super.y - AvatarData.getImgIcon((short)super.type).c / MyObject.hd - 10;
+            FarmData.a(var1, var2.b, super.x * MyObject.hd - Canvas.smallFontYellow.getWidth(var3) / 2, super.y * MyObject.hd - AvatarData.getImgIcon((short)super.type).c - 10 * MyObject.hd, 3);
+            Canvas.smallFontYellow.a(var1, var3, super.x * MyObject.hd - Canvas.smallFontYellow.getWidth(var3) / 2 + 10 * MyObject.hd, super.y * MyObject.hd - AvatarData.getImgIcon((short)super.type).c - 10 * MyObject.hd - AvMain.ai / 2 + 2, 0);
          }
 
       }

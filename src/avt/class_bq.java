@@ -9,7 +9,7 @@ final class class_bq implements IAction {
 
    public final void perform() {
       LoginScr.v = true;
-      this.a.ac = this.a.h;
-      this.a.ad = this.a.g;
+      this.a.left = this.a.h;
+      this.a.center = this.a.g;
    }
 }

@@ -18,14 +18,14 @@ public final class MoneyPut {
 
    public final void a(Graphics var1) {
       ImageIcon var2;
-      if ((var2 = AvatarData.c((short)(Canvas.m > 200 ? 870 : 871))).count != -1) {
+      if ((var2 = AvatarData.getImgIcon((short)(Canvas.w > 200 ? 870 : 871))).count != -1) {
          var1.drawRegion(var2.img, 0, this.d * BCBoardScr.c, BCBoardScr.b, BCBoardScr.c, 0, this.b, this.c, 3);
          FontX var3 = Canvas.O;
-         if (Canvas.m <= 200) {
+         if (Canvas.w <= 200) {
             var3 = Canvas.smallFontYellow;
          }
 
-         if (Canvas.Z > 0) {
+         if (Canvas.stypeInt > 0) {
             var3 = Canvas.K;
          }
 

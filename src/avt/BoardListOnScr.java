@@ -8,7 +8,7 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class BoardListOnScr extends MyScreen {
-   public static BoardListOnScr a;
+   public static BoardListOnScr me;
    public static byte b = 0;
    public static byte c = 1;
    public static byte d = 2;
@@ -33,71 +33,71 @@ public final class BoardListOnScr extends MyScreen {
    }
 
    public static BoardListOnScr b() {
-      return a == null ? (a = new BoardListOnScr()) : a;
+      return me == null ? (me = new BoardListOnScr()) : me;
    }
 
    public final void a() {
       OnScreen.f();
       MyScreen.z();
       super.ar = 0;
-      Canvas.S.b(e);
+      Canvas.paint.b(e);
       if (k == null) {
          try {
-            k = Image.createImage(T1.a() + "/on/imgkhungsoban.on");
-            l = Image.createImage(T1.a() + "/on/imgNumPlayer.on");
-            m = Image.createImage(T1.a() + "/on/imgPlay.on");
-            n = Image.createImage(T1.a() + "/on/imgLock.on");
+            k = Image.createImage(T.a() + "/on/imgkhungsoban.on");
+            l = Image.createImage(T.a() + "/on/imgNumPlayer.on");
+            m = Image.createImage(T.a() + "/on/imgPlay.on");
+            n = Image.createImage(T.a() + "/on/imgLock.on");
          } catch (IOException var2) {
             var2.printStackTrace();
          }
       }
 
-      Canvas.J = 1;
+      Canvas.load = 1;
       super.aj = true;
       GameMidlet.avatar.ableShow = false;
       super.a();
    }
 
    public BoardListOnScr() {
-      this.s = new Command(T1.O, 1);
-      super.ae = new Command(T1.d, 2);
-      if (Canvas.Z != 0) {
-         super.ad = new Command(T1.i, 5);
+      this.s = new Command(T.O, 1);
+      super.right = new Command(T.d, 2);
+      if (Canvas.stypeInt != 0) {
+         super.center = new Command(T.i, 5);
       } else {
-         super.ad = this.s;
+         super.center = this.s;
       }
 
-      super.ac = new Command(T1.c, 6);
+      super.left = new Command(T.c, 6);
       this.r = (short)(110 * AvMain.hd);
-      if (Canvas.Z == 1) {
+      if (Canvas.stypeInt == 1) {
          this.r = 95;
-      } else if (Canvas.Z == 0) {
-         this.r = (short)(Canvas.m / 4);
+      } else if (Canvas.stypeInt == 0) {
+         this.r = (short)(Canvas.w / 4);
          if (this.r < 70) {
-            this.r = (short)(Canvas.m / 3);
+            this.r = (short)(Canvas.w / 3);
          }
 
-         if (Canvas.m < 180) {
-            this.r = (short)(Canvas.m / 2);
+         if (Canvas.w < 180) {
+            this.r = (short)(Canvas.w / 2);
          }
       }
 
-      this.o = Canvas.m / this.r + 1;
-      if (this.o * this.r > Canvas.m - this.r / 2) {
+      this.o = Canvas.w / this.r + 1;
+      if (this.o * this.r > Canvas.w - this.r / 2) {
          --this.o;
       }
 
       this.p = this.r / 2;
       this.q = this.r / 2;
       this.q += 10;
-      if (Canvas.m > this.o * this.r) {
-         this.p = (Canvas.m - this.o * this.r) / 2 + this.r / 2;
+      if (Canvas.w > this.o * this.r) {
+         this.p = (Canvas.w - this.o * this.r) / 2 + this.r / 2;
       }
 
    }
 
    public final void d() {
-      Canvas.i();
+      Canvas.startWaitDlg();
       i();
    }
 
@@ -110,11 +110,11 @@ public final class BoardListOnScr extends MyScreen {
             } else {
                if (!var4.d) {
                   CasinoService.a().a(this.h, var4.a, "");
-                  Canvas.i();
+                  Canvas.startWaitDlg();
                   return;
                }
 
-               Canvas.u.a(T1.X, new class_cn(this), 2);
+               Canvas.inputDlg.a(T.X, new class_cn(this), 2);
             }
             break;
          case 2:
@@ -127,15 +127,15 @@ public final class BoardListOnScr extends MyScreen {
             this.h();
             return;
          case 5:
-            Canvas.i();
+            Canvas.startWaitDlg();
             CasinoService.a().c();
             return;
          case 6:
             Vector var3;
-            (var3 = new Vector()).addElement(new Command(T1.i, 5));
+            (var3 = new Vector()).addElement(new Command(T.i, 5));
             var3.addElement(new Command("Đến bàn", 6));
             var3.addElement(MapScr.gI().f);
-            var3.addElement(new Command(T1.am, 7));
+            var3.addElement(new Command(T.am, 7));
             MenuSub.a().a(var3, 0);
       }
 
@@ -144,25 +144,25 @@ public final class BoardListOnScr extends MyScreen {
    public final void d(int var1, int var2) {
       switch (var1) {
          case 1:
-            Canvas.c(T1.b);
+            Canvas.startWaitDlg(T.b);
             CasinoService.a().a(this.h);
             return;
          case 3:
-            Canvas.i();
+            Canvas.startWaitDlg();
             GlobalService.gI().a(GameMidlet.avatar.IDDB);
             return;
          case 4:
             i();
             return;
          case 5:
-            Canvas.i();
+            Canvas.startWaitDlg();
             CasinoService.a().c();
             return;
          case 6:
             this.h();
             return;
          case 7:
-            Canvas.i();
+            Canvas.startWaitDlg();
             GlobalService.gI().a(GameMidlet.avatar.IDDB);
          case 2:
          default:
@@ -170,11 +170,11 @@ public final class BoardListOnScr extends MyScreen {
    }
 
    private void h() {
-      Canvas.u.a(T1.an, new IActionToGo(this), 3);
+      Canvas.inputDlg.a(T.an, new IActionToGo(this), 3);
    }
 
    protected final void e() {
-      Canvas.u.a(T1.ap, new class_cj(this), 0);
+      Canvas.inputDlg.a(T.ap, new class_cj(this), 0);
    }
 
    public final void f() {
@@ -182,16 +182,16 @@ public final class BoardListOnScr extends MyScreen {
    }
 
    private static void i() {
-      Canvas.y.m = false;
+      Canvas.cameraList.m = false;
       CasinoService.a().b();
-      Canvas.i();
+      Canvas.startWaitDlg();
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
       RoomListOnScr.a(var1, "Phòng " + RoomListOnScr.c + " " + this.h);
       this.c(var1);
-      OnScreen.a(var1, super.ac, super.ad, super.ae);
+      OnScreen.a(var1, super.left, super.center, super.right);
       Canvas.b(var1);
    }
 
@@ -204,7 +204,7 @@ public final class BoardListOnScr extends MyScreen {
       }
 
       int var3;
-      if ((var3 = var2 + Canvas.n / this.r * this.o + (this.o << 1) + this.o) > this.g.size()) {
+      if ((var3 = var2 + Canvas.h / this.r * this.o + (this.o << 1) + this.o) > this.g.size()) {
          var3 = this.g.size();
       }
 
@@ -212,7 +212,7 @@ public final class BoardListOnScr extends MyScreen {
          int var4 = var2 % this.o * this.r;
          int var5 = var2 / this.o * this.r;
          class_dl var6 = (class_dl)this.g.elementAt(var2);
-         if ((!Canvas.H || !super.aj) && var2 == super.ar) {
+         if ((!Canvas.isKeyBoard || !super.aj) && var2 == super.ar) {
             var1.drawImage(i, var4, var5, 3);
          }
 
@@ -241,11 +241,11 @@ public final class BoardListOnScr extends MyScreen {
 
    }
 
-   public final void l() {
-      if (OnScreen.b && Canvas.Z != 0) {
-         Canvas.S.a(super.ac, super.ad, super.ae);
+   public final void updateKey() {
+      if (OnScreen.b && Canvas.stypeInt != 0) {
+         Canvas.paint.a(super.left, super.center, super.right);
       } else {
-         super.l();
+         super.updateKey();
       }
    }
 
@@ -253,18 +253,18 @@ public final class BoardListOnScr extends MyScreen {
       this.g = var1;
    }
 
-   public final void g() {
+   public final void init() {
       int var1 = this.g.size() / this.o;
       if (this.g.size() % this.o != 0) {
          ++var1;
       }
 
       this.q = 100 * AvMain.hd;
-      if (Canvas.m < 200) {
+      if (Canvas.w < 200) {
          this.q = 50;
       }
 
-      Canvas.y.a(this.p - this.r / 2, this.q - this.r / 2, this.r, this.r, this.o * this.r, var1 * this.r + 10, this.o * this.r, Canvas.n - (this.q - this.r / 2) - 4, this.g.size());
+      Canvas.cameraList.a(this.p - this.r / 2, this.q - this.r / 2, this.r, this.r, this.o * this.r, var1 * this.r + 10, this.o * this.r, Canvas.h - (this.q - this.r / 2) - 4, this.g.size());
    }
 
    public final void a(int var1, boolean var2) {

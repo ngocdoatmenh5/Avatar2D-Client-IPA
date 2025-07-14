@@ -148,7 +148,7 @@ public final class CRes {
       return var0;
    }
 
-   public static void a(String var0, byte[] var1) throws RecordStoreException {
+   public static void saveRMS(String var0, byte[] var1) throws RecordStoreException {
       var1 = b(var1);
       RecordStore var2;
       if ((var2 = RecordStore.openRecordStore("2.5.8" + var0, true)).getNumRecords() > 0) {
@@ -160,7 +160,7 @@ public final class CRes {
       var2.closeRecordStore();
    }
 
-   public static byte[] a(String var0) {
+   public static byte[] loadRMS(String var0) {
       byte[] var1;
       try {
          RecordStore var3;
@@ -175,7 +175,7 @@ public final class CRes {
 
    public static void a(String var0, String var1) {
       try {
-         a(var0, var1.getBytes("UTF-8"));
+         saveRMS(var0, var1.getBytes("UTF-8"));
       } catch (Exception var2) {
          var2.printStackTrace();
       }
@@ -183,7 +183,7 @@ public final class CRes {
 
    public static String b(String var0) {
       byte[] var3;
-      if ((var3 = a(var0)) == null) {
+      if ((var3 = loadRMS(var0)) == null) {
          return null;
       } else {
          try {
@@ -212,7 +212,7 @@ public final class CRes {
          LoginScr.s += var1.a.hashCode();
       }
 
-      LoginScr.b().g();
+      LoginScr.gI().g();
    }
 
    public static Image a(byte[] var0, byte[] var1) {

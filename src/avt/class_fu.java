@@ -18,15 +18,15 @@ final class class_fu extends Command {
    public final void a() {
       if (this.f == PopupShop.j && PopupShop.n) {
          PopupShop.n();
-         PopupShop.a(FarmData.b[this.f].k + "(" + FarmData.b[this.f].e + T1.bq + ")");
-         PopupShop.a(T1.az + Canvas.a(FarmData.b[this.f].g[0], FarmData.b[this.f].g[1], false));
-         PopupShop.a(T1.em[2] + ": " + FarmData.b[this.f].m);
+         PopupShop.a(FarmData.b[this.f].k + "(" + FarmData.b[this.f].e + T.bq + ")");
+         PopupShop.a(T.az + Canvas.getPriceMoney(FarmData.b[this.f].g[0], FarmData.b[this.f].g[1], false));
+         PopupShop.a(T.em[2] + ": " + FarmData.b[this.f].m);
          if (FarmData.b[this.f].l) {
             FarmItem var1 = FarmScr.b(FarmData.b[this.f].j);
-            PopupShop.a(T1.dP + ": " + var1.f);
+            PopupShop.a(T.dP + ": " + var1.f);
          }
 
-         PopupShop.a(T1.dQ + ": " + Canvas.getMoneys(FarmData.b[this.f].i));
+         PopupShop.a(T.dQ + ": " + Canvas.getMoneys(FarmData.b[this.f].i));
          PopupShop.a(MapScr.r());
       }
 

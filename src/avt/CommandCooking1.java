@@ -54,15 +54,15 @@ final class CommandCooking1 extends Command {
       if (this.g == PopupShop.j) {
          PopupShop.n();
          PopupShop.a(this.f.d);
-         PopupShop.a(T1.eM + this.f.c + "p");
+         PopupShop.a(T.eM + this.f.c + "p");
          FarmItem var1;
          if ((var1 = FarmScr.b(this.f.b)).g > 0) {
-            PopupShop.a(T1.eJ + Canvas.getMoneys(var1.g) + T1.T);
+            PopupShop.a(T.eJ + Canvas.getMoneys(var1.g) + T.T);
          } else if (var1.h > 0) {
-            PopupShop.a(T1.eJ + Canvas.getMoneys(var1.h) + T1.T);
+            PopupShop.a(T.eJ + Canvas.getMoneys(var1.h) + T.T);
          }
 
-         PopupShop.a(T1.eK);
+         PopupShop.a(T.eK);
       }
 
    }

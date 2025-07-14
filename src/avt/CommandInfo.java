@@ -23,13 +23,13 @@ final class CommandInfo extends Command {
       Canvas.resetTrans(var1);
       var2 = PaintPopup.o + (AvMain.Z << 1) + 10 * AvMain.hd + 30 * (AvMain.hd - 1) + PopupShop.b;
       byte var5 = AvMain.ah;
-      this.f.paintIcon(var1, Canvas.m / 2, var2, false);
-      Canvas.K.a(var1, T1.aA + this.f.name, Canvas.m / 2, var2 + var5, 2);
-      Canvas.K.a(var1, T1.em[3] + this.g + " (" + this.h + "%)", Canvas.m / 2, var2 + (var5 << 1), 2);
-      Canvas.K.a(var1, T1.cC + this.i, Canvas.m / 2, var2 + var5 * 3, 2);
-      Canvas.K.a(var1, T1.cD + ": ", Canvas.m / 2, var2 + (var5 << 2), 2);
+      this.f.paintIcon(var1, Canvas.w / 2, var2, false);
+      Canvas.K.a(var1, T.aA + this.f.name, Canvas.w / 2, var2 + var5, 2);
+      Canvas.K.a(var1, T.em[3] + this.g + " (" + this.h + "%)", Canvas.w / 2, var2 + (var5 << 1), 2);
+      Canvas.K.a(var1, T.cC + this.i, Canvas.w / 2, var2 + var5 * 3, 2);
+      Canvas.K.a(var1, T.cD + ": ", Canvas.w / 2, var2 + (var5 << 2), 2);
       if (this.j != -1) {
-         ((PartSmall)AvatarData.a(this.j)).a(var1, Canvas.m / 2, var2 + var5 * 6, 3);
+         ((PartSmall)AvatarData.getPart(this.j)).a(var1, Canvas.w / 2, var2 + var5 * 6, 3);
       }
 
    }

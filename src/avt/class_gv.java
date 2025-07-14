@@ -87,12 +87,12 @@ final class class_gv implements Runnable {
    }
 
    private void a(Message var1) throws IOException {
-      byte var2 = var1.b().readByte();
+      byte var2 = var1.reader().readByte();
       this.a.i = new byte[var2];
 
       int var3;
       for(var3 = 0; var3 < var2; ++var3) {
-         this.a.i[var3] = var1.b().readByte();
+         this.a.i[var3] = var1.reader().readByte();
       }
 
       for(var3 = 0; var3 < this.a.i.length - 1; ++var3) {

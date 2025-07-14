@@ -58,13 +58,13 @@ public final class MenuCenter extends MyScreen {
    }
 
    public final void c() {
-      if (Canvas.Z == 0) {
-         super.ae = new Command(T1.d, 0);
+      if (Canvas.stypeInt == 0) {
+         super.right = new Command(T.d, 0);
       } else {
          this.j = true;
       }
 
-      this.n = new Command(T1.O, 1);
+      this.n = new Command(T.O, 1);
    }
 
    public MenuCenter() {
@@ -79,7 +79,7 @@ public final class MenuCenter extends MyScreen {
 
       this.r = false;
       o = null;
-      super.ad = null;
+      super.center = null;
       this.p = false;
    }
 
@@ -121,7 +121,7 @@ public final class MenuCenter extends MyScreen {
             return;
          case 8:
             GlobalService.gI().e(26);
-            Canvas.i();
+            Canvas.startWaitDlg();
             return;
          case 9:
             MapScr.gI().g();
@@ -149,7 +149,7 @@ public final class MenuCenter extends MyScreen {
             MapScr.gI().a(GameMidlet.j);
             return;
          case 16:
-            if ((var8 = (StringObj)MapScr.o.elementAt(var2)).f == 1) {
+            if ((var8 = (StringObj)MapScr.o.elementAt(var2)).type == 1) {
                GlobalService.gI().b(var8.e, MapScr.h != null ? MapScr.h.IDDB : -1);
                return;
             }
@@ -158,7 +158,7 @@ public final class MenuCenter extends MyScreen {
             GlobalService.gI().h(var2);
             return;
          case 18:
-            if ((var8 = (StringObj)MapScr.o.elementAt(var2)).f == 0) {
+            if ((var8 = (StringObj)MapScr.o.elementAt(var2)).type == 0) {
                GlobalService.gI().b(var8.e, MapScr.h != null ? MapScr.h.IDDB : -1);
                return;
             }
@@ -181,10 +181,10 @@ public final class MenuCenter extends MyScreen {
 
             if (LoadMap.p == null || LoadMap.p.catagory != 5) {
                Vector var9 = new Vector();
-               Command var3 = this.a(T1.cw, 4, 17);
-               Command var4 = this.a(T1.dr, 6, 14);
-               Command var5 = this.a(T1.l, 21, 14);
-               Command var6 = this.a(T1.cd, 15, 17);
+               Command var3 = this.a(T.cw, 4, 17);
+               Command var4 = this.a(T.dr, 6, 14);
+               Command var5 = this.a(T.l, 21, 14);
+               Command var6 = this.a(T.cd, 15, 17);
                var9.addElement(var3);
                var9.addElement(var6);
                var9.addElement(var5);
@@ -209,17 +209,17 @@ public final class MenuCenter extends MyScreen {
       if (MapScr.h != null) {
          this.r = false;
          Vector var1;
-         (var1 = new Vector()).addElement(this.a(T1.bT, 9, 13));
-         var1.addElement(this.a(T1.bW, 12, 2));
-         var1.addElement(this.a(T1.y, 7, 11));
-         var1.addElement(this.a(T1.bS, 8, 12));
-         var1.addElement(this.a(T1.bU, 10, 21));
-         var1.addElement(this.a(T1.bV, 11, 19));
-         var1.addElement(this.a(T1.dj, 13, 22));
+         (var1 = new Vector()).addElement(this.a(T.bT, 9, 13));
+         var1.addElement(this.a(T.bW, 12, 2));
+         var1.addElement(this.a(T.y, 7, 11));
+         var1.addElement(this.a(T.bS, 8, 12));
+         var1.addElement(this.a(T.bU, 10, 21));
+         var1.addElement(this.a(T.bV, 11, 19));
+         var1.addElement(this.a(T.dj, 13, 22));
          if (MapScr.o.size() > 0) {
             for(int var2 = 0; var2 < MapScr.o.size(); ++var2) {
                StringObj var3;
-               if ((var3 = (StringObj)MapScr.o.elementAt(var2)).f == 1) {
+               if ((var3 = (StringObj)MapScr.o.elementAt(var2)).type == 1) {
                   var1.addElement(new class_ji(this, var3.a, 16, var2, var3));
                }
             }
@@ -235,21 +235,21 @@ public final class MenuCenter extends MyScreen {
             if (LoadMap.p != null && LoadMap.p.catagory == 5) {
                ParkService.a().c(((Drop_Part)LoadMap.p).d);
             } else if (LoadMap.p != null && LoadMap.p.catagory == 0 && ((Avatar)LoadMap.p).IDDB == -100) {
-               Canvas.a(T1.eb, (IAction)(new class_jc(this)));
+               Canvas.a(T.eb, (IAction)(new class_jc(this)));
             } else {
                Vector var1 = new Vector();
-               Command var2 = this.a(T1.bX, 1, 1);
-               Command var3 = this.a(T1.bY, 2, 0);
-               Command var4 = this.a(T1.bZ, 3, 20);
-               Command var5 = this.a(T1.by, 20, 17);
-               Command var6 = this.a(T1.aa, 5, 18);
-               if (Canvas.Z == 0) {
+               Command var2 = this.a(T.bX, 1, 1);
+               Command var3 = this.a(T.bY, 2, 0);
+               Command var4 = this.a(T.bZ, 3, 20);
+               Command var5 = this.a(T.by, 20, 17);
+               Command var6 = this.a(T.aa, 5, 18);
+               if (Canvas.stypeInt == 0) {
                   var1.addElement(var4);
                }
 
                var1.addElement(var5);
                var1.addElement(var3);
-               if (Canvas.Z == 0) {
+               if (Canvas.stypeInt == 0) {
                   var1.addElement(MapScr.gI().f);
                }
 
@@ -260,7 +260,7 @@ public final class MenuCenter extends MyScreen {
                var1.addElement(var6);
                int var7;
                StringObj var8;
-               if (Canvas.Z > 0 && MapScr.n != null && MapScr.n.size() > 0) {
+               if (Canvas.stypeInt > 0 && MapScr.n != null && MapScr.n.size() > 0) {
                   for(var7 = 0; var7 < MapScr.n.size(); ++var7) {
                      var8 = (StringObj)MapScr.n.elementAt(var7);
                      var1.addElement(new class_jg(this, var8.a, 17, var7, var8));
@@ -269,7 +269,7 @@ public final class MenuCenter extends MyScreen {
 
                if (MapScr.o.size() > 0) {
                   for(var7 = 0; var7 < MapScr.o.size(); ++var7) {
-                     if ((var8 = (StringObj)MapScr.o.elementAt(var7)).f == 0) {
+                     if ((var8 = (StringObj)MapScr.o.elementAt(var7)).type == 0) {
                         var1.addElement(new class_ix(this, var8.a, 18, var7, var8));
                      }
                   }
@@ -288,7 +288,7 @@ public final class MenuCenter extends MyScreen {
       Avatar var0 = GameMidlet.avatar;
       if (Canvas.currentMyScreen != a) {
          PopupShop.b().m = true;
-         PopupShop.b().a(new String[]{T1.l, T1.co}, new Vector[]{MapScr.gI().a((Avatar)var0, 0), MapScr.gI().a(GameMidlet.k, var0.IDDB, 1)}, (Vector)null);
+         PopupShop.b().a(new String[]{T.l, T.co}, new Vector[]{MapScr.gI().a((Avatar)var0, 0), MapScr.gI().a(GameMidlet.k, var0.IDDB, 1)}, (Vector)null);
          PopupShop.b().a(MapScr.gI().a(var0.seriPart, 0, 0, false), 0);
          PopupShop.b().a(MapScr.gI().a(GameMidlet.k, 1, 0, true), 1);
          if (Canvas.currentMyScreen != PopupShop.b()) {
@@ -308,9 +308,9 @@ public final class MenuCenter extends MyScreen {
 
    public final void a(Vector var1) {
       this.k = var1;
-      if (Canvas.H) {
+      if (Canvas.isKeyBoard) {
          this.g = 40 * AvMain.hd + (AvMain.hd - 1) * 20;
-         if (Canvas.Z == 1 && Canvas.m > 300) {
+         if (Canvas.stypeInt == 1 && Canvas.w > 300) {
             this.g += 20;
          }
       } else {
@@ -320,11 +320,11 @@ public final class MenuCenter extends MyScreen {
       this.h = this.g + 2 * AvMain.hd;
       this.f = AvMain.ag << 1;
       this.e = 0;
-      this.i = Canvas.m / this.h;
-      if (var1.size() * this.h < Canvas.m) {
-         this.e = (Canvas.m - var1.size() * this.h) / 2;
+      this.i = Canvas.w / this.h;
+      if (var1.size() * this.h < Canvas.w) {
+         this.e = (Canvas.w - var1.size() * this.h) / 2;
       } else {
-         this.e = (Canvas.m - this.i * this.h) / 2;
+         this.e = (Canvas.w - this.i * this.h) / 2;
       }
 
       this.l = new short[var1.size()];
@@ -338,17 +338,17 @@ public final class MenuCenter extends MyScreen {
       }
 
       this.r = false;
-      if (MapScr.h != null && Canvas.Z > 0) {
+      if (MapScr.h != null && Canvas.stypeInt > 0) {
          MapScr.h.ableShow = true;
       }
 
-      if (Canvas.Z > 0) {
+      if (Canvas.stypeInt > 0) {
          this.f = Canvas.hh - (var1.size() / this.i + 1) * this.g / 2;
       }
 
       this.a();
-      if (Canvas.Z == 0) {
-         super.ad = this.n;
+      if (Canvas.stypeInt == 0) {
+         super.center = this.n;
       }
 
    }
@@ -365,8 +365,8 @@ public final class MenuCenter extends MyScreen {
 
    }
 
-   public final void l() {
-      if (Canvas.g) {
+   public final void updateKey() {
+      if (Canvas.isPointerClick) {
          boolean var1 = false;
 
          for(int var2 = this.k.size() - 1; var2 >= 0; --var2) {
@@ -391,7 +391,7 @@ public final class MenuCenter extends MyScreen {
             this.j = false;
          }
 
-         if (Canvas.f) {
+         if (Canvas.isPointerRelease) {
             this.p = false;
             this.j = true;
 
@@ -405,7 +405,7 @@ public final class MenuCenter extends MyScreen {
                }
             }
 
-            Canvas.f = false;
+            Canvas.isPointerRelease = false;
          }
       }
 
@@ -434,10 +434,10 @@ public final class MenuCenter extends MyScreen {
          }
       }
 
-      super.l();
+      super.updateKey();
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       this.m.b(var1);
       Canvas.resetTrans(var1);
       Graphics var3 = var1;
@@ -447,7 +447,7 @@ public final class MenuCenter extends MyScreen {
       }
 
       Command var4 = (Command)this.k.elementAt(this.d);
-      Canvas.L.a(var1, var4.a, Canvas.o, this.f - 15, 2);
+      Canvas.L.a(var1, var4.a, Canvas.hw, this.f - 15, 2);
       var1.translate(this.e, this.f);
 
       for(int var5 = this.k.size() - 1; var5 >= 0; --var5) {
@@ -457,10 +457,10 @@ public final class MenuCenter extends MyScreen {
             var7 = 4;
          }
 
-         Canvas.S.a(var3, var2.l[var5], var5 / var2.i * var2.h, var2.g, var2.g, var7);
+         Canvas.paint.a(var3, var2.l[var5], var5 / var2.i * var2.h, var2.g, var2.g, var7);
          var6.a(var3, var2.h / 2 + var2.l[var5], var2.h / 2 + var5 / var2.i * var2.h);
       }
 
-      super.a(var1);
+      super.paint(var1);
    }
 }

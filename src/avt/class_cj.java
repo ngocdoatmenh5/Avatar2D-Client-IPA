@@ -10,7 +10,7 @@ final class class_cj implements IAction {
    }
 
    public final void perform() {
-      CasinoService.a().a(this.a.h, (byte)this.a.j, Canvas.u.a());
-      Canvas.h();
+      CasinoService.a().a(this.a.h, (byte)this.a.j, Canvas.inputDlg.a());
+      Canvas.endDlg();
    }
 }

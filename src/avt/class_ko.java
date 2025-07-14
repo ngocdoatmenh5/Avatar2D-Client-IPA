@@ -14,23 +14,23 @@ final class class_ko extends Command {
    }
 
    public final void a(Graphics var1, int var2, int var3) {
-      if (this.g.a < 50) {
-         FarmData.b((int)this.g.a).a(var1, 7, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
+      if (this.g.ID < 50) {
+         FarmData.b((int)this.g.ID).a(var1, 7, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
       } else {
          int var10002 = var2 + PopupShop.e / 2;
          int var10003 = var3 + PopupShop.e / 2;
-         AvatarData.a(var1, FarmData.getAnimalByID(this.g.a).iconProduct, var10002, var10003, 3);
+         AvatarData.a(var1, FarmData.getAnimalByID(this.g.ID).iconProduct, var10002, var10003, 3);
       }
    }
 
    public final void a() {
       if (this.f == PopupShop.j) {
          PopupShop.n();
-         short var10000 = this.g.a;
+         short var10000 = this.g.ID;
          boolean var10001 = true;
-         PopupShop.a(this.g.f);
-         PopupShop.a(T1.ay + this.g.e);
-         PopupShop.a(T1.aK + Canvas.getMoneys(this.g.d[0] * this.g.e) + T1.T);
+         PopupShop.a(this.g.name);
+         PopupShop.a(T.ay + this.g.e);
+         PopupShop.a(T.aK + Canvas.getMoneys(this.g.price[0] * this.g.e) + T.T);
          PopupShop.a(MapScr.r());
       }
 

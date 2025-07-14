@@ -46,10 +46,10 @@ public class Animal extends Base {
    }
 
    public void paint(Graphics var1) {
-      if (super.x * MyObject.hd + 30 >= AvCamera.gI().xCam && super.x * MyObject.hd - 30 <= AvCamera.gI().xCam + Canvas.m && Canvas.currentMyScreen != MenuCenter.gI()) {
+      if (super.x * MyObject.hd + 30 >= AvCamera.gI().xCam && super.x * MyObject.hd - 30 <= AvCamera.gI().xCam + Canvas.w && Canvas.currentMyScreen != MenuCenter.gI()) {
          AnimalInfo var2;
          ImageIcon var3;
-         if ((var3 = AvatarData.c((var2 = FarmData.getAnimalByID(this.species)).idImg[this.period])).count != -1) {
+         if ((var3 = AvatarData.getImgIcon((var2 = FarmData.getAnimalByID(this.species)).idImg[this.period])).count != -1) {
             if (super.height == 0) {
                super.height = (short)(var3.c / var2.frame);
             }
@@ -68,7 +68,7 @@ public class Animal extends Base {
    public final void paintIcon(Graphics var1, int var2, int var3, boolean var4) {
       ImageIcon var5;
       AnimalInfo var6;
-      if ((var5 = AvatarData.c((var6 = FarmData.getAnimalByID(this.species)).idImg[this.period])).count != -1) {
+      if ((var5 = AvatarData.getImgIcon((var6 = FarmData.getAnimalByID(this.species)).idImg[this.period])).count != -1) {
          if (super.height == 0) {
             super.height = (short)(var5.c / var6.frame);
          }
@@ -112,7 +112,7 @@ public class Animal extends Base {
 
    public void update() {
       if (this.isStand) {
-         if (Canvas.j() - this.timeStand > 10) {
+         if (Canvas.getSecond() - this.timeStand > 10) {
             this.isStand = false;
          }
 
@@ -139,7 +139,7 @@ public class Animal extends Base {
             }
 
             this.updatePos();
-            if (this.posNext.a > super.x) {
+            if (this.posNext.x > super.x) {
                super.direct = 0;
             } else {
                super.direct = Base.LEFT;
@@ -184,12 +184,12 @@ public class Animal extends Base {
    }
 
    public void setAngleAndDis() {
-      this.distant = CRes.a(super.x, super.y, this.posNext.a, this.posNext.b);
-      this.angle = CRes.a(this.posNext.a - super.x, -(this.posNext.b - super.y));
+      this.distant = CRes.a(super.x, super.y, this.posNext.x, this.posNext.y);
+      this.angle = CRes.a(this.posNext.x - super.x, -(this.posNext.y - super.y));
    }
 
    public void setPos() {
-      AvPosition var2 = new AvPosition(CRes.rnd(LoadMap.wMap * 6) << 2, CRes.rnd(LoadMap.f * 6) << 2);
+      AvPosition var2 = new AvPosition(CRes.rnd(LoadMap.wMap * 6) << 2, CRes.rnd(LoadMap.Hmap * 6) << 2);
       this.posNext = var2;
    }
 

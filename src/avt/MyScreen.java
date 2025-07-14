@@ -30,23 +30,23 @@ public abstract class MyScreen extends AvMain {
    public void a() {
       Canvas.e();
       Canvas.currentMyScreen = this;
-      Canvas.a.setFullScreenMode(true);
+      Canvas.instance.setFullScreenMode(true);
    }
 
-   public void a(Graphics var1) {
-      if (Canvas.t == null && Canvas.v == null && Canvas.A == null && !class_im.c) {
-         super.a(var1);
+   public void paint(Graphics var1) {
+      if (Canvas.menuMain == null && Canvas.currentDialog == null && Canvas.currentFace == null && !ChatTextField.c) {
+         super.paint(var1);
       } else {
          Canvas.resetTrans(var1);
       }
 
       if (!Session_ME.a().b()) {
-         Canvas.M.a(var1, "2.5.8", Canvas.af.a, Canvas.af.b, Canvas.af.c);
+         Canvas.M.a(var1, "2.5.8", Canvas.af.x, Canvas.af.y, Canvas.af.anchor);
       } else if (Canvas.currentMyScreen == class_ez.a || Canvas.currentMyScreen == MiniMap.a) {
-         Canvas.M.a(var1, Session_ME.a().k, Canvas.af.a, Canvas.af.b, Canvas.af.c);
+         Canvas.M.a(var1, Session_ME.a().k, Canvas.af.x, Canvas.af.y, Canvas.af.anchor);
       }
 
-      Canvas.S.a(var1);
+      Canvas.paint.a(var1);
    }
 
    public void b(Graphics var1) {
@@ -61,9 +61,9 @@ public abstract class MyScreen extends AvMain {
    }
 
    public static void z() {
-      int var0 = Canvas.n + Canvas.T;
+      int var0 = Canvas.h + Canvas.hTab;
       if (an == null) {
-         an = Image.createImage(Canvas.m, var0);
+         an = Image.createImage(Canvas.w, var0);
       }
 
       Graphics var1 = an.getGraphics();
@@ -72,17 +72,17 @@ public abstract class MyScreen extends AvMain {
       } else {
          if (Canvas.currentMyScreen == TLBoardScr.a || Canvas.currentMyScreen == PBoardScr.a) {
             int var2;
-            if (Canvas.m < var0) {
+            if (Canvas.w < var0) {
                var2 = var0 / 10;
             } else {
-               var2 = Canvas.m / 10;
+               var2 = Canvas.w / 10;
             }
 
             for(int var3 = 0; var3 < var2; ++var3) {
                var1.setColor(6629892);
-               var1.drawRect(Canvas.o - var3 * var2 - 1, var0 / 2 - var3 * var2, var3 * var2 << 1, var3 * var2 << 1);
+               var1.drawRect(Canvas.hw - var3 * var2 - 1, var0 / 2 - var3 * var2, var3 * var2 << 1, var3 * var2 << 1);
                var1.setColor(13399567);
-               var1.drawRect(Canvas.o - var3 * var2, var0 / 2 - var3 * var2 + 1, var3 * var2 << 1, var3 * var2 << 1);
+               var1.drawRect(Canvas.hw - var3 * var2, var0 / 2 - var3 * var2 + 1, var3 * var2 << 1, var3 * var2 << 1);
             }
          }
 

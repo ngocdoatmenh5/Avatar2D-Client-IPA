@@ -35,8 +35,8 @@ public class AnimalDan extends Animal {
          if (super.isEat && FarmScr.listFood[this.indexFood].size() > 0) {
             Point var5;
             if ((var5 = this.getPosEat()) != null) {
-               var1.a = var5.x;
-               var1.b = var5.y;
+               var1.x = var5.x;
+               var1.y = var5.y;
                super.G = 2;
                super.posNext = var1;
             } else {

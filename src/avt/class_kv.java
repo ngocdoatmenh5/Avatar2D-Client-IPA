@@ -40,15 +40,15 @@ public final class class_kv extends MyScreen
                MapScr.gI().a();
             }
             final ParkService a;
-            (a = ParkService.a()).e((byte)82);
-            a.k();
-            Canvas.i();
-            super.ad = null;
+            (a = ParkService.a()).createMessage((byte)82);
+            a.sendMessage();
+            Canvas.startWaitDlg();
+            super.center = null;
             return;
          }
          case 1: {
             ParkService.a().b();
-            Canvas.i();
+            Canvas.startWaitDlg();
             return;
          }
          case 2: {
@@ -62,11 +62,11 @@ public final class class_kv extends MyScreen
    public class_kv() {
       this.g = new Fish();
       this.l = 0;
-      this.d = new Command(T1.cz, 0);
-      this.f = new Command(T1.cy, 1);
-      this.e = new Command(T1.d, 2);
-      super.ad = this.d;
-      FilePack.b(T1.av);
+      this.d = new Command(T.cz, 0);
+      this.f = new Command(T.cy, 1);
+      this.e = new Command(T.d, 2);
+      super.center = this.d;
+      FilePack.b(T.av);
       this.a = FilePack.a("cucphao");
       this.b = FrameImage.a("ca", 14 * AvMain.hd, 14 * AvMain.hd);
       FilePack.a();
@@ -85,35 +85,35 @@ public final class class_kv extends MyScreen
       }
       final Avatar k = GameMidlet.avatar;
       k.y -= 10;
-      AvCamera.a(Canvas.m / 10);
+      AvCamera.setDistance(Canvas.w / 10);
       MapScr.l.removeElement(this.g);
       MapScr.gI().a();
    }
 
    public final boolean b(final int n, final int n2) {
-      this.r = Canvas.n - Canvas.n / 4;
-      if (this.r > Canvas.n - 70 * AvMain.hd) {
-         this.r = Canvas.n - 70 * AvMain.hd;
+      this.r = Canvas.h - Canvas.h / 4;
+      if (this.r > Canvas.h - 70 * AvMain.hd) {
+         this.r = Canvas.h - 70 * AvMain.hd;
       }
       this.q = 60;
-      if (this.q < (Canvas.m - LoadMap.wMap * 24) / 2 + 50 * AvMain.hd) {
-         this.q = (Canvas.m - LoadMap.wMap * 24) / 2 + 50 * AvMain.hd;
+      if (this.q < (Canvas.w - LoadMap.wMap * 24) / 2 + 50 * AvMain.hd) {
+         this.q = (Canvas.w - LoadMap.wMap * 24) / 2 + 50 * AvMain.hd;
       }
       this.l = 0;
       final int d = LoadMap.getposMap(n, n2);
       if (LoadMap.map[d + 1] == 100 || LoadMap.map[d + 1] == 16 || LoadMap.map[d + 1] == 13) {
          GameMidlet.avatar.direct = 0;
-         this.q = Canvas.m - this.q;
+         this.q = Canvas.w - this.q;
       }
       else {
          GameMidlet.avatar.direct = Base.LEFT;
       }
       GameMidlet.avatar.setLayPLayer(n, n2);
       final ParkService a;
-      (a = ParkService.a()).e((byte)86);
-      a.k();
-      Canvas.i();
-      super.ae = this.e;
+      (a = ParkService.a()).createMessage((byte)86);
+      a.sendMessage();
+      Canvas.startWaitDlg();
+      super.right = this.e;
       Canvas.f();
       return true;
    }
@@ -141,7 +141,7 @@ public final class class_kv extends MyScreen
             case 52:
             case 54:
             case 56: {
-               Canvas.b[n - 48] = true;
+               Canvas.keyPressed[n - 48] = true;
                break;
             }
          }
@@ -150,7 +150,7 @@ public final class class_kv extends MyScreen
       MapScr.gI().d(n);
    }
 
-   public final void l() {
+   public final void updateKey() {
       if (this.g.i && !this.g.j) {
          if (Canvas.a(2)) {
             this.f(2);
@@ -165,7 +165,7 @@ public final class class_kv extends MyScreen
             this.f(4);
          }
       }
-      super.l();
+      super.updateKey();
    }
 
    private void f(final int n) {
@@ -182,11 +182,11 @@ public final class class_kv extends MyScreen
          this.g.a(0);
          this.g.j = true;
          ParkService.a().a(true, this.m);
-         Canvas.i();
+         Canvas.startWaitDlg();
       }
    }
 
-   public final void a(final Graphics graphics) {
+   public final void paint(final Graphics graphics) {
       MapScr.gI().b(graphics);
       if (this.g.i && !this.g.j && this.o != -1) {
          Canvas.resetTrans(graphics);
@@ -203,7 +203,7 @@ public final class class_kv extends MyScreen
             graphics.drawImage(this.k[this.l], this.h, this.i * AvMain.hd, 0);
          }
       }
-      super.a(graphics);
+      super.paint(graphics);
    }
 
    public final void b(final int n) {
@@ -216,7 +216,7 @@ public final class class_kv extends MyScreen
          }
          Fish fish = new Fish();
          if (b.IDDB == GameMidlet.avatar.IDDB) {
-            Canvas.h();
+            Canvas.endDlg();
             this.g = fish;
          }
          else {
@@ -245,7 +245,7 @@ public final class class_kv extends MyScreen
          c.b.action = 2;
          c.h = h;
          if (o != -1) {
-            Canvas.a(T1.cA, c.b.x, c.b.y - 60, -1, 1, -1);
+            Canvas.a(T.cA, c.b.x, c.b.y - 60, -1, 1, -1);
          }
          if (i == GameMidlet.avatar.IDDB) {
             this.n = System.currentTimeMillis();
@@ -257,8 +257,8 @@ public final class class_kv extends MyScreen
                this.k[i] = CRes.a(array[i]);
             }
             this.o = o;
-            this.h = this.g.d[this.g.a - 2].a;
-            this.i = this.g.d[this.g.a - 2].b - 30;
+            this.h = this.g.d[this.g.a - 2].x;
+            this.i = this.g.d[this.g.a - 2].y - 30;
             if (o == -1) {
                this.f(0);
             }
@@ -274,14 +274,14 @@ public final class class_kv extends MyScreen
             return;
          }
          if (h < 0) {
-            Canvas.a(T1.cB, c.b.x, c.b.y - 60, -1, 1, -1);
+            Canvas.a(T.cB, c.b.x, c.b.y - 60, -1, 1, -1);
          }
          c.h = h;
          c.j = true;
          c.a(0);
          if (c.b.IDDB == GameMidlet.avatar.IDDB) {
-            super.ae = this.f;
-            Canvas.h();
+            super.right = this.f;
+            Canvas.endDlg();
          }
       }
    }
@@ -299,15 +299,15 @@ public final class class_kv extends MyScreen
    public final void e(final int n) {
       final Fish c = c(n);
       if (n == GameMidlet.avatar.IDDB) {
-         super.ad = this.d;
-         super.ae = this.e;
-         Canvas.h();
+         super.center = this.d;
+         super.right = this.e;
+         Canvas.endDlg();
       }
       if (c != null) {
          final PartSmall partSmall;
-         if (c.h > 0 && (partSmall = (PartSmall)AvatarData.a((short)c.h)) != null) {
+         if (c.h > 0 && (partSmall = (PartSmall)AvatarData.getPart((short)c.h)) != null) {
             final ImageInfo imageInfo;
-            Canvas.a(1, c.b.x, c.b.y + c.b.ySat - 50, -1, Image.createImage(AvatarData.a((int)(imageInfo = AvatarData.listImgInfo[partSmall.h]).b).e, imageInfo.c * AvMain.hd, imageInfo.d * AvMain.hd, imageInfo.e * AvMain.hd, imageInfo.f * AvMain.hd, 0), -1);
+            Canvas.a(1, c.b.x, c.b.y + c.b.ySat - 50, -1, Image.createImage(AvatarData.getBigImgInfo((int)(imageInfo = AvatarData.listImgInfo[partSmall.h]).bigID).img, imageInfo.x0 * AvMain.hd, imageInfo.y0 * AvMain.hd, imageInfo.w * AvMain.hd, imageInfo.h * AvMain.hd, 0), -1);
          }
          MapScr.l.removeElement(c);
       }
@@ -316,10 +316,10 @@ public final class class_kv extends MyScreen
    public final void a(final boolean b, final String s) {
       if (b) {
          this.g.a();
-         super.ad = this.d;
+         super.center = this.d;
          this.a();
-         AvCamera.a(Canvas.m / 3);
-         Canvas.h();
+         AvCamera.setDistance(Canvas.w / 3);
+         Canvas.endDlg();
          return;
       }
       Canvas.b(s, 0, this);
@@ -341,8 +341,8 @@ public final class class_kv extends MyScreen
          MapScr.l.addElement(obj);
          obj.a(g);
          obj.b();
-         obj.c[obj.a - 1].a = g.x + 70 + (AvMain.hd - 1) * 35 + CRes.rnd(25);
-         obj.c[obj.a - 1].b = g.y;
+         obj.c[obj.a - 1].x = g.x + 70 + (AvMain.hd - 1) * 35 + CRes.rnd(25);
+         obj.c[obj.a - 1].y = g.y;
          obj.f = 1;
          obj.g = -1;
          obj.a(1);
@@ -375,9 +375,9 @@ public final class class_kv extends MyScreen
       if ((avatar2 = g) != null) {
          final Vector vector;
          (vector = new Vector()).addElement(new CommandInfo(this, null, 0, avatar2, b, b2, n2, n3));
-         PopupShop.b().a(new String[] { T1.cw }, new Vector[1], vector);
+         PopupShop.b().a(new String[] { T.cw }, new Vector[1], vector);
          PopupShop.b().a();
       }
-      Canvas.h();
+      Canvas.endDlg();
    }
 }

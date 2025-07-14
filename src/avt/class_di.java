@@ -8,10 +8,10 @@ final class class_di implements IAction {
 
    public final void perform() {
       System.out.println("aaaaaaaaaaaaaaaa");
-      Canvas.I = false;
+      Canvas.isDoubleImage = false;
       Canvas.D = null;
-      AvCamera.g = false;
-      MiniMap.gI().ac = MiniMap.gI().l;
+      AvCamera.isFollow = false;
+      MiniMap.gI().left = MiniMap.gI().l;
       MapScr.gI().c();
       FarmScr.b().c();
    }

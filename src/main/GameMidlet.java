@@ -16,7 +16,7 @@ public class GameMidlet extends MIDlet {
    public static String[][][] b = new String[][][]{{{"112.213.85.102", "112.213.85.104", "27.0.14.77", "112.213.85.106", "112.213.85.110", "112.213.85.101", "112.213.85.103"}, {"115.84.183.38", "210.211.109.119", "210.211.109.119"}}, {{"112.78.1.25"}}};
    public static int[][][] c = new int[][][]{{{19128, 19128, 19128, 19128, 19128, 19128, 19128, 19128, 19128}, {19128, 19128, 18128}}, {{19128}}};
    public static final String[][] d = new String[][]{{"http://teamobi.com/srvips/avatar2.txt", "http://trochoididong.us/srvips/avatar_C.txt"}, {"http://teamobi.com/srvips/avatarinterd2.txt", "http://trochoididong.us/srvips/avatarinter_C.txt"}};
-   public static int e = 8;
+   public static int CLIENT_TYPE = 8;
    public static byte f = -1;
    public static String g;
    private static Canvas o;
@@ -69,10 +69,10 @@ public class GameMidlet extends MIDlet {
       o.sizeChanged(0, 0);
       o.b();
       Display.getDisplay(this).setCurrent(o);
-      Session_ME.a().a((IMessageHandler)GlobalMessageHandler.a());
+      Session_ME.a().a((IMessageHandler)GlobalMessageHandler.gI());
       String var8;
       if ((var8 = CRes.b("avatar")) == null || !var8.equals("2.5.8")) {
-         AvatarData.a();
+         AvatarData.delRMS();
       }
 
    }

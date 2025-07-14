@@ -22,7 +22,7 @@ final class class_eh implements IAction {
       for(int var2 = 0; var2 < this.b.size(); ++var2) {
          SeriPart var3;
          Part var4;
-         if ((var4 = AvatarData.a((var3 = (SeriPart)this.b.elementAt(var2)).idPart)) != null && var4.zOrder != 30 && var4.zOrder != 40) {
+         if ((var4 = AvatarData.getPart((var3 = (SeriPart)this.b.elementAt(var2)).idPart)) != null && var4.zOrder != 30 && var4.zOrder != 40) {
             var1.addElement(var3);
          }
       }
@@ -30,8 +30,8 @@ final class class_eh implements IAction {
       if (PopupShop.j < var1.size()) {
          SeriPart var5;
          Part var6;
-         if (!AvatarData.c((int)(var6 = AvatarData.a((var5 = (SeriPart)var1.elementAt(PopupShop.j)).idPart)).zOrder) || this.c == 1) {
-            Canvas.a(T1.cp, (IAction)(new class_eg(this, var6, this.c, var1, this.b, var5, this.d)));
+         if (!AvatarData.isZOrderMain((int)(var6 = AvatarData.getPart((var5 = (SeriPart)var1.elementAt(PopupShop.j)).idPart)).zOrder) || this.c == 1) {
+            Canvas.a(T.cp, (IAction)(new class_eg(this, var6, this.c, var1, this.b, var5, this.d)));
          }
 
       }

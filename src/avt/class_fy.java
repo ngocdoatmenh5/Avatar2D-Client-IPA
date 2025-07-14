@@ -20,8 +20,8 @@ final class class_fy extends Command {
    public final void a() {
       if (this.g == PopupShop.j - FarmData.b.length && PopupShop.n) {
          PopupShop.n();
-         PopupShop.a(this.f.name + "(" + this.f.harvestTime + T1.bq + ")");
-         PopupShop.a(T1.az + Canvas.a(this.f.price[0], this.f.price[1], false));
+         PopupShop.a(this.f.name + "(" + this.f.harvestTime + T.bq + ")");
+         PopupShop.a(T.az + Canvas.getPriceMoney(this.f.price[0], this.f.price[1], false));
          PopupShop.a(this.f.des);
          PopupShop.a(MapScr.r());
       }

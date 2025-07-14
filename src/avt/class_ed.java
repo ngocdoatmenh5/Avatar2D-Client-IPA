@@ -7,6 +7,6 @@ final class class_ed implements IAction {
    }
 
    public final void perform() {
-      Canvas.a(T1.cK, (IAction)(new class_ec(this)));
+      Canvas.a(T.cK, (IAction)(new class_ec(this)));
    }
 }

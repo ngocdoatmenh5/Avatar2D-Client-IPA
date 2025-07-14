@@ -13,14 +13,14 @@ final class class_d extends Command {
    }
 
    public final void a(Graphics var1, int var2, int var3) {
-      FarmData.b((int)this.f.a).a(var1, 7, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
+      FarmData.b((int)this.f.ID).a(var1, 7, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
    }
 
    public final void a() {
       if (this.g == PopupShop.j) {
          PopupShop.n();
-         PopupShop.a(this.f.f);
-         PopupShop.a(T1.ay + this.f.e);
+         PopupShop.a(this.f.name);
+         PopupShop.a(T.ay + this.f.e);
       }
 
    }

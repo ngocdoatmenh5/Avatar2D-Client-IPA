@@ -12,10 +12,10 @@ public abstract class Effect {
    public abstract void paint(Graphics var1);
 
    public final void c() {
-      Canvas.B.addElement(this);
+      Canvas.currentEffect.addElement(this);
    }
 
    public void close() {
-      Canvas.B.removeElement(this);
+      Canvas.currentEffect.removeElement(this);
    }
 }

@@ -3,47 +3,47 @@ package avt;
 import java.io.IOException;
 
 public class IService {
-   private ISession a = Session_ME.a();
-   protected Message b;
+   private ISession sender = Session_ME.a();
+   protected Message m;
 
-   protected final void n(int var1) {
+   protected final void writeInt(int var1) {
       try {
-         this.b.c().writeInt(var1);
+         this.m.writer().writeInt(var1);
       } catch (IOException var2) {
          var2.printStackTrace();
       }
    }
 
-   protected final void o(int var1) {
+   protected final void writeByte(int var1) {
       try {
-         this.b.c().writeByte(var1);
+         this.m.writer().writeByte(var1);
       } catch (IOException var2) {
          var2.printStackTrace();
       }
    }
 
-   protected final void p(int var1) {
+   protected final void writeShort(int var1) {
       try {
-         this.b.c().writeShort(var1);
+         this.m.writer().writeShort(var1);
       } catch (IOException var2) {
          var2.printStackTrace();
       }
    }
 
-   public final void c(String var1) {
+   public final void writeUTF(String var1) {
       try {
-         this.b.c().writeUTF(var1);
+         this.m.writer().writeUTF(var1);
       } catch (IOException var2) {
          var2.printStackTrace();
       }
    }
 
-   public final void k() {
-      this.a.sendMessage(this.b);
-      this.b.d();
+   public final void sendMessage() {
+      this.sender.sendMessage(this.m);
+      this.m.cleanup();
    }
 
-   public final void e(byte var1) {
-      this.b = new Message(var1);
+   public final void createMessage(byte var1) {
+      this.m = new Message(var1);
    }
 }

@@ -31,9 +31,9 @@ public final class Xingau {
    }
 
    public final void a(Graphics var1) {
-      if (AvatarData.c((short)874).count != -1) {
+      if (AvatarData.getImgIcon((short)874).count != -1) {
          int var10003 = this.e * j;
-         var1.drawRegion(AvatarData.c((short)874).img, 0, var10003, i, j, 0, this.c, this.f, 17);
+         var1.drawRegion(AvatarData.getImgIcon((short)874).img, 0, var10003, i, j, 0, this.c, this.f, 17);
       }
 
    }

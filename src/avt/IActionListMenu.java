@@ -22,7 +22,7 @@ final class IActionListMenu implements IAction {
    public final void perform() {
       Vector var1 = new Vector();
       if (!ListScr.a(this.a) && this.b.equals(ListScr.h)) {
-         var1.addElement(new Command(T1.f, 50));
+         var1.addElement(new Command(T.f, 50));
       }
 
       for(int var2 = 0; var2 < this.c.length; ++var2) {

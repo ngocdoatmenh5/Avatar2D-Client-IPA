@@ -9,7 +9,7 @@ final class class_dg implements IAction {
 
    public final void perform() {
       LoginScr.v = false;
-      this.a.ac = new Command("Đóng", new class_bq(this.a));
-      this.a.ad = this.a.f;
+      this.a.left = new Command("Đóng", new class_bq(this.a));
+      this.a.center = this.a.f;
    }
 }

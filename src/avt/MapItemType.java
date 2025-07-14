@@ -3,14 +3,14 @@ package avt;
 import java.util.Vector;
 
 public final class MapItemType {
-   public short a;
-   public short b;
-   public short c;
-   public short d;
-   public short e;
-   public short f;
-   public String g;
-   public int h;
-   public byte i;
-   public Vector j;
+   public short idType;
+   public short imgID;
+   public short iconID;
+   public short priceLuong;
+   public short dx;
+   public short dy;
+   public String name;
+   public int priceXu;
+   public byte buy;
+   public Vector listNotTrans;
 }

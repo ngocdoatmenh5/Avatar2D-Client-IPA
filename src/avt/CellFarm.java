@@ -21,13 +21,13 @@ public final class CellFarm extends SubObject {
    public int q;
 
    public final void paint(Graphics var1) {
-      if (super.x * MyObject.hd >= AvCamera.gI().xCam - 10 && this.a * MyObject.hd <= AvCamera.gI().xCam + Canvas.m + 10) {
+      if (super.x * MyObject.hd >= AvCamera.gI().xCam - 10 && this.a * MyObject.hd <= AvCamera.gI().xCam + Canvas.w + 10) {
          if (this.l) {
             var1.drawImage(FarmScr.o, (super.x - 13) * MyObject.hd, (super.y - 18) * MyObject.hd, 0);
          }
 
-         int var2 = FarmScr.A.a;
-         int var3 = FarmScr.A.b;
+         int var2 = FarmScr.A.x;
+         int var3 = FarmScr.A.y;
          if (this.a == var2 && this.b == var3) {
             Canvas.smallFontYellow.a(var1, "lv" + this.p, super.x * MyObject.hd, (super.y - 44) * MyObject.hd, 2);
          }
@@ -72,7 +72,7 @@ public final class CellFarm extends SubObject {
                   long var17 = var8 % 60L;
                   var20 = var20 + var13 + ":" + var15 + ":" + var17;
                   if (var10 <= 0L || var8 <= 0L) {
-                     var20 = T1.cn;
+                     var20 = T.cn;
                   }
 
                   Canvas.smallFontYellow.a(var1, var20, var2 + 5 * MyObject.hd, var3 - 49 * MyObject.hd, 0);

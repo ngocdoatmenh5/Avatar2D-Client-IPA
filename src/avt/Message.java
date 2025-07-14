@@ -32,15 +32,15 @@ public final class Message {
       return this.b.toByteArray();
    }
 
-   public final DataInputStream b() {
+   public final DataInputStream reader() {
       return this.e;
    }
 
-   public final DataOutputStream c() {
+   public final DataOutputStream writer() {
       return this.c;
    }
 
-   public final void d() {
+   public final void cleanup() {
       try {
          if (this.e != null) {
             this.e.close();

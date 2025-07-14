@@ -14,8 +14,8 @@ public final class class_ex extends AnimalDan {
    public final void setInit() {
       super.posNext = new AvPosition();
       if (super.captainID == super.IDDB) {
-         super.x = super.xCur = super.posNext.a = (FarmScr.w + 3) * 24 + j();
-         super.y = super.yCur = super.posNext.b = 72 + (CRes.rnd(24) << 2);
+         super.x = super.xCur = super.posNext.x = (FarmScr.w + 3) * 24 + j();
+         super.y = super.yCur = super.posNext.y = 72 + (CRes.rnd(24) << 2);
       } else {
          this.updatePos();
          if (!LoadMap.isTrans(super.x, super.y)) {
@@ -23,8 +23,8 @@ public final class class_ex extends AnimalDan {
             super.posNext = var2;
          }
 
-         super.x = super.xCur = super.posNext.a;
-         super.y = super.yCur = super.posNext.b;
+         super.x = super.xCur = super.posNext.x;
+         super.y = super.yCur = super.posNext.y;
       }
    }
 
@@ -33,7 +33,7 @@ public final class class_ex extends AnimalDan {
    }
 
    public final void setFollowPos(AvPosition var1) {
-      AvPosition var2 = new AvPosition(var1.a - 48 + j(), var1.b - 48 + (CRes.rnd(24) << 2));
+      AvPosition var2 = new AvPosition(var1.x - 48 + j(), var1.y - 48 + (CRes.rnd(24) << 2));
       super.posNext = var2;
    }
 

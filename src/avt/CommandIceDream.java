@@ -15,15 +15,15 @@ final class CommandIceDream extends Command {
    }
 
    public final void a(Graphics var1, int var2, int var3) {
-      AvatarData.listImgInfo[this.f.b].a(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
+      AvatarData.listImgInfo[this.f.idIcon].a(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
    }
 
    public final void a() {
       if (this.g == PopupShop.j || PopupShop.k) {
          PopupShop.n();
-         PopupShop.a(this.f.f);
-         PopupShop.a(T1.az + this.f.d[0] + T1.T);
-         PopupShop.a(T1.ce + Canvas.getMoneys(GameMidlet.avatar.money[0]) + T1.T);
+         PopupShop.a(this.f.name);
+         PopupShop.a(T.az + this.f.price[0] + T.T);
+         PopupShop.a(T.ce + Canvas.getMoneys(GameMidlet.avatar.money[0]) + T.T);
       }
 
    }

@@ -70,7 +70,7 @@ public final class FilePack {
    }
 
    public static void b(String var0) {
-      a = new FilePack(T1.a() + var0);
+      a = new FilePack(T.a() + var0);
    }
 
    private void a(byte[] var1) {

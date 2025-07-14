@@ -23,11 +23,11 @@ final class CommandGoKhoHang2 extends Command {
       if (PopupShop.n && this.g == PopupShop.j - FarmScr.f.size()) {
          PopupShop.n();
          PopupShop.a(this.f.f);
-         PopupShop.a(T1.ay + this.h.e);
+         PopupShop.a(T.ay + this.h.e);
          if (this.f.h > 0) {
-            PopupShop.a(T1.aK + Canvas.getMoneys(this.h.e * this.f.h) + T1.T);
+            PopupShop.a(T.aK + Canvas.getMoneys(this.h.e * this.f.h) + T.T);
          } else if (this.f.g > 0) {
-            PopupShop.a(T1.aK + Canvas.getMoneys(this.h.e * this.f.g) + T1.T);
+            PopupShop.a(T.aK + Canvas.getMoneys(this.h.e * this.f.g) + T.T);
          }
 
          PopupShop.a(MapScr.r());

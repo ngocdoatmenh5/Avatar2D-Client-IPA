@@ -12,7 +12,7 @@ final class class_ee implements IAction {
    public final void perform() {
       Vector var1;
       (var1 = new Vector()).addElement(this.a);
-      var1.addElement(new Command(T1.dk, new class_ed(this)));
+      var1.addElement(new Command(T.dk, new class_ed(this)));
       MenuSub.a().a(var1, 0);
    }
 }

@@ -90,7 +90,7 @@ public final class PetRace extends Base {
 
    public final void paint(Graphics var1) {
       ImageIcon var2;
-      if ((var2 = AvatarData.c(this.c)).count != -1) {
+      if ((var2 = AvatarData.getImgIcon(this.c)).count != -1) {
          int var3 = var2.c / 5;
          var1.drawRegion(var2.img, 0, RaceScr.m[super.action][super.frame] * var3, var2.b, var3, 0, super.x * MyObject.hd, super.y * MyObject.hd, 33);
          if (RaceScr.b().d && this.g > 0) {
@@ -110,7 +110,7 @@ public final class PetRace extends Base {
             var1.drawImage(RaceScr.j[this.k / 2], super.x * MyObject.hd - var2.b / 2, super.y * MyObject.hd, 3);
          }
 
-         if (super.IDDB == AvCamera.gI().h.IDDB) {
+         if (super.IDDB == AvCamera.gI().followPlayer.IDDB) {
             var1.drawImage(MapScr.d, super.x * MyObject.hd, super.y * MyObject.hd - var3 - this.m / 2 - 10 * MyObject.hd, 3);
          }
       }

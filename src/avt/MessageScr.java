@@ -11,18 +11,18 @@ public final class MessageScr extends MyScreen {
    public class_cw a;
    public int b;
    public static TField c;
-   public static MessageScr d;
+   public static MessageScr me;
    public static int e;
    private static int i;
    public Command f;
    private boolean j = true;
 
    public static MessageScr b() {
-      if (d == null) {
-         d = new MessageScr();
+      if (me == null) {
+         me = new MessageScr();
       }
 
-      return d;
+      return me;
    }
 
    public final void a(MyScreen var1) {
@@ -30,27 +30,27 @@ public final class MessageScr extends MyScreen {
       MyScreen.as = 0;
       b().b = b().g.size() - 1;
       this.f();
-      PaintPopup.a().l = this.b;
+      PaintPopup.gI().l = this.b;
       b().g();
       this.j = this.b(this.b).h;
-      this.e();
-      PaintPopup.a().a(this.b(this.b).b, this.b);
+      this.init();
+      PaintPopup.gI().a(this.b(this.b).b, this.b);
       super.a();
    }
 
    private void f() {
       PaintPopup var10000;
       int var10002;
-      if (OnScreen.b && Canvas.Z == 0) {
-         var10000 = PaintPopup.a();
-         var10002 = Canvas.m - (e << 1);
-         var10000.a(this.b(this.b).b, var10002, Canvas.q - Canvas.T - (e << 1), this.g.size());
+      if (OnScreen.b && Canvas.stypeInt == 0) {
+         var10000 = PaintPopup.gI();
+         var10002 = Canvas.w - (e << 1);
+         var10000.a(this.b(this.b).b, var10002, Canvas.q - Canvas.hTab - (e << 1), this.g.size());
       } else {
-         var10000 = PaintPopup.a();
-         var10002 = Canvas.m - (e << 1);
-         int var10003 = Canvas.n - Canvas.ab - Canvas.T - 10;
-         var10000.a(this.b(this.b).b, var10002, var10003 + (OnScreen.b && this.h != BoardScr.i ? -20 : 0), this.g.size());
-         i = PaintPopup.a().h = 10 + Canvas.ab;
+         var10000 = PaintPopup.gI();
+         var10002 = Canvas.w - (e << 1);
+         int var10003 = Canvas.h - Canvas.ab - Canvas.hTab - 10;
+         var10000.a(this.b(this.b).b, var10002, var10003 + (OnScreen.b && this.h != BoardScr.me ? -20 : 0), this.g.size());
+         i = PaintPopup.gI().h = 10 + Canvas.ab;
       }
    }
 
@@ -107,10 +107,10 @@ public final class MessageScr extends MyScreen {
          case 5:
             Vector var5 = new Vector();
             if (this.b(this.b) != this.a) {
-               var5.addElement(new Command(T1.ch, 10));
+               var5.addElement(new Command(T.ch, 10));
             }
 
-            var5.addElement(new Command(T1.d, 2));
+            var5.addElement(new Command(T.d, 2));
             MenuSub.a().a(var5, 0);
             return;
          case 6:
@@ -126,24 +126,24 @@ public final class MessageScr extends MyScreen {
    }
 
    public final void c() {
-      if (Canvas.Z == 0) {
+      if (Canvas.stypeInt == 0) {
          if (OnScreen.b) {
-            super.ac = new Command(T1.d, 4);
+            super.left = new Command(T.d, 4);
          } else {
-            super.ac = new Command(T1.c, 5);
+            super.left = new Command(T.c, 5);
          }
       } else if (this.b(this.b) == this.a) {
-         super.ac = new Command(T1.d, 4);
+         super.left = new Command(T.d, 4);
       } else {
-         super.ac = new Command(T1.ch, 10);
+         super.left = new Command(T.ch, 10);
       }
 
-      this.a = new class_cw(T1.cg, -1, (Command)null, (Command)null, false);
+      this.a = new class_cw(T.cg, -1, (Command)null, (Command)null, false);
    }
 
    public MessageScr() {
-      this.f = new Command(T1.ch, 10);
-      if (Canvas.Z == 0) {
+      this.f = new Command(T.ch, 10);
+      if (Canvas.stypeInt == 0) {
          i = 10;
          e = 10;
       } else {
@@ -151,7 +151,7 @@ public final class MessageScr extends MyScreen {
       }
 
       (c = new TField()).a = e + 5;
-      this.e();
+      this.init();
       c.a(true);
       c.c(40);
       this.c();
@@ -162,28 +162,28 @@ public final class MessageScr extends MyScreen {
       this.g();
    }
 
-   public final void e() {
+   public final void init() {
       if (Canvas.currentMyScreen == this) {
          this.f();
          this.b(this.b).c();
       }
 
-      c.b = PaintPopup.a().h + PaintPopup.a().e - c.d - 6;
-      c.c = Canvas.m - (PaintPopup.a().g << 1) - 10;
+      c.b = PaintPopup.gI().h + PaintPopup.gI().e - c.d - 6;
+      c.c = Canvas.w - (PaintPopup.gI().g << 1) - 10;
    }
 
    private void g() {
       this.b(this.b).a = false;
-      super.ad = this.b(this.b).c;
-      super.ae = this.b(this.b).d;
-      if (super.ad != null) {
+      super.center = this.b(this.b).c;
+      super.right = this.b(this.b).d;
+      if (super.center != null) {
          c.a(this.b(this.b).f);
       }
 
       this.j = this.b(this.b).h;
       this.b(this.b).c();
       if (Canvas.currentMyScreen == this) {
-         PaintPopup.a().a(this.b(this.b).b, this.b);
+         PaintPopup.gI().a(this.b(this.b).b, this.b);
       }
 
    }
@@ -191,7 +191,7 @@ public final class MessageScr extends MyScreen {
    public final void a(int var1, String var2, String var3) {
       class_cw var4;
       if ((var4 = this.c(var1)) == null) {
-         var4 = new class_cw(var2, var1, !var2.equals("admin") ? new Command(T1.ba, 3) : null, !var2.equals("admin") ? c.a() : null, !var2.equals("admin"));
+         var4 = new class_cw(var2, var1, !var2.equals("admin") ? new Command(T.ba, 3) : null, !var2.equals("admin") ? c.a() : null, !var2.equals("admin"));
          this.b(var4);
       } else {
          var4.a = true;
@@ -217,10 +217,10 @@ public final class MessageScr extends MyScreen {
       return var1 < this.g.size() ? (class_cw)this.g.elementAt(var1) : null;
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       this.h.b(var1);
       Canvas.resetTrans(var1);
-      PaintPopup.a().a(var1);
+      PaintPopup.gI().a(var1);
       var1.translate(e, i + PaintPopup.o + AvMain.Z);
       this.b(this.b).a(var1);
       if (this.j) {
@@ -229,9 +229,9 @@ public final class MessageScr extends MyScreen {
       }
 
       if (OnScreen.b) {
-         OnScreen.a(var1, super.ac, super.ad, super.ae);
+         OnScreen.a(var1, super.left, super.center, super.right);
       } else {
-         super.a(var1);
+         super.paint(var1);
       }
    }
 
@@ -267,17 +267,17 @@ public final class MessageScr extends MyScreen {
       super.d(var1);
    }
 
-   public final void l() {
-      if (OnScreen.b && Canvas.Z != 0) {
-         Canvas.S.a(super.ac, super.ad, super.ae);
+   public final void updateKey() {
+      if (OnScreen.b && Canvas.stypeInt != 0) {
+         Canvas.paint.a(super.left, super.center, super.right);
       } else {
-         super.l();
+         super.updateKey();
       }
 
       int var1;
-      if (Canvas.g && (var1 = PaintPopup.a().d()) != 0) {
+      if (Canvas.isPointerClick && (var1 = PaintPopup.gI().d()) != 0) {
          this.e(var1);
-         Canvas.g = false;
+         Canvas.isPointerClick = false;
       }
 
       this.b(this.b).b();
@@ -300,8 +300,8 @@ public final class MessageScr extends MyScreen {
          this.b = this.g.size() - 1;
       }
 
-      PaintPopup.a().l = this.b;
-      PaintPopup.a().a(this.g.size());
+      PaintPopup.gI().l = this.b;
+      PaintPopup.gI().a(this.g.size());
       this.h();
       this.g();
    }
@@ -309,9 +309,9 @@ public final class MessageScr extends MyScreen {
    public final void a(int var1, String var2) {
       class_cw var3;
       if ((var3 = this.c(var1)) == null) {
-         var3 = new class_cw(var2, var1, new Command(T1.ba, 3), c.a(), true);
+         var3 = new class_cw(var2, var1, new Command(T.ba, 3), c.a(), true);
          this.b(var3);
-         var3.a(T1.ci + var2);
+         var3.a(T.ci + var2);
       }
 
       for(var1 = 0; var1 < this.g.size(); ++var1) {
@@ -326,7 +326,7 @@ public final class MessageScr extends MyScreen {
    public final void b(class_cw var1) {
       this.g.addElement(var1);
       if (Canvas.currentMyScreen == this) {
-         PaintPopup.a().a(this.g.size());
+         PaintPopup.gI().a(this.g.size());
          this.h();
       }
 
@@ -335,9 +335,9 @@ public final class MessageScr extends MyScreen {
    private void h() {
       for(int var1 = 0; var1 < this.g.size(); ++var1) {
          if (this.b(var1).a) {
-            PaintPopup.a().a(4, var1);
+            PaintPopup.gI().a(4, var1);
          } else {
-            PaintPopup.a().a(0, var1);
+            PaintPopup.gI().a(0, var1);
          }
       }
 

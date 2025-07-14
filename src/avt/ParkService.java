@@ -18,193 +18,193 @@ public final class ParkService extends IService {
    public final void a(int var1, int var2) {
       System.out.println("doJoinPark: " + var1 + "   " + var2);
       if (OnScreen.c == 0) {
-         Canvas.i();
+         Canvas.startWaitDlg();
       }
 
-      this.e((byte)50);
+      this.createMessage((byte)50);
 
       try {
-         super.b.c().writeByte(var1);
-         super.b.c().writeByte(var2);
-         super.b.c().writeShort(LoadMap.B);
-         super.b.c().writeShort(LoadMap.C);
+         super.m.writer().writeByte(var1);
+         super.m.writer().writeByte(var2);
+         super.m.writer().writeShort(LoadMap.B);
+         super.m.writer().writeShort(LoadMap.C);
       } catch (IOException var3) {
          var3.printStackTrace();
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void a(int var1, int var2, int var3, int var4) {
-      this.e((byte)54);
+      this.createMessage((byte)54);
 
       try {
-         super.b.c().writeShort(var1);
-         super.b.c().writeShort(var2);
-         super.b.c().writeByte(var3);
-         super.b.c().writeShort(var4);
+         super.m.writer().writeShort(var1);
+         super.m.writer().writeShort(var2);
+         super.m.writer().writeByte(var3);
+         super.m.writer().writeShort(var4);
       } catch (IOException var5) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void a(String var1) {
-      if (GameMidlet.e == 10) {
-         this.e((byte)77);
+      if (GameMidlet.CLIENT_TYPE == 10) {
+         this.createMessage((byte)77);
       } else {
-         this.e((byte)55);
+         this.createMessage((byte)55);
       }
 
-      this.c(var1);
-      this.k();
+      this.writeUTF(var1);
+      this.sendMessage();
    }
 
    public final void a(int var1) {
-      this.e((byte)-21);
-      this.n(var1);
-      this.k();
+      this.createMessage((byte)-21);
+      this.writeInt(var1);
+      this.sendMessage();
    }
 
    public final void a(int var1, boolean var2) {
-      this.e((byte)-19);
+      this.createMessage((byte)-19);
 
       try {
-         super.b.c().writeInt(var1);
-         super.b.c().writeBoolean(var2);
+         super.m.writer().writeInt(var1);
+         super.m.writer().writeBoolean(var2);
       } catch (IOException var3) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void a(int var1, int var2, int var3) {
       System.out.println("doGiftGiving: " + var1 + "    " + GameMidlet.avatar.IDDB);
-      this.e((byte)58);
+      this.createMessage((byte)58);
 
       try {
-         super.b.c().writeInt(var1);
-         super.b.c().writeShort(var2);
-         super.b.c().writeByte(var3);
+         super.m.writer().writeInt(var1);
+         super.m.writer().writeShort(var2);
+         super.m.writer().writeByte(var3);
       } catch (IOException var4) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void b(int var1, int var2) {
-      this.e((byte)59);
+      this.createMessage((byte)59);
 
       try {
-         super.b.c().writeInt(var1);
-         super.b.c().writeShort(var2);
+         super.m.writer().writeInt(var1);
+         super.m.writer().writeShort(var2);
       } catch (IOException var3) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void b(int var1) {
       System.out.println("doRequestYourInfo: " + var1);
-      this.e((byte)-22);
-      this.n(var1);
-      this.k();
+      this.createMessage((byte)-22);
+      this.writeInt(var1);
+      this.sendMessage();
    }
 
    public final void a(byte var1) {
-      this.e((byte)60);
-      this.o(var1);
-      this.k();
+      this.createMessage((byte)60);
+      this.writeByte(var1);
+      this.sendMessage();
    }
 
    public final void a(short var1) {
-      this.e((byte)-38);
-      this.p(var1);
-      this.k();
+      this.createMessage((byte)-38);
+      this.writeShort(var1);
+      this.sendMessage();
    }
 
    public final void a(boolean var1, byte[] var2) {
-      this.e((byte)84);
+      this.createMessage((byte)84);
 
       try {
-         super.b.c().writeBoolean(true);
-         super.b.c().writeByte(var2.length);
+         super.m.writer().writeBoolean(true);
+         super.m.writer().writeByte(var2.length);
 
          for(int var4 = 0; var4 < var2.length; ++var4) {
-            super.b.c().writeByte(var2[var4]);
+            super.m.writer().writeByte(var2[var4]);
          }
       } catch (Exception var3) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void b() {
-      this.e((byte)85);
-      this.k();
+      this.createMessage((byte)85);
+      this.sendMessage();
    }
 
    public final void c(int var1, int var2) {
-      this.e((byte)-68);
+      this.createMessage((byte)-68);
 
       try {
-         super.b.c().writeByte(var1);
-         super.b.c().writeInt(var2);
+         super.m.writer().writeByte(var1);
+         super.m.writer().writeInt(var2);
       } catch (Exception var3) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void b(int var1, int var2, int var3) {
-      this.e((byte)-77);
+      this.createMessage((byte)-77);
 
       try {
-         super.b.c().writeInt(var1);
-         super.b.c().writeByte(var2);
-         super.b.c().writeByte(var3);
+         super.m.writer().writeInt(var1);
+         super.m.writer().writeByte(var2);
+         super.m.writer().writeByte(var3);
       } catch (Exception var4) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void c(int var1, int var2, int var3) {
-      this.e((byte)-78);
+      this.createMessage((byte)-78);
 
       try {
-         super.b.c().writeInt(var1);
-         super.b.c().writeByte(var2);
-         super.b.c().writeShort(var3);
+         super.m.writer().writeInt(var1);
+         super.m.writer().writeByte(var2);
+         super.m.writer().writeShort(var3);
       } catch (Exception var4) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void c(int var1) {
-      this.e((byte)89);
+      this.createMessage((byte)89);
 
       try {
-         super.b.c().writeByte(0);
-         super.b.c().writeInt(var1);
+         super.m.writer().writeByte(0);
+         super.m.writer().writeInt(var1);
       } catch (Exception var2) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void d(int var1, int var2) {
       System.out.println("doRequestWedding");
-      this.e((byte)93);
+      this.createMessage((byte)93);
 
       try {
-         super.b.c().writeByte(var1);
-         super.b.c().writeByte(var2);
+         super.m.writer().writeByte(var1);
+         super.m.writer().writeByte(var2);
       } catch (Exception var3) {
          var3.printStackTrace();
       }
 
-      this.k();
+      this.sendMessage();
    }
 }

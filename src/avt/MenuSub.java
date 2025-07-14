@@ -51,7 +51,7 @@ public final class MenuSub extends MenuMain {
             return;
          case 1:
             this.n = false;
-            Canvas.t = null;
+            Canvas.menuMain = null;
             if (g != null) {
                g.perform();
             }
@@ -60,25 +60,25 @@ public final class MenuSub extends MenuMain {
    }
 
    public final void c() {
-      if (Canvas.Z == 0) {
-         super.ac = new Command(T1.O, 0);
+      if (Canvas.stypeInt == 0) {
+         super.left = new Command(T.O, 0);
       }
 
-      super.ae = new Command(T1.d, 1);
+      super.right = new Command(T.d, 1);
    }
 
    public final void a(Vector var1, int var2, int var3, int var4) {
       if (var1.size() != 0) {
-         if (Canvas.Z > 0) {
+         if (Canvas.stypeInt > 0) {
             super.aj = true;
          }
 
          this.u = var1.size();
-         this.t = Canvas.n;
+         this.t = Canvas.h;
          this.n = true;
          this.c = this.u * var3 + (AvMain.Z << 1) + 4;
-         if (this.c > Canvas.m) {
-            this.c = Canvas.m;
+         if (this.c > Canvas.w) {
+            this.c = Canvas.w;
          }
 
          this.a = var2 - this.c / 2;
@@ -87,7 +87,7 @@ public final class MenuSub extends MenuMain {
             this.a = 0;
          }
 
-         this.b = Canvas.q - Canvas.T - this.d - (AvMain.Z << 1);
+         this.b = Canvas.q - Canvas.hTab - this.d - (AvMain.Z << 1);
          this.m = this.b;
          this.e = var4;
          this.j = var1;
@@ -101,7 +101,7 @@ public final class MenuSub extends MenuMain {
          v = null;
          g = null;
          h = null;
-         Canvas.t = this;
+         Canvas.menuMain = this;
       }
    }
 
@@ -118,13 +118,13 @@ public final class MenuSub extends MenuMain {
 
    public final void a(Vector var1, int var2) {
       if (var1.size() != 0) {
-         if (Canvas.Z > 0) {
+         if (Canvas.stypeInt > 0) {
             super.aj = true;
          }
 
          this.e = MyScreen.av;
          h = null;
-         this.t = Canvas.n;
+         this.t = Canvas.h;
          this.l = 0;
          this.j = var1;
          this.u = this.j.size();
@@ -140,44 +140,44 @@ public final class MenuSub extends MenuMain {
             this.d += this.e;
          }
 
-         if (this.c < Canvas.m / 3) {
-            this.c = Canvas.m / 3;
+         if (this.c < Canvas.w / 3) {
+            this.c = Canvas.w / 3;
          }
 
-         if (this.c > Canvas.m - 4) {
-            this.c = Canvas.m - 4;
+         if (this.c > Canvas.w - 4) {
+            this.c = Canvas.w - 4;
          }
 
          this.d += 4;
          if (var2 == 0) {
-            this.a = 2 * (Canvas.Z != 0 ? 2 : 1);
+            this.a = 2 * (Canvas.stypeInt != 0 ? 2 : 1);
          } else if (var2 == 1) {
-            this.a = Canvas.m - this.c - 2;
+            this.a = Canvas.w - this.c - 2;
          } else {
-            this.a = (Canvas.m >> 1) - (this.c >> 1);
+            this.a = (Canvas.w >> 1) - (this.c >> 1);
          }
 
          if (this.u > 5) {
             this.d = MyScreen.av * 5 + 4;
          }
 
-         this.b = Canvas.n - this.d - AvMain.Z - Canvas.T;
+         this.b = Canvas.h - this.d - AvMain.Z - Canvas.hTab;
          if (OnScreen.b) {
-            this.b = Canvas.q - Canvas.T - this.d - 5;
+            this.b = Canvas.q - Canvas.hTab - this.d - 5;
          }
 
-         if (Canvas.n < 200) {
+         if (Canvas.h < 200) {
             this.b += 10;
          }
 
-         this.m = Canvas.n - this.e;
-         if (Canvas.Z > 0) {
+         this.m = Canvas.h - this.e;
+         if (Canvas.stypeInt > 0) {
             this.b = Canvas.q - this.d - AvMain.Z - 3;
-            if (Canvas.Z == 1) {
+            if (Canvas.stypeInt == 1) {
                this.b -= 7;
             }
 
-            super.ac = null;
+            super.left = null;
          }
 
          this.n = false;
@@ -196,13 +196,13 @@ public final class MenuSub extends MenuMain {
 
          g = null;
          this.x = this.d;
-         Canvas.t = this;
+         Canvas.menuMain = this;
       }
    }
 
    private void d() {
       this.n = false;
-      Canvas.t = null;
+      Canvas.menuMain = null;
       Command var1;
       if ((var1 = (Command)this.j.elementAt(this.k)).d != null) {
          var1.d.a(var1.c);
@@ -213,8 +213,8 @@ public final class MenuSub extends MenuMain {
       }
    }
 
-   public final void l() {
-      super.l();
+   public final void updateKey() {
+      super.updateKey();
       ++this.C;
       boolean var2 = false;
       if (!Canvas.a(2) && !Canvas.a(4)) {
@@ -237,35 +237,35 @@ public final class MenuSub extends MenuMain {
          super.aj = false;
       }
 
-      if (Canvas.g && Canvas.b(this.a - 2, this.m - 7, this.c + 4, this.d + 15)) {
-         Canvas.g = false;
+      if (Canvas.isPointerClick && Canvas.b(this.a - 2, this.m - 7, this.c + 4, this.d + 15)) {
+         Canvas.isPointerClick = false;
          this.y = this.p;
          this.B = System.currentTimeMillis() / 10L;
          this.A = true;
       }
 
       if (this.A) {
-         int var3 = Canvas.l();
+         int var3 = Canvas.dy();
          if (this.n) {
-            var3 = Canvas.k();
+            var3 = Canvas.dx();
          }
 
          long var4 = System.currentTimeMillis() / 10L - this.B;
          int var6;
          int var7;
-         if (Canvas.e) {
+         if (Canvas.isPointerDown) {
             if (Canvas.gameTick % 3 == 0) {
-               this.z = Canvas.i;
+               this.z = Canvas.py;
                this.D = this.C;
             }
 
             this.w = 0;
             if (Math.abs(var3) < 20 * AvMain.hd) {
                var6 = this.m;
-               var7 = (this.o + Canvas.i - var6) / this.e;
+               var7 = (this.o + Canvas.py - var6) / this.e;
                if (this.n) {
                   var6 = this.a;
-                  var7 = (this.o + Canvas.h - var6) / this.e;
+                  var7 = (this.o + Canvas.px - var6) / this.e;
                }
 
                this.k = var7;
@@ -286,9 +286,9 @@ public final class MenuSub extends MenuMain {
             this.p = this.o;
          }
 
-         if (Canvas.f && Canvas.b(this.a - 2, this.m - 7, this.c + 4, this.d + 15)) {
+         if (Canvas.isPointerRelease && Canvas.b(this.a - 2, this.m - 7, this.c + 4, this.d + 15)) {
             var6 = (int)(this.C - this.D);
-            if (CRes.f(var7 = this.z - Canvas.i) > 40 && var6 < 10 && this.o > 0 && this.o < this.s) {
+            if (CRes.f(var7 = this.z - Canvas.py) > 40 && var6 < 10 && this.o > 0 && this.o < this.s) {
                this.w = var7 / var6 * 10;
             }
 
@@ -300,10 +300,10 @@ public final class MenuSub extends MenuMain {
 
                if (!super.aj) {
                   var3 = this.m;
-                  var3 = (this.o + Canvas.i - var3) / this.e;
+                  var3 = (this.o + Canvas.py - var3) / this.e;
                   if (this.n) {
                      var3 = this.a;
-                     var3 = (this.o + Canvas.h - var3) / this.e;
+                     var3 = (this.o + Canvas.px - var3) / this.e;
                   }
 
                   this.k = var3;
@@ -312,21 +312,21 @@ public final class MenuSub extends MenuMain {
                }
             }
 
-            Canvas.f = false;
+            Canvas.isPointerRelease = false;
          }
       }
 
-      if (Canvas.f) {
+      if (Canvas.isPointerRelease) {
          if (!this.A) {
             this.n = false;
-            Canvas.t = null;
+            Canvas.menuMain = null;
             if (g != null) {
                g.perform();
             }
          }
 
          this.A = false;
-         Canvas.f = false;
+         Canvas.isPointerRelease = false;
       }
 
       if (var2) {
@@ -343,7 +343,7 @@ public final class MenuSub extends MenuMain {
 
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       var1.translate(0, this.t);
       int var6;
       int var8;
@@ -351,7 +351,7 @@ public final class MenuSub extends MenuMain {
          Graphics var3 = var1;
          MenuSub var2 = this;
          Canvas.resetTrans(var1);
-         Canvas.S.a(var1, this.a, this.b, this.c, this.d);
+         Canvas.paint.a(var1, this.a, this.b, this.c, this.d);
          var1.translate(this.a + AvMain.Z + 2, this.b + AvMain.Z + 2);
          var1.setClip(0, 0, this.c - (AvMain.Z << 1) - 4, this.e);
          var1.translate(-this.p, 0);
@@ -375,14 +375,14 @@ public final class MenuSub extends MenuMain {
 
          if (var2.k >= 0 && var2.k < var2.j.size()) {
             Command var11 = (Command)var2.j.elementAt(var2.k);
-            var3.setClip(var2.p - 50, -100, var2.p + Canvas.m + 100, var2.d + 200);
+            var3.setClip(var2.p - 50, -100, var2.p + Canvas.w + 100, var2.d + 200);
             int var7 = var2.k * var2.e + var2.e / 2;
-            if (var2.u * var2.e + (AvMain.Z << 1) + 10 > Canvas.m) {
+            if (var2.u * var2.e + (AvMain.Z << 1) + 10 > Canvas.w) {
                var8 = Canvas.L.getWidth(var11.a) / 2;
                if (var7 - var8 < var2.p) {
                   var7 = var2.p + var8;
-               } else if (var7 + var8 > Canvas.m + var2.p - 15) {
-                  var7 = Canvas.m + var2.p - var8 - 15;
+               } else if (var7 + var8 > Canvas.w + var2.p - 15) {
+                  var7 = Canvas.w + var2.p - var8 - 15;
                }
             }
 
@@ -396,9 +396,9 @@ public final class MenuSub extends MenuMain {
          MenuSub var9 = this;
          Canvas.resetTrans(var1);
          if (OnScreen.b) {
-            Canvas.S.e(var1, this.a - 2, this.m - 7, this.c + 4, this.d + 15);
+            Canvas.paint.e(var1, this.a - 2, this.m - 7, this.c + 4, this.d + 15);
          } else {
-            Canvas.S.a(var1, this.a - 2, this.m - 7, this.c + 4, this.d + 15);
+            Canvas.paint.a(var1, this.a - 2, this.m - 7, this.c + 4, this.d + 15);
          }
 
          var1.setClip(this.a, this.m, this.c, this.d);
@@ -413,25 +413,25 @@ public final class MenuSub extends MenuMain {
                   var10.setColor(35217);
                   var10.fillRect(0, var8 * var9.e, var9.c - 6, var9.e);
                } else {
-                  Canvas.S.b(var10, 0, var8 * var9.e, var9.c - 6, var9.e);
+                  Canvas.paint.b(var10, 0, var8 * var9.e, var9.c - 6, var9.e);
                }
             }
 
             short var12 = 0;
-            if (h != null && var8 < h.length && h[var8] != -1 && AvatarData.c(h[var8]) != null) {
-               var12 = AvatarData.c(h[var8]).b;
+            if (h != null && var8 < h.length && h[var8] != -1 && AvatarData.getImgIcon(h[var8]) != null) {
+               var12 = AvatarData.getImgIcon(h[var8]).b;
                AvatarData.a(var10, h[var8], 3, var8 * var9.e + var6 + 1, 0);
             }
 
             if (OnScreen.b) {
                Canvas.L.a(var10, ((Command)var9.j.elementAt(var8)).a, var12 + 5, var8 * var9.e + var6, 0);
             } else {
-               Canvas.S.a(var10, ((Command)var9.j.elementAt(var8)).a, var12 + 5, var8 * var9.e + var6, 0);
+               Canvas.paint.a(var10, ((Command)var9.j.elementAt(var8)).a, var12 + 5, var8 * var9.e + var6, 0);
             }
          }
       }
 
-      super.a(var1);
+      super.paint(var1);
    }
 
    public final void k() {

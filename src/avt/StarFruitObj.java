@@ -21,8 +21,8 @@ public final class StarFruitObj extends SubObject {
             --this.e;
             if (this.e == 0) {
                FarmService var1;
-               (var1 = FarmService.a()).e((byte)83);
-               var1.k();
+               (var1 = FarmService.a()).createMessage((byte)83);
+               var1.sendMessage();
             }
          }
 
@@ -48,7 +48,7 @@ public final class StarFruitObj extends SubObject {
    }
 
    public final void paint(Graphics var1) {
-      if (super.f >= 0 || super.x * MyObject.hd + this.k / 2 >= AvCamera.gI().xCam && super.x * MyObject.hd - this.k / 2 <= AvCamera.gI().xCam + Canvas.m) {
+      if (super.type >= 0 || super.x * MyObject.hd + this.k / 2 >= AvCamera.gI().xCam && super.x * MyObject.hd - this.k / 2 <= AvCamera.gI().xCam + Canvas.w) {
          FarmData.a(var1, this.b, super.x * MyObject.hd, super.y * MyObject.hd, 33);
          int var2;
          if (this.d > 0 && this.i != null) {

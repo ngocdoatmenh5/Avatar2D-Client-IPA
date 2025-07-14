@@ -17,30 +17,30 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class AvatarData {
-   private static int m;
-   private static int n;
-   private static int o;
+   private static int verImg;
+   private static int verPart;
+   private static int verItemImg;
    public static ImageInfo[] listImgInfo;
-   public static Part[] b;
-   public static Vector c;
-   private static Vector p = new Vector();
-   private static Hashtable q = new Hashtable();
-   private static Hashtable r;
-   public static int d = -1;
-   public static Vector e = new Vector();
-   private static int s;
-   private static int t;
-   public static Vector f = new Vector();
-   public static Vector g;
-   public static Hashtable h = new Hashtable();
-   public static Hashtable i = new Hashtable();
-   public static Hashtable j = new Hashtable();
-   public static Vector k = new Vector();
+   public static Part[] listPart;
+   public static Vector listItemInfo;
+   private static Vector bigImgInfo = new Vector();
+   private static Hashtable listBigImg = new Hashtable();
+   private static Hashtable listBigImgBB;
+   public static int playing = -1;
+   public static Vector listMapItemType = new Vector();
+   private static int verItemType;
+   private static int verItem;
+   public static Vector listMapItem = new Vector();
+   public static Vector listAd;
+   public static Hashtable listImgIcon = new Hashtable();
+   public static Hashtable listImgPart = new Hashtable();
+   public static Hashtable listPartDynamic = new Hashtable();
+   public static Vector effectList = new Vector();
    public static String l;
    private static String u;
    private static int v = 0;
 
-   public static void a() {
+   public static void delRMS() {
       try {
          String[] var0;
          if ((var0 = RecordStore.listRecordStores()) != null) {
@@ -55,181 +55,181 @@ public final class AvatarData {
 
    }
 
-   public static void a(Vector var0, int var1, int var2, int var3, int var4, int var5) {
+   public static void checkDataAvatar(Vector var0, int var1, int var2, int var3, int var4, int var5) {
       CRes.a("avatar", "2.5.8");
 
       try {
-         d = 0;
+         playing = 0;
          byte[] var6;
-         if ((var6 = CRes.a("avatarVs")) != null) {
+         if ((var6 = CRes.loadRMS("avatarVs")) != null) {
             ByteArrayInputStream var11 = new ByteArrayInputStream(var6);
             DataInputStream var12;
-            n = (var12 = new DataInputStream(var11)).readInt();
-            s = var12.readInt();
-            m = var12.readInt();
-            o = var12.readInt();
-            t = var12.readInt();
+            verPart = (var12 = new DataInputStream(var11)).readInt();
+            verItemType = var12.readInt();
+            verImg = var12.readInt();
+            verItemImg = var12.readInt();
+            verItem = var12.readInt();
          }
 
          int var7;
          BigImgInfo var8;
          int var13;
-         if (!i()) {
-            p = var0;
+         if (!loadImgBig()) {
+            bigImgInfo = var0;
             var13 = var0.size();
 
             for(var7 = 0; var7 < var13; ++var7) {
                var8 = (BigImgInfo)var0.elementAt(var7);
-               AvatarService.a().a(var8.a);
-               ++d;
+               AvatarService.gI().getBigImage(var8.id);
+               ++playing;
             }
          } else {
             var13 = var0.size();
 
             for(var7 = 0; var7 < var13; ++var7) {
                BigImgInfo var9;
-               if ((var9 = d((int)(var8 = (BigImgInfo)var0.elementAt(var7)).a)) == null) {
-                  p.addElement(var8);
-                  AvatarService.a().a(var8.a);
-                  ++d;
-               } else if (var8.b != var9.b) {
-                  AvatarService.a().a(var8.a);
-                  ++d;
+               if ((var9 = getBigImgInfoList((int)(var8 = (BigImgInfo)var0.elementAt(var7)).id)) == null) {
+                  bigImgInfo.addElement(var8);
+                  AvatarService.gI().getBigImage(var8.id);
+                  ++playing;
+               } else if (var8.ver != var9.ver) {
+                  AvatarService.gI().getBigImage(var8.id);
+                  ++playing;
                }
             }
          }
 
-         var6 = CRes.a("avatarImgData");
+         var6 = CRes.loadRMS("avatarImgData");
          l = CRes.b("partImageNormal");
          boolean var10000;
          if (var6 == null) {
             var10000 = false;
          } else {
-            listImgInfo = g(var6);
+            listImgInfo = readImageData(var6);
             var10000 = true;
          }
 
          if (!var10000) {
-            m = var1;
-            AvatarService.a().c();
-            ++d;
-         } else if (m != var1) {
-            m = var1;
-            AvatarService.a().c();
-            ++d;
+            verImg = var1;
+            AvatarService.gI().getImageData();
+            ++playing;
+         } else if (verImg != var1) {
+            verImg = var1;
+            AvatarService.gI().getImageData();
+            ++playing;
          }
 
-         if (!j()) {
-            n = var2;
-            AvatarService.a().d();
-            ++d;
-         } else if (n != var2) {
-            n = var2;
-            AvatarService.a().d();
-            ++d;
+         if (!loadAvatarPart()) {
+            verPart = var2;
+            AvatarService.gI().getAvatarPart();
+            ++playing;
+         } else if (verPart != var2) {
+            verPart = var2;
+            AvatarService.gI().getAvatarPart();
+            ++playing;
          } else {
-            k();
+            setFollowAvatarPart();
          }
 
-         if ((var6 = CRes.a("avatarItemInfo")) == null) {
+         if ((var6 = CRes.loadRMS("avatarItemInfo")) == null) {
             var10000 = false;
          } else {
-            f(var6);
+            readItemDataInfo(var6);
             var10000 = true;
          }
 
          if (!var10000) {
-            o = var3;
-            AvatarService.a().e();
-            ++d;
-         } else if (o != var3) {
-            o = var3;
-            AvatarService.a().e();
-            ++d;
+            verItemImg = var3;
+            AvatarService.gI().getItemInfo();
+            ++playing;
+         } else if (verItemImg != var3) {
+            verItemImg = var3;
+            AvatarService.gI().getItemInfo();
+            ++playing;
          }
 
-         if ((var6 = CRes.a("avatarMapItemType")) == null) {
+         if ((var6 = CRes.loadRMS("avatarMapItemType")) == null) {
             var10000 = false;
          } else {
-            e = h(var6);
+            listMapItemType = readMapItemType(var6);
             var10000 = true;
          }
 
          if (!var10000) {
-            s = var4;
-            AvatarService.a().f();
-            ++d;
-         } else if (s != var4) {
-            s = var4;
-            AvatarService.a().f();
-            ++d;
+            verItemType = var4;
+            AvatarService.gI().getMapItemType();
+            ++playing;
+         } else if (verItemType != var4) {
+            verItemType = var4;
+            AvatarService.gI().getMapItemType();
+            ++playing;
          }
 
-         if ((var6 = CRes.a("avatarMapType")) == null) {
+         if ((var6 = CRes.loadRMS("avatarMapType")) == null) {
             var10000 = false;
          } else {
-            i(var6);
+            readMapItem(var6);
             var10000 = true;
          }
 
          if (!var10000) {
-            t = var5;
-            AvatarService.a().g();
-            ++d;
-         } else if (t != var5) {
-            t = var5;
-            AvatarService.a().g();
-            ++d;
+            verItem = var5;
+            AvatarService.gI().getMapItem();
+            ++playing;
+         } else if (verItem != var5) {
+            verItem = var5;
+            AvatarService.gI().getMapItem();
+            ++playing;
          }
 
-         l();
+         setPlaying();
       } catch (Exception var10) {
          var10.printStackTrace();
       }
    }
 
-   public static void a(BigImgInfo var0) {
-      --d;
-      int var1 = p.size();
+   public static void saveItemData(BigImgInfo var0) {
+      --playing;
+      int var1 = bigImgInfo.size();
 
       for(int var2 = 0; var2 < var1; ++var2) {
          BigImgInfo var3;
-         if ((var3 = (BigImgInfo)p.elementAt(var2)).a == var0.a) {
-            var3.d = var0.d;
-            var3.b = var0.b;
-            var3.c = var0.c;
+         if ((var3 = (BigImgInfo) bigImgInfo.elementAt(var2)).id == var0.id) {
+            var3.data = var0.data;
+            var3.ver = var0.ver;
+            var3.follow = var0.follow;
             break;
          }
       }
 
-      l();
+      setPlaying();
    }
 
-   private static void h() {
+   private static void readImageData() {
       ByteArrayOutputStream var0 = new ByteArrayOutputStream();
       DataOutputStream var1 = new DataOutputStream(var0);
 
       try {
-         var1.writeShort(p.size());
+         var1.writeShort(bigImgInfo.size());
 
-         for(int var2 = 0; var2 < p.size(); ++var2) {
-            BigImgInfo var3 = (BigImgInfo)p.elementAt(var2);
-            var1.writeShort(var3.a);
-            var1.writeShort(var3.c);
-            var1.writeInt(var3.d.length);
-            var1.write(var3.d);
-            var1.writeShort(var3.b);
+         for(int var2 = 0; var2 < bigImgInfo.size(); ++var2) {
+            BigImgInfo var3 = (BigImgInfo) bigImgInfo.elementAt(var2);
+            var1.writeShort(var3.id);
+            var1.writeShort(var3.follow);
+            var1.writeInt(var3.data.length);
+            var1.write(var3.data);
+            var1.writeShort(var3.ver);
          }
 
-         CRes.a("avatarImgBig", var0.toByteArray());
+         CRes.saveRMS("avatarImgBig", var0.toByteArray());
          var1.close();
          CRes.a("partImageNormal", l);
       } catch (Exception var4) {
       }
    }
 
-   private static boolean i() {
-      DataInputStream var0 = a("avatarImgBig");
+   private static boolean loadImgBig() {
+      DataInputStream var0 = loadRMS("avatarImgBig");
       long var1 = System.currentTimeMillis() / 86400000L;
       String var6 = String.valueOf((int)(var1 - 15340L));
       String var2 = String.valueOf(var6.length());
@@ -239,29 +239,29 @@ public final class AvatarData {
       } else {
          try {
             short var7 = var0.readShort();
-            p = new Vector();
+            bigImgInfo = new Vector();
 
             for(int var8 = 0; var8 < var7; ++var8) {
                BigImgInfo var3;
-               (var3 = new BigImgInfo()).a = var0.readShort();
-               var3.c = var0.readShort();
+               (var3 = new BigImgInfo()).id = var0.readShort();
+               var3.follow = var0.readShort();
                int var4 = var0.readInt();
-               var3.d = new byte[var4];
-               var0.read(var3.d);
-               var3.b = var0.readShort();
-               p.addElement(var3);
+               var3.data = new byte[var4];
+               var0.read(var3.data);
+               var3.ver = var0.readShort();
+               bigImgInfo.addElement(var3);
             }
 
             var0.close();
          } catch (Exception var5) {
-            b("avatarImgBig");
+            delErrorRms("avatarImgBig");
          }
 
          return true;
       }
    }
 
-   private static Part[] b(Vector var0) {
+   private static Part[] setArrayPart(Vector var0) {
       short var1 = 0;
 
       for(int var2 = 0; var2 < var0.size(); ++var2) {
@@ -281,7 +281,7 @@ public final class AvatarData {
       return var5;
    }
 
-   public static Vector a(byte[] var0, boolean var1) throws IOException {
+   public static Vector readAvatarPart(byte[] var0, boolean var1) throws IOException {
       ByteArrayInputStream var9 = new ByteArrayInputStream(var0);
       DataInputStream var10 = new DataInputStream(var9);
       short var2 = 1;
@@ -301,8 +301,8 @@ public final class AvatarData {
             (var13 = new PartSmall()).IDPart = (short)var4;
             var13.i[0] = var5;
             var13.i[1] = var6;
-            var13.f = var7;
-            var13.l = var10.readUTF();
+            var13.follow = var7;
+            var13.name = var10.readUTF();
             var13.k = var10.readByte();
             var13.h = var10.readShort();
             var11.addElement(var13);
@@ -311,7 +311,7 @@ public final class AvatarData {
             (var12 = new class_lb()).IDPart = (short)var4;
             var12.i[0] = var5;
             var12.i[1] = var6;
-            var12.f = var7;
+            var12.follow = var7;
             var12.a = var10.readShort();
             var11.addElement(var12);
          } else {
@@ -319,8 +319,8 @@ public final class AvatarData {
             (var8 = new APartInfo()).IDPart = (short)var4;
             var8.i[0] = var5;
             var8.i[1] = var6;
-            var8.f = var7;
-            var8.l = var10.readUTF();
+            var8.follow = var7;
+            var8.name = var10.readUTF();
             var8.k = var10.readByte();
             var8.zOrder = var10.readByte();
             var8.gender = var10.readByte();
@@ -343,16 +343,16 @@ public final class AvatarData {
       return var11;
    }
 
-   public static void a(byte[] var0) throws IOException, RecordStoreException {
-      --d;
-      b = b(a(var0, false));
-      CRes.a("avatarPart", var0);
-      k();
-      l();
+   public static void saveAvatarPart(byte[] var0) throws IOException, RecordStoreException {
+      --playing;
+      listPart = setArrayPart(readAvatarPart(var0, false));
+      CRes.saveRMS("avatarPart", var0);
+      setFollowAvatarPart();
+      setPlaying();
    }
 
-   private static boolean j() throws IOException {
-      byte[] var0 = CRes.a("avatarPart");
+   private static boolean loadAvatarPart() throws IOException {
+      byte[] var0 = CRes.loadRMS("avatarPart");
       if (l == null) {
          char[] var1 = u.toCharArray();
          int var2 = 0;
@@ -369,17 +369,17 @@ public final class AvatarData {
       if (var0 == null) {
          return false;
       } else {
-         b = b(a(var0, false));
+         listPart = setArrayPart(readAvatarPart(var0, false));
          return true;
       }
    }
 
-   private static void k() {
-      for(int var0 = 0; var0 < b.length; ++var0) {
-         if (b[var0].f >= 0) {
-            Part var1 = b[b[var0].f];
+   private static void setFollowAvatarPart() {
+      for(int var0 = 0; var0 < listPart.length; ++var0) {
+         if (listPart[var0].follow >= 0) {
+            Part var1 = listPart[listPart[var0].follow];
             Part var2;
-            (var2 = b[var0]).l = var1.l;
+            (var2 = listPart[var0]).name = var1.name;
             var2.k = var1.k;
             var2.zOrder = var1.zOrder;
             var2.h = var1.h;
@@ -388,33 +388,33 @@ public final class AvatarData {
 
    }
 
-   private static void f(byte[] var0) throws IOException {
+   private static void readItemDataInfo(byte[] var0) throws IOException {
       ByteArrayInputStream var4 = new ByteArrayInputStream(var0);
       DataInputStream var5;
       short var1 = (var5 = new DataInputStream(var4)).readShort();
-      c = new Vector();
+      listItemInfo = new Vector();
 
       for(int var2 = 0; var2 < var1; ++var2) {
          Item var3;
-         (var3 = new Item()).a = var5.readShort();
-         var3.f = var5.readUTF();
+         (var3 = new Item()).ID = var5.readShort();
+         var3.name = var5.readUTF();
          var5.readUTF();
-         var3.d[0] = var5.readInt();
-         var3.c = var5.readByte();
-         var3.b = var5.readShort();
-         c.addElement(var3);
+         var3.price[0] = var5.readInt();
+         var3.shopType = var5.readByte();
+         var3.idIcon = var5.readShort();
+         listItemInfo.addElement(var3);
       }
 
    }
 
-   public static void b(byte[] var0) throws IOException, RecordStoreException {
-      --d;
-      f(var0);
-      CRes.a("avatarItemInfo", var0);
-      l();
+   public static void saveItemData(byte[] var0) throws IOException, RecordStoreException {
+      --playing;
+      readItemDataInfo(var0);
+      CRes.saveRMS("avatarItemInfo", var0);
+      setPlaying();
    }
 
-   private static ImageInfo[] g(byte[] var0) throws IOException {
+   private static ImageInfo[] readImageData(byte[] var0) throws IOException {
       ByteArrayInputStream var6 = new ByteArrayInputStream(var0);
       DataInputStream var7;
       short var1 = (var7 = new DataInputStream(var6)).readShort();
@@ -423,16 +423,16 @@ public final class AvatarData {
 
       for(int var4 = 0; var4 < var1; ++var4) {
          ImageInfo var5;
-         (var5 = new ImageInfo()).a = var7.readShort();
-         if (var5.a > var3) {
-            var3 = var5.a;
+         (var5 = new ImageInfo()).ID = var7.readShort();
+         if (var5.ID > var3) {
+            var3 = var5.ID;
          }
 
-         var5.b = var7.readShort();
-         var5.c = (short)var7.readUnsignedByte();
-         var5.d = (short)var7.readUnsignedByte();
-         var5.e = var7.readByte();
-         var5.f = var7.readByte();
+         var5.bigID = var7.readShort();
+         var5.x0 = (short)var7.readUnsignedByte();
+         var5.y0 = (short)var7.readUnsignedByte();
+         var5.w = var7.readByte();
+         var5.h = var7.readByte();
          var2.addElement(var5);
       }
 
@@ -440,7 +440,7 @@ public final class AvatarData {
 
       for(int var10 = 0; var10 < var2.size(); ++var10) {
          ImageInfo var8 = (ImageInfo)var2.elementAt(var10);
-         var9[var8.a] = var8;
+         var9[var8.ID] = var8;
       }
 
       return var9;
@@ -452,14 +452,14 @@ public final class AvatarData {
       CRes.a(CRes.b, GameMidlet.l + MiniMap.i);
    }
 
-   public static void c(byte[] var0) throws IOException, RecordStoreException {
-      --d;
-      listImgInfo = g(var0);
-      CRes.a("avatarImgData", var0);
-      l();
+   public static void saveImageData(byte[] var0) throws IOException, RecordStoreException {
+      --playing;
+      listImgInfo = readImageData(var0);
+      CRes.saveRMS("avatarImgData", var0);
+      setPlaying();
    }
 
-   private static Vector h(byte[] var0) throws IOException {
+   private static Vector readMapItemType(byte[] var0) throws IOException {
       ByteArrayInputStream var8 = new ByteArrayInputStream(var0);
       DataInputStream var9;
       short var1 = (var9 = new DataInputStream(var8)).readShort();
@@ -467,32 +467,32 @@ public final class AvatarData {
 
       for(byte var3 = 0; var3 < var1; ++var3) {
          MapItemType var4;
-         (var4 = new MapItemType()).a = var9.readShort();
-         var4.g = var9.readUTF();
+         (var4 = new MapItemType()).idType = var9.readShort();
+         var4.name = var9.readUTF();
          var9.readUTF();
-         var4.b = var9.readShort();
-         var4.c = var9.readShort();
-         var4.e = var9.readByte();
-         var4.f = var9.readByte();
-         var4.h = var9.readShort();
-         if (var4.h == 32767) {
-            var4.h = -1;
+         var4.imgID = var9.readShort();
+         var4.iconID = var9.readShort();
+         var4.dx = var9.readByte();
+         var4.dy = var9.readByte();
+         var4.priceXu = var9.readShort();
+         if (var4.priceXu == 32767) {
+            var4.priceXu = -1;
          }
 
-         if (var4.h >= 0) {
-            var4.h *= 1000;
+         if (var4.priceXu >= 0) {
+            var4.priceXu *= 1000;
          }
 
-         var4.d = var9.readShort();
-         var4.i = var9.readByte();
-         var4.j = new Vector();
+         var4.priceLuong = var9.readShort();
+         var4.buy = var9.readByte();
+         var4.listNotTrans = new Vector();
          byte var5 = var9.readByte();
 
          for(byte var6 = 0; var6 < var5; ++var6) {
             AvPosition var7;
-            (var7 = new AvPosition()).a = var9.readByte();
-            var7.b = var9.readByte();
-            var4.j.addElement(var7);
+            (var7 = new AvPosition()).x = var9.readByte();
+            var7.y = var9.readByte();
+            var4.listNotTrans.addElement(var7);
          }
 
          var2.addElement(var4);
@@ -501,120 +501,120 @@ public final class AvatarData {
       return var2;
    }
 
-   public static void d(byte[] var0) throws IOException, RecordStoreException {
-      --d;
-      e.removeAllElements();
-      e = h(var0);
-      CRes.a("avatarMapItemType", var0);
-      l();
+   public static void saveMapItemType(byte[] var0) throws IOException, RecordStoreException {
+      --playing;
+      listMapItemType.removeAllElements();
+      listMapItemType = readMapItemType(var0);
+      CRes.saveRMS("avatarMapItemType", var0);
+      setPlaying();
    }
 
-   private static void i(byte[] var0) throws IOException {
+   private static void readMapItem(byte[] var0) throws IOException {
       ByteArrayInputStream var4 = new ByteArrayInputStream(var0);
       DataInputStream var5 = new DataInputStream(var4);
-      f = new Vector();
+      listMapItem = new Vector();
       short var1 = var5.readShort();
       System.out.println("readMapItem: " + var1);
 
       for(byte var2 = 0; var2 < var1; ++var2) {
          MapItem var3;
-         (var3 = new MapItem()).a = var5.readShort();
-         var3.b = var5.readShort();
-         var3.f = var5.readByte();
+         (var3 = new MapItem()).ID = var5.readShort();
+         var3.typeID = var5.readShort();
+         var3.type = var5.readByte();
          var3.x = var5.readByte();
          var3.y = var5.readByte();
-         f.addElement(var3);
+         listMapItem.addElement(var3);
       }
 
    }
 
-   public static void e(byte[] var0) throws IOException, RecordStoreException {
-      --d;
-      f.removeAllElements();
-      i(var0);
-      CRes.a("avatarMapType", var0);
-      l();
+   public static void saveMapItem(byte[] var0) throws IOException, RecordStoreException {
+      --playing;
+      listMapItem.removeAllElements();
+      readMapItem(var0);
+      CRes.saveRMS("avatarMapType", var0);
+      setPlaying();
    }
 
-   private static void l() {
-      if (d == 0) {
+   private static void setPlaying() {
+      if (playing == 0) {
          ByteArrayOutputStream var0 = new ByteArrayOutputStream();
          DataOutputStream var1 = new DataOutputStream(var0);
 
          try {
-            var1.writeInt(n);
-            var1.writeInt(s);
-            var1.writeInt(m);
-            var1.writeInt(o);
-            var1.writeInt(t);
-            CRes.a("avatarVs", var0.toByteArray());
+            var1.writeInt(verPart);
+            var1.writeInt(verItemType);
+            var1.writeInt(verImg);
+            var1.writeInt(verItemImg);
+            var1.writeInt(verItem);
+            CRes.saveRMS("avatarVs", var0.toByteArray());
             var1.close();
          } catch (Exception var4) {
          }
 
-         h();
-         int var5 = p.size();
+         readImageData();
+         int var5 = bigImgInfo.size();
 
          BigImgInfo var2;
          int var6;
          for(var6 = 0; var6 < var5; ++var6) {
-            if ((var2 = (BigImgInfo)p.elementAt(var6)).c != -1) {
-               byte[] var3 = d((int)var2.c).d;
-               System.arraycopy(var2.d, 0, var3, 0, var2.d.length);
-               var2.d = var3;
+            if ((var2 = (BigImgInfo) bigImgInfo.elementAt(var6)).follow != -1) {
+               byte[] var3 = getBigImgInfoList((int)var2.follow).data;
+               System.arraycopy(var2.data, 0, var3, 0, var2.data.length);
+               var2.data = var3;
             }
 
-            var2.e = CRes.a(var2.d);
+            var2.img = CRes.a(var2.data);
          }
 
          if (Canvas.E || Canvas.F) {
-            r = new Hashtable();
+            listBigImgBB = new Hashtable();
          }
 
-         for(var6 = 0; var6 < p.size(); ++var6) {
-            (var2 = (BigImgInfo)p.elementAt(var6)).d = null;
-            q.put("" + var2.a, var2);
+         for(var6 = 0; var6 < bigImgInfo.size(); ++var6) {
+            (var2 = (BigImgInfo) bigImgInfo.elementAt(var6)).data = null;
+            listBigImg.put("" + var2.id, var2);
          }
 
-         for(var6 = 0; var6 < p.size(); ++var6) {
-            var2 = (BigImgInfo)p.elementAt(var6);
-            if (r != null) {
-               b(var2);
+         for(var6 = 0; var6 < bigImgInfo.size(); ++var6) {
+            var2 = (BigImgInfo) bigImgInfo.elementAt(var6);
+            if (listBigImgBB != null) {
+               setBigImgBB(var2);
             }
          }
 
-         p.removeAllElements();
-         p = null;
+         bigImgInfo.removeAllElements();
+         bigImgInfo = null;
          GameMidlet.avatar.orderSeriesPath();
-         MapScr.gI().t();
+         MapScr.gI().joinCitymap();
       }
    }
 
-   private static void b(BigImgInfo var0) {
+   private static void setBigImgBB(BigImgInfo var0) {
       Image var1;
       Graphics var2;
-      (var2 = (var1 = Image.createImage(var0.e.getWidth(), var0.e.getHeight())).getGraphics()).setColor(16711935);
+      (var2 = (var1 = Image.createImage(var0.img.getWidth(), var0.img.getHeight())).getGraphics()).setColor(16711935);
       var2.fillRect(0, 0, var1.getWidth(), var1.getHeight());
 
       int var3;
       for(var3 = 0; var3 < listImgInfo.length; ++var3) {
-         if (var0.a == listImgInfo[var3].b) {
-            var2.drawRegion(var0.e, listImgInfo[var3].c * AvMain.hd, listImgInfo[var3].d * AvMain.hd, listImgInfo[var3].e * AvMain.hd, listImgInfo[var3].f * AvMain.hd, Base.LEFT, listImgInfo[var3].c, listImgInfo[var3].d, 0);
+         if (var0.id == listImgInfo[var3].bigID) {
+            var2.drawRegion(var0.img, listImgInfo[var3].x0 * AvMain.hd, listImgInfo[var3].y0 * AvMain.hd, listImgInfo[var3].w * AvMain.hd, listImgInfo[var3].h * AvMain.hd, Base.LEFT, listImgInfo[var3].x0, listImgInfo[var3].y0, 0);
          }
       }
 
-      for(var3 = 0; var3 < b.length; ++var3) {
-         if (b[var3] != null && b[var3].f >= 0 && b[var3].IDPart < 2000) {
-            APartInfo var4 = (APartInfo)a(b[var3].f);
+      for(var3 = 0; var3 < listPart.length; ++var3) {
+         if (listPart[var3] != null && listPart[var3].follow >= 0 && listPart[var3].IDPart < 2000) {
+            APartInfo var4 = (APartInfo) getPart(listPart[var3].follow);
 
             for(int var5 = 0; var5 < var4.imgID.length; ++var5) {
                ImageInfo var6 = listImgInfo[var4.imgID[var5]];
-               if (((class_lb)b[var3]).a == var0.a) {
-                  int var10002 = var6.c * AvMain.hd;
-                  int var10003 = var6.d * AvMain.hd;
-                  int var10004 = var6.e * AvMain.hd;
-                  int var10005 = var6.f * AvMain.hd;
-                  var2.drawRegion(a((int)var0.a).e, var10002, var10003, var10004, var10005, Base.LEFT, var6.c, var6.d, 0);
+               if (((class_lb) listPart[var3]).a == var0.id) {
+                  int var10002 = var6.x0 * AvMain.hd;
+                  int var10003 = var6.y0 * AvMain.hd;
+                  int var10004 = var6.w * AvMain.hd;
+                  int var10005 = var6.h * AvMain.hd;
+                  var2.drawRegion(getBigImgInfo((int)var0.id).img, var10002, var10003, var10004, var10005, Base.LEFT, var6.x0, var6.y0, 0);
                }
             }
          }
@@ -622,30 +622,30 @@ public final class AvatarData {
 
       var1 = CRes.a(var1, -65281);
       BigImgInfo var7;
-      (var7 = new BigImgInfo()).c = var0.c;
-      var7.a = var0.a;
-      var7.e = var1;
-      var7.b = var0.b;
-      r.put("" + var7.a, var7);
+      (var7 = new BigImgInfo()).follow = var0.follow;
+      var7.id = var0.id;
+      var7.img = var1;
+      var7.ver = var0.ver;
+      listBigImgBB.put("" + var7.id, var7);
    }
 
    public static void a(Graphics var0, int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9) {
       int var10002;
       if (var8 != 0 && (Canvas.E || Canvas.F)) {
          var10002 = var2 * AvMain.hd;
-         var0.drawRegion(((BigImgInfo)r.get("" + var1)).e, var10002, var3 * AvMain.hd, var4 * AvMain.hd, var5 * AvMain.hd, 0, var6, var7, 0);
+         var0.drawRegion(((BigImgInfo) listBigImgBB.get("" + var1)).img, var10002, var3 * AvMain.hd, var4 * AvMain.hd, var5 * AvMain.hd, 0, var6, var7, 0);
       } else {
          var10002 = var2 * AvMain.hd;
          int var10003 = var3 * AvMain.hd;
          int var10004 = var4 * AvMain.hd;
          int var10005 = var5 * AvMain.hd;
-         var0.drawRegion(a(var1).e, var10002, var10003, var10004, var10005, var8, var6, var7, 0);
+         var0.drawRegion(getBigImgInfo(var1).img, var10002, var10003, var10004, var10005, var8, var6, var7, 0);
       }
    }
 
-   public static DataInputStream a(String var0) {
+   public static DataInputStream loadRMS(String var0) {
       byte[] var1;
-      if ((var1 = CRes.a(var0)) == null) {
+      if ((var1 = CRes.loadRMS(var0)) == null) {
          return null;
       } else {
          ByteArrayInputStream var2 = new ByteArrayInputStream(var1);
@@ -660,7 +660,7 @@ public final class AvatarData {
       try {
          var1.writeByte(GameMidlet.f);
          var1.writeUTF(GameMidlet.g);
-         CRes.a("avatarSV", var0.toByteArray());
+         CRes.saveRMS("avatarSV", var0.toByteArray());
          var1.close();
       } catch (Exception var2) {
          var2.printStackTrace();
@@ -669,7 +669,7 @@ public final class AvatarData {
 
    public static void d() {
       DataInputStream var0;
-      if ((var0 = a("avatarSV")) != null) {
+      if ((var0 = loadRMS("avatarSV")) != null) {
          try {
             GameMidlet.f = var0.readByte();
             GameMidlet.g = var0.readUTF();
@@ -685,21 +685,21 @@ public final class AvatarData {
       DataOutputStream var1 = new DataOutputStream(var0);
 
       try {
-         var1.writeByte(OptionScr.b().b[4]);
-         var1.writeByte(GameMidlet.b[OptionScr.b().b[4]].length);
+         var1.writeByte(OptionScr.gI().b[4]);
+         var1.writeByte(GameMidlet.b[OptionScr.gI().b[4]].length);
 
-         for(int var2 = 0; var2 < GameMidlet.b[OptionScr.b().b[4]].length; ++var2) {
-            var1.writeByte(GameMidlet.b[OptionScr.b().b[4]][var2].length);
-            var1.writeUTF(GameMidlet.a[OptionScr.b().b[4]][var2][0]);
+         for(int var2 = 0; var2 < GameMidlet.b[OptionScr.gI().b[4]].length; ++var2) {
+            var1.writeByte(GameMidlet.b[OptionScr.gI().b[4]][var2].length);
+            var1.writeUTF(GameMidlet.a[OptionScr.gI().b[4]][var2][0]);
 
-            for(int var3 = 0; var3 < GameMidlet.b[OptionScr.b().b[4]][var2].length; ++var3) {
-               var1.writeUTF(GameMidlet.a[OptionScr.b().b[4]][var2][var3 + 1]);
-               var1.writeUTF(GameMidlet.b[OptionScr.b().b[4]][var2][var3]);
-               var1.writeInt(GameMidlet.c[OptionScr.b().b[4]][var2][var3]);
+            for(int var3 = 0; var3 < GameMidlet.b[OptionScr.gI().b[4]][var2].length; ++var3) {
+               var1.writeUTF(GameMidlet.a[OptionScr.gI().b[4]][var2][var3 + 1]);
+               var1.writeUTF(GameMidlet.b[OptionScr.gI().b[4]][var2][var3]);
+               var1.writeInt(GameMidlet.c[OptionScr.gI().b[4]][var2][var3]);
             }
          }
 
-         CRes.a("avatarSV", var0.toByteArray());
+         CRes.saveRMS("avatarSV", var0.toByteArray());
          var1.close();
       } catch (Exception var4) {
          var4.printStackTrace();
@@ -708,12 +708,12 @@ public final class AvatarData {
 
    public static void f() {
       DataInputStream var0;
-      if ((var0 = a("avatarSV")) != null) {
+      if ((var0 = loadRMS("avatarSV")) != null) {
          try {
-            if (var0.readByte() == OptionScr.b().b[4]) {
+            if (var0.readByte() == OptionScr.gI().b[4]) {
                byte var1;
                if ((var1 = var0.readByte()) == 0) {
-                  b("avatarSV");
+                  delErrorRms("avatarSV");
                } else {
                   GameMidlet.a = new String[2][var1][];
                   GameMidlet.b = new String[2][var1][];
@@ -721,15 +721,15 @@ public final class AvatarData {
 
                   for(int var2 = 0; var2 < var1; ++var2) {
                      byte var3 = var0.readByte();
-                     GameMidlet.a[OptionScr.b().b[4]][var2] = new String[var3 + 1];
-                     GameMidlet.a[OptionScr.b().b[4]][var2][0] = var0.readUTF();
-                     GameMidlet.b[OptionScr.b().b[4]][var2] = new String[var3];
-                     GameMidlet.c[OptionScr.b().b[4]][var2] = new int[var3];
+                     GameMidlet.a[OptionScr.gI().b[4]][var2] = new String[var3 + 1];
+                     GameMidlet.a[OptionScr.gI().b[4]][var2][0] = var0.readUTF();
+                     GameMidlet.b[OptionScr.gI().b[4]][var2] = new String[var3];
+                     GameMidlet.c[OptionScr.gI().b[4]][var2] = new int[var3];
 
                      for(int var4 = 0; var4 < var3; ++var4) {
-                        GameMidlet.a[OptionScr.b().b[4]][var2][var4 + 1] = var0.readUTF();
-                        GameMidlet.b[OptionScr.b().b[4]][var2][var4] = var0.readUTF();
-                        GameMidlet.c[OptionScr.b().b[4]][var2][var4] = var0.readInt();
+                        GameMidlet.a[OptionScr.gI().b[4]][var2][var4 + 1] = var0.readUTF();
+                        GameMidlet.b[OptionScr.gI().b[4]][var2][var4] = var0.readUTF();
+                        GameMidlet.c[OptionScr.gI().b[4]][var2][var4] = var0.readInt();
                      }
                   }
 
@@ -738,17 +738,17 @@ public final class AvatarData {
             }
          } catch (IOException var5) {
             var5.printStackTrace();
-            b("avatarSV");
+            delErrorRms("avatarSV");
          }
       }
    }
 
-   private static BigImgInfo d(int var0) {
-      int var1 = p.size();
+   private static BigImgInfo getBigImgInfoList(int var0) {
+      int var1 = bigImgInfo.size();
 
       for(int var2 = 0; var2 < var1; ++var2) {
          BigImgInfo var3;
-         if ((var3 = (BigImgInfo)p.elementAt(var2)).a == var0) {
+         if ((var3 = (BigImgInfo) bigImgInfo.elementAt(var2)).id == var0) {
             return var3;
          }
       }
@@ -756,35 +756,35 @@ public final class AvatarData {
       return null;
    }
 
-   public static BigImgInfo a(int var0) {
-      return (BigImgInfo)q.get("" + var0);
+   public static BigImgInfo getBigImgInfo(int var0) {
+      return (BigImgInfo) listBigImg.get("" + var0);
    }
 
-   public static MapItemType b(int var0) {
-      int var1 = e.size();
+   public static MapItemType getMapItemTypeByID(int var0) {
+      int var1 = listMapItemType.size();
 
       for(int var2 = 0; var2 < var1; ++var2) {
-         if (((MapItemType)e.elementAt(var2)).a == var0) {
-            return (MapItemType)e.elementAt(var2);
+         if (((MapItemType) listMapItemType.elementAt(var2)).idType == var0) {
+            return (MapItemType) listMapItemType.elementAt(var2);
          }
       }
 
       return null;
    }
 
-   public static void a(Vector var0) {
-      g = var0;
+   public static void onMapAd(Vector var0) {
+      listAd = var0;
    }
 
-   public static boolean c(int var0) {
+   public static boolean isZOrderMain(int var0) {
       return var0 == 10 || var0 == 20 || var0 == 30 || var0 == 40 || var0 == 50;
    }
 
-   public static APartInfo a(Vector var0, int var1) {
+   public static APartInfo getPartByZ(Vector var0, int var1) {
       if (var0 != null) {
          for(int var2 = 0; var2 < var0.size(); ++var2) {
             SeriPart var3;
-            Part var4 = a((var3 = (SeriPart)var0.elementAt(var2)).idPart);
+            Part var4 = getPart((var3 = (SeriPart)var0.elementAt(var2)).idPart);
             if (var3 != null && var4 instanceof APartInfo && ((APartInfo)var4).zOrder == var1) {
                return (APartInfo)var4;
             }
@@ -794,7 +794,7 @@ public final class AvatarData {
       return null;
    }
 
-   public static SeriPart b(Vector var0, int var1) {
+   public static SeriPart getSeriByIdPart(Vector var0, int var1) {
       int var2 = var0.size();
 
       for(int var3 = 0; var3 < var2; ++var3) {
@@ -807,12 +807,12 @@ public final class AvatarData {
       return null;
    }
 
-   public static SeriPart a(int var0, Vector var1) {
+   public static SeriPart getSeriByZ(int var0, Vector var1) {
       int var2 = var1.size();
 
       for(int var3 = 0; var3 < var2; ++var3) {
          SeriPart var4;
-         if (a((var4 = (SeriPart)var1.elementAt(var3)).idPart).zOrder == var0) {
+         if (getPart((var4 = (SeriPart)var1.elementAt(var3)).idPart).zOrder == var0) {
             return var4;
          }
       }
@@ -820,37 +820,37 @@ public final class AvatarData {
       return null;
    }
 
-   public static Part a(short var0) {
+   public static Part getPart(short var0) {
       if (var0 >= 2000) {
          Object var1;
-         if ((var1 = (Part)j.get("" + var0)) == null) {
+         if ((var1 = (Part) listPartDynamic.get("" + var0)) == null) {
             ((Part)(var1 = new APartInfo())).IDPart = -1;
-            j.put("" + var0, var1);
+            listPartDynamic.put("" + var0, var1);
             GlobalService.gI().b(var0);
          }
 
          return (Part)var1;
       } else {
-         return b[var0];
+         return listPart[var0];
       }
    }
 
-   public static String a(Part var0) {
-      return var0.f >= 0 ? a(var0.f).l : var0.l;
+   public static String getName(Part var0) {
+      return var0.follow >= 0 ? getPart(var0.follow).name : var0.name;
    }
 
    public static void a(Graphics var0, int var1, int var2, int var3, int var4) {
-      if (c((short)var1).count != -1) {
-         var0.drawImage(c((short)var1).img, var2, var3, var4);
+      if (getImgIcon((short)var1).count != -1) {
+         var0.drawImage(getImgIcon((short)var1).img, var2, var3, var4);
       }
 
    }
 
-   public static ImageIcon b(short var0) {
+   public static ImageIcon getImagePart(short var0) {
       ImageIcon var1;
-      if ((var1 = (ImageIcon)i.get("" + var0)) == null) {
+      if ((var1 = (ImageIcon) listImgPart.get("" + var0)) == null) {
          var1 = new ImageIcon();
-         i.put("" + var0, var1);
+         listImgPart.put("" + var0, var1);
          GlobalService.gI().c(var0);
       } else if (var1.count >= 0) {
          var1.count = (int)(System.currentTimeMillis() / 1000L);
@@ -859,12 +859,12 @@ public final class AvatarData {
       return var1;
    }
 
-   public static ImageIcon c(short var0) {
+   public static ImageIcon getImgIcon(short var0) {
       ImageIcon var1;
-      if ((var1 = (ImageIcon)h.get("" + var0)) == null) {
+      if ((var1 = (ImageIcon) listImgIcon.get("" + var0)) == null) {
          var1 = new ImageIcon();
-         h.put("" + var0, var1);
-         AvatarService.a().b(var0);
+         listImgIcon.put("" + var0, var1);
+         AvatarService.gI().doGetImgIcon(var0);
       } else if (var1.count >= 0) {
          var1.count = (int)(System.currentTimeMillis() / 1000L);
       }
@@ -872,38 +872,38 @@ public final class AvatarData {
       return var1;
    }
 
-   public static void g() {
+   public static void setLimitImage() {
       Enumeration var0;
       String var1;
       ImageIcon var2;
-      if (h.size() > 50) {
-         var0 = h.keys();
+      if (listImgIcon.size() > 50) {
+         var0 = listImgIcon.keys();
 
          while(var0.hasMoreElements()) {
             var1 = (String)var0.nextElement();
-            if ((var2 = (ImageIcon)h.get(var1)).count != -1 && System.currentTimeMillis() / 1000L - (long)var2.count > (long) Canvas.V) {
-               h.remove(var1);
+            if ((var2 = (ImageIcon) listImgIcon.get(var1)).count != -1 && System.currentTimeMillis() / 1000L - (long)var2.count > (long) Canvas.V) {
+               listImgIcon.remove(var1);
             }
          }
       }
 
-      if (i.size() > 50) {
-         var0 = i.keys();
+      if (listImgPart.size() > 50) {
+         var0 = listImgPart.keys();
 
          while(var0.hasMoreElements()) {
             var1 = (String)var0.nextElement();
-            if ((var2 = (ImageIcon)i.get(var1)).count != -1 && System.currentTimeMillis() / 1000L - (long)var2.count > (long) Canvas.V) {
-               i.remove(var1);
+            if ((var2 = (ImageIcon) listImgPart.get(var1)).count != -1 && System.currentTimeMillis() / 1000L - (long)var2.count > (long) Canvas.V) {
+               listImgPart.remove(var1);
             }
          }
       }
 
    }
 
-   public static int b(Part var0) {
+   public static int getLevel(Part var0) {
       byte var1;
-      if (var0.f >= 0) {
-         var1 = ((APartInfo)a(var0.f)).level;
+      if (var0.follow >= 0) {
+         var1 = ((APartInfo) getPart(var0.follow)).level;
       } else {
          var1 = ((APartInfo)var0).level;
       }
@@ -911,10 +911,10 @@ public final class AvatarData {
       return var1;
    }
 
-   public static EffectData d(short var0) {
-      for(int var1 = 0; var1 < k.size(); ++var1) {
+   public static EffectData getEffect(short var0) {
+      for(int var1 = 0; var1 < effectList.size(); ++var1) {
          EffectData var2;
-         if ((var2 = (EffectData)k.elementAt(var1)).e == var0) {
+         if ((var2 = (EffectData) effectList.elementAt(var1)).e == var0) {
             return var2;
          }
       }
@@ -922,7 +922,7 @@ public final class AvatarData {
       return null;
    }
 
-   public static void b(String var0) {
+   public static void delErrorRms(String var0) {
       try {
          RecordStore.deleteRecordStore("2.5.8" + var0);
       } catch (Exception var1) {

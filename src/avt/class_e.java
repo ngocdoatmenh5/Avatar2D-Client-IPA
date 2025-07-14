@@ -25,19 +25,19 @@ final class class_e extends Command {
          MapScr.a(this.g);
          String var1 = "";
          if (this.g.zOrder == 20) {
-            var1 = T1.aC;
+            var1 = T.aC;
          } else if (this.g.zOrder == 10) {
-            var1 = T1.aB;
+            var1 = T.aB;
          } else if (this.g.zOrder == 40) {
-            var1 = T1.aE;
+            var1 = T.aE;
          } else if (this.g.zOrder == 50) {
-            var1 = T1.aD;
+            var1 = T.aD;
          }
 
-         PopupShop.a(var1 + AvatarData.a(this.g));
-         PopupShop.a(Canvas.a(this.g.i[0], this.g.i[1], true));
-         PopupShop.a(T1.dx + AvatarData.b(this.g));
-         PopupShop.a(T1.em[0] + MapScr.C.lvMain);
+         PopupShop.a(var1 + AvatarData.getName(this.g));
+         PopupShop.a(Canvas.getPriceMoney(this.g.i[0], this.g.i[1], true));
+         PopupShop.a(T.dx + AvatarData.getLevel(this.g));
+         PopupShop.a(T.em[0] + MapScr.C.lvMain);
       }
 
    }

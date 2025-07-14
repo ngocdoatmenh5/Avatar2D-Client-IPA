@@ -91,7 +91,7 @@ public final class Avatar extends Base {
 
    public final void setMoney(int var1) {
       this.money[0] = var1;
-      this.strMoney = Canvas.getMoneys(this.money[0]) + T1.T;
+      this.strMoney = Canvas.getMoneys(this.money[0]) + T.T;
    }
 
    public final int getMoneyNew() {
@@ -111,7 +111,7 @@ public final class Avatar extends Base {
    }
 
    public final void paint(Graphics var1) {
-      if ((super.x + 15) * MyObject.hd >= AvCamera.gI().xCam && (super.x - 15) * MyObject.hd <= AvCamera.gI().xCam + Canvas.m && !super.ableShow && (Canvas.Z <= 0 || Canvas.currentMyScreen != MenuCenter.gI())) {
+      if ((super.x + 15) * MyObject.hd >= AvCamera.gI().xCam && (super.x - 15) * MyObject.hd <= AvCamera.gI().xCam + Canvas.w && !super.ableShow && (Canvas.stypeInt <= 0 || Canvas.currentMyScreen != MenuCenter.gI())) {
          if (super.action != 14) {
             var1.drawImage(LoadMap.r, (super.x + (super.direct == Base.LEFT ? 2 : -2)) * MyObject.hd, (super.y - 1) * MyObject.hd, 3);
          }
@@ -122,21 +122,21 @@ public final class Avatar extends Base {
          int var4;
          for(var4 = 0; var4 < var2; ++var4) {
             Part var5;
-            if ((var5 = AvatarData.a(((SeriPart)this.seriPart.elementAt(var4)).idPart)) != null && (super.action != 14 || var5.zOrder == 30 || var5.zOrder == 40 || var5.zOrder == 50)) {
+            if ((var5 = AvatarData.getPart(((SeriPart)this.seriPart.elementAt(var4)).idPart)) != null && (super.action != 14 || var5.zOrder == 30 || var5.zOrder == 40 || var5.zOrder == 50)) {
                if (var5.zOrder == 40) {
                   if (this.feel != 4) {
-                     var5 = AvatarData.a(this.feel);
+                     var5 = AvatarData.getPart(this.feel);
                   } else if ((this.feel == 4 || this.feel == 6) && this.nFrame < 1 + this.gender) {
                      var3 = true;
                   }
                }
 
-               if (LoadMap.a != 24 && LoadMap.a != 53 || AvatarData.c((int)var5.zOrder) || var5.zOrder == 52) {
+               if (LoadMap.TYPEMAP != 24 && LoadMap.TYPEMAP != 53 || AvatarData.isZOrderMain((int)var5.zOrder) || var5.zOrder == 52) {
                   var5.paintAvatar(var1, super.frame, super.x * MyObject.hd, (super.y + super.vh + this.ySat + super.N) * MyObject.hd, super.direct);
                   if (var3) {
                      var3 = false;
-                     var5 = AvatarData.a((short)606);
-                     if (LoadMap.a != 24 && LoadMap.a != 53 || AvatarData.c((int)var5.zOrder) || var5.zOrder == 52) {
+                     var5 = AvatarData.getPart((short)606);
+                     if (LoadMap.TYPEMAP != 24 && LoadMap.TYPEMAP != 53 || AvatarData.isZOrderMain((int)var5.zOrder) || var5.zOrder == 52) {
                         var5.paintAvatar(var1, super.frame, super.x * MyObject.hd, (super.y + super.vh + this.ySat + super.N) * MyObject.hd, super.direct);
                      }
                   }
@@ -144,7 +144,7 @@ public final class Avatar extends Base {
             }
          }
 
-         if ((OptionScr.b().b[0] == 0 || this == LoadMap.p) && LoadMap.a != 24) {
+         if ((OptionScr.gI().b[0] == 0 || this == LoadMap.p) && LoadMap.TYPEMAP != 24) {
             this.paintName(var1, super.x * MyObject.hd, (super.y + super.N) * MyObject.hd - AvMain.ai);
          }
 
@@ -172,9 +172,9 @@ public final class Avatar extends Base {
 
          for(int var6 = 0; var6 < var5; ++var6) {
             Part var7;
-            if ((var7 = AvatarData.a(((SeriPart)this.seriPart.elementAt(var6)).idPart)) != null) {
+            if ((var7 = AvatarData.getPart(((SeriPart)this.seriPart.elementAt(var6)).idPart)) != null) {
                if (var7.zOrder == 40 && this.feel != 4) {
-                  var7 = AvatarData.a(this.feel);
+                  var7 = AvatarData.getPart(this.feel);
                }
 
                var7.paintAvatar(var1, super.frame, var2, var3, super.direct);
@@ -318,8 +318,8 @@ public final class Avatar extends Base {
             int var3 = (this.aR[this.au] >> 8) * LoadMap.i + LoadMap.i / 2;
             if (this.au == 1) {
                GameMidlet.avatar.isSetAction = true;
-               var2 = this.av.a / AvMain.hd;
-               var3 = this.av.b / AvMain.hd;
+               var2 = this.av.x / AvMain.hd;
+               var3 = this.av.y / AvMain.hd;
                this.au = 0;
             }
 
@@ -401,7 +401,7 @@ public final class Avatar extends Base {
          }
       }
 
-      if ((this != GameMidlet.avatar || this.task != 0 || Canvas.currentMyScreen == BoardScr.i) && super.action != 10) {
+      if ((this != GameMidlet.avatar || this.task != 0 || Canvas.currentMyScreen == BoardScr.me) && super.action != 10) {
          if (CRes.a(super.x, super.y + super.N, super.xCur, super.yCur) <= super.G) {
             if (super.M && this.aJ == 0) {
                this.aJ = 0;
@@ -428,7 +428,7 @@ public final class Avatar extends Base {
                   this.task = 0;
                }
 
-               if (Canvas.v == null) {
+               if (Canvas.currentDialog == null) {
                   MapScr.gI();
                   MapScr.doMove(super.x, super.y, super.direct, super.N);
                }
@@ -450,7 +450,7 @@ public final class Avatar extends Base {
                   super.direct = this.dirLast;
                } else {
                   AvPosition var2 = (AvPosition)this.moveList.elementAt(0);
-                  this.doAction(var2.a, var2.b + var2.d);
+                  this.doAction(var2.x, var2.y + var2.d);
                   this.aJ = var2.d;
                   if (var2.d != 0) {
                      super.M = true;
@@ -463,7 +463,7 @@ public final class Avatar extends Base {
                         LoadMap.type[super.y / LoadMap.i * LoadMap.wMap + super.x / LoadMap.i] = 112;
                      }
 
-                     super.action = (byte)var2.c;
+                     super.action = (byte)var2.anchor;
                      if (super.action == 14) {
                         super.y = super.yCur;
                         super.x = super.xCur;
@@ -489,7 +489,7 @@ public final class Avatar extends Base {
                         }
                      }
                   } else {
-                     this.dirLast = (byte)var2.c;
+                     this.dirLast = (byte)var2.anchor;
                      super.direct = this.dirLast;
                   }
 
@@ -521,7 +521,7 @@ public final class Avatar extends Base {
                               case -3:
                                  if (LoadMap.k == -1) {
                                     AnimateEffect var1 = new AnimateEffect(2, 0);
-                                    Canvas.B.addElement(var1);
+                                    Canvas.currentEffect.addElement(var1);
                                  }
 
                                  this.task = 0;
@@ -675,8 +675,8 @@ public final class Avatar extends Base {
          if (this.task == 0 && !MapScr.t) {
             super.vx = 0;
             super.vy = 0;
-            if (Canvas.d[2]) {
-               AvCamera.gI().e = 0L;
+            if (Canvas.keyHold[2]) {
+               AvCamera.gI().timeDelay = 0L;
                this.isJumps = -1;
                this.o();
                if (super.M) {
@@ -689,8 +689,8 @@ public final class Avatar extends Base {
                      super.vy = 0;
                   }
                }
-            } else if (Canvas.d[8]) {
-               AvCamera.gI().e = 0L;
+            } else if (Canvas.keyHold[8]) {
+               AvCamera.gI().timeDelay = 0L;
                this.isJumps = -1;
                this.resetTypeChair();
                this.resetNam_nghi(0, 1);
@@ -712,8 +712,8 @@ public final class Avatar extends Base {
                }
             }
 
-            if (Canvas.d[4]) {
-               AvCamera.gI().e = 0L;
+            if (Canvas.keyHold[4]) {
+               AvCamera.gI().timeDelay = 0L;
                this.isJumps = -1;
                if (this.numSleep == 0 && super.direct == Base.LEFT) {
                   this.numSleep = 3;
@@ -733,8 +733,8 @@ public final class Avatar extends Base {
                }
 
                ++this.numSleep;
-            } else if (Canvas.d[6]) {
-               AvCamera.gI().e = 0L;
+            } else if (Canvas.keyHold[6]) {
+               AvCamera.gI().timeDelay = 0L;
                this.isJumps = -1;
                if (this.numSleep == 0 && super.direct == 0) {
                   this.numSleep = 3;
@@ -759,28 +759,28 @@ public final class Avatar extends Base {
             }
 
             boolean var1 = false;
-            if (Canvas.b[2]) {
-               if (Canvas.d[4] || Canvas.d[6] || Canvas.d[8]) {
+            if (Canvas.keyPressed[2]) {
+               if (Canvas.keyHold[4] || Canvas.keyHold[6] || Canvas.keyHold[8]) {
                   var1 = true;
                }
-            } else if (Canvas.b[4]) {
-               if (Canvas.d[2] || Canvas.d[6] || Canvas.d[8]) {
+            } else if (Canvas.keyPressed[4]) {
+               if (Canvas.keyHold[2] || Canvas.keyHold[6] || Canvas.keyHold[8]) {
                   var1 = true;
                }
-            } else if (Canvas.b[6]) {
-               if (Canvas.d[4] || Canvas.d[2] || Canvas.d[8]) {
+            } else if (Canvas.keyPressed[6]) {
+               if (Canvas.keyHold[4] || Canvas.keyHold[2] || Canvas.keyHold[8]) {
                   var1 = true;
                }
-            } else if (Canvas.b[8] && (Canvas.d[4] || Canvas.d[6] || Canvas.d[2])) {
+            } else if (Canvas.keyPressed[8] && (Canvas.keyHold[4] || Canvas.keyHold[6] || Canvas.keyHold[2])) {
                var1 = true;
             }
 
-            if (Canvas.c[2] || Canvas.c[4] || Canvas.c[6] || Canvas.c[8]) {
+            if (Canvas.keyReleased[2] || Canvas.keyReleased[4] || Canvas.keyReleased[6] || Canvas.keyReleased[8]) {
                var1 = true;
                Canvas.g();
             }
 
-            if (var1 && super.action != 2 && super.action != 13 && super.action != 4 && !Canvas.c[2]) {
+            if (var1 && super.action != 2 && super.action != 13 && super.action != 4 && !Canvas.keyReleased[2]) {
                MapScr.gI();
                MapScr.doMove(super.x, super.y, super.direct, super.N);
             }
@@ -793,7 +793,7 @@ public final class Avatar extends Base {
                super.action = 1;
             }
 
-            Canvas.b[2] = Canvas.b[4] = Canvas.b[6] = Canvas.b[8] = false;
+            Canvas.keyPressed[2] = Canvas.keyPressed[4] = Canvas.keyPressed[6] = Canvas.keyPressed[8] = false;
          }
       }
    }
@@ -880,10 +880,10 @@ public final class Avatar extends Base {
       if (super.action == 14) {
          super.action = 0;
          this.setPos(HouseScr.b().f, HouseScr.b().g);
-         AvatarService.a().a((int)0);
+         AvatarService.gI().doFeel((int)0);
          MapScr.gI();
          MapScr.doMove(GameMidlet.avatar.x, GameMidlet.avatar.y, GameMidlet.avatar.direct, GameMidlet.avatar.timeTask);
-         Canvas.d[8] = false;
+         Canvas.keyHold[8] = false;
       }
 
    }
@@ -905,9 +905,9 @@ public final class Avatar extends Base {
    private boolean doJoin(int var1, int var2) {
       if (this != GameMidlet.avatar) {
          return false;
-      } else if (super.action != -1 && Canvas.v == null) {
+      } else if (super.action != -1 && Canvas.currentDialog == null) {
          boolean var3;
-         if ((var3 = Canvas.x.a(super.x + var1, super.y + var2)) && super.action == 1) {
+         if ((var3 = Canvas.loadMap.a(super.x + var1, super.y + var2)) && super.action == 1) {
             super.action = 0;
          }
 
@@ -986,14 +986,14 @@ public final class Avatar extends Base {
       try {
          for(int var1 = 0; var1 < this.seriPart.size() - 1; ++var1) {
             SeriPart var2;
-            if (AvatarData.a((var2 = (SeriPart)this.seriPart.elementAt(var1)).idPart) != null) {
+            if (AvatarData.getPart((var2 = (SeriPart)this.seriPart.elementAt(var1)).idPart) != null) {
                for(int var3 = var1 + 1; var3 < this.seriPart.size(); ++var3) {
                   SeriPart var4;
-                  if (AvatarData.a((var4 = (SeriPart)this.seriPart.elementAt(var3)).idPart).IDPart == -1) {
+                  if (AvatarData.getPart((var4 = (SeriPart)this.seriPart.elementAt(var3)).idPart).IDPart == -1) {
                      this.isLoad = true;
                   }
 
-                  if (AvatarData.a(var4.idPart) != null && AvatarData.a(var2.idPart).zOrder > AvatarData.a(var4.idPart).zOrder) {
+                  if (AvatarData.getPart(var4.idPart) != null && AvatarData.getPart(var2.idPart).zOrder > AvatarData.getPart(var4.idPart).zOrder) {
                      this.seriPart.setElementAt(var2, var3);
                      this.seriPart.setElementAt(var4, var1);
                      var2 = var4;
@@ -1010,7 +1010,7 @@ public final class Avatar extends Base {
    public final void addPart(int var1, int var2) {
       for(int var3 = 0; var3 < this.seriPart.size() - 1; ++var3) {
          SeriPart var4;
-         Part var5 = AvatarData.a((var4 = (SeriPart)this.seriPart.elementAt(var3)).idPart);
+         Part var5 = AvatarData.getPart((var4 = (SeriPart)this.seriPart.elementAt(var3)).idPart);
          if (var2 == var5.zOrder) {
             this.seriPart.removeElement(var4);
             break;
@@ -1026,9 +1026,9 @@ public final class Avatar extends Base {
 
    public final void addSeriPart(SeriPart var1) {
       Part var2;
-      if ((var2 = AvatarData.a(var1.idPart)) != null && var2.f != -2) {
+      if ((var2 = AvatarData.getPart(var1.idPart)) != null && var2.follow != -2) {
          SeriPart var3;
-         if ((var3 = AvatarData.a(var2.zOrder, this.seriPart)) != null) {
+         if ((var3 = AvatarData.getSeriByZ(var2.zOrder, this.seriPart)) != null) {
             this.seriPart.removeElement(var3);
          }
 
@@ -1039,7 +1039,7 @@ public final class Avatar extends Base {
    public final void initPet() {
       for(int var1 = 0; var1 < this.seriPart.size(); ++var1) {
          SeriPart var2;
-         if (AvatarData.a((var2 = (SeriPart)this.seriPart.elementAt(var1)).idPart).zOrder == -1) {
+         if (AvatarData.getPart((var2 = (SeriPart)this.seriPart.elementAt(var1)).idPart).zOrder == -1) {
             this.seriPart.removeElement(var2);
             this.idPet = var2.idPart;
          }
@@ -1091,19 +1091,19 @@ public final class Avatar extends Base {
 
       short var1 = 88;
       int var2 = LoadMap.i * AvMain.hd;
-      if (this.av.b / var2 * LoadMap.wMap + this.av.a / var2 > 0 && this.av.b / var2 * LoadMap.wMap + this.av.a / var2 < LoadMap.type.length) {
-         var1 = LoadMap.type[this.av.b / var2 * LoadMap.wMap + this.av.a / var2];
+      if (this.av.y / var2 * LoadMap.wMap + this.av.x / var2 > 0 && this.av.y / var2 * LoadMap.wMap + this.av.x / var2 < LoadMap.type.length) {
+         var1 = LoadMap.type[this.av.y / var2 * LoadMap.wMap + this.av.x / var2];
       }
 
-      if (this != GameMidlet.avatar || var1 == 80 || LoadMap.a == 24 || LoadMap.a((int)var1) || LoadMap.b(var1)) {
-         this.av.c = 0;
+      if (this != GameMidlet.avatar || var1 == 80 || LoadMap.TYPEMAP == 24 || LoadMap.a((int)var1) || LoadMap.b(var1)) {
+         this.av.anchor = 0;
          if (this.task == 0 || this.task == -5) {
             this.task = -5;
             this.isJumps = -1;
             super.xCur = super.x;
             super.yCur = super.y;
             if (this == GameMidlet.avatar) {
-               if (super.x > this.av.a / AvMain.hd) {
+               if (super.x > this.av.x / AvMain.hd) {
                   LoadMap.A = Base.LEFT;
                } else {
                   LoadMap.A = 0;
@@ -1118,13 +1118,13 @@ public final class Avatar extends Base {
 
    public final void findPath() {
       int var1 = LoadMap.i * AvMain.hd;
-      if (super.x / LoadMap.i == this.av.a / var1 && super.y / LoadMap.i == this.av.b / var1) {
-         this.doAction(this.av.a / var1 * LoadMap.i + this.av.a % var1 / 2, this.av.b / var1 * LoadMap.i + this.av.b % var1 / 2);
+      if (super.x / LoadMap.i == this.av.x / var1 && super.y / LoadMap.i == this.av.y / var1) {
+         this.doAction(this.av.x / var1 * LoadMap.i + this.av.x % var1 / 2, this.av.y / var1 * LoadMap.i + this.av.y % var1 / 2);
       } else {
          int var10001 = super.x / LoadMap.i;
          int var10002 = super.y / LoadMap.i;
-         int var10003 = this.av.a / var1;
-         int var5 = this.av.b / var1;
+         int var10003 = this.av.x / var1;
+         int var5 = this.av.y / var1;
          int var4 = var10003;
          int var3 = var10002;
          int var2 = var10001;
@@ -1212,7 +1212,7 @@ public final class Avatar extends Base {
 
    public final void n() {
       short var1 = LoadMap.wMap;
-      short var2 = LoadMap.f;
+      short var2 = LoadMap.Hmap;
       this.at = new boolean[var1][var2];
       this.aP = new short[var1 * var2];
       this.aQ = new short[var1 * var2];

@@ -11,7 +11,7 @@ final class IActionToGo implements IAction {
 
    public final void perform() {
       try {
-         this.a.j = Integer.parseInt(Canvas.u.a());
+         this.a.j = Integer.parseInt(Canvas.inputDlg.a());
       } catch (Exception var1) {
          return;
       }

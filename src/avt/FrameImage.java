@@ -32,7 +32,8 @@ public final class FrameImage {
    }
 
    public final void b(int var1, int var2, int var3, int var4, Graphics var5) {
-      if (var1 >= 0 && var1 < this.c) {
+      if (var1 >= 0 && var1 < this.c && var2 >= 0 && var2 * this.b < this.d.getHeight()
+              && var1 * this.a + this.a <= this.d.getWidth()) {
          var5.drawRegion(this.d, var1 * this.a, var2 * this.b, this.a, this.b, 0, var3, var4, 0);
       }
    }

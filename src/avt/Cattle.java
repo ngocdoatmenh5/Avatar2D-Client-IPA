@@ -16,14 +16,14 @@ public final class Cattle extends Animal {
    }
 
    public final void setInit() {
-      this.setPos(FarmScr.C.a + 48 + (CRes.rnd((FarmScr.w - 2) * 6) << 2), FarmScr.C.b + 24 + (CRes.rnd(12) << 2));
+      this.setPos(FarmScr.C.x + 48 + (CRes.rnd((FarmScr.w - 2) * 6) << 2), FarmScr.C.y + 24 + (CRes.rnd(12) << 2));
    }
 
    public final void updatePos() {
       super.posNext = new AvPosition();
       AvPosition var2;
       if (!super.isEat) {
-         var2 = new AvPosition(FarmScr.C.a + 12 + (CRes.rnd(FarmScr.w * 6) << 2), FarmScr.C.b + 12 + (CRes.rnd(18) << 2));
+         var2 = new AvPosition(FarmScr.C.x + 12 + (CRes.rnd(FarmScr.w * 6) << 2), FarmScr.C.y + 12 + (CRes.rnd(18) << 2));
          super.posNext = var2;
       } else {
          var2 = r;
@@ -42,7 +42,7 @@ public final class Cattle extends Animal {
 
    public final void reset() {
       super.reset();
-      if (super.isEat && CRes.f(r.a - super.x) < 20 && CRes.f(r.b - super.y) < 15) {
+      if (super.isEat && CRes.f(r.x - super.x) < 20 && CRes.f(r.y - super.y) < 15) {
          super.isEat = false;
          super.hunger = false;
          FarmScr.b();

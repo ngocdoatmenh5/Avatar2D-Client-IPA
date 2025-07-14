@@ -11,6 +11,6 @@ final class class_ge implements IAction {
 
    public final void perform() {
       FarmService.a().b((short)this.a);
-      Canvas.i();
+      Canvas.startWaitDlg();
    }
 }

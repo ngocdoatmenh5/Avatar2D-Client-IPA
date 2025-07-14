@@ -6,7 +6,7 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class PopupShop extends MyScreen {
-   public static PopupShop a;
+   public static PopupShop me;
    private static String[] p;
    private static int q;
    public static int b;
@@ -48,21 +48,21 @@ public final class PopupShop extends MyScreen {
    private int N;
 
    public static PopupShop b() {
-      if (a == null) {
-         a = new PopupShop();
+      if (me == null) {
+         me = new PopupShop();
       }
 
-      return a;
+      return me;
    }
 
    public final void a() {
       C = Canvas.currentMyScreen;
-      this.D = Canvas.n + 50;
-      this.E = Canvas.j();
+      this.D = Canvas.h + 50;
+      this.E = Canvas.getSecond();
       n = true;
       G = 86;
-      if (Canvas.Z != 0) {
-         G = 86 + 40 * Canvas.Z;
+      if (Canvas.stypeInt != 0) {
+         G = 86 + 40 * Canvas.stypeInt;
       }
 
       o = false;
@@ -110,13 +110,13 @@ public final class PopupShop extends MyScreen {
          case 10:
             if (var2 < FarmScr.f.size()) {
                Item var5 = (Item)FarmScr.f.elementAt(var2);
-               FarmScr.b().a((int)var5.a, var5.f);
+               FarmScr.b().a((int)var5.ID, var5.name);
                return;
             }
             break;
          case 11:
             if (var2 < FarmScr.e.size()) {
-               var4 = FarmScr.b(((Item)FarmScr.e.elementAt(var2)).a);
+               var4 = FarmScr.b(((Item)FarmScr.e.elementAt(var2)).ID);
                FarmScr.b().a((int)var4.a, var4.f);
                return;
             }
@@ -144,11 +144,11 @@ public final class PopupShop extends MyScreen {
       if (k) {
          k = false;
       } else {
-         Canvas.y.m = false;
+         Canvas.cameraList.m = false;
          this.m = false;
          C.a();
-         if (Canvas.I) {
-            if (LoadMap.a == 25 && Welcome.f != 0) {
+         if (Canvas.isDoubleImage) {
+            if (LoadMap.TYPEMAP == 25 && Welcome.f != 0) {
                Canvas.D = new Welcome();
                if (Welcome.f == 2) {
                   Welcome.f = 3;
@@ -159,7 +159,7 @@ public final class PopupShop extends MyScreen {
                return;
             }
 
-            if (LoadMap.a == 57) {
+            if (LoadMap.TYPEMAP == 57) {
                (Canvas.D = new Welcome()).b(MapScr.a);
             }
          }
@@ -168,32 +168,32 @@ public final class PopupShop extends MyScreen {
    }
 
    public final void c() {
-      super.ae = new Command(T1.d, 0);
-      super.ad = new Command(T1.O, 1);
+      super.right = new Command(T.d, 0);
+      super.center = new Command(T.O, 1);
    }
 
    public PopupShop() {
       this.N = 80 * AvMain.hd;
       t = AvMain.af;
       e = 30 * AvMain.hd;
-      if (Canvas.m < 150) {
+      if (Canvas.w < 150) {
          e = 24;
       }
 
-      if (Canvas.Z == 1) {
+      if (Canvas.stypeInt == 1) {
          e = 35;
       }
 
-      e();
+      init();
       this.c();
-      H = 25 * (2 - AvMain.hd) + 40 * (Canvas.Z + 1) + 10 * (AvMain.hd - 1);
+      H = 25 * (2 - AvMain.hd) + 40 * (Canvas.stypeInt + 1) + 10 * (AvMain.hd - 1);
    }
 
-   public static void e() {
+   public static void init() {
       c = e * 5 + 11 + AvMain.Z + 2;
       d = e * 6 + 10 + AvMain.Z;
-      q = Canvas.o - e * 5 / 2;
-      b = (Canvas.n - MyScreen.at) / 2 - d / 2;
+      q = Canvas.hw - e * 5 / 2;
+      b = (Canvas.h - MyScreen.at) / 2 - d / 2;
    }
 
    public static int f() {
@@ -227,7 +227,7 @@ public final class PopupShop extends MyScreen {
       System.out.println("addElement: " + this.h.length);
       this.v = this.h.length;
       k = false;
-      PaintPopup.a().a(p[g], c, d, this.v);
+      PaintPopup.gI().a(p[g], c, d, this.v);
       this.i();
    }
 
@@ -267,9 +267,9 @@ public final class PopupShop extends MyScreen {
          l = 0;
       }
 
-      Canvas.y.a(q, PaintPopup.a().h + PaintPopup.o + AvMain.Z + (!o && !this.y[g] ? 0 : u), e, e, e * r, e * s, e * 5, f * e - l, var1);
+      Canvas.cameraList.a(q, PaintPopup.gI().h + PaintPopup.o + AvMain.Z + (!o && !this.y[g] ? 0 : u), e, e, e * r, e * s, e * 5, f * e - l, var1);
       this.m();
-      PaintPopup.a().a(p[g], g);
+      PaintPopup.gI().a(p[g], g);
    }
 
    public final void k() {
@@ -293,9 +293,9 @@ public final class PopupShop extends MyScreen {
       }
 
       if (this.x[g] != null) {
-         super.ac = this.x[g];
+         super.left = this.x[g];
       } else {
-         super.ac = null;
+         super.left = null;
       }
    }
 
@@ -309,7 +309,7 @@ public final class PopupShop extends MyScreen {
       this.x[var2] = var1;
    }
 
-   public final void l() {
+   public final void updateKey() {
       int var2;
       if (k) {
          if (Canvas.a(4)) {
@@ -320,33 +320,33 @@ public final class PopupShop extends MyScreen {
             this.K = 5;
          }
 
-         if (Canvas.a(0, 0, Canvas.m, Canvas.n - Canvas.T)) {
-            Canvas.g = false;
+         if (Canvas.a(0, 0, Canvas.w, Canvas.h - Canvas.hTab)) {
+            Canvas.isPointerClick = false;
          }
 
-         if (Canvas.f) {
+         if (Canvas.isPointerRelease) {
             var2 = j % r * e;
             int var3 = (j / r + 1) * e;
             if (var2 + e / 2 - G / 2 + q + 5 < 0) {
                var2 = -e / 2 + G / 2 - q - 5;
-            } else if (var2 + e / 2 - G / 2 + G > Canvas.m) {
-               var2 = Canvas.m - G - e / 2 + G / 2;
+            } else if (var2 + e / 2 - G / 2 + G > Canvas.w) {
+               var2 = Canvas.w - G - e / 2 + G / 2;
             }
 
             var2 += q;
             var3 += b + PaintPopup.o + AvMain.Z;
             int var4 = (H - (AvMain.Z << 1)) / 4;
             var3 += AvMain.Z + 8;
-            var2 = var2 + e / 2 - 35 * (Canvas.Z + 1) / 2 - 2 - 10 - 10 * AvMain.hd;
+            var2 = var2 + e / 2 - 35 * (Canvas.stypeInt + 1) / 2 - 2 - 10 - 10 * AvMain.hd;
             var3 = var3 + var4 / 2 + var4 + AvMain.ah / 2;
             if (Canvas.a(var2, var3 - 15 * AvMain.hd - 5, 20 + 20 * AvMain.hd, 30 * AvMain.hd)) {
                this.c(-1);
                this.J = 5;
-            } else if (Canvas.a(var2 + 35 * (Canvas.Z + 1), var3 - 15 * AvMain.hd - 5, 20 + 20 * AvMain.hd, 30 * AvMain.hd)) {
+            } else if (Canvas.a(var2 + 35 * (Canvas.stypeInt + 1), var3 - 15 * AvMain.hd - 5, 20 + 20 * AvMain.hd, 30 * AvMain.hd)) {
                this.c(1);
                this.K = 5;
-            } else if (Canvas.a(var2 + 20 + 20 * AvMain.hd, var3 - 15 * AvMain.hd - 5, var2 + 35 * (Canvas.Z + 1) - (var2 + 20 + 20 * AvMain.hd), 30 * AvMain.hd)) {
-               super.ad.b();
+            } else if (Canvas.a(var2 + 20 + 20 * AvMain.hd, var3 - 15 * AvMain.hd - 5, var2 + 35 * (Canvas.stypeInt + 1) - (var2 + 20 + 20 * AvMain.hd), 30 * AvMain.hd)) {
+               super.center.b();
             }
          }
 
@@ -366,7 +366,7 @@ public final class PopupShop extends MyScreen {
                this.b(1);
             }
 
-            Canvas.y.a(j);
+            Canvas.cameraList.a(j);
             this.m();
          } else if (Canvas.a(4)) {
             if (j % r != 0 && r != 1 && !F) {
@@ -375,7 +375,7 @@ public final class PopupShop extends MyScreen {
                this.b(-1);
             }
 
-            Canvas.y.a(j);
+            Canvas.cameraList.a(j);
             this.m();
          } else if (Canvas.a(2)) {
             if (this.h[g] != null && this.h[g].size() > 0 && !F) {
@@ -384,7 +384,7 @@ public final class PopupShop extends MyScreen {
                } else {
                   for(var2 = 0; var2 < var1.h.length; ++var2) {
                      if (var2 != g) {
-                        PaintPopup.a().a(4, var2);
+                        PaintPopup.gI().a(4, var2);
                      }
                   }
 
@@ -392,7 +392,7 @@ public final class PopupShop extends MyScreen {
                }
             }
 
-            Canvas.y.a(j);
+            Canvas.cameraList.a(j);
             var1.m();
          } else if (Canvas.a(8)) {
             if (F) {
@@ -400,24 +400,24 @@ public final class PopupShop extends MyScreen {
 
                for(var2 = 0; var2 < var1.h.length; ++var2) {
                   if (var2 != g) {
-                     PaintPopup.a().a(0, var2);
+                     PaintPopup.gI().a(0, var2);
                   }
                }
             } else if (r > 1 && j / r + 1 < s) {
                j += r;
             }
 
-            Canvas.y.a(j);
+            Canvas.cameraList.a(j);
             var1.m();
          }
 
-         if (Canvas.g && (var2 = PaintPopup.a().d()) != 0) {
+         if (Canvas.isPointerClick && (var2 = PaintPopup.gI().d()) != 0) {
             var1.b(var2);
-            Canvas.g = false;
+            Canvas.isPointerClick = false;
          }
       }
 
-      super.l();
+      super.updateKey();
    }
 
    private void c(int var1) {
@@ -435,8 +435,8 @@ public final class PopupShop extends MyScreen {
 
    public final void a(int var1, boolean var2) {
       if (!k) {
-         if (j == var1 && super.ad != null && !var2) {
-            super.ad.b();
+         if (j == var1 && super.center != null && !var2) {
+            super.center.b();
          }
 
          j = var1;
@@ -447,17 +447,17 @@ public final class PopupShop extends MyScreen {
    private static void o() {
       if (g == 1) {
          FarmItem var0;
-         I = Canvas.a((var0 = (FarmItem)FarmData.e.elementAt(j)).g * A, var0.h * A, true);
+         I = Canvas.getPriceMoney((var0 = (FarmItem)FarmData.e.elementAt(j)).g * A, var0.h * A, true);
       } else {
-         I = Canvas.a(FarmData.b[j].g[0] * A, FarmData.b[j].g[1] * A, true);
+         I = Canvas.getPriceMoney(FarmData.b[j].g[0] * A, FarmData.b[j].g[1] * A, true);
       }
 
-      if ((G = Canvas.K.getWidth(I) + 16 + 30 * Canvas.Z) < 86 * AvMain.hd) {
+      if ((G = Canvas.K.getWidth(I) + 16 + 30 * Canvas.stypeInt) < 86 * AvMain.hd) {
          G = 86 * AvMain.hd;
       }
 
-      if (Canvas.Z != 0) {
-         G = 86 + 40 * Canvas.Z;
+      if (Canvas.stypeInt != 0) {
+         G = 86 + 40 * Canvas.stypeInt;
       }
 
    }
@@ -476,34 +476,34 @@ public final class PopupShop extends MyScreen {
 
    public final void m() {
       if (this.h[g] != null && j < this.h[g].size()) {
-         super.ad = (Command)this.h[g].elementAt(j);
+         super.center = (Command)this.h[g].elementAt(j);
       } else if (this.w != null && g < this.w.size()) {
          Command var1;
          if ((var1 = (Command)this.w.elementAt(g)) != null) {
-            super.ad = var1;
+            super.center = var1;
          }
       } else {
-         super.ad = null;
+         super.center = null;
       }
 
       n = true;
-      this.E = Canvas.j();
+      this.E = Canvas.getSecond();
    }
 
    public final void a(boolean var1) {
       this.L = var1;
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       C.b(var1);
       Canvas.resetTrans(var1);
-      PaintPopup.a().a(var1);
+      PaintPopup.gI().a(var1);
       var1.setColor(0);
-      var1.translate(q, PaintPopup.a().h + PaintPopup.o + AvMain.Z);
+      var1.translate(q, PaintPopup.gI().h + PaintPopup.o + AvMain.Z);
       int var3;
       int var4;
       if (o) {
-         String var2 = Canvas.a(GameMidlet.avatar.money[0], GameMidlet.avatar.money[2], GameMidlet.avatar.luongKhoa, true);
+         String var2 = Canvas.getPriceMoney(GameMidlet.avatar.money[0], GameMidlet.avatar.money[2], GameMidlet.avatar.luongKhoa, true);
          var3 = Canvas.N.getWidth(var2);
          if (CRes.f(var4 = this.M) > var3 + 20 - (c - 20)) {
             var4 = 0;
@@ -591,11 +591,11 @@ public final class PopupShop extends MyScreen {
          } else {
             var11 = var1;
             PopupShop var10 = this;
-            if (Canvas.j() - this.E > 0 && !k && B != null && j < this.h[g].size()) {
+            if (Canvas.getSecond() - this.E > 0 && !k && B != null && j < this.h[g].size()) {
                var4 = j % r * e - this.N / 2 + e / 2;
                var5 = (j / r + 1) * e - CameraList.i + 5;
                int var6 = B.size() * AvMain.af + (AvMain.Z << 1) + 8;
-               if (var5 + var6 + b + 12 > Canvas.n) {
+               if (var5 + var6 + b + 12 > Canvas.h) {
                   var5 -= var6 + e + 10;
                }
 
@@ -603,14 +603,14 @@ public final class PopupShop extends MyScreen {
                   var5 = -b;
                }
 
-               if (var4 + q + 5 + this.N > Canvas.m) {
-                  var4 = Canvas.m - (q + 5 + this.N);
+               if (var4 + q + 5 + this.N > Canvas.w) {
+                  var4 = Canvas.w - (q + 5 + this.N);
                } else if (var4 + q < 0) {
                   var4 = -q;
                }
 
                var1.setClip(var4, var5, this.N, var6 * AvMain.hd);
-               Canvas.S.a(var1, var4, var5, this.N, var6, PaintPopup.d[2], PaintPopup.d[3], 1);
+               Canvas.paint.a(var1, var4, var5, this.N, var6, PaintPopup.d[2], PaintPopup.d[3], 1);
                var4 += AvMain.Z;
                var5 += AvMain.Z - AvMain.af / 2;
 
@@ -631,8 +631,8 @@ public final class PopupShop extends MyScreen {
 
          if (k) {
             Canvas.resetTrans(var1);
-            var1.translate(q, Canvas.y.e);
-            Canvas.S.a(var1, j, r, e, G, q, H, g, A, I, this.J, this.K);
+            var1.translate(q, Canvas.cameraList.e);
+            Canvas.paint.a(var1, j, r, e, G, q, H, g, A, I, this.J, this.K);
          }
       } else {
          var1.setClip(-5, 0, c - 10, d);
@@ -640,7 +640,7 @@ public final class PopupShop extends MyScreen {
       }
 
       if (Canvas.D == null || Welcome.g || !Welcome.d) {
-         super.a(var1);
+         super.paint(var1);
       }
 
       Canvas.a(var1);

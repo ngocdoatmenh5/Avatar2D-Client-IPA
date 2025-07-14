@@ -24,7 +24,7 @@ public final class HistoryPopup extends Dialog {
    public HistoryPopup(class_jz var1, short[] var2, String[] var3) {
       this.a = var2;
       this.b = var3;
-      super.ad = new Command(T1.z, (IAction)null);
+      super.center = new Command(T.z, (IAction)null);
       this.d = 150 * AvMain.hd;
       this.c = 200 * AvMain.hd;
       this.c = 0;
@@ -44,20 +44,20 @@ public final class HistoryPopup extends Dialog {
 
    }
 
-   public final void l() {
+   public final void updateKey() {
       ++this.n;
       boolean var1 = false;
-      if (Canvas.g && Canvas.a((Canvas.m - this.c) / 2, (Canvas.n - this.d) / 2, this.c, this.d) && !this.l) {
+      if (Canvas.isPointerClick && Canvas.a((Canvas.w - this.c) / 2, (Canvas.h - this.d) / 2, this.c, this.d) && !this.l) {
          this.k = this.g;
          this.l = true;
          this.m = 0;
       }
 
       if (this.l) {
-         int var2 = Canvas.l();
-         if (Canvas.e) {
+         int var2 = Canvas.dy();
+         if (Canvas.isPointerDown) {
             if (Canvas.gameTick % 3 == 0) {
-               this.p = Canvas.i;
+               this.p = Canvas.py;
                this.o = this.n;
             }
 
@@ -70,11 +70,11 @@ public final class HistoryPopup extends Dialog {
             this.g = this.f;
          }
 
-         if (Canvas.f) {
+         if (Canvas.isPointerRelease) {
             this.l = false;
             int var3 = this.n - this.o;
             int var4;
-            if (CRes.f(var4 = this.p - Canvas.i) > 40 && var3 < 10 && this.f > 0 && this.f < this.j) {
+            if (CRes.f(var4 = this.p - Canvas.py) > 40 && var3 < 10 && this.f > 0 && this.f < this.j) {
                this.m = var4 / var3 * 10;
             }
 
@@ -85,10 +85,10 @@ public final class HistoryPopup extends Dialog {
          }
       }
 
-      if (Canvas.d[2]) {
+      if (Canvas.keyHold[2]) {
          this.f -= AvMain.ag;
          var1 = true;
-      } else if (Canvas.d[8]) {
+      } else if (Canvas.keyHold[8]) {
          var1 = true;
          this.f += AvMain.ag;
       }
@@ -146,13 +146,13 @@ public final class HistoryPopup extends Dialog {
          this.h &= 15;
       }
 
-      super.l();
+      super.updateKey();
    }
 
-   public final void a(Graphics var1) {
-      Canvas.S.a(var1, (Canvas.m - this.c) / 2, (Canvas.q - this.d) / 2 - (PaintPopup.o + 3 * AvMain.hd), this.d + PaintPopup.o + 3 * AvMain.hd, this.c, 0, 0, PaintPopup.a().j, PaintPopup.a().i, PaintPopup.o, 1, 1, PaintPopup.a().n, PaintPopup.a().m, "Lịch sử");
+   public final void paint(Graphics var1) {
+      Canvas.paint.a(var1, (Canvas.w - this.c) / 2, (Canvas.q - this.d) / 2 - (PaintPopup.o + 3 * AvMain.hd), this.d + PaintPopup.o + 3 * AvMain.hd, this.c, 0, 0, PaintPopup.gI().j, PaintPopup.gI().i, PaintPopup.o, 1, 1, PaintPopup.gI().n, PaintPopup.gI().m, "Lịch sử");
       Canvas.resetTrans(var1);
-      var1.translate((Canvas.m - this.c) / 2, (Canvas.q - this.d) / 2);
+      var1.translate((Canvas.w - this.c) / 2, (Canvas.q - this.d) / 2);
       var1.setClip(0, 5 * AvMain.hd, this.c, this.d - 10 * AvMain.hd);
       var1.translate(0, -this.g);
 
@@ -161,6 +161,6 @@ public final class HistoryPopup extends Dialog {
          Canvas.K.a(var1, this.b[var2], 35 * AvMain.hd, 15 * AvMain.hd + var2 * this.e - AvMain.ag / 2, 0);
       }
 
-      super.a(var1);
+      super.paint(var1);
    }
 }

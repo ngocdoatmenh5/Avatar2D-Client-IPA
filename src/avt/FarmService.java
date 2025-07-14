@@ -15,248 +15,248 @@ public final class FarmService extends IService {
    }
 
    public final void a(short var1) {
-      this.e((byte)54);
-      this.p(var1);
-      this.k();
-      Canvas.c(T1.aL);
+      this.createMessage((byte)54);
+      this.writeShort(var1);
+      this.sendMessage();
+      Canvas.startWaitDlg(T.aL);
    }
 
    public final void b() {
-      this.e((byte)55);
-      this.k();
-      Canvas.c(T1.aL);
+      this.createMessage((byte)55);
+      this.sendMessage();
+      Canvas.startWaitDlg(T.aL);
    }
 
    public final void c() {
-      this.e((byte)56);
-      this.k();
-      Canvas.c(T1.aL);
+      this.createMessage((byte)56);
+      this.sendMessage();
+      Canvas.startWaitDlg(T.aL);
    }
 
    public final void d() {
-      this.e((byte)60);
-      this.k();
+      this.createMessage((byte)60);
+      this.sendMessage();
    }
 
    public final void a(int var1) {
-      this.e((byte)61);
-      this.n(var1);
-      this.k();
+      this.createMessage((byte)61);
+      this.writeInt(var1);
+      this.sendMessage();
    }
 
    public final void a(short var1, byte var2, int var3) {
-      this.e((byte)62);
+      this.createMessage((byte)62);
 
       try {
-         super.b.c().writeShort(var1);
-         super.b.c().writeByte(var2);
-         super.b.c().writeByte(var3);
+         super.m.writer().writeShort(var1);
+         super.m.writer().writeByte(var2);
+         super.m.writer().writeByte(var3);
       } catch (IOException var4) {
       }
 
-      this.k();
-      Canvas.h();
+      this.sendMessage();
+      Canvas.endDlg();
    }
 
    public final void b(short var1) {
-      this.e((byte)63);
-      this.p(var1);
-      this.k();
+      this.createMessage((byte)63);
+      this.writeShort(var1);
+      this.sendMessage();
    }
 
    public final void a(int var1, int var2, int var3) {
-      this.e((byte)64);
+      this.createMessage((byte)64);
 
       try {
-         super.b.c().writeInt(var1);
-         super.b.c().writeByte(var2);
-         super.b.c().writeByte(var3);
+         super.m.writer().writeInt(var1);
+         super.m.writer().writeByte(var2);
+         super.m.writer().writeByte(var3);
       } catch (IOException var4) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void b(int var1, int var2, int var3) {
       System.out.println("doUsingItem: " + var2 + "    " + var3);
-      this.e((byte)65);
+      this.createMessage((byte)65);
 
       try {
-         super.b.c().writeInt(var1);
-         super.b.c().writeByte(var2);
-         super.b.c().writeShort(var3);
+         super.m.writer().writeInt(var1);
+         super.m.writer().writeByte(var2);
+         super.m.writer().writeShort(var3);
       } catch (IOException var4) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void a(int var1, int var2) {
       System.out.println("doHervest: " + var1 + "   " + var2);
-      this.e((byte)66);
+      this.createMessage((byte)66);
 
       try {
-         super.b.c().writeInt(var1);
-         super.b.c().writeByte(var2);
+         super.m.writer().writeInt(var1);
+         super.m.writer().writeByte(var2);
       } catch (IOException var3) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void b(int var1, int var2) {
-      this.e((byte)70);
+      this.createMessage((byte)70);
 
       try {
-         super.b.c().writeInt(var1);
-         super.b.c().writeByte(var2);
+         super.m.writer().writeInt(var1);
+         super.m.writer().writeByte(var2);
       } catch (Exception var3) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void b(int var1) {
-      this.e((byte)69);
-      this.n(var1);
-      this.k();
+      this.createMessage((byte)69);
+      this.writeInt(var1);
+      this.sendMessage();
    }
 
    public final void c(int var1, int var2) {
-      this.e((byte)74);
+      this.createMessage((byte)74);
 
       try {
-         super.b.c().writeInt(var1);
-         super.b.c().writeByte(var2);
+         super.m.writer().writeInt(var1);
+         super.m.writer().writeByte(var2);
       } catch (Exception var3) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void a(int var1, byte var2) {
-      this.e((byte)73);
+      this.createMessage((byte)73);
 
       try {
-         super.b.c().writeInt(var1);
-         super.b.c().writeByte(var2);
+         super.m.writer().writeInt(var1);
+         super.m.writer().writeByte(var2);
       } catch (Exception var3) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void a(AnimalInfo var1, int var2) {
-      Canvas.h();
-      this.e((byte)71);
+      Canvas.endDlg();
+      this.createMessage((byte)71);
 
       try {
-         super.b.c().writeByte(var1.species);
-         super.b.c().writeByte(var2);
+         super.m.writer().writeByte(var1.species);
+         super.m.writer().writeByte(var2);
       } catch (Exception var3) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void d(int var1, int var2) {
-      this.e((byte)72);
+      this.createMessage((byte)72);
 
       try {
-         super.b.c().writeInt(var1);
-         super.b.c().writeByte(var2);
+         super.m.writer().writeInt(var1);
+         super.m.writer().writeByte(var2);
       } catch (Exception var3) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void e(int var1, int var2) {
-      this.e((byte)75);
+      this.createMessage((byte)75);
 
       try {
-         super.b.c().writeInt(var1);
-         super.b.c().writeByte(var2);
+         super.m.writer().writeInt(var1);
+         super.m.writer().writeByte(var2);
       } catch (Exception var3) {
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void f(int var1, int var2) {
-      this.e((byte)80);
-      this.o(var1);
+      this.createMessage((byte)80);
+      this.writeByte(var1);
       if (var1 == 1) {
-         this.o(var2);
+         this.writeByte(var2);
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void g(int var1, int var2) {
-      this.e((byte)81);
-      this.o(var1);
+      this.createMessage((byte)81);
+      this.writeByte(var1);
       if (var1 == 1) {
-         this.o(var2);
+         this.writeByte(var2);
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void c(short var1) {
-      this.e((byte)82);
-      this.p(var1);
-      this.k();
+      this.createMessage((byte)82);
+      this.writeShort(var1);
+      this.sendMessage();
    }
 
    public final void c(int var1) {
-      this.e((byte)84);
-      this.o(var1);
-      this.k();
+      this.createMessage((byte)84);
+      this.writeByte(var1);
+      this.sendMessage();
    }
 
    public final void d(int var1) {
-      this.e((byte)86);
-      this.o(var1);
-      this.k();
+      this.createMessage((byte)86);
+      this.writeByte(var1);
+      this.sendMessage();
    }
 
    public final void h(int var1, int var2) {
-      this.e((byte)90);
-      this.o(var1);
+      this.createMessage((byte)90);
+      this.writeByte(var1);
       if (var1 == 1) {
-         this.o(var2);
+         this.writeByte(var2);
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void i(int var1, int var2) {
-      this.e((byte)94);
-      this.o(var1);
+      this.createMessage((byte)94);
+      this.writeByte(var1);
       if (var1 == 1) {
-         this.o(var2);
+         this.writeByte(var2);
       }
 
-      this.k();
+      this.sendMessage();
    }
 
    public final void d(short var1) {
-      Canvas.i();
-      this.e((byte)91);
-      this.p(var1);
-      this.k();
+      Canvas.startWaitDlg();
+      this.createMessage((byte)91);
+      this.writeShort(var1);
+      this.sendMessage();
    }
 
    public final void e(int var1) {
-      this.e((byte)93);
-      this.o(var1);
-      this.k();
+      this.createMessage((byte)93);
+      this.writeByte(var1);
+      this.sendMessage();
    }
 
    public final void f(int var1) {
-      this.e((byte)96);
-      this.o(0);
-      this.k();
+      this.createMessage((byte)96);
+      this.writeByte(0);
+      this.sendMessage();
    }
 }

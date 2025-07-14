@@ -21,7 +21,7 @@ final class CommandGoVatPham extends Command {
       if (this.g == PopupShop.j) {
          PopupShop.n();
          PopupShop.a(this.f.f);
-         PopupShop.a(T1.az + Canvas.a(this.f.g, this.f.h, false));
+         PopupShop.a(T.az + Canvas.getPriceMoney(this.f.g, this.f.h, false));
       }
 
    }

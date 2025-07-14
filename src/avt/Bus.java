@@ -20,22 +20,22 @@ public final class Bus {
 
    public final void a(byte var1) {
       if (!b && GameMidlet.avatar.action != -1) {
-         FilePack.b(T1.at);
+         FilePack.b(T.at);
          this.k = FilePack.a("839");
          FilePack.a();
          i = var1;
          if (var1 == 1) {
-            AvCamera.gI().xCam = AvCamera.gI().c = a.a * AvMain.hd - Canvas.o - 300;
+            AvCamera.gI().xCam = AvCamera.gI().xTo = a.x * AvMain.hd - Canvas.hw - 300;
          }
 
-         this.d = LoadMap.f * LoadMap.i + (Canvas.Z != 0 ? Canvas.T : 0) / AvMain.hd + 20 * AvMain.hd;
-         this.c = a.a + 300;
+         this.d = LoadMap.Hmap * LoadMap.i + (Canvas.stypeInt != 0 ? Canvas.hTab : 0) / AvMain.hd + 20 * AvMain.hd;
+         this.c = a.x + 300;
          this.e = this.f = 15;
          this.g = 0;
          h = 1;
          b = true;
          GameMidlet.avatar.setAction((byte)-1);
-         AvCamera.f = true;
+         AvCamera.disable = true;
          j = false;
          if (i == 1) {
             GameMidlet.avatar.ableShow = true;
@@ -59,18 +59,18 @@ public final class Bus {
          if (this.e == 0) {
             h = -1;
             this.f = 8;
-            GameMidlet.avatar.setPos(this.c, a.b);
+            GameMidlet.avatar.setPos(this.c, a.y);
             GameMidlet.avatar.setAction((byte)0);
-            AvCamera.f = false;
+            AvCamera.disable = false;
             GameMidlet.avatar.ableShow = false;
-            if (Canvas.I && Session_ME.a().b()) {
-               if (LoadMap.a == 9) {
+            if (Canvas.isDoubleImage && Session_ME.a().b()) {
+               if (LoadMap.TYPEMAP == 9) {
                   (Canvas.D = new Welcome()).b();
-               } else if (i == 1 && LoadMap.a == 25) {
+               } else if (i == 1 && LoadMap.TYPEMAP == 25) {
                   (Canvas.D = new Welcome()).a((MyScreen)MapScr.a);
-               } else if (LoadMap.a == 13 && Welcome.c < 8) {
+               } else if (LoadMap.TYPEMAP == 13 && Welcome.c < 8) {
                   (Canvas.D = new Welcome()).f();
-               } else if (i == 1 && LoadMap.a == 23) {
+               } else if (i == 1 && LoadMap.TYPEMAP == 23) {
                   (Canvas.D = new Welcome()).d();
                }
             }
@@ -80,7 +80,7 @@ public final class Bus {
       if ((this.c + 58) * AvMain.hd < AvCamera.gI().xCam) {
          b = false;
          if (i == -1) {
-            Canvas.i();
+            Canvas.startWaitDlg();
          }
       }
 

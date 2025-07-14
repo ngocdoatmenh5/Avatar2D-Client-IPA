@@ -24,24 +24,24 @@ final class class_jx extends Command {
       if (PopupShop.n && this.h == PopupShop.j) {
          Part var1 = this.f;
          if (this.f.IDPart == -1) {
-            var1 = AvatarData.a(this.g);
+            var1 = AvatarData.getPart(this.g);
          }
 
          if (var1.IDPart != -1) {
             MapScr.a(var1);
             PopupShop.n();
-            PopupShop.a(var1.l);
+            PopupShop.a(var1.name);
             if (this.i == -1) {
-               PopupShop.a(Canvas.a(var1.i[0], var1.i[1], false));
+               PopupShop.a(Canvas.getPriceMoney(var1.i[0], var1.i[1], false));
             }
 
-            if (var1.f == -1) {
-               PopupShop.a(T1.em[0] + ((APartInfo)var1).level);
+            if (var1.follow == -1) {
+               PopupShop.a(T.em[0] + ((APartInfo)var1).level);
             }
 
-            PopupShop.a(T1.ao + GameMidlet.avatar.strMoney);
+            PopupShop.a(T.ao + GameMidlet.avatar.strMoney);
             if (MapScr.isNewVersion) {
-               PopupShop.a(T1.dE + GameMidlet.avatar.money[3] + " " + T1.k());
+               PopupShop.a(T.dE + GameMidlet.avatar.money[3] + " " + T.k());
             }
          }
       }
@@ -51,7 +51,7 @@ final class class_jx extends Command {
    public final void a(Graphics var1, int var2, int var3) {
       Part var4 = this.f;
       if (this.f.IDPart == -1) {
-         var4 = AvatarData.a(this.g);
+         var4 = AvatarData.getPart(this.g);
       }
 
       if (var4.IDPart != -1) {

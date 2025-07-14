@@ -12,7 +12,7 @@ public final class class_jv extends MyScreen {
 
    static {
       try {
-         c = Image.createImage(T1.a() + "/lg.png");
+         c = Image.createImage(T.a() + "/lg.png");
       } catch (IOException var1) {
          var1.printStackTrace();
       }
@@ -50,21 +50,21 @@ public final class class_jv extends MyScreen {
                MapScr.gI().a();
                c = null;
                OnScreen.c = 0;
-               Canvas.S.g();
+               Canvas.paint.g();
             }
          } else if (b == 52) {
-            LoginScr.b().h();
-            OptionScr.b().f();
+            LoginScr.gI().h();
+            OptionScr.gI().f();
             if (!LoginScr.u) {
                LoginScr.u = true;
-               AvatarData.b("avatarSV");
+               AvatarData.delErrorRms("avatarSV");
                AvatarData.f();
                b(0);
             } else {
                AvatarData.f();
-               LoginScr.b().e();
+               LoginScr.gI().e();
                if (class_ez.b() != Canvas.currentMyScreen) {
-                  LoginScr.b().a();
+                  LoginScr.gI().a();
                }
 
                c = null;
@@ -74,25 +74,25 @@ public final class class_jv extends MyScreen {
          MapScr.gI().a();
          c = null;
          OnScreen.c = 0;
-         Canvas.S.g();
+         Canvas.paint.g();
       }
 
       ++b;
    }
 
    private static void b(int var0) {
-      Canvas.i();
-      OptionScr.b().b[4] = var0;
-      OptionScr.b().b(0);
-      LoginScr.b().e();
-      LoginScr.b().a();
+      Canvas.startWaitDlg();
+      OptionScr.gI().b[4] = var0;
+      OptionScr.gI().b(0);
+      LoginScr.gI().e();
+      LoginScr.gI().a();
       c = null;
    }
 
-   public final void a(Graphics var1) {
-      PaintPopup.a(0, 0, Canvas.m, Canvas.a.getHeight(), 0, var1);
+   public final void paint(Graphics var1) {
+      PaintPopup.a(0, 0, Canvas.w, Canvas.instance.getHeight(), 0, var1);
       if (b > 1 && c != null) {
-         var1.drawImage(c, Canvas.m >> 1, Canvas.n >> 1, 3);
+         var1.drawImage(c, Canvas.w >> 1, Canvas.h >> 1, 3);
       }
 
       Canvas.a(var1);

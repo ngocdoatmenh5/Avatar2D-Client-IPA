@@ -81,13 +81,13 @@ public final class TField {
       }
 
       F = -1984;
-      o = Canvas.j();
+      o = Canvas.getSecond();
       this.v = var1;
    }
 
    public final Command a() {
       t = this.K.b;
-      return Canvas.Z == 0 ? this.K : null;
+      return Canvas.stypeInt == 0 ? this.K : null;
    }
 
    public static void b(boolean var0) {
@@ -98,9 +98,9 @@ public final class TField {
    public TField() {
       this.C = "";
       f = AvMain.af + 1;
-      this.K = new Command(T1.bb, new class_jw(this));
+      this.K = new Command(T.bb, new class_jw(this));
       if (L == null) {
-         L = Canvas.a;
+         L = Canvas.instance;
       }
 
       this.a(false);
@@ -173,7 +173,7 @@ public final class TField {
       }
 
       F = I;
-      o = Canvas.j();
+      o = Canvas.getSecond();
    }
 
    private void g(int var1) {
@@ -408,9 +408,9 @@ public final class TField {
          this.g = this.C;
       }
 
-      var1.setClip(0, 0, Canvas.m + 20, Canvas.n);
+      var1.setClip(0, 0, Canvas.w + 20, Canvas.h);
       var1.setColor(7829367);
-      Canvas.S.a(var1, this.a, this.b, this.c, this.d, this, var2);
+      Canvas.paint.a(var1, this.a, this.b, this.c, this.d, this, var2);
    }
 
    public final boolean d() {
@@ -451,7 +451,7 @@ public final class TField {
          --this.l;
       }
 
-      if (Canvas.g && Canvas.t == null && Canvas.g && Canvas.a(0, 0, Canvas.m, Canvas.n - Canvas.T / 2)) {
+      if (Canvas.isPointerClick && Canvas.menuMain == null && Canvas.isPointerClick && Canvas.a(0, 0, Canvas.w, Canvas.h - Canvas.hTab / 2)) {
          if (Canvas.a(this.a, this.b - 6, this.c, this.d + 12)) {
             if (!this.v) {
                this.v = true;
@@ -459,7 +459,7 @@ public final class TField {
                if (!OptionScr.d) {
                   this.R = true;
                   OptionScr.d = true;
-                  Canvas.a.b();
+                  Canvas.instance.b();
                }
 
                Canvas.z.a = true;
@@ -467,7 +467,7 @@ public final class TField {
          } else {
             if (this.R) {
                OptionScr.d = false;
-               Canvas.a.b();
+               Canvas.instance.b();
                this.R = false;
             }
 
@@ -481,8 +481,8 @@ public final class TField {
          this.M = -1;
       }
 
-      if (this.v && Canvas.v == null) {
-         if (Canvas.b[4]) {
+      if (this.v && Canvas.currentDialog == null) {
+         if (Canvas.keyPressed[4]) {
             if (this.H != 2) {
                --this.h;
                if (this.h < 0) {
@@ -492,11 +492,11 @@ public final class TField {
                this.e(-1);
             }
 
-            Canvas.b[4] = false;
+            Canvas.keyPressed[4] = false;
             return;
          }
 
-         if (Canvas.b[6]) {
+         if (Canvas.keyPressed[6]) {
             if (this.H != 2) {
                ++this.h;
                if (this.h > this.C.length()) {
@@ -506,7 +506,7 @@ public final class TField {
                this.e(1);
             }
 
-            Canvas.b[6] = false;
+            Canvas.keyPressed[6] = false;
          }
       }
 

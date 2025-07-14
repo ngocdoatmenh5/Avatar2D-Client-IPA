@@ -7,7 +7,7 @@ final class class_fl implements IAction {
    }
 
    public final void perform() {
-      Canvas.i();
+      Canvas.startWaitDlg();
       GlobalService.gI().d((int)9);
    }
 }

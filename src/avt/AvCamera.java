@@ -3,107 +3,107 @@ package avt;
 import main.Canvas;
 
 public final class AvCamera {
-   private static AvCamera i;
+   private static AvCamera instance;
    public int xCam;
    public int yCam;
-   public int c;
-   public int d;
-   private int j;
-   private int k;
-   public long e;
-   private int l;
-   private int m;
-   private int n;
-   private int o;
-   private static int p;
-   private static int q;
-   public static boolean f = false;
-   public static boolean g;
-   public Base h;
+   public int xTo;
+   public int yTo;
+   private int xLimit;
+   private int yLimit;
+   public long timeDelay;
+   private int cmvx;
+   private int cmdx;
+   private int cmvy;
+   private int cmdy;
+   private static int distance;
+   private static int w;
+   public static boolean disable = false;
+   public static boolean isFollow;
+   public Base followPlayer;
 
    public static AvCamera gI() {
-      if (i == null) {
-         i = new AvCamera();
+      if (  instance == null) {
+         instance = new AvCamera();
       }
 
-      return i;
+      return instance;
    }
 
-   public static void a(int var0) {
-      p = var0;
+   public static void setDistance(int var0) {
+      distance = var0;
    }
 
-   public final void b(int var1) {
-      if (this.h != null) {
+   public final void init(int var1) {
+      if (this.followPlayer != null) {
          label56: {
-            g = false;
-            q = LoadMap.i * AvMain.hd;
-            p = Canvas.m / 10;
-            if (this.h.x * AvMain.hd > Canvas.o) {
-               if (this.h.x * AvMain.hd < LoadMap.wMap * q - Canvas.o - q) {
-                  this.c = this.h.x * AvMain.hd - Canvas.o;
+            isFollow = false;
+            w = LoadMap.i * AvMain.hd;
+            distance = Canvas.w / 10;
+            if (this.followPlayer.x * AvMain.hd > Canvas.hw) {
+               if (this.followPlayer.x * AvMain.hd < LoadMap.wMap * w - Canvas.hw - w) {
+                  this.xTo = this.followPlayer.x * AvMain.hd - Canvas.hw;
                   break label56;
                }
 
-               this.c = LoadMap.wMap * q - Canvas.m;
-               if (this.c >= 0) {
+               this.xTo = LoadMap.wMap * w - Canvas.w;
+               if (this.xTo >= 0) {
                   break label56;
                }
             }
 
-            this.c = 0;
+            this.xTo = 0;
          }
 
-         if (Canvas.m > LoadMap.wMap * q) {
-            this.c = -(Canvas.m - LoadMap.wMap * q) / 2;
+         if (Canvas.w > LoadMap.wMap * w) {
+            this.xTo = -(Canvas.w - LoadMap.wMap * w) / 2;
          }
 
-         if (Canvas.n > LoadMap.f * q && (var1 - 1 == 57 || var1 - 1 == 58 || var1 - 1 == 59 || var1 - 1 == 108)) {
-            this.d = -(Canvas.n - LoadMap.f * q) / 2;
+         if (Canvas.h > LoadMap.Hmap * w && (var1 - 1 == 57 || var1 - 1 == 58 || var1 - 1 == 59 || var1 - 1 == 108)) {
+            this.yTo = -(Canvas.h - LoadMap.Hmap * w) / 2;
          } else {
-            this.d = LoadMap.f * q - Canvas.n;
+            this.yTo = LoadMap.Hmap * w - Canvas.h;
          }
 
-         this.j = LoadMap.wMap * q - Canvas.m;
-         this.k = LoadMap.f * q - Canvas.n;
-         this.xCam = this.c;
+         this.xLimit = LoadMap.wMap * w - Canvas.w;
+         this.yLimit = LoadMap.Hmap * w - Canvas.h;
+         this.xCam = this.xTo;
          if (this.xCam < 0) {
             this.xCam = 0;
          }
 
-         if (this.xCam > this.j) {
-            this.xCam = this.j;
+         if (this.xCam > this.xLimit) {
+            this.xCam = this.xLimit;
          }
 
-         if (this.yCam > this.k) {
-            this.yCam = this.k;
+         if (this.yCam > this.yLimit) {
+            this.yCam = this.yLimit;
          }
 
-         if (this.d > this.k) {
-            this.d = this.k;
+         if (this.yTo > this.yLimit) {
+            this.yTo = this.yLimit;
          }
 
       }
    }
 
-   public final void b() {
-      this.xCam = this.c;
-      this.yCam = this.d;
+   public final void notTrans() {
+      this.xCam = this.xTo;
+      this.yCam = this.yTo;
    }
 
-   public final void c() {
-      if (!f) {
-         if (this.xCam != this.c) {
-            this.l = this.c - this.xCam << 1;
-            this.m += this.l;
-            this.xCam += this.m >> 4;
-            this.m &= 15;
+   public final void updateTo() {
+      if (!disable) {
+         if (this.xCam != this.xTo) {
+            this.cmvx = this.xTo - this.xCam << 1;
+            this.cmdx += this.cmvx;
+            this.xCam += this.cmdx >> 4;
+            this.cmdx &= 15;
             if (this.xCam < 0) {
                this.xCam = 0;
             }
 
-            if (this.xCam > this.j) {
-               this.xCam = this.j;
+            if (this.xCam > this.xLimit) {
+               this.xCam = this.xLimit;
             }
          }
       } else {
@@ -111,78 +111,78 @@ public final class AvCamera {
             this.xCam = 0;
          }
 
-         if (this.xCam > LoadMap.wMap * LoadMap.i * AvMain.hd - Canvas.m) {
-            this.xCam = LoadMap.wMap * LoadMap.i * AvMain.hd - Canvas.m;
+         if (this.xCam > LoadMap.wMap * LoadMap.i * AvMain.hd - Canvas.w) {
+            this.xCam = LoadMap.wMap * LoadMap.i * AvMain.hd - Canvas.w;
          }
       }
 
-      if (this.yCam != this.d) {
-         this.n = this.d - this.yCam << 1;
-         this.o += this.n;
-         this.yCam += this.o >> 4;
-         this.o &= 15;
-         if (this.yCam > this.k) {
-            this.yCam = this.k;
+      if (this.yCam != this.yTo) {
+         this.cmvy = this.yTo - this.yCam << 1;
+         this.cmdy += this.cmvy;
+         this.yCam += this.cmdy >> 4;
+         this.cmdy &= 15;
+         if (this.yCam > this.yLimit) {
+            this.yCam = this.yLimit;
          }
       }
 
    }
 
-   public final void a(int var1, int var2) {
-      this.e = 0L;
-      this.c = var1 - Canvas.o;
-      this.d = var2 - Canvas.hh;
-      if (this.c < 0) {
-         this.c = 0;
+   public final void setToPos(int var1, int var2) {
+      this.timeDelay = 0L;
+      this.xTo = var1 - Canvas.hw;
+      this.yTo = var2 - Canvas.hh;
+      if (this.xTo < 0) {
+         this.xTo = 0;
       }
 
-      if (this.c > LoadMap.wMap * q - Canvas.m) {
-         this.c = LoadMap.wMap * q - Canvas.m;
+      if (this.xTo > LoadMap.wMap * w - Canvas.w) {
+         this.xTo = LoadMap.wMap * w - Canvas.w;
       }
 
-      if (this.d > LoadMap.f * q - Canvas.n) {
-         this.d = LoadMap.f * q - Canvas.n;
+      if (this.yTo > LoadMap.Hmap * w - Canvas.h) {
+         this.yTo = LoadMap.Hmap * w - Canvas.h;
       }
 
-      this.e();
+      this.setLimit();
    }
 
-   public final void b(int var1, int var2) {
-      this.xCam = this.c = 0;
-      this.yCam = this.d = 0;
+   public final void setPos(int var1, int var2) {
+      this.xCam = this.xTo = 0;
+      this.yCam = this.yTo = 0;
    }
 
-   public final void d() {
-      this.c();
-      if (System.currentTimeMillis() / 100L - this.e >= 20L && !g) {
+   public final void update() {
+      this.updateTo();
+      if (System.currentTimeMillis() / 100L - this.timeDelay >= 20L && !isFollow) {
          int var1;
-         if (this.h.direct == 0) {
-            var1 = this.h.x * AvMain.hd + p;
+         if (this.followPlayer.direct == 0) {
+            var1 = this.followPlayer.x * AvMain.hd + distance;
          } else {
-            var1 = this.h.x * AvMain.hd - p;
+            var1 = this.followPlayer.x * AvMain.hd - distance;
          }
 
-         this.c = var1 - Canvas.o;
-         this.d = (this.h.y + this.h.N) * AvMain.hd - (Canvas.n - (Canvas.hh - q));
-         if (this.h.direct == Base.LEFT) {
-            if (this.h.x * AvMain.hd < Canvas.o) {
-               this.c = 0;
+         this.xTo = var1 - Canvas.hw;
+         this.yTo = (this.followPlayer.y + this.followPlayer.N) * AvMain.hd - (Canvas.h - (Canvas.hh - w));
+         if (this.followPlayer.direct == Base.LEFT) {
+            if (this.followPlayer.x * AvMain.hd < Canvas.hw) {
+               this.xTo = 0;
             }
-         } else if (this.h.x * AvMain.hd > LoadMap.wMap * q - Canvas.o) {
-            this.c = LoadMap.wMap * q - Canvas.m;
+         } else if (this.followPlayer.x * AvMain.hd > LoadMap.wMap * w - Canvas.hw) {
+            this.xTo = LoadMap.wMap * w - Canvas.w;
          }
 
-         this.e();
+         this.setLimit();
       }
    }
 
-   private void e() {
-      if (LoadMap.a >= 0 && LoadMap.a < LoadMap.h.length && LoadMap.h[LoadMap.a] == -1 && LoadMap.b == null && Canvas.n > LoadMap.f * q) {
-         this.yCam = this.d = -(Canvas.n - LoadMap.f * q) / 2;
+   private void setLimit() {
+      if (LoadMap.TYPEMAP >= 0 && LoadMap.TYPEMAP < LoadMap.h.length && LoadMap.h[LoadMap.TYPEMAP] == -1 && LoadMap.b == null && Canvas.h > LoadMap.Hmap * w) {
+         this.yCam = this.yTo = -(Canvas.h - LoadMap.Hmap * w) / 2;
       }
 
-      if (Canvas.m > LoadMap.wMap * q) {
-         this.xCam = this.c = -(Canvas.m - LoadMap.wMap * q) / 2;
+      if (Canvas.w > LoadMap.wMap * w) {
+         this.xCam = this.xTo = -(Canvas.w - LoadMap.wMap * w) / 2;
       }
 
    }

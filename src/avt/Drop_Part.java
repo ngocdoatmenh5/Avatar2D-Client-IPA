@@ -26,8 +26,8 @@ public final class Drop_Part extends Base {
       this.a = var2;
       this.h = 0;
       Part var4;
-      if ((var4 = AvatarData.a(this.a)).h < AvatarData.listImgInfo.length) {
-         super.height = AvatarData.listImgInfo[var4.h].f;
+      if ((var4 = AvatarData.getPart(this.a)).h < AvatarData.listImgInfo.length) {
+         super.height = AvatarData.listImgInfo[var4.h].h;
       }
 
       this.i = (byte)CRes.rnd(10);
@@ -82,9 +82,9 @@ public final class Drop_Part extends Base {
    public final void paint(Graphics var1) {
       var1.drawImage(LoadMap.r, super.x, super.y + 1, 33);
       if (this.e == 0) {
-         AvatarData.a(this.a).paintIcon(var1, super.x, super.y + this.i / 10 - this.f, 0, 33);
+         AvatarData.getPart(this.a).paintIcon(var1, super.x, super.y + this.i / 10 - this.f, 0, 33);
       } else {
-         super.height = (short)(AvatarData.c(this.a).c + 10);
+         super.height = (short)(AvatarData.getImgIcon(this.a).c + 10);
          AvatarData.a(var1, this.a, super.x, super.y + this.i / 10 - this.f, 33);
       }
 

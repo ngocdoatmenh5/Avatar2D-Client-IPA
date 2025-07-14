@@ -11,6 +11,6 @@ final class class_bz extends Command {
    }
 
    public final void a(Graphics var1, int var2, int var3) {
-      FarmData.b((int)this.f.a).a(var1, 7, var2, var3, 3);
+      FarmData.b((int)this.f.ID).a(var1, 7, var2, var3, 3);
    }
 }

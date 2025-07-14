@@ -42,7 +42,7 @@ public final class MenuNPC extends MenuMain {
 
    static {
       try {
-         a = new FrameImage(Image.createImage(T1.a() + "/race/popup/tile0.png"), 20 * AvMain.hd, 20 * AvMain.hd);
+         a = new FrameImage(Image.createImage(T.a() + "/race/popup/tile0.png"), 20 * AvMain.hd, 20 * AvMain.hd);
       } catch (IOException var1) {
          var1.printStackTrace();
       }
@@ -55,15 +55,15 @@ public final class MenuNPC extends MenuMain {
    public MenuNPC() {
       this.f = 200 * AvMain.hd;
       this.g = 190 * AvMain.hd;
-      this.d = (Canvas.m - this.f) / 2;
-      this.e = (Canvas.n - this.g) / 2;
+      this.d = (Canvas.w - this.f) / 2;
+      this.e = (Canvas.h - this.g) / 2;
       this.i = 70 * AvMain.hd;
       this.j = 120 * AvMain.hd;
       this.h = this.f - this.j - 12 * AvMain.hd;
       this.l = 30 * AvMain.hd;
       this.k = this.l * 3 + 20 * AvMain.hd;
-      super.ad = new Command(T1.O, 0, this);
-      super.ae = new Command(T1.d, 1, this);
+      super.center = new Command(T.O, 0, this);
+      super.right = new Command(T.d, 1, this);
    }
 
    public final void a(int var1) {
@@ -72,7 +72,7 @@ public final class MenuNPC extends MenuMain {
             this.b();
             return;
          case 1:
-            Canvas.t = null;
+            Canvas.menuMain = null;
          default:
       }
    }
@@ -88,7 +88,7 @@ public final class MenuNPC extends MenuMain {
 
       this.o = var3;
       this.p = Canvas.M.a(var4, this.f - 50 * AvMain.hd);
-      Canvas.t = this;
+      Canvas.menuMain = this;
    }
 
    public final void k() {
@@ -144,8 +144,8 @@ public final class MenuNPC extends MenuMain {
 
    }
 
-   public final void l() {
-      super.l();
+   public final void updateKey() {
+      super.updateKey();
       ++this.y;
       boolean var1 = false;
       if (Canvas.a(2)) {
@@ -164,15 +164,15 @@ public final class MenuNPC extends MenuMain {
          var1 = true;
       }
 
-      if (Canvas.g) {
-         this.u = Canvas.k;
+      if (Canvas.isPointerClick) {
+         this.u = Canvas.pyLast;
          this.w = false;
          if (Canvas.b(this.d + this.h, this.e + this.i, this.j, this.k)) {
             if (this.A != 0) {
                this.w = true;
             }
 
-            Canvas.g = false;
+            Canvas.isPointerClick = false;
             this.r = this.B;
             this.x = this.y;
             this.v = true;
@@ -180,14 +180,14 @@ public final class MenuNPC extends MenuMain {
       }
 
       if (this.v) {
-         int var2 = this.u - Canvas.i;
-         this.u = Canvas.i;
+         int var2 = this.u - Canvas.py;
+         this.u = Canvas.py;
          long var3 = this.y - this.x;
          int var5;
          int var6;
-         if (Canvas.e) {
+         if (Canvas.isPointerDown) {
             if (this.y % 2L == 0L) {
-               this.s = Canvas.i;
+               this.s = Canvas.py;
                this.z = this.y;
             }
 
@@ -195,17 +195,17 @@ public final class MenuNPC extends MenuMain {
             if (Math.abs(var2) < 10 * AvMain.hd) {
                var5 = this.e + this.i + 10 * AvMain.hd;
                var6 = this.l;
-               if ((var5 = (this.B + Canvas.i - var5) / var6) >= 0 && var5 < this.n.size()) {
+               if ((var5 = (this.B + Canvas.py - var5) / var6) >= 0 && var5 < this.n.size()) {
                   this.m = var5;
                }
             }
 
-            if (CRes.f(Canvas.l()) >= 10 * AvMain.hd) {
+            if (CRes.f(Canvas.dy()) >= 10 * AvMain.hd) {
                super.aj = true;
             } else if (var3 > 3L && var3 < 8L) {
                var5 = this.e + this.i + 10 * AvMain.hd;
                var6 = this.l;
-               if ((var5 = (this.B + Canvas.i - var5) / var6) >= 0 && var5 < this.n.size() && !this.w) {
+               if ((var5 = (this.B + Canvas.py - var5) / var6) >= 0 && var5 < this.n.size() && !this.w) {
                   super.aj = false;
                }
             }
@@ -218,10 +218,10 @@ public final class MenuNPC extends MenuMain {
             this.C = this.B;
          }
 
-         if (Canvas.f && Canvas.b(this.d, this.e, this.f, this.g)) {
+         if (Canvas.isPointerRelease && Canvas.b(this.d, this.e, this.f, this.g)) {
             this.w = false;
             var5 = (int)(this.y - this.z);
-            if (CRes.f(var6 = this.s - Canvas.i) > 40 && var5 < 10 && this.B > 0 && this.B < this.F) {
+            if (CRes.f(var6 = this.s - Canvas.py) > 40 && var5 < 10 && this.B > 0 && this.B < this.F) {
                this.A = var6 / var5 * 10;
             }
 
@@ -236,11 +236,11 @@ public final class MenuNPC extends MenuMain {
             }
 
             this.v = false;
-            Canvas.f = false;
+            Canvas.isPointerRelease = false;
          }
-      } else if (Canvas.f && !Canvas.b(this.d, this.e, this.f, this.g)) {
-         Canvas.f = false;
-         Canvas.t = null;
+      } else if (Canvas.isPointerRelease && !Canvas.b(this.d, this.e, this.f, this.g)) {
+         Canvas.isPointerRelease = false;
+         Canvas.menuMain = null;
       }
 
       if (var1) {
@@ -259,17 +259,17 @@ public final class MenuNPC extends MenuMain {
 
    private void b() {
       if (!this.q[this.m]) {
-         Canvas.t = null;
+         Canvas.menuMain = null;
       } else {
-         Canvas.i();
+         Canvas.startWaitDlg();
       }
 
       ((Command)this.n.elementAt(this.m)).b();
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      Canvas.S.a(var1, this.d, this.e, this.f, this.g, 0);
+      Canvas.paint.a(var1, this.d, this.e, this.f, this.g, 0);
       var1.translate(this.d, this.e);
       var1.setColor(695195);
       var1.fillRect(12 * AvMain.hd, 12 * AvMain.hd, this.f - 24 * AvMain.hd, 50 * AvMain.hd);
@@ -328,6 +328,6 @@ public final class MenuNPC extends MenuMain {
          Canvas.K.a(var1, var11.a, 10 * AvMain.hd, 10 * AvMain.hd + var2 * this.l + this.l / 2 - AvMain.ah / 2, 0);
       }
 
-      super.a(var1);
+      super.paint(var1);
    }
 }

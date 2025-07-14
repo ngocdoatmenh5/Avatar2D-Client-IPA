@@ -30,12 +30,12 @@ public final class AnimateEffect extends Effect {
       this.timeCur = (int)(System.currentTimeMillis() / 1000L);
       switch (var1) {
          case 0:
-            this.number = Canvas.m * Canvas.n / 1000 + 50;
+            this.number = Canvas.w * Canvas.h / 1000 + 50;
             break;
          case 1:
             this.number = 30;
             if (img == null) {
-               FilePack.b(T1.av);
+               FilePack.b(T.av);
                img = FrameImage.a("cobay", 16 * AvMain.hd, 10 * AvMain.hd);
                FilePack.a();
             }
@@ -43,8 +43,8 @@ public final class AnimateEffect extends Effect {
          default:
             break;
          case 3:
-            this.number = Canvas.m * Canvas.n / 1000;
-            FilePack.b(T1.av);
+            this.number = Canvas.w * Canvas.h / 1000;
+            FilePack.b(T.av);
             FrameImage.a("tuyet", 5 * AvMain.hd, 5 * AvMain.hd);
             FilePack.a();
             e = img;
@@ -52,7 +52,7 @@ public final class AnimateEffect extends Effect {
 
       Point var3;
       for(var2 = 0; var2 < this.number; ++var2) {
-         (var3 = new Point(0, (AvCamera.gI().yCam - (Canvas.n << 1) + CRes.rnd(Canvas.n << 1)) * 10)).x = (-Canvas.m / 2 + CRes.rnd(LoadMap.wMap * LoadMap.i + Canvas.m)) * 10;
+         (var3 = new Point(0, (AvCamera.gI().yCam - (Canvas.h << 1) + CRes.rnd(Canvas.h << 1)) * 10)).x = (-Canvas.w / 2 + CRes.rnd(LoadMap.wMap * LoadMap.i + Canvas.w)) * 10;
          if (var1 != 3 && this.type != 2) {
             var3.e = CRes.rnd(4);
          } else {
@@ -109,7 +109,7 @@ public final class AnimateEffect extends Effect {
             var6 = this;
 
             for(var3 = 0; var3 < var6.number; ++var3) {
-               if ((var4 = (Point)var6.list.elementAt(var3)).x * AvMain.hd / 10 > AvCamera.gI().xCam && var4.x * AvMain.hd / 10 < AvCamera.gI().xCam + Canvas.m && var4.y * AvMain.hd / 10 > AvCamera.gI().yCam) {
+               if ((var4 = (Point)var6.list.elementAt(var3)).x * AvMain.hd / 10 > AvCamera.gI().xCam && var4.x * AvMain.hd / 10 < AvCamera.gI().xCam + Canvas.w && var4.y * AvMain.hd / 10 > AvCamera.gI().yCam) {
                   img.drawFrame(var4.f / (var4.g / 4), var4.x * AvMain.hd / 10, var4.y * AvMain.hd / 10, 0, 3, var7);
                }
             }
@@ -119,11 +119,11 @@ public final class AnimateEffect extends Effect {
             if (super.c == -1) {
                return;
             } else {
-               EffectData var2 = AvatarData.d(super.c);
+               EffectData var2 = AvatarData.getEffect(super.c);
 
                for(var3 = 0; var3 < this.number; ++var3) {
                   ++(var4 = (Point)this.list.elementAt(var3)).h;
-                  if (var4.x * AvMain.hd / 10 > AvCamera.gI().xCam && var4.x * AvMain.hd / 10 < AvCamera.gI().xCam + Canvas.m && var4.y * AvMain.hd / 10 > AvCamera.gI().yCam && var4.y * AvMain.hd / 10 < AvCamera.gI().yCam + Canvas.q) {
+                  if (var4.x * AvMain.hd / 10 > AvCamera.gI().xCam && var4.x * AvMain.hd / 10 < AvCamera.gI().xCam + Canvas.w && var4.y * AvMain.hd / 10 > AvCamera.gI().yCam && var4.y * AvMain.hd / 10 < AvCamera.gI().yCam + Canvas.q) {
                      if (var2 != null) {
                         if (var4.h >= var2.a.length) {
                            var4.h = 0;
@@ -143,7 +143,7 @@ public final class AnimateEffect extends Effect {
             }
          case 3:
             for(var3 = 0; var3 < this.number; ++var3) {
-               if ((var4 = (Point)this.list.elementAt(var3)).x * AvMain.hd / 10 > AvCamera.gI().xCam && var4.x * AvMain.hd / 10 < AvCamera.gI().xCam + Canvas.m && var4.y * AvMain.hd / 10 > AvCamera.gI().yCam) {
+               if ((var4 = (Point)this.list.elementAt(var3)).x * AvMain.hd / 10 > AvCamera.gI().xCam && var4.x * AvMain.hd / 10 < AvCamera.gI().xCam + Canvas.w && var4.y * AvMain.hd / 10 > AvCamera.gI().yCam) {
                   e.a(2 - var4.e, var4.x * AvMain.hd / 10, var4.y * AvMain.hd / 10, 0, var1);
                }
             }
@@ -183,18 +183,18 @@ public final class AnimateEffect extends Effect {
                var10000.y += (var3.e + 1) * 15 + (3 - var3.e) * 3;
                ++var3.b;
                var3.x += var3.e + 1 << 2;
-               if (var3.y / 10 > AvCamera.gI().yCam + Canvas.n - (4 - var3.e) * 50) {
+               if (var3.y / 10 > AvCamera.gI().yCam + Canvas.h - (4 - var3.e) * 50) {
                   var5.rndPos(var3);
                }
 
                int var10001 = 2 - var3.e;
                int var4 = AvCamera.gI().xCam * var10001 * 20 / 120;
                if (var3.x / 10 + var4 < AvCamera.gI().xCam - 10) {
-                  var3.x += (Canvas.m + 20) * 10;
+                  var3.x += (Canvas.w + 20) * 10;
                }
 
-               if (var3.x / 10 + var4 > AvCamera.gI().xCam + Canvas.m + 10) {
-                  var3.x -= (Canvas.m + 20) * 10;
+               if (var3.x / 10 + var4 > AvCamera.gI().xCam + Canvas.w + 10) {
+                  var3.x -= (Canvas.w + 20) * 10;
                }
             }
 
@@ -211,7 +211,7 @@ public final class AnimateEffect extends Effect {
                   var3.f = 0;
                }
 
-               if (var3.y / 10 > LoadMap.f * LoadMap.i - (4 - var3.e) * 20) {
+               if (var3.y / 10 > LoadMap.Hmap * LoadMap.i - (4 - var3.e) * 20) {
                   var5.rndPos(var3);
                }
             }
@@ -236,7 +236,7 @@ public final class AnimateEffect extends Effect {
                var10000 = var3 = (Point)var5.list.elementAt(var2);
                var10000.y += (var3.e + 2) * 5;
                var3.x += (var3.e + 1 << 1) + wind * dirWind;
-               if (var3.y / 10 > LoadMap.f * LoadMap.i - (4 - var3.e) * 20) {
+               if (var3.y / 10 > LoadMap.Hmap * LoadMap.i - (4 - var3.e) * 20) {
                   var5.rndPos(var3);
                }
             }
@@ -249,7 +249,7 @@ public final class AnimateEffect extends Effect {
                var10000 = var3 = (Point)var5.list.elementAt(var2);
                var10000.y += (var3.e + 4) * 3;
                var3.x += (var3.e + 1 << 1) + wind * dirWind;
-               if (var3.y / 10 > LoadMap.f * LoadMap.i - (4 - var3.e) * 20) {
+               if (var3.y / 10 > LoadMap.Hmap * LoadMap.i - (4 - var3.e) * 20) {
                   var5.rndPos(var3);
                }
             }
@@ -266,8 +266,8 @@ public final class AnimateEffect extends Effect {
             return;
          }
       } else {
-         var1.y = (AvCamera.gI().yCam - Canvas.hh + CRes.rnd(Canvas.n << 1)) * 10;
-         var1.x = (-Canvas.m / 2 + CRes.rnd(LoadMap.wMap * LoadMap.i + Canvas.m)) * 10;
+         var1.y = (AvCamera.gI().yCam - Canvas.hh + CRes.rnd(Canvas.h << 1)) * 10;
+         var1.x = (-Canvas.w / 2 + CRes.rnd(LoadMap.wMap * LoadMap.i + Canvas.w)) * 10;
       }
 
    }

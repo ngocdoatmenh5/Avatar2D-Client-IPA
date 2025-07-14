@@ -18,7 +18,7 @@ final class class_ab implements IAction {
       for(int var3 = 0; var3 < FarmScr.d.size(); ++var3) {
          Item var4;
          FarmItem var5;
-         if ((var5 = FarmScr.b((var4 = (Item)FarmScr.d.elementAt(var3)).a)).d == var2.area && var5.e == 5 && var4.e > 0) {
+         if ((var5 = FarmScr.b((var4 = (Item)FarmScr.d.elementAt(var3)).ID)).d == var2.area && var5.e == 5 && var4.e > 0) {
             var1 = true;
             this.b.hunger = false;
             FarmScr.b();
@@ -28,7 +28,7 @@ final class class_ab implements IAction {
       }
 
       if (!var1) {
-         Canvas.b(T1.dY);
+         Canvas.startOKDlg(T.dY);
          this.a.a((int)8, (int)-1);
       }
 

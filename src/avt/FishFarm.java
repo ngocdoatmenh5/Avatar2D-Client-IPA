@@ -16,14 +16,14 @@ public final class FishFarm extends AnimalDan {
    }
 
    public final void update() {
-      if (this.s.c == 6 || this.s.a == -10) {
-         this.s.a = super.x + (super.period == 2 && super.direct == 0 ? 3 : -3);
-         this.s.b = super.y + 2;
+      if (this.s.anchor == 6 || this.s.x == -10) {
+         this.s.x = super.x + (super.period == 2 && super.direct == 0 ? 3 : -3);
+         this.s.y = super.y + 2;
       }
 
-      ++this.s.c;
-      if (this.s.c > 17 * (3 - super.period) || this.v > 0) {
-         this.s.c = 0;
+      ++this.s.anchor;
+      if (this.s.anchor > 17 * (3 - super.period) || this.v > 0) {
+         this.s.anchor = 0;
       }
 
       AnimalInfo var1 = FarmData.getAnimalByID(super.species);
@@ -51,27 +51,27 @@ public final class FishFarm extends AnimalDan {
 
    public final void paint(Graphics var1) {
       super.paint(var1);
-      if (this.s.c < 16) {
+      if (this.s.anchor < 16) {
          var1.setColor(Fish.l[LoadMap.j]);
-         var1.drawRoundRect((this.s.a - this.s.c / 2) * MyObject.hd, (this.s.b - this.s.c / 4) * MyObject.hd, this.s.c * MyObject.hd, this.s.c / 2 * MyObject.hd, this.s.c * MyObject.hd, this.s.c * MyObject.hd);
+         var1.drawRoundRect((this.s.x - this.s.anchor / 2) * MyObject.hd, (this.s.y - this.s.anchor / 4) * MyObject.hd, this.s.anchor * MyObject.hd, this.s.anchor / 2 * MyObject.hd, this.s.anchor * MyObject.hd, this.s.anchor * MyObject.hd);
       }
 
    }
 
    public final void setInit() {
       super.posNext = new AvPosition();
-      super.x = super.xCur = super.posNext.a = FarmScr.D.a + CRes.rnd(FarmScr.x - 1) * 24;
-      super.y = super.yCur = super.posNext.b = FarmScr.D.b + 12 + CRes.rnd(2) * 24;
+      super.x = super.xCur = super.posNext.x = FarmScr.D.x + CRes.rnd(FarmScr.x - 1) * 24;
+      super.y = super.yCur = super.posNext.y = FarmScr.D.y + 12 + CRes.rnd(2) * 24;
       (new StringBuffer("777777777777777777777: ")).append(super.x).append("   ").append(super.y).toString();
    }
 
    public final void setPos() {
-      AvPosition var2 = new AvPosition(FarmScr.D.a + 30 + CRes.rnd(FarmScr.x - 2) * 24, FarmScr.D.b + 12 + CRes.rnd(2) * 24);
+      AvPosition var2 = new AvPosition(FarmScr.D.x + 30 + CRes.rnd(FarmScr.x - 2) * 24, FarmScr.D.y + 12 + CRes.rnd(2) * 24);
       super.posNext = var2;
    }
 
    public final void setFollowPos(AvPosition var1) {
-      AvPosition var2 = new AvPosition(var1.a - 10 + CRes.rnd(20), var1.b - 10 + CRes.rnd(20));
+      AvPosition var2 = new AvPosition(var1.x - 10 + CRes.rnd(20), var1.y - 10 + CRes.rnd(20));
       super.posNext = var2;
    }
 

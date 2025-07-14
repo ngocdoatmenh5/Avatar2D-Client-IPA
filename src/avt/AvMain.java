@@ -9,9 +9,9 @@ public class AvMain {
    public static int Z;
    public static int aa;
    public static int ab;
-   public Command ac;
-   public Command ad;
-   public Command ae;
+   public Command left;
+   public Command center;
+   public Command right;
    public static byte af;
    public static byte ag;
    public static byte ah;
@@ -28,9 +28,9 @@ public class AvMain {
    public void d(int var1) {
    }
 
-   public void a(Graphics var1) {
+   public void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      Canvas.S.a(var1, this.ac, this.ad, this.ae);
+      Canvas.paint.paintCmd(var1, this.left, this.center, this.right);
    }
 
    public void d(int var1, int var2) {
@@ -42,12 +42,12 @@ public class AvMain {
    public void a(int var1, int var2) {
    }
 
-   private void b(Command var1) {
+   private void click(Command var1) {
       if (var1 != null) {
-         Canvas.g = false;
-         Canvas.f = false;
-         Canvas.h();
-         this.a(var1);
+         Canvas.isPointerClick = false;
+         Canvas.isPointerRelease = false;
+         Canvas.endDlg();
+         this.perform(var1);
       }
 
    }
@@ -55,23 +55,23 @@ public class AvMain {
    public void k() {
    }
 
-   public void l() {
-      if (Canvas.f) {
-         if (Canvas.b(0, Canvas.ae[0].b, Canvas.m - 1, Canvas.T)) {
-            switch (Canvas.S.d()) {
+   public void updateKey() {
+      if (Canvas.isPointerRelease) {
+         if (Canvas.b(0, Canvas.ae[0].y, Canvas.w - 1, Canvas.hTab)) {
+            switch (Canvas.paint.d()) {
                case 0:
-                  if (Canvas.Z == 0) {
-                     this.b(this.ac);
+                  if (Canvas.stypeInt == 0) {
+                     this.click(this.left);
                   }
                   break;
                case 1:
-                  if (Canvas.Z == 0) {
-                     this.b(this.ad);
+                  if (Canvas.stypeInt == 0) {
+                     this.click(this.center);
                   }
                   break;
                case 2:
-                  if (Canvas.Z == 0) {
-                     this.b(this.ae);
+                  if (Canvas.stypeInt == 0) {
+                     this.click(this.right);
                   }
             }
          }
@@ -79,7 +79,7 @@ public class AvMain {
          a = 0;
          b = 0;
          c = 0;
-         if (Canvas.m()) {
+         if (Canvas.isPaintIconVir()) {
             if (Canvas.a(0, 0, 50 * hd, 50 * hd)) {
                if (!OptionScr.d) {
                   if (TField.m) {
@@ -91,65 +91,65 @@ public class AvMain {
                }
 
                OptionScr.d = !OptionScr.d;
-               Canvas.a.sizeChanged(0, 0);
-               Canvas.f = false;
+               Canvas.instance.sizeChanged(0, 0);
+               Canvas.isPointerRelease = false;
             }
 
-            if (GameMidlet.e == 9 && Canvas.a(50, 0, 50 * hd, 50 * hd)) {
+            if (GameMidlet.CLIENT_TYPE == 9 && Canvas.a(50, 0, 50 * hd, 50 * hd)) {
                if (!OptionScr.d) {
                   OptionScr.d = true;
-                  OptionScr.b().b[4] = 1;
-                  Canvas.a.b();
+                  OptionScr.gI().b[4] = 1;
+                  Canvas.instance.b();
                   Canvas.z.a = true;
                   if (Canvas.currentMyScreen == MapScr.gI()) {
-                     class_im.d().d = MapScr.gI();
-                     class_im.c = true;
+                     ChatTextField.gI().d = MapScr.gI();
+                     ChatTextField.c = true;
                   }
                } else {
                   OptionScr.d = false;
-                  OptionScr.b().b[4] = 0;
-                  Canvas.a.b();
+                  OptionScr.gI().b[4] = 0;
+                  Canvas.instance.b();
                   if (Canvas.currentMyScreen == MapScr.gI()) {
-                     class_im.c = false;
+                     ChatTextField.c = false;
                   }
                }
 
-               Canvas.f = false;
+               Canvas.isPointerRelease = false;
             }
          }
       }
 
       if (Canvas.a(5)) {
-         if (this.ad != null) {
-            Canvas.h();
-            this.a(this.ad);
+         if (this.center != null) {
+            Canvas.endDlg();
+            this.perform(this.center);
             return;
          }
 
-         if (Canvas.t == this) {
-            this.a(this.ac);
+         if (Canvas.menuMain == this) {
+            this.perform(this.left);
             return;
          }
       } else {
          if (Canvas.a(12)) {
-            this.a(this.ac);
+            this.perform(this.left);
             return;
          }
 
          if (Canvas.E) {
-            if (Canvas.a(13) || Canvas.c[13]) {
-               Canvas.c[13] = false;
-               this.a(this.ae);
+            if (Canvas.a(13) || Canvas.keyReleased[13]) {
+               Canvas.keyReleased[13] = false;
+               this.perform(this.right);
                return;
             }
          } else if (Canvas.a(13)) {
-            this.a(this.ae);
+            this.perform(this.right);
          }
       }
 
    }
 
-   public final void a(Command var1) {
+   public final void perform(Command var1) {
       if (var1 != null) {
          if (var1.b != null) {
             var1.b.perform();
@@ -161,8 +161,8 @@ public class AvMain {
             return;
          }
 
-         if (class_im.c) {
-            class_im.d().a(var1.c, var1.e);
+         if (ChatTextField.c) {
+            ChatTextField.gI().a(var1.c, var1.e);
             return;
          }
 

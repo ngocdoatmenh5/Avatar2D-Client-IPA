@@ -21,7 +21,7 @@ final class class_ep implements IAction {
          LoadMap.p = this.d;
          this.a.M = (Animal)LoadMap.p;
          this.a.M.isStand = true;
-         this.a.M.timeStand = Canvas.j();
+         this.a.M.timeStand = Canvas.getSecond();
       }
 
       FarmService.a().b(FarmScr.b, this.d.IDDB, this.c);

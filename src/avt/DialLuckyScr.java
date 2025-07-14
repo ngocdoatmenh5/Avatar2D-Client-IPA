@@ -41,7 +41,7 @@ public final class DialLuckyScr extends MyScreen {
    public final void a(MyScreen var1, short var2) {
       this.r = var1;
       this.s = var2;
-      Canvas.d[5] = false;
+      Canvas.keyHold[5] = false;
       super.a();
    }
 
@@ -56,7 +56,7 @@ public final class DialLuckyScr extends MyScreen {
             this.r.a();
             DialLuckyScr var3 = this;
             this.p = false;
-            super.ad = this.t;
+            super.center = this.t;
 
             for(var2 = 0; var2 < 3; ++var2) {
                var3.y[var2] = false;
@@ -69,26 +69,26 @@ public final class DialLuckyScr extends MyScreen {
    }
 
    public DialLuckyScr() {
-      FilePack.b(T1.ax);
+      FilePack.b(T.ax);
       this.b = FilePack.a("c");
       this.d = FilePack.a("sq");
       this.e = FilePack.a("q");
       this.f = FrameImage.a("st", 11 * AvMain.hd, 11 * AvMain.hd);
       this.c = FilePack.a("cb");
       FilePack.a();
-      if (Canvas.m < 200) {
+      if (Canvas.w < 200) {
          this.g = 80;
       } else {
          this.g = 90;
       }
 
-      this.n = new AvPosition(Canvas.m, Canvas.hh);
+      this.n = new AvPosition(Canvas.w, Canvas.hh);
       this.i = 30;
       this.l = 360 / this.i;
-      this.t = new Command(T1.dv, 0);
-      this.u = new Command(T1.b, 1);
-      this.v = new Command(T1.d, 2);
-      super.ad = this.t;
+      this.t = new Command(T.dv, 0);
+      this.u = new Command(T.b, 1);
+      this.v = new Command(T.d, 2);
+      super.center = this.t;
       this.k = 90;
       this.y = new boolean[3];
       this.z = new Vector();
@@ -102,12 +102,12 @@ public final class DialLuckyScr extends MyScreen {
          String var5 = "";
          switch (var4.b) {
             case 1:
-               Part var6 = AvatarData.a(var4.a);
+               Part var6 = AvatarData.getPart(var4.a);
                ImageInfo var7 = AvatarData.listImgInfo[var6.h];
-               Canvas.a(0, var1.x, var1.y - 50, -1, CRes.a(var7.c * AvMain.hd, var7.d * AvMain.hd, var7.e * AvMain.hd, var7.f * AvMain.hd, AvatarData.a((int)var7.b).e), var2);
+               Canvas.a(0, var1.x, var1.y - 50, -1, CRes.a(var7.x0 * AvMain.hd, var7.y0 * AvMain.hd, var7.w * AvMain.hd, var7.h * AvMain.hd, AvatarData.getBigImgInfo((int)var7.bigID).img), var2);
                break;
             case 2:
-               var5 = "+" + var4.c + T1.C;
+               var5 = "+" + var4.c + T.C;
                var1.setMoney(var1.money[0] + var4.c);
                var2 += 20;
                break;
@@ -117,7 +117,7 @@ public final class DialLuckyScr extends MyScreen {
                var2 += 20;
                break;
             case 4:
-               var5 = "+" + var4.g + T1.D;
+               var5 = "+" + var4.g + T.D;
                int[] var10000 = var1.money;
                var10000[2] += var4.g;
                var2 += 20;
@@ -157,7 +157,7 @@ public final class DialLuckyScr extends MyScreen {
             var2 = CRes.c(var2);
             var1 = this.g * CRes.b(var2) >> 10;
             var2 = -(this.g * CRes.a(var2)) >> 10;
-            this.b(this.n.a + var1, this.n.b + var2);
+            this.b(this.n.x + var1, this.n.y + var2);
          }
       } else if (this.o) {
          DialLuckyScr var6 = this;
@@ -180,12 +180,12 @@ public final class DialLuckyScr extends MyScreen {
             var4 = CRes.c(var4);
             int var5 = var6.g * CRes.b(var4) >> 10;
             var4 = -(var6.g * CRes.a(var4)) >> 10;
-            var3.d = var6.n.a + var5;
-            var3.e = var6.n.b + var4;
+            var3.d = var6.n.x + var5;
+            var3.e = var6.n.y + var4;
          }
       }
 
-      if (super.ad == this.u) {
+      if (super.center == this.u) {
          var1 = 0;
 
          for(var2 = 0; var2 < this.y.length; ++var2) {
@@ -195,7 +195,7 @@ public final class DialLuckyScr extends MyScreen {
          }
 
          if (var1 == 3) {
-            super.ad = this.v;
+            super.center = this.v;
          }
       }
 
@@ -243,19 +243,19 @@ public final class DialLuckyScr extends MyScreen {
 
    }
 
-   public final void l() {
+   public final void updateKey() {
       if (!this.p) {
-         if (Canvas.S.d() == 1) {
-            if (Canvas.e) {
-               Canvas.d[5] = true;
+         if (Canvas.paint.d() == 1) {
+            if (Canvas.isPointerDown) {
+               Canvas.keyHold[5] = true;
             }
 
-            if (Canvas.f) {
-               Canvas.c[5] = true;
+            if (Canvas.isPointerRelease) {
+               Canvas.keyReleased[5] = true;
             }
          }
 
-         if (Canvas.d[5] && !this.o && this.q) {
+         if (Canvas.keyHold[5] && !this.o && this.q) {
             if (this.k < 270) {
                this.k += 3;
             }
@@ -263,18 +263,18 @@ public final class DialLuckyScr extends MyScreen {
             this.k -= 3;
          }
 
-         if (Canvas.c[5]) {
+         if (Canvas.keyReleased[5]) {
             if (this.k > 90 && !this.o && this.q) {
                this.m = this.k;
                GlobalService.gI().a(this.s, this.m - 90);
-               Canvas.i();
+               Canvas.startWaitDlg();
             }
 
-            Canvas.c[5] = false;
+            Canvas.keyReleased[5] = false;
          }
       }
 
-      super.l();
+      super.updateKey();
    }
 
    public final void a(int var1, int var2, Vector var3) {
@@ -285,16 +285,16 @@ public final class DialLuckyScr extends MyScreen {
             return;
          }
       } else {
-         super.ad = this.u;
+         super.center = this.u;
          this.w = var3;
          this.j = 100 + (this.m - 90);
          this.o = true;
-         Canvas.h();
+         Canvas.endDlg();
       }
 
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       this.r.b(var1);
       Canvas.resetTrans(var1);
       int var2 = this.h / 20;
@@ -313,7 +313,7 @@ public final class DialLuckyScr extends MyScreen {
             var5 = CRes.c(var4);
             var6 = this.g * CRes.b(var5) >> 10;
             var7 = -(this.g * CRes.a(var5)) >> 10;
-            var1.drawImage(this.c, this.n.a + var6, this.n.b + var7, 3);
+            var1.drawImage(this.c, this.n.x + var6, this.n.y + var7, 3);
          }
       }
 
@@ -326,11 +326,11 @@ public final class DialLuckyScr extends MyScreen {
                Gift var13;
                switch ((var13 = (Gift)var11.w.elementAt(var5)).b) {
                   case 1:
-                     AvatarData.a(var13.a).a(var12, var13.d, var13.e, 3);
+                     AvatarData.getPart(var13.a).a(var12, var13.d, var13.e, 3);
                      Canvas.L.a(var12, var13.h, var13.d - 17, var13.e - 7, 1);
                      break;
                   case 2:
-                     Canvas.L.a(var12, T1.C, var13.d, var13.e - AvMain.ag / 2, 2);
+                     Canvas.L.a(var12, T.C, var13.d, var13.e - AvMain.ag / 2, 2);
                      Canvas.L.a(var12, String.valueOf(var13.c), var13.d - 17, var13.e - 8, 1);
                      break;
                   case 3:
@@ -338,7 +338,7 @@ public final class DialLuckyScr extends MyScreen {
                      Canvas.L.a(var12, String.valueOf(var13.f), var13.d - 17, var13.e - 8, 1);
                      break;
                   case 4:
-                     Canvas.L.a(var12, T1.D, var13.d, var13.e - AvMain.ag / 2, 2);
+                     Canvas.L.a(var12, T.D, var13.d, var13.e - AvMain.ag / 2, 2);
                      Canvas.L.a(var12, String.valueOf(var13.g), var13.d - 17, var13.e - 8, 1);
                }
             }
@@ -360,15 +360,15 @@ public final class DialLuckyScr extends MyScreen {
             if (this.p && var5 >= 150 && var5 <= 210 && (var9 > (long)((var3 + 1) * 5) || var9 <= (long)((var3 + 1) * 5 - 5))) {
                ++var3;
             } else {
-               var1.drawImage(this.e, this.n.a + var7, this.n.b + var6, 3);
+               var1.drawImage(this.e, this.n.x + var7, this.n.y + var6, 3);
             }
 
-            var1.drawImage(this.b, this.n.a + var7, this.n.b + var6, 3);
+            var1.drawImage(this.b, this.n.x + var7, this.n.y + var6, 3);
          }
       }
 
-      var1.drawRegion(this.d, 0, 0, 64, 62, 0, this.n.a, this.n.b, 40);
-      var1.drawRegion(this.d, 0, 0, 64, 62, 1, this.n.a, this.n.b, 24);
+      var1.drawRegion(this.d, 0, 0, 64, 62, 0, this.n.x, this.n.y, 40);
+      var1.drawRegion(this.d, 0, 0, 64, 62, 1, this.n.x, this.n.y, 24);
       var5 = CRes.c(this.k);
       var6 = (this.g / 3 + 2) * CRes.b(var5) >> 10;
       var7 = -((this.g / 3 + 2) * CRes.a(var5)) >> 10;
@@ -388,13 +388,13 @@ public final class DialLuckyScr extends MyScreen {
       int var14 = 6 * CRes.b(var8) >> 10;
       var8 = -(6 * CRes.a(var8)) >> 10;
       var1.setColor(14483456);
-      var1.fillTriangle(this.n.a + var6, this.n.b + var7, this.n.a + var5, this.n.b + var2, this.n.a + var14, this.n.b + var8);
-      var1.fillRoundRect(this.n.a - 6, this.n.b - 6, 12, 12, 12, 12);
+      var1.fillTriangle(this.n.x + var6, this.n.y + var7, this.n.x + var5, this.n.y + var2, this.n.x + var14, this.n.y + var8);
+      var1.fillRoundRect(this.n.x - 6, this.n.y - 6, 12, 12, 12, 12);
       if (this.p || this.j > 0) {
          this.c(var1);
       }
 
-      super.a(var1);
+      super.paint(var1);
    }
 
    private void c(Graphics var1) {

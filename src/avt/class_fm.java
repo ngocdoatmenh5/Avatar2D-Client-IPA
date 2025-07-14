@@ -30,7 +30,7 @@ final class class_fm extends Command {
       this.g.paintIcon(var1, PopupShop.c / 4 - 7, var2, true);
       this.h.paintIcon(var1, PopupShop.c / 4 * 3 - 7, var2, true);
       ImageIcon var4;
-      if ((var4 = AvatarData.c(this.i)).count != -1) {
+      if ((var4 = AvatarData.getImgIcon(this.i)).count != -1) {
          var1.drawImage(var4.img, PopupShop.c / 2 - 7, var2 - this.g.height / 2, 3);
          if (this.j > 0) {
             Canvas.N.a(var1, "lv" + this.j + "+" + this.k + "%", PopupShop.c / 2 - 7, var2, 2);

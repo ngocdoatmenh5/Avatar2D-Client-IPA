@@ -25,7 +25,7 @@ final class class_fs implements CommandListener {
          GlobalService.gI().a((byte)2, this.b.getString());
       }
 
-      Canvas.a.setFullScreenMode(true);
-      Display.getDisplay(GameMidlet.h).setCurrent(Canvas.a);
+      Canvas.instance.setFullScreenMode(true);
+      Display.getDisplay(GameMidlet.h).setCurrent(Canvas.instance);
    }
 }

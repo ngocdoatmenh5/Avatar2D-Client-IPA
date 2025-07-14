@@ -16,7 +16,7 @@ public final class mFont implements FontX {
 
    public mFont(int var1) {
       try {
-         DataInputStream var2 = new DataInputStream(CRes.c(T1.a() + "/font/" + e[var1]));
+         DataInputStream var2 = new DataInputStream(CRes.c(T.a() + "/font/" + e[var1]));
          this.b = var2.readUTF();
          this.c = new byte[this.b.length()];
 
@@ -25,7 +25,7 @@ public final class mFont implements FontX {
          }
 
          this.d = var2.readByte();
-         FilePack.b(T1.ar);
+         FilePack.b(T.ar);
          this.a = FilePack.a(String.valueOf(var1));
          FilePack.a();
       } catch (Exception var4) {

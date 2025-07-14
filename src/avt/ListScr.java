@@ -37,8 +37,8 @@ public final class ListScr extends MyScreen {
 
    public final void a() {
       this.g = 0;
-      this.k = new Command(T1.d, 1);
-      super.ae = this.k;
+      this.k = new Command(T.d, 1);
+      super.right = this.k;
       this.b = null;
       if (Canvas.currentMyScreen != MenuCenter.gI() && Canvas.currentMyScreen != PopupShop.b() && Canvas.currentMyScreen != b()) {
          this.b = Canvas.currentMyScreen;
@@ -46,28 +46,28 @@ public final class ListScr extends MyScreen {
 
       this.f();
       super.a();
-      if (Canvas.Z > 0) {
+      if (Canvas.stypeInt > 0) {
          this.o = true;
       }
 
    }
 
    public final void e() {
-      Canvas.y.a(20, PaintPopup.a().h + PaintPopup.o + AvMain.Z, Canvas.m - 40, this.l, Canvas.m - 40, c.size() * this.l, Canvas.m - 40, PaintPopup.a().e - 5 - (PaintPopup.o + 2 * AvMain.Z), c.size());
+      Canvas.cameraList.a(20, PaintPopup.gI().h + PaintPopup.o + AvMain.Z, Canvas.w - 40, this.l, Canvas.w - 40, c.size() * this.l, Canvas.w - 40, PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.Z), c.size());
       if (c.size() > 0) {
-         class_il.a().a(c.size() * this.l, PaintPopup.a().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
+         class_il.a().a(c.size() * this.l, PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
       }
 
    }
 
    public final void f() {
-      if (Canvas.Z == 0) {
-         PaintPopup.a().a(this.n, Canvas.m - 20, Canvas.q - Canvas.T - 20, 1);
+      if (Canvas.stypeInt == 0) {
+         PaintPopup.gI().a(this.n, Canvas.w - 20, Canvas.q - Canvas.hTab - 20, 1);
       } else {
-         PaintPopup.a().a(this.n, Canvas.m - 20 * AvMain.hd, Canvas.n - Canvas.ab - Canvas.T - 10 + (OnScreen.b ? 7 * AvMain.hd : 0), 1);
+         PaintPopup.gI().a(this.n, Canvas.w - 20 * AvMain.hd, Canvas.h - Canvas.ab - Canvas.hTab - 10 + (OnScreen.b ? 7 * AvMain.hd : 0), 1);
       }
 
-      PaintPopup.a().h = 10 + Canvas.ab;
+      PaintPopup.gI().h = 10 + Canvas.ab;
       if (c != null) {
          this.e();
       }
@@ -80,7 +80,7 @@ public final class ListScr extends MyScreen {
 
    public final void a(int var1, boolean var2) {
       if (var2 && var1 == this.g) {
-         this.a(this.q);
+         this.perform(this.q);
       }
 
       this.p = -20;
@@ -94,24 +94,24 @@ public final class ListScr extends MyScreen {
       this.o = var1;
    }
 
-   public final void a(Graphics var1) {
-      var1.setClip(0, 0, Canvas.m, Canvas.n);
+   public final void paint(Graphics var1) {
+      var1.setClip(0, 0, Canvas.w, Canvas.h);
       if (this.b != null) {
          this.b.b(var1);
       } else {
          MapScr.gI().b(var1);
       }
 
-      PaintPopup.a().a(var1);
-      var1.translate(0, PaintPopup.a().h + PaintPopup.o + AvMain.Z);
-      var1.setClip(0, 0, Canvas.m, Canvas.n);
+      PaintPopup.gI().a(var1);
+      var1.translate(0, PaintPopup.gI().h + PaintPopup.o + AvMain.Z);
+      var1.setClip(0, 0, Canvas.w, Canvas.h);
       int var2;
       if ((var2 = CameraList.i / this.l) < 0) {
          var2 = 0;
       }
 
       int var3;
-      if ((var3 = var2 + (Canvas.n - 40) / this.l + 1) > c.size()) {
+      if ((var3 = var2 + (Canvas.h - 40) / this.l + 1) > c.size()) {
          var3 = c.size();
       }
 
@@ -128,15 +128,15 @@ public final class ListScr extends MyScreen {
          var6 = 0 + this.l * var2;
 
          for(var7 = var2; var7 < var5; ++var7) {
-            var12.setClip(10 * AvMain.hd + 4 + AvMain.hd, 0, PaintPopup.a().f - 8 - (AvMain.hd << 1), PaintPopup.a().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
+            var12.setClip(10 * AvMain.hd + 4 + AvMain.hd, 0, PaintPopup.gI().f - 8 - (AvMain.hd << 1), PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
             var12.translate(0, -CameraList.i);
             StringObj var13 = (StringObj)c.elementAt(var7);
             int var8 = 0;
             if (!var11.o && var7 == var11.g) {
-               Canvas.S.c(var12, 10 * AvMain.hd + 3 + 2 * AvMain.hd, var6 + 2, Canvas.m - 20 * AvMain.hd - 6 - 4 * AvMain.hd, var11.l - 4);
-               if (var13.c > PaintPopup.a().f - 40) {
+               Canvas.paint.c(var12, 10 * AvMain.hd + 3 + 2 * AvMain.hd, var6 + 2, Canvas.w - 20 * AvMain.hd - 6 - 4 * AvMain.hd, var11.l - 4);
+               if (var13.c > PaintPopup.gI().f - 40) {
                   var11.p += 2;
-                  if (var11.p > var13.c - (PaintPopup.a().f - 40)) {
+                  if (var11.p > var13.c - (PaintPopup.gI().f - 40)) {
                      var11.p = -20;
                   }
                }
@@ -147,7 +147,7 @@ public final class ListScr extends MyScreen {
                }
             }
 
-            var9 = AvatarData.c((short)var13.d).c + 4;
+            var9 = AvatarData.getImgIcon((short)var13.d).c + 4;
             AvatarData.a(var12, var13.d, 10 * AvMain.hd + 10 + var9 / 2, var6 + var11.l / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
             Canvas.K.a(var12, var13.a, 10 * AvMain.hd + 10 + var9, var6 + var11.l / 2 - 12 * AvMain.hd, 0);
             Canvas.N.a(var12, var13.b, 10 * AvMain.hd + 10 - var8, var6 + var11.l / 2 + 3 * AvMain.hd, 0);
@@ -162,19 +162,19 @@ public final class ListScr extends MyScreen {
          var6 = 0 + this.l * var2;
 
          for(int var4 = var2; var4 < var5; ++var4) {
-            var12.setClip(10 * AvMain.hd + 4, 0, PaintPopup.a().f - 8, PaintPopup.a().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
+            var12.setClip(10 * AvMain.hd + 4, 0, PaintPopup.gI().f - 8, PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
             var12.translate(0, -CameraList.i);
             Avatar var14 = (Avatar)c.elementAt(var4);
             var9 = 0;
             int var10;
             if (!var11.o && var4 == var11.g) {
-               Canvas.S.c(var12, 10 * AvMain.hd + 3 + 2 * AvMain.hd, var6 + 2, Canvas.m - 20 * AvMain.hd - 6 - 4 * AvMain.hd, var11.l - 4);
+               Canvas.paint.c(var12, 10 * AvMain.hd + 3 + 2 * AvMain.hd, var6 + 2, Canvas.w - 20 * AvMain.hd - 6 - 4 * AvMain.hd, var11.l - 4);
                int var10000 = var10 = Canvas.N.getWidth(var14.text2);
                int var10003 = AvMain.hd - 1;
-               if (var10000 > PaintPopup.a().f - (57 + var10003 * 30)) {
+               if (var10000 > PaintPopup.gI().f - (57 + var10003 * 30)) {
                   var11.p += 2;
                   int var10004 = AvMain.hd - 1;
-                  if (var11.p > var10 - (PaintPopup.a().f - (57 + var10004 * 30))) {
+                  if (var11.p > var10 - (PaintPopup.gI().f - (57 + var10004 * 30))) {
                      var11.p = -20;
                   }
                }
@@ -194,7 +194,7 @@ public final class ListScr extends MyScreen {
 
             int var10001 = 60 + (AvMain.hd - 1) * 30;
             int var10005 = AvMain.hd - 1;
-            var12.setClip(var10001, CameraList.i, PaintPopup.a().f - (47 + var10005 * 30), PaintPopup.a().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
+            var12.setClip(var10001, CameraList.i, PaintPopup.gI().f - (47 + var10005 * 30), PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
             Canvas.K.a(var12, var14.name, 60 + (var10 << 1) + (AvMain.hd - 1) * 30, var6 + var11.l / 2 - 12 * AvMain.hd, 0);
             if (var14.idWedding != -1) {
                AvatarData.a(var12, var14.idWedding, 60 + 6 * AvMain.hd + (var10 << 1) + (AvMain.hd - 1) * 30 + Canvas.K.getWidth(var14.name), var6 + var11.l / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
@@ -211,20 +211,20 @@ public final class ListScr extends MyScreen {
          }
       }
 
-      class_il.a().a(var1, Canvas.m - 10 * AvMain.hd - 9 - AvMain.hd, 0);
+      class_il.a().a(var1, Canvas.w - 10 * AvMain.hd - 9 - AvMain.hd, 0);
       Canvas.resetTrans(var1);
       if (OnScreen.b) {
-         OnScreen.a(var1, super.ac, super.ad, super.ae);
+         OnScreen.a(var1, super.left, super.center, super.right);
       } else {
-         super.a(var1);
+         super.paint(var1);
       }
    }
 
-   public final void l() {
-      if (OnScreen.b && Canvas.Z != 0) {
-         Canvas.S.a(super.ac, super.ad, super.ae);
+   public final void updateKey() {
+      if (OnScreen.b && Canvas.stypeInt != 0) {
+         Canvas.paint.a(super.left, super.center, super.right);
       } else {
-         super.l();
+         super.updateKey();
       }
    }
 
@@ -250,8 +250,8 @@ public final class ListScr extends MyScreen {
                MapScr.c(MapScr.h);
             } else if (e == 2) {
                f = false;
-               Canvas.i();
-               AvatarService.a().c((int)1);
+               Canvas.startWaitDlg();
+               AvatarService.gI().getTypeHouse((int)1);
             } else if (Canvas.currentMyScreen != this) {
                this.a();
             }
@@ -274,14 +274,14 @@ public final class ListScr extends MyScreen {
       }
 
       this.g = 0;
-      super.ae = this.k;
+      super.right = this.k;
       this.e();
    }
 
    public final void b(boolean var1) {
       this.j = 0;
       if (d == null) {
-         Canvas.i();
+         Canvas.startWaitDlg();
          CasinoService.a().d();
       } else {
          this.b = Canvas.currentMyScreen;
@@ -293,9 +293,9 @@ public final class ListScr extends MyScreen {
 
       if (var1) {
          this.m = true;
-         this.q = new Command(T1.O, 4);
-         if (Canvas.Z == 0) {
-            super.ad = this.q;
+         this.q = new Command(T.O, 4);
+         if (Canvas.stypeInt == 0) {
+            super.center = this.q;
          }
       }
 
@@ -316,7 +316,7 @@ public final class ListScr extends MyScreen {
 
    public final boolean a(String var1) {
       byte[] var2 = (byte[])i.get(var1);
-      Canvas.h();
+      Canvas.endDlg();
       if (var2 == null) {
          return false;
       } else {
@@ -397,21 +397,21 @@ public final class ListScr extends MyScreen {
             this.a();
          }
 
-         super.ac = null;
+         super.left = null;
          if (var17 > 0) {
-            super.ac = new Command(T1.c, new IActionListMenu(this, var2, var3, var6, var8, var4));
+            super.left = new Command(T.c, new IActionListMenu(this, var2, var3, var6, var8, var4));
          }
 
          if (!this.m) {
             if (var2.equals(h)) {
-               this.q = new Command(T1.L, 0);
-               if (Canvas.Z == 0) {
-                  super.ad = this.q;
+               this.q = new Command(T.L, 0);
+               if (Canvas.stypeInt == 0) {
+                  super.center = this.q;
                }
             } else if (!this.m) {
-               this.q = new Command(T1.O, new IActionReadList(this, var6, var8));
-               if (Canvas.Z == 0) {
-                  super.ad = this.q;
+               this.q = new Command(T.O, new IActionReadList(this, var6, var8));
+               if (Canvas.stypeInt == 0) {
+                  super.center = this.q;
                }
             }
          }
@@ -433,11 +433,11 @@ public final class ListScr extends MyScreen {
             }
             break;
          case 1:
-            super.ad = null;
-            super.ae = null;
-            super.ac = null;
+            super.center = null;
+            super.right = null;
+            super.left = null;
             c = null;
-            Canvas.y.m = false;
+            Canvas.cameraList.m = false;
             if (this.b != null) {
                this.b.a();
                return;
@@ -449,20 +449,20 @@ public final class ListScr extends MyScreen {
             return;
          case 3:
             Avatar var3 = (Avatar)c.elementAt(b().g);
-            AvatarService.a().b(var3.IDDB);
-            Canvas.i();
+            AvatarService.gI().doJoinHouse(var3.IDDB);
+            Canvas.startWaitDlg();
             return;
          case 4:
-            Canvas.i();
+            Canvas.startWaitDlg();
             FarmScr.b().b(((Avatar)d.elementAt(this.g)).IDDB, true);
       }
 
    }
 
    public final void g() {
-      this.q = new Command(T1.O, 3);
-      if (Canvas.Z == 0) {
-         super.ad = this.q;
+      this.q = new Command(T.O, 3);
+      if (Canvas.stypeInt == 0) {
+         super.center = this.q;
       }
 
    }

@@ -17,8 +17,8 @@ final class class_ey extends Command {
    public final void a() {
       if (PopupShop.n && PopupShop.j - this.g == this.f) {
          PopupShop.n();
-         PopupShop.a(T1.aA + this.h.c);
-         PopupShop.a(T1.az + this.h.d + (this.h.e == 0 ? T1.C : T1.D));
+         PopupShop.a(T.aA + this.h.c);
+         PopupShop.a(T.az + this.h.d + (this.h.e == 0 ? T.C : T.D));
       }
 
    }

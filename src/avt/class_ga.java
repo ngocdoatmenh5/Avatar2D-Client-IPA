@@ -10,8 +10,8 @@ final class class_ga implements IAction {
    }
 
    public final void perform() {
-      if (!HouseScr.a(this.a, AvatarData.b((int)this.b.b))) {
-         AvatarService.a().a(HouseScr.g(this.a).c, HouseScr.g(this.a).a, HouseScr.g(this.a).b, HouseScr.d(this.a), HouseScr.e(this.a), this.b.c);
+      if (!HouseScr.a(this.a, AvatarData.getMapItemTypeByID((int)this.b.typeID))) {
+         AvatarService.gI().doSortItem(HouseScr.g(this.a).anchor, HouseScr.g(this.a).x, HouseScr.g(this.a).y, HouseScr.d(this.a), HouseScr.e(this.a), this.b.dir);
          HouseScr.b = false;
          this.a.d = -1;
          HouseScr.c(this.a, -1);
