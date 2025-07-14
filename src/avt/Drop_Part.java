@@ -44,7 +44,7 @@ public final class Drop_Part extends Base {
                --this.g;
             }
 
-            if ((CRes.f(super.x - this.b) < 4 || CRes.f(super.y - this.c) < 4) && this.f <= 1) {
+            if ((CRes.abs(super.x - this.b) < 4 || CRes.abs(super.y - this.c) < 4) && this.f <= 1) {
                super.x = this.b;
                super.y = this.c;
                this.f = 0;
@@ -89,7 +89,7 @@ public final class Drop_Part extends Base {
       }
 
       this.i += this.j;
-      if (CRes.f(this.i) >= 10) {
+      if (CRes.abs(this.i) >= 10) {
          this.h = (byte)(-this.h);
       }
 

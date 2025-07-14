@@ -70,7 +70,7 @@ public class AnimalDan extends Animal {
       if (super.hunger && super.isEat && var1 > 0) {
          for(int var2 = 0; var2 < var1; ++var2) {
             Point var3;
-            if (CRes.f((var3 = (Point)FarmScr.listFood[this.indexFood].elementAt(var2)).x - super.x) <= 2 && CRes.f(var3.y - super.y) <= 2) {
+            if (CRes.abs((var3 = (Point)FarmScr.listFood[this.indexFood].elementAt(var2)).x - super.x) <= 2 && CRes.abs(var3.y - super.y) <= 2) {
                FarmScr.listFood[this.indexFood].removeElement(var3);
                LoadMap.n.removeElement(var3);
                super.hunger = false;

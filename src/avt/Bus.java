@@ -1,97 +1,98 @@
 package avt;
 
-import javax.microedition.lcdui.Graphics;
-import javax.microedition.lcdui.Image;
 import main.Canvas;
 import main.GameMidlet;
 
-public final class Bus {
-   private int c;
-   private int d;
-   private int e;
-   private int f;
-   private int g;
-   private static byte h;
-   private static byte i;
-   public static AvPosition a;
-   public static boolean b = false;
-   private static boolean j = false;
-   private Image k;
+import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 
-   public final void a(byte var1) {
-      if (!b && GameMidlet.avatar.action != -1) {
+public final class Bus {
+   private int x;
+   private int y;
+   private int v;
+   private int g;
+   private int count;
+   private static byte damToc ;
+   private static byte direct;
+   public static AvPosition posBusStop;
+   public static boolean isRun = false;
+   private static boolean isExit = false;
+   private Image imgBus;
+
+   public final void setBus(byte var1) {
+      if (!isRun && GameMidlet.avatar.action != -1) {
          FilePack.b(T.at);
-         this.k = FilePack.a("839");
+         this.imgBus = FilePack.a("839");
          FilePack.a();
-         i = var1;
+         direct = var1;
          if (var1 == 1) {
-            AvCamera.gI().xCam = AvCamera.gI().xTo = a.x * AvMain.hd - Canvas.hw - 300;
+            AvCamera.gI().xCam = AvCamera.gI().xTo = posBusStop.x * AvMain.hd - Canvas.hw - 300;
          }
 
-         this.d = LoadMap.Hmap * LoadMap.i + (Canvas.stypeInt != 0 ? Canvas.hTab : 0) / AvMain.hd + 20 * AvMain.hd;
-         this.c = a.x + 300;
-         this.e = this.f = 15;
-         this.g = 0;
-         h = 1;
-         b = true;
+         this.y = LoadMap.Hmap * LoadMap.i + (Canvas.stypeInt != 0 ? Canvas.hTab : 0) / AvMain.hd + 20 * AvMain.hd;
+         this.x = posBusStop.x + 300;
+         this.v = this.g = 15;
+         this.count = 0;
+         damToc = 1;
+         isRun = true;
          GameMidlet.avatar.setAction((byte)-1);
          AvCamera.disable = true;
-         j = false;
-         if (i == 1) {
+         isExit = false;
+         if (direct == 1) {
             GameMidlet.avatar.ableShow = true;
          }
 
       }
    }
 
-   public final void a() {
-      if ((h == 1 && i == 1 || h == -1 && i == -1) && i == -1 && !j) {
+   public final void update() {
+      if ((damToc == 1 && direct == 1 || damToc == -1 && direct == -1) && direct == -1 && !isExit) {
          GlobalService.gI().d((int)8);
          GameMidlet.avatar.ableShow = true;
-         j = true;
+         isExit = true;
       }
 
-      this.c -= this.e;
-      this.g += CRes.f(this.f - this.e / 2);
-      if (this.g >= 20) {
-         this.g = 0;
-         this.e -= h;
-         if (this.e == 0) {
-            h = -1;
-            this.f = 8;
-            GameMidlet.avatar.setPos(this.c, a.y);
+      this.x -= this.v;
+      this.count += CRes.abs(this.g - this.v / 2);
+      if (this.count >= 20) {
+         this.count = 0;
+         this.v -= damToc;
+         if (this.v == 0) {
+            damToc = -1;
+            this.g = 8;
+            GameMidlet.avatar.setPos(this.x, posBusStop.y);
             GameMidlet.avatar.setAction((byte)0);
             AvCamera.disable = false;
             GameMidlet.avatar.ableShow = false;
             if (Canvas.isDoubleImage && Session_ME.a().b()) {
                if (LoadMap.TYPEMAP == 9) {
-                  (Canvas.D = new Welcome()).b();
-               } else if (i == 1 && LoadMap.TYPEMAP == 25) {
-                  (Canvas.D = new Welcome()).a((MyScreen)MapScr.a);
+                  (Canvas.welcome = new Welcome()).b();
+               } else if (direct == 1 && LoadMap.TYPEMAP == 25) {
+                  (Canvas.welcome = new Welcome()).a((MyScreen)MapScr.a);
                } else if (LoadMap.TYPEMAP == 13 && Welcome.c < 8) {
-                  (Canvas.D = new Welcome()).f();
-               } else if (i == 1 && LoadMap.TYPEMAP == 23) {
-                  (Canvas.D = new Welcome()).d();
+                  (Canvas.welcome = new Welcome()).f();
+               } else if (direct == 1 && LoadMap.TYPEMAP == 23) {
+                  (Canvas.welcome = new Welcome()).d();
                }
             }
          }
       }
 
-      if ((this.c + 58) * AvMain.hd < AvCamera.gI().xCam) {
-         b = false;
-         if (i == -1) {
+      if ((this.x + 58) * AvMain.hd < AvCamera.gI().xCam) {
+         isRun = false;
+         if (direct == -1) {
             Canvas.startWaitDlg();
          }
       }
 
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       int var2 = 0;
-      if (this.e > 1) {
+      if (this.v > 1) {
          var2 = Canvas.gameTick % 6 < 3 ? 1 : 0;
       }
 
-      var1.drawImage(this.k, this.c * AvMain.hd, (this.d + var2) * AvMain.hd - this.k.getHeight(), 17);
+      var1.drawImage(this.imgBus, this.x * AvMain.hd, (this.y + var2) * AvMain.hd - this.imgBus.getHeight(), 17);
    }
 }

@@ -38,7 +38,7 @@ public final class MoneyScr extends MyScreen {
       super.ar = 0;
       this.e = var1;
       this.c();
-      super.a();
+      super.switchToMe();
    }
 
    public final void e() {
@@ -81,11 +81,11 @@ public final class MoneyScr extends MyScreen {
       super.a(var1, var2);
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
-            Canvas.cameraList.m = false;
-            this.e.a();
+            Canvas.cameraList.isShow = false;
+            this.e.switchToMe();
             this.i = null;
             return;
          case 1:
@@ -171,10 +171,10 @@ public final class MoneyScr extends MyScreen {
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
       if (OnScreen.b) {
-         Canvas.paint.b(var1);
+         Canvas.paint.paintDefaultBg(var1);
          Canvas.paint.a(var1, T.cf.toUpperCase(), GameMidlet.avatar.money[0] + T.C, GameMidlet.avatar.money[2] + T.D);
       } else if (this.e != null) {
-         this.e.b(var1);
+         this.e.paintMain(var1);
       }
 
       if (InputFace.a == null || Canvas.currentFace != InputFace.a) {
@@ -199,7 +199,7 @@ public final class MoneyScr extends MyScreen {
                Canvas.N.a(var1, MapScr.r(), this.j + this.l / 2, var2 / 2 + var2 * 3, 2);
             }
          } else {
-            var1.translate(0, -CameraList.i);
+            var1.translate(0, -CameraList.cmtoY);
             if (this.c == 0) {
                this.d(var1);
             } else {
@@ -207,7 +207,7 @@ public final class MoneyScr extends MyScreen {
             }
          }
 
-         if (Canvas.D == null || !Welcome.d) {
+         if (Canvas.welcome == null || !Welcome.d) {
             super.paint(var1);
          }
 
@@ -280,7 +280,7 @@ public final class MoneyScr extends MyScreen {
 
       for(var4 = 0; var4 < var3; ++var4) {
          MoneyInfo var5 = (MoneyInfo)this.b.elementAt(var4);
-         var1.setClip(this.j + var2 - 3, CameraList.i, this.l - var2 - 2, this.m - (!OnScreen.b ? PaintPopup.o + 2 * AvMain.Z : 0));
+         var1.setClip(this.j + var2 - 3, CameraList.cmtoY, this.l - var2 - 2, this.m - (!OnScreen.b ? PaintPopup.o + 2 * AvMain.Z : 0));
          Canvas.K.a(var1, var5.a, this.j + var2, var4 * this.n + this.n / 2 - AvMain.ah / 2, 0);
       }
 
@@ -320,12 +320,12 @@ public final class MoneyScr extends MyScreen {
       PaintPopup.gI().a(var1, this.d);
    }
 
-   public final void d(int var1) {
+   public final void keyPress(int var1) {
    }
 
-   public final void k() {
+   public final void update() {
       if (this.e != null) {
-         this.e.k();
+         this.e.update();
       }
 
       int var2;

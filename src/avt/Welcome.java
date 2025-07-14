@@ -43,7 +43,7 @@ public final class Welcome extends AvMain {
       super.left = new Command(T.dA, new class_dj(this));
    }
 
-   public final void k() {
+   public final void update() {
    }
 
    public final void updateKey() {
@@ -120,7 +120,7 @@ public final class Welcome extends AvMain {
 
    public final void a() {
       if (p == C.length + 1) {
-         Canvas.D = null;
+         Canvas.welcome = null;
          Canvas.isDoubleImage = false;
       } else {
          if (this.q == null) {
@@ -133,7 +133,7 @@ public final class Welcome extends AvMain {
             MiniMap.gI().e = C[p];
          }
 
-         Canvas.D.a(this.q[p]);
+         Canvas.welcome.a(this.q[p]);
          ++p;
       }
    }
@@ -175,7 +175,7 @@ public final class Welcome extends AvMain {
          LoadMap.a(LoadMap.l);
       }
 
-      Canvas.D.a(this.t[e]);
+      Canvas.welcome.a(this.t[e]);
       ++e;
    }
 
@@ -202,7 +202,7 @@ public final class Welcome extends AvMain {
          LoadMap.a(LoadMap.l);
       }
 
-      Canvas.D.a(this.u[v]);
+      Canvas.welcome.a(this.u[v]);
       ++v;
    }
 
@@ -260,7 +260,7 @@ public final class Welcome extends AvMain {
       LoadMap.a(LoadMap.l);
       AvCamera.gI().setToPos(r[f] * AvMain.hd, 20 * AvMain.hd);
       AvCamera.isFollow = true;
-      Canvas.D.a(this.x[f]);
+      Canvas.welcome.a(this.x[f]);
       ++f;
    }
 
@@ -269,7 +269,7 @@ public final class Welcome extends AvMain {
          this.y = T.e();
       }
 
-      Canvas.D.a(this.y[w]);
+      Canvas.welcome.a(this.y[w]);
       ++w;
    }
 
@@ -305,7 +305,7 @@ public final class Welcome extends AvMain {
 
       AvCamera.gI().setToPos(r[var1] * AvMain.hd, 36 * AvMain.hd);
       AvCamera.isFollow = true;
-      Canvas.D.a(this.B[A]);
+      Canvas.welcome.a(this.B[A]);
       ++A;
       FarmScr.b().left = null;
    }
@@ -332,7 +332,7 @@ public final class Welcome extends AvMain {
          AvCamera.isFollow = true;
       }
 
-      Canvas.D.a(this.o[n]);
+      Canvas.welcome.a(this.o[n]);
       ++n;
    }
 
@@ -363,7 +363,7 @@ public final class Welcome extends AvMain {
          }
       }
 
-      Canvas.D.a(this.m[c]);
+      Canvas.welcome.a(this.m[c]);
       ++c;
    }
 
@@ -388,7 +388,7 @@ public final class Welcome extends AvMain {
       AvCamera.gI().setToPos(var1 * AvMain.hd, var2 * AvMain.hd);
       AvCamera.isFollow = true;
       String[] var4 = T.j();
-      Canvas.D.a(var4);
+      Canvas.welcome.a(var4);
    }
 
    public static void g() {
@@ -402,7 +402,7 @@ public final class Welcome extends AvMain {
       }
 
       if (var0 < r.length) {
-         (Canvas.D = new Welcome()).j();
+         (Canvas.welcome = new Welcome()).j();
       }
 
    }
@@ -440,7 +440,7 @@ public final class Welcome extends AvMain {
       } else if (var0.k == var0.l.length - 1) {
          AvCamera.isFollow = false;
          if (100 == LoadMap.TYPEMAP) {
-            Canvas.D = null;
+            Canvas.welcome = null;
             return;
          }
 
@@ -452,7 +452,7 @@ public final class Welcome extends AvMain {
          if (LoadMap.TYPEMAP == 24) {
             if (A == 3 || A == 4 || A == 5 || A == 6) {
                m();
-               (Canvas.D = new Welcome()).j();
+               (Canvas.welcome = new Welcome()).j();
                d = true;
                return;
             }
@@ -463,7 +463,7 @@ public final class Welcome extends AvMain {
             }
          } else if (LoadMap.TYPEMAP == 25) {
             if (f == var0.x.length - 1) {
-               Canvas.D = null;
+               Canvas.welcome = null;
             }
          } else if (LoadMap.TYPEMAP == 13) {
             var0.k = 0;

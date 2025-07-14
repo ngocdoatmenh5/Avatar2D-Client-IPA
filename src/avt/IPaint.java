@@ -54,7 +54,7 @@ public interface IPaint {
 
    void a(Graphics var1, int var2, int var3, int var4, boolean var5, int var6, int[] var7);
 
-   void b(Graphics var1);
+   void paintDefaultBg(Graphics var1);
 
    void a(Graphics var1, int var2, int var3);
 

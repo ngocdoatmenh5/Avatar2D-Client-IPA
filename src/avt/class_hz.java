@@ -25,7 +25,7 @@ public final class class_hz extends SubObject {
    }
 
    public final void paint(Graphics var1) {
-      if (OptionScr.gI().b[1] != 1 && Canvas.D == null) {
+      if (OptionScr.gI().b[1] != 1 && Canvas.welcome == null) {
          if (super.x * MyObject.hd >= AvCamera.gI().xCam && super.x * MyObject.hd <= AvCamera.gI().xCam + Canvas.w && super.y * MyObject.hd >= AvCamera.gI().yCam && super.y * MyObject.hd <= AvCamera.gI().yCam + Canvas.h + 10 && Canvas.currentMyScreen != MenuCenter.gI()) {
             var1.drawImage(LoadMap.r, super.x * MyObject.hd, super.y * MyObject.hd, 3);
             if (MiniMap.gI().b != null) {

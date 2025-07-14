@@ -7,7 +7,7 @@ public final class class_da implements IMiniGameMsgHandler {
       try {
          int var2 = var1.reader().readByte();
          int var3 = var1.reader().readByte();
-         if (!BoardScr.a((byte)var2, (byte)var3)) {
+         if (!BoardScr.setR_B((byte)var2, (byte)var3)) {
             return;
          }
 
@@ -16,22 +16,22 @@ public final class class_da implements IMiniGameMsgHandler {
          switch (var1.a) {
             case 20:
                var7 = var1.reader().readByte();
-               BCBoardScr.a.e = var7;
-               BCBoardScr.a.b(var7);
+               BCBoardScr.me_.saveTime = var7;
+               BCBoardScr.me_.b(var7);
                return;
             case 21:
                if ((var7 = var1.reader().readByte()) == -1) {
-                  BCBoardScr.a.m();
-                  BCBoardScr.a.f = false;
+                  BCBoardScr.me_.setBotCmd();
+                  BCBoardScr.me_.canpointer = false;
                   return;
                }
 
                if (var7 != -1) {
                   for(var3 = 0; var3 < 6; ++var3) {
-                     BCBoardScr.a.d[var7][var3] = var1.reader().readByte();
+                     BCBoardScr.me_.moneySV[var7][var3] = var1.reader().readByte();
                   }
 
-                  BCBoardScr.a.c(var7);
+                  BCBoardScr.me_.onMove(var7);
                   return;
                }
                break;
@@ -42,37 +42,37 @@ public final class class_da implements IMiniGameMsgHandler {
                   var10[var2] = var1.reader().readByte();
                }
 
-               BCBoardScr.a.a(var10);
-               BoardScr.o();
+               BCBoardScr.me_.onResult(var10);
+               BoardScr.setCmdWaiting();
                return;
             case 49:
                return;
             case 51:
-               int[] var8 = new int[BoardScr.m.size()];
+               int[] var8 = new int[BoardScr.avatarInfos.size()];
 
                for(var3 = 0; var3 < var8.length; ++var3) {
                   var8[var3] = var1.reader().readInt();
                }
 
-               BCBoardScr.a.a(var8);
+               BCBoardScr.me_.onFinish(var8);
                return;
             case 60:
                var7 = var1.reader().readByte();
                byte var9 = var1.reader().readByte();
                var6 = var1.reader().readInt();
-               BCBoardScr.a.a(var7, var9, var6);
+               BCBoardScr.me_.showFlyText5Baucua(var7, var9, var6);
                return;
             case 62:
                var2 = var1.reader().readByte();
-               BCBoardScr.a.e = (byte)var2;
+               BCBoardScr.me_.saveTime = (byte)var2;
 
-               for(var3 = 0; var3 < BoardScr.m.size(); ++var3) {
+               for(var3 = 0; var3 < BoardScr.avatarInfos.size(); ++var3) {
                   for(var2 = 0; var2 < 6; ++var2) {
-                     BCBoardScr.a.d[var3][var2] = var1.reader().readByte();
+                     BCBoardScr.me_.moneySV[var3][var2] = var1.reader().readByte();
                   }
                }
 
-               BCBoardScr.a.i();
+               BCBoardScr.me_.onPlaying();
             default:
                return;
             case 65:
@@ -81,14 +81,14 @@ public final class class_da implements IMiniGameMsgHandler {
                byte var4 = var1.reader().readByte();
                var6 = var1.reader().readByte();
                if (var3 != var4 && var6 > 0) {
-                  BCBoardScr.a.d[var2][var4] = (byte)var6;
-                  BCBoardScr.a.a((byte)var2, (byte)var3, (byte)var4);
+                  BCBoardScr.me_.moneySV[var2][var4] = (byte)var6;
+                  BCBoardScr.me_.onHaphom((byte)var2, (byte)var3, (byte)var4);
                   return;
                }
                break;
             case 100:
                var2 = var1.reader().readByte();
-               BCBoardScr.a.a((byte)var2);
+               BCBoardScr.me_.onSetTurn((byte)var2);
                return;
          }
       } catch (Exception var5) {

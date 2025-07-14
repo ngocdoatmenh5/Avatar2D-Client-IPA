@@ -103,7 +103,7 @@ public final class GamePad {
       } else if (ChatTextField.c) {
          ChatTextField.gI().right.b();
       } else {
-         if (Canvas.currentMyScreen.right != null && Canvas.currentMyScreen.right.a.equals(T.bb)) {
+         if (Canvas.currentMyScreen.right != null && Canvas.currentMyScreen.right.caption.equals(T.bb)) {
             Canvas.currentMyScreen.right.b.perform();
          }
 

@@ -7,7 +7,7 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
    private static TienLenMsgHandler a = new TienLenMsgHandler();
 
    public static void a() {
-      BoardScr.H = 4;
+      BoardScr.numPlayer = 4;
       BoardListOnScr.e = BoardListOnScr.c;
       RoomListOnScr.a(0, TLBoardScr.b());
       CasinoMsgHandler.a.c = a;
@@ -17,7 +17,7 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
       try {
          int var2 = var1.reader().readByte();
          int var3 = var1.reader().readByte();
-         if (!BoardScr.a((byte)var2, (byte)var3)) {
+         if (!BoardScr.setR_B((byte)var2, (byte)var3)) {
             return;
          }
 
@@ -37,9 +37,9 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
 
                var15 = var1.reader().readInt();
                Canvas.endDlg();
-               BoardScr.r();
+               BoardScr.resetReady();
                TLBoardScr.b().a(var15, var14, var17);
-               CasinoService var11 = CasinoService.a();
+               CasinoService var11 = CasinoService.gI();
 
                try {
                   var11.b((byte)53);
@@ -57,9 +57,9 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
                }
 
                var15 = var1.reader().readInt();
-               BoardScr.k = true;
+               BoardScr.disableReady = true;
                TLBoardScr.b().a(var5, var16, var15);
-               TLBoardScr.b().f();
+               TLBoardScr.b().setPosPlaying();
                return;
             case 49:
                var2 = var1.reader().readInt();
@@ -110,7 +110,7 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
                   TLBoardScr.b().a(var3, var12);
                }
 
-               BoardScr.a(var3, T.K);
+               BoardScr.showChat(var3, T.K);
                return;
             case 54:
                String var4 = var1.reader().readUTF();

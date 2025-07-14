@@ -33,11 +33,11 @@ public final class class_kv extends MyScreen
       return class_kv.c;
    }
 
-   public final void a(final int n, final int n2) {
+   public final void commandTab(final int n, final int n2) {
       switch (n) {
          case 0: {
             if (GameMidlet.avatar.action != 2 && GameMidlet.avatar.action != 13) {
-               MapScr.gI().a();
+               MapScr.gI().switchToMe();
             }
             final ParkService a;
             (a = ParkService.a()).createMessage((byte)82);
@@ -87,7 +87,7 @@ public final class class_kv extends MyScreen
       k.y -= 10;
       AvCamera.setDistance(Canvas.w / 10);
       MapScr.l.removeElement(this.g);
-      MapScr.gI().a();
+      MapScr.gI().switchToMe();
    }
 
    public final boolean b(final int n, final int n2) {
@@ -118,8 +118,8 @@ public final class class_kv extends MyScreen
       return true;
    }
 
-   public final void k() {
-      MapScr.gI().k();
+   public final void update() {
+      MapScr.gI().update();
       if (this.g.i && !this.g.j) {
          if (this.l < this.m.length && System.currentTimeMillis() - this.n > this.o) {
             this.f(0);
@@ -134,7 +134,7 @@ public final class class_kv extends MyScreen
       }
    }
 
-   public final void d(final int n) {
+   public final void keyPress(final int n) {
       if (this.g.i && !this.g.j) {
          switch (n) {
             case 50:
@@ -147,7 +147,7 @@ public final class class_kv extends MyScreen
          }
          return;
       }
-      MapScr.gI().d(n);
+      MapScr.gI().keyPress(n);
    }
 
    public final void updateKey() {
@@ -187,7 +187,7 @@ public final class class_kv extends MyScreen
    }
 
    public final void paint(final Graphics graphics) {
-      MapScr.gI().b(graphics);
+      MapScr.gI().paintMain(graphics);
       if (this.g.i && !this.g.j && this.o != -1) {
          Canvas.resetTrans(graphics);
          graphics.translate(-AvCamera.gI().xCam, -AvCamera.gI().yCam);
@@ -317,15 +317,15 @@ public final class class_kv extends MyScreen
       if (b) {
          this.g.a();
          super.center = this.d;
-         this.a();
+         this.switchToMe();
          AvCamera.setDistance(Canvas.w / 3);
          Canvas.endDlg();
          return;
       }
-      Canvas.b(s, 0, this);
+      Canvas.startOK(s, 0, this);
    }
 
-   public final void a(final int n) {
+   public final void commandTab(final int n) {
       switch (n) {
          case 0: {
             this.e();
@@ -358,7 +358,7 @@ public final class class_kv extends MyScreen
       }
    }
 
-   public final void d(final int n, final int n2) {
+   public final void commandActionPointer(final int n, final int n2) {
    }
 
    public final void a(final int n, final byte b, final byte b2, final int n2, final short n3) {
@@ -376,7 +376,7 @@ public final class class_kv extends MyScreen
          final Vector vector;
          (vector = new Vector()).addElement(new CommandInfo(this, null, 0, avatar2, b, b2, n2, n3));
          PopupShop.b().a(new String[] { T.cw }, new Vector[1], vector);
-         PopupShop.b().a();
+         PopupShop.b().switchToMe();
       }
       Canvas.endDlg();
    }

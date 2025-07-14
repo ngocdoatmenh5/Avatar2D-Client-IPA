@@ -19,13 +19,13 @@ public final class InputFace extends Face {
       return a == null ? (a = new InputFace()) : a;
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
             Canvas.currentFace = null;
             return;
          default:
-            Canvas.currentMyScreen.a(var1, var2);
+            Canvas.currentMyScreen.commandTab(var1, var2);
       }
    }
 
@@ -95,14 +95,14 @@ public final class InputFace extends Face {
       super.right = this.b[this.h].a();
    }
 
-   public final void d(int var1) {
+   public final void keyPress(int var1) {
       for(int var2 = 0; var2 < this.b.length; ++var2) {
          if (this.b[var2].d()) {
             this.b[var2].b(var1);
          }
       }
 
-      super.d(var1);
+      super.keyPress(var1);
    }
 
    public final void paint(Graphics var1) {

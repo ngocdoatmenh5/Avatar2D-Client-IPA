@@ -26,7 +26,7 @@ final class IActionTriBenh2 implements IAction {
 
       if (!var1) {
          Canvas.startOKDlg(T.dW);
-         FarmScr.b().a((int)8, (int)-1);
+         FarmScr.b().commandTab((int)8, (int)-1);
       }
 
    }

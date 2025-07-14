@@ -10,14 +10,14 @@ final class class_in implements IAction {
    }
 
    public final void perform() {
-      class_cw var1 = MessageScr.b().b(MessageScr.b().b);
+      class_cw var1 = MessageScr.gI().b(MessageScr.gI().b);
       if (ListScr.d != null) {
          ListScr.b();
          ListScr.h();
       }
 
       ParkService.a().a(this.a.IDDB, true);
-      MessageScr.b().a(var1);
+      MessageScr.gI().a(var1);
       Canvas.startOKDlg(T.y + T.cb + this.a.name + ".");
    }
 }

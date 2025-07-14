@@ -22,17 +22,17 @@ public final class class_jv extends MyScreen {
       return a == null ? (a = new class_jv()) : a;
    }
 
-   public final void a() {
+   public final void switchToMe() {
       OnScreen.b = false;
       b = 0;
       if (OnScreen.c != 0) {
          c = MyScreen.am;
       }
 
-      super.a();
+      super.switchToMe();
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 50:
             b(0);
@@ -43,11 +43,11 @@ public final class class_jv extends MyScreen {
       }
    }
 
-   public final void k() {
+   public final void update() {
       if (b > 51) {
          if (OnScreen.c != 0) {
             if (OnScreen.c == 2) {
-               MapScr.gI().a();
+               MapScr.gI().switchToMe();
                c = null;
                OnScreen.c = 0;
                Canvas.paint.g();
@@ -64,14 +64,14 @@ public final class class_jv extends MyScreen {
                AvatarData.f();
                LoginScr.gI().e();
                if (class_ez.b() != Canvas.currentMyScreen) {
-                  LoginScr.gI().a();
+                  LoginScr.gI().switchToMe();
                }
 
                c = null;
             }
          }
       } else if (OnScreen.c != 0 && b == 0) {
-         MapScr.gI().a();
+         MapScr.gI().switchToMe();
          c = null;
          OnScreen.c = 0;
          Canvas.paint.g();
@@ -85,7 +85,7 @@ public final class class_jv extends MyScreen {
       OptionScr.gI().b[4] = var0;
       OptionScr.gI().b(0);
       LoginScr.gI().e();
-      LoginScr.gI().a();
+      LoginScr.gI().switchToMe();
       c = null;
    }
 

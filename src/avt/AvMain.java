@@ -25,7 +25,7 @@ public class AvMain {
    public void c() {
    }
 
-   public void d(int var1) {
+   public void keyPress(int var1) {
    }
 
    public void paint(Graphics var1) {
@@ -33,13 +33,13 @@ public class AvMain {
       Canvas.paint.paintCmd(var1, this.left, this.center, this.right);
    }
 
-   public void d(int var1, int var2) {
+   public void commandActionPointer(int var1, int var2) {
    }
 
-   public void a(int var1) {
+   public void commandTab(int var1) {
    }
 
-   public void a(int var1, int var2) {
+   public void commandTab(int var1, int var2) {
    }
 
    private void click(Command var1) {
@@ -52,7 +52,7 @@ public class AvMain {
 
    }
 
-   public void k() {
+   public void update() {
    }
 
    public void updateKey() {
@@ -157,16 +157,16 @@ public class AvMain {
          }
 
          if (var1.d != null) {
-            var1.d.a(var1.c);
+            var1.d.commandTab(var1.c);
             return;
          }
 
          if (ChatTextField.c) {
-            ChatTextField.gI().a(var1.c, var1.e);
+            ChatTextField.gI().commandTab(var1.c, var1.e);
             return;
          }
 
-         this.a(var1.c, var1.e);
+         this.commandTab(var1.c, var1.e);
       }
 
    }

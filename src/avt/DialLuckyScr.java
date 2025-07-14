@@ -42,10 +42,10 @@ public final class DialLuckyScr extends MyScreen {
       this.r = var1;
       this.s = var2;
       Canvas.keyHold[5] = false;
-      super.a();
+      super.switchToMe();
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
             this.q = true;
@@ -53,7 +53,7 @@ public final class DialLuckyScr extends MyScreen {
          case 1:
             return;
          case 2:
-            this.r.a();
+            this.r.switchToMe();
             DialLuckyScr var3 = this;
             this.p = false;
             super.center = this.t;
@@ -130,8 +130,8 @@ public final class DialLuckyScr extends MyScreen {
 
    }
 
-   public final void k() {
-      this.r.k();
+   public final void update() {
+      this.r.update();
       int var1;
       int var2;
       if (this.j > 0) {
@@ -154,9 +154,9 @@ public final class DialLuckyScr extends MyScreen {
                var2 -= 360;
             }
 
-            var2 = CRes.c(var2);
-            var1 = this.g * CRes.b(var2) >> 10;
-            var2 = -(this.g * CRes.a(var2)) >> 10;
+            var2 = CRes.fixangle(var2);
+            var1 = this.g * CRes.cos(var2) >> 10;
+            var2 = -(this.g * CRes.sin(var2)) >> 10;
             this.b(this.n.x + var1, this.n.y + var2);
          }
       } else if (this.o) {
@@ -177,9 +177,9 @@ public final class DialLuckyScr extends MyScreen {
                var4 = 210;
             }
 
-            var4 = CRes.c(var4);
-            int var5 = var6.g * CRes.b(var4) >> 10;
-            var4 = -(var6.g * CRes.a(var4)) >> 10;
+            var4 = CRes.fixangle(var4);
+            int var5 = var6.g * CRes.cos(var4) >> 10;
+            var4 = -(var6.g * CRes.sin(var4)) >> 10;
             var3.d = var6.n.x + var5;
             var3.e = var6.n.y + var4;
          }
@@ -204,13 +204,13 @@ public final class DialLuckyScr extends MyScreen {
          Point var10000 = var7 = (Point)this.z.elementAt(var1);
          var10000.x += var7.b;
          if (var7.b > 1 || var7.b < -1) {
-            var7.b -= var7.b / CRes.f(var7.b);
+            var7.b -= var7.b / CRes.abs(var7.b);
          }
 
          var7.y += var7.e;
          ++var7.e;
-         ++var7.f;
-         if (var7.f > 20) {
+         ++var7.color;
+         if (var7.color > 20) {
             this.z.removeElement(var7);
          }
       }
@@ -235,7 +235,7 @@ public final class DialLuckyScr extends MyScreen {
          }
 
          Point var5;
-         (var5 = new Point(var1, var2)).f = 0;
+         (var5 = new Point(var1, var2)).color = 0;
          var5.b = var4 * (CRes.rnd(80) / 10);
          var5.e = -CRes.rnd(70) / 10;
          this.z.addElement(var5);
@@ -295,7 +295,7 @@ public final class DialLuckyScr extends MyScreen {
    }
 
    public final void paint(Graphics var1) {
-      this.r.b(var1);
+      this.r.paintMain(var1);
       Canvas.resetTrans(var1);
       int var2 = this.h / 20;
 
@@ -310,9 +310,9 @@ public final class DialLuckyScr extends MyScreen {
          }
 
          if (var4 >= 82 && var4 <= 278) {
-            var5 = CRes.c(var4);
-            var6 = this.g * CRes.b(var5) >> 10;
-            var7 = -(this.g * CRes.a(var5)) >> 10;
+            var5 = CRes.fixangle(var4);
+            var6 = this.g * CRes.cos(var5) >> 10;
+            var7 = -(this.g * CRes.sin(var5)) >> 10;
             var1.drawImage(this.c, this.n.x + var6, this.n.y + var7, 3);
          }
       }
@@ -353,9 +353,9 @@ public final class DialLuckyScr extends MyScreen {
          }
 
          if (var5 >= 82 && var5 <= 278) {
-            var6 = CRes.c(var5);
-            var7 = this.g * CRes.b(var6) >> 10;
-            var6 = -(this.g * CRes.a(var6)) >> 10;
+            var6 = CRes.fixangle(var5);
+            var7 = this.g * CRes.cos(var6) >> 10;
+            var6 = -(this.g * CRes.sin(var6)) >> 10;
             long var9 = System.currentTimeMillis() / 100L - this.x;
             if (this.p && var5 >= 150 && var5 <= 210 && (var9 > (long)((var3 + 1) * 5) || var9 <= (long)((var3 + 1) * 5 - 5))) {
                ++var3;
@@ -369,24 +369,24 @@ public final class DialLuckyScr extends MyScreen {
 
       var1.drawRegion(this.d, 0, 0, 64, 62, 0, this.n.x, this.n.y, 40);
       var1.drawRegion(this.d, 0, 0, 64, 62, 1, this.n.x, this.n.y, 24);
-      var5 = CRes.c(this.k);
-      var6 = (this.g / 3 + 2) * CRes.b(var5) >> 10;
-      var7 = -((this.g / 3 + 2) * CRes.a(var5)) >> 10;
+      var5 = CRes.fixangle(this.k);
+      var6 = (this.g / 3 + 2) * CRes.cos(var5) >> 10;
+      var7 = -((this.g / 3 + 2) * CRes.sin(var5)) >> 10;
       if ((var2 = this.k + 90) > 360) {
          var2 -= 360;
       }
 
-      var2 = CRes.c(var2);
-      var5 = 6 * CRes.b(var2) >> 10;
-      var2 = -(6 * CRes.a(var2)) >> 10;
+      var2 = CRes.fixangle(var2);
+      var5 = 6 * CRes.cos(var2) >> 10;
+      var2 = -(6 * CRes.sin(var2)) >> 10;
       int var8;
       if ((var8 = this.k - 90) < 0) {
          var8 += 360;
       }
 
-      var8 = CRes.c(var8);
-      int var14 = 6 * CRes.b(var8) >> 10;
-      var8 = -(6 * CRes.a(var8)) >> 10;
+      var8 = CRes.fixangle(var8);
+      int var14 = 6 * CRes.cos(var8) >> 10;
+      var8 = -(6 * CRes.sin(var8)) >> 10;
       var1.setColor(14483456);
       var1.fillTriangle(this.n.x + var6, this.n.y + var7, this.n.x + var5, this.n.y + var2, this.n.x + var14, this.n.y + var8);
       var1.fillRoundRect(this.n.x - 6, this.n.y - 6, 12, 12, 12, 12);
@@ -400,7 +400,7 @@ public final class DialLuckyScr extends MyScreen {
    private void c(Graphics var1) {
       for(int var2 = 0; var2 < this.z.size(); ++var2) {
          Point var3 = (Point)this.z.elementAt(var2);
-         this.f.drawFrame(var3.f / 5, var3.x, var3.y, 0, 3, var1);
+         this.f.drawFrame(var3.color / 5, var3.x, var3.y, 0, 3, var1);
       }
 
    }

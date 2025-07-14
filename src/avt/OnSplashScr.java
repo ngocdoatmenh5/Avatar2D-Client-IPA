@@ -16,7 +16,7 @@ public final class OnSplashScr extends MyScreen {
       return a == null ? (a = new OnSplashScr()) : a;
    }
 
-   public final void a() {
+   public final void switchToMe() {
       Canvas.listInfoSV.removeAllElements();
       Canvas.transTab = 0;
       Canvas.instance.b();
@@ -28,14 +28,14 @@ public final class OnSplashScr extends MyScreen {
          var2.printStackTrace();
       }
 
-      super.a();
+      super.switchToMe();
    }
 
-   public final void k() {
+   public final void update() {
       if (this.b > 21) {
          LoadMap.B = GameMidlet.avatar.x;
          LoadMap.C = GameMidlet.avatar.y;
-         OnScreen.e().a();
+         OnScreen.e().switchToMe();
       } else if (this.b == 0) {
          Canvas.paint.f();
       }
@@ -44,7 +44,7 @@ public final class OnSplashScr extends MyScreen {
    }
 
    public final void paint(Graphics var1) {
-      Canvas.paint.b(var1);
+      Canvas.paint.paintDefaultBg(var1);
       if (this.b > 1) {
          var1.drawImage(c, Canvas.hw, Canvas.q / 2, 3);
       }

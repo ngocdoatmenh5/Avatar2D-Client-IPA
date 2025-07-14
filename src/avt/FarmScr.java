@@ -102,8 +102,8 @@ public final class FarmScr extends MyScreen {
       return a;
    }
 
-   public final void a() {
-      super.a();
+   public final void switchToMe() {
+      super.switchToMe();
    }
 
    public static void e() {
@@ -181,7 +181,7 @@ public final class FarmScr extends MyScreen {
       a(var1);
    }
 
-   public final void d() {
+   public final void close() {
       Canvas.startWaitDlg();
       GlobalService.gI().d((int)8);
    }
@@ -347,18 +347,18 @@ public final class FarmScr extends MyScreen {
       MenuSub.a().a(var0, Canvas.hw, var1, var1);
    }
 
-   public final void a(int var1) {
+   public final void commandTab(int var1) {
       FarmService var2;
       switch (var1) {
          case 0:
-            Canvas.a(avt.T.ei, 1, this);
+            Canvas.startOKDlg(avt.T.ei, 1, this);
             return;
          case 1:
             FarmService.a().d((short)-1);
-            PopupShop.b().d();
+            PopupShop.b().close();
             return;
          case 2:
-            PopupShop.b().d();
+            PopupShop.b().close();
             if (U == 0) {
                (var2 = FarmService.a()).createMessage((byte)92);
                var2.sendMessage();
@@ -427,7 +427,7 @@ public final class FarmScr extends MyScreen {
       }
    }
 
-   public final void d(int var1, int var2) {
+   public final void commandActionPointer(int var1, int var2) {
       FarmService var3;
       FarmItem var4;
       Item var8;
@@ -509,7 +509,7 @@ public final class FarmScr extends MyScreen {
             this.h(var2);
             return;
          case 8:
-            this.a((int)5, (int)-1);
+            this.commandTab((int)5, (int)-1);
             this.s();
             return;
          case 9:
@@ -565,7 +565,7 @@ public final class FarmScr extends MyScreen {
                ++this.bg;
             }
 
-            this.a((int)8, (int)-1);
+            this.commandTab((int)8, (int)-1);
             Canvas.startOKDlg(avt.T.dI);
             return;
          case 11:
@@ -595,7 +595,7 @@ public final class FarmScr extends MyScreen {
          default:
             break;
          case 20:
-            this.d();
+            this.close();
       }
 
    }
@@ -755,7 +755,7 @@ public final class FarmScr extends MyScreen {
       LoadMap.a(LoadMap.l);
    }
 
-   public final void k() {
+   public final void update() {
       this.aF += 2;
       if (this.aF >= 10) {
          this.aF = 0;
@@ -974,7 +974,7 @@ public final class FarmScr extends MyScreen {
 
    private void x() {
       if (y) {
-         this.d(10, -1);
+         this.commandActionPointer(10, -1);
       } else if (this.aD.size() > 0) {
          IAction var1;
          (var1 = (IAction)this.aD.elementAt(0)).perform();
@@ -1296,15 +1296,15 @@ public final class FarmScr extends MyScreen {
    }
 
    public final void paint(Graphics var1) {
-      this.b(var1);
-      if (Canvas.D == null || !Welcome.d) {
+      this.paintMain(var1);
+      if (Canvas.welcome == null || !Welcome.d) {
          super.paint(var1);
       }
 
       Canvas.a(var1);
    }
 
-   public final void b(Graphics var1) {
+   public final void paintMain(Graphics var1) {
       Canvas.loadMap.b(var1);
       Canvas.loadMap.d(var1);
       if (H >= 0) {
@@ -1555,7 +1555,7 @@ public final class FarmScr extends MyScreen {
          this.aJ = System.currentTimeMillis();
          this.aK = System.currentTimeMillis();
          if (Canvas.currentMyScreen != this) {
-            this.a();
+            this.switchToMe();
          }
 
          if (Canvas.isDoubleImage) {
@@ -1827,10 +1827,10 @@ public final class FarmScr extends MyScreen {
          var1.addElement(var7);
       }
 
-      PopupShop.b().a();
+      PopupShop.b().switchToMe();
       PopupShop.b().a(new String[]{avt.T.br, avt.T.bs, avt.T.aN}, new Vector[]{var1, this.B(), this.C()}, (Vector)null);
       if (Canvas.isDoubleImage && !Welcome.g) {
-         (Canvas.D = new Welcome()).a((MyScreen)PopupShop.me);
+         (Canvas.welcome = new Welcome()).a((MyScreen)PopupShop.me);
       }
 
    }
@@ -1891,7 +1891,7 @@ public final class FarmScr extends MyScreen {
             var1.addElement(var6);
          }
 
-         PopupShop.b().a();
+         PopupShop.b().switchToMe();
          PopupShop.b().a(new String[]{avt.T.aN, avt.T.bu}, new Vector[]{this.C(), var1}, (Vector)null);
 
          for(int var5 = 0; var5 < f.size(); ++var5) {
@@ -1905,12 +1905,12 @@ public final class FarmScr extends MyScreen {
       if (var2 != 3 && !PopupShop.h()) {
          PopupShop.g();
          if (Canvas.isDoubleImage) {
-            Canvas.D = new Welcome();
+            Canvas.welcome = new Welcome();
             if (Welcome.f > 2) {
                --Welcome.f;
             }
 
-            Canvas.D.a((MyScreen)PopupShop.me);
+            Canvas.welcome.a((MyScreen)PopupShop.me);
             return;
          }
       } else {
@@ -1937,13 +1937,13 @@ public final class FarmScr extends MyScreen {
 
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
             this.t();
             return;
          case 1:
-            if (Canvas.D == null || Welcome.d) {
+            if (Canvas.welcome == null || Welcome.d) {
                MenuSub.a().a(this.K, 0);
                return;
             }
@@ -2025,7 +2025,7 @@ public final class FarmScr extends MyScreen {
             return;
          case 9:
             ++this.bg;
-            this.d(10, -1);
+            this.commandActionPointer(10, -1);
             return;
          case 51:
             FarmService.a().b(b, 1);
@@ -2054,7 +2054,7 @@ public final class FarmScr extends MyScreen {
    public static void i() {
       if (LoadMap.TYPEMAP == 24 || LoadMap.TYPEMAP == 53) {
          Canvas.menuMain = null;
-         Canvas.b(avt.T.bv, 54, (AvMain)null);
+         Canvas.startOK(avt.T.bv, 54, (AvMain)null);
       }
 
    }
@@ -2125,7 +2125,7 @@ public final class FarmScr extends MyScreen {
       }
 
       if (Canvas.currentMyScreen == PopupShop.b()) {
-         PopupShop.b().d();
+         PopupShop.b().close();
          if (LoadMap.TYPEMAP == 25) {
             this.g();
             PopupShop.b().b(2);
@@ -2217,7 +2217,7 @@ public final class FarmScr extends MyScreen {
             var5.addElement(var6);
          }
 
-         PopupShop.b().a();
+         PopupShop.b().switchToMe();
          PopupShop.b().m = true;
          if (V > 0) {
             PopupShop.b().a(new String[]{avt.T.m, avt.T.dD}, new Vector[]{var1, null}, var5);

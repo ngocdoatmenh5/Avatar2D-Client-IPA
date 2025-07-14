@@ -349,7 +349,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                break;
             case 84:
                if (var1.reader().readByte() == 0) {
-                  Canvas.a(var1.reader().readUTF(), 7, FarmScr.a);
+                  Canvas.startOKDlg(var1.reader().readUTF(), 7, FarmScr.a);
                   return;
                }
 
@@ -369,7 +369,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                return;
             case 86:
                if (var1.reader().readByte() == 0) {
-                  Canvas.a(var1.reader().readUTF(), 8, FarmScr.a);
+                  Canvas.startOKDlg(var1.reader().readUTF(), 8, FarmScr.a);
                   return;
                }
 
@@ -430,7 +430,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                return;
             case 93:
                if (var1.reader().readByte() == 0) {
-                  Canvas.a(var1.reader().readUTF(), 11, FarmScr.a);
+                  Canvas.startOKDlg(var1.reader().readUTF(), 11, FarmScr.a);
                   return;
                }
 

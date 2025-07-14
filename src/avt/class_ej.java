@@ -8,8 +8,8 @@ final class class_ej implements IAction {
    }
 
    public final void perform() {
-      class_cw var1 = MessageScr.b().b(MessageScr.b().b);
+      class_cw var1 = MessageScr.gI().b(MessageScr.gI().b);
       ParkService.a().a(this.a.IDDB, false);
-      MessageScr.b().a(var1);
+      MessageScr.gI().a(var1);
    }
 }

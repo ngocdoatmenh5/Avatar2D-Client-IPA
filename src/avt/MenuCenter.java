@@ -30,16 +30,16 @@ public final class MenuCenter extends MyScreen {
       return a == null ? (a = new MenuCenter()) : a;
    }
 
-   public final void a() {
+   public final void switchToMe() {
       if (Canvas.currentMyScreen != this) {
          this.m = Canvas.currentMyScreen;
       }
 
       this.c();
-      super.a();
+      super.switchToMe();
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
             this.h();
@@ -51,7 +51,7 @@ public final class MenuCenter extends MyScreen {
                var3.b.perform();
                return;
             } else {
-               this.d(var3.c, var3.e);
+               this.commandActionPointer(var3.c, var3.e);
             }
          default:
       }
@@ -72,7 +72,7 @@ public final class MenuCenter extends MyScreen {
    }
 
    private void h() {
-      this.m.a();
+      this.m.switchToMe();
       if (MapScr.h != null) {
          MapScr.h.ableShow = false;
       }
@@ -83,7 +83,7 @@ public final class MenuCenter extends MyScreen {
       this.p = false;
    }
 
-   public final void d(int var1, int var2) {
+   public final void commandActionPointer(int var1, int var2) {
       StringObj var8;
       switch (var1) {
          case 1:
@@ -175,7 +175,7 @@ public final class MenuCenter extends MyScreen {
             MapScr.b((int)var7[var2]);
             return;
          case 20:
-            if (GameMidlet.avatar.task != 0 && GameMidlet.avatar.task != -5 || Bus.b) {
+            if (GameMidlet.avatar.task != 0 && GameMidlet.avatar.task != -5 || Bus.isRun) {
                return;
             }
 
@@ -231,7 +231,7 @@ public final class MenuCenter extends MyScreen {
 
    public final void f() {
       if (GameMidlet.avatar.task == 0 || GameMidlet.avatar.task == -5) {
-         if (!Bus.b) {
+         if (!Bus.isRun) {
             if (LoadMap.p != null && LoadMap.p.catagory == 5) {
                ParkService.a().c(((Drop_Part)LoadMap.p).d);
             } else if (LoadMap.p != null && LoadMap.p.catagory == 0 && ((Avatar)LoadMap.p).IDDB == -100) {
@@ -292,7 +292,7 @@ public final class MenuCenter extends MyScreen {
          PopupShop.b().a(MapScr.gI().a(var0.seriPart, 0, 0, false), 0);
          PopupShop.b().a(MapScr.gI().a(GameMidlet.k, 1, 0, true), 1);
          if (Canvas.currentMyScreen != PopupShop.b()) {
-            PopupShop.b().a();
+            PopupShop.b().switchToMe();
          }
 
       }
@@ -346,15 +346,15 @@ public final class MenuCenter extends MyScreen {
          this.f = Canvas.hh - (var1.size() / this.i + 1) * this.g / 2;
       }
 
-      this.a();
+      this.switchToMe();
       if (Canvas.stypeInt == 0) {
          super.center = this.n;
       }
 
    }
 
-   public final void k() {
-      this.m.k();
+   public final void update() {
+      this.m.update();
 
       for(int var1 = 0; var1 < this.l.length; ++var1) {
          if (this.l[var1] != var1 % this.i * this.h) {
@@ -399,7 +399,7 @@ public final class MenuCenter extends MyScreen {
                if (Canvas.a(this.l[var3] + this.e, this.f + var3 / this.i * this.h, this.g, this.g)) {
                   if (var3 == this.d) {
                      this.h();
-                     this.a(1, -1);
+                     this.commandTab(1, -1);
                   }
                   break;
                }
@@ -438,7 +438,7 @@ public final class MenuCenter extends MyScreen {
    }
 
    public final void paint(Graphics var1) {
-      this.m.b(var1);
+      this.m.paintMain(var1);
       Canvas.resetTrans(var1);
       Graphics var3 = var1;
       MenuCenter var2 = this;
@@ -447,7 +447,7 @@ public final class MenuCenter extends MyScreen {
       }
 
       Command var4 = (Command)this.k.elementAt(this.d);
-      Canvas.L.a(var1, var4.a, Canvas.hw, this.f - 15, 2);
+      Canvas.L.a(var1, var4.caption, Canvas.hw, this.f - 15, 2);
       var1.translate(this.e, this.f);
 
       for(int var5 = this.k.size() - 1; var5 >= 0; --var5) {

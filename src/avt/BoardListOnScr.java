@@ -32,13 +32,13 @@ public final class BoardListOnScr extends MyScreen {
       e = c;
    }
 
-   public static BoardListOnScr b() {
+   public static BoardListOnScr gI() {
       return me == null ? (me = new BoardListOnScr()) : me;
    }
 
-   public final void a() {
+   public final void switchToMe() {
       OnScreen.f();
-      MyScreen.z();
+      MyScreen.repaint();
       super.ar = 0;
       Canvas.paint.b(e);
       if (k == null) {
@@ -55,7 +55,7 @@ public final class BoardListOnScr extends MyScreen {
       Canvas.load = 1;
       super.aj = true;
       GameMidlet.avatar.ableShow = false;
-      super.a();
+      super.switchToMe();
    }
 
    public BoardListOnScr() {
@@ -96,20 +96,20 @@ public final class BoardListOnScr extends MyScreen {
 
    }
 
-   public final void d() {
+   public final void close() {
       Canvas.startWaitDlg();
       i();
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 1:
             class_dl var4 = (class_dl)this.g.elementAt(super.ar);
             if (MapScr.isNewVersion && var4.f > GameMidlet.avatar.money[3]) {
-               b().f();
+               gI().setXeng();
             } else {
                if (!var4.d) {
-                  CasinoService.a().a(this.h, var4.a, "");
+                  CasinoService.gI().a(this.h, var4.a, "");
                   Canvas.startWaitDlg();
                   return;
                }
@@ -121,14 +121,14 @@ public final class BoardListOnScr extends MyScreen {
             i();
             return;
          case 3:
-            this.d(1, -1);
+            this.commandActionPointer(1, -1);
             return;
          case 4:
             this.h();
             return;
          case 5:
             Canvas.startWaitDlg();
-            CasinoService.a().c();
+            CasinoService.gI().c();
             return;
          case 6:
             Vector var3;
@@ -141,11 +141,11 @@ public final class BoardListOnScr extends MyScreen {
 
    }
 
-   public final void d(int var1, int var2) {
+   public final void commandActionPointer(int var1, int var2) {
       switch (var1) {
          case 1:
             Canvas.startWaitDlg(T.b);
-            CasinoService.a().a(this.h);
+            CasinoService.gI().a(this.h);
             return;
          case 3:
             Canvas.startWaitDlg();
@@ -156,7 +156,7 @@ public final class BoardListOnScr extends MyScreen {
             return;
          case 5:
             Canvas.startWaitDlg();
-            CasinoService.a().c();
+            CasinoService.gI().c();
             return;
          case 6:
             this.h();
@@ -177,13 +177,13 @@ public final class BoardListOnScr extends MyScreen {
       Canvas.inputDlg.a(T.ap, new class_cj(this), 0);
    }
 
-   public final void f() {
+   public final void setXeng() {
       Canvas.a("Hiện tại bạn không đủ Xèng để tham gia màn chơi, bạn có muốn nạp thêm Xèng không?", (IAction)(new IActionXeng(this)));
    }
 
    private static void i() {
-      Canvas.cameraList.m = false;
-      CasinoService.a().b();
+      Canvas.cameraList.isShow = false;
+      CasinoService.gI().b();
       Canvas.startWaitDlg();
    }
 
@@ -192,14 +192,14 @@ public final class BoardListOnScr extends MyScreen {
       RoomListOnScr.a(var1, "Phòng " + RoomListOnScr.c + " " + this.h);
       this.c(var1);
       OnScreen.a(var1, super.left, super.center, super.right);
-      Canvas.b(var1);
+      Canvas.paintPlus2(var1);
    }
 
    private void c(Graphics var1) {
       var1.translate(this.p, this.q);
-      var1.translate(0, -CameraList.i);
+      var1.translate(0, -CameraList.cmtoY);
       int var2;
-      if ((var2 = CameraList.i / this.r * this.o - this.o) < 0) {
+      if ((var2 = CameraList.cmtoY / this.r * this.o - this.o) < 0) {
          var2 = 0;
       }
 
@@ -278,6 +278,6 @@ public final class BoardListOnScr extends MyScreen {
 
    }
 
-   public final void k() {
+   public final void update() {
    }
 }

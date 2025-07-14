@@ -35,7 +35,7 @@ public final class ListScr extends MyScreen {
       return a;
    }
 
-   public final void a() {
+   public final void switchToMe() {
       this.g = 0;
       this.k = new Command(T.d, 1);
       super.right = this.k;
@@ -45,7 +45,7 @@ public final class ListScr extends MyScreen {
       }
 
       this.f();
-      super.a();
+      super.switchToMe();
       if (Canvas.stypeInt > 0) {
          this.o = true;
       }
@@ -97,16 +97,16 @@ public final class ListScr extends MyScreen {
    public final void paint(Graphics var1) {
       var1.setClip(0, 0, Canvas.w, Canvas.h);
       if (this.b != null) {
-         this.b.b(var1);
+         this.b.paintMain(var1);
       } else {
-         MapScr.gI().b(var1);
+         MapScr.gI().paintMain(var1);
       }
 
       PaintPopup.gI().a(var1);
       var1.translate(0, PaintPopup.gI().h + PaintPopup.o + AvMain.Z);
       var1.setClip(0, 0, Canvas.w, Canvas.h);
       int var2;
-      if ((var2 = CameraList.i / this.l) < 0) {
+      if ((var2 = CameraList.cmtoY / this.l) < 0) {
          var2 = 0;
       }
 
@@ -129,7 +129,7 @@ public final class ListScr extends MyScreen {
 
          for(var7 = var2; var7 < var5; ++var7) {
             var12.setClip(10 * AvMain.hd + 4 + AvMain.hd, 0, PaintPopup.gI().f - 8 - (AvMain.hd << 1), PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
-            var12.translate(0, -CameraList.i);
+            var12.translate(0, -CameraList.cmtoY);
             StringObj var13 = (StringObj)c.elementAt(var7);
             int var8 = 0;
             if (!var11.o && var7 == var11.g) {
@@ -152,7 +152,7 @@ public final class ListScr extends MyScreen {
             Canvas.K.a(var12, var13.a, 10 * AvMain.hd + 10 + var9, var6 + var11.l / 2 - 12 * AvMain.hd, 0);
             Canvas.N.a(var12, var13.b, 10 * AvMain.hd + 10 - var8, var6 + var11.l / 2 + 3 * AvMain.hd, 0);
             var6 += var11.l;
-            var12.translate(0, CameraList.i);
+            var12.translate(0, CameraList.cmtoY);
          }
       } else if (this.j == 6 || this.j == 0) {
          var5 = var3;
@@ -163,7 +163,7 @@ public final class ListScr extends MyScreen {
 
          for(int var4 = var2; var4 < var5; ++var4) {
             var12.setClip(10 * AvMain.hd + 4, 0, PaintPopup.gI().f - 8, PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
-            var12.translate(0, -CameraList.i);
+            var12.translate(0, -CameraList.cmtoY);
             Avatar var14 = (Avatar)c.elementAt(var4);
             var9 = 0;
             int var10;
@@ -194,7 +194,7 @@ public final class ListScr extends MyScreen {
 
             int var10001 = 60 + (AvMain.hd - 1) * 30;
             int var10005 = AvMain.hd - 1;
-            var12.setClip(var10001, CameraList.i, PaintPopup.gI().f - (47 + var10005 * 30), PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
+            var12.setClip(var10001, CameraList.cmtoY, PaintPopup.gI().f - (47 + var10005 * 30), PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
             Canvas.K.a(var12, var14.name, 60 + (var10 << 1) + (AvMain.hd - 1) * 30, var6 + var11.l / 2 - 12 * AvMain.hd, 0);
             if (var14.idWedding != -1) {
                AvatarData.a(var12, var14.idWedding, 60 + 6 * AvMain.hd + (var10 << 1) + (AvMain.hd - 1) * 30 + Canvas.K.getWidth(var14.name), var6 + var11.l / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
@@ -207,7 +207,7 @@ public final class ListScr extends MyScreen {
 
             Canvas.N.a(var12, var14.text2, 60 - var9 + (AvMain.hd - 1) * 30 + var7, var6 + var11.l / 2 + 3 * AvMain.hd, 0);
             var6 += var11.l;
-            var12.translate(0, CameraList.i);
+            var12.translate(0, CameraList.cmtoY);
          }
       }
 
@@ -228,12 +228,12 @@ public final class ListScr extends MyScreen {
       }
    }
 
-   public final void k() {
+   public final void update() {
       if (this.b != null) {
-         this.b.k();
+         this.b.update();
       }
 
-      class_il.a().b(CameraList.i, CameraList.j);
+      class_il.a().b(CameraList.cmtoY, CameraList.cmy);
    }
 
    private void a(int var1, Vector var2, MyScreen var3) {
@@ -253,7 +253,7 @@ public final class ListScr extends MyScreen {
                Canvas.startWaitDlg();
                AvatarService.gI().getTypeHouse((int)1);
             } else if (Canvas.currentMyScreen != this) {
-               this.a();
+               this.switchToMe();
             }
 
             e = 0;
@@ -282,12 +282,12 @@ public final class ListScr extends MyScreen {
       this.j = 0;
       if (d == null) {
          Canvas.startWaitDlg();
-         CasinoService.a().d();
+         CasinoService.gI().d();
       } else {
          this.b = Canvas.currentMyScreen;
          this.a(h);
          if (Canvas.currentMyScreen != this) {
-            this.a();
+            this.switchToMe();
          }
       }
 
@@ -394,7 +394,7 @@ public final class ListScr extends MyScreen {
          this.n = var5;
          this.f();
          if (Canvas.currentMyScreen != this) {
-            this.a();
+            this.switchToMe();
          }
 
          super.left = null;
@@ -422,13 +422,13 @@ public final class ListScr extends MyScreen {
       }
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
             if (this.g >= 0 && this.g < c.size()) {
                Avatar var4 = (Avatar)c.elementAt(this.g);
-               MessageScr.b().a(var4.IDDB, var4.name);
-               MessageScr.b().a(this.b);
+               MessageScr.gI().a(var4.IDDB, var4.name);
+               MessageScr.gI().a(this.b);
                return;
             }
             break;
@@ -437,13 +437,13 @@ public final class ListScr extends MyScreen {
             super.right = null;
             super.left = null;
             c = null;
-            Canvas.cameraList.m = false;
+            Canvas.cameraList.isShow = false;
             if (this.b != null) {
-               this.b.a();
+               this.b.switchToMe();
                return;
             }
 
-            MapScr.gI().a();
+            MapScr.gI().switchToMe();
             break;
          case 2:
             return;
@@ -467,10 +467,10 @@ public final class ListScr extends MyScreen {
 
    }
 
-   public final void d(int var1, int var2) {
+   public final void commandActionPointer(int var1, int var2) {
       switch (var1) {
          case 50:
-            CasinoService.a().d();
+            CasinoService.gI().d();
          default:
       }
    }

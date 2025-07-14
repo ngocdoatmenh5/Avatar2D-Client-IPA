@@ -74,9 +74,9 @@ public final class PBoardScr extends BoardScr {
       return a;
    }
 
-   public final void a_() {
+   public final void resetCard() {
       this.t();
-      super.a_();
+      super.resetCard();
    }
 
    private void t() {
@@ -90,7 +90,7 @@ public final class PBoardScr extends BoardScr {
       }
 
       this.f = new Card[4][4];
-      super.o = 0;
+      super.selectedCard = 0;
       this.aB = -1;
       this.h = new AvPosition();
       this.h.x = this.g.x;
@@ -143,14 +143,14 @@ public final class PBoardScr extends BoardScr {
    public final void init() {
       super.init();
       this.u();
-      if (BoardScr.j) {
+      if (BoardScr.isStartGame) {
          this.b(false);
       }
 
       this.aO = new AvPosition(Canvas.hw, Canvas.hh, 3);
-      if (BoardScr.G == null) {
+      if (BoardScr.imgBan == null) {
          try {
-            BoardScr.G = Image.createImage(avt.T.a() + "/on/star.on");
+            BoardScr.imgBan = Image.createImage(avt.T.a() + "/on/star.on");
             return;
          } catch (IOException var2) {
             var2.printStackTrace();
@@ -170,11 +170,11 @@ public final class PBoardScr extends BoardScr {
       }
 
       this.K.x = this.g.x - 24;
-      this.K.y = this.g.y - BoardScr.A / 2 - 4;
+      this.K.y = this.g.y - BoardScr.hcard / 2 - 4;
       Canvas.paint.e();
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       PBoardScr var3;
       int var5;
       int var6;
@@ -245,8 +245,8 @@ public final class PBoardScr extends BoardScr {
                   }
 
                   var3.x();
-                  BoardScr.o();
-                  CasinoService.a().a(var3.bf, var10);
+                  BoardScr.setCmdWaiting();
+                  CasinoService.gI().a(var3.bf, var10);
                }
             }
             break;
@@ -256,7 +256,7 @@ public final class PBoardScr extends BoardScr {
          case 32:
             var3 = this;
             this.C();
-            if (GameMidlet.avatar.IDDB != super.n) {
+            if (GameMidlet.avatar.IDDB != super.currentPlayer) {
                Canvas.startOKDlg(avt.T.ai);
             } else {
                this.B();
@@ -273,12 +273,12 @@ public final class PBoardScr extends BoardScr {
                }
 
                var3.x();
-               BoardScr.o();
-               CasinoService.a().a(var3.O);
+               BoardScr.setCmdWaiting();
+               CasinoService.gI().a(var3.O);
             }
       }
 
-      super.a(var1, var2);
+      super.commandTab(var1, var2);
    }
 
    public PBoardScr() {
@@ -295,7 +295,7 @@ public final class PBoardScr extends BoardScr {
    }
 
    private void w() {
-      super.center = BoardScr.D;
+      super.center = BoardScr.cmdFire;
       super.right = null;
    }
 
@@ -310,25 +310,25 @@ public final class PBoardScr extends BoardScr {
    }
 
    private void A() {
-      super.center = BoardScr.C;
+      super.center = BoardScr.cmdBack;
       super.right = null;
    }
 
-   public final void g() {
+   public final void doContinue() {
       this.aF = false;
-      this.a_();
-      super.g();
+      this.resetCard();
+      super.doContinue();
    }
 
    private void B() {
       if (this.aE != -1 && this.aD.b != -1) {
          if (Canvas.isKeyBoard) {
-            this.l(super.o);
+            this.l(super.selectedCard);
             this.k(this.aE);
             this.O[this.aE] = this.aD;
             this.aD = new Card((byte)-1, true);
          } else {
-            this.l(super.o);
+            this.l(super.selectedCard);
             this.k(this.aE);
             this.O[this.aE] = this.aD;
             this.aD = new Card((byte)-1, true);
@@ -348,7 +348,7 @@ public final class PBoardScr extends BoardScr {
             this.E();
          }
 
-         this.L[super.o] = -1;
+         this.L[super.selectedCard] = -1;
          Canvas.isPointerDown = false;
       }
 
@@ -356,7 +356,7 @@ public final class PBoardScr extends BoardScr {
 
    private void D() {
       for(int var1 = 0; var1 < 3; ++var1) {
-         if (this.P[var1].b == this.O[super.o].b && this.P[var1].b != -1) {
+         if (this.P[var1].b == this.O[super.selectedCard].b && this.P[var1].b != -1) {
             return;
          }
       }
@@ -370,14 +370,14 @@ public final class PBoardScr extends BoardScr {
       }
 
       if (this.aK == 2) {
-         this.L[super.o] = 0;
+         this.L[super.selectedCard] = 0;
       }
 
    }
 
    public final void updateKey() {
       super.updateKey();
-      if (!this.aL && !BoardScr.k && BoardScr.j && super.center != BoardScr.E && !this.M) {
+      if (!this.aL && !BoardScr.disableReady && BoardScr.isStartGame && super.center != BoardScr.cmdWaiting && !this.M) {
          int var1;
          if ((var1 = this.J()) == -1) {
             var1 = 10;
@@ -389,7 +389,7 @@ public final class PBoardScr extends BoardScr {
          }
 
          int var2;
-         if (Canvas.isPointerClick && Canvas.a(this.aZ - BoardScr.z / 2, this.g.y - BoardScr.A / 2 - 20, var1 * aU, BoardScr.A)) {
+         if (Canvas.isPointerClick && Canvas.a(this.aZ - BoardScr.wCard / 2, this.g.y - BoardScr.hcard / 2 - 20, var1 * aU, BoardScr.hcard)) {
             Canvas.isPointerClick = false;
             if (this.aD.b != -1) {
                this.D();
@@ -403,10 +403,10 @@ public final class PBoardScr extends BoardScr {
                --var1;
             }
 
-            var2 = (Canvas.px - (this.aZ - BoardScr.z / 2)) / aU;
+            var2 = (Canvas.px - (this.aZ - BoardScr.wCard / 2)) / aU;
             this.bb = true;
             if (var2 <= var1) {
-               super.o = var2;
+               super.selectedCard = var2;
             }
          }
 
@@ -414,10 +414,10 @@ public final class PBoardScr extends BoardScr {
             var1 = Canvas.dx();
             var2 = Canvas.dy();
             if (Canvas.isPointerDown) {
-               int var3 = (Canvas.px - (this.aZ - BoardScr.z / 2)) / aU;
+               int var3 = (Canvas.px - (this.aZ - BoardScr.wCard / 2)) / aU;
                if (this.ba != 2 && var2 > 10) {
                   Canvas.keyPressed[2] = true;
-                  if (this.L[super.o] != -1) {
+                  if (this.L[super.selectedCard] != -1) {
                      this.ba = 1;
                   }
                } else if (this.ba != 2 && var2 < -10) {
@@ -426,26 +426,26 @@ public final class PBoardScr extends BoardScr {
                      this.ba = 0;
                      Canvas.keyPressed[8] = true;
                   }
-               } else if (CRes.f(var1) > 10) {
+               } else if (CRes.abs(var1) > 10) {
                   int var4;
                   if (this.ba != 2) {
                      for(var4 = 0; var4 < 3; ++var4) {
-                        if (this.P[var4].b == this.O[super.o].b) {
+                        if (this.P[var4].b == this.O[super.selectedCard].b) {
                            return;
                         }
                      }
 
-                     this.aD = this.O[super.o];
-                     this.j(super.o);
-                     this.aE = super.o;
+                     this.aD = this.O[super.selectedCard];
+                     this.j(super.selectedCard);
+                     this.aE = super.selectedCard;
                   }
 
                   this.ba = 2;
-                  if (super.o - var3 > 0) {
+                  if (super.selectedCard - var3 > 0) {
                      if (this.aD.b != -1 && var3 >= 0) {
-                        this.O[super.o] = this.O[var3];
+                        this.O[super.selectedCard] = this.O[var3];
                         this.j(var3);
-                        super.o = var3;
+                        super.selectedCard = var3;
                      }
                   } else {
                      if ((var4 = this.J()) == -1) {
@@ -455,9 +455,9 @@ public final class PBoardScr extends BoardScr {
                      }
 
                      if (this.aD.b != -1 && var3 <= var4) {
-                        this.O[super.o] = this.O[var3];
+                        this.O[super.selectedCard] = this.O[var3];
                         this.j(var3);
-                        super.o = var3;
+                        super.selectedCard = var3;
                      }
                   }
                }
@@ -468,13 +468,13 @@ public final class PBoardScr extends BoardScr {
             if (Canvas.isPointerRelease) {
                if (this.aD.b != -1) {
                   this.C();
-               } else if (CRes.f(var1) <= 10 && CRes.f(var2) <= 10) {
+               } else if (CRes.abs(var1) <= 10 && CRes.abs(var2) <= 10) {
                   if (this.aK == 1) {
                      this.aK = 2;
-                     this.L[super.o] = -1;
+                     this.L[super.selectedCard] = -1;
                   } else if (this.aK == 2) {
                      this.aK = 1;
-                     this.L[super.o] = 0;
+                     this.L[super.selectedCard] = 0;
                   }
                }
 
@@ -491,19 +491,19 @@ public final class PBoardScr extends BoardScr {
                }
 
                if (this.aK < 2) {
-                  this.L[super.o] = -1;
+                  this.L[super.selectedCard] = -1;
                }
 
                if (this.aK == 0 && this.aD.b == -1) {
                   for(var1 = 0; var1 < 3; ++var1) {
-                     if (this.P[var1].b == this.O[super.o].b) {
+                     if (this.P[var1].b == this.O[super.selectedCard].b) {
                         return;
                      }
                   }
 
-                  this.aD = this.O[super.o];
-                  this.j(super.o);
-                  this.aE = super.o;
+                  this.aD = this.O[super.selectedCard];
+                  this.j(super.selectedCard);
+                  this.aE = super.selectedCard;
                }
 
                this.b(false);
@@ -518,18 +518,18 @@ public final class PBoardScr extends BoardScr {
                }
 
                if (this.aD.b != -1) {
-                  if (super.o > 0) {
-                     this.O[super.o] = this.O[super.o - 1];
-                     this.j(super.o - 1);
+                  if (super.selectedCard > 0) {
+                     this.O[super.selectedCard] = this.O[super.selectedCard - 1];
+                     this.j(super.selectedCard - 1);
                   } else {
                      this.l(0);
                   }
                }
 
-               if (super.o > 0) {
-                  --super.o;
+               if (super.selectedCard > 0) {
+                  --super.selectedCard;
                } else {
-                  super.o = var1;
+                  super.selectedCard = var1;
                }
 
                this.b(false);
@@ -547,18 +547,18 @@ public final class PBoardScr extends BoardScr {
             }
 
             if (this.aD.b != -1) {
-               if (super.o < var1) {
-                  this.O[super.o] = this.O[super.o + 1];
-                  this.j(super.o + 1);
+               if (super.selectedCard < var1) {
+                  this.O[super.selectedCard] = this.O[super.selectedCard + 1];
+                  this.j(super.selectedCard + 1);
                } else {
                   this.k(0);
                }
             }
 
-            if (super.o < var1) {
-               ++super.o;
+            if (super.selectedCard < var1) {
+               ++super.selectedCard;
             } else {
-               super.o = 0;
+               super.selectedCard = 0;
             }
          }
 
@@ -566,12 +566,12 @@ public final class PBoardScr extends BoardScr {
       }
    }
 
-   public final void k() {
-      super.k();
-      if (!BoardScr.j && !BoardScr.k) {
-         this.q();
+   public final void update() {
+      super.update();
+      if (!BoardScr.isStartGame && !BoardScr.disableReady) {
+         this.updateReady();
       } else {
-         if (BoardScr.j && BoardScr.j && this.O != null) {
+         if (BoardScr.isStartGame && BoardScr.isStartGame && this.O != null) {
             for(int var1 = this.O.length - 1; var1 >= 0; --var1) {
                if (this.O[var1].a() == -1) {
                   this.O[var1].g = false;
@@ -583,8 +583,8 @@ public final class PBoardScr extends BoardScr {
          int var2;
          int var3;
          AvPosition var10000;
-         if (this.M && (var2 = BoardScr.i(this.aA)) != -1) {
-            var2 = BoardScr.x[var2];
+         if (this.M && (var2 = BoardScr.getIndexByID(this.aA)) != -1) {
+            var2 = BoardScr.indexPlayer[var2];
             var3 = c[var2].x;
             var2 = c[var2].y;
             var10000 = this.h;
@@ -592,7 +592,7 @@ public final class PBoardScr extends BoardScr {
             var10000 = this.h;
             var10000.y += (var2 - this.h.y) / 2;
             if (Math.abs(var3 - this.h.x) <= 1 && Math.abs(var2 - this.h.y) <= 1) {
-               var3 = BoardScr.i(this.aA);
+               var3 = BoardScr.getIndexByID(this.aA);
                this.f[var3][this.W[var3]] = new Card((byte)this.aB, true);
                if (this.aA == GameMidlet.avatar.IDDB) {
                   for(int var4 = 0; var4 < 10; ++var4) {
@@ -602,8 +602,8 @@ public final class PBoardScr extends BoardScr {
                      }
                   }
 
-                  if (var8.O[var8.o].b == -1) {
-                     var8.o = var8.J() - 1;
+                  if (var8.O[var8.selectedCard].b == -1) {
+                     var8.selectedCard = var8.J() - 1;
                   }
                }
 
@@ -623,11 +623,11 @@ public final class PBoardScr extends BoardScr {
             var10000.y += (var3 - this.aO.y) / 2;
             if (Math.abs((var2 - this.aO.x) / 2) <= 1 && Math.abs((var3 - this.aO.y) / 2) <= 1) {
                this.O[this.bg] = this.aP;
-               if (a(this.f[BoardScr.s]) == 3) {
-                  if (GameMidlet.avatar.IDDB == super.n) {
+               if (a(this.f[BoardScr.indexOfMe]) == 3) {
+                  if (GameMidlet.avatar.IDDB == super.currentPlayer) {
                      this.y();
                   }
-               } else if (GameMidlet.avatar.IDDB == super.n) {
+               } else if (GameMidlet.avatar.IDDB == super.currentPlayer) {
                   this.w();
                }
 
@@ -647,8 +647,8 @@ public final class PBoardScr extends BoardScr {
                   var5 = 0;
 
                   for(int var6 = 0; var6 < 12; ++var6) {
-                     if (var9.Q[BoardScr.s][var6] != -1) {
-                        var11[var5] = var9.Q[BoardScr.s][var6];
+                     if (var9.Q[BoardScr.indexOfMe][var6] != -1) {
+                        var11[var5] = var9.Q[BoardScr.indexOfMe][var6];
                         ++var5;
                      } else {
                         var5 = 0;
@@ -656,7 +656,7 @@ public final class PBoardScr extends BoardScr {
                         b(var11);
                         if (var9.c(var11) || var9.d(var11)) {
                            var9.C();
-                           CasinoService.a().a(var11);
+                           CasinoService.gI().a(var11);
                            break;
                         }
 
@@ -675,9 +675,9 @@ public final class PBoardScr extends BoardScr {
          }
 
          if (this.aN) {
-            var2 = BoardScr.i(super.n);
-            var3 = (BoardScr.F[BoardScr.x[var2]].x - this.aQ.c) / 2;
-            var2 = (BoardScr.F[BoardScr.x[var2]].y - this.aQ.d) / 2;
+            var2 = BoardScr.getIndexByID(super.currentPlayer);
+            var3 = (BoardScr.posAvatar[BoardScr.indexPlayer[var2]].x - this.aQ.c) / 2;
+            var2 = (BoardScr.posAvatar[BoardScr.indexPlayer[var2]].y - this.aQ.d) / 2;
             Card var12 = this.aQ;
             var12.c += var3;
             var12 = this.aQ;
@@ -688,8 +688,8 @@ public final class PBoardScr extends BoardScr {
          }
 
          var8 = this;
-         BoardScr.t = (long)((int)((long) Canvas.getSecond() - BoardScr.u));
-         if ((long)BoardScr.v - BoardScr.t >= 0L) {
+         BoardScr.dieTime = (long)((int)((long) Canvas.getSecond() - BoardScr.currentTime));
+         if ((long)BoardScr.interval - BoardScr.dieTime >= 0L) {
             return;
          }
 
@@ -697,7 +697,7 @@ public final class PBoardScr extends BoardScr {
             this.I();
             this.x();
          } else {
-            if (super.center != BoardScr.D) {
+            if (super.center != BoardScr.cmdFire) {
                if (super.center == this.aY) {
                   this.B();
                   this.aY.b();
@@ -715,7 +715,7 @@ public final class PBoardScr extends BoardScr {
             }
 
             var8.B();
-            CasinoService.a().c(var8.O[var2].b);
+            CasinoService.gI().c(var8.O[var2].b);
          }
       }
 
@@ -728,21 +728,21 @@ public final class PBoardScr extends BoardScr {
             var2 = 10;
          }
 
-         if (Canvas.isKeyBoard && BoardScr.j && var2 != 0 && (aU = (Canvas.w - BoardScr.z / 2) / var2) > BoardScr.z / 3 << 1) {
-            aU = BoardScr.z / 3 << 1;
+         if (Canvas.isKeyBoard && BoardScr.isStartGame && var2 != 0 && (aU = (Canvas.w - BoardScr.wCard / 2) / var2) > BoardScr.wCard / 3 << 1) {
+            aU = BoardScr.wCard / 3 << 1;
          }
 
-         if ((aV = aU) > BoardScr.z / 4) {
-            aV = BoardScr.z / 4;
+         if ((aV = aU) > BoardScr.wCard / 4) {
+            aV = BoardScr.wCard / 4;
          }
 
          if (Canvas.w < 160) {
             aV = 10;
          }
 
-         this.aZ = (Canvas.w - (aU * var2 + (BoardScr.z - aU)) >> 1) + BoardScr.z / 2;
-         if (this.aZ < BoardScr.z / 2) {
-            this.aZ = BoardScr.z / 2;
+         this.aZ = (Canvas.w - (aU * var2 + (BoardScr.wCard - aU)) >> 1) + BoardScr.wCard / 2;
+         if (this.aZ < BoardScr.wCard / 2) {
+            this.aZ = BoardScr.wCard / 2;
          }
       }
 
@@ -772,33 +772,33 @@ public final class PBoardScr extends BoardScr {
          }
       }
 
-      this.O[super.o] = this.aD;
+      this.O[super.selectedCard] = this.aD;
       if (var1 != -1) {
-         if (!this.n(super.o)) {
-            this.aD = this.O[super.o];
-            this.j(super.o);
+         if (!this.n(super.selectedCard)) {
+            this.aD = this.O[super.selectedCard];
+            this.j(super.selectedCard);
             this.B();
             return;
          }
 
-         this.j(super.o);
+         this.j(super.selectedCard);
       }
 
-      if (this.aD.a != 0 && (super.o > 0 && this.O[super.o - 1].a == this.aD.a || super.o < 9 && this.O[super.o + 1].a == this.aD.a)) {
-         this.O[super.o] = this.aD;
+      if (this.aD.a != 0 && (super.selectedCard > 0 && this.O[super.selectedCard - 1].a == this.aD.a || super.selectedCard < 9 && this.O[super.selectedCard + 1].a == this.aD.a)) {
+         this.O[super.selectedCard] = this.aD;
          this.aD = new Card((byte)-1, true);
       } else if (var1 != -1 && this.aD.a != 0) {
          if (var1 != -1) {
             this.bc = -1;
-            if (this.aE != super.o) {
+            if (this.aE != super.selectedCard) {
                this.a(this.aD, var1);
             }
          }
 
       } else {
-         if (super.o < 9) {
+         if (super.selectedCard < 9) {
             for(var2 = 0; var2 < 3; ++var2) {
-               if (this.P[var2].a != 0 && this.O[super.o + 1].a == this.P[var2].a) {
+               if (this.P[var2].a != 0 && this.O[super.selectedCard + 1].a == this.P[var2].a) {
                   int[] var5 = new int[10];
                   boolean var3 = false;
 
@@ -822,8 +822,8 @@ public final class PBoardScr extends BoardScr {
 
                   this.bc = this.aD.a;
                   this.aD.a = this.P[var2].a;
-                  this.O[super.o] = this.aD;
-                  if (this.aE != super.o) {
+                  this.O[super.selectedCard] = this.aD;
+                  if (this.aE != super.selectedCard) {
                      this.a(this.P[var2], this.P[var2].b);
                   }
 
@@ -856,13 +856,13 @@ public final class PBoardScr extends BoardScr {
          }
 
          var2 = var10000;
-         if (super.o >= var2 && var2 != -1) {
+         if (super.selectedCard >= var2 && var2 != -1) {
             this.B();
          } else {
-            this.O[super.o] = this.aD;
+            this.O[super.selectedCard] = this.aD;
             this.aD = new Card((byte)-1, true);
-            if (this.aE != super.o) {
-               this.O[super.o].a = 0;
+            if (this.aE != super.selectedCard) {
+               this.O[super.selectedCard].a = 0;
                this.G();
                this.F();
             }
@@ -965,7 +965,7 @@ public final class PBoardScr extends BoardScr {
       }
 
       b(var3);
-      CasinoService.a().a(var3, var2);
+      CasinoService.gI().a(var3, var2);
    }
 
    public final void a(byte var1) {
@@ -973,10 +973,10 @@ public final class PBoardScr extends BoardScr {
       this.aL = false;
       if (var1 == 0) {
          if (this.bc == -1) {
-            this.O[super.o] = this.aD;
-            this.O[super.o].a = 0;
+            this.O[super.selectedCard] = this.aD;
+            this.O[super.selectedCard].a = 0;
             this.aD = new Card((byte)-1, true);
-            if (this.aE != super.o) {
+            if (this.aE != super.selectedCard) {
                this.G();
                this.F();
             }
@@ -984,17 +984,17 @@ public final class PBoardScr extends BoardScr {
             this.aE = -1;
          } else if (this.bc >= 0) {
             this.aD = new Card((byte)-1, true);
-            if (this.aE != super.o) {
-               this.O[super.o].a = 0;
+            if (this.aE != super.selectedCard) {
+               this.O[super.selectedCard].a = 0;
                this.G();
                this.F();
             }
          }
       } else if (this.bc == -1) {
-         this.j(super.o);
+         this.j(super.selectedCard);
          this.B();
       } else if (this.bc >= 0) {
-         this.j(super.o);
+         this.j(super.selectedCard);
          this.B();
          this.O[this.aE].a = (byte)this.bc;
       }
@@ -1021,39 +1021,39 @@ public final class PBoardScr extends BoardScr {
    }
 
    public final void paint(Graphics var1) {
-      this.b(var1);
+      this.paintMain(var1);
       super.paint(var1);
    }
 
-   public final void a_(Graphics var1) {
+   public final void paintNamePlayers(Graphics var1) {
       int var2 = AvMain.hd;
-      if (BoardScr.j || BoardScr.k) {
+      if (BoardScr.isStartGame || BoardScr.disableReady) {
          var2 = 1;
       }
 
-      for(int var3 = 0; var3 < BoardScr.H; ++var3) {
+      for(int var3 = 0; var3 < BoardScr.numPlayer; ++var3) {
          Avatar var4;
-         if ((var4 = (Avatar)BoardScr.m.elementAt(var3)).IDDB != -1) {
-            if (var4.IDDB != GameMidlet.avatar.IDDB || !BoardScr.j) {
+         if ((var4 = (Avatar)BoardScr.avatarInfos.elementAt(var3)).IDDB != -1) {
+            if (var4.IDDB != GameMidlet.avatar.IDDB || !BoardScr.isStartGame) {
                var4.paintIcon(var1, var4.x * var2, var4.y * var2, false);
             }
 
             var4.paintName(var1, var4.x * var2, var4.y * var2);
-            BoardScr.a(var1, var4.x * var2, (var4.y - 50) * var2 - 10 * (var2 - 1), 3, var4);
+            BoardScr.paintReady(var1, var4.x * var2, (var4.y - 50) * var2 - 10 * (var2 - 1), 3, var4);
          }
       }
 
    }
 
-   public final void b(Graphics var1) {
-      super.b(var1);
-      this.a_(var1);
+   public final void paintMain(Graphics var1) {
+      super.paintMain(var1);
+      this.paintNamePlayers(var1);
       long var5;
-      if (BoardScr.j && !BoardScr.l && (var5 = (long)BoardScr.v - BoardScr.t) > 0L && b != null && b[0] != null) {
+      if (BoardScr.isStartGame && !BoardScr.isGameEnd && (var5 = (long)BoardScr.interval - BoardScr.dieTime) > 0L && b != null && b[0] != null) {
          Canvas.O.a(var1, String.valueOf(var5), Canvas.hw, b[0].y + AvMain.ai + 10, 2);
       }
 
-      if (BoardScr.j) {
+      if (BoardScr.isStartGame) {
          this.e(var1);
          this.f(var1);
          if (this.aM) {
@@ -1085,7 +1085,7 @@ public final class PBoardScr extends BoardScr {
             }
          }
 
-         if (Canvas.stypeInt == 0 && super.o != -1 && !BoardScr.k && !this.aF) {
+         if (Canvas.stypeInt == 0 && super.selectedCard != -1 && !BoardScr.disableReady && !this.aF) {
             AvPosition var10000;
             if (this.bd == 4) {
                var10000 = this.K;
@@ -1100,7 +1100,7 @@ public final class PBoardScr extends BoardScr {
 
             ++this.bd;
             int var8 = 0;
-            if (this.L[super.o] == 0) {
+            if (this.L[super.selectedCard] == 0) {
                var8 = 10 * (Canvas.stypeInt + 1);
             }
 
@@ -1108,27 +1108,27 @@ public final class PBoardScr extends BoardScr {
                var8 = -10;
             }
 
-            if (this.O[super.o] != null) {
-               MiniMap.gI().b.drawFrame(0, this.aZ - BoardScr.z / 2 + super.o * aU + MiniMap.gI().b.a / 2, this.g.y - BoardScr.A / 2 - 4 - var8, 0, 33, var1);
+            if (this.O[super.selectedCard] != null) {
+               MiniMap.gI().b.drawFrame(0, this.aZ - BoardScr.wCard / 2 + super.selectedCard * aU + MiniMap.gI().b.a / 2, this.g.y - BoardScr.hcard / 2 - 4 - var8, 0, 33, var1);
             }
          }
 
          if (!this.aF) {
-            int var2 = BoardScr.i(this.aC);
-            var1.drawImage(BoardScr.G, b[BoardScr.x[var2]].x, b[BoardScr.x[var2]].y - 8, 3);
+            int var2 = BoardScr.getIndexByID(this.aC);
+            var1.drawImage(BoardScr.imgBan, b[BoardScr.indexPlayer[var2]].x, b[BoardScr.indexPlayer[var2]].y - 8, 3);
          }
       }
 
-      BoardScr.d(var1);
+      BoardScr.paintChat(var1);
    }
 
    private void e(Graphics var1) {
       for(int var2 = 0; var2 < 4; ++var2) {
          Avatar var3;
-         if ((var3 = (Avatar)BoardScr.m.elementAt(var2)).IDDB != -1 && (Canvas.w >= 160 || var3.IDDB == super.n)) {
-            int var4 = BoardScr.i(super.n);
+         if ((var3 = (Avatar)BoardScr.avatarInfos.elementAt(var2)).IDDB != -1 && (Canvas.w >= 160 || var3.IDDB == super.currentPlayer)) {
+            int var4 = BoardScr.getIndexByID(super.currentPlayer);
             if (var2 != var4 || Canvas.gameTick % 20 > 5 && var2 == var4 || this.aF) {
-               Canvas.smallFontYellow.a(var1, var3.getMoneyNew() + " " + avt.T.k(), b[BoardScr.x[var2]].x, b[BoardScr.x[var2]].y, b[BoardScr.x[var2]].anchor);
+               Canvas.smallFontYellow.a(var1, var3.getMoneyNew() + " " + avt.T.k(), b[BoardScr.indexPlayer[var2]].x, b[BoardScr.indexPlayer[var2]].y, b[BoardScr.indexPlayer[var2]].anchor);
             }
          }
       }
@@ -1157,7 +1157,7 @@ public final class PBoardScr extends BoardScr {
       if (!this.aF) {
          for(int var7 = 0; var7 < 4; ++var7) {
             Avatar var8;
-            if ((var8 = (Avatar)BoardScr.m.elementAt(var7)) != null && var8.IDDB != -1) {
+            if ((var8 = (Avatar)BoardScr.avatarInfos.elementAt(var7)) != null && var8.IDDB != -1) {
                int var9 = 3;
                int var15;
                if (var4.f[var7] != null) {
@@ -1169,10 +1169,10 @@ public final class PBoardScr extends BoardScr {
                   }
                }
 
-               if (BoardScr.x[var7] != 0 && BoardScr.x[var7] != 2) {
+               if (BoardScr.indexPlayer[var7] != 0 && BoardScr.indexPlayer[var7] != 2) {
                   for(var15 = 0; var15 < 4 && var4.f[var7][var15] != null; ++var15) {
-                     var4.f[var7][var15].c = c[BoardScr.x[var7]].x;
-                     var4.f[var7][var15].d = c[BoardScr.x[var7]].y + (var15 * var6 << 1) - (var9 * var6 << 1) / 2;
+                     var4.f[var7][var15].c = c[BoardScr.indexPlayer[var7]].x;
+                     var4.f[var7][var15].d = c[BoardScr.indexPlayer[var7]].y + (var15 * var6 << 1) - (var9 * var6 << 1) / 2;
                      if (Canvas.w > 176) {
                         var4.f[var7][var15].c(var5);
                      } else {
@@ -1181,9 +1181,9 @@ public final class PBoardScr extends BoardScr {
                   }
                } else {
                   for(var15 = 0; var15 < 4 && var4.f[var7] != null && var4.f[var7][var15] != null; ++var15) {
-                     var4.f[var7][var15].c = c[BoardScr.x[var7]].x + var15 * aV - (var9 * aV + (BoardScr.z - aV)) / 2 + BoardScr.z / 2;
-                     var4.f[var7][var15].d = c[BoardScr.x[var7]].y;
-                     if (BoardScr.x[var7] == 2) {
+                     var4.f[var7][var15].c = c[BoardScr.indexPlayer[var7]].x + var15 * aV - (var9 * aV + (BoardScr.wCard - aV)) / 2 + BoardScr.wCard / 2;
+                     var4.f[var7][var15].d = c[BoardScr.indexPlayer[var7]].y;
+                     if (BoardScr.indexPlayer[var7] == 2) {
                         if (Canvas.w > 176) {
                            if (var15 < 3 && var4.f[var7][var15 + 1] != null) {
                               if (aU > 13) {
@@ -1198,7 +1198,7 @@ public final class PBoardScr extends BoardScr {
                            var4.f[var7][var15].a(var5, false);
                         }
                      } else if (Canvas.w > 176) {
-                        var4.f[var7][var15].c = c[BoardScr.x[var7]].x - var15 * aV + (var4.e[var7] * aV + (BoardScr.z - aV)) / 2 - BoardScr.z / 2;
+                        var4.f[var7][var15].c = c[BoardScr.indexPlayer[var7]].x - var15 * aV + (var4.e[var7] * aV + (BoardScr.wCard - aV)) / 2 - BoardScr.wCard / 2;
                         var4.f[var7][var15].c(var5);
                      } else {
                         var4.f[var7][var15].a(var5, false);
@@ -1213,12 +1213,12 @@ public final class PBoardScr extends BoardScr {
       Avatar var11;
       int var12;
       for(var10 = 0; var10 < 4; ++var10) {
-         if ((var11 = (Avatar)BoardScr.m.elementAt(var10)) != null && var11.IDDB != -1) {
-            if (BoardScr.x[var10] == 1 || BoardScr.x[var10] == 3) {
+         if ((var11 = (Avatar)BoardScr.avatarInfos.elementAt(var10)) != null && var11.IDDB != -1) {
+            if (BoardScr.indexPlayer[var10] == 1 || BoardScr.indexPlayer[var10] == 3) {
                for(var12 = 0; var12 < 11 && this.U[var10][var12] != -1; ++var12) {
                   this.N = new Card((byte)this.U[var10][var12], true);
-                  this.N.c = c[BoardScr.x[var10]].x;
-                  this.N.d = c[BoardScr.x[var10]].y + var12 * (var2 << 1) - this.V[var10] * (var2 << 1) / 2;
+                  this.N.c = c[BoardScr.indexPlayer[var10]].x;
+                  this.N.d = c[BoardScr.indexPlayer[var10]].y + var12 * (var2 << 1) - this.V[var10] * (var2 << 1) / 2;
                   if (Canvas.w > 176) {
                      this.N.c(var1);
                   } else {
@@ -1227,15 +1227,15 @@ public final class PBoardScr extends BoardScr {
                }
             }
 
-            if (BoardScr.x[var10] == 0) {
+            if (BoardScr.indexPlayer[var10] == 0) {
                for(var12 = 0; var12 < 11 && this.U[var10][var12] != -1; ++var12) {
                   this.N = new Card((byte)this.U[var10][var12], true);
-                  this.N.c = c[BoardScr.x[var10]].x - var12 * aV + (this.V[var10] * aV + (BoardScr.z - aV)) / 2 - BoardScr.z / 2;
-                  this.N.d = c[BoardScr.x[var10]].y;
+                  this.N.c = c[BoardScr.indexPlayer[var10]].x - var12 * aV + (this.V[var10] * aV + (BoardScr.wCard - aV)) / 2 - BoardScr.wCard / 2;
+                  this.N.d = c[BoardScr.indexPlayer[var10]].y;
                   if (Canvas.w > 176) {
                      this.N.c(var1);
                   } else {
-                     this.N.c = c[BoardScr.x[var10]].x + var12 * aV - (this.V[var10] * aV + (BoardScr.z - aV)) / 2 + BoardScr.z / 2;
+                     this.N.c = c[BoardScr.indexPlayer[var10]].x + var12 * aV - (this.V[var10] * aV + (BoardScr.wCard - aV)) / 2 + BoardScr.wCard / 2;
                      this.N.a(var1, false);
                   }
                }
@@ -1245,11 +1245,11 @@ public final class PBoardScr extends BoardScr {
 
       Card var13;
       for(var10 = 0; var10 < 4; ++var10) {
-         if ((var11 = (Avatar)BoardScr.m.elementAt(var10)) != null && var11.IDDB != -1) {
-            if (BoardScr.x[var10] == 1) {
+         if ((var11 = (Avatar)BoardScr.avatarInfos.elementAt(var10)) != null && var11.IDDB != -1) {
+            if (BoardScr.indexPlayer[var10] == 1) {
                for(var12 = 0; var12 < 3 && this.R[var10][var12] != -1; ++var12) {
-                  (var13 = new Card((byte)this.R[var10][var12], true)).c = d[BoardScr.x[var10]].x;
-                  var13.d = d[BoardScr.x[var10]].y + var12 * (var2 << 1) - this.S[var10] * (var2 << 1) / 2;
+                  (var13 = new Card((byte)this.R[var10][var12], true)).c = d[BoardScr.indexPlayer[var10]].x;
+                  var13.d = d[BoardScr.indexPlayer[var10]].y + var12 * (var2 << 1) - this.S[var10] * (var2 << 1) / 2;
                   var13.a = 1;
                   if (Canvas.w > 176) {
                      var13.c(var1);
@@ -1259,10 +1259,10 @@ public final class PBoardScr extends BoardScr {
 
                   this.a(1, var13.c, var13.d, var1);
                }
-            } else if (BoardScr.x[var10] == 0) {
+            } else if (BoardScr.indexPlayer[var10] == 0) {
                for(var12 = 0; var12 < 3 && this.R[var10][var12] != -1; ++var12) {
-                  (var13 = new Card((byte)this.R[var10][var12], true)).d = d[BoardScr.x[var10]].y;
-                  var13.c = d[BoardScr.x[var10]].x + var12 * aV - (this.S[var10] * aV + (BoardScr.z - aV)) / 2 + BoardScr.z / 2;
+                  (var13 = new Card((byte)this.R[var10][var12], true)).d = d[BoardScr.indexPlayer[var10]].y;
+                  var13.c = d[BoardScr.indexPlayer[var10]].x + var12 * aV - (this.S[var10] * aV + (BoardScr.wCard - aV)) / 2 + BoardScr.wCard / 2;
                   var13.a = 1;
                   if (Canvas.w > 176) {
                      var13.c(var1);
@@ -1277,21 +1277,21 @@ public final class PBoardScr extends BoardScr {
       }
 
       for(var10 = 0; var10 < 4; ++var10) {
-         if (BoardScr.x[var10] == 1) {
+         if (BoardScr.indexPlayer[var10] == 1) {
             for(var12 = 0; var12 < 12 && this.Q[var10][0] != -1; ++var12) {
                if (this.Q[var10][var12] != -1) {
                   this.N = new Card((byte)this.Q[var10][var12], true);
-                  this.N.c = d[BoardScr.x[var10]].x;
+                  this.N.c = d[BoardScr.indexPlayer[var10]].x;
                   if (Canvas.w > 176) {
-                     this.N.d = d[BoardScr.x[var10]].y + var12 * var2 * var3 - this.T[var10] * var2 * var3 / 2;
+                     this.N.d = d[BoardScr.indexPlayer[var10]].y + var12 * var2 * var3 - this.T[var10] * var2 * var3 / 2;
                      this.N.c(var1);
                   } else {
-                     this.N.d = d[BoardScr.x[var10]].y + var12 * var2 - this.T[var10] * var2 / 2;
+                     this.N.d = d[BoardScr.indexPlayer[var10]].y + var12 * var2 - this.T[var10] * var2 / 2;
                      this.N.a(var1, true);
                   }
                }
             }
-         } else if (BoardScr.x[var10] == 0) {
+         } else if (BoardScr.indexPlayer[var10] == 0) {
             if (this.Q[var10][0] == -1) {
                break;
             }
@@ -1299,8 +1299,8 @@ public final class PBoardScr extends BoardScr {
             for(var12 = 0; var12 < 12; ++var12) {
                if (this.Q[var10][var12] != -1) {
                   this.N = new Card((byte)this.Q[var10][var12], true);
-                  this.N.c = d[BoardScr.x[var10]].x - var12 * aV + (this.T[var10] * aV + (BoardScr.z - aV)) / 2 - BoardScr.z / 2;
-                  this.N.d = d[BoardScr.x[var10]].y;
+                  this.N.c = d[BoardScr.indexPlayer[var10]].x - var12 * aV + (this.T[var10] * aV + (BoardScr.wCard - aV)) / 2 - BoardScr.wCard / 2;
+                  this.N.d = d[BoardScr.indexPlayer[var10]].y;
                   if (Canvas.w > 176) {
                      this.N.c(var1);
                   }
@@ -1310,11 +1310,11 @@ public final class PBoardScr extends BoardScr {
       }
 
       for(var10 = 0; var10 < 4; ++var10) {
-         if ((var11 = (Avatar)BoardScr.m.elementAt(var10)) != null && var11.IDDB != -1 && BoardScr.x[var10] == 3) {
+         if ((var11 = (Avatar)BoardScr.avatarInfos.elementAt(var10)) != null && var11.IDDB != -1 && BoardScr.indexPlayer[var10] == 3) {
             for(var12 = 0; var12 < 3 && this.R[var10][var12] != -1; ++var12) {
                (var13 = new Card((byte)this.R[var10][var12], true)).a = 1;
-               var13.c = d[BoardScr.x[var10]].x;
-               var13.d = d[BoardScr.x[var10]].y + var12 * (var2 << 1) - this.S[var10] * (var2 << 1) / 2;
+               var13.c = d[BoardScr.indexPlayer[var10]].x;
+               var13.d = d[BoardScr.indexPlayer[var10]].y + var12 * (var2 << 1) - this.S[var10] * (var2 << 1) / 2;
                if (Canvas.w > 176) {
                   var13.c(var1);
                } else {
@@ -1327,16 +1327,16 @@ public final class PBoardScr extends BoardScr {
       }
 
       for(var10 = 0; var10 < 4; ++var10) {
-         if ((var11 = (Avatar)BoardScr.m.elementAt(var10)) != null && var11.IDDB != -1 && BoardScr.x[var10] == 3) {
+         if ((var11 = (Avatar)BoardScr.avatarInfos.elementAt(var10)) != null && var11.IDDB != -1 && BoardScr.indexPlayer[var10] == 3) {
             for(var12 = 0; var12 < 12 && this.Q[var10][0] != -1; ++var12) {
                if (this.Q[var10][var12] != -1) {
                   this.N = new Card((byte)this.Q[var10][var12], true);
-                  this.N.c = d[BoardScr.x[var10]].x;
+                  this.N.c = d[BoardScr.indexPlayer[var10]].x;
                   if (Canvas.w > 176) {
-                     this.N.d = d[BoardScr.x[var10]].y + var12 * var2 * var3 - this.T[var10] * var2 * var3 / 2;
+                     this.N.d = d[BoardScr.indexPlayer[var10]].y + var12 * var2 * var3 - this.T[var10] * var2 * var3 / 2;
                      this.N.c(var1);
                   } else {
-                     this.N.d = d[BoardScr.x[var10]].y + var12 * var2 - this.T[var10] * var2 / 2;
+                     this.N.d = d[BoardScr.indexPlayer[var10]].y + var12 * var2 - this.T[var10] * var2 / 2;
                      this.N.a(var1, true);
                   }
                }
@@ -1345,12 +1345,12 @@ public final class PBoardScr extends BoardScr {
       }
 
       for(var10 = 0; var10 < 4; ++var10) {
-         if (BoardScr.x[var10] == 2) {
+         if (BoardScr.indexPlayer[var10] == 2) {
             for(var12 = 0; var12 < 12 && this.Q[var10][0] != -1; ++var12) {
                if (this.Q[var10][var12] != -1) {
                   this.N = new Card((byte)this.Q[var10][var12], true);
-                  this.N.c = d[BoardScr.x[var10]].x + var12 * aV - (this.T[var10] * aV + (BoardScr.z - aV)) / 2 + BoardScr.z / 2;
-                  this.N.d = d[BoardScr.x[var10]].y;
+                  this.N.c = d[BoardScr.indexPlayer[var10]].x + var12 * aV - (this.T[var10] * aV + (BoardScr.wCard - aV)) / 2 + BoardScr.wCard / 2;
+                  this.N.d = d[BoardScr.indexPlayer[var10]].y;
                   if (Canvas.w > 176) {
                      if (var12 < 11 && this.Q[var10][var12 + 1] != -1) {
                         if (aU > 13) {
@@ -1391,7 +1391,7 @@ public final class PBoardScr extends BoardScr {
                if (var4.O[var6].a != 0) {
                   var4.a(var4.O[var6].a, var4.O[var6].c, var4.O[var6].d, var5);
                }
-            } else if (var14 == 0 && var6 < 9 && var4.O[var6 + 1].b != -1 && var6 != var4.o) {
+            } else if (var14 == 0 && var6 < 9 && var4.O[var6 + 1].b != -1 && var6 != var4.selectedCard) {
                if (aU <= 14 && var4.O[var6 + 1].c == var4.O[var6 + 1].m) {
                   var4.be.a(var5);
                } else {
@@ -1409,12 +1409,12 @@ public final class PBoardScr extends BoardScr {
             }
          }
 
-         if (var6 == var4.o && var4.aD.b != -1) {
-            var4.aD.c = var4.aZ + var4.o * aU;
+         if (var6 == var4.selectedCard && var4.aD.b != -1) {
+            var4.aD.c = var4.aZ + var4.selectedCard * aU;
             var4.aD.d = var4.g.y + (var4.bb ? -5 : 10);
             if (Canvas.w > 176) {
-               if (var4.o < 9) {
-                  if (var4.O[var4.o + 1].b != -1 && !Canvas.isKeyBoard) {
+               if (var4.selectedCard < 9) {
+                  if (var4.O[var4.selectedCard + 1].b != -1 && !Canvas.isKeyBoard) {
                      var4.aD.a(var5);
                   } else {
                      var4.aD.c(var5);
@@ -1452,7 +1452,7 @@ public final class PBoardScr extends BoardScr {
       }
 
       var4.setColor(var5);
-      var4.fillRect(var2 - BoardScr.z / 2 + 2, var3 - BoardScr.A / 2 + 22, 7, 2);
+      var4.fillRect(var2 - BoardScr.wCard / 2 + 2, var3 - BoardScr.hcard / 2 + 22, 7, 2);
    }
 
    private void F() {
@@ -1583,15 +1583,15 @@ public final class PBoardScr extends BoardScr {
    }
 
    public final void a(byte var1, Vector var2, int var3, int var4) {
-      super.s();
+      super.start();
       this.u();
       this.t();
-      BoardScr.u = (long) Canvas.getSecond();
-      super.n = var3;
-      this.aA = super.n;
-      BoardScr.v = var1;
+      BoardScr.currentTime = (long) Canvas.getSecond();
+      super.currentPlayer = var3;
+      this.aA = super.currentPlayer;
+      BoardScr.interval = var1;
       this.aC = var4;
-      BoardScr.j = true;
+      BoardScr.isStartGame = true;
       var1 = (byte) var2.size();
 
       for(var3 = 0; var3 < var1; ++var3) {
@@ -1604,17 +1604,17 @@ public final class PBoardScr extends BoardScr {
 
       b(this.O);
       this.F();
-      if (super.n != GameMidlet.avatar.IDDB) {
+      if (super.currentPlayer != GameMidlet.avatar.IDDB) {
          this.x();
       }
 
-      this.f();
+      this.setPosPlaying();
       this.b(false);
    }
 
-   public final void j() {
+   public final void doFire() {
       this.C();
-      super.j();
+      super.doFire();
       this.B();
       int var1 = 0;
       int var2 = -1;
@@ -1641,8 +1641,8 @@ public final class PBoardScr extends BoardScr {
 
          if (var10000) {
             this.x();
-            BoardScr.o();
-            CasinoService.a().c(this.O[var2].b);
+            BoardScr.setCmdWaiting();
+            CasinoService.gI().c(this.O[var2].b);
          }
       }
    }
@@ -1657,16 +1657,16 @@ public final class PBoardScr extends BoardScr {
          }
 
          this.x();
-         BoardScr.u = (long) Canvas.getSecond();
+         BoardScr.currentTime = (long) Canvas.getSecond();
          int var5;
-         if ((var5 = BoardScr.i(var2)) != -1) {
-            this.h.x = BoardScr.F[BoardScr.x[var5]].x;
+         if ((var5 = BoardScr.getIndexByID(var2)) != -1) {
+            this.h.x = BoardScr.posAvatar[BoardScr.indexPlayer[var5]].x;
             if (var2 == GameMidlet.avatar.IDDB) {
-               this.h.x = this.g.x + super.o * aU;
+               this.h.x = this.g.x + super.selectedCard * aU;
             }
 
             if (var1 == GameMidlet.avatar.IDDB) {
-               if (a(this.f[BoardScr.s]) != -1 && a(this.f[BoardScr.s]) <= 3) {
+               if (a(this.f[BoardScr.indexOfMe]) != -1 && a(this.f[BoardScr.indexOfMe]) <= 3) {
                   this.v();
                }
 
@@ -1674,9 +1674,9 @@ public final class PBoardScr extends BoardScr {
                this.F();
             }
 
-            this.h.y = BoardScr.F[BoardScr.x[var5]].y;
+            this.h.y = BoardScr.posAvatar[BoardScr.indexPlayer[var5]].y;
             this.aB = var3;
-            super.n = var1;
+            super.currentPlayer = var1;
             this.aA = var2;
             this.W[var5] = var4;
             this.M = true;
@@ -1686,15 +1686,15 @@ public final class PBoardScr extends BoardScr {
    }
 
    public final void b(int var1, int var2) {
-      if (BoardScr.i(var1) != -1) {
+      if (BoardScr.getIndexByID(var1) != -1) {
          this.aC = var2;
-         if (var1 == GameMidlet.avatar.IDDB && super.n != var1) {
+         if (var1 == GameMidlet.avatar.IDDB && super.currentPlayer != var1) {
             this.v();
             this.b(false);
          }
 
-         super.n = var1;
-         BoardScr.u = (long) Canvas.getSecond();
+         super.currentPlayer = var1;
+         BoardScr.currentTime = (long) Canvas.getSecond();
       }
    }
 
@@ -1706,7 +1706,7 @@ public final class PBoardScr extends BoardScr {
    }
 
    public final void a(boolean var1, int[] var2, boolean var3, int var4) {
-      int var5 = BoardScr.i(var4);
+      int var5 = BoardScr.getIndexByID(var4);
       if (!var1) {
          Canvas.startOKDlg(avt.T.aj);
       } else {
@@ -1752,8 +1752,8 @@ public final class PBoardScr extends BoardScr {
 
             this.w();
             this.O = b(this.O);
-            if (this.O[super.o].b == -1) {
-               super.o = this.J() - 1;
+            if (this.O[super.selectedCard].b == -1) {
+               super.selectedCard = this.J() - 1;
             }
 
             this.b(false);
@@ -1800,13 +1800,13 @@ public final class PBoardScr extends BoardScr {
 
       for(var4 = 0; var4 < 4; ++var4) {
          Avatar var5;
-         if ((var5 = (Avatar)BoardScr.m.elementAt(var4)) != null && var5.IDDB != -1 && this.aJ[var4] != -1) {
+         if ((var5 = (Avatar)BoardScr.avatarInfos.elementAt(var4)) != null && var5.IDDB != -1 && this.aJ[var4] != -1) {
             if (this.aJ[var4] == -2) {
-               BoardScr.a(var5.IDDB, avt.T.dm);
+               BoardScr.showChat(var5.IDDB, avt.T.dm);
             } else if (var4 == this.aG) {
-               BoardScr.a(var5.IDDB, avt.T.aP);
+               BoardScr.showChat(var5.IDDB, avt.T.aP);
             } else {
-               BoardScr.a(var5.IDDB, avt.T.aQ);
+               BoardScr.showChat(var5.IDDB, avt.T.aQ);
             }
 
             var5.isReady = false;
@@ -1820,12 +1820,12 @@ public final class PBoardScr extends BoardScr {
    public final void m() {
       this.aF = true;
       this.A();
-      if (!BoardScr.k) {
-         this.aG = BoardScr.s;
-         BoardScr.a(((Avatar)BoardScr.m.elementAt(this.aG)).IDDB, avt.T.aP);
+      if (!BoardScr.disableReady) {
+         this.aG = BoardScr.indexOfMe;
+         BoardScr.showChat(((Avatar)BoardScr.avatarInfos.elementAt(this.aG)).IDDB, avt.T.aP);
       }
 
-      BoardScr.j = true;
+      BoardScr.isStartGame = true;
    }
 
    public final void b(int var1) {
@@ -1833,8 +1833,8 @@ public final class PBoardScr extends BoardScr {
       this.A();
       this.aG = var1;
       this.aH = true;
-      BoardScr.a(this.aG, avt.T.dn);
-      BoardScr.a(this.aA, avt.T.var_do);
+      BoardScr.showChat(this.aG, avt.T.dn);
+      BoardScr.showChat(this.aA, avt.T.var_do);
    }
 
    private boolean n(int var1) {
@@ -1944,20 +1944,20 @@ public final class PBoardScr extends BoardScr {
 
    public final void a(boolean var1, int var2, int var3, byte var4) {
       int var5;
-      if ((var5 = BoardScr.i(super.n)) != -1) {
-         if (super.n == GameMidlet.avatar.IDDB) {
+      if ((var5 = BoardScr.getIndexByID(super.currentPlayer)) != -1) {
+         if (super.currentPlayer == GameMidlet.avatar.IDDB) {
             this.C();
          }
 
          if (var1) {
             this.aN = true;
             this.aQ = new Card((byte)this.aB, true);
-            int var6 = BoardScr.i(this.aA);
-            this.aQ.c = BoardScr.F[BoardScr.x[var6]].x;
-            this.aQ.d = BoardScr.F[BoardScr.x[var6]].y;
+            int var6 = BoardScr.getIndexByID(this.aA);
+            this.aQ.c = BoardScr.posAvatar[BoardScr.indexPlayer[var6]].x;
+            this.aQ.d = BoardScr.posAvatar[BoardScr.indexPlayer[var6]].y;
             int var7;
-            if ((var7 = BoardScr.i(this.aA)) != -1) {
-               var6 = BoardScr.i(this.aC);
+            if ((var7 = BoardScr.getIndexByID(this.aA)) != -1) {
+               var6 = BoardScr.getIndexByID(this.aC);
                if (var7 != var6) {
                   this.f[var7][this.W[var7]] = this.f[var6][this.W[var6]];
                }
@@ -1970,9 +1970,9 @@ public final class PBoardScr extends BoardScr {
             }
 
             int var10002 = this.S[var5]++;
-            if (super.n == GameMidlet.avatar.IDDB) {
+            if (super.currentPlayer == GameMidlet.avatar.IDDB) {
                ++this.X;
-               if (a(this.f[BoardScr.s]) == 3) {
+               if (a(this.f[BoardScr.indexOfMe]) == 3) {
                   this.y();
                } else {
                   this.w();
@@ -2012,12 +2012,12 @@ public final class PBoardScr extends BoardScr {
 
             this.R[var5][a(this.R[var5])] = this.aB;
             this.H();
-         } else if (super.n == GameMidlet.avatar.IDDB) {
+         } else if (super.currentPlayer == GameMidlet.avatar.IDDB) {
             Canvas.startOKDlg(avt.T.al);
             this.v();
          }
 
-         if (GameMidlet.avatar.IDDB == super.n || GameMidlet.avatar.IDDB == this.aA) {
+         if (GameMidlet.avatar.IDDB == super.currentPlayer || GameMidlet.avatar.IDDB == this.aA) {
             this.b(false);
          }
 
@@ -2028,8 +2028,8 @@ public final class PBoardScr extends BoardScr {
       this.C();
       this.B();
       this.x();
-      BoardScr.o();
-      CasinoService.a().f();
+      BoardScr.setCmdWaiting();
+      CasinoService.gI().f();
    }
 
    public final void c(int var1) {
@@ -2069,14 +2069,14 @@ public final class PBoardScr extends BoardScr {
 
    public final void a(boolean var1, byte var2) {
       int var3;
-      if ((var3 = BoardScr.i(super.n)) != -1) {
-         if (super.n == GameMidlet.avatar.IDDB) {
+      if ((var3 = BoardScr.getIndexByID(super.currentPlayer)) != -1) {
+         if (super.currentPlayer == GameMidlet.avatar.IDDB) {
             this.C();
          }
 
          if (var1) {
             int var7;
-            if (GameMidlet.avatar.IDDB == super.n) {
+            if (GameMidlet.avatar.IDDB == super.currentPlayer) {
                for(var7 = 0; var7 < 10 && this.O[var7].b != -1; ++var7) {
                   if (var2 == this.O[var7].b) {
                      this.j(var7);
@@ -2126,7 +2126,7 @@ public final class PBoardScr extends BoardScr {
 
    private int J() {
       for(int var1 = 0; var1 < 10; ++var1) {
-         if ((this.aD.b == -1 || var1 != super.o) && this.O[var1].b == -1) {
+         if ((this.aD.b == -1 || var1 != super.selectedCard) && this.O[var1].b == -1) {
             return var1;
          }
       }
@@ -2154,10 +2154,10 @@ public final class PBoardScr extends BoardScr {
       return -1;
    }
 
-   public final void a(byte var1, byte var2, int var3, int var4, Vector var5) {
-      super.a(var1, var2, var3, var4, var5);
+   public final void setPlayers(byte var1, byte var2, int var3, int var4, Vector var5) {
+      super.setPlayers(var1, var2, var3, var4, var5);
       GameMidlet.avatar.isReady = false;
-      BoardScr.w = 0;
+      BoardScr.notReadyDelay = 0;
    }
 
    private static int[] b(int[] var0) {
@@ -2238,8 +2238,8 @@ public final class PBoardScr extends BoardScr {
 
    public final void a(int var1, int var2, int var3, int[][] var4, int[][] var5, int var6) {
       this.t();
-      BoardScr.k = true;
-      BoardScr.u = (long) Canvas.getSecond();
+      BoardScr.disableReady = true;
+      BoardScr.currentTime = (long) Canvas.getSecond();
 
       int var7;
       for(var7 = 0; var7 < var4.length; ++var7) {
@@ -2251,32 +2251,32 @@ public final class PBoardScr extends BoardScr {
       }
 
       this.R = var5;
-      BoardScr.v = var1;
-      super.n = var2;
+      BoardScr.interval = var1;
+      super.currentPlayer = var2;
       this.aA = var3;
       this.aC = var6;
-      BoardScr.j = true;
+      BoardScr.isStartGame = true;
 
       for(var7 = 0; var7 < 4; ++var7) {
-         this.f[BoardScr.s][var7] = null;
+         this.f[BoardScr.indexOfMe][var7] = null;
       }
 
       for(var7 = 0; var7 < 3; ++var7) {
-         this.R[BoardScr.s][var7] = -1;
+         this.R[BoardScr.indexOfMe][var7] = -1;
       }
 
       for(var7 = 0; var7 < this.Q.length; ++var7) {
-         this.Q[BoardScr.s][var7] = -1;
+         this.Q[BoardScr.indexOfMe][var7] = -1;
       }
 
       for(var7 = 0; var7 < this.U.length; ++var7) {
-         this.U[BoardScr.s][var7] = -1;
+         this.U[BoardScr.indexOfMe][var7] = -1;
       }
 
-      this.f();
-      MyScreen.z();
-      if (Canvas.isKeyBoard && (aU = (Canvas.w - BoardScr.z / 2) / 10) > BoardScr.z / 3 << 1) {
-         aU = BoardScr.z / 3 << 1;
+      this.setPosPlaying();
+      MyScreen.repaint();
+      if (Canvas.isKeyBoard && (aU = (Canvas.w - BoardScr.wCard / 2) / 10) > BoardScr.wCard / 3 << 1) {
+         aU = BoardScr.wCard / 3 << 1;
       }
 
    }

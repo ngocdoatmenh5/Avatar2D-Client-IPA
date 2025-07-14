@@ -31,9 +31,9 @@ public class SubObject extends MyObject {
                var1.drawImage(FarmScr.m, var2, var3, 40);
                return;
             case -9:
-               if (Canvas.D != null) {
+               if (Canvas.welcome != null) {
                   var1.drawImage(LoadMap.r, var2, var3, 3);
-                  AvatarData.a(var1, 900, var2, var3 + Canvas.D.a - 10, 33);
+                  AvatarData.a(var1, 900, var2, var3 + Canvas.welcome.a - 10, 33);
                }
             case -4:
             case -1:

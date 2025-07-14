@@ -52,9 +52,9 @@ public final class MapScr extends MyScreen implements IChatable {
    public static int F;
    public static int G = -1;
 
-   public final void a() {
+   public final void switchToMe() {
       this.c();
-      super.a();
+      super.switchToMe();
    }
 
    public static MapScr gI() {
@@ -70,7 +70,7 @@ public final class MapScr extends MyScreen implements IChatable {
       super.left = this.H;
       this.f = MenuCenter.gI().a(T.bR, new class_ig(this), 15);
       this.e = new Command(Canvas.isKeyBoard ? (Canvas.stypeInt == 0 ? T.O : T.c) : "", 1, this);
-      if (Canvas.stypeInt > 0 && Canvas.D == null) {
+      if (Canvas.stypeInt > 0 && Canvas.welcome == null) {
          super.left = this.e;
       }
 
@@ -78,7 +78,7 @@ public final class MapScr extends MyScreen implements IChatable {
       this.J = new Command(T.bZ, 2);
    }
 
-   public final void a(int var1) {
+   public final void commandTab(int var1) {
       switch (var1) {
          case 0:
             this.A();
@@ -98,7 +98,7 @@ public final class MapScr extends MyScreen implements IChatable {
 
    }
 
-   public final void d() {
+   public final void close() {
       this.I.b();
    }
 
@@ -118,7 +118,7 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    protected static void f() {
-      MessageScr.b().a(Canvas.currentMyScreen);
+      MessageScr.gI().a(Canvas.currentMyScreen);
    }
 
    protected final void g() {
@@ -152,8 +152,8 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    protected final void i() {
-      MessageScr.b().a(h.IDDB, h.name);
-      MessageScr.b().a((MyScreen)this);
+      MessageScr.gI().a(h.IDDB, h.name);
+      MessageScr.gI().a((MyScreen)this);
    }
 
    private void A() {
@@ -220,7 +220,7 @@ public final class MapScr extends MyScreen implements IChatable {
       MenuCenter.gI().a(var1);
    }
 
-   public final void k() {
+   public final void update() {
       Canvas.loadMap.b();
       if (Canvas.stypeInt == 0 && LoadMap.p != null) {
          if (h != null && LoadMap.p.catagory != 5 && h.IDDB > 2000000000) {
@@ -231,9 +231,9 @@ public final class MapScr extends MyScreen implements IChatable {
 
          super.right = LoadMap.q;
          if (LoadMap.p.catagory == 0) {
-            super.right.a = ((Avatar)LoadMap.p).name;
-            if (super.right.a.length() > 8) {
-               super.right.a = super.right.a.substring(0, 8) + "..";
+            super.right.caption = ((Avatar)LoadMap.p).name;
+            if (super.right.caption.length() > 8) {
+               super.right.caption = super.right.caption.substring(0, 8) + "..";
             }
          }
       }
@@ -338,9 +338,9 @@ public final class MapScr extends MyScreen implements IChatable {
          }
       }
 
-      if (super.center == null && Canvas.stypeInt == 0 && Canvas.D == null) {
+      if (super.center == null && Canvas.stypeInt == 0 && Canvas.welcome == null) {
          super.center = this.e;
-      } else if (Canvas.D != null) {
+      } else if (Canvas.welcome != null) {
          super.center = null;
       }
 
@@ -385,7 +385,7 @@ public final class MapScr extends MyScreen implements IChatable {
          GlobalService.gI().c(GameMidlet.avatar.IDDB);
       }
 
-      if (Canvas.D == null || !Welcome.d) {
+      if (Canvas.welcome == null || !Welcome.d) {
          super.updateKey();
       }
 
@@ -394,15 +394,15 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    public final void paint(Graphics var1) {
-      this.b(var1);
-      if (Canvas.D == null || !Welcome.d) {
+      this.paintMain(var1);
+      if (Canvas.welcome == null || !Welcome.d) {
          super.paint(var1);
       }
 
       Canvas.a(var1);
    }
 
-   public final void b(Graphics var1) {
+   public final void paintMain(Graphics var1) {
       Canvas.resetTrans(var1);
       Canvas.loadMap.b(var1);
       int var2;
@@ -432,7 +432,7 @@ public final class MapScr extends MyScreen implements IChatable {
       Canvas.resetTrans(var1);
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
             this.A();
@@ -451,7 +451,7 @@ public final class MapScr extends MyScreen implements IChatable {
 
    public final void a(byte var1, byte var2, short var3, short var4, Vector var5, Vector var6, Vector var7) {
       if (var2 == -1) {
-         Canvas.b(T.aW, 52, (AvMain)null);
+         Canvas.startOK(T.aW, 52, (AvMain)null);
       } else {
          if (LoadMap.y == -1) {
             LoadMap.F = var6;
@@ -503,10 +503,10 @@ public final class MapScr extends MyScreen implements IChatable {
          Canvas.instance.b();
          if (Canvas.currentMyScreen != this) {
             if (OnScreen.c == 0) {
-               gI().a();
+               gI().switchToMe();
             } else {
                OnScreen.c = 2;
-               class_jv.b().a();
+               class_jv.b().switchToMe();
             }
          }
 
@@ -530,15 +530,15 @@ public final class MapScr extends MyScreen implements IChatable {
             }
          }
 
-         if (Bus.b) {
-            doMove(Bus.a.x, Bus.a.y, GameMidlet.avatar.direct, GameMidlet.avatar.N);
+         if (Bus.isRun) {
+            doMove(Bus.posBusStop.x, Bus.posBusStop.y, GameMidlet.avatar.direct, GameMidlet.avatar.N);
          } else {
             ++GameMidlet.avatar.y;
             this.n();
          }
 
          b((int)GameMidlet.avatar.feel);
-         if (Canvas.stypeInt == 0 && Canvas.D == null) {
+         if (Canvas.stypeInt == 0 && Canvas.welcome == null) {
             super.left = this.H;
          }
 
@@ -550,11 +550,11 @@ public final class MapScr extends MyScreen implements IChatable {
          Canvas.instance.sizeChanged(0, 0);
          if (Canvas.isDoubleImage) {
             if (LoadMap.TYPEMAP == 9 && Welcome.e != 0) {
-               (Canvas.D = new Welcome()).b();
-            } else if (!Bus.b && LoadMap.TYPEMAP == 23) {
-               (Canvas.D = new Welcome()).d();
+               (Canvas.welcome = new Welcome()).b();
+            } else if (!Bus.isRun && LoadMap.TYPEMAP == 23) {
+               (Canvas.welcome = new Welcome()).d();
             } else if (LoadMap.TYPEMAP == 25 && Welcome.f > 0) {
-               (Canvas.D = new Welcome()).a((MyScreen)a);
+               (Canvas.welcome = new Welcome()).a((MyScreen)a);
             }
 
             super.left = null;
@@ -684,9 +684,9 @@ public final class MapScr extends MyScreen implements IChatable {
 
    }
 
-   public final void d(int var1) {
-      ChatTextField.gI().a(var1, this);
-      super.d(var1);
+   public final void keyPress(int var1) {
+      ChatTextField.gI().startChat(var1, this);
+      super.keyPress(var1);
    }
 
    public final void onChatFromMe(String var1) {
@@ -718,7 +718,7 @@ public final class MapScr extends MyScreen implements IChatable {
             var2.chat = null;
             var2.a(100, var1, (byte)(var0 >= 2000000000 ? 1 : 0));
             if (var0 < 2000000000) {
-               MessageScr var10000 = MessageScr.b();
+               MessageScr var10000 = MessageScr.gI();
                var1 = var2.name + ": " + var1;
                var10000.a.a(var1);
             }
@@ -867,10 +867,10 @@ public final class MapScr extends MyScreen implements IChatable {
    public final void a(Avatar var1, String var2) {
       class_cw var3;
       (var3 = new class_cw(T.y, -2, new Command(T.e, new class_in(this, var1)), new Command(T.cc, new class_ej(this, var1)), false)).a(var2);
-      MessageScr var4 = MessageScr.b();
+      MessageScr var4 = MessageScr.gI();
       var3.a = true;
       var4.b(var3);
-      if (Canvas.currentMyScreen != MessageScr.b()) {
+      if (Canvas.currentMyScreen != MessageScr.gI()) {
          ++MyScreen.as;
       }
 
@@ -945,7 +945,7 @@ public final class MapScr extends MyScreen implements IChatable {
 
          if (var0 == GameMidlet.avatar.IDDB) {
             if (Canvas.currentMyScreen == PopupShop.b()) {
-               PopupShop.b().d();
+               PopupShop.b().close();
             }
 
             GameMidlet.k = null;
@@ -969,7 +969,7 @@ public final class MapScr extends MyScreen implements IChatable {
          PopupShop.b().a(this.a(var1.seriPart, 0, 0, false), 1);
          PopupShop.b().a(this.a(GameMidlet.k, 1, 0, true), 0);
          if (Canvas.currentMyScreen != PopupShop.b()) {
-            PopupShop.b().a();
+            PopupShop.b().switchToMe();
          }
 
       }
@@ -1033,7 +1033,7 @@ public final class MapScr extends MyScreen implements IChatable {
       PopupShop.b().m = true;
       PopupShop.b().a(new String[]{T.by}, new Vector[1], var2);
       if (Canvas.currentMyScreen != PopupShop.b()) {
-         PopupShop.b().a();
+         PopupShop.b().switchToMe();
       }
 
    }
@@ -1139,7 +1139,7 @@ public final class MapScr extends MyScreen implements IChatable {
             }
 
             if (Canvas.currentMyScreen != PopupShop.b()) {
-               PopupShop.b().a();
+               PopupShop.b().switchToMe();
             }
          }
       }
@@ -1164,7 +1164,7 @@ public final class MapScr extends MyScreen implements IChatable {
          var8.addElement(var7);
       }
 
-      PopupShop.b().a();
+      PopupShop.b().switchToMe();
       PopupShop.b().a(new String[]{var1}, new Vector[]{var8}, (Vector)null);
    }
 
@@ -1276,7 +1276,7 @@ public final class MapScr extends MyScreen implements IChatable {
 
                while(true) {
                   if (var17 >= var14.length) {
-                     PopupShop.b().a();
+                     PopupShop.b().switchToMe();
                      PopupShop.o = true;
                      PopupShop.b().a(var16, var15, (Vector)null);
                      break;
@@ -1322,7 +1322,7 @@ public final class MapScr extends MyScreen implements IChatable {
                }
 
                if (var13.size() > 0) {
-                  PopupShop.b().a();
+                  PopupShop.b().switchToMe();
                   PopupShop.o = true;
                   PopupShop.b().a(new String[]{var3}, new Vector[]{var13}, (Vector)null);
                }
@@ -1453,7 +1453,7 @@ public final class MapScr extends MyScreen implements IChatable {
    public final void joinCitymap() {
       if (GameMidlet.avatar.gender == 0) {
          if (!GlobalLogicHandler.a) {
-            RegisterScr.b().a();
+            RegisterScr.b().switchToMe();
             Canvas.endDlg();
          }
       } else {
@@ -1501,7 +1501,7 @@ public final class MapScr extends MyScreen implements IChatable {
             MiniMap.gI().a(var10, var3, var2, (byte)34, 16 * AvMain.hd, new Command(T.O, new ISelectMiniMapAction(this)));
             MiniMap.gI().h = new IActionMiniMapKey(this);
             MiniMap.gI().e = 3;
-            MiniMap.gI().a();
+            MiniMap.gI().switchToMe();
             Canvas.endDlg();
             if (MiniMap.n != null && MiniMap.o == 0 && !Canvas.isDoubleImage) {
                MiniMap.n.perform();
@@ -1596,7 +1596,7 @@ public final class MapScr extends MyScreen implements IChatable {
       LoadMap.c = null;
       LoadMap.i = 24;
       Session_ME.a().c();
-      LoginScr.gI().a();
+      LoginScr.gI().switchToMe();
       LoginScr.gI().e();
       OnScreen.b = false;
       OnScreen.c = 0;
@@ -1608,7 +1608,7 @@ public final class MapScr extends MyScreen implements IChatable {
       GlobalMessageHandler.gI().miniGameMessageHandler = null;
    }
 
-   public final void d(int var1, int var2) {
+   public final void commandActionPointer(int var1, int var2) {
       switch (var1) {
          case 0:
             AvatarService.gI().doJoinHouse(GameMidlet.avatar.IDDB);
@@ -1728,14 +1728,14 @@ public final class MapScr extends MyScreen implements IChatable {
          }
       }
 
-      PopupShop.b().a();
+      PopupShop.b().switchToMe();
       PopupShop.o = true;
       PopupShop.b().a(var7, var6, (Vector)null);
       PopupShop.g = var2;
       PopupShop.b().i();
       Canvas.endDlg();
       if (LoadMap.TYPEMAP == 57 && Canvas.isDoubleImage) {
-         (Canvas.D = new Welcome()).b(PopupShop.me);
+         (Canvas.welcome = new Welcome()).b(PopupShop.me);
       }
 
    }
@@ -1807,7 +1807,7 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    public final void y() {
-      this.d(3, -1);
+      this.commandActionPointer(3, -1);
    }
 
    public final void a(byte var1, Vector var2, Vector var3, Vector var4) {
@@ -1839,8 +1839,8 @@ public final class MapScr extends MyScreen implements IChatable {
          }
       }
 
-      if (Bus.b) {
-         doMove(Bus.a.x, Bus.a.y, GameMidlet.avatar.direct, GameMidlet.avatar.N);
+      if (Bus.isRun) {
+         doMove(Bus.posBusStop.x, Bus.posBusStop.y, GameMidlet.avatar.direct, GameMidlet.avatar.N);
       } else {
          ++GameMidlet.avatar.y;
          this.n();
@@ -1848,7 +1848,7 @@ public final class MapScr extends MyScreen implements IChatable {
 
       b((int)GameMidlet.avatar.feel);
       if (Canvas.isDoubleImage && var5[var1] == 101) {
-         (Canvas.D = new Welcome()).e();
+         (Canvas.welcome = new Welcome()).e();
       }
 
    }
@@ -1863,7 +1863,7 @@ public final class MapScr extends MyScreen implements IChatable {
 
    public final void e(int var1, int var2) {
       if (Canvas.currentMyScreen == PopupShop.me) {
-         PopupShop.b().d();
+         PopupShop.b().close();
       }
 
       System.out.println("onWeddingStart 1111111111111");

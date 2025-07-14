@@ -103,7 +103,7 @@ public final class LoadMap {
             }
 
             if (this.R) {
-               if (Canvas.isPointerDown && (CRes.f(var2) > 20 || CRes.f(var3) > 20)) {
+               if (Canvas.isPointerDown && (CRes.abs(var2) > 20 || CRes.abs(var3) > 20)) {
                   AvCamera.gI().xTo = S + var2;
                   AvCamera.gI().yTo = T + var3;
                   AvCamera.gI().setToPos(AvCamera.gI().xTo + Canvas.hw, AvCamera.gI().yTo + Canvas.hh);
@@ -113,7 +113,7 @@ public final class LoadMap {
                if (Canvas.isPointerRelease) {
                   Canvas.isPointerRelease = false;
                   this.R = false;
-                  if (CRes.f(var2) < 10 && CRes.f(var3) < 10 && !MapScr.t) {
+                  if (CRes.abs(var2) < 10 && CRes.abs(var3) < 10 && !MapScr.t) {
                      u.x = Canvas.px + AvCamera.gI().xCam;
                      u.y = Canvas.py + AvCamera.gI().yCam;
                      if (u.y < 0) {
@@ -180,14 +180,14 @@ public final class LoadMap {
                while (var13 < m.size() && !i(var13)) {
                   var13++;
                }
-            } else if (CRes.f(p.x - GameMidlet.avatar.x) / i >= (p.catagory == 7 ? U << 1 : U) || CRes.f(p.y - GameMidlet.avatar.y) / i >= (p.catagory == 7 ? U << 1 : U)) {
+            } else if (CRes.abs(p.x - GameMidlet.avatar.x) / i >= (p.catagory == 7 ? U << 1 : U) || CRes.abs(p.y - GameMidlet.avatar.y) / i >= (p.catagory == 7 ? U << 1 : U)) {
                p = null;
                MapScr.h = null;
             }
          }
 
-         if (Bus.b) {
-            Q.a();
+         if (Bus.isRun) {
+            Q.update();
          }
 
          if (x != null) {
@@ -219,8 +219,8 @@ public final class LoadMap {
                         case 1:
                            int var4 = CRes.rnd(var14.d);
                            int var5 = CRes.rnd(360);
-                           int var6 = var4 * CRes.b(CRes.c(var5)) >> 10;
-                           var4 = -(var4 * CRes.a(CRes.c(var5))) >> 10;
+                           int var6 = var4 * CRes.cos(CRes.fixangle(var5)) >> 10;
+                           var4 = -(var4 * CRes.sin(CRes.fixangle(var5))) >> 10;
                            var16.x = var14.e;
                            var16.y = var14.f;
                            var16.b = (short)var6;
@@ -476,7 +476,7 @@ public final class LoadMap {
    public final boolean a(int var1, int var2) {
       z = false;
       int var3 = c(var1, var2);
-      if ((Canvas.D == null || Welcome.b(var3)) && var3 != -2) {
+      if ((Canvas.welcome == null || Welcome.b(var3)) && var3 != -2) {
          switch (var3) {
             case -1:
                MapScr.gI().n();
@@ -485,7 +485,7 @@ public final class LoadMap {
                }
 
                if (b != null) {
-                  Q.a((byte)-1);
+                  Q.setBus((byte)-1);
                } else {
                   MapScr.gI().e();
                }
@@ -969,8 +969,8 @@ public final class LoadMap {
          var1.drawImage(MapScr.d, p.x * AvMain.hd, (p.y - (p.catagory == 7 ? 10 : p.height)) * AvMain.hd - ab / 2, 3);
       }
 
-      if (Bus.b) {
-         Q.a(var1);
+      if (Bus.isRun) {
+         Q.paint(var1);
       }
    }
 
@@ -1015,17 +1015,17 @@ public final class LoadMap {
          Canvas.endDlg();
       }
 
-      if (Canvas.D != null) {
-         Canvas.D = null;
+      if (Canvas.welcome != null) {
+         Canvas.welcome = null;
       }
 
       Canvas.instance.b();
       GameMidlet.avatar.au = 0;
       y = -1;
-      q.a = avt.T.bz;
+      q.caption = avt.T.bz;
       Canvas.currentEffect.removeAllElements();
       GameMidlet.avatar.ableShow = false;
-      Bus.b = false;
+      Bus.isRun = false;
       AvCamera.disable = false;
       GameMidlet.avatar.setAction((byte)0);
       i();
@@ -1416,8 +1416,8 @@ public final class LoadMap {
                         by13 = (byte)(by23 + 1);
                         LoadMap.b(avatar, by23, 0);
                         if (TYPEMAP == -1 && n != 21 && b != null) {
-                           Bus.a = new AvPosition(LoadMap.k(avatar) + i / 2, LoadMap.l(avatar) - i / 2);
-                           Q.a((byte)1);
+                           Bus.posBusStop = new AvPosition(LoadMap.k(avatar) + i / 2, LoadMap.l(avatar) - i / 2);
+                           Q.setBus((byte)1);
                         }
                         LoadMap.a(avatar, map);
                         break;
@@ -1949,12 +1949,12 @@ public final class LoadMap {
                      }
                      case 102: {
                         LoadMap.type[avatar] = 92;
-                        BoardScr.I.addElement(new AvPosition(LoadMap.k(avatar) + i / 2, LoadMap.l(avatar) + i));
+                        BoardScr.listPosAvatar.addElement(new AvPosition(LoadMap.k(avatar) + i / 2, LoadMap.l(avatar) + i));
                         AvPosition avPosition = new AvPosition(-20, LoadMap.l(avatar) + i);
                         if (n13 % 2 == (n == 66 ? 0 : 1)) {
                            avPosition.x = (Canvas.w + 20) / AvMain.hd;
                         }
-                        BoardScr.J.addElement(avPosition);
+                        BoardScr.listPosCasino.addElement(avPosition);
                         n13 = (byte)(n13 + 1);
                         break;
                      }
@@ -2292,7 +2292,7 @@ public final class LoadMap {
    }
 
    public final void e() {
-      Bus.b = false;
+      Bus.isRun = false;
       i();
       b(GameMidlet.avatar);
       short[] var1 = new short[map.length];

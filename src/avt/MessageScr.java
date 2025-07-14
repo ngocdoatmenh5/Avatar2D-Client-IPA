@@ -17,7 +17,7 @@ public final class MessageScr extends MyScreen {
    public Command f;
    private boolean j = true;
 
-   public static MessageScr b() {
+   public static MessageScr gI() {
       if (me == null) {
          me = new MessageScr();
       }
@@ -28,14 +28,14 @@ public final class MessageScr extends MyScreen {
    public final void a(MyScreen var1) {
       this.h = var1;
       MyScreen.as = 0;
-      b().b = b().g.size() - 1;
+      gI().b = gI().g.size() - 1;
       this.f();
       PaintPopup.gI().l = this.b;
-      b().g();
+      gI().g();
       this.j = this.b(this.b).h;
       this.init();
       PaintPopup.gI().a(this.b(this.b).b, this.b);
-      super.a();
+      super.switchToMe();
    }
 
    private void f() {
@@ -54,10 +54,10 @@ public final class MessageScr extends MyScreen {
       }
    }
 
-   public final void d(int var1, int var2) {
+   public final void commandActionPointer(int var1, int var2) {
       switch (var1) {
          case 2:
-            this.h.a();
+            this.h.switchToMe();
             this.h = null;
          default:
             return;
@@ -66,14 +66,14 @@ public final class MessageScr extends MyScreen {
       }
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 1:
             ParkService.a().a(c.f());
             c.a("");
             return;
          case 2:
-            this.h.a();
+            this.h.switchToMe();
             this.h = null;
             return;
          case 3:
@@ -101,7 +101,7 @@ public final class MessageScr extends MyScreen {
 
             return;
          case 4:
-            this.h.a();
+            this.h.switchToMe();
             this.h = null;
             return;
          case 5:
@@ -218,7 +218,7 @@ public final class MessageScr extends MyScreen {
    }
 
    public final void paint(Graphics var1) {
-      this.h.b(var1);
+      this.h.paintMain(var1);
       Canvas.resetTrans(var1);
       PaintPopup.gI().a(var1);
       var1.translate(e, i + PaintPopup.o + AvMain.Z);
@@ -251,7 +251,7 @@ public final class MessageScr extends MyScreen {
       class_cw.j = class_cw.k;
    }
 
-   public final void d(int var1) {
+   public final void keyPress(int var1) {
       if (var1 == -3) {
          this.e(-1);
       }
@@ -264,7 +264,7 @@ public final class MessageScr extends MyScreen {
          c.b(var1);
       }
 
-      super.d(var1);
+      super.keyPress(var1);
    }
 
    public final void updateKey() {
@@ -283,13 +283,13 @@ public final class MessageScr extends MyScreen {
       this.b(this.b).b();
    }
 
-   public final void k() {
+   public final void update() {
       if (this.j) {
          c.e();
       }
 
       if (this.h != null) {
-         this.h.k();
+         this.h.update();
       }
 
    }

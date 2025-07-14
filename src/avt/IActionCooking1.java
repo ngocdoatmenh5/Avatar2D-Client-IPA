@@ -34,6 +34,6 @@ final class IActionCooking1 implements IAction {
       }
 
       FarmService.a().d(this.a.a);
-      PopupShop.b().d();
+      PopupShop.b().close();
    }
 }

@@ -37,7 +37,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                }
 
                RoomListOnScr.b().a(var21);
-               RoomListOnScr.b().a();
+               RoomListOnScr.b().switchToMe();
                Canvas.endDlg();
                return;
             case 7:
@@ -58,10 +58,10 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                   var18.addElement(var20);
                }
 
-               BoardListOnScr.b().h = var15;
-               BoardListOnScr.b().a(var18);
-               BoardListOnScr.b().a();
-               BoardListOnScr.b().init();
+               BoardListOnScr.gI().h = var15;
+               BoardListOnScr.gI().a(var18);
+               BoardListOnScr.gI().switchToMe();
+               BoardListOnScr.gI().init();
                Canvas.endDlg();
                return;
             case 8:
@@ -103,9 +103,9 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                   }
                }
 
-               d.a(var15, var16, var17, var5, var6);
+               d.setPlayers(var15, var16, var17, var5, var6);
                TLBoardScr.b().b = true;
-               BoardScr.k = false;
+               BoardScr.disableReady = false;
                int var23 = var6.size();
 
                for(var24 = 0; var24 < var23; ++var24) {
@@ -124,8 +124,8 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                   byte var10001 = BoardListOnScr.c;
                }
 
-               d.p();
-               d.a();
+               d.loadMap();
+               d.switchToMe();
                TLBoardScr.b();
                TLBoardScr.b(false);
                Canvas.endDlg();
@@ -136,8 +136,8 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                var16 = var1.reader().readByte();
                var17 = var1.reader().readInt();
                var12 = var1.reader().readUTF();
-               if (BoardScr.a(var15, var16)) {
-                  BoardScr.a(var17, var12);
+               if (BoardScr.setR_B(var15, var16)) {
+                  BoardScr.showChat(var17, var12);
                   return;
                }
                break;
@@ -146,13 +146,13 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                var16 = var1.reader().readByte();
                var13 = var1.reader().readInt();
                Canvas.currentDialog = null;
-               if (BoardScr.a(var15, var16)) {
+               if (BoardScr.setR_B(var15, var16)) {
                   if (var13 == GameMidlet.avatar.IDDB) {
                      Canvas.b(T.H, new class_cu(this));
                      return;
                   }
 
-                  BoardScr.me.e(var13);
+                  BoardScr.me.playerLeave(var13);
                   return;
                }
                break;
@@ -174,18 +174,18 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                var8.isReady = false;
                TLBoardScr.b().b = true;
                var8.isReady = false;
-               d.a(var9, var8);
+               d.setAt(var9, var8);
                return;
             case 14:
                var2 = var1.reader().readInt();
                var13 = var1.reader().readInt();
-               if (BoardScr.j && BoardScr.H == 2) {
-                  d.c(T.J);
+               if (BoardScr.isStartGame && BoardScr.numPlayer == 2) {
+                  d.closeBoard(T.J);
                }
 
                TLBoardScr.b().b = true;
-               BoardScr.me.e(var2);
-               BoardScr.f(var13);
+               BoardScr.me.playerLeave(var2);
+               BoardScr.setOwner(var13);
                return;
             case 16:
                var2 = var1.reader().readInt();
@@ -194,14 +194,14 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                   Canvas.endDlg();
                }
 
-               BoardScr.b(var2, var14);
+               BoardScr.setReady(var2, var14);
                return;
             case 19:
                var15 = var1.reader().readByte();
                var16 = var1.reader().readByte();
                var13 = var1.reader().readInt();
-               if (BoardScr.a(var15, var16)) {
-                  d.g(var13);
+               if (BoardScr.setR_B(var15, var16)) {
+                  d.setMoney(var13);
                   return;
                }
                break;
@@ -211,15 +211,15 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                var2 = var1.reader().readInt();
                int var3 = var1.reader().readInt();
                var12 = var1.reader().readUTF();
-               Avatar var4 = BoardScr.h(var2);
+               Avatar var4 = BoardScr.getAvatarByID(var2);
                if (var3 != 0 && var4 != null) {
                   var4.setMoneyNew(var4.getMoneyNew() + var3);
                   if (GameMidlet.avatar.IDDB == var2) {
                      GameMidlet.avatar.setMoneyNew(var4.getMoneyNew());
                   }
 
-                  BoardScr.a(var2, var12);
-                  BoardScr.c(var2, var3);
+                  BoardScr.showChat(var2, var12);
+                  BoardScr.showFlyText(var2, var3);
                   return;
                }
 
@@ -236,9 +236,9 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                      DiamondMessageHandler.a();
                      break;
                   case 22:
-                     BoardScr.H = 5;
+                     BoardScr.numPlayer = 5;
                      BoardListOnScr.e = BoardListOnScr.d;
-                     RoomListOnScr.a(3, BCBoardScr.b());
+                     RoomListOnScr.a(3, BCBoardScr.gI());
                      if (class_da.a == null) {
                         class_da.a = new class_da();
                      }
@@ -250,7 +250,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                }
 
                Canvas.startWaitDlg(T.b);
-               CasinoService.a().b();
+               CasinoService.gI().b();
                return;
             default:
                this.c.onMessage(var1);

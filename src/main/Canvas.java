@@ -44,7 +44,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    public static Vector currentEffect = new Vector();
    private static long[] timeBB;
    public static Vector listInfoSV = new Vector();
-   public static Welcome D;
+   public static Welcome welcome;
    public static boolean E;
    private static boolean ak;
    public static boolean F;
@@ -379,8 +379,8 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                   z.a();
                }
 
-               if (D != null && currentDialog == null) {
-                  D.updateKey();
+               if (welcome != null && currentDialog == null) {
+                  welcome.updateKey();
                }
 
                int var3;
@@ -412,18 +412,18 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                      }
                   }
 
-                  currentMyScreen.k();
-                  if (cameraList.m) {
+                  currentMyScreen.update();
+                  if (cameraList.isShow) {
                      CameraList var10 = cameraList;
                      if (menuMain == null && currentDialog == null) {
                         if (var10.n == 0) {
-                           if (CameraList.i < 0) {
-                              CameraList.j = 0;
-                           } else if (CameraList.i > var10.c) {
-                              CameraList.j = var10.c;
+                           if (CameraList.cmtoY < 0) {
+                              CameraList.cmy = 0;
+                           } else if (CameraList.cmtoY > var10.cmyLim) {
+                              CameraList.cmy = var10.cmyLim;
                            }
                         } else {
-                           if (CameraList.i < 0 || CameraList.i > var10.c) {
+                           if (CameraList.cmtoY < 0 || CameraList.cmtoY > var10.cmyLim) {
                               if (var10.n > 500) {
                                  var10.n = 500;
                               } else if (var10.n < -500) {
@@ -431,23 +431,23 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                               }
 
                               var10.n -= var10.n / 5;
-                              if (CRes.f(var10.n / 10) <= 10) {
+                              if (CRes.abs(var10.n / 10) <= 10) {
                                  var10.n = 0;
                               }
                            }
 
-                           CameraList.j = CameraList.i += var10.n / 15;
+                           CameraList.cmy = CameraList.cmtoY += var10.n / 15;
                            var10.n -= var10.n / 20;
                         }
 
                         if (var10.o == 0) {
-                           if (CameraList.k < 0) {
-                              CameraList.l = 0;
-                           } else if (CameraList.k > var10.h) {
-                              CameraList.l = var10.h;
+                           if (CameraList.cmtoX < 0) {
+                              CameraList.cmx = 0;
+                           } else if (CameraList.cmtoX > var10.cmxLim) {
+                              CameraList.cmx = var10.cmxLim;
                            }
                         } else {
-                           if (CameraList.k < 0 || CameraList.k > var10.h) {
+                           if (CameraList.cmtoX < 0 || CameraList.cmtoX > var10.cmxLim) {
                               if (var10.o > 500) {
                                  var10.o = 500;
                               } else if (var10.o < -500) {
@@ -455,27 +455,27 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                               }
 
                               var10.o -= var10.o / 5;
-                              if (CRes.f(var10.o / 10) <= 10) {
+                              if (CRes.abs(var10.o / 10) <= 10) {
                                  var10.o = 0;
                               }
                            }
 
-                           CameraList.l = CameraList.k += var10.o / 15;
+                           CameraList.cmx = CameraList.cmtoX += var10.o / 15;
                            var10.o -= var10.o / 20;
                         }
 
-                        if (CameraList.i != CameraList.j) {
-                           var10.b = CameraList.j - CameraList.i << 2;
-                           var10.a += var10.b;
-                           CameraList.i += var10.a >> 4;
-                           var10.a &= 15;
+                        if (CameraList.cmtoY != CameraList.cmy) {
+                           var10.cmvy = CameraList.cmy - CameraList.cmtoY << 2;
+                           var10.cmdy += var10.cmvy;
+                           CameraList.cmtoY += var10.cmdy >> 4;
+                           var10.cmdy &= 15;
                         }
 
-                        if (CameraList.k != CameraList.l) {
-                           var10.g = CameraList.l - CameraList.k << 2;
-                           var10.f += var10.g;
-                           CameraList.k += var10.f >> 4;
-                           var10.f &= 15;
+                        if (CameraList.cmtoX != CameraList.cmx) {
+                           var10.cmvx = CameraList.cmx - CameraList.cmtoX << 2;
+                           var10.cmdx += var10.cmvx;
+                           CameraList.cmtoX += var10.cmdx >> 4;
+                           var10.cmdx &= 15;
                         }
                      }
                   }
@@ -483,21 +483,21 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                   if (currentDialog != null) {
                      currentDialog.updateKey();
                   } else if (currentFace != null) {
-                     if (D == null) {
+                     if (welcome == null) {
                         currentFace.updateKey();
                      }
                   } else if (menuMain != null) {
                      menuMain.updateKey();
                      if (menuMain != null) {
-                        menuMain.k();
+                        menuMain.update();
                      }
                   } else {
                      if (currentFace == null && !ChatTextField.c) {
                         currentMyScreen.updateKey();
                      }
 
-                     if (cameraList.m && currentFace == null) {
-                        cameraList.a();
+                     if (cameraList.isShow && currentFace == null) {
+                        cameraList.updateKey();
                      }
                   }
 
@@ -510,8 +510,8 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                   }
                }
 
-               if (D != null) {
-                  D.k();
+               if (welcome != null) {
+                  welcome.update();
                }
 
                isPointerClick = false;
@@ -627,14 +627,14 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
          }
 
          if (currentDialog != null) {
-            currentDialog.d(var1);
+            currentDialog.keyPress(var1);
          } else if (currentFace != null) {
-            currentFace.d(var1);
+            currentFace.keyPress(var1);
          } else if (menuMain == null) {
             if (ChatTextField.c) {
                ChatTextField.gI().b(var1);
             } else {
-               currentMyScreen.d(var1);
+               currentMyScreen.keyPress(var1);
             }
          }
 
@@ -824,7 +824,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       py = var2;
    }
 
-   public static void e() {
+   public static void clearKeyPressed() {
       isPointerRelease = false;
 
       for(int var0 = 0; var0 < 14; ++var0) {
@@ -882,7 +882,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       var0.drawImage(imagePlug, 0, 1, 0);
    }
 
-   public static void b(Graphics var0) {
+   public static void paintPlus2(Graphics var0) {
       var0.drawImage(imagePlug, 0, 1, 0);
    }
 
@@ -913,8 +913,8 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             menuMain.paint(var1);
          }
 
-         if (D != null) {
-            D.paint(var1);
+         if (welcome != null) {
+            welcome.paint(var1);
          }
 
          Graphics var6 = var1;
@@ -1000,7 +1000,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       a(var0, var2);
    }
 
-   public static void a(String var0, int var1, AvMain var2) {
+   public static void startOKDlg(String var0, int var1, AvMain var2) {
       Vector var3;
       (var3 = new Vector()).addElement(new Command(T.o, var1, var2));
       var3.addElement(ad);
@@ -1020,7 +1020,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       a(var0, var2);
    }
 
-   public static void b(String var0, int var1, AvMain var2) {
+   public static void startOK(String var0, int var1, AvMain var2) {
       Vector var3;
       (var3 = new Vector()).addElement(new Command(T.z, var1, var2));
       a(var0, var3);
@@ -1112,9 +1112,9 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       if (var1 != null && var1 != List.SELECT_COMMAND) {
          if (var1 == null) {
             if (currentMyScreen == class_jv.a) {
-               OnScreen.e().a();
+               OnScreen.e().switchToMe();
             } else {
-               MapScr.gI().a();
+               MapScr.gI().switchToMe();
             }
 
             Display.getDisplay(GameMidlet.h).setCurrent(this);
@@ -1125,7 +1125,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
          List list = (List) var2;
          if (list != null && list.getSelectedIndex() != 0) {
             OnScreen.b = true;
-            OnScreen.e().a();
+            OnScreen.e().switchToMe();
          }
 
          OnSplashScr.d = false;
@@ -1192,6 +1192,6 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    }
 
    public static boolean isPaintIconVir() {
-      return currentDialog == null && menuMain == null && currentMyScreen != MessageScr.me && currentMyScreen != PopupShop.b() && currentMyScreen != ListScr.a && currentMyScreen != RoomListOnScr.me && currentMyScreen != BoardListOnScr.me && currentMyScreen != MenuCenter.a && currentMyScreen != OnScreen.a && currentMyScreen != MiniMap.a && currentMyScreen != MoneyScr.a && !HouseScr.e && !HouseScr.b && currentMyScreen != class_hk.a && (currentMyScreen != DiamondScr.a || !BoardScr.j);
+      return currentDialog == null && menuMain == null && currentMyScreen != MessageScr.me && currentMyScreen != PopupShop.b() && currentMyScreen != ListScr.a && currentMyScreen != RoomListOnScr.me && currentMyScreen != BoardListOnScr.me && currentMyScreen != MenuCenter.a && currentMyScreen != OnScreen.a && currentMyScreen != MiniMap.a && currentMyScreen != MoneyScr.a && !HouseScr.e && !HouseScr.b && currentMyScreen != class_hk.a && (currentMyScreen != DiamondScr.me_ || !BoardScr.isStartGame);
    }
 }

@@ -38,7 +38,7 @@ public final class Pet extends Animal {
          this.t.removeElementAt(0);
       } else {
          int var2 = CRes.rnd(20) - 10;
-         if (CRes.f(super.posNext.x + var2 - GameMidlet.avatar.x) >= 35) {
+         if (CRes.abs(super.posNext.x + var2 - GameMidlet.avatar.x) >= 35) {
             var2 = 0;
          }
 
@@ -238,8 +238,8 @@ public final class Pet extends Animal {
          var1 = 1;
       }
 
-      int var2 = var1 * (super.disTrans * CRes.b(CRes.c(super.angle)) >> 10);
-      var1 = -var1 * super.disTrans * CRes.a(CRes.c(super.angle)) >> 10;
+      int var2 = var1 * (super.disTrans * CRes.cos(CRes.fixangle(super.angle)) >> 10);
+      var1 = -var1 * super.disTrans * CRes.sin(CRes.fixangle(super.angle)) >> 10;
       super.x = super.xCur + var2;
       super.y = super.yCur + var1;
       var1 = CRes.a(super.xCur, super.yCur, super.x, super.y);

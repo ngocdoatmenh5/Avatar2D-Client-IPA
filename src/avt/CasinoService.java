@@ -6,7 +6,7 @@ import java.util.Vector;
 public final class CasinoService extends IService {
    private static CasinoService a;
 
-   public static CasinoService a() {
+   public static CasinoService gI() {
       if (a == null) {
          a = new CasinoService();
       }
@@ -83,8 +83,8 @@ public final class CasinoService extends IService {
 
    public final void b(byte var1) throws IOException {
       super.createMessage(var1);
-      super.m.writer().writeByte(BoardScr.p);
-      super.m.writer().writeByte(BoardScr.q);
+      super.m.writer().writeByte(BoardScr.roomID);
+      super.m.writer().writeByte(BoardScr.boardID);
    }
 
    public final void c(byte var1) {
@@ -193,7 +193,7 @@ public final class CasinoService extends IService {
       this.sendMessage();
    }
 
-   public final void a(boolean var1) {
+   public final void ready(boolean var1) {
       try {
          this.b((byte)16);
          super.m.writer().writeBoolean(var1);
@@ -288,9 +288,9 @@ public final class CasinoService extends IService {
          this.b((byte)21);
          if (var1.size() > 0) {
             for(int var2 = 0; var2 < var1.size(); ++var2) {
-               class_kl var3 = (class_kl)var1.elementAt(var2);
-               super.m.writer().writeByte(var3.b);
-               var3.b = 0;
+               PimgBC var3 = (PimgBC)var1.elementAt(var2);
+               super.m.writer().writeByte(var3.moneyPut);
+               var3.moneyPut = 0;
             }
          }
       } catch (Exception var4) {
@@ -310,7 +310,7 @@ public final class CasinoService extends IService {
       this.sendMessage();
    }
 
-   public final void j() {
+   public final void skip() {
       try {
          this.b((byte)49);
       } catch (Exception var1) {

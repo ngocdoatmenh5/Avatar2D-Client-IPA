@@ -65,7 +65,7 @@ public class GameMidlet extends MIDlet {
       (o = new Canvas()).d();
       avatar = new Avatar();
       j = new class_kp();
-      class_jv.b().a();
+      class_jv.b().switchToMe();
       o.sizeChanged(0, 0);
       o.b();
       Display.getDisplay(this).setCurrent(o);

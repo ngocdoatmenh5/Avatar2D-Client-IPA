@@ -42,7 +42,7 @@ public final class CustomTab extends Face {
       return a == null ? (a = new CustomTab()) : a;
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
             this.g.removeAllElements();
@@ -305,7 +305,7 @@ public final class CustomTab extends Face {
             this.z = false;
             int var3 = this.B - this.C;
             int var4;
-            if (CRes.f(var4 = this.D - Canvas.py) > 40 && var3 < 10 && p > 0 && p < t) {
+            if (CRes.abs(var4 = this.D - Canvas.py) > 40 && var3 < 10 && p > 0 && p < t) {
                this.A = var4 / var3 * 10;
             }
 

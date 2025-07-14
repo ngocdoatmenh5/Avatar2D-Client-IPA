@@ -10,7 +10,7 @@ public final class ChatTextField extends AvMain {
    public IChatable d;
    private long e;
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
             this.b.a("");
@@ -77,7 +77,7 @@ public final class ChatTextField extends AvMain {
       return instance == null ? (instance = new ChatTextField()) : instance;
    }
 
-   public final void a(int var1, IChatable var2) {
+   public final void startChat(int var1, IChatable var2) {
       if (Canvas.currentFace == null) {
          this.b.b(var1);
          if (!this.b.f().equals("")) {

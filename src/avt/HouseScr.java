@@ -52,8 +52,8 @@ public final class HouseScr extends MyScreen implements IChatable {
       return a;
    }
 
-   public final void a() {
-      super.a();
+   public final void switchToMe() {
+      super.switchToMe();
       this.i();
    }
 
@@ -69,7 +69,7 @@ public final class HouseScr extends MyScreen implements IChatable {
    private void i() {
       if (this.q == GameMidlet.avatar.IDDB) {
          super.center = MapScr.gI().e;
-         super.center.a = T.O;
+         super.center.caption = T.O;
          super.left = this.m;
       } else {
          super.left = this.m;
@@ -88,7 +88,7 @@ public final class HouseScr extends MyScreen implements IChatable {
       AvCamera.gI().setToPos(this.t.x * AvMain.hd, this.t.y * AvMain.hd);
    }
 
-   public final void d() {
+   public final void close() {
       MapScr.gI().e();
    }
 
@@ -174,7 +174,7 @@ public final class HouseScr extends MyScreen implements IChatable {
             String var6 = var3.name.substring(0, var4);
 
             for(var4 = 0; var4 < var1.size(); ++var4) {
-               if (((Command)var1.elementAt(var4)).a.equals(var6)) {
+               if (((Command)var1.elementAt(var4)).caption.equals(var6)) {
                   var5 = true;
                }
             }
@@ -345,8 +345,8 @@ public final class HouseScr extends MyScreen implements IChatable {
       return LoadMap.map[var1 * LoadMap.wMap + var0] == LoadMap.c.c - 2 || LoadMap.map[var1 * LoadMap.wMap + var0] == -1;
    }
 
-   public final void k() {
-      MapScr.gI().k();
+   public final void update() {
+      MapScr.gI().update();
       if (!e && !b && super.right == null && MapScr.gI().right != null) {
          super.right = LoadMap.q;
       }
@@ -354,12 +354,12 @@ public final class HouseScr extends MyScreen implements IChatable {
    }
 
    public final void paint(Graphics var1) {
-      this.b(var1);
+      this.paintMain(var1);
       super.paint(var1);
       Canvas.a(var1);
    }
 
-   public final void b(Graphics var1) {
+   public final void paintMain(Graphics var1) {
       Canvas.loadMap.b(var1);
       if (e && Canvas.menuMain == null) {
          Graphics var3 = var1;
@@ -535,7 +535,7 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
 
       LoadMap.a(LoadMap.l);
-      this.a();
+      this.switchToMe();
       Canvas.endDlg();
    }
 
@@ -596,7 +596,7 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       int var3;
       Vector var7;
       switch (var1) {
@@ -832,7 +832,7 @@ public final class HouseScr extends MyScreen implements IChatable {
          this.e();
       } else {
          GameMidlet.avatar.typeHome = (byte)var2;
-         MapScr.gI().a();
+         MapScr.gI().switchToMe();
          boolean var10000;
          if (this.u == null) {
             this.s();
@@ -867,9 +867,9 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
    }
 
-   public final void d(int var1) {
-      ChatTextField.gI().a(var1, this);
-      super.d(var1);
+   public final void keyPress(int var1) {
+      ChatTextField.gI().startChat(var1, this);
+      super.keyPress(var1);
    }
 
    public final void onChatFromMe(String var1) {
@@ -881,7 +881,7 @@ public final class HouseScr extends MyScreen implements IChatable {
    public final void e() {
       if (ListScr.d == null) {
          Canvas.startWaitDlg();
-         CasinoService.a().d();
+         CasinoService.gI().d();
          ListScr.e = 2;
       } else if (ListScr.f) {
          ListScr.f = false;
@@ -899,12 +899,12 @@ public final class HouseScr extends MyScreen implements IChatable {
 
          if (var1.size() == 0) {
             if (Canvas.currentMyScreen == ListScr.b()) {
-               ListScr.b().b.a();
+               ListScr.b().b.switchToMe();
             }
 
             Canvas.startOKDlg(T.de);
          } else {
-            ListScr.b().a();
+            ListScr.b().switchToMe();
             ListScr.c = var1;
             ListScr.b().e();
             ListScr.b().g();
@@ -912,7 +912,7 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
    }
 
-   public final void d(int var1, int var2) {
+   public final void commandActionPointer(int var1, int var2) {
       int var3 = -1;
 
       int var4;
@@ -1025,7 +1025,7 @@ public final class HouseScr extends MyScreen implements IChatable {
             Canvas.startOKDlg(T.cX);
             return;
          case 14:
-            PopupShop.b().d();
+            PopupShop.b().close();
             Canvas.b(T.cK, 53);
             return;
          case 15:
@@ -1038,7 +1038,7 @@ public final class HouseScr extends MyScreen implements IChatable {
 
             var7[0].a(true);
             Command var8 = new Command(T.cy, new class_gg(this, var7));
-            PopupShop.b().d();
+            PopupShop.b().close();
             InputFace.b().a(var7, T.cx, T.eF, var8);
             Canvas.currentFace = InputFace.b();
             InputFace.b().left = new Command(T.d, 8);
@@ -1105,7 +1105,7 @@ public final class HouseScr extends MyScreen implements IChatable {
          PopupShop.b().a(var5, 0);
          PopupShop.b().a(var6, 1);
          if (Canvas.currentMyScreen != PopupShop.b()) {
-            PopupShop.b().a();
+            PopupShop.b().switchToMe();
          }
 
       }
@@ -1140,7 +1140,7 @@ public final class HouseScr extends MyScreen implements IChatable {
    public final void h() {
       int var1 = PopupShop.g;
       int var2 = PopupShop.j;
-      PopupShop.b().d();
+      PopupShop.b().close();
       this.a(this.E, this.D, this.F, this.G);
       PopupShop.g = var1;
       PopupShop.b().i();
@@ -1150,7 +1150,7 @@ public final class HouseScr extends MyScreen implements IChatable {
 
       PopupShop.j = var2;
       PopupShop.b().m();
-      Canvas.cameraList.a(PopupShop.j);
+      Canvas.cameraList.setSelect(PopupShop.j);
    }
 
    public final void a(byte var1, String var2, String[] var3, short[] var4, short[] var5, String[] var6, String[] var7, int[] var8, short[] var9) {
@@ -1163,7 +1163,7 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
 
       if (var10.size() > 0) {
-         PopupShop.b().a();
+         PopupShop.b().switchToMe();
          PopupShop.o = true;
          PopupShop.b().a(new String[]{var2}, new Vector[]{var10}, (Vector)null);
       }

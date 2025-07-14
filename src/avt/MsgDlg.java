@@ -55,8 +55,8 @@ public final class MsgDlg extends Dialog {
 
          for(int var5 = 0; var5 < var3.size(); ++var5) {
             var2 = (Command)var3.elementAt(var5);
-            if (Canvas.K.getWidth(var2.a) > this.u) {
-               this.u = Canvas.K.getWidth(var2.a) + (Canvas.isKeyBoard ? this.g / 3 : 0);
+            if (Canvas.K.getWidth(var2.caption) > this.u) {
+               this.u = Canvas.K.getWidth(var2.caption) + (Canvas.isKeyBoard ? this.g / 3 : 0);
             }
          }
       } else {
@@ -134,12 +134,12 @@ public final class MsgDlg extends Dialog {
 
          if (this.l > 0) {
             Command var2 = (Command)this.e.elementAt(this.f);
-            Canvas.K.a(var1, var2.a, Canvas.hw, this.j + this.h - (this.q + 15 * AvMain.hd - 4) + this.q / 2 - AvMain.ah / 2, 2);
+            Canvas.K.a(var1, var2.caption, Canvas.hw, this.j + this.h - (this.q + 15 * AvMain.hd - 4) + this.q / 2 - AvMain.ah / 2, 2);
             if (this.l > 1) {
                Canvas.paint.b(var1, Canvas.hw - this.u / 2 - 11, (Canvas.stypeInt != 2 ? AvMain.ah / 2 : 0) + this.j + this.h - (this.q + 15 * AvMain.hd - 4) + MyScreen.av / 2 + 1 + (Canvas.stypeInt == 1 ? -7 : 0) + (Canvas.stypeInt == 0 ? -3 : 0), 17 + this.u, this.o / 3, this.p / 3);
             }
          } else if (super.center != null) {
-            Canvas.K.a(var1, super.center.a, Canvas.hw, this.j + this.h - (this.q + 15 * AvMain.hd - 4) + this.q / 2 - AvMain.ah / 2, 2);
+            Canvas.K.a(var1, super.center.caption, Canvas.hw, this.j + this.h - (this.q + 15 * AvMain.hd - 4) + this.q / 2 - AvMain.ah / 2, 2);
          }
 
          for(int var3 = 0; var3 < this.c.size(); ++var3) {
@@ -149,7 +149,7 @@ public final class MsgDlg extends Dialog {
       }
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case -2:
             MapScr.gI().v();
@@ -159,7 +159,7 @@ public final class MsgDlg extends Dialog {
             Canvas.currentDialog = null;
             return;
          default:
-            Canvas.currentMyScreen.a(var1, var2);
+            Canvas.currentMyScreen.commandTab(var1, var2);
       }
    }
 
@@ -195,7 +195,7 @@ public final class MsgDlg extends Dialog {
                var1 = var1 + (String)this.c.elementAt(var2) + " ";
             }
 
-            Canvas.b(var1, -2, (AvMain)null);
+            Canvas.startOK(var1, -2, (AvMain)null);
          }
       }
 
@@ -224,9 +224,9 @@ public final class MsgDlg extends Dialog {
             int var3 = 0;
             if (this.e != null && this.e.size() > 0) {
                Command var4 = (Command)this.e.elementAt(this.f);
-               var3 = Canvas.K.getWidth(var4.a) + 20;
+               var3 = Canvas.K.getWidth(var4.caption) + 20;
             } else if (super.center != null) {
-               var3 = Canvas.K.getWidth(super.center.a) + 20;
+               var3 = Canvas.K.getWidth(super.center.caption) + 20;
             }
 
             var3 *= AvMain.hd;

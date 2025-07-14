@@ -58,8 +58,8 @@ public final class MiniMap extends MyScreen {
       return a == null ? (a = new MiniMap()) : a;
    }
 
-   public final void a() {
-      super.a();
+   public final void switchToMe() {
+      super.switchToMe();
       if (!GlobalLogicHandler.a) {
          Canvas.endDlg();
       }
@@ -70,10 +70,10 @@ public final class MiniMap extends MyScreen {
 
       super.left = this.l;
       if (Canvas.isDoubleImage) {
-         (Canvas.D = new Welcome()).a();
+         (Canvas.welcome = new Welcome()).a();
          super.left = null;
       } else if (MyScreen.as > 0 && o == 1) {
-         MessageScr.b().a(Canvas.currentMyScreen);
+         MessageScr.gI().a(Canvas.currentMyScreen);
       }
 
       if (Canvas.load == 0) {
@@ -97,10 +97,10 @@ public final class MiniMap extends MyScreen {
       super.left = this.l;
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
-            if (Canvas.D == null || !Welcome.d) {
+            if (Canvas.welcome == null || !Welcome.d) {
                Vector var3 = new Vector();
                if (n != null) {
                   var3.addElement(new Command("Đăng ký", n));
@@ -124,16 +124,16 @@ public final class MiniMap extends MyScreen {
 
             return;
          case 1:
-            MapScr.gI().a();
+            MapScr.gI().switchToMe();
             H = null;
          default:
       }
    }
 
-   public final void d(int var1, int var2) {
+   public final void commandActionPointer(int var1, int var2) {
       switch (var1) {
          case 1:
-            OptionScr.gI().a();
+            OptionScr.gI().switchToMe();
             return;
          case 2:
             GlobalService.gI().a((byte)6, "");
@@ -161,15 +161,15 @@ public final class MiniMap extends MyScreen {
             return;
          case 7:
             Welcome.h();
-            (Canvas.D = new Welcome()).a();
+            (Canvas.welcome = new Welcome()).a();
             super.left = null;
          default:
       }
    }
 
-   public final void d() {
+   public final void close() {
       if (!j && Canvas.currentMyScreen != class_ez.a) {
-         MapScr.gI().a();
+         MapScr.gI().switchToMe();
          H = null;
       } else {
          MapScr.gI().v();
@@ -234,7 +234,7 @@ public final class MiniMap extends MyScreen {
 
    }
 
-   public final void k() {
+   public final void update() {
       if (this.J != 0) {
          if (g < 0 || g > E) {
             this.J -= this.J / 4;
@@ -338,7 +338,7 @@ public final class MiniMap extends MyScreen {
 
    public final void updateKey() {
       ++this.Q;
-      if (Canvas.D == null || !Welcome.d) {
+      if (Canvas.welcome == null || !Welcome.d) {
          super.updateKey();
       }
 
@@ -348,7 +348,7 @@ public final class MiniMap extends MyScreen {
          int var2 = Canvas.dy();
          int var3;
          class_kb var4;
-         if (Canvas.D == null && Canvas.isPointerClick) {
+         if (Canvas.welcome == null && Canvas.isPointerClick) {
             Canvas.isPointerClick = false;
 
             for(var3 = 0; var3 < this.r.size(); ++var3) {
@@ -398,7 +398,7 @@ public final class MiniMap extends MyScreen {
 
             this.P = -1L;
             this.F = false;
-            if (CRes.f(var1) < 10 && CRes.f(var2) < 10) {
+            if (CRes.abs(var1) < 10 && CRes.abs(var2) < 10) {
                var4 = (class_kb)this.r.elementAt(this.e);
                if (Canvas.a(this.c + var4.a * this.u + this.u / 2 - 24 * AvMain.hd - f, this.d + var4.b * this.u - 56 * AvMain.hd - g, 48 * AvMain.hd, 56 * AvMain.hd)) {
                   this.I.b();
@@ -430,7 +430,7 @@ public final class MiniMap extends MyScreen {
 
             this.m = true;
          }
-      } else if (Canvas.D == null) {
+      } else if (Canvas.welcome == null) {
          this.h.perform();
       }
 
@@ -467,15 +467,15 @@ public final class MiniMap extends MyScreen {
    }
 
    public final void paint(Graphics var1) {
-      this.b(var1);
-      if (Canvas.D == null || !Welcome.d) {
+      this.paintMain(var1);
+      if (Canvas.welcome == null || !Welcome.d) {
          super.paint(var1);
       }
 
       Canvas.a(var1);
    }
 
-   public final void b(Graphics var1) {
+   public final void paintMain(Graphics var1) {
       Canvas.resetTrans(var1);
       var1.setColor(0);
       var1.fillRect(0, 0, Canvas.w, Canvas.q);

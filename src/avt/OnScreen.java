@@ -53,7 +53,7 @@ public final class OnScreen extends MyScreen {
       return a;
    }
 
-   public final void a() {
+   public final void switchToMe() {
       super.ar = 2;
       Canvas.menuMain = null;
       Canvas.endDlg();
@@ -78,7 +78,7 @@ public final class OnScreen extends MyScreen {
          }
       }
 
-      super.a();
+      super.switchToMe();
       this.g = Canvas.h / 2 - AvMain.ah;
       this.j = 4;
       this.k = 70 * AvMain.hd;
@@ -120,7 +120,7 @@ public final class OnScreen extends MyScreen {
 
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
             switch (this.e) {
@@ -140,7 +140,7 @@ public final class OnScreen extends MyScreen {
             }
          case 1:
             c = 1;
-            Canvas.cameraList.m = false;
+            Canvas.cameraList.isShow = false;
             GlobalService var3;
             (var3 = GlobalService.gI()).createMessage((byte)-96);
             var3.sendMessage();
@@ -166,8 +166,8 @@ public final class OnScreen extends MyScreen {
 
    }
 
-   public final void d() {
-      this.a(1, -1);
+   public final void close() {
+      this.commandTab(1, -1);
    }
 
    private void h() {
@@ -175,7 +175,7 @@ public final class OnScreen extends MyScreen {
       this.d.b();
    }
 
-   public final void k() {
+   public final void update() {
       if (this.w > 0) {
          --this.w;
          if (this.w == 0 && Canvas.currentMyScreen != PopupShop.me) {
@@ -192,7 +192,7 @@ public final class OnScreen extends MyScreen {
             }
 
             this.u -= this.u / 5;
-            if (CRes.f(this.u / 10) <= 10) {
+            if (CRes.abs(this.u / 10) <= 10) {
                this.u = 0;
             }
          }
@@ -293,7 +293,7 @@ public final class OnScreen extends MyScreen {
                }
             }
 
-            if (CRes.f(Canvas.dy()) < 10 * AvMain.hd && CRes.f(Canvas.dx()) < 10 * AvMain.hd) {
+            if (CRes.abs(Canvas.dy()) < 10 * AvMain.hd && CRes.abs(Canvas.dx()) < 10 * AvMain.hd) {
                if (var1 > 3 && var1 < 8) {
                   r = false;
                }
@@ -305,12 +305,12 @@ public final class OnScreen extends MyScreen {
          if (Canvas.isPointerRelease) {
             var2 = this.v - Canvas.px;
             var3 = this.x - this.z;
-            if (CRes.f(var2) > 40 && var3 < 20 && m > 0 && m < q) {
+            if (CRes.abs(var2) > 40 && var3 < 20 && m > 0 && m < q) {
                this.u = var2 / var3 * 10;
             }
 
             this.z = -1;
-            if (CRes.f(Canvas.dy()) < 10 * AvMain.hd && CRes.f(Canvas.dx()) < 10 * AvMain.hd) {
+            if (CRes.abs(Canvas.dy()) < 10 * AvMain.hd && CRes.abs(Canvas.dx()) < 10 * AvMain.hd) {
                if (var1 <= 4) {
                   this.w = 5;
                   r = false;
@@ -331,8 +331,8 @@ public final class OnScreen extends MyScreen {
       }
    }
 
-   public final void b(Graphics var1) {
-      Canvas.paint.b(var1);
+   public final void paintMain(Graphics var1) {
+      Canvas.paint.paintDefaultBg(var1);
       if (Canvas.W != 2) {
          Canvas.paint.a(var1, Canvas.hw, (this.g - l.b / 2) / 2);
       }
@@ -352,10 +352,10 @@ public final class OnScreen extends MyScreen {
 
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      this.b(var1);
+      this.paintMain(var1);
       a(var1, super.left, super.center, super.right);
       Canvas.resetTrans(var1);
-      Canvas.b(var1);
+      Canvas.paintPlus2(var1);
    }
 
    public static void a(Graphics var0, Command var1, Command var2, Command var3) {

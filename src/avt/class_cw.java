@@ -67,7 +67,7 @@ public final class class_cw {
          }
       }
 
-      if (MessageScr.b().b(MessageScr.b().b) == this) {
+      if (MessageScr.gI().b(MessageScr.gI().b) == this) {
          this.a();
       }
 
@@ -80,7 +80,7 @@ public final class class_cw {
          k = 0;
       }
 
-      if (CRes.f(j - k) <= l) {
+      if (CRes.abs(j - k) <= l) {
          j = k;
       }
 
@@ -143,7 +143,7 @@ public final class class_cw {
          if (Canvas.isPointerRelease) {
             int var2 = (int)(this.t - this.u);
             int var3;
-            if (CRes.f(var3 = this.r - Canvas.py) > 40 && var2 < 10 && j > 0 && j < k) {
+            if (CRes.abs(var3 = this.r - Canvas.py) > 40 && var2 < 10 && j > 0 && j < k) {
                this.q = var3 / var2 * 10;
             }
 

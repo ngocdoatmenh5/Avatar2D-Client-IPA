@@ -29,18 +29,18 @@ public final class OptionScr extends MyScreen {
       return a;
    }
 
-   public final void a() {
+   public final void switchToMe() {
       this.e();
       this.k = Canvas.currentMyScreen;
-      super.a();
+      super.switchToMe();
       this.f();
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
             this.b(this.c);
-            this.k.a();
+            this.k.switchToMe();
          default:
       }
    }
@@ -198,7 +198,7 @@ public final class OptionScr extends MyScreen {
             return;
          }
 
-         var1 /= CRes.f(var1);
+         var1 /= CRes.abs(var1);
       }
    }
 
@@ -224,8 +224,8 @@ public final class OptionScr extends MyScreen {
 
    }
 
-   public final void k() {
-      this.k.k();
+   public final void update() {
+      this.k.update();
       if (this.i != 0) {
          this.i += -this.i >> 1;
          if (this.i < 0) {
@@ -236,12 +236,12 @@ public final class OptionScr extends MyScreen {
    }
 
    public final void paint(Graphics var1) {
-      this.k.b(var1);
-      this.b(var1);
+      this.k.paintMain(var1);
+      this.paintMain(var1);
       super.paint(var1);
    }
 
-   public final void b(Graphics var1) {
+   public final void paintMain(Graphics var1) {
       var1.translate(-var1.getTranslateX(), -var1.getTranslateY());
       var1.translate(0, this.i);
       PaintPopup.gI().a(var1);

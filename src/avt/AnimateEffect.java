@@ -61,8 +61,8 @@ public final class AnimateEffect extends Effect {
 
          var3.g = 16 + (CRes.rnd(3) << 2);
          var3.c = CRes.rnd(-1, 1);
-         var3.f = CRes.rnd(var3.g);
-         var3.i = (byte)CRes.rnd(20);
+         var3.color = CRes.rnd(var3.g);
+         var3.dis = (byte)CRes.rnd(20);
          this.list.addElement(var3);
       }
 
@@ -110,7 +110,7 @@ public final class AnimateEffect extends Effect {
 
             for(var3 = 0; var3 < var6.number; ++var3) {
                if ((var4 = (Point)var6.list.elementAt(var3)).x * AvMain.hd / 10 > AvCamera.gI().xCam && var4.x * AvMain.hd / 10 < AvCamera.gI().xCam + Canvas.w && var4.y * AvMain.hd / 10 > AvCamera.gI().yCam) {
-                  img.drawFrame(var4.f / (var4.g / 4), var4.x * AvMain.hd / 10, var4.y * AvMain.hd / 10, 0, 3, var7);
+                  img.drawFrame(var4.color / (var4.g / 4), var4.x * AvMain.hd / 10, var4.y * AvMain.hd / 10, 0, 3, var7);
                }
             }
 
@@ -132,9 +132,9 @@ public final class AnimateEffect extends Effect {
                         var2.a(var1, var4.x / 10, var4.y / 10, var4.h);
                      }
 
-                     ++var4.i;
-                     if (var4.i >= 20) {
-                        var4.i = 0;
+                     ++var4.dis;
+                     if (var4.dis >= 20) {
+                        var4.dis = 0;
                      }
                   }
                }
@@ -206,9 +206,9 @@ public final class AnimateEffect extends Effect {
                var10000 = var3 = (Point)var5.list.elementAt(var2);
                var10000.y += 10;
                var3.x += var3.c * 10 + wind * dirWind;
-               ++var3.f;
-               if (var3.f >= var3.g) {
-                  var3.f = 0;
+               ++var3.color;
+               if (var3.color >= var3.g) {
+                  var3.color = 0;
                }
 
                if (var3.y / 10 > LoadMap.Hmap * LoadMap.i - (4 - var3.e) * 20) {

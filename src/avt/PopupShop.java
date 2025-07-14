@@ -55,7 +55,7 @@ public final class PopupShop extends MyScreen {
       return me;
    }
 
-   public final void a() {
+   public final void switchToMe() {
       C = Canvas.currentMyScreen;
       this.D = Canvas.h + 50;
       this.E = Canvas.getSecond();
@@ -66,14 +66,14 @@ public final class PopupShop extends MyScreen {
       }
 
       o = false;
-      super.a();
+      super.switchToMe();
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       FarmItem var4;
       switch (var1) {
          case 0:
-            this.d();
+            this.close();
             return;
          case 1:
             if (j < this.h[g].size()) {
@@ -131,36 +131,36 @@ public final class PopupShop extends MyScreen {
                MapScr.f(var3[var2]);
             }
 
-            b().d();
+            b().close();
       }
 
    }
 
-   public final void d(int var1, int var2) {
-      C.d(var1, var2);
+   public final void commandActionPointer(int var1, int var2) {
+      C.commandActionPointer(var1, var2);
    }
 
-   public final void d() {
+   public final void close() {
       if (k) {
          k = false;
       } else {
-         Canvas.cameraList.m = false;
+         Canvas.cameraList.isShow = false;
          this.m = false;
-         C.a();
+         C.switchToMe();
          if (Canvas.isDoubleImage) {
             if (LoadMap.TYPEMAP == 25 && Welcome.f != 0) {
-               Canvas.D = new Welcome();
+               Canvas.welcome = new Welcome();
                if (Welcome.f == 2) {
                   Welcome.f = 3;
                }
 
-               Canvas.D.a((MyScreen)MapScr.a);
+               Canvas.welcome.a((MyScreen)MapScr.a);
                GameMidlet.avatar.direct = Base.LEFT;
                return;
             }
 
             if (LoadMap.TYPEMAP == 57) {
-               (Canvas.D = new Welcome()).b(MapScr.a);
+               (Canvas.welcome = new Welcome()).b(MapScr.a);
             }
          }
 
@@ -272,8 +272,8 @@ public final class PopupShop extends MyScreen {
       PaintPopup.gI().a(p[g], g);
    }
 
-   public final void k() {
-      C.k();
+   public final void update() {
+      C.update();
       if (this.D != 0) {
          this.D += -this.D >> 1;
       }
@@ -366,7 +366,7 @@ public final class PopupShop extends MyScreen {
                this.b(1);
             }
 
-            Canvas.cameraList.a(j);
+            Canvas.cameraList.setSelect(j);
             this.m();
          } else if (Canvas.a(4)) {
             if (j % r != 0 && r != 1 && !F) {
@@ -375,7 +375,7 @@ public final class PopupShop extends MyScreen {
                this.b(-1);
             }
 
-            Canvas.cameraList.a(j);
+            Canvas.cameraList.setSelect(j);
             this.m();
          } else if (Canvas.a(2)) {
             if (this.h[g] != null && this.h[g].size() > 0 && !F) {
@@ -392,7 +392,7 @@ public final class PopupShop extends MyScreen {
                }
             }
 
-            Canvas.cameraList.a(j);
+            Canvas.cameraList.setSelect(j);
             var1.m();
          } else if (Canvas.a(8)) {
             if (F) {
@@ -407,7 +407,7 @@ public final class PopupShop extends MyScreen {
                j += r;
             }
 
-            Canvas.cameraList.a(j);
+            Canvas.cameraList.setSelect(j);
             var1.m();
          }
 
@@ -495,7 +495,7 @@ public final class PopupShop extends MyScreen {
    }
 
    public final void paint(Graphics var1) {
-      C.b(var1);
+      C.paintMain(var1);
       Canvas.resetTrans(var1);
       PaintPopup.gI().a(var1);
       var1.setColor(0);
@@ -505,14 +505,14 @@ public final class PopupShop extends MyScreen {
       if (o) {
          String var2 = Canvas.getPriceMoney(GameMidlet.avatar.money[0], GameMidlet.avatar.money[2], GameMidlet.avatar.luongKhoa, true);
          var3 = Canvas.N.getWidth(var2);
-         if (CRes.f(var4 = this.M) > var3 + 20 - (c - 20)) {
+         if (CRes.abs(var4 = this.M) > var3 + 20 - (c - 20)) {
             var4 = 0;
          }
 
          var1.setClip(0, 0, c - 20, 20);
          Canvas.N.a(var1, var2, var4, 0, 0);
          if (var3 > c - 20) {
-            if (CRes.f(this.M) > var3 + 50 - (c - 20)) {
+            if (CRes.abs(this.M) > var3 + 50 - (c - 20)) {
                this.M = 0;
             }
 
@@ -529,7 +529,7 @@ public final class PopupShop extends MyScreen {
          }
 
          var1.setClip(0, 0, 5 * e, f * e - l);
-         var1.translate(0, -CameraList.i);
+         var1.translate(0, -CameraList.cmtoY);
 
          int var9;
          for(var9 = 0; var9 < s * r; ++var9) {
@@ -541,11 +541,11 @@ public final class PopupShop extends MyScreen {
          }
 
          var9 = this.h[g].size();
-         if ((var3 = CameraList.i / e * r) < 0) {
+         if ((var3 = CameraList.cmtoY / e * r) < 0) {
             var3 = 0;
          }
 
-         if ((var4 = CameraList.i / e * r + (f + 1) * r) > this.h[g].size()) {
+         if ((var4 = CameraList.cmtoY / e * r + (f + 1) * r) > this.h[g].size()) {
             var4 = this.h[g].size();
          }
 
@@ -553,7 +553,7 @@ public final class PopupShop extends MyScreen {
             ((Command)this.h[g].elementAt(var3)).a(var1, e * (var3 % r), e * (var3 / r));
          }
 
-         var1.translate(0, CameraList.i - l);
+         var1.translate(0, CameraList.cmtoY - l);
          var1.setClip(0, 0, c - 9, d);
          int var5;
          int var7;
@@ -593,7 +593,7 @@ public final class PopupShop extends MyScreen {
             PopupShop var10 = this;
             if (Canvas.getSecond() - this.E > 0 && !k && B != null && j < this.h[g].size()) {
                var4 = j % r * e - this.N / 2 + e / 2;
-               var5 = (j / r + 1) * e - CameraList.i + 5;
+               var5 = (j / r + 1) * e - CameraList.cmtoY + 5;
                int var6 = B.size() * AvMain.af + (AvMain.Z << 1) + 8;
                if (var5 + var6 + b + 12 > Canvas.h) {
                   var5 -= var6 + e + 10;
@@ -631,7 +631,7 @@ public final class PopupShop extends MyScreen {
 
          if (k) {
             Canvas.resetTrans(var1);
-            var1.translate(q, Canvas.cameraList.e);
+            var1.translate(q, Canvas.cameraList.y);
             Canvas.paint.a(var1, j, r, e, G, q, H, g, A, I, this.J, this.K);
          }
       } else {
@@ -639,7 +639,7 @@ public final class PopupShop extends MyScreen {
          ((Command)this.w.elementAt(g)).a(var1, 0, 0);
       }
 
-      if (Canvas.D == null || Welcome.g || !Welcome.d) {
+      if (Canvas.welcome == null || Welcome.g || !Welcome.d) {
          super.paint(var1);
       }
 

@@ -27,8 +27,8 @@ public abstract class MyScreen extends AvMain {
       super.aj = var1;
    }
 
-   public void a() {
-      Canvas.e();
+   public void switchToMe() {
+      Canvas.clearKeyPressed();
       Canvas.currentMyScreen = this;
       Canvas.instance.setFullScreenMode(true);
    }
@@ -49,26 +49,26 @@ public abstract class MyScreen extends AvMain {
       Canvas.paint.a(var1);
    }
 
-   public void b(Graphics var1) {
+   public void paintMain(Graphics var1) {
    }
 
-   public abstract void k();
+   public abstract void update();
 
-   public void d(int var1) {
+   public void keyPress(int var1) {
    }
 
-   public void d() {
+   public void close() {
    }
 
-   public static void z() {
+   public static void repaint() {
       int var0 = Canvas.h + Canvas.hTab;
       if (an == null) {
          an = Image.createImage(Canvas.w, var0);
       }
 
       Graphics var1 = an.getGraphics();
-      if (Canvas.currentMyScreen == DiamondScr.a) {
-         DiamondScr.a.c(var1);
+      if (Canvas.currentMyScreen == DiamondScr.me_) {
+         DiamondScr.me_.paintCaro(var1);
       } else {
          if (Canvas.currentMyScreen == TLBoardScr.a || Canvas.currentMyScreen == PBoardScr.a) {
             int var2;

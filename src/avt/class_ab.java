@@ -23,13 +23,13 @@ final class class_ab implements IAction {
             this.b.hunger = false;
             FarmScr.b();
             FarmScr.a(var5.a, this.b.IDDB);
-            this.a.d(10, -1);
+            this.a.commandActionPointer(10, -1);
          }
       }
 
       if (!var1) {
          Canvas.startOKDlg(T.dY);
-         this.a.a((int)8, (int)-1);
+         this.a.commandTab((int)8, (int)-1);
       }
 
    }

@@ -16,7 +16,7 @@ final class CommandCooking1 extends Command {
    public final void a(Graphics var1, int var2, int var3) {
       FarmItem var4 = FarmScr.b(this.f.b);
       FarmData.a(var1, var4.b, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
-      var1.translate(0, CameraList.i);
+      var1.translate(0, CameraList.cmtoY);
       var1.setClip(0, 0, 5 * PopupShop.e, PopupShop.d);
       if (this.g == PopupShop.j) {
          for(var2 = 0; var2 < this.f.e.length; ++var2) {
@@ -47,7 +47,7 @@ final class CommandCooking1 extends Command {
       }
 
       var1.setClip(0, 0, 5 * PopupShop.e, PopupShop.f * PopupShop.e - PopupShop.l);
-      var1.translate(0, -CameraList.i);
+      var1.translate(0, -CameraList.cmtoY);
    }
 
    public final void a() {

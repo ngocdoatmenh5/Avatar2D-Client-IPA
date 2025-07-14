@@ -102,8 +102,8 @@ public final class RaceScr extends MyScreen implements IChatable {
       this.N = (Canvas.h - this.P) / 2;
    }
 
-   public final void a() {
-      super.a();
+   public final void switchToMe() {
+      super.switchToMe();
    }
 
    public final void a(PetRace[] var1, short var2, boolean var3, boolean var4) {
@@ -150,7 +150,7 @@ public final class RaceScr extends MyScreen implements IChatable {
 
          if (a != Canvas.currentMyScreen) {
             LoadMap.a(LoadMap.m);
-            b().a();
+            b().switchToMe();
             LoadMap.t = -1;
             this.b(1);
             this.b(2);
@@ -271,7 +271,7 @@ public final class RaceScr extends MyScreen implements IChatable {
 
    }
 
-   public final void a(int var1) {
+   public final void commandTab(int var1) {
       switch (var1) {
          case 0:
             GlobalService var4;
@@ -319,7 +319,7 @@ public final class RaceScr extends MyScreen implements IChatable {
             return;
          case 6:
             GlobalService.gI().c(this.c[this.aA].IDDB, this.aG[this.aB]);
-            this.a(8);
+            this.commandTab(8);
             return;
          case 7:
             Vector var2;
@@ -336,7 +336,7 @@ public final class RaceScr extends MyScreen implements IChatable {
 
    }
 
-   public final void k() {
+   public final void update() {
       if (this.aC >= 0) {
          --this.aC;
          if (this.aC == 0) {
@@ -434,15 +434,15 @@ public final class RaceScr extends MyScreen implements IChatable {
 
    }
 
-   public final void d(int var1) {
-      ChatTextField.gI().a(var1, this);
-      super.d(var1);
+   public final void keyPress(int var1) {
+      ChatTextField.gI().startChat(var1, this);
+      super.keyPress(var1);
    }
 
    public final void updateKey() {
       super.updateKey();
       ++this.aE;
-      if (Canvas.D == null || !Welcome.d) {
+      if (Canvas.welcome == null || !Welcome.d) {
          super.updateKey();
       }
 
@@ -559,7 +559,7 @@ public final class RaceScr extends MyScreen implements IChatable {
          this.aB = -1;
          this.aA = -1;
          this.U = false;
-         this.a(8);
+         this.commandTab(8);
       } else if (this.V > 0) {
          this.V = 0;
          this.U = false;
@@ -608,7 +608,7 @@ public final class RaceScr extends MyScreen implements IChatable {
    }
 
    public final void paint(Graphics var1) {
-      this.b(var1);
+      this.paintMain(var1);
       Canvas.resetTrans(var1);
       if (this.w) {
          Canvas.paint.a(var1, this.C, this.D, this.A, this.B, PaintPopup.d[2], PaintPopup.d[3], 1);
@@ -666,7 +666,7 @@ public final class RaceScr extends MyScreen implements IChatable {
          this.z.paintAnimal(var1);
       }
 
-      if (Canvas.D == null || !Welcome.d) {
+      if (Canvas.welcome == null || !Welcome.d) {
          super.paint(var1);
       }
 
@@ -690,7 +690,7 @@ public final class RaceScr extends MyScreen implements IChatable {
 
    }
 
-   public final void b(Graphics var1) {
+   public final void paintMain(Graphics var1) {
       Canvas.resetTrans(var1);
       Canvas.loadMap.b(var1);
 

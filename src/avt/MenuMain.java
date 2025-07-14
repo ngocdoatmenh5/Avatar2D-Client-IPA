@@ -3,7 +3,7 @@ package avt;
 import javax.microedition.lcdui.Graphics;
 
 public class MenuMain extends AvMain {
-   public void k() {
+   public void update() {
    }
 
    public void updateKey() {

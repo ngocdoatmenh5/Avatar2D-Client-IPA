@@ -11,7 +11,7 @@ final class class_dq implements IAction {
       GameMidlet.CLIENT_TYPE = 8;
       GlobalMessageHandler.gI().miniGameMessageHandler = null;
       Session_ME.a().c();
-      LoginScr.gI().a();
+      LoginScr.gI().switchToMe();
       Canvas.menuMain = null;
       SoundManager.a.a();
       FarmData.a();

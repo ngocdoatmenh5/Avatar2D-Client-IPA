@@ -274,14 +274,14 @@ public final class Avatar extends Base {
             int[] var6 = var1.c;
             var6[var2] += var1.f[var2] << 1;
             if (var1.f[var2] == 1) {
-               if (var1.c[var2] > 10 - CRes.f(var1.d[var2] / 10)) {
+               if (var1.c[var2] > 10 - CRes.abs(var1.d[var2] / 10)) {
                   var1.f[var2] = -1;
                   if (var1.g[var2] > 0) {
                      --var1.g[var2];
                   }
                }
             } else {
-               if (var1.c[var2] < -(10 - CRes.f(var1.d[var2] / 10))) {
+               if (var1.c[var2] < -(10 - CRes.abs(var1.d[var2] / 10))) {
                   var1.f[var2] = 1;
                }
 
@@ -569,8 +569,8 @@ public final class Avatar extends Base {
             }
          } else {
             this.angle = CRes.a(super.xCur - super.x, -(super.yCur - (super.y + super.N)));
-            int var5 = super.G * CRes.b(this.angle) >> 10;
-            var3 = -(super.G * CRes.a(this.angle)) >> 10;
+            int var5 = super.G * CRes.cos(this.angle) >> 10;
+            var3 = -(super.G * CRes.sin(this.angle)) >> 10;
             if (this.isSetAction && this.task == -5 && GameMidlet.avatar.setLayPLayer(super.x + var5, super.y + super.N + var3)) {
                this.p();
                super.vx = super.vy = 0;

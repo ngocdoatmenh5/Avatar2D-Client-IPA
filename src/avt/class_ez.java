@@ -31,8 +31,8 @@ public final class class_ez extends MyScreen {
       return a == null ? (a = new class_ez()) : a;
    }
 
-   public final void a() {
-      super.a();
+   public final void switchToMe() {
+      super.switchToMe();
       this.e();
       this.m = 0;
       if (super.center == null) {
@@ -50,7 +50,7 @@ public final class class_ez extends MyScreen {
       CRes.b();
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
             if (this.d && super.ar > 0) {
@@ -77,7 +77,7 @@ public final class class_ez extends MyScreen {
             this.d = false;
             this.b = 0;
             super.ar = 0;
-            LoginScr.gI().a();
+            LoginScr.gI().switchToMe();
          default:
       }
    }
@@ -161,7 +161,7 @@ public final class class_ez extends MyScreen {
 
    }
 
-   public final void k() {
+   public final void update() {
       if (this.o != 0) {
          if (f < 0 || f > i) {
             this.o -= this.o / 4;
@@ -276,7 +276,7 @@ public final class class_ez extends MyScreen {
                this.b = var5;
             }
 
-            if (CRes.f(var4) >= 20 * AvMain.hd) {
+            if (CRes.abs(var4) >= 20 * AvMain.hd) {
                super.aj = true;
             } else if (var2 > 10L && var2 < 20L) {
                super.aj = false;
@@ -292,7 +292,7 @@ public final class class_ez extends MyScreen {
          if (Canvas.isPointerRelease && Canvas.b(k, l, PaintPopup.gI().f, j)) {
             var5 = (int)(this.r - this.s);
             int var6;
-            if (CRes.f(var6 = this.t - Canvas.py) > 40 && var5 < 10 && e > 0 && e < i) {
+            if (CRes.abs(var6 = this.t - Canvas.py) > 40 && var5 < 10 && e > 0 && e < i) {
                this.o = var6 / var5 * 10;
             }
 
@@ -307,7 +307,7 @@ public final class class_ez extends MyScreen {
                   if (this.d) {
                      if (var7 - this.b > 0 && var7 - this.b < GameMidlet.a[OptionScr.gI().b[4]][this.b].length) {
                         super.ar = var7 - this.b;
-                        this.a(0, -1);
+                        this.commandTab(0, -1);
                      } else {
                         if (var7 - this.b <= 0) {
                            this.d = false;
@@ -325,7 +325,7 @@ public final class class_ez extends MyScreen {
                      }
                   } else if (var7 >= 0 && var7 < GameMidlet.a[OptionScr.gI().b[4]].length) {
                      this.b = var7;
-                     this.a(0, -1);
+                     this.commandTab(0, -1);
                   }
                }
             }

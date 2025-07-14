@@ -160,7 +160,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                int var167 = var1.reader().readInt();
                Avatar var168;
                if (OnScreen.b) {
-                  var168 = BoardScr.h(var166);
+                  var168 = BoardScr.getAvatarByID(var166);
                } else {
                   var168 = LoadMap.g(var166);
                }
@@ -181,7 +181,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   var163.type = var1.reader().readByte();
                   MapScr.o.addElement(var163);
                   if (Canvas.currentMyScreen == PopupShop.b()) {
-                     PopupShop.b().d();
+                     PopupShop.b().close();
                   }
 
                   if (LoadMap.p != null) {
@@ -270,7 +270,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
             case -96:
                Canvas.endDlg();
                MapScr.gI().n();
-               OnSplashScr.b().a();
+               OnSplashScr.b().switchToMe();
                OnSplashScr.b().b = 0;
                return;
             case -94:
@@ -341,7 +341,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                }
 
                MiniMap.j = false;
-               MiniMap.gI().a();
+               MiniMap.gI().switchToMe();
                LoadMap.TYPEMAP = -1;
                LoadMap.D = -108;
                LoadMap.E = -1;
@@ -998,11 +998,11 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                var2 = var1.reader().readInt();
                var190 = var1.reader().readUTF();
                var194 = var1.reader().readUTF();
-               if (Canvas.currentMyScreen != MessageScr.b()) {
+               if (Canvas.currentMyScreen != MessageScr.gI()) {
                   ++MyScreen.as;
                }
 
-               MessageScr.b().a(var2, var190, var194);
+               MessageScr.gI().a(var2, var190, var194);
                return;
             case -1:
                GlobalLogicHandler.a(var1.reader().readByte());

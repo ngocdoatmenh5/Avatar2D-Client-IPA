@@ -25,7 +25,7 @@ public final class RegisterScr extends MyScreen {
       return d;
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
             Vector var3;
@@ -36,7 +36,7 @@ public final class RegisterScr extends MyScreen {
       }
    }
 
-   public final void a(int var1) {
+   public final void commandTab(int var1) {
       switch (var1) {
          case 0:
             f();
@@ -47,7 +47,7 @@ public final class RegisterScr extends MyScreen {
       }
    }
 
-   public final void a() {
+   public final void switchToMe() {
       GameMidlet.avatar.direct = 0;
       GameMidlet.avatar.seriPart = new Vector();
       this.e();
@@ -69,7 +69,7 @@ public final class RegisterScr extends MyScreen {
       GameMidlet.avatar.addSeri(new SeriPart((short)0));
       GameMidlet.avatar.orderSeriesPath();
       PaintPopup.gI().a(T.ck, 150 * AvMain.hd, 170 + (AvMain.hd == 2 ? 120 : 0), 1);
-      super.a();
+      super.switchToMe();
    }
 
    private void e() {
@@ -112,7 +112,7 @@ public final class RegisterScr extends MyScreen {
       GlobalService.gI().c();
    }
 
-   public final void k() {
+   public final void update() {
       if (this.b > 0) {
          --this.b;
       }

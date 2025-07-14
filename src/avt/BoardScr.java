@@ -9,133 +9,133 @@ import main.GameMidlet;
 
 public abstract class BoardScr extends MyScreen implements IChatable {
    public static BoardScr me;
-   public static boolean j;
-   public static boolean k;
-   public static boolean l;
-   public static Vector m;
-   public int n;
-   public int o;
-   public static byte p;
-   public static byte q;
-   public static int r;
-   private static int a;
-   public static byte s;
-   public static long t;
-   public static long u;
-   public static int v;
-   public static int w;
-   public static int[] x = new int[4];
-   public int y = 10;
-   public static int z;
-   public static int A;
+   public static boolean isStartGame;
+   public static boolean disableReady;
+   public static boolean isGameEnd;
+   public static Vector avatarInfos;
+   public int currentPlayer;
+   public int selectedCard;
+   public static byte roomID;
+   public static byte boardID;
+   public static int ownerID;
+   private static int money;
+   public static byte indexOfMe;
+   public static long dieTime;
+   public static long currentTime;
+   public static int interval;
+   public static int notReadyDelay;
+   public static int[] indexPlayer = new int[4];
+   public int disCard = 10;
+   public static int wCard;
+   public static int hcard;
    public int B = -1;
-   private static Command b;
-   private static Command c;
-   public static Command C;
-   public static Command D;
-   private static Command d;
-   public static Command E;
-   private static Image[] e;
-   public static AvPosition[] F;
-   private static Vector f = new Vector();
-   public static Image G;
-   public static int H = 4;
-   public static Vector I = new Vector();
-   public static Vector J = new Vector();
-   private static ChatPopup g;
+   private static Command cmdMenu;
+   private static Command cmdStart;
+   public static Command cmdBack;
+   public static Command cmdFire;
+   private static Command cmdReady;
+   public static Command cmdWaiting;
+   private static Image[] imgReady;
+   public static AvPosition[] posAvatar;
+   private static Vector chatHistory = new Vector();
+   public static Image imgBan;
+   public static int numPlayer = 4;
+   public static Vector listPosAvatar = new Vector();
+   public static Vector listPosCasino = new Vector();
+   private static ChatPopup chatPublic;
 
-   public final void d() {
-      this.u();
+   public final void close() {
+      this.doExit();
    }
 
-   public void a() {
-      Canvas.e();
-      super.a();
+   public void switchToMe() {
+      Canvas.clearKeyPressed();
+      super.switchToMe();
       me = this;
    }
 
    public BoardScr() {
       this.init();
-      b = new Command(T.c, 0);
+      cmdMenu = new Command(T.c, 0);
       new Command(T.z, 1);
-      c = new Command(T.n, 2);
-      C = new Command(T.w, 3);
-      D = new Command(T.A, 4);
-      d = new Command(T.j, 5);
-      E = new Command(T.b, 6);
+      cmdStart = new Command(T.n, 2);
+      cmdBack = new Command(T.w, 3);
+      cmdFire = new Command(T.A, 4);
+      cmdReady = new Command(T.j, 5);
+      cmdWaiting = new Command(T.b, 6);
    }
 
    public void init() {
-      F = new AvPosition[]{new AvPosition(Canvas.hw, 30 + 23 * AvMain.hd, 2), new AvPosition(13 * AvMain.hd, Canvas.hh - 20, 0), new AvPosition(Canvas.hw, Canvas.h - 28, 2), new AvPosition(Canvas.w - 13 * AvMain.hd, Canvas.hh - 20, 1)};
+      posAvatar = new AvPosition[]{new AvPosition(Canvas.hw, 30 + 23 * AvMain.hd, 2), new AvPosition(13 * AvMain.hd, Canvas.hh - 20, 0), new AvPosition(Canvas.hw, Canvas.h - 28, 2), new AvPosition(Canvas.w - 13 * AvMain.hd, Canvas.hh - 20, 1)};
       if (Canvas.w < 200) {
-         z = 26;
-         A = 32;
-         F = new AvPosition[]{new AvPosition(Canvas.hw, 30 + 23 * AvMain.hd, 2), new AvPosition(13 * AvMain.hd, Canvas.hh - 20, 0), new AvPosition(Canvas.hw, Canvas.q - Canvas.hTab - 5, 2), new AvPosition(Canvas.w - 13 * AvMain.hd, Canvas.hh - 20, 1)};
+         wCard = 26;
+         hcard = 32;
+         posAvatar = new AvPosition[]{new AvPosition(Canvas.hw, 30 + 23 * AvMain.hd, 2), new AvPosition(13 * AvMain.hd, Canvas.hh - 20, 0), new AvPosition(Canvas.hw, Canvas.q - Canvas.hTab - 5, 2), new AvPosition(Canvas.w - 13 * AvMain.hd, Canvas.hh - 20, 1)};
       } else {
-         z = 54;
-         A = 72;
+         wCard = 54;
+         hcard = 72;
       }
 
       if (AvMain.hd == 2) {
-         z = 144;
-         A = 194;
+         wCard = 144;
+         hcard = 194;
       }
 
-      if (j || k) {
-         this.f();
+      if (isStartGame || disableReady) {
+         this.setPosPlaying();
       }
 
       MyScreen.an = null;
    }
 
-   private void b() {
-      f.removeAllElements();
-      t();
+   private void doCloseBoard() {
+      chatHistory.removeAllElements();
+      setPosCam();
       ReportDlg.a().b();
    }
 
-   public final void c(String var1) {
+   public final void closeBoard(String var1) {
       super.left = null;
       super.center = null;
-      Canvas.b(var1, 50, (AvMain)null);
+      Canvas.startOK(var1, 50, (AvMain)null);
    }
 
-   protected void h() {
-      if (h(GameMidlet.avatar.IDDB).action != 1) {
-         if (MapScr.isNewVersion && a > GameMidlet.avatar.money[3]) {
-            BoardListOnScr.b().f();
+   protected void doReady() {
+      if (getAvatarByID(GameMidlet.avatar.IDDB).action != 1) {
+         if (MapScr.isNewVersion && money > GameMidlet.avatar.money[3]) {
+            BoardListOnScr.gI().setXeng();
          } else {
             boolean var1;
-            if (var1 = !((Avatar)m.elementAt(s)).isReady) {
-               w = 100;
+            if (var1 = !((Avatar) avatarInfos.elementAt(indexOfMe)).isReady) {
+               notReadyDelay = 100;
             }
 
-            o();
+            setCmdWaiting();
             Canvas.startWaitDlg();
-            CasinoService.a().a(var1);
+            CasinoService.gI().ready(var1);
          }
       }
    }
 
-   public static void o() {
-      me.center = E;
+   public static void setCmdWaiting() {
+      me.center = cmdWaiting;
       me.right = null;
    }
 
-   protected void j() {
+   protected void doFire() {
    }
 
-   private static void m() {
-      if (!j) {
-         if (MapScr.isNewVersion && a > GameMidlet.avatar.money[3]) {
-            BoardListOnScr.b().f();
+   private static void doStartGame() {
+      if (!isStartGame) {
+         if (MapScr.isNewVersion && money > GameMidlet.avatar.money[3]) {
+            BoardListOnScr.gI().setXeng();
          } else {
             int var0 = 0;
             int var1 = 0;
 
-            for(int var2 = 0; var2 < H; ++var2) {
+            for(int var2 = 0; var2 < numPlayer; ++var2) {
                Avatar var3;
-               if ((var3 = (Avatar)m.elementAt(var2)).IDDB != GameMidlet.avatar.IDDB && var3.IDDB != -1) {
+               if ((var3 = (Avatar) avatarInfos.elementAt(var2)).IDDB != GameMidlet.avatar.IDDB && var3.IDDB != -1) {
                   if (var3.isReady) {
                      ++var0;
                   } else {
@@ -146,14 +146,14 @@ public abstract class BoardScr extends MyScreen implements IChatable {
 
             if (var0 != 0 && var1 <= 0) {
                if (me == PBoardScr.a) {
-                  me.center = E;
+                  me.center = cmdWaiting;
                   me.right = null;
                } else {
                   Canvas.startWaitDlg();
                }
 
-               MyScreen.z();
-               CasinoService.a().h();
+               MyScreen.repaint();
+               CasinoService.gI().h();
             } else {
                Canvas.startOKDlg(T.aT);
             }
@@ -161,7 +161,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
       }
    }
 
-   public final void d(int var1, int var2) {
+   public final void commandActionPointer(int var1, int var2) {
       Avatar var5;
       switch (var1) {
          case 1:
@@ -178,16 +178,16 @@ public abstract class BoardScr extends MyScreen implements IChatable {
             MenuSub.a().a(var6, 0);
             return;
          case 2:
-            w();
+            doKick();
             return;
          case 3:
-            x();
+            doAddFriend();
             return;
          case 4:
-            MessageScr.b().a((MyScreen) me);
+            MessageScr.gI().a((MyScreen) me);
             return;
          case 5:
-            this.u();
+            this.doExit();
             return;
          case 6:
          case 7:
@@ -199,58 +199,58 @@ public abstract class BoardScr extends MyScreen implements IChatable {
             Canvas.inputDlg.a(T.G, 100, 1);
             return;
          case 11:
-            v();
+            doSetMaxPlayer();
             return;
          case 12:
             Canvas.inputDlg.a(T.t, 101, 3);
             return;
          case 13:
-            if (var2 < m.size()) {
-               var5 = (Avatar)m.elementAt(var2);
+            if (var2 < avatarInfos.size()) {
+               var5 = (Avatar) avatarInfos.elementAt(var2);
                MapScr.gI();
                MapScr.c(var5);
                return;
             }
             break;
          case 14:
-            if (var2 >= 0 && var2 < m.size()) {
-               var5 = (Avatar)m.elementAt(var2);
-               CasinoService.a().c(var5.IDDB);
+            if (var2 >= 0 && var2 < avatarInfos.size()) {
+               var5 = (Avatar) avatarInfos.elementAt(var2);
+               CasinoService.gI().c(var5.IDDB);
                return;
             }
             break;
          case 15:
-            CasinoService.a().a(var2 + 2);
+            CasinoService.gI().a(var2 + 2);
       }
 
    }
 
-   protected void a_() {
-      u = 0L;
-      t = 0L;
-      j = false;
-      k = false;
-      l = false;
+   protected void resetCard() {
+      currentTime = 0L;
+      dieTime = 0L;
+      isStartGame = false;
+      disableReady = false;
+      isGameEnd = false;
    }
 
-   private static void t() {
+   private static void setPosCam() {
       AvCamera.gI().yCam = AvCamera.gI().yTo = (LoadMap.Hmap * LoadMap.i * AvMain.hd - Canvas.h) / 2;
       AvCamera.gI().xCam = AvCamera.gI().xTo = (LoadMap.wMap * LoadMap.i * AvMain.hd - Canvas.w) / 2;
    }
 
-   public final void p() {
-      this.f();
+   public final void loadMap() {
+      this.setPosPlaying();
    }
 
-   public final void a(int var1, Avatar var2) {
-      m.setElementAt(var2, var1);
-      this.n();
-      this.f();
+   public final void setAt(int var1, Avatar var2) {
+      avatarInfos.setElementAt(var2, var1);
+      this.onStartGame();
+      this.setPosPlaying();
    }
 
-   public void g() {
-      t();
-      MyScreen.z();
+   public void doContinue() {
+      setPosCam();
+      MyScreen.repaint();
    }
 
    public void updateKey() {
@@ -261,41 +261,41 @@ public abstract class BoardScr extends MyScreen implements IChatable {
       }
    }
 
-   public void k() {
-      if (w > 0) {
-         --w;
+   public void update() {
+      if (notReadyDelay > 0) {
+         --notReadyDelay;
       }
 
-      if (!j) {
-         super.left = b;
+      if (!isStartGame) {
+         super.left = cmdMenu;
          AvCamera.gI().updateTo();
       }
 
-      for(int var1 = 0; var1 < H; ++var1) {
+      for(int var1 = 0; var1 < numPlayer; ++var1) {
          Avatar var2;
-         if ((var2 = (Avatar)m.elementAt(var1)).IDDB != -1) {
+         if ((var2 = (Avatar) avatarInfos.elementAt(var1)).IDDB != -1) {
             var2.updateFrame();
          }
       }
 
-      if (g != null && g.a()) {
-         g = null;
+      if (chatPublic != null && chatPublic.a()) {
+         chatPublic = null;
       }
 
    }
 
-   public final void q() {
-      if (r == GameMidlet.avatar.IDDB) {
-         if (super.center != E) {
-            super.center = c;
-            c.a = T.n;
+   public final void updateReady() {
+      if (ownerID == GameMidlet.avatar.IDDB) {
+         if (super.center != cmdWaiting) {
+            super.center = cmdStart;
+            cmdStart.caption = T.n;
          }
 
          boolean var1 = true;
 
-         for(int var2 = 0; var2 < H; ++var2) {
+         for(int var2 = 0; var2 < numPlayer; ++var2) {
             Avatar var3;
-            if ((var3 = (Avatar)m.elementAt(var2)).IDDB == -1) {
+            if ((var3 = (Avatar) avatarInfos.elementAt(var2)).IDDB == -1) {
                var1 = false;
             } else if (var3.IDDB != GameMidlet.avatar.IDDB && !var3.isReady) {
                var1 = false;
@@ -303,24 +303,24 @@ public abstract class BoardScr extends MyScreen implements IChatable {
          }
 
          if (var1 && Canvas.gameTick % 10 > 7) {
-            c.a = "";
+            cmdStart.caption = "";
             return;
          }
-      } else if (!k) {
-         super.center = d;
-         d.a = T.j;
+      } else if (!disableReady) {
+         super.center = cmdReady;
+         cmdReady.caption = T.j;
 
-         for(int var4 = 0; var4 < H; ++var4) {
+         for(int var4 = 0; var4 < numPlayer; ++var4) {
             Avatar var5;
-            if ((var5 = (Avatar)m.elementAt(var4)).IDDB == GameMidlet.avatar.IDDB) {
+            if ((var5 = (Avatar) avatarInfos.elementAt(var4)).IDDB == GameMidlet.avatar.IDDB) {
                if (!var5.isReady) {
                   if (Canvas.gameTick % 10 > 7) {
-                     d.a = "";
+                     cmdReady.caption = "";
                   }
                } else {
-                  d.a = T.k;
-                  if (w == 0) {
-                     super.center = d;
+                  cmdReady.caption = T.k;
+                  if (notReadyDelay == 0) {
+                     super.center = cmdReady;
                   } else {
                      super.center = null;
                   }
@@ -331,14 +331,14 @@ public abstract class BoardScr extends MyScreen implements IChatable {
 
    }
 
-   public final void d(int var1) {
-      ChatTextField.gI().a(var1, this);
-      super.d(var1);
+   public final void keyPress(int var1) {
+      ChatTextField.gI().startChat(var1, this);
+      super.keyPress(var1);
    }
 
    public void paint(Graphics var1) {
-      if (g != null) {
-         g.paintAnimal(var1);
+      if (chatPublic != null) {
+         chatPublic.paintAnimal(var1);
       }
 
       if (OnScreen.b) {
@@ -348,40 +348,40 @@ public abstract class BoardScr extends MyScreen implements IChatable {
       }
 
       LoadMap.a(var1);
-      Canvas.b(var1);
+      Canvas.paintPlus2(var1);
    }
 
-   public void a_(Graphics var1) {
+   public void paintNamePlayers(Graphics var1) {
       Canvas.resetTrans(var1);
 
-      for(int var2 = 0; var2 < H; ++var2) {
+      for(int var2 = 0; var2 < numPlayer; ++var2) {
          Avatar var3;
-         if ((var3 = (Avatar)m.elementAt(var2)).IDDB != -1) {
+         if ((var3 = (Avatar) avatarInfos.elementAt(var2)).IDDB != -1) {
             var3.paintName(var1, var3.x, var3.y);
-            a(var1, var3.x, var3.y - 50 - (!j && LoadMap.y == -1 ? 10 * AvMain.hd : 0), 3, var3);
+            paintReady(var1, var3.x, var3.y - 50 - (!isStartGame && LoadMap.y == -1 ? 10 * AvMain.hd : 0), 3, var3);
             var3.paintIcon(var1, var3.x, var3.y, false);
          }
       }
 
    }
 
-   public static void d(Graphics var0) {
-      for(int var1 = 0; var1 < m.size(); ++var1) {
+   public static void paintChat(Graphics var0) {
+      for(int var1 = 0; var1 < avatarInfos.size(); ++var1) {
          Avatar var2;
-         if ((var2 = (Avatar)m.elementAt(var1)).IDDB != -1 && var2.chat != null) {
+         if ((var2 = (Avatar) avatarInfos.elementAt(var1)).IDDB != -1 && var2.chat != null) {
             var2.chat.paintAnimal(var0);
          }
       }
 
    }
 
-   public void b(Graphics var1) {
+   public void paintMain(Graphics var1) {
       Canvas.resetTrans(var1);
       var1.setClip(0, 0, Canvas.w, Canvas.h + Canvas.hTab);
-      if (!j && !k) {
+      if (!isStartGame && !disableReady) {
          Canvas.resetTrans(var1);
          if (OnScreen.b) {
-            e(var1);
+            paintBgOngame(var1);
          } else {
             var1.setClip(0, 0, Canvas.w, Canvas.h + Canvas.hTab);
             var1.setColor(0);
@@ -390,84 +390,84 @@ public abstract class BoardScr extends MyScreen implements IChatable {
             Canvas.loadMap.c(var1);
             if (Canvas.w > 150) {
                Canvas.N.a(var1, RoomListOnScr.c, AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - AvMain.af - AvMain.af / 2 - 5, 2);
-               Canvas.N.a(var1, "P: " + p + " - B: " + q, AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - AvMain.af / 2 - 5, 2);
-               Canvas.smallFontYellow.a(var1, a + T.k(), AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - 5 + AvMain.af / 2, 2);
-               d(var1);
+               Canvas.N.a(var1, "P: " + roomID + " - B: " + boardID, AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - AvMain.af / 2 - 5, 2);
+               Canvas.smallFontYellow.a(var1, money + T.k(), AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - 5 + AvMain.af / 2, 2);
+               paintChat(var1);
             }
 
          }
       } else {
-         e(var1);
+         paintBgOngame(var1);
       }
    }
 
-   private static void e(Graphics var0) {
-      Canvas.paint.b(var0);
-      if (!j) {
-         Canvas.K.a(var0, "P: " + p + " - B: " + q, Canvas.hw, Canvas.h / 2 - 10 * AvMain.hd, 2);
-         Canvas.smallFontYellow.a(var0, a + T.k(), Canvas.hw, Canvas.h / 2 + 10 * AvMain.hd, 2);
+   private static void paintBgOngame(Graphics var0) {
+      Canvas.paint.paintDefaultBg(var0);
+      if (!isStartGame) {
+         Canvas.K.a(var0, "P: " + roomID + " - B: " + boardID, Canvas.hw, Canvas.h / 2 - 10 * AvMain.hd, 2);
+         Canvas.smallFontYellow.a(var0, money + T.k(), Canvas.hw, Canvas.h / 2 + 10 * AvMain.hd, 2);
       } else {
-         if (Canvas.currentMyScreen == DiamondScr.a) {
-            DiamondScr.a.c(var0);
+         if (Canvas.currentMyScreen == DiamondScr.me_) {
+            DiamondScr.me_.paintCaro(var0);
          }
 
       }
    }
 
-   public static void a(Graphics var0, int var1, int var2, int var3, Avatar var4) {
-      if (!j) {
-         if (var4.IDDB == r) {
-            var0.drawImage(e[1], var1, var2, 3);
+   public static void paintReady(Graphics var0, int var1, int var2, int var3, Avatar var4) {
+      if (!isStartGame) {
+         if (var4.IDDB == ownerID) {
+            var0.drawImage(imgReady[1], var1, var2, 3);
             return;
          }
 
          if (var4.isReady) {
-            var0.drawImage(e[0], var1, var2, 3);
+            var0.drawImage(imgReady[0], var1, var2, 3);
          }
       }
 
    }
 
-   private void u() {
-      if (j && !k && !l) {
-         Canvas.a(T.cv, 0, this);
+   private void doExit() {
+      if (isStartGame && !disableReady && !isGameEnd) {
+         Canvas.startOKDlg(T.cv, 0, this);
       } else {
-         this.a(0);
+         this.commandTab(0);
       }
    }
 
-   public final void a(int var1) {
+   public final void commandTab(int var1) {
       switch (var1) {
          case 0:
             Canvas.load = 0;
-            this.a_();
-            CasinoService.a().g();
-            CasinoService.a().a(p);
-            if (H == 2) {
-               this.c("");
+            this.resetCard();
+            CasinoService.gI().g();
+            CasinoService.gI().a(roomID);
+            if (numPlayer == 2) {
+               this.closeBoard("");
             }
 
-            t();
+            setPosCam();
             Canvas.startWaitDlg();
          default:
       }
    }
 
-   public void a(int var1, int var2) {
+   public void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
             Command var6 = new Command(T.ab, 1);
             Command var7 = new Command(T.v, 2);
             int var3 = 0;
 
-            for(int var4 = 0; var4 < H; ++var4) {
-               if (((Avatar)m.elementAt(var4)).IDDB != -1) {
+            for(int var4 = 0; var4 < numPlayer; ++var4) {
+               if (((Avatar) avatarInfos.elementAt(var4)).IDDB != -1) {
                   ++var3;
                }
             }
 
             Vector var8 = new Vector();
-            if (r == GameMidlet.avatar.IDDB && !j) {
+            if (ownerID == GameMidlet.avatar.IDDB && !isStartGame) {
                var8.addElement(var6);
                if (var3 > 1) {
                   var8.addElement(var7);
@@ -483,28 +483,28 @@ public abstract class BoardScr extends MyScreen implements IChatable {
             MenuSub.a().a(var8, 0);
             return;
          case 1:
-            me.b();
+            me.doCloseBoard();
             return;
          case 2:
-            m();
+            doStartGame();
             return;
          case 3:
-            me.g();
+            me.doContinue();
             return;
          case 4:
-            me.j();
+            me.doFire();
             return;
          case 5:
-            me.h();
+            me.doReady();
             return;
          case 6:
             return;
          case 50:
-            this.g();
-            this.b();
-            j = false;
+            this.doContinue();
+            this.doCloseBoard();
+            isStartGame = false;
             this.B = -1;
-            v = 0;
+            interval = 0;
             return;
          case 100:
             try {
@@ -513,24 +513,24 @@ public abstract class BoardScr extends MyScreen implements IChatable {
                } else {
                   Canvas.endDlg();
                   if (MapScr.isNewVersion && var1 > GameMidlet.avatar.money[3]) {
-                     BoardListOnScr.b().f();
+                     BoardListOnScr.gI().setXeng();
                      return;
                   }
 
-                  CasinoService.a().b(var1);
+                  CasinoService.gI().b(var1);
                   return;
                }
             } catch (Exception var5) {
                return;
             }
          case 101:
-            CasinoService.a().b(Canvas.inputDlg.a());
+            CasinoService.gI().b(Canvas.inputDlg.a());
             Canvas.startOKDlg(T.I);
          default:
       }
    }
 
-   private static void v() {
+   private static void doSetMaxPlayer() {
       Vector var0 = new Vector();
 
       for(int var1 = 0; var1 < 3; ++var1) {
@@ -540,12 +540,12 @@ public abstract class BoardScr extends MyScreen implements IChatable {
       MenuSub.a().a(var0, 0);
    }
 
-   private static void w() {
+   private static void doKick() {
       Vector var0 = new Vector();
 
-      for(int var1 = 0; var1 < H; ++var1) {
+      for(int var1 = 0; var1 < numPlayer; ++var1) {
          Avatar var2;
-         if ((var2 = (Avatar)m.elementAt(var1)).IDDB != GameMidlet.avatar.IDDB && var2.IDDB != -1) {
+         if ((var2 = (Avatar) avatarInfos.elementAt(var1)).IDDB != GameMidlet.avatar.IDDB && var2.IDDB != -1) {
             var0.addElement(new Command(var2.showName, 14, var1));
          }
       }
@@ -553,12 +553,12 @@ public abstract class BoardScr extends MyScreen implements IChatable {
       MenuSub.a().a(var0, 0);
    }
 
-   private static void x() {
+   private static void doAddFriend() {
       Vector var0 = new Vector();
 
-      for(int var1 = 0; var1 < H; ++var1) {
+      for(int var1 = 0; var1 < numPlayer; ++var1) {
          Avatar var2;
-         if ((var2 = (Avatar)m.elementAt(var1)).IDDB != GameMidlet.avatar.IDDB && var2.IDDB != -1) {
+         if ((var2 = (Avatar) avatarInfos.elementAt(var1)).IDDB != GameMidlet.avatar.IDDB && var2.IDDB != -1) {
             var0.addElement(new Command(var2.name, 13, var1));
          }
       }
@@ -570,87 +570,87 @@ public abstract class BoardScr extends MyScreen implements IChatable {
       MenuSub.a().a(var0, 0);
    }
 
-   public final void e(int var1) {
+   public final void playerLeave(int var1) {
       Avatar var2;
-      if ((var2 = h(var1)) != null) {
-         a(var2.name + T.aU, 30, var2.IDDB);
+      if ((var2 = getAvatarByID(var1)) != null) {
+         addInfo(var2.name + T.aU, 30, var2.IDDB);
          var2.IDDB = -1;
          var2.setName("");
          var2.setExp(0);
          var2.isReady = false;
       }
 
-      this.n();
-      if (j || k) {
-         this.f();
+      this.onStartGame();
+      if (isStartGame || disableReady) {
+         this.setPosPlaying();
       }
 
    }
 
-   public static void f(int var0) {
-      r = var0;
+   public static void setOwner(int var0) {
+      ownerID = var0;
       Avatar var1;
-      if ((var1 = h(var0)) != null) {
+      if ((var1 = getAvatarByID(var0)) != null) {
          var1.isReady = true;
       }
 
    }
 
-   public void a(byte var1, byte var2, int var3, int var4, Vector var5) {
-      if (e == null) {
-         e = new Image[2];
+   public void setPlayers(byte var1, byte var2, int var3, int var4, Vector var5) {
+      if (imgReady == null) {
+         imgReady = new Image[2];
 
          try {
-            e[0] = Image.createImage(T.a() + "/on/ready.on");
-            e[1] = Image.createImage(T.a() + "/on/owner.on");
+            imgReady[0] = Image.createImage(T.a() + "/on/ready.on");
+            imgReady[1] = Image.createImage(T.a() + "/on/owner.on");
          } catch (IOException var7) {
             var7.printStackTrace();
          }
       }
 
-      p = (byte)var1;
-      q = var2;
-      a = var4;
-      if (m != null) {
-         m.removeAllElements();
+      roomID = (byte)var1;
+      boardID = var2;
+      money = var4;
+      if (avatarInfos != null) {
+         avatarInfos.removeAllElements();
       }
 
-      m = var5;
-      f(var3);
+      avatarInfos = var5;
+      setOwner(var3);
 
-      for(var1 = 0; var1 < H; ++var1) {
+      for(var1 = 0; var1 < numPlayer; ++var1) {
          Avatar var8;
-         (var8 = (Avatar)m.elementAt(var1)).direct = 0;
+         (var8 = (Avatar) avatarInfos.elementAt(var1)).direct = 0;
          var8.setAction((byte)2);
          var8.setFrame(var8.action);
          if (var8.IDDB == GameMidlet.avatar.IDDB) {
-            s = (byte)var1;
+            indexOfMe = (byte)var1;
             break;
          }
       }
 
-      this.n();
-      if (H > 2) {
+      this.onStartGame();
+      if (numPlayer > 2) {
          Canvas.paint.b();
       }
 
    }
 
-   public static void r() {
-      for(int var0 = 0; var0 < H; ++var0) {
-         ((Avatar)m.elementAt(var0)).isReady = false;
+   public static void resetReady() {
+      for(int var0 = 0; var0 < numPlayer; ++var0) {
+         ((Avatar) avatarInfos.elementAt(var0)).isReady = false;
       }
 
    }
 
-   public final void g(int var1) {
-      a = var1;
-      r();
+   public final void setMoney(int var1) {
+      money = var1;
+      resetReady();
    }
 
-   public static void b(int var0, boolean var1) {
+   public static void setReady(int var0, boolean var1) {
       Avatar var2;
-      if ((var2 = h(var0)) != null) {
+      if ((var2 = getAvatarByID(var0)) != null) {
          var2.isReady = var1;
       }
 
@@ -658,20 +658,20 @@ public abstract class BoardScr extends MyScreen implements IChatable {
 
    public final void onChatFromMe(String var1) {
       if (!var1.trim().equals("")) {
-         CasinoService.a().a(var1);
-         a(GameMidlet.avatar.IDDB, var1);
+         CasinoService.gI().a(var1);
+         showChat(GameMidlet.avatar.IDDB, var1);
       }
    }
 
-   public static void a(int var0, String var1) {
-      Avatar var3 = h(var0);
+   public static void showChat(int var0, String var1) {
+      Avatar var3 = getAvatarByID(var0);
       Avatar var2 = new Avatar();
       if (var3 != null) {
          var2.x = var3.x;
          var2.y = var3.y;
          var2.IDDB = var3.IDDB;
          if (var2.IDDB != -1) {
-            if (j && BoardListOnScr.e == 0) {
+            if (isStartGame && BoardListOnScr.e == 0) {
                var2.x = Canvas.hw;
                if (var2.IDDB != GameMidlet.avatar.IDDB) {
                   var2.y = 30;
@@ -680,43 +680,43 @@ public abstract class BoardScr extends MyScreen implements IChatable {
                }
             }
 
-            a(var1, 50, var2.IDDB);
+            addInfo(var1, 50, var2.IDDB);
          }
 
       }
    }
 
-   public static void c(int var0, int var1) {
+   public static void showFlyText(int var0, int var1) {
       if (var1 != 0) {
-         if (!j) {
-            var0 = i(var0);
-            Canvas.a(var1, F[x[var0]].x, F[x[var0]].y, -1, -1);
+         if (!isStartGame) {
+            var0 = getIndexByID(var0);
+            Canvas.a(var1, posAvatar[indexPlayer[var0]].x, posAvatar[indexPlayer[var0]].y, -1, -1);
          } else {
-            Avatar var2 = h(var0);
+            Avatar var2 = getAvatarByID(var0);
             Canvas.a(var1, var2.x, var2.y, -1, -1);
          }
       }
    }
 
-   public static boolean a(byte var0, byte var1) {
-      return p == var0 && q == var1;
+   public static boolean setR_B(byte var0, byte var1) {
+      return roomID == var0 && boardID == var1;
    }
 
-   public final void s() {
-      this.n();
+   public final void start() {
+      this.onStartGame();
    }
 
-   public static void a(String var0, int var1, int var2) {
+   public static void addInfo(String var0, int var1, int var2) {
       if (var2 == -1) {
-         if (g == null) {
-            (g = new ChatPopup(var1, var0, (byte)0)).setPos(Canvas.hw, Canvas.hh - 20);
+         if (chatPublic == null) {
+            (chatPublic = new ChatPopup(var1, var0, (byte)0)).setPos(Canvas.hw, Canvas.hh - 20);
          } else {
-            g.a(var1, var0);
+            chatPublic.a(var1, var0);
          }
       } else {
-         for(int var3 = 0; var3 < m.size(); ++var3) {
+         for(int var3 = 0; var3 < avatarInfos.size(); ++var3) {
             Base var4;
-            if ((var4 = (Base)m.elementAt(var3)).IDDB == var2) {
+            if ((var4 = (Base) avatarInfos.elementAt(var3)).IDDB == var2) {
                if (var4.chat == null) {
                   var4.chat = new ChatPopup(var1, var0, (byte)0);
                   var4.chat.setPos(var4.x, var4.y - 45);
@@ -729,13 +729,13 @@ public abstract class BoardScr extends MyScreen implements IChatable {
       }
    }
 
-   public void n() {
+   public void onStartGame() {
       int var1 = 0;
       int var2 = 0;
 
-      for(int var3 = 0; var3 < H; ++var3) {
+      for(int var3 = 0; var3 < numPlayer; ++var3) {
          Avatar var4;
-         (var4 = (Avatar)m.elementAt(var3)).setAction((byte)0);
+         (var4 = (Avatar) avatarInfos.elementAt(var3)).setAction((byte)0);
          if (var4.IDDB != -1) {
             ++var1;
             if (var4.IDDB != GameMidlet.avatar.IDDB) {
@@ -744,32 +744,32 @@ public abstract class BoardScr extends MyScreen implements IChatable {
          }
       }
 
-      int[] var5 = new int[H];
+      int[] var5 = new int[numPlayer];
       int var6 = 2;
       if (var1 == 2) {
-         var5[s] = 2;
+         var5[indexOfMe] = 2;
          var5[var2] = 0;
       } else {
-         for(var1 = s; var1 < s + H; ++var1) {
+         for(var1 = indexOfMe; var1 < indexOfMe + numPlayer; ++var1) {
             var2 = var1;
-            if (var1 > H - 1) {
-               var2 = var1 - H;
+            if (var1 > numPlayer - 1) {
+               var2 = var1 - numPlayer;
             }
 
             var5[var2] = var6++;
-            if (var6 >= H) {
+            if (var6 >= numPlayer) {
                var6 = 0;
             }
          }
       }
 
-      x = var5;
+      indexPlayer = var5;
    }
 
-   public static Avatar h(int var0) {
-      for(int var1 = 0; var1 < H; ++var1) {
+   public static Avatar getAvatarByID(int var0) {
+      for(int var1 = 0; var1 < numPlayer; ++var1) {
          Avatar var2;
-         if ((var2 = (Avatar)m.elementAt(var1)).IDDB == var0) {
+         if ((var2 = (Avatar) avatarInfos.elementAt(var1)).IDDB == var0) {
             return var2;
          }
       }
@@ -777,9 +777,9 @@ public abstract class BoardScr extends MyScreen implements IChatable {
       return null;
    }
 
-   public static int i(int var0) {
-      for(int var1 = 0; var1 < H; ++var1) {
-         if (((Avatar)m.elementAt(var1)).IDDB == var0) {
+   public static int getIndexByID(int var0) {
+      for(int var1 = 0; var1 < numPlayer; ++var1) {
+         if (((Avatar) avatarInfos.elementAt(var1)).IDDB == var0) {
             return var1;
          }
       }
@@ -787,18 +787,18 @@ public abstract class BoardScr extends MyScreen implements IChatable {
       return -1;
    }
 
-   public void f() {
+   public void setPosPlaying() {
       AvCamera.gI().setPos(0, 0);
 
-      for(int var1 = 0; var1 < H; ++var1) {
+      for(int var1 = 0; var1 < numPlayer; ++var1) {
          Avatar var2;
-         if ((var2 = (Avatar)m.elementAt(var1)).IDDB != -1) {
+         if ((var2 = (Avatar) avatarInfos.elementAt(var1)).IDDB != -1) {
             var2.ySat = 0;
             var2.setAction((byte)0);
             var2.setFrame(var2.action);
-            var2.xCur = var2.x = F[x[var1]].x;
-            var2.yCur = var2.y = F[x[var1]].y;
-            if (x[var1] != 2 && x[var1] != 3) {
+            var2.xCur = var2.x = posAvatar[indexPlayer[var1]].x;
+            var2.yCur = var2.y = posAvatar[indexPlayer[var1]].y;
+            if (indexPlayer[var1] != 2 && indexPlayer[var1] != 3) {
                var2.direct = var2.dirLast = 0;
             } else {
                var2.direct = var2.dirLast = Base.LEFT;

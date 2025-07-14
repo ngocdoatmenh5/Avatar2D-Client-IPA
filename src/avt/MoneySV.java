@@ -1,6 +1,6 @@
 package avt;
 
-public final class class_ky {
+public final class MoneySV {
    int a;
    int b;
    int c;
@@ -11,7 +11,7 @@ public final class class_ky {
    boolean h;
    boolean i;
 
-   public class_ky(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, boolean var9) {
+   public MoneySV(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, boolean var9) {
       this.a = var1;
       this.b = var2;
       this.c = var5;

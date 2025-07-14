@@ -19,13 +19,13 @@ final class class_w implements IAction {
          if (FarmScr.b((var3 = (Item)FarmScr.d.elementAt(var2)).ID).e == 6) {
             FarmService.a().b(FarmScr.b, this.b.IDDB, var3.ID);
             var1 = true;
-            this.a.d(10, -1);
+            this.a.commandActionPointer(10, -1);
             break;
          }
       }
 
       if (!var1) {
-         FarmScr.b().a((int)8, (int)-1);
+         FarmScr.b().commandTab((int)8, (int)-1);
          Canvas.startOKDlg(T.ea);
       }
 

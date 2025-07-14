@@ -20,20 +20,20 @@ public final class class_hk extends MyScreen {
    }
 
    public final void a(MyScreen var1) {
-      super.a();
+      super.switchToMe();
       this.c = var1;
       super.ar = 0;
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
-            Canvas.cameraList.m = false;
-            this.c.a();
+            Canvas.cameraList.isShow = false;
+            this.c.switchToMe();
             return;
          case 1:
-            Canvas.cameraList.m = false;
-            this.c.a();
+            Canvas.cameraList.isShow = false;
+            this.c.switchToMe();
             ParkService.a().a(MapScr.b, super.ar);
          default:
       }
@@ -74,14 +74,14 @@ public final class class_hk extends MyScreen {
       super.updateKey();
    }
 
-   public final void k() {
-      this.c.k();
+   public final void update() {
+      this.c.update();
    }
 
    public final void paint(Graphics var1) {
       var1.translate(0, 0);
       var1.setClip(0, 0, Canvas.w, Canvas.h);
-      this.c.b(var1);
+      this.c.paintMain(var1);
       Canvas.paint.a(var1, Canvas.hw - (this.e * this.d + 10) / 2, Canvas.hh - this.e * this.f / 2, this.e * this.d + 10, this.e * this.f);
       Canvas.paint.a(var1, this.e, this.d, this.f, super.aj, super.ar, this.b);
       super.paint(var1);

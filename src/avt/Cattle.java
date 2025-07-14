@@ -42,7 +42,7 @@ public final class Cattle extends Animal {
 
    public final void reset() {
       super.reset();
-      if (super.isEat && CRes.f(r.x - super.x) < 20 && CRes.f(r.y - super.y) < 15) {
+      if (super.isEat && CRes.abs(r.x - super.x) < 20 && CRes.abs(r.y - super.y) < 15) {
          super.isEat = false;
          super.hunger = false;
          FarmScr.b();

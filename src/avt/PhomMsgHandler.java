@@ -7,7 +7,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
    private static PhomMsgHandler a = new PhomMsgHandler();
 
    public static void a() {
-      BoardScr.H = 4;
+      BoardScr.numPlayer = 4;
       BoardListOnScr.e = BoardListOnScr.c;
       RoomListOnScr.a(1, PBoardScr.b());
       CasinoMsgHandler.a.c = a;
@@ -17,7 +17,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
       try {
          int var2 = var1.reader().readByte();
          int var3 = var1.reader().readByte();
-         if (BoardScr.a((byte)var2, (byte)var3)) {
+         if (BoardScr.setR_B((byte)var2, (byte)var3)) {
             int var4;
             int var14;
             byte var15;
@@ -38,7 +38,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
                   var4 = var1.reader().readInt();
                   var20 = var1.reader().readInt();
                   Canvas.endDlg();
-                  BoardScr.r();
+                  BoardScr.resetReady();
                   PBoardScr.b().a(var15, var23, var4, var20);
                   return;
                case 21:

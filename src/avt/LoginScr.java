@@ -57,13 +57,13 @@ public final class LoginScr extends MyScreen {
       return a;
    }
 
-   public final void d() {
+   public final void close() {
       Canvas.b(T.P, 54);
    }
 
-   public final void a() {
+   public final void switchToMe() {
       this.c();
-      super.a();
+      super.switchToMe();
       Canvas.endDlg();
       if (Canvas.isKeyBoard) {
          this.H = -1;
@@ -158,7 +158,7 @@ public final class LoginScr extends MyScreen {
       AvCamera.gI().update();
    }
 
-   public final void d(int var1, int var2) {
+   public final void commandActionPointer(int var1, int var2) {
       switch (var1) {
          case 0:
             this.i = true;
@@ -172,13 +172,13 @@ public final class LoginScr extends MyScreen {
             Canvas.b(T.P, 54);
             return;
          case 3:
-            Canvas.b(T.du, 55, (AvMain)null);
+            Canvas.startOK(T.du, 55, (AvMain)null);
             return;
          case 4:
             Canvas.inputDlg.a(T.bC, 100, 3);
             return;
          case 5:
-            OptionScr.gI().a();
+            OptionScr.gI().switchToMe();
             return;
          case 6:
             GameMidlet.b("http://wap.teamobi.com/faqs.php?provider=" + GameMidlet.f);
@@ -212,14 +212,14 @@ public final class LoginScr extends MyScreen {
    private void j() {
       if (!this.E) {
          this.E = true;
-         this.C.a = T.bJ;
+         this.C.caption = T.bJ;
       } else {
          this.E = false;
-         this.C.a = T.bA;
+         this.C.caption = T.bA;
       }
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
             Vector var5 = new Vector();
@@ -328,7 +328,7 @@ public final class LoginScr extends MyScreen {
       Canvas.a(T.bM, var0);
    }
 
-   public final void k() {
+   public final void update() {
       if ((System.currentTimeMillis() - this.r) / 1000L > 300L) {
          GameMidlet.h.notifyDestroyed();
       }
@@ -365,7 +365,7 @@ public final class LoginScr extends MyScreen {
       Canvas.loadMap.b();
    }
 
-   public final void d(int var1) {
+   public final void keyPress(int var1) {
       if (this.b.d()) {
          this.b.b(var1);
       } else if (this.c.d()) {
@@ -376,16 +376,16 @@ public final class LoginScr extends MyScreen {
          this.e.b(var1);
       }
 
-      super.d(var1);
+      super.keyPress(var1);
    }
 
    public final void paint(Graphics var1) {
-      this.b(var1);
+      this.paintMain(var1);
       super.paint(var1);
       Canvas.a(var1);
    }
 
-   public final void b(Graphics var1) {
+   public final void paintMain(Graphics var1) {
       Canvas.loadMap.b(var1);
       Canvas.loadMap.d(var1);
       Canvas.resetTrans(var1);
@@ -488,7 +488,7 @@ public final class LoginScr extends MyScreen {
          this.z = this.z < (this.i ? 3 : 2) ? ++this.z : 0;
       }
       if (Canvas.keyPressed[2] || Canvas.keyPressed[8]) {
-         Canvas.e();
+         Canvas.clearKeyPressed();
          if (this.z == 0) {
             this.b.a(true);
             this.c.a(false);
@@ -527,7 +527,7 @@ public final class LoginScr extends MyScreen {
             }
 
             if (w) {
-               class_ez.b().a();
+               class_ez.b().switchToMe();
                return;
             }
 
@@ -541,7 +541,7 @@ public final class LoginScr extends MyScreen {
                   break;
                }
 
-               class_ez.b().a();
+               class_ez.b().switchToMe();
             }
 
             return;

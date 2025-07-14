@@ -7,7 +7,7 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
    private static DiamondMessageHandler a = new DiamondMessageHandler();
 
    public static void a() {
-      BoardScr.H = 2;
+      BoardScr.numPlayer = 2;
       BoardListOnScr.e = 0;
       RoomListOnScr.a(2, DiamondScr.b());
       CasinoMsgHandler.a.c = a;
@@ -17,7 +17,7 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
       try {
          int var2 = var1.reader().readByte();
          int var3 = var1.reader().readByte();
-         if (BoardScr.a((byte)var2, (byte)var3)) {
+         if (BoardScr.setR_B((byte)var2, (byte)var3)) {
             Vector var4;
             byte var11;
             byte var12;
@@ -36,7 +36,7 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
 
                   for(var18 = 0; var18 < 2; ++var18) {
                      Avatar var20;
-                     (var20 = BoardScr.h(var1.reader().readInt())).an = var1.reader().readShort();
+                     (var20 = BoardScr.getAvatarByID(var1.reader().readInt())).an = var1.reader().readShort();
                      var20.plusHP = var20.plusMP = 0;
                      var20.hp = var20.maxHP = var1.reader().readShort();
                      var20.mp = var1.reader().readShort();
@@ -76,7 +76,7 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
                      var2 = var1.reader().readInt();
                      var3 = var1.reader().readInt();
                      Avatar var16;
-                     Avatar var10000 = var16 = BoardScr.h(var2);
+                     Avatar var10000 = var16 = BoardScr.getAvatarByID(var2);
                      var10000.G /= 2;
                      var16.action = 0;
                      var16.setMoneyNew(var16.getMoneyNew() + var3);
@@ -119,7 +119,7 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
 
                   for(var18 = 0; var18 < 2; ++var18) {
                      Avatar var13;
-                     (var13 = BoardScr.h(var1.reader().readInt())).fight = var1.reader().readByte();
+                     (var13 = BoardScr.getAvatarByID(var1.reader().readInt())).fight = var1.reader().readByte();
                      var13.an = var1.reader().readShort();
                      var13.plusHP = (short)(var1.reader().readShort() - var13.hp);
                      var13.plusMP = (short)(var1.reader().readShort() - var13.mp);

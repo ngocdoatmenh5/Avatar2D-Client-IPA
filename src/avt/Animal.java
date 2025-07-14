@@ -162,8 +162,8 @@ public class Animal extends Base {
    }
 
    public void move() {
-      int var1 = super.G * (this.disTrans * CRes.b(CRes.c(this.angle)) >> 10);
-      int var2 = -super.G * this.disTrans * CRes.a(CRes.c(this.angle)) >> 10;
+      int var1 = super.G * (this.disTrans * CRes.cos(CRes.fixangle(this.angle)) >> 10);
+      int var2 = -super.G * this.disTrans * CRes.sin(CRes.fixangle(this.angle)) >> 10;
       if (this.detectCollision(var1, var2)) {
          if (this.setWay(var1, var2)) {
             super.x += super.vx;

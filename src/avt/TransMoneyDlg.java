@@ -44,7 +44,7 @@ public final class TransMoneyDlg extends Dialog {
       Canvas.currentDialog = this;
    }
 
-   public final void a(int var1) {
+   public final void commandTab(int var1) {
       switch (var1) {
          case 0:
             Canvas.a("Bạn có chắc muốn chuyển tiền không ?", (IAction)(new class_jm(this)));
@@ -55,7 +55,7 @@ public final class TransMoneyDlg extends Dialog {
       }
    }
 
-   public final void k() {
+   public final void update() {
    }
 
    public final void updateKey() {
@@ -89,7 +89,7 @@ public final class TransMoneyDlg extends Dialog {
    }
 
    public final void paint(Graphics var1) {
-      Canvas.currentMyScreen.b(var1);
+      Canvas.currentMyScreen.paintMain(var1);
       Canvas.resetTrans(var1);
       Canvas.paint.h(var1, this.c, this.d, this.e, this.f);
       var1.translate(this.c, this.d);

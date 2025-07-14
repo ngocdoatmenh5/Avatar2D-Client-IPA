@@ -74,7 +74,7 @@ public final class HistoryPopup extends Dialog {
             this.l = false;
             int var3 = this.n - this.o;
             int var4;
-            if (CRes.f(var4 = this.p - Canvas.py) > 40 && var3 < 10 && this.f > 0 && this.f < this.j) {
+            if (CRes.abs(var4 = this.p - Canvas.py) > 40 && var3 < 10 && this.f > 0 && this.f < this.j) {
                this.m = var4 / var3 * 10;
             }
 

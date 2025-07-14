@@ -221,8 +221,8 @@ public final class Fish {
                   var11 = true;
                   var7 = var6 - var1.e;
                   var6 = CRes.a(var1.c[var5 - 1].x - var1.c[var5].x, -(var1.c[var5 - 1].y - var1.c[var5].y));
-                  var8 = var7 * CRes.b(CRes.c(var6)) >> 10;
-                  var6 = -(var7 * CRes.a(CRes.c(var6))) >> 10;
+                  var8 = var7 * CRes.cos(CRes.fixangle(var6)) >> 10;
+                  var6 = -(var7 * CRes.sin(CRes.fixangle(var6))) >> 10;
                   var10000 = var1.c[var5];
                   var10000.x += var8;
                   var10000 = var1.c[var5];
@@ -243,8 +243,8 @@ public final class Fish {
                   if ((var6 = CRes.a(var1.c[var5].x, var1.c[var5].y, var1.c[var5 + 1].x, var1.c[var5 + 1].y)) > var1.e + 1) {
                      var11 = true;
                      var7 = CRes.a(var1.c[var5 + 1].x - var1.c[var5].x, -(var1.c[var5 + 1].y - var1.c[var5].y));
-                     var8 = (var6 -= var1.e) * CRes.b(CRes.c(var7)) >> 10;
-                     var6 = -(var6 * CRes.a(CRes.c(var7))) >> 10;
+                     var8 = (var6 -= var1.e) * CRes.cos(CRes.fixangle(var7)) >> 10;
+                     var6 = -(var6 * CRes.sin(CRes.fixangle(var7))) >> 10;
                      var10000 = var1.c[var5];
                      var10000.x += var8;
                      var10000 = var1.c[var5];
@@ -296,7 +296,7 @@ public final class Fish {
                      boolean var13 = true;
                      var5 = var1.c[var3 + 1].x;
                      AvPosition var12 = var10000;
-                     if (CRes.f(var5 - var12.x) > 1) {
+                     if (CRes.abs(var5 - var12.x) > 1) {
                         ++var2;
                      }
                   }
@@ -351,7 +351,7 @@ public final class Fish {
             }
 
             if ((this.s <= 0 || this.i) && Canvas.gameTick % 2 == 1) {
-               if (CRes.f(var2) > 0) {
+               if (CRes.abs(var2) > 0) {
                   if (var2 > 0) {
                      --this.x.x;
                   } else {
@@ -361,7 +361,7 @@ public final class Fish {
                   this.c[this.a - 1].x = this.x.x;
                }
 
-               if (CRes.f(var3) > 0) {
+               if (CRes.abs(var3) > 0) {
                   if (var3 > 0) {
                      --this.x.y;
                   } else {
@@ -372,7 +372,7 @@ public final class Fish {
                }
             }
 
-            if (CRes.f(var2) <= 0 && CRes.f(var3) <= 0) {
+            if (CRes.abs(var2) <= 0 && CRes.abs(var3) <= 0) {
                this.s = 50 + CRes.rnd(100);
                this.w.x = this.v.x + 10 - CRes.rnd(20);
                this.w.y = this.v.y + CRes.rnd(6);
@@ -387,7 +387,7 @@ public final class Fish {
 
          for(int var9 = 0; var9 < this.a; ++var9) {
             var2 = this.c[var9].x - this.b.x;
-            if (var9 != this.a - 2 || CRes.f(this.d[var9].x - (this.b.x + this.n * var2)) > 1) {
+            if (var9 != this.a - 2 || CRes.abs(this.d[var9].x - (this.b.x + this.n * var2)) > 1) {
                this.d[var9].x = this.b.x * AvMain.hd + this.n * var2;
             }
 

@@ -16,13 +16,13 @@ public final class InputDlg extends Dialog {
       this.b.e = false;
    }
 
-   public final void a(int var1, int var2) {
+   public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 120:
             Canvas.currentDialog = null;
             return;
          default:
-            Canvas.currentMyScreen.a(var1, var2);
+            Canvas.currentMyScreen.commandTab(var1, var2);
       }
    }
 
@@ -104,7 +104,7 @@ public final class InputDlg extends Dialog {
       }
    }
 
-   public final void d(int var1) {
+   public final void keyPress(int var1) {
       this.b.b(var1);
    }
 

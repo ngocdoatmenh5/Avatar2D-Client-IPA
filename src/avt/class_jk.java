@@ -5,6 +5,6 @@ final class class_jk implements IAction {
    }
 
    public final void perform() {
-      class_ez.b().a();
+      class_ez.b().switchToMe();
    }
 }

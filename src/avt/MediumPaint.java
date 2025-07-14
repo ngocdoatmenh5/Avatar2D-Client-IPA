@@ -199,16 +199,16 @@ public final class MediumPaint implements IPaint {
    }
 
    public final void paintCmd(Graphics var1, Command var2, Command var3, Command var4) {
-      if (var2 != null && var2.a != null) {
-         Canvas.L.a(var1, var2.a, Canvas.ae[0].x + 2, Canvas.ae[0].y + Canvas.hTab / 2 - AvMain.ag / 2, 0);
+      if (var2 != null && var2.caption != null) {
+         Canvas.L.a(var1, var2.caption, Canvas.ae[0].x + 2, Canvas.ae[0].y + Canvas.hTab / 2 - AvMain.ag / 2, 0);
       }
 
-      if (var3 != null && var3.a != null) {
-         Canvas.L.a(var1, var3.a, Canvas.ae[1].x + MyScreen.au / 2, Canvas.ae[1].y + Canvas.hTab / 2 - AvMain.ag / 2, 2);
+      if (var3 != null && var3.caption != null) {
+         Canvas.L.a(var1, var3.caption, Canvas.ae[1].x + MyScreen.au / 2, Canvas.ae[1].y + Canvas.hTab / 2 - AvMain.ag / 2, 2);
       }
 
-      if (var4 != null && var4.a != null) {
-         Canvas.L.a(var1, var4.a, Canvas.ae[2].x + MyScreen.au - 2, Canvas.ae[2].y + Canvas.hTab / 2 - AvMain.ag / 2, 1);
+      if (var4 != null && var4.caption != null) {
+         Canvas.L.a(var1, var4.caption, Canvas.ae[2].x + MyScreen.au - 2, Canvas.ae[2].y + Canvas.hTab / 2 - AvMain.ag / 2, 1);
       }
 
    }
@@ -493,13 +493,13 @@ public final class MediumPaint implements IPaint {
       int var2 = Canvas.h - 24;
       var1 = var1 - 15 - Canvas.hTab;
       if (Canvas.w < 200) {
-         PBoardScr.c = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.A / 2, 0), new AvPosition(BoardScr.z / 2, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.A + 20, 0), new AvPosition(Canvas.w - BoardScr.z / 2 - 3, var2 / 2, 0)};
-         PBoardScr.d = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.A, 0), new AvPosition(BoardScr.z + 3, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.A / 2 + 20, 0), new AvPosition(Canvas.w - 3, var2 / 2, 0)};
-         PBoardScr.b = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.A + BoardScr.A / 2 + 2, 2), new AvPosition(BoardScr.z / 4 * 3 + BoardScr.z / 2 + 5, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.A - AvMain.ai - 5, 2), new AvPosition(Canvas.w - BoardScr.z - 5, var2 / 2 - 5, 1)};
+         PBoardScr.c = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.hcard / 2, 0), new AvPosition(BoardScr.wCard / 2, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.hcard + 20, 0), new AvPosition(Canvas.w - BoardScr.wCard / 2 - 3, var2 / 2, 0)};
+         PBoardScr.d = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.hcard, 0), new AvPosition(BoardScr.wCard + 3, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.hcard / 2 + 20, 0), new AvPosition(Canvas.w - 3, var2 / 2, 0)};
+         PBoardScr.b = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.hcard + BoardScr.hcard / 2 + 2, 2), new AvPosition(BoardScr.wCard / 4 * 3 + BoardScr.wCard / 2 + 5, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.hcard - AvMain.ai - 5, 2), new AvPosition(Canvas.w - BoardScr.wCard - 5, var2 / 2 - 5, 1)};
       } else {
-         PBoardScr.c = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.A / 2, 0), new AvPosition(BoardScr.z / 2, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.A / 2, 0), new AvPosition(Canvas.w - BoardScr.z / 2, var2 / 2, 0)};
-         PBoardScr.d = new AvPosition[]{new AvPosition(Canvas.hw, 0, 0), new AvPosition(BoardScr.z / 4 * 3, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.A / 2 + BoardScr.A / 4, 0), new AvPosition(Canvas.w - BoardScr.z / 4, var2 / 2, 0)};
-         PBoardScr.b = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.A + 2, 2), new AvPosition(BoardScr.z / 4 * 3 + BoardScr.z / 2 + 5, var2 / 2 - 10, 0), new AvPosition(Canvas.hw, var1 - BoardScr.A - AvMain.ai - 1, 2), new AvPosition(Canvas.w - BoardScr.z - 5, var2 / 2 - 10, 1)};
+         PBoardScr.c = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.hcard / 2, 0), new AvPosition(BoardScr.wCard / 2, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.hcard / 2, 0), new AvPosition(Canvas.w - BoardScr.wCard / 2, var2 / 2, 0)};
+         PBoardScr.d = new AvPosition[]{new AvPosition(Canvas.hw, 0, 0), new AvPosition(BoardScr.wCard / 4 * 3, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.hcard / 2 + BoardScr.hcard / 4, 0), new AvPosition(Canvas.w - BoardScr.wCard / 4, var2 / 2, 0)};
+         PBoardScr.b = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.hcard + 2, 2), new AvPosition(BoardScr.wCard / 4 * 3 + BoardScr.wCard / 2 + 5, var2 / 2 - 10, 0), new AvPosition(Canvas.hw, var1 - BoardScr.hcard - AvMain.ai - 1, 2), new AvPosition(Canvas.w - BoardScr.wCard - 5, var2 / 2 - 10, 1)};
       }
    }
 
@@ -528,13 +528,13 @@ public final class MediumPaint implements IPaint {
       Canvas.N.a(var1, T.aX + var6, Canvas.hw, Canvas.hh + var2 * var4 / 2 - 20, 2);
       var1.translate(Canvas.hw - (var2 * var3 + 10) / 2 + 4, Canvas.hh - var2 * var4 / 2 + 4);
       var1.setClip(0, 3, var2 * var3 + 2, var2 * var4 - 32);
-      var1.translate(1, -CameraList.i);
+      var1.translate(1, -CameraList.cmtoY);
       if (!var5) {
          Canvas.paint.c(var1, var6 % var3 * var2, var6 / var3 * var2, var2, var2);
       }
 
       int var8;
-      if ((var8 = (var4 = CameraList.i / var2 * var3) + var2 * 7 / var2 * var3 + var3) > var7.length) {
+      if ((var8 = (var4 = CameraList.cmtoY / var2 * var3) + var2 * 7 / var2 * var3 + var3) > var7.length) {
          var8 = var7.length;
       }
 
@@ -544,7 +544,7 @@ public final class MediumPaint implements IPaint {
 
    }
 
-   public final void b(Graphics var1) {
+   public final void paintDefaultBg(Graphics var1) {
       for(int var2 = 0; var2 < Canvas.w / 50 + 1; ++var2) {
          for(int var3 = 0; var3 < Canvas.q / 71 + 1; ++var3) {
             var1.drawImage(e, var2 * 50, var3 * 71, 0);
@@ -559,7 +559,7 @@ public final class MediumPaint implements IPaint {
 
    public final void a(Graphics var1, String var2, String var3, String var4) {
       var1.setClip(0, 0, Canvas.w, Canvas.h);
-      Canvas.paint.b(var1);
+      Canvas.paint.paintDefaultBg(var1);
       Canvas.R.a(var1, var2, Canvas.hw, 2, 2);
       var1.setColor(6192786);
       var1.fillRect(0, 25, Canvas.w, MyScreen.al);
@@ -627,8 +627,8 @@ public final class MediumPaint implements IPaint {
       RoomListOnScr.me = null;
       BoardListOnScr.me = null;
       BoardScr.me = null;
-      DiamondScr.a = null;
-      BCBoardScr.a = null;
+      DiamondScr.me_ = null;
+      BCBoardScr.me_ = null;
    }
 
    public final void d(Graphics var1, int var2, int var3, int var4, int var5) {
@@ -686,16 +686,16 @@ public final class MediumPaint implements IPaint {
 
    public final void b(Graphics var1, Command var2, Command var3, Command var4) {
       int var5 = Canvas.q - Canvas.hTab / 2 - AvMain.ag / 2;
-      if (var2 != null && var2.a != "") {
-         Canvas.L.a(var1, var2.a, 4, var5, 0);
+      if (var2 != null && var2.caption != "") {
+         Canvas.L.a(var1, var2.caption, 4, var5, 0);
       }
 
-      if (var3 != null && var3.a != "") {
-         Canvas.L.a(var1, var3.a, Canvas.hw, var5, 2);
+      if (var3 != null && var3.caption != "") {
+         Canvas.L.a(var1, var3.caption, Canvas.hw, var5, 2);
       }
 
-      if (var4 != null && var4.a != "") {
-         Canvas.L.a(var1, var4.a, Canvas.w - 4, var5, 1);
+      if (var4 != null && var4.caption != "") {
+         Canvas.L.a(var1, var4.caption, Canvas.w - 4, var5, 1);
       }
 
    }
@@ -772,22 +772,22 @@ public final class MediumPaint implements IPaint {
    }
 
    private static int b(Command var0, Command var1, Command var2) {
-      if (var0 != null && !var0.a.equals("") && Canvas.a(0, Canvas.q - Canvas.hTab, 95, Canvas.hTab)) {
+      if (var0 != null && !var0.caption.equals("") && Canvas.a(0, Canvas.q - Canvas.hTab, 95, Canvas.hTab)) {
          return 1;
-      } else if (var1 != null && !var1.a.equals("") && Canvas.a(Canvas.w / 2 - 43 - 8, Canvas.q - Canvas.hTab, 95, Canvas.hTab)) {
+      } else if (var1 != null && !var1.caption.equals("") && Canvas.a(Canvas.w / 2 - 43 - 8, Canvas.q - Canvas.hTab, 95, Canvas.hTab)) {
          return 2;
       } else {
-         return var2 != null && !var2.a.equals("") && Canvas.a(Canvas.w - 87 - 8, Canvas.q - Canvas.hTab, 95, Canvas.hTab) ? 3 : 0;
+         return var2 != null && !var2.caption.equals("") && Canvas.a(Canvas.w - 87 - 8, Canvas.q - Canvas.hTab, 95, Canvas.hTab) ? 3 : 0;
       }
    }
 
    public final void a(Graphics var1, Vector var2, int var3, int var4) {
       Canvas.resetTrans(var1);
-      var1.translate(0, Canvas.cameraList.e);
-      var1.translate(0, -CameraList.i);
+      var1.translate(0, Canvas.cameraList.y);
+      var1.translate(0, -CameraList.cmtoY);
       int var6 = (var3 - AvMain.ag) / 2;
       int var7;
-      if ((var7 = CameraList.i / var3 - 2) < 0) {
+      if ((var7 = CameraList.cmtoY / var3 - 2) < 0) {
          var7 = 0;
       }
 

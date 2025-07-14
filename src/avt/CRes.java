@@ -30,8 +30,8 @@ public final class CRes {
 
    }
 
-   public static final int a(int var0) {
-      if ((var0 = c(var0)) >= 0 && var0 < 90) {
+   public static final int sin(int var0) {
+      if ((var0 = fixangle(var0)) >= 0 && var0 < 90) {
          return c[var0];
       } else if (var0 >= 90 && var0 < 180) {
          return c[180 - var0];
@@ -40,8 +40,8 @@ public final class CRes {
       }
    }
 
-   public static final int b(int var0) {
-      if ((var0 = c(var0)) >= 0 && var0 < 90) {
+   public static final int cos(int var0) {
+      if ((var0 = fixangle(var0)) >= 0 && var0 < 90) {
          return d[var0];
       } else if (var0 >= 90 && var0 < 180) {
          return -d[180 - var0];
@@ -89,7 +89,7 @@ public final class CRes {
       return var2;
    }
 
-   public static final int c(int var0) {
+   public static final int fixangle(int var0) {
       if (var0 >= 360) {
          var0 -= 360;
       }
@@ -113,7 +113,7 @@ public final class CRes {
       return a.nextInt(2) == 0 ? var0 : var1;
    }
 
-   public static int f(int var0) {
+   public static int abs(int var0) {
       return var0 >= 0 ? var0 : -var0;
    }
 
@@ -209,7 +209,7 @@ public final class CRes {
 
       for(int var0 = 0; var0 < FarmScr.b().K.size(); ++var0) {
          Command var1 = (Command)FarmScr.b().K.elementAt(var0);
-         LoginScr.s += var1.a.hashCode();
+         LoginScr.s += var1.caption.hashCode();
       }
 
       LoginScr.gI().g();

@@ -11,7 +11,7 @@ final class class_cn implements IAction {
 
    public final void perform() {
       class_dl var1 = (class_dl)this.a.g.elementAt(this.a.ar);
-      CasinoService.a().a(this.a.h, var1.a, Canvas.inputDlg.a());
+      CasinoService.gI().a(this.a.h, var1.a, Canvas.inputDlg.a());
       Canvas.endDlg();
    }
 }

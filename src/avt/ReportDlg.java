@@ -23,7 +23,7 @@ public final class ReportDlg extends Dialog {
       return h;
    }
 
-   public final void a(int var1) {
+   public final void commandTab(int var1) {
       switch (var1) {
          case 0:
             Canvas.endDlg();
@@ -36,7 +36,7 @@ public final class ReportDlg extends Dialog {
       super.center = new Command(T.z, 0);
    }
 
-   public final void k() {
+   public final void update() {
    }
 
    public final void b() {

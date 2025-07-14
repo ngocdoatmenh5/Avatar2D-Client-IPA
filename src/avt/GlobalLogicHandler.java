@@ -70,7 +70,7 @@ public final class GlobalLogicHandler {
                } else if (MapScr.g != -1) {
                   Canvas.loadMap.e(57 + MapScr.g);
                   if (Canvas.isDoubleImage && LoadMap.TYPEMAP == 57) {
-                     (Canvas.D = new Welcome()).b(MapScr.a);
+                     (Canvas.welcome = new Welcome()).b(MapScr.a);
                   }
 
                   GameMidlet.avatar.setFeel(4);
@@ -103,7 +103,7 @@ public final class GlobalLogicHandler {
                      }
                   } else {
                      Canvas.paint.i();
-                     OnScreen.e().a();
+                     OnScreen.e().switchToMe();
                      Canvas.endDlg();
                   }
                } else {

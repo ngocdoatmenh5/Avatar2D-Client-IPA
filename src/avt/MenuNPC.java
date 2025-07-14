@@ -66,7 +66,7 @@ public final class MenuNPC extends MenuMain {
       super.right = new Command(T.d, 1, this);
    }
 
-   public final void a(int var1) {
+   public final void commandTab(int var1) {
       switch (var1) {
          case 0:
             this.b();
@@ -91,7 +91,7 @@ public final class MenuNPC extends MenuMain {
       Canvas.menuMain = this;
    }
 
-   public final void k() {
+   public final void update() {
       if (this.t > 0) {
          --this.t;
          if (this.t == 0) {
@@ -200,7 +200,7 @@ public final class MenuNPC extends MenuMain {
                }
             }
 
-            if (CRes.f(Canvas.dy()) >= 10 * AvMain.hd) {
+            if (CRes.abs(Canvas.dy()) >= 10 * AvMain.hd) {
                super.aj = true;
             } else if (var3 > 3L && var3 < 8L) {
                var5 = this.e + this.i + 10 * AvMain.hd;
@@ -221,7 +221,7 @@ public final class MenuNPC extends MenuMain {
          if (Canvas.isPointerRelease && Canvas.b(this.d, this.e, this.f, this.g)) {
             this.w = false;
             var5 = (int)(this.y - this.z);
-            if (CRes.f(var6 = this.s - Canvas.py) > 40 && var5 < 10 && this.B > 0 && this.B < this.F) {
+            if (CRes.abs(var6 = this.s - Canvas.py) > 40 && var5 < 10 && this.B > 0 && this.B < this.F) {
                this.A = var6 / var5 * 10;
             }
 
@@ -325,7 +325,7 @@ public final class MenuNPC extends MenuMain {
             var1.fillRect(4 * AvMain.hd, 10 * AvMain.hd + var2 * this.l, this.j - 8 * AvMain.hd, this.l);
          }
 
-         Canvas.K.a(var1, var11.a, 10 * AvMain.hd, 10 * AvMain.hd + var2 * this.l + this.l / 2 - AvMain.ah / 2, 0);
+         Canvas.K.a(var1, var11.caption, 10 * AvMain.hd, 10 * AvMain.hd + var2 * this.l + this.l / 2 - AvMain.ah / 2, 0);
       }
 
       super.paint(var1);
