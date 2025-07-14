@@ -1,0 +1,304 @@
+package avt;
+
+import javax.microedition.lcdui.Graphics;
+import main.GameCanvas;
+
+public final class GamePad {
+   private int b;
+   private int c;
+   private int d;
+   private int e;
+   private int f;
+   private int g;
+   private int h;
+   private int i;
+   private int j;
+   private int k;
+   private int l;
+   private int m;
+   private int n;
+   private int o;
+   private String[] p;
+   private String[] q;
+   private String[] r;
+   private String[] s;
+   private String[] t;
+   private byte[] u;
+   private int v = -1;
+   public boolean a = false;
+   private boolean w = false;
+   private long x;
+   private String[] y = new String[]{"Top", "Down", "Left", "Right"};
+   private byte[] z = new byte[]{4, 7, 0, 2};
+
+   public GamePad() {
+      int var1;
+      if (GameCanvas.n >= GameCanvas.m) {
+         GameCanvas.G = false;
+         this.e = GameCanvas.n / 6 << 1;
+         GameCanvas.n -= this.e;
+         this.b = 0;
+         this.c = GameCanvas.n + 4;
+         this.e -= 4;
+         this.d = GameCanvas.m;
+         this.f = this.d / 4;
+         this.g = this.e / 2;
+         this.h = this.b;
+         this.i = this.c;
+         this.j = this.e / 3;
+         this.k = this.d / 4;
+         this.l = 4;
+         this.m = 2;
+         this.n = 4;
+         this.o = 3;
+         this.p = new String[]{"-", "Top", "ABC", "-", "Left", "Down", "Right", "OK"};
+         this.q = new String[]{".,?!1", "abc2", "def3", T1.bb, "ghi4", "jkl5", "mno6", T1.cy, "pqrs7", "tuv8", "wxyz9", "0"};
+         this.r = new String[12];
+
+         for(var1 = 0; var1 < 12; ++var1) {
+            this.r[var1] = this.q[var1].toUpperCase();
+         }
+
+         this.r[3] = this.q[3];
+         this.s = new String[]{"1", "2", "3", T1.bb, "4", "5", "6", T1.cy, "7", "8", "9", "0"};
+         this.u = new byte[]{-6, -1, 0, -7, -3, -2, -4, -5};
+      } else {
+         GameCanvas.G = true;
+         this.d = GameCanvas.m / 6 << 1;
+         GameCanvas.m -= this.d + 1;
+         this.c = 1;
+         this.e = GameCanvas.a.getHeight();
+         this.b = GameCanvas.m + 4;
+         this.d -= 4;
+         this.f = this.d / 2;
+         this.g = this.e / 4;
+         this.h = this.b;
+         this.i = this.c;
+         this.j = this.e / 4;
+         this.k = this.d / 3;
+         this.l = 2;
+         this.m = 4;
+         this.n = 3;
+         this.o = 4;
+         this.p = new String[]{"-", "OK", "ABC", "Top", "Left", "Right", "-", "Down"};
+         this.q = new String[]{".,?!1", "abc2", "def3", "ghi4", "jkl5", "mno6", "pqrs7", "tuv8", "wxyz9", T1.cy, "0", T1.bb};
+         this.r = new String[12];
+
+         for(var1 = 0; var1 < 11; ++var1) {
+            this.r[var1] = this.q[var1].toUpperCase();
+         }
+
+         this.r[11] = this.q[11];
+         this.s = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", T1.cy, "0", T1.bb};
+         this.u = new byte[]{-7, -5, 0, -1, -3, -4, -6, -2};
+      }
+
+      this.x = -1L;
+      this.c();
+   }
+
+   private static void b() {
+      if (GameCanvas.Z > 0) {
+         TField.t.perform();
+      } else if (class_im.c) {
+         class_im.d().ae.b();
+      } else {
+         if (GameCanvas.r.ae != null && GameCanvas.r.ae.a.equals(T1.bb)) {
+            GameCanvas.r.ae.b.perform();
+         }
+
+      }
+   }
+
+   public final void a() {
+      int var2;
+      int var3;
+      if (!this.a) {
+         if (this.w && GameCanvas.f) {
+            this.w = false;
+            if (System.currentTimeMillis() / 10L - this.x > 40L) {
+               TField.c();
+               this.c();
+            } else {
+               this.v = -1;
+               this.a = true;
+            }
+         }
+
+         if (GameCanvas.a(this.b, this.c, this.d, this.e)) {
+            if (GameCanvas.e) {
+               var2 = (GameCanvas.h - this.b) / this.f;
+               var3 = (GameCanvas.i - this.c) / this.g;
+               this.v = var3 * this.l + var2;
+               var3 = this.v;
+               if (var3 == 2) {
+                  this.x = System.currentTimeMillis() / 10L;
+                  this.w = true;
+               } else {
+                  GameCanvas.a.keyPressed(this.u[var3]);
+               }
+
+               GameCanvas.e = false;
+            }
+
+            if (GameCanvas.f && this.v != -1) {
+               var3 = this.v;
+               if (var3 != 2 && var3 < this.u.length) {
+                  GameCanvas.a.keyReleased(this.u[var3]);
+               }
+
+               this.v = -1;
+               GameCanvas.f = false;
+            }
+         }
+
+      } else {
+         if (GameCanvas.a(this.h, this.i, this.d, this.e)) {
+            if (GameCanvas.e) {
+               var2 = (GameCanvas.h - this.h) / this.k;
+               var3 = (GameCanvas.i - this.i) / this.j;
+               this.v = var3 * this.n + var2;
+               var3 = this.v;
+               if (GameCanvas.G && var3 < 9) {
+                  GameCanvas.a.keyPressed(var3 + 49);
+               } else if (!GameCanvas.G && var3 % 4 != 3) {
+                  GameCanvas.a.keyPressed(var3 + 49 - var3 / 4);
+               } else {
+                  switch (var3) {
+                     case 3:
+                        b();
+                     case 4:
+                     case 5:
+                     case 6:
+                     case 8:
+                     default:
+                        break;
+                     case 7:
+                     case 9:
+                        this.a = false;
+                        break;
+                     case 10:
+                        GameCanvas.a.keyPressed(48);
+                        break;
+                     case 11:
+                        if (GameCanvas.G) {
+                           b();
+                        } else {
+                           GameCanvas.a.keyPressed(48);
+                        }
+                  }
+               }
+
+               GameCanvas.e = false;
+            }
+
+            if (GameCanvas.f && this.v != -1) {
+               this.v = -1;
+               GameCanvas.f = false;
+            }
+         }
+
+      }
+   }
+
+   private void c() {
+      switch (TField.n) {
+         case 0:
+         case 1:
+            this.t = this.q;
+            return;
+         case 2:
+            this.t = this.r;
+            return;
+         case 3:
+            this.t = this.s;
+         default:
+      }
+   }
+
+   public final void a(Graphics var1) {
+      var1.translate(-var1.getTranslateX(), -var1.getTranslateY());
+      var1.setClip(this.b - 4, this.c - 4, this.d + 4, this.e + 4);
+      GamePad var2;
+      Graphics var3;
+      int var4;
+      int var5;
+      if (this.a) {
+         var3 = var1;
+         var2 = this;
+         var1.setClip(this.b, this.c, this.d, this.e);
+         PaintPopup.a(this.h, this.i, this.d, this.e, 8705740, var1);
+         var1.setColor(1);
+         var1.drawRect(this.h, this.i, this.d - 1, this.e - 1);
+
+         for(var4 = 1; var4 < var2.n; ++var4) {
+            var3.fillRect(var2.h + var4 * var2.k, var2.i, 1, var2.e);
+         }
+
+         for(var4 = 1; var4 < var2.o; ++var4) {
+            var3.fillRect(var2.h, var2.i + var4 * var2.j, var2.d, 1);
+         }
+
+         for(var4 = 0; var4 < var2.r.length; ++var4) {
+            var5 = var2.i + var4 / var2.n * var2.j;
+            var3.setClip(var2.h + var4 % var2.n * var2.k, var5 - 5, var2.k, var2.j + 5);
+            if (var2.v == var4) {
+               var3.setColor(14279153);
+               var3.fillRect(var2.h + var4 % var2.n * var2.k + 1, var5 + 1, var2.k - 2, var2.j - 2);
+            }
+
+            GameCanvas.K.a(var3, var2.t[var4], var2.h + var4 % var2.n * var2.k + var2.k / 2, var5 - 5 + var2.j / 2, 2);
+         }
+      } else {
+         var3 = var1;
+         var2 = this;
+         var1.setClip(this.b - 4, this.c - 4, this.d + 4, this.e + 4);
+         PaintPopup.a(this.b, this.c, this.d, this.e, 8705740, var1);
+         var1.setColor(0);
+         var1.drawRect(this.b, this.c, this.d - 1, this.e - 1);
+
+         for(var4 = 1; var4 < var2.l + 1; ++var4) {
+            var3.fillRect(var2.b + var4 * var2.f, var2.c, 1, var2.e);
+         }
+
+         for(var4 = 1; var4 < var2.m; ++var4) {
+            var3.fillRect(var2.b, var2.c + var4 * var2.g, var2.d, 1);
+         }
+
+         for(var4 = 0; var4 < var2.p.length; ++var4) {
+            if (var2.v == var4) {
+               var3.setColor(14279153);
+               var3.fillRect(var2.b + var4 % var2.l * var2.f + 1, var2.c + var4 / var2.l * var2.g + 1, var2.f - 2, var2.g - 2);
+            }
+
+            var5 = var2.b + var4 % var2.l * var2.f + var2.f / 2;
+            int var6 = var2.c + var4 / var2.l * var2.g + var2.g / 2;
+            if (var2.p[var4].equals("ABC")) {
+               GameCanvas.K.a(var3, TField.p[TField.n], var5, var6 - 5, 2);
+            } else {
+               for(int var7 = 0; var7 < 4; ++var7) {
+                  if (var2.p[var4].equals(var2.y[var7])) {
+                     PaintPopup.b.a(0, var5, var6, var2.z[var7], 3, var3);
+                  }
+               }
+            }
+         }
+      }
+
+      var1.setClip(this.b - 4, this.c - 4, this.d + 4, this.e + 4);
+      var1.setColor(2378578);
+      if (GameCanvas.G) {
+         var1.drawRect(this.b - 4, this.c, 4, this.e);
+         var1.setColor(6201499);
+         var1.fillRect(this.b - 4 + 1, this.c + 1, 3, this.e - 2);
+         var1.setColor(2716523);
+         var1.fillRect(this.b - 4 + 3, this.c + 1, 1, this.e - 1);
+      } else {
+         var1.drawRect(this.b, this.c - 4, this.d, 4);
+         var1.setColor(6201499);
+         var1.fillRect(this.b + 1, this.c - 4 + 1, this.d - 2, 3);
+         var1.setColor(2716523);
+         var1.fillRect(this.b + 1, this.c - 4 + 3, this.d - 1, 1);
+      }
+   }
+}

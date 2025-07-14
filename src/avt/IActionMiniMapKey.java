@@ -1,0 +1,78 @@
+package avt;
+
+import main.GameCanvas;
+
+final class IActionMiniMapKey implements IAction {
+   IActionMiniMapKey(MapScr var1) {
+   }
+
+   public final void perform() {
+      int var1 = MiniMap.gI().e;
+      if (GameCanvas.a(8)) {
+         if (var1 == 0) {
+            var1 = 5;
+         } else if (var1 == 1) {
+            var1 = 4;
+         } else if (var1 == 3) {
+            var1 = 6;
+         } else if (var1 == 2) {
+            var1 = 7;
+         } else if (var1 == 4) {
+            var1 = 7;
+         }
+
+         MiniMap.gI().m = true;
+      } else if (GameCanvas.a(2)) {
+         if (var1 == 4) {
+            var1 = 1;
+         } else if (var1 == 5) {
+            var1 = 0;
+         } else if (var1 == 6) {
+            var1 = 3;
+         } else if (var1 == 7) {
+            var1 = 4;
+         } else if (var1 == 3) {
+            var1 = 0;
+         }
+
+         MiniMap.gI().m = true;
+      } else if (GameCanvas.a(6)) {
+         if (var1 == 0) {
+            var1 = 3;
+         } else if (var1 == 1) {
+            var1 = 2;
+         } else if (var1 == 3) {
+            var1 = 4;
+         } else if (var1 == 4) {
+            var1 = 2;
+         } else if (var1 == 6) {
+            var1 = 7;
+         } else if (var1 == 5) {
+            var1 = 3;
+         }
+
+         MiniMap.gI().m = true;
+      } else if (GameCanvas.a(4)) {
+         if (var1 == 1) {
+            var1 = 3;
+         } else if (var1 == 2) {
+            var1 = 1;
+         } else if (var1 == 3) {
+            var1 = 0;
+         } else if (var1 == 6) {
+            var1 = 5;
+         } else if (var1 == 7) {
+            var1 = 6;
+         } else if (var1 == 4) {
+            var1 = 3;
+         }
+
+         MiniMap.gI().m = true;
+      }
+
+      if (MiniMap.gI().m) {
+         MiniMap.gI().e = var1;
+      }
+
+   }
+}

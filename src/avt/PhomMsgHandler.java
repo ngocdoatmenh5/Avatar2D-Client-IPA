@@ -1,0 +1,226 @@
+package avt;
+
+import java.util.Vector;
+import main.GameCanvas;
+
+public final class PhomMsgHandler extends IService implements IMiniGameMsgHandler {
+   private static PhomMsgHandler a = new PhomMsgHandler();
+
+   public static void a() {
+      BoardScr.H = 4;
+      BoardListOnScr.e = BoardListOnScr.c;
+      RoomListOnScr.a(1, PBoardScr.b());
+      CasinoMsgHandler.a.c = a;
+   }
+
+   public final void onMessage(Message var1) {
+      try {
+         int var2 = var1.b().readByte();
+         int var3 = var1.b().readByte();
+         if (BoardScr.a((byte)var2, (byte)var3)) {
+            int var4;
+            int var14;
+            byte var15;
+            boolean var17;
+            byte var19;
+            int var20;
+            byte var27;
+            switch (var1.a) {
+               case 20:
+                  var15 = var1.b().readByte();
+                  Vector var23 = new Vector();
+
+                  for(var4 = 0; var4 < 9; ++var4) {
+                     var27 = var1.b().readByte();
+                     var23.addElement(new Card(var27));
+                  }
+
+                  var4 = var1.b().readInt();
+                  var20 = var1.b().readInt();
+                  GameCanvas.h();
+                  BoardScr.r();
+                  PBoardScr.b().a(var15, var23, var4, var20);
+                  return;
+               case 21:
+                  var2 = var1.b().readInt();
+                  var3 = var1.b().readInt();
+                  var19 = var1.b().readByte();
+                  var27 = 0;
+                  if (var19 != -1) {
+                     var27 = var1.b().readByte();
+                  }
+
+                  GameCanvas.h();
+                  PBoardScr.b().a(var2, var3, var19, var27);
+                  return;
+               case 49:
+                  var2 = var1.b().readInt();
+                  var14 = var1.b().readInt();
+                  PBoardScr.b().b(var2, var14);
+                  return;
+               case 51:
+                  int[] var29 = new int[4];
+
+                  for(var2 = 0; var2 < 4; ++var2) {
+                     var29[var2] = var1.b().readInt();
+                  }
+
+                  int[] var21 = new int[4];
+
+                  for(var3 = 0; var3 < 4; ++var3) {
+                     var21[var3] = var1.b().readInt();
+                  }
+
+                  int[][] var22 = new int[4][11];
+
+                  for(var4 = 0; var4 < 4; ++var4) {
+                     for(var20 = 0; var20 < 11; ++var20) {
+                        var22[var4][var20] = -1;
+                     }
+                  }
+
+                  var4 = 0;
+                  var20 = 0;
+
+                  while(var1.b().available() > 0) {
+                     byte var26;
+                     if ((var26 = var1.b().readByte()) == -1) {
+                        if (var4 < 3) {
+                           ++var4;
+                        }
+
+                        var20 = 0;
+                     } else {
+                        var22[var4][var20] = var26;
+                        if (var20 < 10) {
+                           ++var20;
+                        }
+                     }
+                  }
+
+                  GameCanvas.h();
+                  PBoardScr.b().a(var21, var22);
+                  return;
+               case 62:
+                  var19 = var1.b().readByte();
+                  var2 = var1.b().readInt();
+                  var3 = var1.b().readInt();
+                  var20 = var1.b().readInt();
+                  int[][] var25 = new int[4][4];
+                  int[][] var28 = new int[4][3];
+
+                  int var8;
+                  int var9;
+                  for(var8 = 0; var8 < 4; ++var8) {
+                     for(var9 = 0; var9 < 4; ++var9) {
+                        var25[var8][var9] = -1;
+                        if (var9 < 3) {
+                           var28[var8][var9] = -1;
+                        }
+                     }
+                  }
+
+                  var8 = 0;
+                  var9 = 0;
+
+                  byte var12;
+                  for(int var10 = 0; var10 < 4; ++var10) {
+                     for(int var11 = 0; var11 < 3 && (var12 = var1.b().readByte()) != -2 && var12 != -1; ++var11) {
+                        var28[var10][var11] = var12;
+                     }
+                  }
+
+                  while(true) {
+                     while(var1.b().available() > 0) {
+                        byte var30 = var1.b().readByte();
+                        if (var8 < 3 && var30 == -1) {
+                           ++var8;
+                           var9 = 0;
+                        } else {
+                           var25[var8][var9] = var30;
+                           if (var9 < 3) {
+                              ++var9;
+                           }
+                        }
+                     }
+
+                     PBoardScr.b().a(var19, var2, var3, var25, var28, var20);
+                     return;
+                  }
+               case 63:
+                  var14 = var1.b().readByte();
+                  GameCanvas.h();
+                  PBoardScr.b().c(var14);
+                  return;
+               case 64:
+                  var2 = var1.b().readInt();
+                  var17 = var1.b().readBoolean();
+                  var19 = 0;
+                  if (var17) {
+                     var19 = var1.b().readByte();
+                  }
+
+                  var14 = var1.b().readByte();
+                  GameCanvas.h();
+                  PBoardScr.b().a(var17, var19, var2, (byte)var14);
+                  return;
+               case 65:
+                  var2 = var1.b().readInt();
+                  var17 = var1.b().readBoolean();
+                  boolean var18 = var1.b().readBoolean();
+                  int[] var5 = new int[4];
+                  int[] var24 = new int[12];
+                  if (var17) {
+                     int var7;
+                     for(var7 = 0; var7 < 4; ++var7) {
+                        var5[var7] = var1.b().readInt();
+                     }
+
+                     for(var7 = 0; var7 < 12; ++var7) {
+                        var24[var7] = -1;
+                     }
+
+                     for(var7 = 0; var1.b().available() > 0; ++var7) {
+                        var24[var7] = var1.b().readByte();
+                     }
+                  }
+
+                  GameCanvas.h();
+                  PBoardScr.b().a(var17, var24, var18, var2);
+                  return;
+               case 67:
+                  boolean var6 = var1.b().readBoolean();
+                  var15 = -1;
+                  if (var6) {
+                     var15 = var1.b().readByte();
+                  }
+
+                  GameCanvas.h();
+                  PBoardScr.b().a(var6, var15);
+                  return;
+               case 68:
+                  var14 = var1.b().readByte();
+                  GameCanvas.h();
+                  PBoardScr.b().a((byte)var14);
+                  return;
+               case 69:
+                  var2 = var1.b().readInt();
+                  int[] var16 = new int[4];
+
+                  for(var4 = 0; var4 < 4; ++var4) {
+                     var16[var4] = var1.b().readInt();
+                  }
+
+                  PBoardScr.b().b(var2);
+                  return;
+               case 70:
+                  var1.b().readInt();
+                  PBoardScr.b().m();
+               default:
+            }
+         }
+      } catch (Exception var13) {
+         var13.printStackTrace();
+      }
+   }
+}
