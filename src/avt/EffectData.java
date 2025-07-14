@@ -30,7 +30,7 @@ public final class EffectData {
          }
 
          ImageInfo var10 = var10000;
-         var1.drawRegion(this.c, var10.c * AvMain.Y, var10.d * AvMain.Y, var10.e * AvMain.Y, var10.f * AvMain.Y, 0, var2 * AvMain.Y + var9.b[var5] * AvMain.Y, var3 * AvMain.Y + var9.c[var5] * AvMain.Y, 0);
+         var1.drawRegion(this.c, var10.c * AvMain.hd, var10.d * AvMain.hd, var10.e * AvMain.hd, var10.f * AvMain.hd, 0, var2 * AvMain.hd + var9.b[var5] * AvMain.hd, var3 * AvMain.hd + var9.c[var5] * AvMain.hd, 0);
       }
 
    }

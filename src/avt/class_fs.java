@@ -4,7 +4,7 @@ import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 final class class_fs implements CommandListener {
@@ -25,7 +25,7 @@ final class class_fs implements CommandListener {
          GlobalService.gI().a((byte)2, this.b.getString());
       }
 
-      GameCanvas.a.setFullScreenMode(true);
-      Display.getDisplay(GameMidlet.h).setCurrent(GameCanvas.a);
+      Canvas.a.setFullScreenMode(true);
+      Display.getDisplay(GameMidlet.h).setCurrent(Canvas.a);
    }
 }

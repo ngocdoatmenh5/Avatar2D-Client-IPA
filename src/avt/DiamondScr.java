@@ -3,7 +3,7 @@ package avt;
 import java.io.IOException;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class DiamondScr extends BoardScr {
@@ -47,7 +47,7 @@ public final class DiamondScr extends BoardScr {
       this.R = new Command(T1.O, 20);
       this.S = new Command(T1.B, 21);
       FilePack.b(T1.ax);
-      this.T = FrameImage.a("st", 11 * AvMain.Y, 11 * AvMain.Y);
+      this.T = FrameImage.a("st", 11 * AvMain.hd, 11 * AvMain.hd);
       FilePack.a();
    }
 
@@ -55,7 +55,7 @@ public final class DiamondScr extends BoardScr {
       switch (var1) {
          case 20:
             if (!this.P) {
-               if (this.h == -1 && super.ad == this.R && super.B == GameMidlet.i.w && !this.Q) {
+               if (this.h == -1 && super.ad == this.R && super.B == GameMidlet.avatar.IDDB && !this.Q) {
                   this.h = this.V;
                } else {
                   this.h = -1;
@@ -86,21 +86,21 @@ public final class DiamondScr extends BoardScr {
 
    public final void e() {
       super.e();
-      if (GameCanvas.q > 250) {
-         this.g = 24 * AvMain.Y;
-         this.U = (byte)(24 * AvMain.Y);
+      if (Canvas.q > 250) {
+         this.g = 24 * AvMain.hd;
+         this.U = (byte)(24 * AvMain.hd);
       } else {
          this.g = 16;
          this.U = 16;
       }
 
-      this.aD = 40 * AvMain.Y;
+      this.aD = 40 * AvMain.hd;
       if (this.N == -1 || !BoardScr.j) {
-         this.e = (GameCanvas.m - (this.g << 3)) / 2;
+         this.e = (Canvas.m - (this.g << 3)) / 2;
       }
 
       this.f = this.g / 2 + 2;
-      if (GameCanvas.m < 160) {
+      if (Canvas.m < 160) {
          this.f = 0;
       }
 
@@ -116,7 +116,7 @@ public final class DiamondScr extends BoardScr {
       super.ae = null;
       this.b = -1;
       BoardScr.t = System.currentTimeMillis() + (long)(BoardScr.v * 1000);
-      if (GameMidlet.i.w == super.B) {
+      if (GameMidlet.avatar.IDDB == super.B) {
          this.X = true;
       }
 
@@ -125,51 +125,51 @@ public final class DiamondScr extends BoardScr {
       BoardScr.j = true;
       this.h = -1;
       this.b(var3);
-      GameCanvas.h();
+      Canvas.h();
    }
 
    public final void f() {
-      AvCamera.a().b(0, 0);
+      AvCamera.gI().b(0, 0);
       int var1 = this.e;
       int var2 = this.g << 3;
-      if (GameCanvas.q < 250) {
-         var2 = GameCanvas.m - 50;
+      if (Canvas.q < 250) {
+         var2 = Canvas.m - 50;
          var1 = 25;
       }
 
       for(int var3 = 0; var3 < BoardScr.H; ++var3) {
          Avatar var4;
-         if ((var4 = (Avatar)BoardScr.m.elementAt(var3)).w != -1) {
-            if (var4.w != GameMidlet.i.w) {
+         if ((var4 = (Avatar)BoardScr.m.elementAt(var3)).IDDB != -1) {
+            if (var4.IDDB != GameMidlet.avatar.IDDB) {
                LoadMap.b(var4);
             }
 
-            var4.D = var4.ax = GameCanvas.q - GameCanvas.T - AvMain.ai / 2;
-            if (var4.ax < this.g << 3 && (var1 = this.e - this.aD - 15 * AvMain.Y) < 0) {
+            var4.yCur = var4.y = Canvas.q - Canvas.T - AvMain.ai / 2;
+            if (var4.y < this.g << 3 && (var1 = this.e - this.aD - 15 * AvMain.hd) < 0) {
                var1 = 0;
             }
 
-            if (GameCanvas.m < 160) {
-               var4.D = var4.ax = GameCanvas.q - 10;
+            if (Canvas.m < 160) {
+               var4.yCur = var4.y = Canvas.q - 10;
             }
 
-            if (GameCanvas.Z == 0 && GameCanvas.m > 200) {
-               var4.D = var4.ax -= 10;
+            if (Canvas.Z == 0 && Canvas.m > 200) {
+               var4.yCur = var4.y -= 10;
             }
 
-            if (var4.w == GameMidlet.i.w) {
-               this.L = var1 + 15 * AvMain.Y + this.aD;
-               var4.C = var4.aw = this.L;
-               var4.K = var4.t = 0;
+            if (var4.IDDB == GameMidlet.avatar.IDDB) {
+               this.L = var1 + 15 * AvMain.hd + this.aD;
+               var4.xCur = var4.x = this.L;
+               var4.direct = var4.dirLast = 0;
             } else {
-               this.M = var1 + var2 - 15 * AvMain.Y - this.aD;
-               var4.C = var4.aw = this.M;
-               var4.K = var4.t = Base.J;
+               this.M = var1 + var2 - 15 * AvMain.hd - this.aD;
+               var4.xCur = var4.x = this.M;
+               var4.direct = var4.dirLast = Base.LEFT;
             }
 
-            var4.h = 0;
-            var4.b((byte)0);
-            var4.f(var4.H);
+            var4.ySat = 0;
+            var4.setAction((byte)0);
+            var4.setFrame(var4.action);
          }
       }
 
@@ -184,11 +184,11 @@ public final class DiamondScr extends BoardScr {
 
          for(int var4 = 7; var4 >= 0; --var4) {
             this.d[var3][var4] = new Point(var4 * this.g, var3 * this.g, var1[var3][var4]);
-            this.d[var3][var4].f = this.d[var3][var4].ax;
+            this.d[var3][var4].f = this.d[var3][var4].y;
             this.d[var3][var4].e = -var5;
             --var5;
             this.d[var3][var4].k = true;
-            this.d[var3][var4].ax = -(var4 * this.g + 24);
+            this.d[var3][var4].y = -(var4 * this.g + 24);
          }
       }
 
@@ -201,7 +201,7 @@ public final class DiamondScr extends BoardScr {
       } else {
          if (BoardScr.t != 0L && (BoardScr.u = System.currentTimeMillis()) > BoardScr.t) {
             BoardScr.t = 0L;
-            if (super.B == GameMidlet.i.w && super.ad == this.R) {
+            if (super.B == GameMidlet.avatar.IDDB && super.ad == this.R) {
                this.m();
             }
          }
@@ -211,29 +211,29 @@ public final class DiamondScr extends BoardScr {
 
          int var3;
          for(var3 = 63; var3 >= 0; --var3) {
-            if (this.d[var3 / 8][var3 % 8] != null && this.d[var3 / 8][var3 % 8].az == 1) {
+            if (this.d[var3 / 8][var3 % 8] != null && this.d[var3 / 8][var3 % 8].catagory == 1) {
                Point var4;
                int var10000;
-               if ((var4 = this.d[var3 / 8][var3 % 8]).aw == var4.n && var4.ax == var4.m) {
+               if ((var4 = this.d[var3 / 8][var3 % 8]).x == var4.n && var4.y == var4.m) {
                   var10000 = -1;
-               } else if (Math.abs((var4.n - var4.aw) / 2) <= 1 && Math.abs((var4.m - var4.ax) / 2) <= 1) {
-                  var4.aw = var4.n;
-                  var4.ax = var4.m;
+               } else if (Math.abs((var4.n - var4.x) / 2) <= 1 && Math.abs((var4.m - var4.y) / 2) <= 1) {
+                  var4.x = var4.n;
+                  var4.y = var4.m;
                   var10000 = 0;
                } else {
-                  if (var4.aw != var4.n) {
-                     var4.aw += (var4.n - var4.aw) / 2;
+                  if (var4.x != var4.n) {
+                     var4.x += (var4.n - var4.x) / 2;
                   }
 
-                  if (var4.ax != var4.m) {
-                     var4.ax += (var4.m - var4.ax) / 2;
+                  if (var4.y != var4.m) {
+                     var4.y += (var4.m - var4.y) / 2;
                   }
 
-                  var10000 = CRes.a(var4.aw, var4.ax, var4.n, var4.m) <= var4.o / 5 ? 2 : 1;
+                  var10000 = CRes.a(var4.x, var4.y, var4.n, var4.m) <= var4.o / 5 ? 2 : 1;
                }
 
                if (var10000 == -1) {
-                  this.d[var3 / 8][var3 % 8].az = 0;
+                  this.d[var3 / 8][var3 % 8].catagory = 0;
                   var2 = true;
                } else {
                   var1 = true;
@@ -249,7 +249,7 @@ public final class DiamondScr extends BoardScr {
                this.u();
                super.ad = this.R;
                super.ae = this.S;
-            } else if (super.B == GameMidlet.i.w) {
+            } else if (super.B == GameMidlet.avatar.IDDB) {
                CasinoService.a().a(this.h, this.V);
             }
 
@@ -264,18 +264,18 @@ public final class DiamondScr extends BoardScr {
             for(var5 = 63; var5 >= 0; --var5) {
                if (this.d[var5 / 8][var5 % 8] != null && this.d[var5 / 8][var5 % 8].k) {
                   Point var13 = this.d[var5 / 8][var5 % 8];
-                  var13.aw += this.d[var5 / 8][var5 % 8].b;
+                  var13.x += this.d[var5 / 8][var5 % 8].b;
                   if (this.d[var5 / 8][var5 % 8].b > 1 || this.d[var5 / 8][var5 % 8].b < -1) {
                      var13 = this.d[var5 / 8][var5 % 8];
                      var13.b -= this.d[var5 / 8][var5 % 8].b / CRes.f(this.d[var5 / 8][var5 % 8].b);
                   }
 
                   var13 = this.d[var5 / 8][var5 % 8];
-                  var13.ax += this.d[var5 / 8][var5 % 8].e;
+                  var13.y += this.d[var5 / 8][var5 % 8].e;
                   var13 = this.d[var5 / 8][var5 % 8];
                   var13.e += 2;
-                  if (this.d[var5 / 8][var5 % 8].ax >= this.d[var5 / 8][var5 % 8].f) {
-                     this.d[var5 / 8][var5 % 8].ax = this.d[var5 / 8][var5 % 8].f;
+                  if (this.d[var5 / 8][var5 % 8].y >= this.d[var5 / 8][var5 % 8].f) {
+                     this.d[var5 / 8][var5 % 8].y = this.d[var5 / 8][var5 % 8].f;
                      this.d[var5 / 8][var5 % 8].k = false;
                   } else {
                      var9 = true;
@@ -284,7 +284,7 @@ public final class DiamondScr extends BoardScr {
             }
 
             if (!var9 && this.Q) {
-               if (super.B == GameMidlet.i.w) {
+               if (super.B == GameMidlet.avatar.IDDB) {
                   if (!this.X) {
                      if (this.aG) {
                         this.v();
@@ -310,7 +310,7 @@ public final class DiamondScr extends BoardScr {
 
                for(var5 = 4 - this.K / 10; var5 < 4 + var10.K / 10; ++var5) {
                   for(var6 = 4 - var10.K / 10; var6 < 4 + var10.K / 10; ++var6) {
-                     var10.b(var10.d[var5][var6].aw + 12, var10.d[var5][var6].ax + 12, var10.d[var5][var6].j);
+                     var10.b(var10.d[var5][var6].x + 12, var10.d[var5][var6].y + 12, var10.d[var5][var6].j);
                      var10.d[var5][var6].j = -1;
                   }
                }
@@ -334,8 +334,8 @@ public final class DiamondScr extends BoardScr {
             }
 
             if (!var7.k) {
-               if (CRes.f((var6 = CRes.a(var7.n - var7.aw, -(var7.m - var7.ax))) - var7.e) > 10) {
-                  var7.e -= var7.aA * var7.az;
+               if (CRes.f((var6 = CRes.a(var7.n - var7.x, -(var7.m - var7.y))) - var7.e) > 10) {
+                  var7.e -= var7.height * var7.catagory;
                   var7.e = CRes.c(var7.e);
                } else {
                   var7.e = var6;
@@ -349,25 +349,25 @@ public final class DiamondScr extends BoardScr {
                ++var7.f;
                int var11 = var7.i * CRes.b(var7.e) >> 10;
                var6 = -(var7.i * CRes.a(var7.e)) >> 10;
-               if (CRes.a(var7.aw, var7.ax, var7.n, var7.m) >= var7.i) {
-                  var7.aw += var11;
-                  var7.ax += var6;
+               if (CRes.a(var7.x, var7.y, var7.n, var7.m) >= var7.i) {
+                  var7.x += var11;
+                  var7.y += var6;
                } else {
                   this.O.removeElement(var7);
                }
             } else {
-               var7.aw += var7.b;
+               var7.x += var7.b;
                if (var7.b > 1 || var7.b < -1) {
                   var7.b -= var7.b / CRes.f(var7.b);
                }
 
-               var7.ax += var7.e;
+               var7.y += var7.e;
                ++var7.e;
-               if (var7.az == 1 && var7.f < 19) {
+               if (var7.catagory == 1 && var7.f < 19) {
                   ++var7.f;
                }
 
-               if (var7.ax + this.f > GameCanvas.n) {
+               if (var7.y + this.f > Canvas.n) {
                   this.O.removeElement(var7);
                }
             }
@@ -375,27 +375,27 @@ public final class DiamondScr extends BoardScr {
 
          for(var3 = 0; var3 < 2; ++var3) {
             Avatar var8;
-            if ((var8 = (Avatar)BoardScr.m.elementAt(var3)).Q == -1 && CRes.f(var8.C - var8.aw) < 10) {
+            if ((var8 = (Avatar)BoardScr.m.elementAt(var3)).task == -1 && CRes.f(var8.xCur - var8.x) < 10) {
                if (this.N == -2) {
                   this.N = -1;
-                  var8.Q = 0;
-                  if (var8.w == this.b) {
-                     var8.a((byte)10);
-                     var8.e(10);
+                  var8.task = 0;
+                  if (var8.IDDB == this.b) {
+                     var8.doAction((byte)10);
+                     var8.setFeel(10);
                   } else {
-                     var8.H = 0;
+                     var8.action = 0;
                      if (this.b != -1) {
-                        var8.e(9);
+                        var8.setFeel(9);
                      }
                   }
 
                   this.c = false;
-                  if (var8.w == GameMidlet.i.w) {
-                     var8.K = 0;
+                  if (var8.IDDB == GameMidlet.avatar.IDDB) {
+                     var8.direct = 0;
                   }
-               } else if (var8.Q == -1) {
-                  if (var8.ad && GameCanvas.l % 6 == 3) {
-                     this.c(var8.aw, var8.ax - var8.aA, 0);
+               } else if (var8.task == -1) {
+                  if (var8.isNo && Canvas.gameTick % 6 == 3) {
+                     this.c(var8.x, var8.y - var8.height, 0);
                   }
 
                   if (this.N != -1) {
@@ -403,21 +403,21 @@ public final class DiamondScr extends BoardScr {
                         --this.N;
                         if (this.N == -1) {
                            this.N = -2;
-                           if (var8.w == GameMidlet.i.w) {
-                              var8.C = this.L;
+                           if (var8.IDDB == GameMidlet.avatar.IDDB) {
+                              var8.xCur = this.L;
                            } else {
-                              var8.C = this.M;
+                              var8.xCur = this.M;
                            }
                         }
                      }
                   } else {
                      for(var6 = 0; var6 < 2; ++var6) {
                         Avatar var12;
-                        if ((var12 = (Avatar)BoardScr.m.elementAt(var6)).w != var8.w) {
-                           var12.e(20);
-                           var12.H = 4;
-                           var12.L = true;
-                           var8.L = true;
+                        if ((var12 = (Avatar)BoardScr.m.elementAt(var6)).IDDB != var8.IDDB) {
+                           var12.setFeel(20);
+                           var12.action = 4;
+                           var12.ableShow = true;
+                           var8.ableShow = true;
                         }
                      }
 
@@ -429,40 +429,40 @@ public final class DiamondScr extends BoardScr {
                }
             }
 
-            if (var8.aj > 0) {
-               var6 = var8.al / 100 + 1;
-               if (var8.aj - var6 < 0) {
-                  var6 = var8.aj;
+            if (var8.plusHP > 0) {
+               var6 = var8.maxHP / 100 + 1;
+               if (var8.plusHP - var6 < 0) {
+                  var6 = var8.plusHP;
                }
 
-               var8.aj = (short)(var8.aj - var6);
-               var8.ah = (short)(var8.ah + var6);
-            } else if (var8.aj < 0) {
-               var6 = var8.al / 100 + 1;
-               if (var8.aj + var6 > 0) {
-                  var6 = -var8.aj;
+               var8.plusHP = (short)(var8.plusHP - var6);
+               var8.hp = (short)(var8.hp + var6);
+            } else if (var8.plusHP < 0) {
+               var6 = var8.maxHP / 100 + 1;
+               if (var8.plusHP + var6 > 0) {
+                  var6 = -var8.plusHP;
                }
 
-               var8.ah = (short)(var8.ah - var6);
-               var8.aj = (short)(var8.aj + var6);
+               var8.hp = (short)(var8.hp - var6);
+               var8.plusHP = (short)(var8.plusHP + var6);
             }
 
-            if (var8.ak > 0) {
-               var6 = var8.al / 100 + 1;
-               if (var8.ak - var6 < 0) {
-                  var6 = var8.ak;
+            if (var8.plusMP > 0) {
+               var6 = var8.maxHP / 100 + 1;
+               if (var8.plusMP - var6 < 0) {
+                  var6 = var8.plusMP;
                }
 
-               var8.ak = (short)(var8.ak - var6);
-               var8.ai = (short)(var8.ai + var6);
-            } else if (var8.ak < 0) {
-               var6 = var8.al / 100 + 1;
-               if (var8.ak + var6 > 0) {
-                  var6 = -var8.ak;
+               var8.plusMP = (short)(var8.plusMP - var6);
+               var8.mp = (short)(var8.mp + var6);
+            } else if (var8.plusMP < 0) {
+               var6 = var8.maxHP / 100 + 1;
+               if (var8.plusMP + var6 > 0) {
+                  var6 = -var8.plusMP;
                }
 
-               var8.ai = (short)(var8.ai - var6);
-               var8.ak = (short)(var8.ak + var6);
+               var8.mp = (short)(var8.mp - var6);
+               var8.plusMP = (short)(var8.plusMP + var6);
             }
          }
 
@@ -501,35 +501,35 @@ public final class DiamondScr extends BoardScr {
                   this.c(var1 + this.e, var2 + this.f, 0);
                   return;
                case 1:
-                  var5 = var4.aw;
-                  var6 = var4.ax - var4.aA / 2;
+                  var5 = var4.x;
+                  var6 = var4.y - var4.height / 2;
                   if (var4.an > 0) {
-                     if (var4.w == GameMidlet.i.w) {
+                     if (var4.IDDB == GameMidlet.avatar.IDDB) {
                         var5 = this.L - 20 - 7;
                      } else {
                         var5 = this.M + 7 + 20;
                      }
 
-                     var6 = var4.ax - 22;
+                     var6 = var4.y - 22;
                   }
                   break;
                case 2:
-                  if (var4.w == GameMidlet.i.w) {
-                     var5 = this.L - 20 - this.aD + var4.ah * this.aD / var4.al;
+                  if (var4.IDDB == GameMidlet.avatar.IDDB) {
+                     var5 = this.L - 20 - this.aD + var4.hp * this.aD / var4.maxHP;
                   } else {
-                     var5 = this.M + (this.aD - var4.ah * this.aD / var4.al) + 20 - var4.ah * this.aD / var4.al;
+                     var5 = this.M + (this.aD - var4.hp * this.aD / var4.maxHP) + 20 - var4.hp * this.aD / var4.maxHP;
                   }
 
-                  var6 = var4.ax - 2 - 10 * AvMain.Y;
+                  var6 = var4.y - 2 - 10 * AvMain.hd;
                   break;
                case 3:
-                  if (var4.w == GameMidlet.i.w) {
-                     var5 = this.L - 20 - this.aD + var4.ai * this.aD / var4.am;
+                  if (var4.IDDB == GameMidlet.avatar.IDDB) {
+                     var5 = this.L - 20 - this.aD + var4.mp * this.aD / var4.maxMP;
                   } else {
-                     var5 = this.M + (this.aD - var4.ai * this.aD / var4.am) + 20 - var4.ah * this.aD / var4.al;
+                     var5 = this.M + (this.aD - var4.mp * this.aD / var4.maxMP) + 20 - var4.hp * this.aD / var4.maxHP;
                   }
 
-                  var6 = var4.ax - 5 * AvMain.Y;
+                  var6 = var4.y - 5 * AvMain.hd;
                   break;
                case 4:
                   this.c(var1 + this.e, var2 + this.f, 4);
@@ -545,20 +545,20 @@ public final class DiamondScr extends BoardScr {
             for(int var11 = 0; var11 < (var3 != 1 ? 3 : 1); ++var11) {
                Point var7;
                (var7 = new Point(var1 + this.e, var2 + this.f)).o = (short)var3;
-               var7.f = CRes.e(3);
+               var7.f = CRes.rnd(3);
                int var8 = CRes.a(var5 - var1, -(var6 - var2));
                var7.b = var8;
-               var7.az = (byte)CRes.b(-1, 1);
-               var7.e = CRes.c(var7.b + var7.az * 90);
+               var7.catagory = (byte)CRes.rnd(-1, 1);
+               var7.e = CRes.c(var7.b + var7.catagory * 90);
                var8 = 10 * CRes.b(var7.e) >> 10;
                int var9 = -(10 * CRes.a(var7.e)) >> 10;
                var7.n = (short)var5;
                var7.m = (short)var6;
-               var7.aw += var8;
-               var7.ax += var9;
+               var7.x += var8;
+               var7.y += var9;
                var7.f = 0;
-               var7.i = (byte)(CRes.e(4) + 4);
-               var7.aA = (short)(10 + CRes.e(5));
+               var7.i = (byte)(CRes.rnd(4) + 4);
+               var7.height = (short)(10 + CRes.rnd(5));
                this.O.addElement(var7);
             }
 
@@ -573,14 +573,14 @@ public final class DiamondScr extends BoardScr {
          this.O.addElement(var4);
 
          for(int var7 = 0; var7 < 3; ++var7) {
-            int var5 = CRes.b(-1, 1);
+            int var5 = CRes.rnd(-1, 1);
             Point var6;
             (var6 = new Point(var1, var2)).k = true;
-            var6.f = CRes.e(3);
-            var6.b = var5 * (CRes.e(100) / 10);
-            var6.e = -CRes.e(100) / 10;
+            var6.f = CRes.rnd(3);
+            var6.b = var5 * (CRes.rnd(100) / 10);
+            var6.e = -CRes.rnd(100) / 10;
             var6.i = (byte)var3;
-            var6.az = 1;
+            var6.catagory = 1;
             var6.g = 0;
             this.O.addElement(var6);
          }
@@ -606,18 +606,18 @@ public final class DiamondScr extends BoardScr {
       super.l();
       int var1;
       int var2;
-      if (GameCanvas.g && GameCanvas.a(this.e, this.f, this.g << 3, this.g << 3) && this.h == -1) {
-         GameCanvas.g = false;
+      if (Canvas.g && Canvas.a(this.e, this.f, this.g << 3, this.g << 3) && this.h == -1) {
+         Canvas.g = false;
          this.aC = true;
-         var1 = (GameCanvas.h - this.e) / this.g;
-         var2 = (GameCanvas.i - this.f) / this.g;
+         var1 = (Canvas.h - this.e) / this.g;
+         var2 = (Canvas.i - this.f) / this.g;
          this.V = (var2 << 3) + var1;
       }
 
       if (!this.P && !this.Q && super.ad == this.R && super.ad != BoardScr.E && this.aC) {
-         if (GameCanvas.e) {
-            var1 = GameCanvas.k();
-            var2 = GameCanvas.l();
+         if (Canvas.e) {
+            var1 = Canvas.k();
+            var2 = Canvas.l();
             if (var1 < -this.g / 2) {
                if (this.V % 8 < 7) {
                   this.h = this.V++;
@@ -645,14 +645,14 @@ public final class DiamondScr extends BoardScr {
             }
          }
 
-         if (GameCanvas.f) {
-            GameCanvas.f = false;
+         if (Canvas.f) {
+            Canvas.f = false;
             this.aC = false;
          }
       }
 
       if (BoardScr.j && super.ad != BoardScr.E) {
-         if (GameCanvas.a(2)) {
+         if (Canvas.a(2)) {
             if (!this.P && !this.Q) {
                if (this.V >= 8) {
                   this.V -= 8;
@@ -661,7 +661,7 @@ public final class DiamondScr extends BoardScr {
                this.u();
                return;
             }
-         } else if (GameCanvas.a(4)) {
+         } else if (Canvas.a(4)) {
             if (!this.P && !this.Q) {
                if (this.V % 8 > 0) {
                   --this.V;
@@ -670,7 +670,7 @@ public final class DiamondScr extends BoardScr {
                this.u();
                return;
             }
-         } else if (GameCanvas.a(6)) {
+         } else if (Canvas.a(6)) {
             if (!this.P && !this.Q) {
                if (this.V % 8 < 7) {
                   ++this.V;
@@ -679,7 +679,7 @@ public final class DiamondScr extends BoardScr {
                this.u();
                return;
             }
-         } else if (GameCanvas.a(8) && !this.P && !this.Q) {
+         } else if (Canvas.a(8) && !this.P && !this.Q) {
             if (this.V / 8 < 7) {
                this.V += 8;
             }
@@ -698,17 +698,17 @@ public final class DiamondScr extends BoardScr {
          this.aC = false;
          Point var1 = this.d[this.V / 8][this.V % 8];
          Point var2 = this.d[this.h / 8][this.h % 8];
-         int var3 = var1.aw;
-         int var4 = var1.ax;
+         int var3 = var1.x;
+         int var4 = var1.y;
          short var5 = var1.j;
-         var1.aw = var2.aw;
-         var1.ax = var2.ax;
+         var1.x = var2.x;
+         var1.y = var2.y;
          var1.j = var2.j;
-         var2.aw = var3;
-         var2.ax = var4;
+         var2.x = var3;
+         var2.y = var4;
          var2.j = var5;
-         var2.az = 1;
-         var1.az = 1;
+         var2.catagory = 1;
+         var1.catagory = 1;
       }
    }
 
@@ -777,7 +777,7 @@ public final class DiamondScr extends BoardScr {
                      var7.d[var6 / 8][var6 % 8].k = true;
                   }
 
-                  var7.d[var6 / 8][var6 % 8].ax = var7.d[(var6 - 8) / 8][(var6 - 8) % 8].ax;
+                  var7.d[var6 / 8][var6 % 8].y = var7.d[(var6 - 8) / 8][(var6 - 8) % 8].y;
                }
 
                var7.d[0][var4 % 8].j = -2;
@@ -786,11 +786,11 @@ public final class DiamondScr extends BoardScr {
                   var7.d[0][var4 % 8].e = -var5;
                   ++var5;
                   var7.d[0][var4 % 8].k = true;
-                  var7.d[0][var4 % 8].ax = 0;
+                  var7.d[0][var4 % 8].y = 0;
                }
 
                Point var10000 = var7.d[0][var4 % 8];
-               var10000.ax -= 24;
+               var10000.y -= 24;
                ++var2;
             }
          }
@@ -808,56 +808,56 @@ public final class DiamondScr extends BoardScr {
       if (!BoardScr.j) {
          this.a_(var1);
       } else {
-         GameCanvas.c(var1);
+         Canvas.resetTrans(var1);
          Graphics var3 = var1;
          DiamondScr var2 = this;
          var1.translate(this.e, this.f);
          int var5;
-         if (AvatarData.c((short)876).d != -1) {
+         if (AvatarData.c((short)876).count != -1) {
             for(var5 = 0; var5 < var2.aE.size(); ++var5) {
                Point var6 = (Point)var2.aE.elementAt(var5);
                int var4 = var5 * 17 - var2.g / 2 + 8;
-               if (var6.f != GameMidlet.i.w) {
+               if (var6.f != GameMidlet.avatar.IDDB) {
                   var4 = (var2.g << 3) - var5 * 17 + var2.g / 2 - 8;
                }
 
                int var10003 = var6.j << 4;
                int var10008 = (var2.g << 3) + var2.g;
-               var3.drawRegion(AvatarData.c((short)876).a, 0, var10003, 16, 16, 0, var4, var10008, 3);
-               GameCanvas.Q.a(var3, String.valueOf(var6.i), var4, (var2.g << 3) + var2.g - AvMain.ai / 2, 2);
+               var3.drawRegion(AvatarData.c((short)876).img, 0, var10003, 16, 16, 0, var4, var10008, 3);
+               Canvas.smallFontYellow.a(var3, String.valueOf(var6.i), var4, (var2.g << 3) + var2.g - AvMain.ai / 2, 2);
             }
          }
 
          var3.setClip(-var2.g / 2, -var2.g / 2, (var2.g << 3) + var2.g, (var2.g << 3) + var2.g);
          ImageIcon var9;
-         if (var2.V >= 0 && var2.d[var2.V / 8][var2.V % 8] != null && (var2.B != GameMidlet.i.w || GameCanvas.l % 10 != 5) && (var9 = AvatarData.c((short)(GameCanvas.q > 250 ? 878 : 879))).d != -1) {
-            var3.drawRegion(var9.a, 0, (var2.h != -1 && GameCanvas.l % 6 < 3 ? 1 : 0) * var2.g, var2.g, var2.g, 0, var2.d[var2.V / 8][var2.V % 8].aw, var2.d[var2.V / 8][var2.V % 8].ax, 0);
+         if (var2.V >= 0 && var2.d[var2.V / 8][var2.V % 8] != null && (var2.B != GameMidlet.avatar.IDDB || Canvas.gameTick % 10 != 5) && (var9 = AvatarData.c((short)(Canvas.q > 250 ? 878 : 879))).count != -1) {
+            var3.drawRegion(var9.img, 0, (var2.h != -1 && Canvas.gameTick % 6 < 3 ? 1 : 0) * var2.g, var2.g, var2.g, 0, var2.d[var2.V / 8][var2.V % 8].x, var2.d[var2.V / 8][var2.V % 8].y, 0);
          }
 
-         if ((var9 = AvatarData.c((short)(GameCanvas.q > 250 ? 875 : 876))).d != -1) {
+         if ((var9 = AvatarData.c((short)(Canvas.q > 250 ? 875 : 876))).count != -1) {
             for(var5 = 0; var5 < 8; ++var5) {
                for(int var10 = 0; var10 < 8; ++var10) {
                   if (var2.d[var5][var10] != null && var2.d[var5][var10].j >= 0) {
-                     var3.drawRegion(var9.a, 0, var2.d[var5][var10].j * var2.U, var2.U, var2.U, 0, var2.d[var5][var10].aw, var2.d[var5][var10].ax, 0);
+                     var3.drawRegion(var9.img, 0, var2.d[var5][var10].j * var2.U, var2.U, var2.U, 0, var2.d[var5][var10].x, var2.d[var5][var10].y, 0);
                   }
                }
             }
          }
 
-         GameCanvas.c(var1);
-         if (GameCanvas.m > 160) {
+         Canvas.resetTrans(var1);
+         if (Canvas.m > 160) {
             this.a_(var1);
          }
 
          this.e(var1);
-         GameCanvas.c(var1);
+         Canvas.resetTrans(var1);
          String var7 = "";
          if (BoardScr.t != 0L) {
             long var8 = (BoardScr.u - BoardScr.t) / 1000L;
             var7 = var7 + -var8;
          }
 
-         GameCanvas.O.a(var1, var7, this.e + (this.g << 3) / 2, this.f + (this.g << 3) + GameCanvas.O.a() + 2, 2);
+         Canvas.O.a(var1, var7, this.e + (this.g << 3) / 2, this.f + (this.g << 3) + Canvas.O.a() + 2, 2);
          this.f(var1);
       }
    }
@@ -889,8 +889,8 @@ public final class DiamondScr extends BoardScr {
       for(int var11 = 0; var11 < 2; ++var11) {
          Avatar var12 = (Avatar)BoardScr.m.elementAt(var11);
          ImageIcon var2;
-         if (this.N != -1 && var12.Q == -1 && var12.H == 0 && (var2 = AvatarData.c((short)(this.c ? 882 : 881))).d != -1) {
-            var1.drawRegion(var2.a, 0, 48 * AvMain.Y * (GameCanvas.l % 6 < 3 ? 0 : 1), 48 * AvMain.Y, 48 * AvMain.Y, 0, var12.aw, var12.ax - var12.aA / 2, 3);
+         if (this.N != -1 && var12.task == -1 && var12.action == 0 && (var2 = AvatarData.c((short)(this.c ? 882 : 881))).count != -1) {
+            var1.drawRegion(var2.img, 0, 48 * AvMain.hd * (Canvas.gameTick % 6 < 3 ? 0 : 1), 48 * AvMain.hd, 48 * AvMain.hd, 0, var12.x, var12.y - var12.height / 2, 3);
          }
 
          byte var5;
@@ -900,8 +900,8 @@ public final class DiamondScr extends BoardScr {
          int var9;
          int var10;
          int var13;
-         if (var12.w == GameMidlet.i.w) {
-            var13 = this.L - (10 + 10 * AvMain.Y + this.aD);
+         if (var12.IDDB == GameMidlet.avatar.IDDB) {
+            var13 = this.L - (10 + 10 * AvMain.hd + this.aD);
             var3 = 0;
             var9 = 0;
             var10 = 0;
@@ -909,70 +909,70 @@ public final class DiamondScr extends BoardScr {
             var6 = -2;
             var5 = 1;
             var7 = this.aD - 7;
-            var8 = this.aD - 16 * AvMain.Y;
-            if (GameCanvas.m > 160) {
-               GameCanvas.Q.a(var1, var12.c() + " " + T1.k(), var13 + this.aD, var12.ax, 1);
+            var8 = this.aD - 16 * AvMain.hd;
+            if (Canvas.m > 160) {
+               Canvas.smallFontYellow.a(var1, var12.getMoneyNew() + " " + T1.k(), var13 + this.aD, var12.y, 1);
             }
          } else {
-            var13 = this.M + 10 + 10 * AvMain.Y;
-            var3 += this.aD - var12.ah * this.aD / var12.al;
-            var4 += this.aD - var12.ai * this.aD / var12.am;
-            var10 = this.aD - (var12.ah + var12.aj) * this.aD / var12.al;
-            var9 = this.aD - (var12.ai + var12.ak) * this.aD / var12.am;
+            var13 = this.M + 10 + 10 * AvMain.hd;
+            var3 += this.aD - var12.hp * this.aD / var12.maxHP;
+            var4 += this.aD - var12.mp * this.aD / var12.maxMP;
+            var10 = this.aD - (var12.hp + var12.plusHP) * this.aD / var12.maxHP;
+            var9 = this.aD - (var12.mp + var12.plusMP) * this.aD / var12.maxMP;
             var6 = this.aD + 2;
             var7 = 8;
             var5 = 0;
-            var8 = 16 * AvMain.Y;
-            if (GameCanvas.m > 160) {
-               GameCanvas.Q.a(var1, var12.c() + " " + T1.k(), var13, var12.ax, 0);
+            var8 = 16 * AvMain.hd;
+            if (Canvas.m > 160) {
+               Canvas.smallFontYellow.a(var1, var12.getMoneyNew() + " " + T1.k(), var13, var12.y, 0);
             }
          }
 
-         GameCanvas.Q.a(var1, String.valueOf(var12.ah), var13 + var6, var12.ax - (AvMain.ai << 1) + 3 * AvMain.Y - AvMain.ai / 2, var5);
-         GameCanvas.Q.a(var1, String.valueOf(var12.ai), var13 + var6, var12.ax - AvMain.ai + 3 * AvMain.Y - AvMain.ai / 2, var5);
-         if (var12.an > 0 && var12.ag <= 0 || var12.ag > 0 && GameCanvas.l % 6 < 3) {
-            AvatarData.a(var1, 880, var13 + var7, var12.ax - AvMain.ai * 3, 3);
-            GameCanvas.Q.a(var1, String.valueOf(var12.an), var13 + var8, var12.ax - AvMain.ai * 3 - AvMain.ai / 2, var5);
-            if (var12.ag > 0) {
-               --var12.ag;
+         Canvas.smallFontYellow.a(var1, String.valueOf(var12.hp), var13 + var6, var12.y - (AvMain.ai << 1) + 3 * AvMain.hd - AvMain.ai / 2, var5);
+         Canvas.smallFontYellow.a(var1, String.valueOf(var12.mp), var13 + var6, var12.y - AvMain.ai + 3 * AvMain.hd - AvMain.ai / 2, var5);
+         if (var12.an > 0 && var12.countDefent <= 0 || var12.countDefent > 0 && Canvas.gameTick % 6 < 3) {
+            AvatarData.a(var1, 880, var13 + var7, var12.y - AvMain.ai * 3, 3);
+            Canvas.smallFontYellow.a(var1, String.valueOf(var12.an), var13 + var8, var12.y - AvMain.ai * 3 - AvMain.ai / 2, var5);
+            if (var12.countDefent > 0) {
+               --var12.countDefent;
             }
          }
 
-         if (var12.aj != 0 && GameCanvas.l % 6 >= 3) {
+         if (var12.plusHP != 0 && Canvas.gameTick % 6 >= 3) {
             var1.setColor(1908254);
          } else {
             var1.setColor(0);
          }
 
-         var1.fillRect(var13, var12.ax - (AvMain.ai << 1), this.aD, 6 * AvMain.Y);
-         var1.fillRect(var13, var12.ax - AvMain.ai, this.aD, 6 * AvMain.Y);
-         if (var12.aj > 0) {
+         var1.fillRect(var13, var12.y - (AvMain.ai << 1), this.aD, 6 * AvMain.hd);
+         var1.fillRect(var13, var12.y - AvMain.ai, this.aD, 6 * AvMain.hd);
+         if (var12.plusHP > 0) {
             var1.setColor(16583178);
-            var1.fillRect(var13 + var10, var12.ax - 4 - 10 * AvMain.Y, (var12.ah + var12.aj) * this.aD / var12.al, 6 * AvMain.Y);
+            var1.fillRect(var13 + var10, var12.y - 4 - 10 * AvMain.hd, (var12.hp + var12.plusHP) * this.aD / var12.maxHP, 6 * AvMain.hd);
          }
 
-         if (var12.aj != 0 && GameCanvas.l % 6 >= 3) {
+         if (var12.plusHP != 0 && Canvas.gameTick % 6 >= 3) {
             var1.setColor(16734553);
          } else {
             var1.setColor(16711680);
          }
 
-         var1.fillRect(var13 + var3, var12.ax - (AvMain.ai << 1), var12.ah * this.aD / var12.al, 6 * AvMain.Y);
+         var1.fillRect(var13 + var3, var12.y - (AvMain.ai << 1), var12.hp * this.aD / var12.maxHP, 6 * AvMain.hd);
          var1.setColor(14137273);
-         var1.drawRect(var13, var12.ax - (AvMain.ai << 1), this.aD, 6 * AvMain.Y);
-         var1.drawRect(var13, var12.ax - AvMain.ai, this.aD, 6 * AvMain.Y);
-         if (var12.ak > 0) {
+         var1.drawRect(var13, var12.y - (AvMain.ai << 1), this.aD, 6 * AvMain.hd);
+         var1.drawRect(var13, var12.y - AvMain.ai, this.aD, 6 * AvMain.hd);
+         if (var12.plusMP > 0) {
             var1.setColor(3771903);
-            var1.fillRect(var13 + var9, var12.ax - AvMain.ai + 1, (var12.ai + var12.ak) * this.aD / var12.am, 6 * AvMain.Y - 1);
+            var1.fillRect(var13 + var9, var12.y - AvMain.ai + 1, (var12.mp + var12.plusMP) * this.aD / var12.maxMP, 6 * AvMain.hd - 1);
          }
 
-         if ((var12.ak != 0 || var12.ad) && GameCanvas.l % 6 >= 3) {
+         if ((var12.plusMP != 0 || var12.isNo) && Canvas.gameTick % 6 >= 3) {
             var1.setColor(6799871);
          } else {
             var1.setColor(299247);
          }
 
-         var1.fillRect(var13 + var4, var12.ax - AvMain.ai + 1, var12.ai * this.aD / var12.am, 6 * AvMain.Y - 1);
+         var1.fillRect(var13 + var4, var12.y - AvMain.ai + 1, var12.mp * this.aD / var12.maxMP, 6 * AvMain.hd - 1);
       }
 
    }
@@ -981,11 +981,11 @@ public final class DiamondScr extends BoardScr {
       for(int var2 = 0; var2 < this.O.size(); ++var2) {
          Point var3;
          if ((var3 = (Point)this.O.elementAt(var2)).g > 0) {
-            AvatarData.a(var1, 877, var3.aw, var3.ax, 3);
+            AvatarData.a(var1, 877, var3.x, var3.y, 3);
          } else if (var3.k) {
-            this.T.a(var3.f / 5, var3.aw, var3.ax, 0, 3, var1);
+            this.T.drawFrame(var3.f / 5, var3.x, var3.y, 0, 3, var1);
          } else if (var3.i >= 0) {
-            this.T.a(var3.f / 2 + 1, var3.aw, var3.ax, 0, 3, var1);
+            this.T.drawFrame(var3.f / 2 + 1, var3.x, var3.y, 0, 3, var1);
          }
       }
 
@@ -996,7 +996,7 @@ public final class DiamondScr extends BoardScr {
       int var7;
       for(var6 = 0; var6 < var1.length; ++var6) {
          this.d[var1[var6] / 8][var1[var6] % 8].l = true;
-         if (GameCanvas.n > 300) {
+         if (Canvas.n > 300) {
             boolean var5 = false;
 
             for(var7 = 0; var7 < this.aE.size(); ++var7) {
@@ -1026,7 +1026,7 @@ public final class DiamondScr extends BoardScr {
          for(var6 = 0; var6 < 8; ++var6) {
             if (var9.d[var10][var6].l) {
                var9.d[var10][var6].l = false;
-               var9.b(var9.d[var10][var6].aw + 12, var9.d[var10][var6].ax + 12, var9.d[var10][var6].j);
+               var9.b(var9.d[var10][var6].x + 12, var9.d[var10][var6].y + 12, var9.d[var10][var6].j);
                var9.d[var10][var6].j = -1;
             }
          }
@@ -1040,42 +1040,42 @@ public final class DiamondScr extends BoardScr {
       }
 
       if (var3 > 1) {
-         GameCanvas.a("Combo x" + var3, GameCanvas.o, GameCanvas.p, -1, 1, 20);
+         Canvas.a("Combo x" + var3, Canvas.o, Canvas.hh, -1, 1, 20);
       }
 
       if (var4.size() > 0) {
          for(var6 = 0; var6 < var4.size(); ++var6) {
-            GameCanvas.a((String)var4.elementAt(var6), GameCanvas.o, GameCanvas.p + 40, -1, 1, var6 * 30);
+            Canvas.a((String)var4.elementAt(var6), Canvas.o, Canvas.hh + 40, -1, 1, var6 * 30);
          }
       }
 
       for(var6 = 0; var6 < 2; ++var6) {
          Avatar var12;
-         (var12 = (Avatar)BoardScr.m.elementAt(var6)).e(4);
-         if (var12.w != super.B && var12.af > 0) {
+         (var12 = (Avatar)BoardScr.m.elementAt(var6)).setFeel(4);
+         if (var12.IDDB != super.B && var12.fight > 0) {
             Avatar var13;
-            if ((var13 = BoardScr.h(super.B)).Q != -1) {
-               var13.d(var12.aw, var12.ax);
+            if ((var13 = BoardScr.h(super.B)).task != -1) {
+               var13.doAction(var12.x, var12.y);
             }
 
-            var13.Q = -1;
+            var13.task = -1;
             if (var12.an > 0) {
-               var12.ag = 20;
+               var12.countDefent = 20;
             }
          }
       }
 
-      GameCanvas.h();
+      Canvas.h();
    }
 
    public final void a(int var1, int var2, int var3) {
       if (!this.W) {
          Avatar var4;
-         if ((var4 = BoardScr.h(var1)) != null && var4.H == 4) {
-            var4.H = 0;
+         if ((var4 = BoardScr.h(var1)) != null && var4.action == 4) {
+            var4.action = 0;
          }
 
-         if (var1 == GameMidlet.i.w) {
+         if (var1 == GameMidlet.avatar.IDDB) {
             this.aF = true;
             this.v();
             this.aG = true;
@@ -1100,7 +1100,7 @@ public final class DiamondScr extends BoardScr {
          BoardScr.t = System.currentTimeMillis() + (long)(BoardScr.v * 1000);
          super.B = var1;
          this.aG = false;
-         if (var1 == GameMidlet.i.w) {
+         if (var1 == GameMidlet.avatar.IDDB) {
             if (this.t()) {
                super.ae = this.S;
                super.ad = this.R;
@@ -1117,7 +1117,7 @@ public final class DiamondScr extends BoardScr {
 
    public final void a(int var1, byte[][] var2) {
       super.B = var1;
-      if (var1 == GameMidlet.i.w) {
+      if (var1 == GameMidlet.avatar.IDDB) {
          this.X = true;
       }
 
@@ -1133,8 +1133,8 @@ public final class DiamondScr extends BoardScr {
 
       for(int var1 = 0; var1 < BoardScr.m.size(); ++var1) {
          Avatar var2;
-         (var2 = (Avatar)BoardScr.m.elementAt(var1)).k();
-         var2.e(4);
+         (var2 = (Avatar)BoardScr.m.elementAt(var1)).resetAction();
+         var2.setFeel(4);
       }
 
    }
@@ -1144,9 +1144,9 @@ public final class DiamondScr extends BoardScr {
       String var3 = "";
       ReportDlg var4 = var10000;
       var10000.g = var3;
-      var4.f = GameCanvas.K.a(var4.g) + 20 * AvMain.Y;
-      if (var4.f < 50 + 20 * AvMain.Y) {
-         var4.f = 50 + 20 * AvMain.Y;
+      var4.f = Canvas.K.getWidth(var4.g) + 20 * AvMain.hd;
+      if (var4.f < 50 + 20 * AvMain.hd) {
+         var4.f = 50 + 20 * AvMain.hd;
       }
 
       var4.a = var1;
@@ -1155,8 +1155,8 @@ public final class DiamondScr extends BoardScr {
 
       for(int var5 = 0; var5 < var4.a.size(); ++var5) {
          var3 = (String)var4.a.elementAt(var5);
-         if (GameCanvas.K.a(var3) + 20 > var4.e) {
-            var4.e = GameCanvas.K.a(var3) + 20;
+         if (Canvas.K.getWidth(var3) + 20 > var4.e) {
+            var4.e = Canvas.K.getWidth(var3) + 20;
          }
       }
 
@@ -1164,12 +1164,12 @@ public final class DiamondScr extends BoardScr {
          var4.e = 176;
       }
 
-      if (GameCanvas.m >= 240 && var4.e < 240 * AvMain.Y) {
-         var4.e = 240 * AvMain.Y;
+      if (Canvas.m >= 240 && var4.e < 240 * AvMain.hd) {
+         var4.e = 240 * AvMain.hd;
       }
 
-      var4.d = (GameCanvas.m - var4.e) / 2;
-      var4.b = GameCanvas.n - GameCanvas.T - var4.c - 10;
+      var4.d = (Canvas.m - var4.e) / 2;
+      var4.b = Canvas.n - Canvas.T - var4.c - 10;
       ReportDlg.a().ad = new Command(T1.z, -1, this);
       super.ad = BoardScr.C;
       super.ae = null;

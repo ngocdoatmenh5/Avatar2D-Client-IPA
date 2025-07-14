@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 final class CommandIceDream extends Command {
@@ -15,7 +15,7 @@ final class CommandIceDream extends Command {
    }
 
    public final void a(Graphics var1, int var2, int var3) {
-      AvatarData.a[this.f.b].a(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
+      AvatarData.listImgInfo[this.f.b].a(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
    }
 
    public final void a() {
@@ -23,7 +23,7 @@ final class CommandIceDream extends Command {
          PopupShop.n();
          PopupShop.a(this.f.f);
          PopupShop.a(T1.az + this.f.d[0] + T1.T);
-         PopupShop.a(T1.ce + GameCanvas.b(GameMidlet.i.a[0]) + T1.T);
+         PopupShop.a(T1.ce + Canvas.getMoneys(GameMidlet.avatar.money[0]) + T1.T);
       }
 
    }

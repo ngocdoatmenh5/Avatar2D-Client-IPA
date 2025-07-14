@@ -2,7 +2,7 @@ package avt;
 
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class class_cp {
    private String a = "";
@@ -58,7 +58,7 @@ public final class class_cp {
          ++this.d;
          if (this.d > 40) {
             this.g = null;
-            GameCanvas.ac.removeElement(this);
+            Canvas.ac.removeElement(this);
          }
 
          if (this.d < 3) {
@@ -70,24 +70,24 @@ public final class class_cp {
    }
 
    public final void a(Graphics var1) {
-      if (GameCanvas.r == RaceScr.a) {
-         GameCanvas.c(var1);
+      if (Canvas.currentMyScreen == RaceScr.a) {
+         Canvas.resetTrans(var1);
       }
 
       if (this.e <= 0) {
-         int var2 = AvMain.Y;
-         if (GameCanvas.r == BoardScr.i && (BoardScr.j || BoardScr.k) || GameCanvas.r == RaceScr.a) {
+         int var2 = AvMain.hd;
+         if (Canvas.currentMyScreen == BoardScr.i && (BoardScr.j || BoardScr.k) || Canvas.currentMyScreen == RaceScr.a) {
             var2 = 1;
          }
 
-         FontX var3 = GameCanvas.O;
+         FontX var3 = Canvas.O;
          if (this.f) {
             if (this.i == 0) {
-               var3 = GameCanvas.P;
+               var3 = Canvas.smallFontRed;
             } else {
                byte var10000 = this.i;
                boolean var10001 = true;
-               var3 = GameCanvas.L;
+               var3 = Canvas.L;
             }
          }
 

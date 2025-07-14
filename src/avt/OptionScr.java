@@ -5,7 +5,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class OptionScr extends MyScreen {
    public static OptionScr a;
@@ -31,7 +31,7 @@ public final class OptionScr extends MyScreen {
 
    public final void a() {
       this.e();
-      this.k = GameCanvas.r;
+      this.k = Canvas.currentMyScreen;
       super.a();
       this.f();
    }
@@ -52,7 +52,7 @@ public final class OptionScr extends MyScreen {
    public final void e() {
       super.ac = new Command(T1.aV, 0);
       this.j = MyScreen.av;
-      this.i = GameCanvas.n;
+      this.i = Canvas.n;
       int var1 = PaintPopup.o + (AvMain.Z << 1);
       if (this.l != null) {
          int var2;
@@ -63,17 +63,17 @@ public final class OptionScr extends MyScreen {
          }
 
          var2 = 176;
-         if (GameCanvas.m < 176) {
-            var2 = GameCanvas.m;
+         if (Canvas.m < 176) {
+            var2 = Canvas.m;
          }
 
-         PaintPopup.a().a(T1.ab, var2 * AvMain.Y, var1, 1);
-         if (GameCanvas.r != this) {
+         PaintPopup.a().a(T1.ab, var2 * AvMain.hd, var1, 1);
+         if (Canvas.currentMyScreen != this) {
             for(var1 = 0; var1 < 3; ++var1) {
                this.l[var1] = true;
             }
 
-            if (GameCanvas.E) {
+            if (Canvas.E) {
                this.l[3] = true;
             }
 
@@ -136,30 +136,30 @@ public final class OptionScr extends MyScreen {
    }
 
    private void g() {
-      if (GameCanvas.E) {
+      if (Canvas.E) {
          e = this.b[3] == 1;
       }
 
-      GameCanvas.a();
+      Canvas.a();
    }
 
    public final void l() {
       super.l();
-      if (GameCanvas.a(2)) {
+      if (Canvas.a(2)) {
          this.c(-1);
-      } else if (GameCanvas.a(8)) {
+      } else if (Canvas.a(8)) {
          this.c(1);
-      } else if (GameCanvas.a(4)) {
+      } else if (Canvas.a(4)) {
          this.e(-1);
-      } else if (GameCanvas.a(6)) {
+      } else if (Canvas.a(6)) {
          this.e(1);
       }
 
-      if (GameCanvas.g && GameCanvas.a(PaintPopup.a().g, PaintPopup.a().h, PaintPopup.a().f, PaintPopup.a().e)) {
-         GameCanvas.g = false;
-         if (GameCanvas.a(PaintPopup.a().g, PaintPopup.a().h, PaintPopup.a().f, PaintPopup.a().e)) {
+      if (Canvas.g && Canvas.a(PaintPopup.a().g, PaintPopup.a().h, PaintPopup.a().f, PaintPopup.a().e)) {
+         Canvas.g = false;
+         if (Canvas.a(PaintPopup.a().g, PaintPopup.a().h, PaintPopup.a().f, PaintPopup.a().e)) {
             int var1;
-            for(int var2 = var1 = (GameCanvas.i - (PaintPopup.a().h + PaintPopup.o + AvMain.Z)) / this.j; var2 >= 0; --var2) {
+            for(int var2 = var1 = (Canvas.i - (PaintPopup.a().h + PaintPopup.o + AvMain.Z)) / this.j; var2 >= 0; --var2) {
                if (!this.l[var2]) {
                   ++var1;
                }
@@ -245,7 +245,7 @@ public final class OptionScr extends MyScreen {
       var1.translate(-var1.getTranslateX(), -var1.getTranslateY());
       var1.translate(0, this.i);
       PaintPopup.a().a(var1);
-      var1.translate(GameCanvas.o - 65, PaintPopup.a().h + PaintPopup.o + AvMain.Z);
+      var1.translate(Canvas.o - 65, PaintPopup.a().h + PaintPopup.o + AvMain.Z);
       if (this.f >= 4) {
          this.f = 0;
       }
@@ -255,12 +255,12 @@ public final class OptionScr extends MyScreen {
 
       for(int var5 = 0; var5 < this.h; ++var5) {
          if (this.l[var5]) {
-            GameCanvas.K.a(var1, T1.eG[var5][2], -50 * (AvMain.Y - 1), var4 + var3, 0);
-            GameCanvas.K.a(var1, T1.eG[var5][this.b[var5]], 52 + 50 * AvMain.Y, var4 + var3 - 1, 2);
+            Canvas.K.a(var1, T1.eG[var5][2], -50 * (AvMain.hd - 1), var4 + var3, 0);
+            Canvas.K.a(var1, T1.eG[var5][this.b[var5]], 52 + 50 * AvMain.hd, var4 + var3 - 1, 2);
             byte var2 = 0;
             int var6;
-            if ((var6 = GameCanvas.K.a(T1.eG[var5][this.b[var5]]) + 10 + 15 * (GameCanvas.Z + 1) + PaintPopup.b.a) < 25 * AvMain.Y) {
-               var6 = 25 * AvMain.Y;
+            if ((var6 = Canvas.K.getWidth(T1.eG[var5][this.b[var5]]) + 10 + 15 * (Canvas.Z + 1) + PaintPopup.b.a) < 25 * AvMain.hd) {
+               var6 = 25 * AvMain.hd;
             }
 
             if (var5 == this.g) {
@@ -268,13 +268,13 @@ public final class OptionScr extends MyScreen {
             }
 
             int var7 = var4 + var3 + AvMain.ah / 2 - PaintPopup.b.b / 2;
-            PaintPopup.b.a(var2, 52 + 50 * AvMain.Y - var6 / 2, var7, 0, var1);
-            PaintPopup.b.a(var2, 52 + 50 * AvMain.Y + var6 / 2 - PaintPopup.b.a, var7, 2, var1);
+            PaintPopup.b.a(var2, 52 + 50 * AvMain.hd - var6 / 2, var7, 0, var1);
+            PaintPopup.b.a(var2, 52 + 50 * AvMain.hd + var6 / 2 - PaintPopup.b.a, var7, 2, var1);
             var4 += this.j;
          }
       }
 
-      GameCanvas.K.a(var1, String.valueOf(this.c), 52 + 50 * AvMain.Y, 2 * this.j + var3, 2);
+      Canvas.K.a(var1, String.valueOf(this.c), 52 + 50 * AvMain.hd, 2 * this.j + var3, 2);
       ++this.f;
    }
 }

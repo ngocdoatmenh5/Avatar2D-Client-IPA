@@ -13,7 +13,7 @@ final class class_er implements IAction {
 
    public final void perform() {
       if (LoadMap.p != null) {
-         this.a.a(this.b, this.c.c == 1 ? 0 : 1);
+         this.a.a(this.b, this.c.area == 1 ? 0 : 1);
       }
 
    }

@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 import java.io.IOException;
@@ -33,19 +33,19 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
          int var18;
          switch (var1.a) {
             case -69:
-               GameCanvas.b(T1.dl, new class_ka(this));
+               Canvas.b(T1.dl, new class_ka(this));
                return;
             case -68:
                var14 = var1.b().readByte();
                var10 = var1.b().readInt();
-               MapScr.b().a(var14, var10);
+               MapScr.gI().a(var14, var10);
                return;
             case 51:
-               MapScr.b().a(b(var1));
+               MapScr.gI().a(b(var1));
                return;
             case 53:
                var10 = var1.b().readInt();
-               MapScr.b();
+               MapScr.gI();
                MapScr.c(var10);
                return;
             case 54:
@@ -57,7 +57,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
             case 57:
                var2 = var1.b().readInt();
                var12 = var1.b().readByte();
-               MapScr.b();
+               MapScr.gI();
                MapScr.a(var2, var12);
                return;
             case 58:
@@ -75,7 +75,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                var7 = var1.b().readInt();
                var8 = var1.b().readInt();
                var10 = var1.b().readInt();
-               MapScr.b().a(var2, var3, var16, var17, var18, var7, var8, var10);
+               MapScr.gI().a(var2, var3, var16, var17, var18, var7, var8, var10);
                return;
             case 59:
                var2 = var1.b().readInt();
@@ -89,7 +89,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                   var18 = var1.b().readShort();
                }
 
-               MapScr.b().a(var2, var3, var16, var17, var18);
+               MapScr.gI().a(var2, var3, var16, var17, var18);
                return;
             case 60:
                int[] var15 = new int[var14 = var1.b().readByte()];
@@ -98,8 +98,8 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                   var15[var4] = var1.b().readByte();
                }
 
-               MapScr.b().a(var15);
-               GameCanvas.h();
+               MapScr.gI().a(var15);
+               Canvas.h();
                return;
             case 78:
                return;
@@ -155,14 +155,14 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                return;
             case 92:
                if (MapScr.s = var1.b().readBoolean()) {
-                  GameMidlet.i.Z = var1.b().readShort();
+                  GameMidlet.avatar.timeTask = var1.b().readShort();
                   return;
                }
                break;
             case 93:
                var2 = var1.b().readInt();
                var10 = var1.b().readInt();
-               MapScr.b().e(var2, var10);
+               MapScr.gI().e(var2, var10);
                return;
             default:
                return;
@@ -175,20 +175,20 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
 
    public static Avatar b(Message var0) throws IOException {
       Avatar var1;
-      (var1 = new Avatar()).w = var0.b().readInt();
-      var1.a(var0.b().readUTF());
+      (var1 = new Avatar()).IDDB = var0.b().readInt();
+      var1.setName(var0.b().readUTF());
       byte var2 = var0.b().readByte();
 
       for(int var3 = 0; var3 < var2; ++var3) {
-         var1.a(new SeriPart(var0.b().readShort()));
+         var1.addSeri(new SeriPart(var0.b().readShort()));
       }
 
-      var1.aw = var1.C = var0.b().readShort();
-      var1.ax = var1.D = var0.b().readShort();
-      var1.ac = var0.b().readByte();
-      var1.W = (byte)(100 - var0.b().readByte());
-      var1.X = var0.b().readShort();
-      var1.aa = var0.b().readShort();
+      var1.x = var1.xCur = var0.b().readShort();
+      var1.y = var1.yCur = var0.b().readShort();
+      var1.blogNews = var0.b().readByte();
+      var1.hungerPet = (byte)(100 - var0.b().readByte());
+      var1.idImg = var0.b().readShort();
+      var1.idWedding = var0.b().readShort();
       return var1;
    }
 }

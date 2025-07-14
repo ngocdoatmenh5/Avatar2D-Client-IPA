@@ -23,23 +23,23 @@ public final class Point extends MyObject {
    }
 
    public Point(int var1, int var2) {
-      super.aw = var1;
-      super.ax = var2;
+      super.x = var1;
+      super.y = var2;
    }
 
    public Point(int var1, int var2, int var3) {
-      super.aw = var1;
-      super.ax = var2;
+      super.x = var1;
+      super.y = var2;
       this.n = (short)var1;
       this.m = (short)var2;
       this.j = (short)var3;
    }
 
-   public final void b() {
+   public final void update() {
       this.a.a();
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       this.a.a(var1);
    }
 }

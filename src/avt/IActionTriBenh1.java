@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class IActionTriBenh1 implements IAction {
    private FarmScr a;
@@ -25,7 +25,7 @@ final class IActionTriBenh1 implements IAction {
       }
 
       if (!var1) {
-         GameCanvas.b(T1.dV);
+         Canvas.b(T1.dV);
          FarmScr.b().a((int)8, (int)-1);
       }
 

@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_di implements IAction {
    class_di(class_dj var1) {
@@ -8,11 +8,11 @@ final class class_di implements IAction {
 
    public final void perform() {
       System.out.println("aaaaaaaaaaaaaaaa");
-      GameCanvas.I = false;
-      GameCanvas.D = null;
+      Canvas.I = false;
+      Canvas.D = null;
       AvCamera.g = false;
       MiniMap.gI().ac = MiniMap.gI().l;
-      MapScr.b().c();
+      MapScr.gI().c();
       FarmScr.b().c();
    }
 }

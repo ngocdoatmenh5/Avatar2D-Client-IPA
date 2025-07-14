@@ -1,7 +1,7 @@
 package avt;
 
 import java.io.IOException;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class ParkService extends IService {
@@ -18,7 +18,7 @@ public final class ParkService extends IService {
    public final void a(int var1, int var2) {
       System.out.println("doJoinPark: " + var1 + "   " + var2);
       if (OnScreen.c == 0) {
-         GameCanvas.i();
+         Canvas.i();
       }
 
       this.e((byte)50);
@@ -79,7 +79,7 @@ public final class ParkService extends IService {
    }
 
    public final void a(int var1, int var2, int var3) {
-      System.out.println("doGiftGiving: " + var1 + "    " + GameMidlet.i.w);
+      System.out.println("doGiftGiving: " + var1 + "    " + GameMidlet.avatar.IDDB);
       this.e((byte)58);
 
       try {

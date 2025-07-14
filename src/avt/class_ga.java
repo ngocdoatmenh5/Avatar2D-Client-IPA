@@ -18,7 +18,7 @@ final class class_ga implements IAction {
          HouseScr.e = false;
          this.a.c(this.b);
          if (HouseScr.a(this.a, this.b)) {
-            ++this.b.ax;
+            ++this.b.y;
          }
 
          LoadMap.a(LoadMap.l);

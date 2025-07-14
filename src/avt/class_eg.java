@@ -22,12 +22,12 @@ final class class_eg implements IAction {
    }
 
    public final void perform() {
-      GlobalService.gI().a((int)this.b.g, (int)this.c);
+      GlobalService.gI().a((int)this.b.IDPart, (int)this.c);
       this.d.removeElementAt(PopupShop.j);
       this.e.removeElement(this.f);
       if (this.g == 0) {
-         if (MenuCenter.b().c) {
-            MenuCenter.b();
+         if (MenuCenter.gI().c) {
+            MenuCenter.gI();
             MenuCenter.g();
          } else {
             this.a.a.q();

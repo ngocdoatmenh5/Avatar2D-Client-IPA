@@ -2,7 +2,7 @@ package avt;
 
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class ImageObj extends SubObject {
    private Image a;
@@ -18,19 +18,19 @@ public final class ImageObj extends SubObject {
       FilePack.a();
    }
 
-   public final void b() {
+   public final void update() {
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       if (this.a == null) {
          super.g = AvatarData.c((short)super.f).b;
-         AvatarData.a(var1, super.f, super.aw * MyObject.ay, super.ax * MyObject.ay, 33);
+         AvatarData.a(var1, super.f, super.x * MyObject.hd, super.y * MyObject.hd, 33);
       } else {
-         var1.drawImage(this.a, super.aw * MyObject.ay, super.ax * MyObject.ay, 33);
+         var1.drawImage(this.a, super.x * MyObject.hd, super.y * MyObject.hd, 33);
       }
 
       if (super.f == 846) {
-         GameCanvas.N.a(var1, String.valueOf(MapScr.c), super.aw * MyObject.ay, super.ax * MyObject.ay - 30 * MyObject.ay, 2);
+         Canvas.N.a(var1, String.valueOf(MapScr.c), super.x * MyObject.hd, super.y * MyObject.hd - 30 * MyObject.hd, 2);
       } else {
          if (super.f == 1029 && FarmScr.V != 0) {
             FarmItem var2 = FarmScr.b(FarmData.b(FarmScr.V).b);
@@ -51,10 +51,10 @@ public final class ImageObj extends SubObject {
                var3 = "hoan thanh";
             }
 
-            FarmScr.W = super.aw - GameCanvas.Q.a(var3) / 2 / MyObject.ay;
-            FarmScr.X = super.ax - AvatarData.c((short)super.f).c / MyObject.ay - 10;
-            FarmData.a(var1, var2.b, super.aw * MyObject.ay - GameCanvas.Q.a(var3) / 2, super.ax * MyObject.ay - AvatarData.c((short)super.f).c - 10 * MyObject.ay, 3);
-            GameCanvas.Q.a(var1, var3, super.aw * MyObject.ay - GameCanvas.Q.a(var3) / 2 + 10 * MyObject.ay, super.ax * MyObject.ay - AvatarData.c((short)super.f).c - 10 * MyObject.ay - AvMain.ai / 2 + 2, 0);
+            FarmScr.W = super.x - Canvas.smallFontYellow.getWidth(var3) / 2 / MyObject.hd;
+            FarmScr.X = super.y - AvatarData.c((short)super.f).c / MyObject.hd - 10;
+            FarmData.a(var1, var2.b, super.x * MyObject.hd - Canvas.smallFontYellow.getWidth(var3) / 2, super.y * MyObject.hd - AvatarData.c((short)super.f).c - 10 * MyObject.hd, 3);
+            Canvas.smallFontYellow.a(var1, var3, super.x * MyObject.hd - Canvas.smallFontYellow.getWidth(var3) / 2 + 10 * MyObject.hd, super.y * MyObject.hd - AvatarData.c((short)super.f).c - 10 * MyObject.hd - AvMain.ai / 2 + 2, 0);
          }
 
       }

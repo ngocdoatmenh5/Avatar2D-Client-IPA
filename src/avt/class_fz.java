@@ -15,20 +15,20 @@ final class class_fz extends Command {
    }
 
    public final void a(Graphics var1, int var2, int var3) {
-      AvatarData.a(this.f.a).a(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
-      PaintPopup.a(var2 + 3, var3 + PopupShop.e - 3 * AvMain.Y, PopupShop.e - 5, 2 * AvMain.Y, 1, var1);
-      PaintPopup.a(var2 + 3, var3 + PopupShop.e - 3 * AvMain.Y, PopupShop.e - 5 - this.f.b * (PopupShop.e - 5) / 100, 2 * AvMain.Y, 11907085, var1);
+      AvatarData.a(this.f.idPart).a(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
+      PaintPopup.a(var2 + 3, var3 + PopupShop.e - 3 * AvMain.hd, PopupShop.e - 5, 2 * AvMain.hd, 1, var1);
+      PaintPopup.a(var2 + 3, var3 + PopupShop.e - 3 * AvMain.hd, PopupShop.e - 5 - this.f.b * (PopupShop.e - 5) / 100, 2 * AvMain.hd, 11907085, var1);
    }
 
    public final void a() {
       if (PopupShop.n && this.g == PopupShop.j) {
-         Part var1 = AvatarData.a(this.f.a);
+         Part var1 = AvatarData.a(this.f.idPart);
          PopupShop.n();
          PopupShop.a(T1.cr + (100 - this.f.b) + "%");
          String var2 = "";
-         if (var1.j == 20) {
+         if (var1.zOrder == 20) {
             var2 = T1.aC;
-         } else if (var1.j == 10) {
+         } else if (var1.zOrder == 10) {
             var2 = T1.aB;
          }
 
@@ -45,9 +45,9 @@ final class class_fz extends Command {
          if (var1.f != -2) {
             byte var3;
             if (var1.f >= 0) {
-               var3 = ((APartInfo)AvatarData.a(var1.f)).a;
+               var3 = ((APartInfo)AvatarData.a(var1.f)).level;
             } else {
-               var3 = ((APartInfo)var1).a;
+               var3 = ((APartInfo)var1).level;
             }
 
             PopupShop.a(T1.em[2] + ": " + var3);

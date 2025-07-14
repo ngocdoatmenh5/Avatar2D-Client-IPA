@@ -1,21 +1,21 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public abstract class Effect {
-   public boolean b = false;
+   public boolean isStop = false;
    public short c = -1;
 
-   public abstract void b();
+   public abstract void updateWind();
 
-   public abstract void a(Graphics var1);
+   public abstract void paint(Graphics var1);
 
    public final void c() {
-      GameCanvas.B.addElement(this);
+      Canvas.B.addElement(this);
    }
 
-   public void a() {
-      GameCanvas.B.removeElement(this);
+   public void close() {
+      Canvas.B.removeElement(this);
    }
 }

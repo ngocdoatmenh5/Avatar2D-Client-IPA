@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_fu extends Command {
    private final int f;
@@ -19,14 +19,14 @@ final class class_fu extends Command {
       if (this.f == PopupShop.j && PopupShop.n) {
          PopupShop.n();
          PopupShop.a(FarmData.b[this.f].k + "(" + FarmData.b[this.f].e + T1.bq + ")");
-         PopupShop.a(T1.az + GameCanvas.a(FarmData.b[this.f].g[0], FarmData.b[this.f].g[1], false));
+         PopupShop.a(T1.az + Canvas.a(FarmData.b[this.f].g[0], FarmData.b[this.f].g[1], false));
          PopupShop.a(T1.em[2] + ": " + FarmData.b[this.f].m);
          if (FarmData.b[this.f].l) {
             FarmItem var1 = FarmScr.b(FarmData.b[this.f].j);
             PopupShop.a(T1.dP + ": " + var1.f);
          }
 
-         PopupShop.a(T1.dQ + ": " + GameCanvas.b(FarmData.b[this.f].i));
+         PopupShop.a(T1.dQ + ": " + Canvas.getMoneys(FarmData.b[this.f].i));
          PopupShop.a(MapScr.r());
       }
 

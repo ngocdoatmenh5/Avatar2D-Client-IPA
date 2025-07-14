@@ -2,7 +2,7 @@ package avt;
 
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class RegisterScr extends MyScreen {
@@ -31,7 +31,7 @@ public final class RegisterScr extends MyScreen {
             Vector var3;
             (var3 = new Vector()).addElement(new Command(T1.o, 0, this));
             var3.addElement(new Command(T1.p, 1, this));
-            GameCanvas.a(T1.dC, var3);
+            Canvas.a(T1.dC, var3);
          default:
       }
    }
@@ -48,32 +48,32 @@ public final class RegisterScr extends MyScreen {
    }
 
    public final void a() {
-      GameMidlet.i.K = 0;
-      GameMidlet.i.e = new Vector();
+      GameMidlet.avatar.direct = 0;
+      GameMidlet.avatar.seriPart = new Vector();
       this.e();
       super.ad = new Command(T1.cj, 0);
       SeriPart var1 = new SeriPart();
       int var2 = CRes.a.nextInt(this.i.size());
-      var1.a = ((APartInfo)this.i.elementAt(var2)).g;
-      GameMidlet.i.a(var1);
+      var1.idPart = ((APartInfo)this.i.elementAt(var2)).IDPart;
+      GameMidlet.avatar.addSeri(var1);
       var1 = new SeriPart();
       var2 = CRes.a.nextInt(this.h.size());
-      var1.a = ((APartInfo)this.h.elementAt(var2)).g;
-      GameMidlet.i.a(var1);
-      (var1 = new SeriPart()).a = 4;
-      GameMidlet.i.a(var1);
+      var1.idPart = ((APartInfo)this.h.elementAt(var2)).IDPart;
+      GameMidlet.avatar.addSeri(var1);
+      (var1 = new SeriPart()).idPart = 4;
+      GameMidlet.avatar.addSeri(var1);
       var1 = new SeriPart();
       var2 = CRes.a.nextInt(this.g.size());
-      var1.a = ((APartInfo)this.g.elementAt(var2)).g;
-      GameMidlet.i.a(var1);
-      GameMidlet.i.a(new SeriPart((short)0));
-      GameMidlet.i.h();
-      PaintPopup.a().a(T1.ck, 150 * AvMain.Y, 170 + (AvMain.Y == 2 ? 120 : 0), 1);
+      var1.idPart = ((APartInfo)this.g.elementAt(var2)).IDPart;
+      GameMidlet.avatar.addSeri(var1);
+      GameMidlet.avatar.addSeri(new SeriPart((short)0));
+      GameMidlet.avatar.orderSeriesPath();
+      PaintPopup.a().a(T1.ck, 150 * AvMain.hd, 170 + (AvMain.hd == 2 ? 120 : 0), 1);
       super.a();
    }
 
    private void e() {
-      GameMidlet.i.d = this.e;
+      GameMidlet.avatar.gender = this.e;
       if (this.g != null) {
          this.g.removeAllElements();
          this.h.removeAllElements();
@@ -86,12 +86,12 @@ public final class RegisterScr extends MyScreen {
 
       for(int var1 = 0; var1 < AvatarData.b.length; ++var1) {
          APartInfo var2;
-         if (AvatarData.b[var1] instanceof APartInfo && (var2 = (APartInfo)AvatarData.b[var1]) != null && (var2.b == this.e || var2.b == 0) && var2.a == 0) {
-            if (var2.j == 50) {
+         if (AvatarData.b[var1] instanceof APartInfo && (var2 = (APartInfo)AvatarData.b[var1]) != null && (var2.gender == this.e || var2.gender == 0) && var2.level == 0) {
+            if (var2.zOrder == 50) {
                this.g.addElement(var2);
-            } else if (var2.j == 20) {
+            } else if (var2.zOrder == 20) {
                this.h.addElement(var2);
-            } else if (var2.j == 10) {
+            } else if (var2.zOrder == 10) {
                this.i.addElement(var2);
             }
          }
@@ -99,16 +99,16 @@ public final class RegisterScr extends MyScreen {
 
       this.f = 0;
       this.g();
-      if (GameMidlet.i.H != 10) {
-         GameMidlet.i.b((byte)1);
+      if (GameMidlet.avatar.action != 10) {
+         GameMidlet.avatar.setAction((byte)1);
       }
 
-      GameMidlet.i.h();
+      GameMidlet.avatar.orderSeriesPath();
    }
 
    private static void f() {
-      GameCanvas.I = true;
-      GameCanvas.c(T1.ck + "...");
+      Canvas.I = true;
+      Canvas.c(T1.ck + "...");
       GlobalService.gI().c();
    }
 
@@ -125,16 +125,16 @@ public final class RegisterScr extends MyScreen {
       if (this.j > 50) {
          this.j = 0;
          int var1 = CRes.a.nextInt(3);
-         if (GameMidlet.i.H != 10) {
+         if (GameMidlet.avatar.action != 10) {
             if (var1 == 0) {
-               GameMidlet.i.b((byte)1);
+               GameMidlet.avatar.setAction((byte)1);
             } else {
-               GameMidlet.i.b((byte)0);
+               GameMidlet.avatar.setAction((byte)0);
             }
          }
       }
 
-      GameMidlet.i.d();
+      GameMidlet.avatar.updateFrame();
    }
 
    public final void b(int var1) {
@@ -173,46 +173,46 @@ public final class RegisterScr extends MyScreen {
    }
 
    public final void l() {
-      GameCanvas.S.j();
+      Canvas.S.j();
       super.l();
    }
 
    private void g() {
-      for(int var1 = 0; var1 < GameMidlet.i.e.size(); ++var1) {
+      for(int var1 = 0; var1 < GameMidlet.avatar.seriPart.size(); ++var1) {
          SeriPart var2;
          APartInfo var3;
-         if ((var3 = (APartInfo)AvatarData.a((var2 = (SeriPart)GameMidlet.i.e.elementAt(var1)).a)).j == 50 && this.g.size() != 0 && this.f < this.g.size()) {
-            var2.a = ((APartInfo)this.g.elementAt(this.f)).g;
+         if ((var3 = (APartInfo)AvatarData.a((var2 = (SeriPart)GameMidlet.avatar.seriPart.elementAt(var1)).idPart)).zOrder == 50 && this.g.size() != 0 && this.f < this.g.size()) {
+            var2.idPart = ((APartInfo)this.g.elementAt(this.f)).IDPart;
          }
 
-         if (var3.j == 20 && this.h.size() != 0 && this.f < this.h.size()) {
-            var2.a = ((APartInfo)this.h.elementAt(this.f)).g;
+         if (var3.zOrder == 20 && this.h.size() != 0 && this.f < this.h.size()) {
+            var2.idPart = ((APartInfo)this.h.elementAt(this.f)).IDPart;
          }
 
-         if (var3.j == 10 && this.i.size() != 0 && this.f < this.i.size()) {
-            var2.a = ((APartInfo)this.i.elementAt(this.f)).g;
+         if (var3.zOrder == 10 && this.i.size() != 0 && this.f < this.i.size()) {
+            var2.idPart = ((APartInfo)this.i.elementAt(this.f)).IDPart;
          }
       }
 
-      GameMidlet.i.h();
+      GameMidlet.avatar.orderSeriesPath();
    }
 
    public final void a(Graphics var1) {
-      GameCanvas.x.b(var1);
-      GameCanvas.x.d(var1);
-      GameCanvas.c(var1);
+      Canvas.x.b(var1);
+      Canvas.x.d(var1);
+      Canvas.resetTrans(var1);
       PaintPopup.a().a(var1);
       var1.translate(PaintPopup.a().g, PaintPopup.a().h);
-      GameCanvas.S.d(var1, this.a, this.e, this.b, this.c);
+      Canvas.S.d(var1, this.a, this.e, this.b, this.c);
       super.a(var1);
    }
 
    public static void b(boolean var0) {
-      GameCanvas.h();
+      Canvas.h();
       if (var0) {
-         MapScr.b().t();
+         MapScr.gI().t();
       } else {
-         GameCanvas.b(T1.cl);
+         Canvas.b(T1.cl);
       }
    }
 }

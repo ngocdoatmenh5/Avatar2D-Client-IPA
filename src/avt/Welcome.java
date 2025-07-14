@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class Welcome extends AvMain {
    private int h;
@@ -51,15 +51,15 @@ public final class Welcome extends AvMain {
          super.l();
       }
 
-      if (d && b == GameCanvas.r && GameCanvas.t == null && GameCanvas.v == null) {
+      if (d && b == Canvas.currentMyScreen && Canvas.t == null && Canvas.v == null) {
          if (this.l != null) {
-            GameCanvas.d[2] = GameCanvas.d[4] = GameCanvas.d[6] = GameCanvas.d[8] = false;
+            Canvas.d[2] = Canvas.d[4] = Canvas.d[6] = Canvas.d[8] = false;
          }
 
-         if (this.l != null && this.k < this.l.length - 1 && GameCanvas.r != PopupShop.b()) {
-            GameCanvas.f = false;
-            GameCanvas.e = false;
-            GameCanvas.g = false;
+         if (this.l != null && this.k < this.l.length - 1 && Canvas.currentMyScreen != PopupShop.b()) {
+            Canvas.f = false;
+            Canvas.e = false;
+            Canvas.g = false;
          }
       }
 
@@ -75,11 +75,11 @@ public final class Welcome extends AvMain {
    }
 
    public final void a(Graphics var1) {
-      if (b == GameCanvas.r && GameCanvas.t == null && GameCanvas.v == null) {
-         GameCanvas.c(var1);
-         var1.translate(0, GameCanvas.ab);
-         if (d || GameCanvas.l % 20 > 2) {
-            ChatPopup.a(var1, this.h, this.i, GameCanvas.m - (this.h << 1), this.j, 16777215, 1, (byte)0);
+      if (b == Canvas.currentMyScreen && Canvas.t == null && Canvas.v == null) {
+         Canvas.resetTrans(var1);
+         var1.translate(0, Canvas.ab);
+         if (d || Canvas.gameTick % 20 > 2) {
+            ChatPopup.a(var1, this.h, this.i, Canvas.m - (this.h << 1), this.j, 16777215, 1, (byte)0);
             if (this.l != null && this.l[this.k] != null) {
                byte var2 = 0;
                if (this.l[this.k].length == 1) {
@@ -87,7 +87,7 @@ public final class Welcome extends AvMain {
                }
 
                for(int var3 = 0; var3 < this.l[this.k].length; ++var3) {
-                  GameCanvas.N.a(var1, this.l[this.k][var3], this.h + (GameCanvas.m - (this.h << 1)) / 2, this.i + this.j / 2 - this.l[this.k].length * AvMain.af / 2 + var3 * AvMain.af - var2, 2);
+                  Canvas.N.a(var1, this.l[this.k][var3], this.h + (Canvas.m - (this.h << 1)) / 2, this.i + this.j / 2 - this.l[this.k].length * AvMain.af / 2 + var3 * AvMain.af - var2, 2);
                }
 
                ++this.a;
@@ -95,23 +95,23 @@ public final class Welcome extends AvMain {
                   this.a = 0;
                }
 
-               if (GameCanvas.r == MiniMap.a) {
+               if (Canvas.currentMyScreen == MiniMap.a) {
                   var1.translate(-MiniMap.f + MiniMap.gI().c, -MiniMap.g + MiniMap.gI().d);
                } else {
-                  var1.translate(-AvCamera.a().a, -AvCamera.a().b);
+                  var1.translate(-AvCamera.gI().xCam, -AvCamera.gI().yCam);
                }
             }
          }
 
          if (d) {
             super.a(var1);
-            if (GameCanvas.l % 10 > 5 || GameCanvas.Z > 0) {
-               FontX var4 = GameCanvas.L;
-               if (GameCanvas.Z > 0) {
-                  var4 = GameCanvas.M;
+            if (Canvas.gameTick % 10 > 5 || Canvas.Z > 0) {
+               FontX var4 = Canvas.L;
+               if (Canvas.Z > 0) {
+                  var4 = Canvas.M;
                }
 
-               var4.a(var1, T1.w, GameCanvas.ae[1].a + MyScreen.au / 2, GameCanvas.ae[1].b + GameCanvas.T / 2 - AvMain.ag / 2, 2);
+               var4.a(var1, T1.w, Canvas.ae[1].a + MyScreen.au / 2, Canvas.ae[1].b + Canvas.T / 2 - AvMain.ag / 2, 2);
             }
          }
       }
@@ -120,8 +120,8 @@ public final class Welcome extends AvMain {
 
    public final void a() {
       if (p == C.length + 1) {
-         GameCanvas.D = null;
-         GameCanvas.I = false;
+         Canvas.D = null;
+         Canvas.I = false;
       } else {
          if (this.q == null) {
             this.q = T1.b();
@@ -133,7 +133,7 @@ public final class Welcome extends AvMain {
             MiniMap.gI().e = C[p];
          }
 
-         GameCanvas.D.a(this.q[p]);
+         Canvas.D.a(this.q[p]);
          ++p;
       }
    }
@@ -142,7 +142,7 @@ public final class Welcome extends AvMain {
       this.l = new String[var1.length][];
 
       for(int var2 = 0; var2 < this.l.length; ++var2) {
-         this.l[var2] = GameCanvas.N.a(var1[var2], GameCanvas.m - (this.h << 1) - 35 * AvMain.Y);
+         this.l[var2] = Canvas.N.a(var1[var2], Canvas.m - (this.h << 1) - 35 * AvMain.hd);
       }
 
       this.i();
@@ -165,7 +165,7 @@ public final class Welcome extends AvMain {
             return;
          }
 
-         AvCamera.a().a(r[e] * AvMain.Y, 20 * AvMain.Y);
+         AvCamera.gI().a(r[e] * AvMain.hd, 20 * AvMain.hd);
          AvCamera.g = true;
       }
 
@@ -175,7 +175,7 @@ public final class Welcome extends AvMain {
          LoadMap.a(LoadMap.l);
       }
 
-      GameCanvas.D.a(this.t[e]);
+      Canvas.D.a(this.t[e]);
       ++e;
    }
 
@@ -195,14 +195,14 @@ public final class Welcome extends AvMain {
             return;
          }
 
-         AvCamera.a().a(r[v] * AvMain.Y, 20 * AvMain.Y);
+         AvCamera.gI().a(r[v] * AvMain.hd, 20 * AvMain.hd);
          AvCamera.g = true;
          SubObject var1 = new SubObject(-9, r[v], 50, 20);
          LoadMap.l.addElement(var1);
          LoadMap.a(LoadMap.l);
       }
 
-      GameCanvas.D.a(this.u[v]);
+      Canvas.D.a(this.u[v]);
       ++v;
    }
 
@@ -258,9 +258,9 @@ public final class Welcome extends AvMain {
       SubObject var2 = new SubObject(-9, r[f], s[f], 20);
       LoadMap.l.addElement(var2);
       LoadMap.a(LoadMap.l);
-      AvCamera.a().a(r[f] * AvMain.Y, 20 * AvMain.Y);
+      AvCamera.gI().a(r[f] * AvMain.hd, 20 * AvMain.hd);
       AvCamera.g = true;
-      GameCanvas.D.a(this.x[f]);
+      Canvas.D.a(this.x[f]);
       ++f;
    }
 
@@ -269,7 +269,7 @@ public final class Welcome extends AvMain {
          this.y = T1.e();
       }
 
-      GameCanvas.D.a(this.y[w]);
+      Canvas.D.a(this.y[w]);
       ++w;
    }
 
@@ -280,7 +280,7 @@ public final class Welcome extends AvMain {
 
       b = FarmScr.a;
       if (A == 0) {
-         r = new short[]{(short)(FarmScr.b().v[0].a * LoadMap.i + 12), (short)(FarmScr.C.a + 12), (short)FarmScr.W, (short)FarmScr.J.aw, (short)(FarmScr.D.a + 12)};
+         r = new short[]{(short)(FarmScr.b().v[0].a * LoadMap.i + 12), (short)(FarmScr.C.a + 12), (short)FarmScr.W, (short)FarmScr.J.x, (short)(FarmScr.D.a + 12)};
          s = new short[]{36, 36, (short)(FarmScr.X + 15), 36, 36};
       }
 
@@ -303,9 +303,9 @@ public final class Welcome extends AvMain {
          LoadMap.a(LoadMap.l);
       }
 
-      AvCamera.a().a(r[var1] * AvMain.Y, 36 * AvMain.Y);
+      AvCamera.gI().a(r[var1] * AvMain.hd, 36 * AvMain.hd);
       AvCamera.g = true;
-      GameCanvas.D.a(this.B[A]);
+      Canvas.D.a(this.B[A]);
       ++A;
       FarmScr.b().ac = null;
    }
@@ -322,7 +322,7 @@ public final class Welcome extends AvMain {
          SubObject var2 = new SubObject(-9, r[n] + 12, 135, 20);
          LoadMap.l.addElement(var2);
          LoadMap.a(LoadMap.l);
-         AvCamera.a().a(r[n] + 12, 130 * AvMain.Y);
+         AvCamera.gI().a(r[n] + 12, 130 * AvMain.hd);
       } else {
          if (n == this.o.length) {
             this.close(180, 240);
@@ -332,7 +332,7 @@ public final class Welcome extends AvMain {
          AvCamera.g = true;
       }
 
-      GameCanvas.D.a(this.o[n]);
+      Canvas.D.a(this.o[n]);
       ++n;
    }
 
@@ -353,7 +353,7 @@ public final class Welcome extends AvMain {
          if (c < 4) {
             r = new short[]{12, 480, 230};
             s = new short[]{110, 110, 12};
-            AvCamera.a().a(r[c - 1] * AvMain.Y, s[c - 1] * AvMain.Y);
+            AvCamera.gI().a(r[c - 1] * AvMain.hd, s[c - 1] * AvMain.hd);
             AvCamera.g = true;
             SubObject var1 = new SubObject(-9, r[c - 1], s[c - 1], 20);
             LoadMap.l.addElement(var1);
@@ -363,14 +363,14 @@ public final class Welcome extends AvMain {
          }
       }
 
-      GameCanvas.D.a(this.m[c]);
+      Canvas.D.a(this.m[c]);
       ++c;
    }
 
    private static void m() {
       for(int var0 = 0; var0 < LoadMap.l.size(); ++var0) {
          MyObject var1;
-         if ((var1 = (MyObject)LoadMap.l.elementAt(var0)).az == 1 && ((SubObject)var1).f == -9) {
+         if ((var1 = (MyObject)LoadMap.l.elementAt(var0)).catagory == 1 && ((SubObject)var1).f == -9) {
             LoadMap.l.removeElement(var1);
             --var0;
          }
@@ -385,10 +385,10 @@ public final class Welcome extends AvMain {
       SubObject var3 = new SubObject(-9, var1, var2, 20);
       LoadMap.l.addElement(var3);
       LoadMap.a(LoadMap.l);
-      AvCamera.a().a(var1 * AvMain.Y, var2 * AvMain.Y);
+      AvCamera.gI().a(var1 * AvMain.hd, var2 * AvMain.hd);
       AvCamera.g = true;
       String[] var4 = T1.j();
-      GameCanvas.D.a(var4);
+      Canvas.D.a(var4);
    }
 
    public static void g() {
@@ -402,13 +402,13 @@ public final class Welcome extends AvMain {
       }
 
       if (var0 < r.length) {
-         (GameCanvas.D = new Welcome()).j();
+         (Canvas.D = new Welcome()).j();
       }
 
    }
 
    public static void h() {
-      GameCanvas.I = true;
+      Canvas.I = true;
       A = 0;
       f = 0;
       c = 0;
@@ -426,7 +426,7 @@ public final class Welcome extends AvMain {
          var0.i();
          if (LoadMap.a == 23) {
             if (v == 1 && var0.k == var0.l.length - 1) {
-               AvCamera.a().a(r[0], 20);
+               AvCamera.gI().a(r[0], 20);
                AvCamera.g = true;
                SubObject var1 = new SubObject(-9, r[v - 1], 50, 20);
                LoadMap.l.addElement(var1);
@@ -440,11 +440,11 @@ public final class Welcome extends AvMain {
       } else if (var0.k == var0.l.length - 1) {
          AvCamera.g = false;
          if (100 == LoadMap.a) {
-            GameCanvas.D = null;
+            Canvas.D = null;
             return;
          }
 
-         if (GameCanvas.r == MiniMap.a && var0.q != null && p == var0.q.length) {
+         if (Canvas.currentMyScreen == MiniMap.a && var0.q != null && p == var0.q.length) {
             var0.a();
             return;
          }
@@ -452,7 +452,7 @@ public final class Welcome extends AvMain {
          if (LoadMap.a == 24) {
             if (A == 3 || A == 4 || A == 5 || A == 6) {
                m();
-               (GameCanvas.D = new Welcome()).j();
+               (Canvas.D = new Welcome()).j();
                d = true;
                return;
             }
@@ -463,7 +463,7 @@ public final class Welcome extends AvMain {
             }
          } else if (LoadMap.a == 25) {
             if (f == var0.x.length - 1) {
-               GameCanvas.D = null;
+               Canvas.D = null;
             }
          } else if (LoadMap.a == 13) {
             var0.k = 0;

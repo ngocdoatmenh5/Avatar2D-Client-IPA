@@ -2,7 +2,7 @@ package avt;
 
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import main.GameCanvas;
+import main.Canvas;
 
 public abstract class MyScreen extends AvMain {
    public static int al = 20;
@@ -28,25 +28,25 @@ public abstract class MyScreen extends AvMain {
    }
 
    public void a() {
-      GameCanvas.e();
-      GameCanvas.r = this;
-      GameCanvas.a.setFullScreenMode(true);
+      Canvas.e();
+      Canvas.currentMyScreen = this;
+      Canvas.a.setFullScreenMode(true);
    }
 
    public void a(Graphics var1) {
-      if (GameCanvas.t == null && GameCanvas.v == null && GameCanvas.A == null && !class_im.c) {
+      if (Canvas.t == null && Canvas.v == null && Canvas.A == null && !class_im.c) {
          super.a(var1);
       } else {
-         GameCanvas.c(var1);
+         Canvas.resetTrans(var1);
       }
 
       if (!Session_ME.a().b()) {
-         GameCanvas.M.a(var1, "2.5.8", GameCanvas.af.a, GameCanvas.af.b, GameCanvas.af.c);
-      } else if (GameCanvas.r == class_ez.a || GameCanvas.r == MiniMap.a) {
-         GameCanvas.M.a(var1, Session_ME.a().k, GameCanvas.af.a, GameCanvas.af.b, GameCanvas.af.c);
+         Canvas.M.a(var1, "2.5.8", Canvas.af.a, Canvas.af.b, Canvas.af.c);
+      } else if (Canvas.currentMyScreen == class_ez.a || Canvas.currentMyScreen == MiniMap.a) {
+         Canvas.M.a(var1, Session_ME.a().k, Canvas.af.a, Canvas.af.b, Canvas.af.c);
       }
 
-      GameCanvas.S.a(var1);
+      Canvas.S.a(var1);
    }
 
    public void b(Graphics var1) {
@@ -61,28 +61,28 @@ public abstract class MyScreen extends AvMain {
    }
 
    public static void z() {
-      int var0 = GameCanvas.n + GameCanvas.T;
+      int var0 = Canvas.n + Canvas.T;
       if (an == null) {
-         an = Image.createImage(GameCanvas.m, var0);
+         an = Image.createImage(Canvas.m, var0);
       }
 
       Graphics var1 = an.getGraphics();
-      if (GameCanvas.r == DiamondScr.a) {
+      if (Canvas.currentMyScreen == DiamondScr.a) {
          DiamondScr.a.c(var1);
       } else {
-         if (GameCanvas.r == TLBoardScr.a || GameCanvas.r == PBoardScr.a) {
+         if (Canvas.currentMyScreen == TLBoardScr.a || Canvas.currentMyScreen == PBoardScr.a) {
             int var2;
-            if (GameCanvas.m < var0) {
+            if (Canvas.m < var0) {
                var2 = var0 / 10;
             } else {
-               var2 = GameCanvas.m / 10;
+               var2 = Canvas.m / 10;
             }
 
             for(int var3 = 0; var3 < var2; ++var3) {
                var1.setColor(6629892);
-               var1.drawRect(GameCanvas.o - var3 * var2 - 1, var0 / 2 - var3 * var2, var3 * var2 << 1, var3 * var2 << 1);
+               var1.drawRect(Canvas.o - var3 * var2 - 1, var0 / 2 - var3 * var2, var3 * var2 << 1, var3 * var2 << 1);
                var1.setColor(13399567);
-               var1.drawRect(GameCanvas.o - var3 * var2, var0 / 2 - var3 * var2 + 1, var3 * var2 << 1, var3 * var2 << 1);
+               var1.drawRect(Canvas.o - var3 * var2, var0 / 2 - var3 * var2 + 1, var3 * var2 << 1, var3 * var2 << 1);
             }
          }
 

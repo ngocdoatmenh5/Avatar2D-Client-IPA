@@ -2,7 +2,7 @@ package avt;
 
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class PopupShop extends MyScreen {
@@ -56,13 +56,13 @@ public final class PopupShop extends MyScreen {
    }
 
    public final void a() {
-      C = GameCanvas.r;
-      this.D = GameCanvas.n + 50;
-      this.E = GameCanvas.j();
+      C = Canvas.currentMyScreen;
+      this.D = Canvas.n + 50;
+      this.E = Canvas.j();
       n = true;
       G = 86;
-      if (GameCanvas.Z != 0) {
-         G = 86 + 40 * GameCanvas.Z;
+      if (Canvas.Z != 0) {
+         G = 86 + 40 * Canvas.Z;
       }
 
       o = false;
@@ -127,7 +127,7 @@ public final class PopupShop extends MyScreen {
          case 15:
             byte[] var3 = new byte[]{0, 102};
             if (var2 != 0 || LoadMap.k == -1) {
-               MapScr.b();
+               MapScr.gI();
                MapScr.f(var3[var2]);
             }
 
@@ -144,23 +144,23 @@ public final class PopupShop extends MyScreen {
       if (k) {
          k = false;
       } else {
-         GameCanvas.y.m = false;
+         Canvas.y.m = false;
          this.m = false;
          C.a();
-         if (GameCanvas.I) {
+         if (Canvas.I) {
             if (LoadMap.a == 25 && Welcome.f != 0) {
-               GameCanvas.D = new Welcome();
+               Canvas.D = new Welcome();
                if (Welcome.f == 2) {
                   Welcome.f = 3;
                }
 
-               GameCanvas.D.a((MyScreen)MapScr.a);
-               GameMidlet.i.K = Base.J;
+               Canvas.D.a((MyScreen)MapScr.a);
+               GameMidlet.avatar.direct = Base.LEFT;
                return;
             }
 
             if (LoadMap.a == 57) {
-               (GameCanvas.D = new Welcome()).b(MapScr.a);
+               (Canvas.D = new Welcome()).b(MapScr.a);
             }
          }
 
@@ -173,27 +173,27 @@ public final class PopupShop extends MyScreen {
    }
 
    public PopupShop() {
-      this.N = 80 * AvMain.Y;
+      this.N = 80 * AvMain.hd;
       t = AvMain.af;
-      e = 30 * AvMain.Y;
-      if (GameCanvas.m < 150) {
+      e = 30 * AvMain.hd;
+      if (Canvas.m < 150) {
          e = 24;
       }
 
-      if (GameCanvas.Z == 1) {
+      if (Canvas.Z == 1) {
          e = 35;
       }
 
       e();
       this.c();
-      H = 25 * (2 - AvMain.Y) + 40 * (GameCanvas.Z + 1) + 10 * (AvMain.Y - 1);
+      H = 25 * (2 - AvMain.hd) + 40 * (Canvas.Z + 1) + 10 * (AvMain.hd - 1);
    }
 
    public static void e() {
       c = e * 5 + 11 + AvMain.Z + 2;
       d = e * 6 + 10 + AvMain.Z;
-      q = GameCanvas.o - e * 5 / 2;
-      b = (GameCanvas.n - MyScreen.at) / 2 - d / 2;
+      q = Canvas.o - e * 5 / 2;
+      b = (Canvas.n - MyScreen.at) / 2 - d / 2;
    }
 
    public static int f() {
@@ -211,7 +211,7 @@ public final class PopupShop extends MyScreen {
 
    public static void a(String var0) {
       if (var0 != null) {
-         B.addElement(new StringObj(var0, GameCanvas.K.a(var0)));
+         B.addElement(new StringObj(var0, Canvas.K.getWidth(var0)));
       }
 
    }
@@ -267,7 +267,7 @@ public final class PopupShop extends MyScreen {
          l = 0;
       }
 
-      GameCanvas.y.a(q, PaintPopup.a().h + PaintPopup.o + AvMain.Z + (!o && !this.y[g] ? 0 : u), e, e, e * r, e * s, e * 5, f * e - l, var1);
+      Canvas.y.a(q, PaintPopup.a().h + PaintPopup.o + AvMain.Z + (!o && !this.y[g] ? 0 : u), e, e, e * r, e * s, e * 5, f * e - l, var1);
       this.m();
       PaintPopup.a().a(p[g], g);
    }
@@ -302,7 +302,7 @@ public final class PopupShop extends MyScreen {
    public static void j() {
       GameMidlet.m = "frp1qr";
       CRes.b = "frp2qr";
-      PaintPopup.k = GameCanvas.a(GameMidlet.m, -2);
+      PaintPopup.k = Canvas.a(GameMidlet.m, -2);
    }
 
    public final void a(Command var1, int var2) {
@@ -312,40 +312,40 @@ public final class PopupShop extends MyScreen {
    public final void l() {
       int var2;
       if (k) {
-         if (GameCanvas.a(4)) {
+         if (Canvas.a(4)) {
             this.c(-1);
             this.J = 5;
-         } else if (GameCanvas.a(6)) {
+         } else if (Canvas.a(6)) {
             this.c(1);
             this.K = 5;
          }
 
-         if (GameCanvas.a(0, 0, GameCanvas.m, GameCanvas.n - GameCanvas.T)) {
-            GameCanvas.g = false;
+         if (Canvas.a(0, 0, Canvas.m, Canvas.n - Canvas.T)) {
+            Canvas.g = false;
          }
 
-         if (GameCanvas.f) {
+         if (Canvas.f) {
             var2 = j % r * e;
             int var3 = (j / r + 1) * e;
             if (var2 + e / 2 - G / 2 + q + 5 < 0) {
                var2 = -e / 2 + G / 2 - q - 5;
-            } else if (var2 + e / 2 - G / 2 + G > GameCanvas.m) {
-               var2 = GameCanvas.m - G - e / 2 + G / 2;
+            } else if (var2 + e / 2 - G / 2 + G > Canvas.m) {
+               var2 = Canvas.m - G - e / 2 + G / 2;
             }
 
             var2 += q;
             var3 += b + PaintPopup.o + AvMain.Z;
             int var4 = (H - (AvMain.Z << 1)) / 4;
             var3 += AvMain.Z + 8;
-            var2 = var2 + e / 2 - 35 * (GameCanvas.Z + 1) / 2 - 2 - 10 - 10 * AvMain.Y;
+            var2 = var2 + e / 2 - 35 * (Canvas.Z + 1) / 2 - 2 - 10 - 10 * AvMain.hd;
             var3 = var3 + var4 / 2 + var4 + AvMain.ah / 2;
-            if (GameCanvas.a(var2, var3 - 15 * AvMain.Y - 5, 20 + 20 * AvMain.Y, 30 * AvMain.Y)) {
+            if (Canvas.a(var2, var3 - 15 * AvMain.hd - 5, 20 + 20 * AvMain.hd, 30 * AvMain.hd)) {
                this.c(-1);
                this.J = 5;
-            } else if (GameCanvas.a(var2 + 35 * (GameCanvas.Z + 1), var3 - 15 * AvMain.Y - 5, 20 + 20 * AvMain.Y, 30 * AvMain.Y)) {
+            } else if (Canvas.a(var2 + 35 * (Canvas.Z + 1), var3 - 15 * AvMain.hd - 5, 20 + 20 * AvMain.hd, 30 * AvMain.hd)) {
                this.c(1);
                this.K = 5;
-            } else if (GameCanvas.a(var2 + 20 + 20 * AvMain.Y, var3 - 15 * AvMain.Y - 5, var2 + 35 * (GameCanvas.Z + 1) - (var2 + 20 + 20 * AvMain.Y), 30 * AvMain.Y)) {
+            } else if (Canvas.a(var2 + 20 + 20 * AvMain.hd, var3 - 15 * AvMain.hd - 5, var2 + 35 * (Canvas.Z + 1) - (var2 + 20 + 20 * AvMain.hd), 30 * AvMain.hd)) {
                super.ad.b();
             }
          }
@@ -359,25 +359,25 @@ public final class PopupShop extends MyScreen {
          }
       } else {
          PopupShop var1 = this;
-         if (GameCanvas.a(6)) {
+         if (Canvas.a(6)) {
             if (j % r != r - 1 && r != 1 && !F) {
                ++j;
             } else {
                this.b(1);
             }
 
-            GameCanvas.y.a(j);
+            Canvas.y.a(j);
             this.m();
-         } else if (GameCanvas.a(4)) {
+         } else if (Canvas.a(4)) {
             if (j % r != 0 && r != 1 && !F) {
                --j;
             } else {
                this.b(-1);
             }
 
-            GameCanvas.y.a(j);
+            Canvas.y.a(j);
             this.m();
-         } else if (GameCanvas.a(2)) {
+         } else if (Canvas.a(2)) {
             if (this.h[g] != null && this.h[g].size() > 0 && !F) {
                if (j / r > 0) {
                   j -= r;
@@ -392,9 +392,9 @@ public final class PopupShop extends MyScreen {
                }
             }
 
-            GameCanvas.y.a(j);
+            Canvas.y.a(j);
             var1.m();
-         } else if (GameCanvas.a(8)) {
+         } else if (Canvas.a(8)) {
             if (F) {
                F = false;
 
@@ -407,13 +407,13 @@ public final class PopupShop extends MyScreen {
                j += r;
             }
 
-            GameCanvas.y.a(j);
+            Canvas.y.a(j);
             var1.m();
          }
 
-         if (GameCanvas.g && (var2 = PaintPopup.a().d()) != 0) {
+         if (Canvas.g && (var2 = PaintPopup.a().d()) != 0) {
             var1.b(var2);
-            GameCanvas.g = false;
+            Canvas.g = false;
          }
       }
 
@@ -447,17 +447,17 @@ public final class PopupShop extends MyScreen {
    private static void o() {
       if (g == 1) {
          FarmItem var0;
-         I = GameCanvas.a((var0 = (FarmItem)FarmData.e.elementAt(j)).g * A, var0.h * A, true);
+         I = Canvas.a((var0 = (FarmItem)FarmData.e.elementAt(j)).g * A, var0.h * A, true);
       } else {
-         I = GameCanvas.a(FarmData.b[j].g[0] * A, FarmData.b[j].g[1] * A, true);
+         I = Canvas.a(FarmData.b[j].g[0] * A, FarmData.b[j].g[1] * A, true);
       }
 
-      if ((G = GameCanvas.K.a(I) + 16 + 30 * GameCanvas.Z) < 86 * AvMain.Y) {
-         G = 86 * AvMain.Y;
+      if ((G = Canvas.K.getWidth(I) + 16 + 30 * Canvas.Z) < 86 * AvMain.hd) {
+         G = 86 * AvMain.hd;
       }
 
-      if (GameCanvas.Z != 0) {
-         G = 86 + 40 * GameCanvas.Z;
+      if (Canvas.Z != 0) {
+         G = 86 + 40 * Canvas.Z;
       }
 
    }
@@ -487,7 +487,7 @@ public final class PopupShop extends MyScreen {
       }
 
       n = true;
-      this.E = GameCanvas.j();
+      this.E = Canvas.j();
    }
 
    public final void a(boolean var1) {
@@ -496,21 +496,21 @@ public final class PopupShop extends MyScreen {
 
    public final void a(Graphics var1) {
       C.b(var1);
-      GameCanvas.c(var1);
+      Canvas.resetTrans(var1);
       PaintPopup.a().a(var1);
       var1.setColor(0);
       var1.translate(q, PaintPopup.a().h + PaintPopup.o + AvMain.Z);
       int var3;
       int var4;
       if (o) {
-         String var2 = GameCanvas.a(GameMidlet.i.a[0], GameMidlet.i.a[2], GameMidlet.i.b, true);
-         var3 = GameCanvas.N.a(var2);
+         String var2 = Canvas.a(GameMidlet.avatar.money[0], GameMidlet.avatar.money[2], GameMidlet.avatar.luongKhoa, true);
+         var3 = Canvas.N.getWidth(var2);
          if (CRes.f(var4 = this.M) > var3 + 20 - (c - 20)) {
             var4 = 0;
          }
 
          var1.setClip(0, 0, c - 20, 20);
-         GameCanvas.N.a(var1, var2, var4, 0, 0);
+         Canvas.N.a(var1, var2, var4, 0, 0);
          if (var3 > c - 20) {
             if (CRes.f(this.M) > var3 + 50 - (c - 20)) {
                this.M = 0;
@@ -524,7 +524,7 @@ public final class PopupShop extends MyScreen {
 
       if (this.h[g] != null) {
          if (this.y[g]) {
-            GameCanvas.N.a(var1, this.z[g], 0, 0, 0);
+            Canvas.N.a(var1, this.z[g], 0, 0, 0);
             var1.translate(0, u);
          }
 
@@ -563,11 +563,11 @@ public final class PopupShop extends MyScreen {
             if (o && MapScr.C != null) {
                var1.translate(0, u);
                var1.setColor(10674392);
-               var1.fillTriangle(30 * AvMain.Y, f * e - (AvMain.Y == 2 ? 10 : 0), 8 * AvMain.Y, f * e + 40 * AvMain.Y, 30 * AvMain.Y + 22 * AvMain.Y, f * e + 40 * AvMain.Y);
+               var1.fillTriangle(30 * AvMain.hd, f * e - (AvMain.hd == 2 ? 10 : 0), 8 * AvMain.hd, f * e + 40 * AvMain.hd, 30 * AvMain.hd + 22 * AvMain.hd, f * e + 40 * AvMain.hd);
                var1.setColor(13364969);
-               var1.fillArc(8 * AvMain.Y, f * e + 40 * AvMain.Y - 10 * AvMain.Y, 44 * AvMain.Y, 20 * AvMain.Y, 0, 360);
-               MapScr.C.a(var1, 30 * AvMain.Y, f * e + 45 * AvMain.Y, false);
-               var1.translate(60 * AvMain.Y, 0);
+               var1.fillArc(8 * AvMain.hd, f * e + 40 * AvMain.hd - 10 * AvMain.hd, 44 * AvMain.hd, 20 * AvMain.hd, 0, 360);
+               MapScr.C.paintIcon(var1, 30 * AvMain.hd, f * e + 45 * AvMain.hd, false);
+               var1.translate(60 * AvMain.hd, 0);
             }
 
             var11 = var1;
@@ -585,17 +585,17 @@ public final class PopupShop extends MyScreen {
                      }
                   }
 
-                  GameCanvas.N.a(var11, var12.a, 2 - var7, f * e + var5 * t, 0);
+                  Canvas.N.a(var11, var12.a, 2 - var7, f * e + var5 * t, 0);
                }
             }
          } else {
             var11 = var1;
             PopupShop var10 = this;
-            if (GameCanvas.j() - this.E > 0 && !k && B != null && j < this.h[g].size()) {
+            if (Canvas.j() - this.E > 0 && !k && B != null && j < this.h[g].size()) {
                var4 = j % r * e - this.N / 2 + e / 2;
                var5 = (j / r + 1) * e - CameraList.i + 5;
                int var6 = B.size() * AvMain.af + (AvMain.Z << 1) + 8;
-               if (var5 + var6 + b + 12 > GameCanvas.n) {
+               if (var5 + var6 + b + 12 > Canvas.n) {
                   var5 -= var6 + e + 10;
                }
 
@@ -603,14 +603,14 @@ public final class PopupShop extends MyScreen {
                   var5 = -b;
                }
 
-               if (var4 + q + 5 + this.N > GameCanvas.m) {
-                  var4 = GameCanvas.m - (q + 5 + this.N);
+               if (var4 + q + 5 + this.N > Canvas.m) {
+                  var4 = Canvas.m - (q + 5 + this.N);
                } else if (var4 + q < 0) {
                   var4 = -q;
                }
 
-               var1.setClip(var4, var5, this.N, var6 * AvMain.Y);
-               GameCanvas.S.a(var1, var4, var5, this.N, var6, PaintPopup.d[2], PaintPopup.d[3], 1);
+               var1.setClip(var4, var5, this.N, var6 * AvMain.hd);
+               Canvas.S.a(var1, var4, var5, this.N, var6, PaintPopup.d[2], PaintPopup.d[3], 1);
                var4 += AvMain.Z;
                var5 += AvMain.Z - AvMain.af / 2;
 
@@ -624,26 +624,26 @@ public final class PopupShop extends MyScreen {
                      }
                   }
 
-                  GameCanvas.N.a(var11, var12.a, var4 - var8, var5 + 5 + var7 * t, 0);
+                  Canvas.N.a(var11, var12.a, var4 - var8, var5 + 5 + var7 * t, 0);
                }
             }
          }
 
          if (k) {
-            GameCanvas.c(var1);
-            var1.translate(q, GameCanvas.y.e);
-            GameCanvas.S.a(var1, j, r, e, G, q, H, g, A, I, this.J, this.K);
+            Canvas.resetTrans(var1);
+            var1.translate(q, Canvas.y.e);
+            Canvas.S.a(var1, j, r, e, G, q, H, g, A, I, this.J, this.K);
          }
       } else {
          var1.setClip(-5, 0, c - 10, d);
          ((Command)this.w.elementAt(g)).a(var1, 0, 0);
       }
 
-      if (GameCanvas.D == null || Welcome.g || !Welcome.d) {
+      if (Canvas.D == null || Welcome.g || !Welcome.d) {
          super.a(var1);
       }
 
-      GameCanvas.a(var1);
+      Canvas.a(var1);
    }
 
    public static void n() {

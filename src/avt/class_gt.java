@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_gt implements IAction {
    private Part a;
@@ -23,19 +23,19 @@ final class class_gt implements IAction {
 
    public final void perform() {
       if (this.e == 100) {
-         GameCanvas.a(T1.cP, (IAction)(new class_kw(this.g, this.b)));
+         Canvas.a(T1.cP, (IAction)(new class_kw(this.g, this.b)));
       } else if (this.e == 26) {
-         GameCanvas.h();
-         MapScr.b().e(this.b);
+         Canvas.h();
+         MapScr.gI().e(this.b);
          PopupShop.b().d();
       } else {
          Part var1 = this.a;
-         if (this.a.g == -1) {
+         if (this.a.IDPart == -1) {
             var1 = AvatarData.a(this.b);
          }
 
          if (this.c != -1 && this.e != 17 && this.e != 18) {
-            GameCanvas.a(this.d, (IAction)(new class_eq(this.g, this.c, this.e, this.f)));
+            Canvas.a(this.d, (IAction)(new class_eq(this.g, this.c, this.e, this.f)));
          } else {
             MapScr.b(var1);
          }

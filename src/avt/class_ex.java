@@ -6,38 +6,38 @@ public final class class_ex extends AnimalDan {
 
    public class_ex(int var1, byte var2, byte var3) {
       super(0, 0, var1, var2);
-      super.t = 0;
-      super.u = 0;
+      super.captainID = 0;
+      super.indexFood = 0;
       ++r;
    }
 
-   public final void a() {
-      super.n = new AvPosition();
-      if (super.t == super.w) {
-         super.aw = super.C = super.n.a = (FarmScr.w + 3) * 24 + j();
-         super.ax = super.D = super.n.b = 72 + (CRes.e(24) << 2);
+   public final void setInit() {
+      super.posNext = new AvPosition();
+      if (super.captainID == super.IDDB) {
+         super.x = super.xCur = super.posNext.a = (FarmScr.w + 3) * 24 + j();
+         super.y = super.yCur = super.posNext.b = 72 + (CRes.rnd(24) << 2);
       } else {
-         this.c();
-         if (!LoadMap.b(super.aw, super.ax)) {
-            AvPosition var2 = new AvPosition((FarmScr.w + 3) * 24 + j(), 72 + (CRes.e(24) << 2));
-            super.n = var2;
+         this.updatePos();
+         if (!LoadMap.isTrans(super.x, super.y)) {
+            AvPosition var2 = new AvPosition((FarmScr.w + 3) * 24 + j(), 72 + (CRes.rnd(24) << 2));
+            super.posNext = var2;
          }
 
-         super.aw = super.C = super.n.a;
-         super.ax = super.D = super.n.b;
+         super.x = super.xCur = super.posNext.a;
+         super.y = super.yCur = super.posNext.b;
       }
    }
 
    private static int j() {
-      return CRes.e((LoadMap.e - FarmScr.x - FarmScr.w - 5) * 6) << 2;
+      return CRes.rnd((LoadMap.wMap - FarmScr.x - FarmScr.w - 5) * 6) << 2;
    }
 
-   public final void a(AvPosition var1) {
-      AvPosition var2 = new AvPosition(var1.a - 48 + j(), var1.b - 48 + (CRes.e(24) << 2));
-      super.n = var2;
+   public final void setFollowPos(AvPosition var1) {
+      AvPosition var2 = new AvPosition(var1.a - 48 + j(), var1.b - 48 + (CRes.rnd(24) << 2));
+      super.posNext = var2;
    }
 
-   public final void g() {
-      super.g();
+   public final void setPos() {
+      super.setPos();
    }
 }

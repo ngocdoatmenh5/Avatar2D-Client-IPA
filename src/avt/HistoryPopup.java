@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class HistoryPopup extends Dialog {
    private short[] a;
@@ -25,19 +25,19 @@ public final class HistoryPopup extends Dialog {
       this.a = var2;
       this.b = var3;
       super.ad = new Command(T1.z, (IAction)null);
-      this.d = 150 * AvMain.Y;
-      this.c = 200 * AvMain.Y;
+      this.d = 150 * AvMain.hd;
+      this.c = 200 * AvMain.hd;
       this.c = 0;
 
       for(int var5 = 0; var5 < var3.length; ++var5) {
          int var4;
-         if ((var4 = GameCanvas.K.a(var3[var5]) + 40 * AvMain.Y) > this.c) {
+         if ((var4 = Canvas.K.getWidth(var3[var5]) + 40 * AvMain.hd) > this.c) {
             this.c = var4;
          }
       }
 
-      this.e = AvMain.ag + 5 * AvMain.Y;
-      this.j = var2.length * this.e - (this.d - 10 * AvMain.Y);
+      this.e = AvMain.ag + 5 * AvMain.hd;
+      this.j = var2.length * this.e - (this.d - 10 * AvMain.hd);
       if (this.j < 0) {
          this.j = 0;
       }
@@ -47,17 +47,17 @@ public final class HistoryPopup extends Dialog {
    public final void l() {
       ++this.n;
       boolean var1 = false;
-      if (GameCanvas.g && GameCanvas.a((GameCanvas.m - this.c) / 2, (GameCanvas.n - this.d) / 2, this.c, this.d) && !this.l) {
+      if (Canvas.g && Canvas.a((Canvas.m - this.c) / 2, (Canvas.n - this.d) / 2, this.c, this.d) && !this.l) {
          this.k = this.g;
          this.l = true;
          this.m = 0;
       }
 
       if (this.l) {
-         int var2 = GameCanvas.l();
-         if (GameCanvas.e) {
-            if (GameCanvas.l % 3 == 0) {
-               this.p = GameCanvas.i;
+         int var2 = Canvas.l();
+         if (Canvas.e) {
+            if (Canvas.gameTick % 3 == 0) {
+               this.p = Canvas.i;
                this.o = this.n;
             }
 
@@ -70,11 +70,11 @@ public final class HistoryPopup extends Dialog {
             this.g = this.f;
          }
 
-         if (GameCanvas.f) {
+         if (Canvas.f) {
             this.l = false;
             int var3 = this.n - this.o;
             int var4;
-            if (CRes.f(var4 = this.p - GameCanvas.i) > 40 && var3 < 10 && this.f > 0 && this.f < this.j) {
+            if (CRes.f(var4 = this.p - Canvas.i) > 40 && var3 < 10 && this.f > 0 && this.f < this.j) {
                this.m = var4 / var3 * 10;
             }
 
@@ -85,10 +85,10 @@ public final class HistoryPopup extends Dialog {
          }
       }
 
-      if (GameCanvas.d[2]) {
+      if (Canvas.d[2]) {
          this.f -= AvMain.ag;
          var1 = true;
-      } else if (GameCanvas.d[8]) {
+      } else if (Canvas.d[8]) {
          var1 = true;
          this.f += AvMain.ag;
       }
@@ -150,15 +150,15 @@ public final class HistoryPopup extends Dialog {
    }
 
    public final void a(Graphics var1) {
-      GameCanvas.S.a(var1, (GameCanvas.m - this.c) / 2, (GameCanvas.q - this.d) / 2 - (PaintPopup.o + 3 * AvMain.Y), this.d + PaintPopup.o + 3 * AvMain.Y, this.c, 0, 0, PaintPopup.a().j, PaintPopup.a().i, PaintPopup.o, 1, 1, PaintPopup.a().n, PaintPopup.a().m, "Lịch sử");
-      GameCanvas.c(var1);
-      var1.translate((GameCanvas.m - this.c) / 2, (GameCanvas.q - this.d) / 2);
-      var1.setClip(0, 5 * AvMain.Y, this.c, this.d - 10 * AvMain.Y);
+      Canvas.S.a(var1, (Canvas.m - this.c) / 2, (Canvas.q - this.d) / 2 - (PaintPopup.o + 3 * AvMain.hd), this.d + PaintPopup.o + 3 * AvMain.hd, this.c, 0, 0, PaintPopup.a().j, PaintPopup.a().i, PaintPopup.o, 1, 1, PaintPopup.a().n, PaintPopup.a().m, "Lịch sử");
+      Canvas.resetTrans(var1);
+      var1.translate((Canvas.m - this.c) / 2, (Canvas.q - this.d) / 2);
+      var1.setClip(0, 5 * AvMain.hd, this.c, this.d - 10 * AvMain.hd);
       var1.translate(0, -this.g);
 
       for(int var2 = 0; var2 < this.a.length; ++var2) {
-         AvatarData.a(var1, this.a[var2], 15 * AvMain.Y, 15 * AvMain.Y + var2 * this.e, 3);
-         GameCanvas.K.a(var1, this.b[var2], 35 * AvMain.Y, 15 * AvMain.Y + var2 * this.e - AvMain.ag / 2, 0);
+         AvatarData.a(var1, this.a[var2], 15 * AvMain.hd, 15 * AvMain.hd + var2 * this.e, 3);
+         Canvas.K.a(var1, this.b[var2], 35 * AvMain.hd, 15 * AvMain.hd + var2 * this.e - AvMain.ag / 2, 0);
       }
 
       super.a(var1);

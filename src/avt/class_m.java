@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_m implements IAction {
    private MapScr a;
@@ -14,9 +14,9 @@ final class class_m implements IAction {
    public final void perform() {
       if (MapScr.a(this.b)) {
          GlobalService.gI().a(this.b[0].f(), this.b[1].f());
-         GameCanvas.i();
+         Canvas.i();
          InputFace.b();
-         GameCanvas.A = null;
+         Canvas.A = null;
       }
 
    }

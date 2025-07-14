@@ -3,7 +3,7 @@ package avt;
 import java.io.IOException;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class OnSplashScr extends MyScreen {
@@ -17,9 +17,9 @@ public final class OnSplashScr extends MyScreen {
    }
 
    public final void a() {
-      GameCanvas.C.removeAllElements();
-      GameCanvas.U = 0;
-      GameCanvas.a.b();
+      Canvas.C.removeAllElements();
+      Canvas.U = 0;
+      Canvas.a.b();
       OnScreen.b = true;
 
       try {
@@ -33,22 +33,22 @@ public final class OnSplashScr extends MyScreen {
 
    public final void k() {
       if (this.b > 21) {
-         LoadMap.B = GameMidlet.i.aw;
-         LoadMap.C = GameMidlet.i.ax;
+         LoadMap.B = GameMidlet.avatar.x;
+         LoadMap.C = GameMidlet.avatar.y;
          OnScreen.e().a();
       } else if (this.b == 0) {
-         GameCanvas.S.f();
+         Canvas.S.f();
       }
 
       ++this.b;
    }
 
    public final void a(Graphics var1) {
-      GameCanvas.S.b(var1);
+      Canvas.S.b(var1);
       if (this.b > 1) {
-         var1.drawImage(c, GameCanvas.o, GameCanvas.q / 2, 3);
+         var1.drawImage(c, Canvas.o, Canvas.q / 2, 3);
       }
 
-      GameCanvas.a(var1);
+      Canvas.a(var1);
    }
 }

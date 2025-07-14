@@ -1,7 +1,7 @@
 package avt;
 
 import java.util.Vector;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class DiamondMessageHandler extends IService implements IMiniGameMsgHandler {
    private static DiamondMessageHandler a = new DiamondMessageHandler();
@@ -37,12 +37,12 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
                   for(var18 = 0; var18 < 2; ++var18) {
                      Avatar var20;
                      (var20 = BoardScr.h(var1.b().readInt())).an = var1.b().readShort();
-                     var20.aj = var20.ak = 0;
-                     var20.ah = var20.al = var1.b().readShort();
-                     var20.ai = var1.b().readShort();
-                     var20.am = var1.b().readShort();
+                     var20.plusHP = var20.plusMP = 0;
+                     var20.hp = var20.maxHP = var1.b().readShort();
+                     var20.mp = var1.b().readShort();
+                     var20.maxMP = var1.b().readShort();
                      var20.G <<= 1;
-                     var20.e(4);
+                     var20.setFeel(4);
                   }
 
                   DiamondScr.b().a(var3, var12, var17);
@@ -78,13 +78,13 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
                      Avatar var16;
                      Avatar var10000 = var16 = BoardScr.h(var2);
                      var10000.G /= 2;
-                     var16.H = 0;
-                     var16.b(var16.c() + var3);
+                     var16.action = 0;
+                     var16.setMoneyNew(var16.getMoneyNew() + var3);
                      if (var3 != 0) {
-                        GameCanvas.a(var3, var16.aw, var16.ax, -1, 30);
-                        String var19 = var16.x + ": ";
+                        Canvas.a(var3, var16.x, var16.y, -1, 30);
+                        String var19 = var16.name + ": ";
                         if (var3 > 0) {
-                           DiamondScr.b().b = var16.w;
+                           DiamondScr.b().b = var16.IDDB;
                            var19 = var19 + T1.aP + "   +" + var3 + T1.C;
                         } else {
                            var19 = var19 + T1.aQ + "  " + var3 + T1.C;
@@ -119,12 +119,12 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
 
                   for(var18 = 0; var18 < 2; ++var18) {
                      Avatar var13;
-                     (var13 = BoardScr.h(var1.b().readInt())).af = var1.b().readByte();
+                     (var13 = BoardScr.h(var1.b().readInt())).fight = var1.b().readByte();
                      var13.an = var1.b().readShort();
-                     var13.aj = (short)(var1.b().readShort() - var13.ah);
-                     var13.ak = (short)(var1.b().readShort() - var13.ai);
-                     var13.ad = var1.b().readBoolean();
-                     if (var13.ad) {
+                     var13.plusHP = (short)(var1.b().readShort() - var13.hp);
+                     var13.plusMP = (short)(var1.b().readShort() - var13.mp);
+                     var13.isNo = var1.b().readBoolean();
+                     if (var13.isNo) {
                         DiamondScr.b().c = true;
                      }
                   }

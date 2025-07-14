@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_in implements IAction {
    private final Avatar a;
@@ -16,8 +16,8 @@ final class class_in implements IAction {
          ListScr.h();
       }
 
-      ParkService.a().a(this.a.w, true);
+      ParkService.a().a(this.a.IDDB, true);
       MessageScr.b().a(var1);
-      GameCanvas.b(T1.y + T1.cb + this.a.x + ".");
+      Canvas.b(T1.y + T1.cb + this.a.name + ".");
    }
 }

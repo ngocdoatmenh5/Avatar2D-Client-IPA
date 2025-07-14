@@ -3,7 +3,7 @@ package avt;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class Pet extends Animal {
@@ -19,59 +19,59 @@ public final class Pet extends Animal {
    private static final byte[][] U = new byte[][]{{3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3}, {0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1}, {2, 2, 2, 3, 3, 3, 2, 2, 2, 3, 3, 3}};
 
    public Pet(Avatar var1) {
-      super.az = 4;
+      super.catagory = 4;
       this.r = var1;
-      super.n = new AvPosition();
-      super.n.a = this.r.aw - 40 + CRes.e(80);
-      super.n.b = this.r.ax - 20 + CRes.e(40);
-      super.C = super.aw = super.n.a;
-      super.D = super.ax = super.n.b;
-      APartInfo var2 = (APartInfo)AvatarData.a(this.r.V);
-      this.Q = var2.a;
+      super.posNext = new AvPosition();
+      super.posNext.a = this.r.x - 40 + CRes.rnd(80);
+      super.posNext.b = this.r.y - 20 + CRes.rnd(40);
+      super.xCur = super.x = super.posNext.a;
+      super.yCur = super.y = super.posNext.b;
+      APartInfo var2 = (APartInfo)AvatarData.a(this.r.idPet);
+      this.Q = var2.level;
    }
 
-   public final void g() {
+   public final void setPos() {
       if (this.t.size() > 0) {
          AvPosition var1 = (AvPosition)this.t.elementAt(0);
-         super.n.a = var1.a;
-         super.n.b = var1.b;
+         super.posNext.a = var1.a;
+         super.posNext.b = var1.b;
          this.t.removeElementAt(0);
       } else {
-         int var2 = CRes.e(20) - 10;
-         if (CRes.f(super.n.a + var2 - GameMidlet.i.aw) >= 35) {
+         int var2 = CRes.rnd(20) - 10;
+         if (CRes.f(super.posNext.a + var2 - GameMidlet.avatar.x) >= 35) {
             var2 = 0;
          }
 
-         AvPosition var10000 = super.n;
+         AvPosition var10000 = super.posNext;
          var10000.a += var2;
-         super.n.b = super.ax;
+         super.posNext.b = super.y;
       }
 
-      if (super.n.a < 0) {
-         super.n.a = 5;
-      } else if (super.n.a > LoadMap.e * 24) {
-         super.n.a = LoadMap.e * 24 - 5;
-      } else if (super.n.b < 0) {
-         super.n.b = 5;
+      if (super.posNext.a < 0) {
+         super.posNext.a = 5;
+      } else if (super.posNext.a > LoadMap.wMap * 24) {
+         super.posNext.a = LoadMap.wMap * 24 - 5;
+      } else if (super.posNext.b < 0) {
+         super.posNext.b = 5;
       } else {
-         if (super.n.b > LoadMap.f * 24 - 24) {
-            super.n.b = LoadMap.f * 24 - 30;
+         if (super.posNext.b > LoadMap.f * 24 - 24) {
+            super.posNext.b = LoadMap.f * 24 - 30;
          }
 
       }
    }
 
-   public final void c() {
-      this.g();
+   public final void updatePos() {
+      this.setPos();
    }
 
-   public final void b() {
-      if (GameCanvas.l % (3 - this.Q) == 0) {
-         ++super.y;
+   public final void update() {
+      if (Canvas.gameTick % (3 - this.Q) == 0) {
+         ++super.frame;
       }
 
-      int var10000 = GameCanvas.l;
-      if (true && super.H == 1 && super.ax == super.D && this.T) {
+      int var10000 = Canvas.gameTick;
+      if (true && super.action == 1 && super.y == super.yCur && this.T) {
          if (this.S == 1) {
             ++this.R;
             if (this.R > 3) {
@@ -85,114 +85,114 @@ public final class Pet extends Animal {
          }
       }
 
-      if (super.y >= 12) {
-         super.y = 0;
+      if (super.frame >= 12) {
+         super.frame = 0;
       }
 
-      if ((this.u != this.r.aw || this.v != this.r.ax) && CRes.a(this.u, this.v, this.r.aw, this.r.ax) > 40) {
-         int var2 = 10 + CRes.e(20);
-         if (this.r.K == 0) {
-            var2 = -(10 + CRes.e(20));
+      if ((this.u != this.r.x || this.v != this.r.y) && CRes.a(this.u, this.v, this.r.x, this.r.y) > 40) {
+         int var2 = 10 + CRes.rnd(20);
+         if (this.r.direct == 0) {
+            var2 = -(10 + CRes.rnd(20));
          }
 
-         if (LoadMap.c(this.r.aw + var2, this.r.ax) != 80) {
+         if (LoadMap.c(this.r.x + var2, this.r.y) != 80) {
             var2 = 0;
          }
 
-         this.t.addElement(new AvPosition(this.r.aw + var2, this.r.ax));
-         this.u = this.r.aw + var2;
-         this.v = this.r.ax;
+         this.t.addElement(new AvPosition(this.r.x + var2, this.r.y));
+         this.u = this.r.x + var2;
+         this.v = this.r.y;
       }
 
-      if (super.H != 1) {
-         if (super.e > 0) {
-            if (super.y == 0) {
-               super.H = (byte)CRes.e(3 + (this.Q << 1));
-               if (super.H != 2) {
-                  super.H = 0;
+      if (super.action != 1) {
+         if (super.cycle > 0) {
+            if (super.frame == 0) {
+               super.action = (byte)CRes.rnd(3 + (this.Q << 1));
+               if (super.action != 2) {
+                  super.action = 0;
                } else {
-                  super.K = (byte)CRes.b(0, Base.J);
+                  super.direct = (byte)CRes.rnd(0, Base.LEFT);
                }
 
                if (this.T) {
-                  super.H = 2;
+                  super.action = 2;
                }
             }
 
-            --super.e;
-            if (CRes.a(super.aw, super.ax, this.r.aw, this.r.ax) > 35) {
-               super.h();
-               super.e = 0;
+            --super.cycle;
+            if (CRes.a(super.x, super.y, this.r.x, this.r.y) > 35) {
+               super.reset();
+               super.cycle = 0;
                super.G = 4;
             }
 
          } else {
-            this.g();
-            if (super.n.a > super.aw) {
-               super.K = 0;
+            this.setPos();
+            if (super.posNext.a > super.x) {
+               super.direct = 0;
             } else {
-               super.K = Base.J;
+               super.direct = Base.LEFT;
             }
 
-            this.f();
-            super.H = 1;
+            this.setAngleAndDis();
+            super.action = 1;
          }
       } else {
-         this.e();
+         this.move();
       }
    }
 
-   public final void h() {
-      super.h();
-      super.e = 50 + CRes.e(100);
+   public final void reset() {
+      super.reset();
+      super.cycle = 50 + CRes.rnd(100);
       if (this.t.size() > 0) {
-         this.g();
-         if (super.n.a > super.aw) {
-            super.K = 0;
+         this.setPos();
+         if (super.posNext.a > super.x) {
+            super.direct = 0;
          } else {
-            super.K = Base.J;
+            super.direct = Base.LEFT;
          }
 
-         this.f();
-         super.H = 1;
-         super.e = 0;
-         super.a = 1;
+         this.setAngleAndDis();
+         super.action = 1;
+         super.cycle = 0;
+         super.disTrans = 1;
          super.G = 2 + this.Q;
       } else {
-         super.G = 1 + CRes.e(this.Q);
+         super.G = 1 + CRes.rnd(this.Q);
       }
    }
 
-   public final void a(Graphics var1) {
-      if ((super.aw + 15) * MyObject.ay >= AvCamera.a().a && (super.aw - 15) * MyObject.ay <= AvCamera.a().a + GameCanvas.m && !this.r.L && (GameCanvas.Z <= 0 || GameCanvas.r != MenuCenter.b())) {
+   public final void paint(Graphics var1) {
+      if ((super.x + 15) * MyObject.hd >= AvCamera.gI().xCam && (super.x - 15) * MyObject.hd <= AvCamera.gI().xCam + Canvas.m && !this.r.ableShow && (Canvas.Z <= 0 || Canvas.currentMyScreen != MenuCenter.gI())) {
          APartInfo var2;
-         if ((var2 = (APartInfo)AvatarData.a(this.r.V)).g != -1) {
-            if (var2.g >= 2000) {
+         if ((var2 = (APartInfo)AvatarData.a(this.r.idPet)).IDPart != -1) {
+            if (var2.IDPart >= 2000) {
                ImageIcon var3;
-               if ((var3 = AvatarData.b(var2.c[U[super.H][super.y]])).d != -1) {
-                  if (!this.T && var2.e[0] + var3.c < -10 && var3.c > 0) {
+               if ((var3 = AvatarData.b(var2.imgID[U[super.action][super.frame]])).count != -1) {
+                  if (!this.T && var2.dy[0] + var3.c < -10 && var3.c > 0) {
                      this.T = true;
                      this.S = 1;
                   }
 
-                  var1.drawImage(s[this.T ? 0 : 1], super.aw * MyObject.ay, (super.ax - 1) * MyObject.ay, 3);
-                  var1.drawRegion(var3.a, 0, 0, var3.b, var3.c, super.K, super.aw * MyObject.ay + var2.d[U[super.H][super.y]] * MyObject.ay - (super.K == Base.J ? (var2.d[U[super.H][super.y]] * AvMain.Y << 1) + var3.b * AvMain.Y : 0), (super.ax + this.R) * MyObject.ay + var2.e[U[super.H][super.y]] * MyObject.ay, 0);
+                  var1.drawImage(s[this.T ? 0 : 1], super.x * MyObject.hd, (super.y - 1) * MyObject.hd, 3);
+                  var1.drawRegion(var3.img, 0, 0, var3.b, var3.c, super.direct, super.x * MyObject.hd + var2.dx[U[super.action][super.frame]] * MyObject.hd - (super.direct == Base.LEFT ? (var2.dx[U[super.action][super.frame]] * AvMain.hd << 1) + var3.b * AvMain.hd : 0), (super.y + this.R) * MyObject.hd + var2.dy[U[super.action][super.frame]] * MyObject.hd, 0);
                   return;
                }
             } else {
-               ImageInfo var4 = AvatarData.a[var2.c[U[super.H][super.y]]];
-               if (!this.T && var2.e[0] + var4.f < -10 && var4.f > 0) {
+               ImageInfo var4 = AvatarData.listImgInfo[var2.imgID[U[super.action][super.frame]]];
+               if (!this.T && var2.dy[0] + var4.f < -10 && var4.f > 0) {
                   this.T = true;
                   this.S = 1;
                }
 
-               var1.drawImage(s[this.T ? 0 : 1], super.aw * MyObject.ay, (super.ax - 1) * MyObject.ay, 3);
-               int var10002 = var4.c * MyObject.ay;
-               int var10003 = var4.d * MyObject.ay;
-               int var10004 = var4.e * MyObject.ay;
-               int var10005 = var4.f * MyObject.ay;
-               int var10007 = super.aw * MyObject.ay + var2.d[U[super.H][super.y]] * MyObject.ay - (super.K == Base.J ? (var2.d[U[super.H][super.y]] * AvMain.Y << 1) + var4.e * AvMain.Y : 0);
-               var1.drawRegion(AvatarData.a((int)var4.b).e, var10002, var10003, var10004, var10005, super.K, var10007, (super.ax + this.R) * MyObject.ay + var2.e[U[super.H][super.y]] * MyObject.ay, 0);
+               var1.drawImage(s[this.T ? 0 : 1], super.x * MyObject.hd, (super.y - 1) * MyObject.hd, 3);
+               int var10002 = var4.c * MyObject.hd;
+               int var10003 = var4.d * MyObject.hd;
+               int var10004 = var4.e * MyObject.hd;
+               int var10005 = var4.f * MyObject.hd;
+               int var10007 = super.x * MyObject.hd + var2.dx[U[super.action][super.frame]] * MyObject.hd - (super.direct == Base.LEFT ? (var2.dx[U[super.action][super.frame]] * AvMain.hd << 1) + var4.e * AvMain.hd : 0);
+               var1.drawRegion(AvatarData.a((int)var4.b).e, var10002, var10003, var10004, var10005, super.direct, var10007, (super.y + this.R) * MyObject.hd + var2.dy[U[super.action][super.frame]] * MyObject.hd, 0);
             }
          }
 
@@ -201,36 +201,36 @@ public final class Pet extends Animal {
 
    public final void a(Graphics var1, int var2, int var3, int var4) {
       APartInfo var5;
-      if ((var5 = (APartInfo)AvatarData.a(this.r.V)).g != -1) {
-         int var6 = var3 + var5.e[U[super.H][super.y]];
+      if ((var5 = (APartInfo)AvatarData.a(this.r.idPet)).IDPart != -1) {
+         int var6 = var3 + var5.dy[U[super.action][super.frame]];
          PaintPopup.a(var2 - 10, var6 - 10, 20, 3, 11381824, var1);
          var1.setColor(11072024);
          var1.drawRect(var2 - 10, var6 - 10, 20, 3);
          PaintPopup.a(var2 - 9, var6 - 9, var4 * 20 / 100, 2, 16644608, var1);
-         if (var5.g >= 2000) {
+         if (var5.IDPart >= 2000) {
             ImageIcon var7;
-            if ((var7 = AvatarData.b(var5.c[U[super.H][super.y]])).d != -1) {
+            if ((var7 = AvatarData.b(var5.imgID[U[super.action][super.frame]])).count != -1) {
                var1.drawImage(s[this.T ? 0 : 1], var2, var3 - 1, 3);
-               var1.drawRegion(var7.a, 0, 0, var7.b, var7.c, super.K, var2 + var5.d[U[super.H][super.y]] * MyObject.ay - (super.K == Base.J ? (var5.d[U[super.H][super.y]] * AvMain.Y << 1) + var7.b * AvMain.Y : 0), var6 + this.R, 0);
+               var1.drawRegion(var7.img, 0, 0, var7.b, var7.c, super.direct, var2 + var5.dx[U[super.action][super.frame]] * MyObject.hd - (super.direct == Base.LEFT ? (var5.dx[U[super.action][super.frame]] * AvMain.hd << 1) + var7.b * AvMain.hd : 0), var6 + this.R, 0);
                return;
             }
          } else {
-            ImageInfo var8 = AvatarData.a[var5.c[U[super.H][super.y]]];
+            ImageInfo var8 = AvatarData.listImgInfo[var5.imgID[U[super.action][super.frame]]];
             var1.drawImage(s[this.T ? 0 : 1], var2, var3 - 1, 3);
-            int var10002 = var8.c * MyObject.ay;
-            int var10003 = var8.d * MyObject.ay;
-            int var10004 = var8.e * MyObject.ay;
-            int var10005 = var8.f * MyObject.ay;
-            int var10007 = var2 + var5.d[U[super.H][super.y]] * MyObject.ay;
-            var1.drawRegion(AvatarData.a((int)var8.b).e, var10002, var10003, var10004, var10005, super.K, var10007 - (super.K == Base.J ? (var5.d[U[super.H][super.y]] * AvMain.Y << 1) + var8.e * AvMain.Y : 0), var6 + this.R, 0);
+            int var10002 = var8.c * MyObject.hd;
+            int var10003 = var8.d * MyObject.hd;
+            int var10004 = var8.e * MyObject.hd;
+            int var10005 = var8.f * MyObject.hd;
+            int var10007 = var2 + var5.dx[U[super.action][super.frame]] * MyObject.hd;
+            var1.drawRegion(AvatarData.a((int)var8.b).e, var10002, var10003, var10004, var10005, super.direct, var10007 - (super.direct == Base.LEFT ? (var5.dx[U[super.action][super.frame]] * AvMain.hd << 1) + var8.e * AvMain.hd : 0), var6 + this.R, 0);
          }
       }
 
    }
 
-   public final void e() {
-      int var1 = super.G * this.r.W / 100;
-      if (this.r.W >= 70) {
+   public final void move() {
+      int var1 = super.G * this.r.hungerPet / 100;
+      if (this.r.hungerPet >= 70) {
          var1 = super.G;
       }
 
@@ -238,14 +238,14 @@ public final class Pet extends Animal {
          var1 = 1;
       }
 
-      int var2 = var1 * (super.a * CRes.b(CRes.c(super.b)) >> 10);
-      var1 = -var1 * super.a * CRes.a(CRes.c(super.b)) >> 10;
-      super.aw = super.C + var2;
-      super.ax = super.D + var1;
-      var1 = CRes.a(super.C, super.D, super.aw, super.ax);
-      ++super.a;
-      if (var1 > super.c) {
-         this.h();
+      int var2 = var1 * (super.disTrans * CRes.b(CRes.c(super.angle)) >> 10);
+      var1 = -var1 * super.disTrans * CRes.a(CRes.c(super.angle)) >> 10;
+      super.x = super.xCur + var2;
+      super.y = super.yCur + var1;
+      var1 = CRes.a(super.xCur, super.yCur, super.x, super.y);
+      ++super.disTrans;
+      if (var1 > super.distant) {
+         this.reset();
       }
 
    }

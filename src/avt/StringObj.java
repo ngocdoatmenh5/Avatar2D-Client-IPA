@@ -17,8 +17,8 @@ public final class StringObj extends SubObject {
    }
 
    public StringObj(int var1, int var2, String var3) {
-      super.aw = var1;
-      super.ax = var2;
+      super.x = var1;
+      super.y = var2;
       this.a = var3;
    }
 

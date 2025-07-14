@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class class_il {
    private static class_il a;
@@ -35,7 +35,7 @@ public final class class_il {
    public final void b(int var1, int var2) {
       this.f = var1;
       this.g = var2;
-      if (!this.h && (CRes.f(var2 - var1) > 5 || GameCanvas.y.n != 0 || GameCanvas.y.p)) {
+      if (!this.h && (CRes.f(var2 - var1) > 5 || Canvas.y.n != 0 || Canvas.y.p)) {
          var2 = this.c * 100 / 100;
          var1 = var1 * 100 / var2;
          var2 = this.b * 100 / 100;
@@ -45,7 +45,7 @@ public final class class_il {
    }
 
    public final void a(Graphics var1, int var2, int var3) {
-      if (!this.h && (CRes.f(this.g - this.f) > 5 || GameCanvas.y.n != 0 || GameCanvas.y.p)) {
+      if (!this.h && (CRes.f(this.g - this.f) > 5 || Canvas.y.n != 0 || Canvas.y.p)) {
          var1.setColor(6201499);
          var1.setClip(var2 - 1, -1, 6, this.b + 2);
          var1.fillRect(var2, 0 + this.e / 100, 4, this.d);

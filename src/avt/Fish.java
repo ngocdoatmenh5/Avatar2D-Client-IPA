@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class Fish {
@@ -47,7 +47,7 @@ public final class Fish {
       this.y = 0;
       this.z = 0;
       this.A = 0;
-      this.a = (byte)(7 + CRes.e(4));
+      this.a = (byte)(7 + CRes.rnd(4));
       this.u = new AvPosition[2];
 
       int var1;
@@ -74,7 +74,7 @@ public final class Fish {
    public final void a() {
       this.p = 0;
       this.f = 0;
-      this.q = -(10 + CRes.e(4));
+      this.q = -(10 + CRes.rnd(4));
       this.g = -1;
       this.i = false;
       this.j = false;
@@ -83,7 +83,7 @@ public final class Fish {
 
    public final void a(Avatar var1) {
       this.b = var1;
-      if (var1.K == 0) {
+      if (var1.direct == 0) {
          this.n = 1;
       } else {
          this.n = -1;
@@ -93,23 +93,23 @@ public final class Fish {
       this.g = 0;
       this.h = 0;
       Object var4;
-      if (((Part)(var4 = AvatarData.a(var1.e, 70))).f >= 0) {
+      if (((Part)(var4 = AvatarData.a(var1.seriPart, 70))).f >= 0) {
          var4 = AvatarData.a(((Part)var4).f);
       }
 
       APartInfo var8 = (APartInfo)var4;
-      ImageInfo var5 = AvatarData.a[var8.c[3]];
-      ImageInfo var6 = AvatarData.a[var8.c[14]];
-      int var7 = var1.aw;
-      int var3 = var1.ax + var1.h;
-      this.o[0].a = var7 + var8.d[3] * AvMain.Y + var5.e * AvMain.Y;
-      this.o[0].b = var3 + var8.e[3] * AvMain.Y - 5 * (AvMain.Y - 1);
-      this.o[1].a = var7 + var8.d[14] * AvMain.Y + var6.e * AvMain.Y;
-      this.o[1].b = var3 + var8.e[14] * AvMain.Y - 5 * (AvMain.Y - 1);
+      ImageInfo var5 = AvatarData.listImgInfo[var8.imgID[3]];
+      ImageInfo var6 = AvatarData.listImgInfo[var8.imgID[14]];
+      int var7 = var1.x;
+      int var3 = var1.y + var1.ySat;
+      this.o[0].a = var7 + var8.dx[3] * AvMain.hd + var5.e * AvMain.hd;
+      this.o[0].b = var3 + var8.dy[3] * AvMain.hd - 5 * (AvMain.hd - 1);
+      this.o[1].a = var7 + var8.dx[14] * AvMain.hd + var6.e * AvMain.hd;
+      this.o[1].b = var3 + var8.dy[14] * AvMain.hd - 5 * (AvMain.hd - 1);
       this.v.c = -1;
-      if (var1.w == GameMidlet.i.w) {
-         MapScr.b();
-         MapScr.a((byte)13);
+      if (var1.IDDB == GameMidlet.avatar.IDDB) {
+         MapScr.gI();
+         MapScr.doAction((byte)13);
       }
 
    }
@@ -129,9 +129,9 @@ public final class Fish {
       this.c[0].a = this.o[var1].a;
       this.c[0].b = this.o[var1].b;
       if (var1 == 1) {
-         this.b.H = 13;
+         this.b.action = 13;
       } else {
-         this.b.H = 2;
+         this.b.action = 2;
       }
    }
 
@@ -198,7 +198,7 @@ public final class Fish {
                      var1.y = 0;
                   }
 
-                  var1.z = CRes.e(20);
+                  var1.z = CRes.rnd(20);
                }
 
                if (var1.e == m) {
@@ -230,7 +230,7 @@ public final class Fish {
                }
             }
 
-            if (var1.c[var3].b < var1.b.ax + var1.b.h + 5) {
+            if (var1.c[var3].b < var1.b.y + var1.b.ySat + 5) {
                var10000 = var1.c[var3];
                var10000.a += 10;
                var10000 = var1.c[var3];
@@ -260,27 +260,27 @@ public final class Fish {
 
          if (this.g != -1) {
             ++this.g;
-            if (GameCanvas.l % 4 == 2) {
-               if (this.b.H == 2) {
-                  this.b.H = 13;
+            if (Canvas.gameTick % 4 == 2) {
+               if (this.b.action == 2) {
+                  this.b.action = 13;
                   if (this.g > 16) {
                      this.b();
                      this.g = -1;
                   }
                } else {
-                  this.b.H = 2;
+                  this.b.action = 2;
                }
             }
          }
 
          var1 = this;
          if (this.i) {
-            if (this.e > 4 && GameCanvas.l % 6 == 3) {
+            if (this.e > 4 && Canvas.gameTick % 6 == 3) {
                --this.e;
             }
 
-            if (!this.j && GameCanvas.l % 6 == 3 && this.b != GameMidlet.i) {
-               if (this.b.H == 2) {
+            if (!this.j && Canvas.gameTick % 6 == 3 && this.b != GameMidlet.avatar) {
+               if (this.b.action == 2) {
                   this.a(1);
                } else {
                   this.a(0);
@@ -309,7 +309,7 @@ public final class Fish {
             }
          }
 
-         if (this.k && (this.b.H == 2 || this.b.H == 13)) {
+         if (this.k && (this.b.action == 2 || this.b.action == 13)) {
             this.a(this.b);
             this.k = false;
          }
@@ -350,7 +350,7 @@ public final class Fish {
                --this.s;
             }
 
-            if ((this.s <= 0 || this.i) && GameCanvas.l % 2 == 1) {
+            if ((this.s <= 0 || this.i) && Canvas.gameTick % 2 == 1) {
                if (CRes.f(var2) > 0) {
                   if (var2 > 0) {
                      --this.x.a;
@@ -373,22 +373,22 @@ public final class Fish {
             }
 
             if (CRes.f(var2) <= 0 && CRes.f(var3) <= 0) {
-               this.s = 50 + CRes.e(100);
-               this.w.a = this.v.a + 10 - CRes.e(20);
-               this.w.b = this.v.b + CRes.e(6);
+               this.s = 50 + CRes.rnd(100);
+               this.w.a = this.v.a + 10 - CRes.rnd(20);
+               this.w.b = this.v.b + CRes.rnd(6);
             }
          }
 
-         if (this.b.K == 0) {
+         if (this.b.direct == 0) {
             this.n = 1;
          } else {
             this.n = -1;
          }
 
          for(int var9 = 0; var9 < this.a; ++var9) {
-            var2 = this.c[var9].a - this.b.aw;
-            if (var9 != this.a - 2 || CRes.f(this.d[var9].a - (this.b.aw + this.n * var2)) > 1) {
-               this.d[var9].a = this.b.aw * AvMain.Y + this.n * var2;
+            var2 = this.c[var9].a - this.b.x;
+            if (var9 != this.a - 2 || CRes.f(this.d[var9].a - (this.b.x + this.n * var2)) > 1) {
+               this.d[var9].a = this.b.x * AvMain.hd + this.n * var2;
             }
 
             this.d[var9].b = this.c[var9].b;
@@ -399,12 +399,12 @@ public final class Fish {
 
    public final void a(Graphics var1) {
       if (!this.k && this.g == -1) {
-         if (AvMain.Y > 1) {
-            var1.translate(0, this.b.ax);
+         if (AvMain.hd > 1) {
+            var1.translate(0, this.b.y);
          }
 
          int var2;
-         if (this.f != 0 && !this.j && this.u[0].a > 0 && this.u[0].a > AvCamera.a().a && this.u[0].a < AvCamera.a().a + GameCanvas.m) {
+         if (this.f != 0 && !this.j && this.u[0].a > 0 && this.u[0].a > AvCamera.gI().xCam && this.u[0].a < AvCamera.gI().xCam + Canvas.m) {
             var1.setColor(l[LoadMap.j]);
 
             for(var2 = 0; var2 < 2; ++var2) {
@@ -413,14 +413,14 @@ public final class Fish {
          }
 
          var1.setColor(8685448);
-         if (this.d[0].a > AvCamera.a().a && this.d[0].a < AvCamera.a().a + GameCanvas.m || this.d[this.a - 1].a > AvCamera.a().a && this.d[this.a - 1].a < AvCamera.a().a + GameCanvas.m) {
+         if (this.d[0].a > AvCamera.gI().xCam && this.d[0].a < AvCamera.gI().xCam + Canvas.m || this.d[this.a - 1].a > AvCamera.gI().xCam && this.d[this.a - 1].a < AvCamera.gI().xCam + Canvas.m) {
             for(var2 = 0; var2 < this.a - 1 - this.f; ++var2) {
-               if (this.d[var2 + 1].b < this.b.ax + this.b.h + 20) {
+               if (this.d[var2 + 1].b < this.b.y + this.b.ySat + 20) {
                   var1.drawLine(this.d[var2].a, this.d[var2].b, this.d[var2 + 1].a, this.d[var2 + 1].b);
                }
             }
 
-            if (this.f == 0 && this.d[this.a - 1].b < this.b.ax + this.b.h + 10) {
+            if (this.f == 0 && this.d[this.a - 1].b < this.b.y + this.b.ySat + 10) {
                PaintPopup.a(this.d[this.a - 1].a, this.d[this.a - 1].b, 2, 2, 0, var1);
             }
 
@@ -431,16 +431,16 @@ public final class Fish {
                int var10001 = 0 + this.A / 3;
                var10002 = this.d[this.a - 2].a + 2;
                var10003 = this.d[this.a - 2].b + 4;
-               class_kv.b().b.a(var10001, var10002, var10003, 0, 24, var1);
+               class_kv.b().b.drawFrame(var10001, var10002, var10003, 0, 24, var1);
                PartSmall var3;
-               if (GameCanvas.l % 10 > 5 && (var3 = (PartSmall)AvatarData.a((short)this.h)) != null) {
-                  var3.a(var1, this.b.aw * AvMain.Y, this.b.ax - 55 * AvMain.Y, 3);
+               if (Canvas.gameTick % 10 > 5 && (var3 = (PartSmall)AvatarData.a((short)this.h)) != null) {
+                  var3.a(var1, this.b.x * AvMain.hd, this.b.y - 55 * AvMain.hd, 3);
                }
             }
          }
 
-         if (AvMain.Y > 1) {
-            var1.translate(0, -this.b.ax);
+         if (AvMain.hd > 1) {
+            var1.translate(0, -this.b.y);
          }
 
       }

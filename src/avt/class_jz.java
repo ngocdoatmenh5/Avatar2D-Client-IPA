@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 public final class class_jz implements IMiniGameMsgHandler {
    public static class_jz a;
@@ -20,7 +20,7 @@ public final class class_jz implements IMiniGameMsgHandler {
                   for(var12 = 0; var12 < 6; ++var12) {
                      var13[var12] = new PetRace(this);
                      var13[var12].g = 0;
-                     var13[var12].w = var1.b().readByte();
+                     var13[var12].IDDB = var1.b().readByte();
                      var13[var12].a = var1.b().readByte();
                      var13[var12].c = var1.b().readShort();
                      var13[var12].d = var1.b().readShort();
@@ -35,7 +35,7 @@ public final class class_jz implements IMiniGameMsgHandler {
                   for(var15 = 0; var15 < 6; ++var15) {
                      var17[var15] = new PetRace(this);
                      var17[var15].g = 0;
-                     var17[var15].w = var1.b().readByte();
+                     var17[var15].IDDB = var1.b().readByte();
                      var17[var15].c = var1.b().readShort();
                      byte var19 = var1.b().readByte();
                      var17[var15].e = new short[var19];
@@ -85,14 +85,14 @@ public final class class_jz implements IMiniGameMsgHandler {
                int var8 = var1.b().readInt();
 
                for(var12 = 0; var12 < RaceScr.b().c.length; ++var12) {
-                  if (var2 == RaceScr.b().c[var12].w) {
+                  if (var2 == RaceScr.b().c[var12].IDDB) {
                      RaceScr.b().c[var12].g = var8;
                      RaceScr.b().g = (byte)var12;
                      break;
                   }
                }
 
-               GameCanvas.h();
+               Canvas.h();
                return;
             case 8:
                short[] var11 = new short[var2 = var1.b().readByte()];
@@ -104,11 +104,11 @@ public final class class_jz implements IMiniGameMsgHandler {
                }
 
                if (var2 > 0) {
-                  GameCanvas.v = new HistoryPopup(this, var11, var4);
+                  Canvas.v = new HistoryPopup(this, var11, var4);
                   return;
                }
 
-               GameCanvas.h();
+               Canvas.h();
                return;
             case 9:
                String var3 = var1.b().readUTF();

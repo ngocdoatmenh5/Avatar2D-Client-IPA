@@ -5,5 +5,5 @@ public final class class_kb {
    public byte b;
    public String c;
    public short d;
-   public int e = CRes.e(9);
+   public int e = CRes.rnd(9);
 }

@@ -2,7 +2,7 @@ package avt;
 
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class TLBoardScr extends BoardScr {
@@ -72,13 +72,13 @@ public final class TLBoardScr extends BoardScr {
             this.Q = -1;
             break;
          case 21:
-            GameCanvas.b(T1.Q, 70);
+            Canvas.b(T1.Q, 70);
             break;
          case 70:
             super.n = -1;
             this.W = false;
             CasinoService.a().e();
-            GameCanvas.h();
+            Canvas.h();
       }
 
       super.a(var1, var2);
@@ -91,17 +91,17 @@ public final class TLBoardScr extends BoardScr {
    }
 
    private void t() {
-      this.S = GameCanvas.n - GameCanvas.T;
-      if (GameCanvas.m < 150) {
+      this.S = Canvas.n - Canvas.T;
+      if (Canvas.m < 150) {
          O = 26;
          P = 32;
-         this.S = GameCanvas.q - GameCanvas.T - 10;
+         this.S = Canvas.q - Canvas.T - 10;
       } else {
          O = 54;
          P = 72;
       }
 
-      if (AvMain.Y == 2) {
+      if (AvMain.hd == 2) {
          O = 144;
          P = 194;
       }
@@ -147,7 +147,7 @@ public final class TLBoardScr extends BoardScr {
          }
 
          if (!var1) {
-            BoardScr.a(GameMidlet.i.w, T1.R);
+            BoardScr.a(GameMidlet.avatar.IDDB, T1.R);
             return;
          }
 
@@ -226,7 +226,7 @@ public final class TLBoardScr extends BoardScr {
          }
 
          if (!var10000) {
-            BoardScr.a(GameMidlet.i.w, T1.S);
+            BoardScr.a(GameMidlet.avatar.IDDB, T1.S);
             return;
          }
       }
@@ -273,18 +273,18 @@ public final class TLBoardScr extends BoardScr {
       if (BoardScr.j) {
          int var1 = this.K.size();
          if (this.K != null && var1 > 0) {
-            if (GameCanvas.g && GameCanvas.a(this.R - O / 2, this.S - P / 2 - 30, super.y * (var1 - 1) + O, P + 15)) {
+            if (Canvas.g && Canvas.a(this.R - O / 2, this.S - P / 2 - 30, super.y * (var1 - 1) + O, P + 15)) {
                this.U = true;
-               GameCanvas.g = false;
-               this.V = (GameCanvas.j - (this.R - O / 2)) / super.y;
+               Canvas.g = false;
+               this.V = (Canvas.j - (this.R - O / 2)) / super.y;
                this.T = true;
                super.o = this.V;
             }
 
             if (this.U) {
-               var1 = GameCanvas.k();
-               int var2 = GameCanvas.l();
-               if (GameCanvas.e) {
+               var1 = Canvas.k();
+               int var2 = Canvas.l();
+               if (Canvas.e) {
                   if (var2 > 10) {
                      this.c(true);
                   } else if (var2 < -10) {
@@ -295,7 +295,7 @@ public final class TLBoardScr extends BoardScr {
                      }
 
                      this.T = false;
-                     int var3 = (GameCanvas.h - (this.R - O / 2)) / super.y;
+                     int var3 = (Canvas.h - (this.R - O / 2)) / super.y;
                      if (super.o != var3) {
                         if (this.Q != -1) {
                            if (var3 < this.Q) {
@@ -325,7 +325,7 @@ public final class TLBoardScr extends BoardScr {
                   }
                }
 
-               if (GameCanvas.f) {
+               if (Canvas.f) {
                   this.U = false;
                   this.Q = -1;
                   if (CRes.f(var1) <= 10 && CRes.f(var2) <= 10) {
@@ -335,13 +335,13 @@ public final class TLBoardScr extends BoardScr {
             }
          }
 
-         if (GameCanvas.a(6)) {
+         if (Canvas.a(6)) {
             this.b(1);
-         } else if (GameCanvas.a(4)) {
+         } else if (Canvas.a(4)) {
             this.b(-1);
          }
 
-         if (GameCanvas.a(2)) {
+         if (Canvas.a(2)) {
             if (this.Q != -1) {
                this.Q = -1;
                this.d(true);
@@ -352,7 +352,7 @@ public final class TLBoardScr extends BoardScr {
             this.d(true);
          }
 
-         if (GameCanvas.a(8)) {
+         if (Canvas.a(8)) {
             if (((Card)this.K.elementAt(super.o)).f) {
                this.u();
                this.d(true);
@@ -379,7 +379,7 @@ public final class TLBoardScr extends BoardScr {
       }
 
       if (BoardScr.t != 0L && (BoardScr.u = System.currentTimeMillis()) > BoardScr.t) {
-         if (super.n == GameMidlet.i.w) {
+         if (super.n == GameMidlet.avatar.IDDB) {
             CasinoService.a().e();
             super.n = -1;
          }
@@ -393,7 +393,7 @@ public final class TLBoardScr extends BoardScr {
       } else if (this.Q != -1) {
          super.ac = null;
          super.ae = null;
-         if (GameCanvas.Z == 0) {
+         if (Canvas.Z == 0) {
             super.ad = this.M;
          }
 
@@ -402,7 +402,7 @@ public final class TLBoardScr extends BoardScr {
             super.ac = null;
             super.ad = BoardScr.C;
             super.ae = null;
-         } else if (super.n == GameMidlet.i.w) {
+         } else if (super.n == GameMidlet.avatar.IDDB) {
             super.ae = this.L;
             if (this.v().length > 0) {
                if (this.h != -1) {
@@ -438,11 +438,11 @@ public final class TLBoardScr extends BoardScr {
       int var2;
       if (this.K.size() > 0 && !var1) {
          var2 = 12;
-         if (GameCanvas.H && (var2 = (GameCanvas.m - O / 2) / this.K.size()) > O / 3 << 1) {
+         if (Canvas.H && (var2 = (Canvas.m - O / 2) / this.K.size()) > O / 3 << 1) {
             var2 = O / 3 << 1;
          }
 
-         super.y = (GameCanvas.m - 60) / this.K.size() + 1;
+         super.y = (Canvas.m - 60) / this.K.size() + 1;
          if (super.y > var2) {
             super.y = var2;
          }
@@ -451,11 +451,11 @@ public final class TLBoardScr extends BoardScr {
             super.y = 9;
          }
 
-         if (GameCanvas.H) {
+         if (Canvas.H) {
             super.y = var2;
          }
 
-         this.R = (GameCanvas.m - (super.y * this.K.size() + (O - super.y)) >> 1) + O / 2;
+         this.R = (Canvas.m - (super.y * this.K.size() + (O - super.y)) >> 1) + O / 2;
          if (this.R < O / 2) {
             this.R = O / 2;
          }
@@ -468,15 +468,15 @@ public final class TLBoardScr extends BoardScr {
          Card var5 = (Card)this.K.elementAt(var4);
          int var6 = 0;
          if (var5.f) {
-            var6 = -8 * (GameCanvas.Z + 1);
+            var6 = -8 * (Canvas.Z + 1);
          }
 
          int var8 = this.S + var6;
          var5.m = var3;
          var5.l = var8;
          var5.e = CRes.a(var5.c, var5.d, var5.m, var5.l);
-         if (var4 == this.Q && !GameCanvas.H) {
-            var5.l += 8 * (GameCanvas.Z + 1);
+         if (var4 == this.Q && !Canvas.H) {
+            var5.l += 8 * (Canvas.Z + 1);
          }
 
          var3 += super.y;
@@ -496,13 +496,13 @@ public final class TLBoardScr extends BoardScr {
    public final void a_(Graphics var1) {
       for(int var2 = 0; var2 < BoardScr.H; ++var2) {
          Avatar var3;
-         if ((var3 = (Avatar)BoardScr.m.elementAt(var2)).w != -1) {
-            if (var3.w != GameMidlet.i.w || !BoardScr.j) {
-               var3.a(var1, var3.aw, var3.ax, false);
+         if ((var3 = (Avatar)BoardScr.m.elementAt(var2)).IDDB != -1) {
+            if (var3.IDDB != GameMidlet.avatar.IDDB || !BoardScr.j) {
+               var3.paintIcon(var1, var3.x, var3.y, false);
             }
 
-            var3.a(var1, var3.aw, var3.ax);
-            BoardScr.a(var1, var3.aw, var3.ax - 50, 3, var3);
+            var3.paintName(var1, var3.x, var3.y);
+            BoardScr.a(var1, var3.x, var3.y - 50, 3, var3);
          }
       }
 
@@ -518,7 +518,7 @@ public final class TLBoardScr extends BoardScr {
 
          for(int var7 = 0; var7 < var6; ++var7) {
             Card var8 = (Card)var4.c.elementAt(var7);
-            if (GameCanvas.m < 150) {
+            if (Canvas.m < 150) {
                var8.a(var5, false);
             } else if (var7 == var6 - 1) {
                var8.c(var5);
@@ -538,7 +538,7 @@ public final class TLBoardScr extends BoardScr {
 
          for(int var11 = 0; var11 < 4; ++var11) {
             Avatar var12;
-            if ((var12 = (Avatar)BoardScr.m.elementAt(var11)).w != -1) {
+            if ((var12 = (Avatar)BoardScr.m.elementAt(var11)).IDDB != -1) {
                byte var13 = 0;
                byte var14 = 0;
                if (BoardScr.x[var11] == 2) {
@@ -551,11 +551,11 @@ public final class TLBoardScr extends BoardScr {
                   var14 = 10;
                }
 
-               if (GameCanvas.m > 160) {
-                  GameCanvas.Q.a(var3, var12.c() + " " + T1.k(), BoardScr.F[BoardScr.x[var11]].a + var14, BoardScr.F[BoardScr.x[var11]].b + 5 + var13, BoardScr.F[BoardScr.x[var11]].c);
+               if (Canvas.m > 160) {
+                  Canvas.smallFontYellow.a(var3, var12.getMoneyNew() + " " + T1.k(), BoardScr.F[BoardScr.x[var11]].a + var14, BoardScr.F[BoardScr.x[var11]].b + 5 + var13, BoardScr.F[BoardScr.x[var11]].c);
                }
 
-               if (var12.w == var2.n && var2.ad != BoardScr.C) {
+               if (var12.IDDB == var2.n && var2.ad != BoardScr.C) {
                   String var15 = "";
                   if (BoardScr.t != 0L) {
                      long var9 = (BoardScr.u - BoardScr.t) / 1000L;
@@ -563,15 +563,15 @@ public final class TLBoardScr extends BoardScr {
                   }
 
                   int var16 = BoardScr.F[BoardScr.x[var11]].a;
-                  int var10 = BoardScr.F[BoardScr.x[var11]].b + 13 * AvMain.Y;
+                  int var10 = BoardScr.F[BoardScr.x[var11]].b + 13 * AvMain.hd;
                   if (BoardScr.x[var11] == 2) {
-                     var10 = var2.S - P / 2 - 20 * AvMain.Y;
+                     var10 = var2.S - P / 2 - 20 * AvMain.hd;
                   }
 
-                  PaintPopup.a(var16 - 10 * AvMain.Y, var10, 20 * AvMain.Y, AvMain.af, 16776365, var3);
+                  PaintPopup.a(var16 - 10 * AvMain.hd, var10, 20 * AvMain.hd, AvMain.af, 16776365, var3);
                   var3.setColor(332544);
-                  var3.drawRect(var16 - 10 * AvMain.Y, var10, 20 * AvMain.Y, AvMain.af);
-                  GameCanvas.N.a(var3, var15, var16, var10 + 1, 2);
+                  var3.drawRect(var16 - 10 * AvMain.hd, var10, 20 * AvMain.hd, AvMain.af);
+                  Canvas.N.a(var3, var15, var16, var10 + 1, 2);
                }
             }
          }
@@ -586,7 +586,7 @@ public final class TLBoardScr extends BoardScr {
       }
 
       BoardScr.d(var1);
-      GameCanvas.c(var1);
+      Canvas.resetTrans(var1);
    }
 
    private void e(Graphics var1) {
@@ -604,7 +604,7 @@ public final class TLBoardScr extends BoardScr {
                var7 = (Card)this.K.elementAt(var5);
             }
 
-            if (GameCanvas.m < 150) {
+            if (Canvas.m < 150) {
                var7.a(var1, false);
             } else if (var5 == var2 - 1 || var5 == this.Q || var6.f || var5 == this.Q - 1 || var7 != null && var7.f) {
                var7.c(var1);
@@ -615,18 +615,18 @@ public final class TLBoardScr extends BoardScr {
             }
 
             if (var5 == super.o) {
-               var4 = var7.d - P / 2 - 2 + (GameCanvas.l % 10 > 4 ? 2 : 0);
-               var3 = var7.c - O / 2 + 5 * AvMain.Y;
+               var4 = var7.d - P / 2 - 2 + (Canvas.gameTick % 10 > 4 ? 2 : 0);
+               var3 = var7.c - O / 2 + 5 * AvMain.hd;
             }
 
-            if (GameCanvas.Z == 0 && var5 == this.Q && GameCanvas.l % 10 > 6 && AvMain.Y == 1) {
+            if (Canvas.Z == 0 && var5 == this.Q && Canvas.gameTick % 10 > 6 && AvMain.hd == 1) {
                PaintPopup.b.a(0, var6.c - 40, var6.d - 30, 0, var1);
                PaintPopup.b.a(0, var6.c - 10, var6.d - 30, 3, var1);
             }
          }
 
-         if (GameCanvas.Z == 0) {
-            MiniMap.gI().b.a(0, var3, var4, 0, 33, var1);
+         if (Canvas.Z == 0) {
+            MiniMap.gI().b.drawFrame(0, var3, var4, 0, 33, var1);
          }
       }
 
@@ -636,19 +636,19 @@ public final class TLBoardScr extends BoardScr {
       if (this.f != null && this.f.size() != 0) {
          int var2 = this.f.size();
          int var3;
-         if ((var3 = (GameCanvas.m - 60) / var2 + 1) > 12) {
+         if ((var3 = (Canvas.m - 60) / var2 + 1) > 12) {
             var3 = 12;
          }
 
-         int var4 = GameCanvas.o - (var3 * var2 >> 1) + 6;
-         int var5 = (GameCanvas.n + GameCanvas.T) / 2;
+         int var4 = Canvas.o - (var3 * var2 >> 1) + 6;
+         int var5 = (Canvas.n + Canvas.T) / 2;
 
          for(int var6 = 0; var6 < var2; ++var6) {
             Card var7;
             (var7 = (Card)this.f.elementAt(var6)).c = var4;
             var7.d = var5;
-            var4 += var3 * AvMain.Y;
-            if (GameCanvas.m < 150) {
+            var4 += var3 * AvMain.hd;
+            if (Canvas.m < 150) {
                var7.a(var1, false);
             } else if (var6 == var2 - 1) {
                var7.c(var1);
@@ -667,7 +667,7 @@ public final class TLBoardScr extends BoardScr {
       BoardScr.j = true;
       this.W = false;
       int var4;
-      if (this.b && var1 == GameMidlet.i.w) {
+      if (this.b && var1 == GameMidlet.avatar.IDDB) {
          for(var4 = 0; var4 < var3.size(); ++var4) {
             if (((Card)var3.elementAt(var4)).b == 0) {
                this.W = true;
@@ -686,8 +686,8 @@ public final class TLBoardScr extends BoardScr {
 
       for(var4 = 0; var4 < this.K.size(); ++var4) {
          Card var5;
-         (var5 = (Card)this.K.elementAt(var4)).c = GameCanvas.o;
-         var5.d = (GameCanvas.n + GameCanvas.T) / 2;
+         (var5 = (Card)this.K.elementAt(var4)).c = Canvas.o;
+         var5.d = (Canvas.n + Canvas.T) / 2;
          var5.g = true;
       }
 
@@ -697,12 +697,12 @@ public final class TLBoardScr extends BoardScr {
 
       BoardScr.v = var2;
       BoardScr.t = System.currentTimeMillis() + (long)(var2 * 1000);
-      if (var1 == GameMidlet.i.w) {
+      if (var1 == GameMidlet.avatar.IDDB) {
          super.ae = this.L;
       }
 
       Avatar var7 = BoardScr.h(var1);
-      BoardScr.a(var7.x + T1.U, 20, var7.w);
+      BoardScr.a(var7.name + T1.U, 20, var7.IDDB);
       this.e = -1;
       this.d = new byte[0];
       super.o = 2;
@@ -723,16 +723,16 @@ public final class TLBoardScr extends BoardScr {
          int var10;
          switch (var6) {
             case 0:
-               var7 = GameCanvas.o;
+               var7 = Canvas.o;
                var8 = -27;
                break;
             case 1:
                var7 = -10;
-               var8 = (GameCanvas.n + GameCanvas.T) / 2 - 20;
+               var8 = (Canvas.n + Canvas.T) / 2 - 20;
                break;
             case 2:
-               var7 = GameCanvas.o;
-               var8 = GameCanvas.n + GameCanvas.T - 20;
+               var7 = Canvas.o;
+               var8 = Canvas.n + Canvas.T - 20;
                var6 = this.K.size() - 1;
 
                for(; var6 >= 0; --var6) {
@@ -748,15 +748,15 @@ public final class TLBoardScr extends BoardScr {
                }
                break;
             case 3:
-               var7 = GameCanvas.m + 10;
-               var8 = (GameCanvas.n + GameCanvas.T) / 2 - 20;
+               var7 = Canvas.m + 10;
+               var8 = (Canvas.n + Canvas.T) / 2 - 20;
          }
 
-         var6 = GameCanvas.o + CRes.a.nextInt(20);
-         int var16 = GameCanvas.n / 2 - 20 * AvMain.Y + CRes.a.nextInt(25);
+         var6 = Canvas.o + CRes.a.nextInt(20);
+         int var16 = Canvas.n / 2 - 20 * AvMain.hd + CRes.a.nextInt(25);
          var10 = var5.length;
          int var11;
-         if ((var11 = (GameCanvas.m - 60) / var10 + 1) > 12) {
+         if ((var11 = (Canvas.m - 60) / var10 + 1) > 12) {
             var11 = 12;
          }
 
@@ -771,21 +771,21 @@ public final class TLBoardScr extends BoardScr {
             var14.d = var8;
             var14.m = var6 - var12;
             var14.l = var16;
-            var12 -= var11 * AvMain.Y;
+            var12 -= var11 * AvMain.hd;
             var15.c.addElement(var14);
          }
 
          var15.e = CardUtils.b(var15.d);
       }
 
-      if (var1 == GameMidlet.i.w) {
+      if (var1 == GameMidlet.avatar.IDDB) {
          this.a(var2);
          super.o = 0;
          this.d(false);
       }
 
       super.n = var3;
-      if (super.n == GameMidlet.i.w) {
+      if (super.n == GameMidlet.avatar.IDDB) {
          if (this.v().length == 0) {
             super.ae = this.L;
          } else {
@@ -809,13 +809,13 @@ public final class TLBoardScr extends BoardScr {
 
       String var4;
       Avatar var5;
-      if ((var5 = BoardScr.h(var1)).x.equals("")) {
+      if ((var5 = BoardScr.h(var1)).name.equals("")) {
          var4 = T1.u;
       } else {
          var4 = T1.B;
       }
 
-      BoardScr.a(var4, 60, var5.w);
+      BoardScr.a(var4, 60, var5.IDDB);
       super.n = var2;
       if (var3) {
          this.c = new Vector();
@@ -823,7 +823,7 @@ public final class TLBoardScr extends BoardScr {
          this.d = new byte[0];
       }
 
-      if (super.n == GameMidlet.i.w) {
+      if (super.n == GameMidlet.avatar.IDDB) {
          if (this.v().length == 0) {
             super.ae = this.L;
          } else {
@@ -845,7 +845,7 @@ public final class TLBoardScr extends BoardScr {
          this.f.addElement(new Card(var2[var4]));
       }
 
-      if (var3 != null && var3.w == var1 && this.K != null) {
+      if (var3 != null && var3.IDDB == var1 && this.K != null) {
          this.K.removeAllElements();
       }
 
@@ -854,15 +854,15 @@ public final class TLBoardScr extends BoardScr {
    public static void a(int var0, byte var1, int var2, int var3) {
       Avatar var4;
       if ((var4 = BoardScr.h(var0)) != null) {
-         var4.o = false;
-         if ((var3 += var4.n) < 0) {
+         var4.isReady = false;
+         if ((var3 += var4.exp) < 0) {
             var3 = 0;
          }
 
-         var4.d(var3);
-         var4.b(var4.c() + var2);
-         if (var4.w == GameMidlet.i.w) {
-            GameMidlet.i.b(var4.c());
+         var4.setExp(var3);
+         var4.setMoneyNew(var4.getMoneyNew() + var2);
+         if (var4.IDDB == GameMidlet.avatar.IDDB) {
+            GameMidlet.avatar.setMoneyNew(var4.getMoneyNew());
          }
       }
 
@@ -874,8 +874,8 @@ public final class TLBoardScr extends BoardScr {
    }
 
    public final void b(String var1) {
-      BoardScr.a(var1, 100, GameMidlet.i.w);
-      super.n = GameMidlet.i.w;
+      BoardScr.a(var1, 100, GameMidlet.avatar.IDDB);
+      super.n = GameMidlet.avatar.IDDB;
    }
 
    public static void b(boolean var0) {

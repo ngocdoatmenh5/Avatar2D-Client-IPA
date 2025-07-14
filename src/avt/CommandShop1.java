@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 final class CommandShop1 extends Command {
@@ -26,18 +26,18 @@ final class CommandShop1 extends Command {
       if (PopupShop.n && this.f == PopupShop.j) {
          PopupShop.n();
          Part var1;
-         if (GameMidlet.i.d == 1) {
+         if (GameMidlet.avatar.gender == 1) {
             var1 = AvatarData.a(this.i);
          } else {
             var1 = AvatarData.a(this.j);
          }
 
-         if (var1.g != -1) {
-            if (GameMidlet.i.d == 1) {
-               MapScr.b();
+         if (var1.IDPart != -1) {
+            if (GameMidlet.avatar.gender == 1) {
+               MapScr.gI();
                MapScr.a(var1);
             } else {
-               MapScr.b();
+               MapScr.gI();
                MapScr.a(var1);
             }
          }
@@ -48,7 +48,7 @@ final class CommandShop1 extends Command {
          }
 
          if (this.k >= 0) {
-            PopupShop.a(T1.az + GameCanvas.b(this.k) + " Tim");
+            PopupShop.a(T1.az + Canvas.getMoneys(this.k) + " Tim");
          }
       }
 
@@ -56,7 +56,7 @@ final class CommandShop1 extends Command {
 
    public final void a(Graphics var1, int var2, int var3) {
       Part var4;
-      if (GameMidlet.i.d == 1) {
+      if (GameMidlet.avatar.gender == 1) {
          var4 = AvatarData.a(this.i);
       } else {
          var4 = AvatarData.a(this.j);

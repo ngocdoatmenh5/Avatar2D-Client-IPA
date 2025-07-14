@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_ge implements IAction {
    private final int a;
@@ -11,6 +11,6 @@ final class class_ge implements IAction {
 
    public final void perform() {
       FarmService.a().b((short)this.a);
-      GameCanvas.i();
+      Canvas.i();
    }
 }

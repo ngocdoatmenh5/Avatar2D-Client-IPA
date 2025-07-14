@@ -1,8 +1,7 @@
 package avt;
 
-import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class TField {
    public int a;
@@ -39,7 +38,7 @@ public final class TField {
    private Command K;
    public String q = "";
    public static FrameImage r;
-   private static Canvas L;
+   private static javax.microedition.lcdui.Canvas L;
    public static int s;
    public static IAction t;
    public static boolean u = false;
@@ -82,18 +81,18 @@ public final class TField {
       }
 
       F = -1984;
-      o = GameCanvas.j();
+      o = Canvas.j();
       this.v = var1;
    }
 
    public final Command a() {
       t = this.K.b;
-      return GameCanvas.Z == 0 ? this.K : null;
+      return Canvas.Z == 0 ? this.K : null;
    }
 
    public static void b(boolean var0) {
       m = var0;
-      GameCanvas.M.a("ABC");
+      Canvas.M.getWidth("ABC");
    }
 
    public TField() {
@@ -101,7 +100,7 @@ public final class TField {
       f = AvMain.af + 1;
       this.K = new Command(T1.bb, new class_jw(this));
       if (L == null) {
-         L = GameCanvas.a;
+         L = Canvas.a;
       }
 
       this.a(false);
@@ -125,14 +124,14 @@ public final class TField {
          this.g = this.C;
       }
 
-      int var2 = GameCanvas.M.a(this.g.substring(0, this.h));
+      int var2 = Canvas.M.getWidth(this.g.substring(0, this.h));
       if (var1 == -1) {
          if (var2 + this.j < 15 && this.h > 0 && this.h < this.g.length()) {
-            this.j += GameCanvas.M.a(this.g.substring(this.h, this.h + 1));
+            this.j += Canvas.M.getWidth(this.g.substring(this.h, this.h + 1));
          }
       } else if (var1 == 1) {
          if (var2 + this.j > this.c - 25 && this.h < this.g.length() && this.h > 0) {
-            this.j -= GameCanvas.M.a(this.g.substring(this.h - 1, this.h));
+            this.j -= Canvas.M.getWidth(this.g.substring(this.h - 1, this.h));
          }
       } else {
          this.j = -(var2 - (this.c - 12));
@@ -142,7 +141,7 @@ public final class TField {
          this.j = 0;
       } else {
          if (this.j < 0) {
-            var1 = GameCanvas.M.a(this.g) - (this.c - 12);
+            var1 = Canvas.M.getWidth(this.g) - (this.c - 12);
             if (this.j < -var1) {
                this.j = -var1;
             }
@@ -174,7 +173,7 @@ public final class TField {
       }
 
       F = I;
-      o = GameCanvas.j();
+      o = Canvas.j();
    }
 
    private void g(int var1) {
@@ -187,7 +186,7 @@ public final class TField {
       } else {
          int var2 = var1;
          String[] var3;
-         if (GameCanvas.E) {
+         if (Canvas.E) {
             var3 = B;
          } else if (this.H != 2 && this.H != 3) {
             var3 = z;
@@ -195,7 +194,7 @@ public final class TField {
             var3 = A;
          }
 
-         if (GameCanvas.E) {
+         if (Canvas.E) {
             var2 = var1;
             int var4 = 0;
 
@@ -280,7 +279,7 @@ public final class TField {
    }
 
    public final boolean b(int var1) {
-      if (GameCanvas.E) {
+      if (Canvas.E) {
          if (var1 == 8 || var1 == 127) {
             this.b();
          }
@@ -289,11 +288,11 @@ public final class TField {
          return true;
       }
 
-      if (!GameCanvas.E && var1 >= 65 && var1 <= 122) {
+      if (!Canvas.E && var1 >= 65 && var1 <= 122) {
          m = true;
       }
 
-      if (m && !GameCanvas.E) {
+      if (m && !Canvas.E) {
          if (var1 == 45) {
             if (var1 == F && this.k < y[x]) {
                this.C = this.C.substring(0, this.h - 1) + '_';
@@ -330,7 +329,7 @@ public final class TField {
             var1 = 59;
          }
 
-         if (GameCanvas.E && var1 >= 48) {
+         if (Canvas.E && var1 >= 48) {
             if (m) {
                this.f(var1);
                this.k = 1;
@@ -409,9 +408,9 @@ public final class TField {
          this.g = this.C;
       }
 
-      var1.setClip(0, 0, GameCanvas.m + 20, GameCanvas.n);
+      var1.setClip(0, 0, Canvas.m + 20, Canvas.n);
       var1.setColor(7829367);
-      GameCanvas.S.a(var1, this.a, this.b, this.c, this.d, this, var2);
+      Canvas.S.a(var1, this.a, this.b, this.c, this.d, this, var2);
    }
 
    public final boolean d() {
@@ -452,23 +451,23 @@ public final class TField {
          --this.l;
       }
 
-      if (GameCanvas.g && GameCanvas.t == null && GameCanvas.g && GameCanvas.a(0, 0, GameCanvas.m, GameCanvas.n - GameCanvas.T / 2)) {
-         if (GameCanvas.a(this.a, this.b - 6, this.c, this.d + 12)) {
+      if (Canvas.g && Canvas.t == null && Canvas.g && Canvas.a(0, 0, Canvas.m, Canvas.n - Canvas.T / 2)) {
+         if (Canvas.a(this.a, this.b - 6, this.c, this.d + 12)) {
             if (!this.v) {
                this.v = true;
             } else {
                if (!OptionScr.d) {
                   this.R = true;
                   OptionScr.d = true;
-                  GameCanvas.a.b();
+                  Canvas.a.b();
                }
 
-               GameCanvas.z.a = true;
+               Canvas.z.a = true;
             }
          } else {
             if (this.R) {
                OptionScr.d = false;
-               GameCanvas.a.b();
+               Canvas.a.b();
                this.R = false;
             }
 
@@ -482,8 +481,8 @@ public final class TField {
          this.M = -1;
       }
 
-      if (this.v && GameCanvas.v == null) {
-         if (GameCanvas.b[4]) {
+      if (this.v && Canvas.v == null) {
+         if (Canvas.b[4]) {
             if (this.H != 2) {
                --this.h;
                if (this.h < 0) {
@@ -493,11 +492,11 @@ public final class TField {
                this.e(-1);
             }
 
-            GameCanvas.b[4] = false;
+            Canvas.b[4] = false;
             return;
          }
 
-         if (GameCanvas.b[6]) {
+         if (Canvas.b[6]) {
             if (this.H != 2) {
                ++this.h;
                if (this.h > this.C.length()) {
@@ -507,7 +506,7 @@ public final class TField {
                this.e(1);
             }
 
-            GameCanvas.b[6] = false;
+            Canvas.b[6] = false;
          }
       }
 

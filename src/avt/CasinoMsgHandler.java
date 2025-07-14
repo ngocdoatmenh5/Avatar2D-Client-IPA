@@ -1,7 +1,7 @@
 package avt;
 
 import java.util.Vector;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class CasinoMsgHandler extends IService implements IMiniGameMsgHandler {
@@ -38,7 +38,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
 
                RoomListOnScr.b().a(var21);
                RoomListOnScr.b().a();
-               GameCanvas.h();
+               Canvas.h();
                return;
             case 7:
                Vector var18 = new Vector();
@@ -54,7 +54,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                   var20.d = (var22 & 1) != 0;
                   var20.e = (var22 & 2) != 0;
                   var20.f = var1.b().readInt();
-                  var20.g = GameCanvas.b(var20.f) + T1.k();
+                  var20.g = Canvas.getMoneys(var20.f) + T1.k();
                   var18.addElement(var20);
                }
 
@@ -62,10 +62,10 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                BoardListOnScr.b().a(var18);
                BoardListOnScr.b().a();
                BoardListOnScr.b().g();
-               GameCanvas.h();
+               Canvas.h();
                return;
             case 8:
-               GameCanvas.J = 0;
+               Canvas.J = 0;
                var15 = var1.b().readByte();
                var16 = var1.b().readByte();
                var17 = var1.b().readInt();
@@ -75,31 +75,31 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                Avatar var7;
                int var24;
                for(var6 = new Vector(); var1.b().available() > 0; var6.addElement(var7)) {
-                  (var7 = new Avatar()).w = var1.b().readInt();
-                  if (var7.w == -1) {
-                     var7.a("");
+                  (var7 = new Avatar()).IDDB = var1.b().readInt();
+                  if (var7.IDDB == -1) {
+                     var7.setName("");
                   } else {
-                     if (var7.w == GameMidlet.i.w) {
-                        var7 = GameMidlet.i;
+                     if (var7.IDDB == GameMidlet.avatar.IDDB) {
+                        var7 = GameMidlet.avatar;
                      }
 
-                     var7.a(var1.b().readUTF());
-                     var7.b(var1.b().readInt());
+                     var7.setName(var1.b().readUTF());
+                     var7.setMoneyNew(var1.b().readInt());
                      var24 = var1.b().readByte();
 
                      for(var9 = 0; var9 < var24; ++var9) {
                         SeriPart var26 = new SeriPart(var1.b().readShort());
-                        if (var7.w != GameMidlet.i.w) {
-                           var7.a(var26);
+                        if (var7.IDDB != GameMidlet.avatar.IDDB) {
+                           var7.addSeri(var26);
                         }
                      }
 
                      var9 = var1.b().readInt();
-                     var7.d(var9);
-                     var7.o = var1.b().readBoolean();
-                     var7.d(var9);
-                     var7.b(var7.c());
-                     var7.X = var1.b().readShort();
+                     var7.setExp(var9);
+                     var7.isReady = var1.b().readBoolean();
+                     var7.setExp(var9);
+                     var7.setMoneyNew(var7.getMoneyNew());
+                     var7.idImg = var1.b().readShort();
                   }
                }
 
@@ -110,12 +110,12 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
 
                for(var24 = 0; var24 < var23; ++var24) {
                   Avatar var25;
-                  if ((var25 = (Avatar)var6.elementAt(var24)).w == var17) {
-                     var25.o = true;
+                  if ((var25 = (Avatar)var6.elementAt(var24)).IDDB == var17) {
+                     var25.isReady = true;
                   }
 
-                  if (var25.w == GameMidlet.i.w) {
-                     GameMidlet.i.b(var25.c());
+                  if (var25.IDDB == GameMidlet.avatar.IDDB) {
+                     GameMidlet.avatar.setMoneyNew(var25.getMoneyNew());
                   }
                }
 
@@ -128,8 +128,8 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                d.a();
                TLBoardScr.b();
                TLBoardScr.b(false);
-               GameCanvas.h();
-               GameCanvas.J = 1;
+               Canvas.h();
+               Canvas.J = 1;
                return;
             case 9:
                var15 = var1.b().readByte();
@@ -145,10 +145,10 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                var15 = var1.b().readByte();
                var16 = var1.b().readByte();
                var13 = var1.b().readInt();
-               GameCanvas.v = null;
+               Canvas.v = null;
                if (BoardScr.a(var15, var16)) {
-                  if (var13 == GameMidlet.i.w) {
-                     GameCanvas.b(T1.H, new class_cu(this));
+                  if (var13 == GameMidlet.avatar.IDDB) {
+                     Canvas.b(T1.H, new class_cu(this));
                      return;
                   }
 
@@ -159,21 +159,21 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
             case 12:
                Avatar var8 = new Avatar();
                var9 = var1.b().readByte();
-               var8.w = var1.b().readInt();
-               var8.a(var1.b().readUTF());
-               var8.b(var1.b().readInt());
+               var8.IDDB = var1.b().readInt();
+               var8.setName(var1.b().readUTF());
+               var8.setMoneyNew(var1.b().readInt());
                byte var10 = var1.b().readByte();
 
                for(var2 = 0; var2 < var10; ++var2) {
-                  var8.a(new SeriPart(var1.b().readShort()));
+                  var8.addSeri(new SeriPart(var1.b().readShort()));
                }
 
-               var8.K = 0;
-               var8.d(var1.b().readInt());
-               var8.X = var1.b().readShort();
-               var8.o = false;
+               var8.direct = 0;
+               var8.setExp(var1.b().readInt());
+               var8.idImg = var1.b().readShort();
+               var8.isReady = false;
                TLBoardScr.b().b = true;
-               var8.o = false;
+               var8.isReady = false;
                d.a(var9, var8);
                return;
             case 14:
@@ -190,8 +190,8 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
             case 16:
                var2 = var1.b().readInt();
                boolean var14 = var1.b().readBoolean();
-               if (var2 == GameMidlet.i.w) {
-                  GameCanvas.h();
+               if (var2 == GameMidlet.avatar.IDDB) {
+                  Canvas.h();
                }
 
                BoardScr.b(var2, var14);
@@ -213,9 +213,9 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                var12 = var1.b().readUTF();
                Avatar var4 = BoardScr.h(var2);
                if (var3 != 0 && var4 != null) {
-                  var4.b(var4.c() + var3);
-                  if (GameMidlet.i.w == var2) {
-                     GameMidlet.i.b(var4.c());
+                  var4.setMoneyNew(var4.getMoneyNew() + var3);
+                  if (GameMidlet.avatar.IDDB == var2) {
+                     GameMidlet.avatar.setMoneyNew(var4.getMoneyNew());
                   }
 
                   BoardScr.a(var2, var12);
@@ -249,7 +249,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                      return;
                }
 
-               GameCanvas.c(T1.b);
+               Canvas.c(T1.b);
                CasinoService.a().b();
                return;
             default:

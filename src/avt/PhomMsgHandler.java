@@ -1,7 +1,7 @@
 package avt;
 
 import java.util.Vector;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class PhomMsgHandler extends IService implements IMiniGameMsgHandler {
    private static PhomMsgHandler a = new PhomMsgHandler();
@@ -37,7 +37,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
 
                   var4 = var1.b().readInt();
                   var20 = var1.b().readInt();
-                  GameCanvas.h();
+                  Canvas.h();
                   BoardScr.r();
                   PBoardScr.b().a(var15, var23, var4, var20);
                   return;
@@ -50,7 +50,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
                      var27 = var1.b().readByte();
                   }
 
-                  GameCanvas.h();
+                  Canvas.h();
                   PBoardScr.b().a(var2, var3, var19, var27);
                   return;
                case 49:
@@ -98,7 +98,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
                      }
                   }
 
-                  GameCanvas.h();
+                  Canvas.h();
                   PBoardScr.b().a(var21, var22);
                   return;
                case 62:
@@ -149,7 +149,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
                   }
                case 63:
                   var14 = var1.b().readByte();
-                  GameCanvas.h();
+                  Canvas.h();
                   PBoardScr.b().c(var14);
                   return;
                case 64:
@@ -161,7 +161,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
                   }
 
                   var14 = var1.b().readByte();
-                  GameCanvas.h();
+                  Canvas.h();
                   PBoardScr.b().a(var17, var19, var2, (byte)var14);
                   return;
                case 65:
@@ -185,7 +185,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
                      }
                   }
 
-                  GameCanvas.h();
+                  Canvas.h();
                   PBoardScr.b().a(var17, var24, var18, var2);
                   return;
                case 67:
@@ -195,12 +195,12 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
                      var15 = var1.b().readByte();
                   }
 
-                  GameCanvas.h();
+                  Canvas.h();
                   PBoardScr.b().a(var6, var15);
                   return;
                case 68:
                   var14 = var1.b().readByte();
-                  GameCanvas.h();
+                  Canvas.h();
                   PBoardScr.b().a((byte)var14);
                   return;
                case 69:

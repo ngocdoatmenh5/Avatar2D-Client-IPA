@@ -1,7 +1,7 @@
 package avt;
 
 import java.io.IOException;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class FarmService extends IService {
    private static FarmService a;
@@ -18,19 +18,19 @@ public final class FarmService extends IService {
       this.e((byte)54);
       this.p(var1);
       this.k();
-      GameCanvas.c(T1.aL);
+      Canvas.c(T1.aL);
    }
 
    public final void b() {
       this.e((byte)55);
       this.k();
-      GameCanvas.c(T1.aL);
+      Canvas.c(T1.aL);
    }
 
    public final void c() {
       this.e((byte)56);
       this.k();
-      GameCanvas.c(T1.aL);
+      Canvas.c(T1.aL);
    }
 
    public final void d() {
@@ -55,7 +55,7 @@ public final class FarmService extends IService {
       }
 
       this.k();
-      GameCanvas.h();
+      Canvas.h();
    }
 
    public final void b(short var1) {
@@ -147,11 +147,11 @@ public final class FarmService extends IService {
    }
 
    public final void a(AnimalInfo var1, int var2) {
-      GameCanvas.h();
+      Canvas.h();
       this.e((byte)71);
 
       try {
-         super.b.c().writeByte(var1.a);
+         super.b.c().writeByte(var1.species);
          super.b.c().writeByte(var2);
       } catch (Exception var3) {
       }
@@ -242,7 +242,7 @@ public final class FarmService extends IService {
    }
 
    public final void d(short var1) {
-      GameCanvas.i();
+      Canvas.i();
       this.e((byte)91);
       this.p(var1);
       this.k();

@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_jm implements IAction {
    private TransMoneyDlg a;
@@ -11,6 +11,6 @@ final class class_jm implements IAction {
 
    public final void perform() {
       GlobalService.gI().l(TransMoneyDlg.a(this.a)[TransMoneyDlg.b(this.a)]);
-      GameCanvas.i();
+      Canvas.i();
    }
 }

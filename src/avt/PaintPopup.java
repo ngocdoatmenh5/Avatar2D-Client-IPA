@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class PaintPopup {
@@ -35,14 +35,14 @@ public final class PaintPopup {
 
    public PaintPopup() {
       o = (byte)(AvMain.ah << 1);
-      if (GameCanvas.a != null && GameCanvas.H) {
+      if (Canvas.a != null && Canvas.H) {
          this.j = 17;
       } else {
          this.j = 10;
       }
 
-      if (GameCanvas.Z != 0) {
-         this.j *= GameCanvas.Z + 1;
+      if (Canvas.Z != 0) {
+         this.j *= Canvas.Z + 1;
       }
 
    }
@@ -53,11 +53,11 @@ public final class PaintPopup {
       this.p = var4;
       if (var1 != null) {
          this.s = var1;
-         if (GameCanvas.K.a(this.s) > this.f / 2 && this.s.length() > 10) {
+         if (Canvas.K.getWidth(this.s) > this.f / 2 && this.s.length() > 10) {
             this.s = this.s.substring(0, 10);
          }
 
-         this.i = GameCanvas.K.a(this.s) + 10 + (GameCanvas.Z != 0 ? 35 * GameCanvas.Z : 0);
+         this.i = Canvas.K.getWidth(this.s) + 10 + (Canvas.Z != 0 ? 35 * Canvas.Z : 0);
       }
 
       if (this.i < 40) {
@@ -73,14 +73,14 @@ public final class PaintPopup {
    }
 
    public final void b() {
-      this.g = GameCanvas.o - this.f / 2;
-      this.h = (GameCanvas.q - GameCanvas.T) / 2 - this.e / 2;
+      this.g = Canvas.o - this.f / 2;
+      this.h = (Canvas.q - Canvas.T) / 2 - this.e / 2;
    }
 
    public final void a(int var1, int var2) {
       if (var2 != this.l) {
          this.m[var2] = var1;
-         this.n[var2] = CRes.e(20);
+         this.n[var2] = CRes.rnd(20);
       }
 
    }
@@ -92,7 +92,7 @@ public final class PaintPopup {
 
       this.s = var1;
       int var3;
-      if ((var3 = GameCanvas.K.a(this.s) + 10) > this.i) {
+      if ((var3 = Canvas.K.getWidth(this.s) + 10) > this.i) {
          this.i = var3;
          this.r = (this.f - this.i) / this.j;
       }
@@ -111,7 +111,7 @@ public final class PaintPopup {
    public static void c() {
       GameMidlet.n = "ig_,";
       k = "plg";
-      MiniMap.i = GameCanvas.a(GameMidlet.n, 5);
+      MiniMap.i = Canvas.a(GameMidlet.n, 5);
    }
 
    public final void a(int var1) {
@@ -121,12 +121,12 @@ public final class PaintPopup {
    }
 
    public final int d() {
-      if (GameCanvas.g) {
+      if (Canvas.g) {
          int var1;
          int var2;
          for(var2 = this.l - 1; var2 >= this.q; --var2) {
             var1 = var2 - this.q;
-            if (GameCanvas.a(this.g + 3 + var1 * this.j, this.h + 3, this.j, o)) {
+            if (Canvas.a(this.g + 3 + var1 * this.j, this.h + 3, this.j, o)) {
                return var2 - this.l;
             }
          }
@@ -137,7 +137,7 @@ public final class PaintPopup {
 
          for(int var3 = this.l + 1; var3 < var2; ++var3) {
             var1 = var3 - this.q;
-            if (GameCanvas.a(this.g + 3 + var1 * this.j + (this.i - this.j), this.h + 3, this.j, o)) {
+            if (Canvas.a(this.g + 3 + var1 * this.j + (this.i - this.j), this.h + 3, this.j, o)) {
                return var3 - this.l;
             }
          }
@@ -147,8 +147,8 @@ public final class PaintPopup {
    }
 
    public final void a(Graphics var1) {
-      GameCanvas.S.a(var1, this.g, this.h, this.e, this.f, this.l, this.q, this.j, this.i, o, this.p, this.r, this.n, this.m, this.s);
-      GameCanvas.c(var1);
+      Canvas.S.a(var1, this.g, this.h, this.e, this.f, this.l, this.q, this.j, this.i, o, this.p, this.r, this.n, this.m, this.s);
+      Canvas.resetTrans(var1);
    }
 
    public static void a(Graphics var0, int var1, int var2, int var3, int var4) {

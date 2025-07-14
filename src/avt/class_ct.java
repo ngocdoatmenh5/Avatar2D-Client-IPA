@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_ct implements IAction {
    private String a;
@@ -12,6 +12,6 @@ final class class_ct implements IAction {
    }
 
    public final void perform() {
-      GameCanvas.a(this.a, (IAction)(new IActionYesRef(this.b)));
+      Canvas.a(this.a, (IAction)(new IActionYesRef(this.b)));
    }
 }

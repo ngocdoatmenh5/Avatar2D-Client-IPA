@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_gg implements IAction {
    private final TField[] a;
@@ -10,12 +10,12 @@ final class class_gg implements IAction {
    }
 
    public final void perform() {
-      MapScr.b();
+      MapScr.gI();
       if (MapScr.a(this.a)) {
          GlobalService.gI().b(this.a[0].f(), this.a[1].f());
-         GameCanvas.i();
+         Canvas.i();
          InputFace.b();
-         GameCanvas.A = null;
+         Canvas.A = null;
       }
 
    }

@@ -2,7 +2,7 @@ package avt;
 
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class RoomListOnScr extends MyScreen {
@@ -25,10 +25,10 @@ public final class RoomListOnScr extends MyScreen {
    }
 
    public final void a() {
-      GameCanvas.S.h();
+      Canvas.S.h();
       super.a();
       super.ae = this.h;
-      if (GameCanvas.Z == 0) {
+      if (Canvas.Z == 0) {
          super.ad = new Command(T1.O, 3);
       } else {
          super.ad = new Command(T1.i, 1);
@@ -38,7 +38,7 @@ public final class RoomListOnScr extends MyScreen {
       this.e();
       OnScreen.b();
       this.e = this.i;
-      GameCanvas.y.a(this.e);
+      Canvas.y.a(this.e);
    }
 
    public RoomListOnScr() {
@@ -49,16 +49,16 @@ public final class RoomListOnScr extends MyScreen {
    public final void d(int var1, int var2) {
       switch (var1) {
          case 1:
-            GameCanvas.i();
+            Canvas.i();
             CasinoService.a().c();
             return;
          case 2:
-            GameCanvas.i();
+            Canvas.i();
             CasinoService.a().b();
             return;
          case 3:
-            GameCanvas.i();
-            GlobalService.gI().a(GameMidlet.i.w);
+            Canvas.i();
+            GlobalService.gI().a(GameMidlet.avatar.IDDB);
          default:
       }
    }
@@ -69,8 +69,8 @@ public final class RoomListOnScr extends MyScreen {
             Vector var3;
             (var3 = new Vector()).addElement(new Command(T1.i, 1));
             var3.addElement(new Command(T1.f, 2));
-            if (GameCanvas.Z == 0) {
-               var3.addElement(MapScr.b().f);
+            if (Canvas.Z == 0) {
+               var3.addElement(MapScr.gI().f);
             }
 
             var3.addElement(new Command(T1.am, 3));
@@ -81,7 +81,7 @@ public final class RoomListOnScr extends MyScreen {
             return;
          case 2:
             GlobalService.gI().d((int)9);
-            GameCanvas.i();
+            Canvas.i();
             return;
          case 3:
             this.f();
@@ -108,28 +108,28 @@ public final class RoomListOnScr extends MyScreen {
    }
 
    public final void e() {
-      if (GameCanvas.Z == 0) {
+      if (Canvas.Z == 0) {
          this.f = 50;
          this.i = 1;
       } else {
-         if (GameCanvas.Z == 1) {
+         if (Canvas.Z == 1) {
             this.f = 80;
-         } else if (GameCanvas.Z == 2) {
+         } else if (Canvas.Z == 2) {
             this.f = 150;
          }
 
-         this.i = GameCanvas.m / this.f;
+         this.i = Canvas.m / this.f;
       }
 
       if (this.d != null) {
          if (this.f != 0) {
-            if (GameCanvas.Z == 0) {
-               GameCanvas.y.a(0, GameCanvas.m < 200 ? this.f / 2 : 50, GameCanvas.m, this.f, GameCanvas.m, this.d.size() * this.f, GameCanvas.m, GameCanvas.n - (GameCanvas.m < 200 ? this.f / 2 : 50) - 4, this.d.size());
+            if (Canvas.Z == 0) {
+               Canvas.y.a(0, Canvas.m < 200 ? this.f / 2 : 50, Canvas.m, this.f, Canvas.m, this.d.size() * this.f, Canvas.m, Canvas.n - (Canvas.m < 200 ? this.f / 2 : 50) - 4, this.d.size());
             } else {
-               GameCanvas.y.a((GameCanvas.m - this.f * this.i) / 2, 50 * AvMain.Y, this.f, this.f, GameCanvas.m, (this.d.size() / this.i + 2) * this.f, GameCanvas.m, GameCanvas.n - 50 * AvMain.Y - 4, this.d.size());
+               Canvas.y.a((Canvas.m - this.f * this.i) / 2, 50 * AvMain.hd, this.f, this.f, Canvas.m, (this.d.size() / this.i + 2) * this.f, Canvas.m, Canvas.n - 50 * AvMain.hd - 4, this.d.size());
             }
 
-            GameCanvas.y.a(this.e);
+            Canvas.y.a(this.e);
          }
 
       }
@@ -139,32 +139,32 @@ public final class RoomListOnScr extends MyScreen {
       byte var1;
       if ((var1 = ((RoomInfo)this.d.elementAt(this.e)).a) != -1) {
          CasinoService.a().a(var1);
-         GameCanvas.i();
+         Canvas.i();
       }
    }
 
    public final void a(Graphics var1) {
       this.b(var1);
       OnScreen.a(var1, super.ac, super.ad, super.ae);
-      GameCanvas.b(var1);
+      Canvas.b(var1);
    }
 
    public final void b(Graphics var1) {
-      GameCanvas.S.b(var1);
+      Canvas.S.b(var1);
       a(var1, "Phòng " + c);
-      GameCanvas.S.a(var1, this.d, this.f, this.e);
+      Canvas.S.a(var1, this.d, this.f, this.e);
    }
 
    public static void a(Graphics var0, String var1) {
-      GameCanvas.S.b(var0);
-      if (GameCanvas.m > 200) {
-         GameCanvas.S.e(var0, GameCanvas.o - 100 * AvMain.Y, 5 * AvMain.Y - CameraList.i, 200 * AvMain.Y, 44 * AvMain.Y);
-         FontX var2 = GameCanvas.O;
-         if (GameCanvas.Z == 0) {
-            var2 = GameCanvas.L;
+      Canvas.S.b(var0);
+      if (Canvas.m > 200) {
+         Canvas.S.e(var0, Canvas.o - 100 * AvMain.hd, 5 * AvMain.hd - CameraList.i, 200 * AvMain.hd, 44 * AvMain.hd);
+         FontX var2 = Canvas.O;
+         if (Canvas.Z == 0) {
+            var2 = Canvas.L;
          }
 
-         var2.a(var0, var1, GameCanvas.o, 5 * AvMain.Y - CameraList.i + 22 * AvMain.Y - var2.a() / 2, 2);
+         var2.a(var0, var1, Canvas.o, 5 * AvMain.hd - CameraList.i + 22 * AvMain.hd - var2.a() / 2, 2);
       }
 
    }
@@ -196,7 +196,7 @@ public final class RoomListOnScr extends MyScreen {
          var6 = var8.c;
       }
 
-      if (GameCanvas.Z != 0) {
+      if (Canvas.Z != 0) {
          this.g();
       }
 
@@ -234,7 +234,7 @@ public final class RoomListOnScr extends MyScreen {
          this.f();
       }
 
-      if (GameCanvas.Z == 0) {
+      if (Canvas.Z == 0) {
          if (this.e > 0 && this.e < this.d.size()) {
             RoomInfo var3;
             if ((var3 = (RoomInfo)this.d.elementAt(var1)).a != -1 && var3.a != -1) {
@@ -247,10 +247,10 @@ public final class RoomListOnScr extends MyScreen {
                this.e = var1 - this.i;
             }
 
-            GameCanvas.y.a(this.e);
+            Canvas.y.a(this.e);
             if (this.e <= 0) {
                this.e = this.d.size() - 1;
-               GameCanvas.y.a(this.e);
+               Canvas.y.a(this.e);
                return;
             }
          }
@@ -261,8 +261,8 @@ public final class RoomListOnScr extends MyScreen {
    }
 
    public final void l() {
-      if (GameCanvas.Z != 0) {
-         GameCanvas.S.a(super.ac, super.ad, super.ae);
+      if (Canvas.Z != 0) {
+         Canvas.S.a(super.ac, super.ad, super.ae);
       } else {
          super.l();
       }

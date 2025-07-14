@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_ih implements IAction {
    private final int a;
@@ -11,6 +11,6 @@ final class class_ih implements IAction {
 
    public final void perform() {
       ParkService.a().c(1, this.a);
-      GameCanvas.i();
+      Canvas.i();
    }
 }

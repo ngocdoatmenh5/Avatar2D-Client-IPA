@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_fw implements IAction {
    private final MapItem a;
@@ -12,6 +12,6 @@ final class class_fw implements IAction {
    public final void perform() {
       HomeMsgHandler.a();
       AvatarService.a().b(this.a);
-      GameCanvas.i();
+      Canvas.i();
    }
 }

@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class MoneyPut {
    private int b;
@@ -18,15 +18,15 @@ public final class MoneyPut {
 
    public final void a(Graphics var1) {
       ImageIcon var2;
-      if ((var2 = AvatarData.c((short)(GameCanvas.m > 200 ? 870 : 871))).d != -1) {
-         var1.drawRegion(var2.a, 0, this.d * BCBoardScr.c, BCBoardScr.b, BCBoardScr.c, 0, this.b, this.c, 3);
-         FontX var3 = GameCanvas.O;
-         if (GameCanvas.m <= 200) {
-            var3 = GameCanvas.Q;
+      if ((var2 = AvatarData.c((short)(Canvas.m > 200 ? 870 : 871))).count != -1) {
+         var1.drawRegion(var2.img, 0, this.d * BCBoardScr.c, BCBoardScr.b, BCBoardScr.c, 0, this.b, this.c, 3);
+         FontX var3 = Canvas.O;
+         if (Canvas.m <= 200) {
+            var3 = Canvas.smallFontYellow;
          }
 
-         if (GameCanvas.Z > 0) {
-            var3 = GameCanvas.K;
+         if (Canvas.Z > 0) {
+            var3 = Canvas.K;
          }
 
          var3.a(var1, String.valueOf(this.a), this.b, this.c - AvMain.ah / 2, 2);

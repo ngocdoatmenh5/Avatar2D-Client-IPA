@@ -4,7 +4,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class CustomTab extends Face {
    public static CustomTab a;
@@ -48,8 +48,8 @@ public final class CustomTab extends Face {
             this.g.removeAllElements();
             this.h.removeAllElements();
             this.i.clear();
-            GameCanvas.A = null;
-            GameCanvas.h();
+            Canvas.A = null;
+            Canvas.h();
             a = null;
             return;
          case 1:
@@ -65,8 +65,8 @@ public final class CustomTab extends Face {
    }
 
    private void e() {
-      this.e = GameCanvas.m - 20;
-      this.f = GameCanvas.n - GameCanvas.T - 20;
+      this.e = Canvas.m - 20;
+      this.f = Canvas.n - Canvas.T - 20;
    }
 
    public final void d() {
@@ -119,17 +119,17 @@ public final class CustomTab extends Face {
       String[] var5;
       if (var1.indexOf("tem") != -1) {
          var4 = true;
-         var5 = GameCanvas.N.a(var1, this.e - 30 - 8 * AvMain.Y);
+         var5 = Canvas.N.a(var1, this.e - 30 - 8 * AvMain.hd);
       } else {
-         var5 = GameCanvas.K.a(var1, this.e - 30 - 8 * AvMain.Y);
+         var5 = Canvas.K.a(var1, this.e - 30 - 8 * AvMain.hd);
       }
 
       for(int var6 = 0; var6 < var5.length; ++var6) {
          int var7;
          if (var4) {
-            var7 = GameCanvas.N.a(var5[var6]);
+            var7 = Canvas.N.getWidth(var5[var6]);
          } else {
-            var7 = GameCanvas.K.a(var5[var6]);
+            var7 = Canvas.K.getWidth(var5[var6]);
          }
 
          if (var7 > this.x) {
@@ -152,9 +152,9 @@ public final class CustomTab extends Face {
 
       this.o = var4;
       this.x = 0;
-      this.n = GameCanvas.K.a(var2) + 20 * AvMain.Y;
-      if (this.n < 50 + 20 * AvMain.Y) {
-         this.n = 50 + 20 * AvMain.Y;
+      this.n = Canvas.K.getWidth(var2) + 20 * AvMain.hd;
+      if (this.n < 50 + 20 * AvMain.hd) {
+         this.n = 50 + 20 * AvMain.hd;
       }
 
       this.i = var1;
@@ -234,22 +234,22 @@ public final class CustomTab extends Face {
       }
 
       this.a(var3);
-      this.c = 9 * AvMain.Y;
-      if (this.x < 140 * AvMain.Y) {
-         this.x = 140 * AvMain.Y;
+      this.c = 9 * AvMain.hd;
+      if (this.x < 140 * AvMain.hd) {
+         this.x = 140 * AvMain.hd;
       }
 
       if (this.x >= 120 && this.x < this.e - 30) {
-         this.e = this.x + 20 * AvMain.Y;
-         this.c = 10 * AvMain.Y;
+         this.e = this.x + 20 * AvMain.hd;
+         this.c = 10 * AvMain.hd;
       }
 
       if (this.m + 10 + (v << 1) < this.f - 30) {
          this.f = this.m + 10 + (v << 1) + 20;
       }
 
-      if (this.f < 80 * AvMain.Y + MyScreen.at) {
-         this.f = 80 * AvMain.Y + MyScreen.at;
+      if (this.f < 80 * AvMain.hd + MyScreen.at) {
+         this.f = 80 * AvMain.hd + MyScreen.at;
       }
 
       if ((t = this.m - (this.f - PaintPopup.o - 2 * AvMain.Z - (v << 1))) < 0) {
@@ -258,8 +258,8 @@ public final class CustomTab extends Face {
 
       p = 0;
       q = 0;
-      this.b = (GameCanvas.m - this.e) / 2;
-      this.d = (GameCanvas.n - GameCanvas.T - this.f) / 2;
+      this.b = (Canvas.m - this.e) / 2;
+      this.d = (Canvas.n - Canvas.T - this.f) / 2;
       this.w = System.currentTimeMillis();
    }
 
@@ -278,17 +278,17 @@ public final class CustomTab extends Face {
          u = 0;
       }
 
-      if (GameCanvas.g && GameCanvas.a(this.b, this.d, this.e, this.f) && !this.z) {
+      if (Canvas.g && Canvas.a(this.b, this.d, this.e, this.f) && !this.z) {
          this.y = q;
          this.z = true;
          this.A = 0;
       }
 
       if (this.z) {
-         int var2 = GameCanvas.l();
-         if (GameCanvas.e) {
-            if (GameCanvas.l % 3 == 0) {
-               this.D = GameCanvas.i;
+         int var2 = Canvas.l();
+         if (Canvas.e) {
+            if (Canvas.gameTick % 3 == 0) {
+               this.D = Canvas.i;
                this.C = this.B;
             }
 
@@ -301,11 +301,11 @@ public final class CustomTab extends Face {
             q = p;
          }
 
-         if (GameCanvas.f) {
+         if (Canvas.f) {
             this.z = false;
             int var3 = this.B - this.C;
             int var4;
-            if (CRes.f(var4 = this.D - GameCanvas.i) > 40 && var3 < 10 && p > 0 && p < t) {
+            if (CRes.f(var4 = this.D - Canvas.i) > 40 && var3 < 10 && p > 0 && p < t) {
                this.A = var4 / var3 * 10;
             }
 
@@ -316,10 +316,10 @@ public final class CustomTab extends Face {
          }
       }
 
-      if (GameCanvas.d[2]) {
+      if (Canvas.d[2]) {
          p -= 14;
          var1 = true;
-      } else if (GameCanvas.d[8]) {
+      } else if (Canvas.d[8]) {
          var1 = true;
          p += 14;
       }
@@ -381,9 +381,9 @@ public final class CustomTab extends Face {
    }
 
    public final void a(Graphics var1) {
-      GameCanvas.c(var1);
-      GameCanvas.S.a(var1, this.b, this.d, this.f, this.e, 0, 0, PaintPopup.a().j, this.n, PaintPopup.o, 1, 1, PaintPopup.a().n, PaintPopup.a().m, this.j);
-      var1.setClip(this.b + 4, this.d + PaintPopup.o + 4 * AvMain.Y, this.e - 8, this.f - PaintPopup.o - 8 * AvMain.Y);
+      Canvas.resetTrans(var1);
+      Canvas.S.a(var1, this.b, this.d, this.f, this.e, 0, 0, PaintPopup.a().j, this.n, PaintPopup.o, 1, 1, PaintPopup.a().n, PaintPopup.a().m, this.j);
+      var1.setClip(this.b + 4, this.d + PaintPopup.o + 4 * AvMain.hd, this.e - 8, this.f - PaintPopup.o - 8 * AvMain.hd);
       var1.translate(this.b + this.c, this.d + PaintPopup.o);
       var1.translate(0, -q);
       var1.setColor(0);
@@ -391,13 +391,13 @@ public final class CustomTab extends Face {
       int var2;
       for(var2 = 0; var2 < this.g.size(); ++var2) {
          StringObj var3;
-         if ((var3 = (StringObj)this.g.elementAt(var2)).ax > q - 10 && var3.ax < q + this.f) {
+         if ((var3 = (StringObj)this.g.elementAt(var2)).y > q - 10 && var3.y < q + this.f) {
             int var4;
             if (var3.a.length() > 2 && var3.a.substring(0, 1).equals("¶")) {
                var4 = Integer.parseInt(var3.a.substring(1, var3.a.length()), 16);
-               PaintPopup.a(var3.aw, var3.ax, GameCanvas.m - (var3.aw << 1), 1, var4, var1);
+               PaintPopup.a(var3.x, var3.y, Canvas.m - (var3.x << 1), 1, var4, var1);
             } else {
-               var4 = var3.aw;
+               var4 = var3.x;
                if (var3.e == 2) {
                   var4 += (this.e - 30) / 2 + 4;
                } else if (var3.e == 1) {
@@ -405,14 +405,14 @@ public final class CustomTab extends Face {
                }
 
                if (var3.a.length() > 2 && var3.a.substring(0, 1).equals("Ę")) {
-                  GameCanvas.N.a(var1, var3.a.substring(1, var3.a.length()), var4, var3.ax, var3.e);
+                  Canvas.N.a(var1, var3.a.substring(1, var3.a.length()), var4, var3.y, var3.e);
                } else if (var3.a.length() > 1 && var3.a.substring(0, 1).equals("0")) {
                   var1.setColor(8654855);
-                  int var5 = GameCanvas.M.a(var3.a.substring(1) + "") + 20;
-                  var1.fillRect(var4 - var5 / 2, var3.ax + AvMain.ah / 2 - AvMain.ai / 2 - 1, var5, GameCanvas.M.a());
-                  GameCanvas.M.a(var1, var3.a.substring(1) + "", var4, var3.ax + AvMain.ah / 2 - AvMain.af / 2, var3.e);
+                  int var5 = Canvas.M.getWidth(var3.a.substring(1) + "") + 20;
+                  var1.fillRect(var4 - var5 / 2, var3.y + AvMain.ah / 2 - AvMain.ai / 2 - 1, var5, Canvas.M.a());
+                  Canvas.M.a(var1, var3.a.substring(1) + "", var4, var3.y + AvMain.ah / 2 - AvMain.af / 2, var3.e);
                } else {
-                  GameCanvas.K.a(var1, var3.a, var4, var3.ax, var3.e);
+                  Canvas.K.a(var1, var3.a, var4, var3.y, var3.e);
                }
             }
          }

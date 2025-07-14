@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_ds implements IAction {
    private final byte a;
@@ -16,6 +16,6 @@ final class class_ds implements IAction {
          GlobalService.gI().i(1);
       }
 
-      GameCanvas.i();
+      Canvas.i();
    }
 }

@@ -3,7 +3,7 @@ package avt;
 import java.io.IOException;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class class_jv extends MyScreen {
    public static class_jv a;
@@ -47,10 +47,10 @@ public final class class_jv extends MyScreen {
       if (b > 51) {
          if (OnScreen.c != 0) {
             if (OnScreen.c == 2) {
-               MapScr.b().a();
+               MapScr.gI().a();
                c = null;
                OnScreen.c = 0;
-               GameCanvas.S.g();
+               Canvas.S.g();
             }
          } else if (b == 52) {
             LoginScr.b().h();
@@ -63,7 +63,7 @@ public final class class_jv extends MyScreen {
             } else {
                AvatarData.f();
                LoginScr.b().e();
-               if (class_ez.b() != GameCanvas.r) {
+               if (class_ez.b() != Canvas.currentMyScreen) {
                   LoginScr.b().a();
                }
 
@@ -71,17 +71,17 @@ public final class class_jv extends MyScreen {
             }
          }
       } else if (OnScreen.c != 0 && b == 0) {
-         MapScr.b().a();
+         MapScr.gI().a();
          c = null;
          OnScreen.c = 0;
-         GameCanvas.S.g();
+         Canvas.S.g();
       }
 
       ++b;
    }
 
    private static void b(int var0) {
-      GameCanvas.i();
+      Canvas.i();
       OptionScr.b().b[4] = var0;
       OptionScr.b().b(0);
       LoginScr.b().e();
@@ -90,11 +90,11 @@ public final class class_jv extends MyScreen {
    }
 
    public final void a(Graphics var1) {
-      PaintPopup.a(0, 0, GameCanvas.m, GameCanvas.a.getHeight(), 0, var1);
+      PaintPopup.a(0, 0, Canvas.m, Canvas.a.getHeight(), 0, var1);
       if (b > 1 && c != null) {
-         var1.drawImage(c, GameCanvas.m >> 1, GameCanvas.n >> 1, 3);
+         var1.drawImage(c, Canvas.m >> 1, Canvas.n >> 1, 3);
       }
 
-      GameCanvas.a(var1);
+      Canvas.a(var1);
    }
 }

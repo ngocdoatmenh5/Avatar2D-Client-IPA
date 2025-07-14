@@ -8,6 +8,6 @@ final class class_ij implements IAction {
    }
 
    public final void perform() {
-      ParkService.a().a(MapScr.h.w, this.a.g, 1);
+      ParkService.a().a(MapScr.h.IDDB, this.a.IDPart, 1);
    }
 }

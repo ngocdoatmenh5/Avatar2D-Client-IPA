@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class EffectObj extends Base {
    public short a;
@@ -13,11 +13,11 @@ public final class EffectObj extends Base {
 
    public EffectObj() {
       this.b = this.c = 0;
-      super.az = 6;
+      super.catagory = 6;
       this.f = 0;
    }
 
-   public final void b() {
+   public final void update() {
       EffectData var1;
       if ((var1 = AvatarData.d(this.a)) != null) {
          ++this.f;
@@ -29,8 +29,8 @@ public final class EffectObj extends Base {
       this.a();
    }
 
-   public final void a(Graphics var1) {
-      if (GameCanvas.Z <= 0 || GameCanvas.r != MenuCenter.b()) {
+   public final void paint(Graphics var1) {
+      if (Canvas.Z <= 0 || Canvas.currentMyScreen != MenuCenter.gI()) {
          EffectData var2;
          if ((var2 = AvatarData.d(this.a)) != null) {
             if (this.e == 0) {
@@ -40,11 +40,11 @@ public final class EffectObj extends Base {
                   return;
                }
 
-               super.aw = var3.aw + this.b;
-               super.ax = var3.ax + this.c;
+               super.x = var3.x + this.b;
+               super.y = var3.y + this.c;
             }
 
-            var2.a(var1, super.aw, super.ax, this.f);
+            var2.a(var1, super.x, super.y, this.f);
          }
 
       }

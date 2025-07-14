@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class BCBoardScr extends BoardScr {
@@ -85,12 +85,12 @@ public final class BCBoardScr extends BoardScr {
       this.P = new Command(T1.B, 7);
       this.Q = new Command(T1.w, 8);
       this.aM = new Command(T1.B, 9);
-      if (GameCanvas.m > 200) {
+      if (Canvas.m > 200) {
          c = 23;
          b = 23;
          h = 48;
          g = 48;
-         if (AvMain.Y == 2) {
+         if (AvMain.hd == 2) {
             h = 96;
             g = 96;
          }
@@ -124,7 +124,7 @@ public final class BCBoardScr extends BoardScr {
             break;
          case 9:
             if (!this.aE) {
-               if (!this.aA[BoardScr.i(GameMidlet.i.w)]) {
+               if (!this.aA[BoardScr.i(GameMidlet.avatar.IDDB)]) {
                   this.aD = 1;
                   this.C();
                }
@@ -140,10 +140,10 @@ public final class BCBoardScr extends BoardScr {
 
    public final void e() {
       super.e();
-      if (GameCanvas.m > 150) {
-         aK = new AvPosition[]{new AvPosition(20 * AvMain.Y, 50 + 30 * AvMain.Y, 6), new AvPosition(20 * AvMain.Y, GameCanvas.p + 60, 6), new AvPosition(GameCanvas.o, GameCanvas.q - GameCanvas.T - 10, 33), new AvPosition(GameCanvas.m - 14 * AvMain.Y, GameCanvas.p + 60, 10), new AvPosition(GameCanvas.m - 14 * AvMain.Y, 50 + 30 * AvMain.Y, 10)};
+      if (Canvas.m > 150) {
+         aK = new AvPosition[]{new AvPosition(20 * AvMain.hd, 50 + 30 * AvMain.hd, 6), new AvPosition(20 * AvMain.hd, Canvas.hh + 60, 6), new AvPosition(Canvas.o, Canvas.q - Canvas.T - 10, 33), new AvPosition(Canvas.m - 14 * AvMain.hd, Canvas.hh + 60, 10), new AvPosition(Canvas.m - 14 * AvMain.hd, 50 + 30 * AvMain.hd, 10)};
       } else {
-         aK = new AvPosition[]{new AvPosition(20, 13, 6), new AvPosition(20, GameCanvas.p - 5, 6), new AvPosition(GameCanvas.o, GameCanvas.q - GameCanvas.T - 10, 33), new AvPosition(GameCanvas.m - 14, GameCanvas.p - 5, 10), new AvPosition(GameCanvas.m - 14, 13, 10)};
+         aK = new AvPosition[]{new AvPosition(20, 13, 6), new AvPosition(20, Canvas.hh - 5, 6), new AvPosition(Canvas.o, Canvas.q - Canvas.T - 10, 33), new AvPosition(Canvas.m - 14, Canvas.hh - 5, 10), new AvPosition(Canvas.m - 14, 13, 10)};
       }
    }
 
@@ -154,21 +154,21 @@ public final class BCBoardScr extends BoardScr {
          Avatar var6 = (Avatar)BoardScr.m.elementAt(var1);
          Avatar var8 = (Avatar)BoardScr.m.elementAt(var7);
          Point var5;
-         (var5 = new Point(var6.aw, var6.ax)).o = (short)var4;
-         var5.f = CRes.e(3);
-         var2 = (byte) CRes.a(var8.aw - var6.aw, -(var8.aw - var6.ax));
+         (var5 = new Point(var6.x, var6.y)).o = (short)var4;
+         var5.f = CRes.rnd(3);
+         var2 = (byte) CRes.a(var8.x - var6.x, -(var8.x - var6.y));
          var5.b = var2;
-         var5.az = (byte)CRes.b(-1, 1);
-         var5.e = CRes.c(var5.b + var5.az * 90);
+         var5.catagory = (byte)CRes.rnd(-1, 1);
+         var5.e = CRes.c(var5.b + var5.catagory * 90);
          var2 = (byte) (10 * CRes.b(var5.e) >> 10);
          var4 = -(10 * CRes.a(var5.e)) >> 10;
-         var5.n = (short)var8.aw;
-         var5.m = (short)var8.ax;
-         var5.aw += var2;
-         var5.ax += var4;
+         var5.n = (short)var8.x;
+         var5.m = (short)var8.y;
+         var5.x += var2;
+         var5.y += var4;
          var5.f = 0;
-         var5.i = (byte)(CRes.e(4) + 2);
-         var5.aA = (short)(8 + CRes.e(5));
+         var5.i = (byte)(CRes.rnd(4) + 2);
+         var5.height = (short)(8 + CRes.rnd(5));
          this.aL.addElement(var5);
       }
 
@@ -204,8 +204,8 @@ public final class BCBoardScr extends BoardScr {
 
    private void v() {
       this.O.removeAllElements();
-      this.R = GameCanvas.m / 2 - g - g / 2 - 10;
-      this.S = GameCanvas.n / 2 - h - 12;
+      this.R = Canvas.m / 2 - g - g / 2 - 10;
+      this.S = Canvas.n / 2 - h - 12;
 
       for(int var1 = 0; var1 < 6; ++var1) {
          class_kl var2;
@@ -221,17 +221,17 @@ public final class BCBoardScr extends BoardScr {
       if (this.N.size() <= 0) {
          int var1;
          int var2;
-         if (GameCanvas.m > 200) {
-            var1 = GameCanvas.m / 2 - 64 * AvMain.Y;
+         if (Canvas.m > 200) {
+            var1 = Canvas.m / 2 - 64 * AvMain.hd;
 
             for(var2 = 0; var2 < 3; ++var2) {
-               this.a(var1 + (var2 << 6) * AvMain.Y, 10, var2, var2, false);
+               this.a(var1 + (var2 << 6) * AvMain.hd, 10, var2, var2, false);
             }
 
             return;
          }
 
-         var1 = GameCanvas.m / 2 - 49;
+         var1 = Canvas.m / 2 - 49;
 
          for(var2 = 0; var2 < 3; ++var2) {
             this.a(var1 + var2 * 49, 0, var2, var2, false);
@@ -263,7 +263,7 @@ public final class BCBoardScr extends BoardScr {
 
       for(int var2 = 0; var2 < 6; ++var2) {
          class_kl var3 = (class_kl)var1.O.elementAt(var2);
-         int var4 = a(var1.M, BoardScr.i(GameMidlet.i.w));
+         int var4 = a(var1.M, BoardScr.i(GameMidlet.avatar.IDDB));
          int var10001 = var3.c + g / 2;
          int var10002 = var3.d + h / 2;
          int var10003 = var3.b;
@@ -321,7 +321,7 @@ public final class BCBoardScr extends BoardScr {
    }
 
    public final void a(byte var1) {
-      int var2 = BoardScr.i(GameMidlet.i.w);
+      int var2 = BoardScr.i(GameMidlet.avatar.IDDB);
       Avatar var3 = (Avatar)BoardScr.m.elementAt(var1);
       if (var2 == var1) {
          this.aA[var2] = false;
@@ -331,14 +331,14 @@ public final class BCBoardScr extends BoardScr {
          this.f = false;
       }
 
-      super.n = var3.w;
+      super.n = var3.IDDB;
       BoardScr.v = this.e;
-      BoardScr.u = (long)GameCanvas.j();
+      BoardScr.u = (long) Canvas.j();
       if (!this.aG) {
          this.aG = true;
       }
 
-      if (GameMidlet.i.w != BoardScr.r && var2 == var1) {
+      if (GameMidlet.avatar.IDDB != BoardScr.r && var2 == var1) {
          super.ad = BoardScr.D;
          super.ad.a = "Chọn";
          super.ae = this.P;
@@ -348,14 +348,14 @@ public final class BCBoardScr extends BoardScr {
 
    public final void a(Graphics var1) {
       this.b(var1);
-      GameCanvas.c(var1);
+      Canvas.resetTrans(var1);
       Graphics var3 = var1;
       BCBoardScr var2 = this;
 
       for(int var4 = 0; var4 < var2.aL.size(); ++var4) {
          Point var5;
          if ((var5 = (Point)var2.aL.elementAt(var4)).i >= 0) {
-            GameCanvas.O.a(var3, "+" + var5.o, var5.aw, var5.ax, 2);
+            Canvas.O.a(var3, "+" + var5.o, var5.x, var5.y, 2);
          }
       }
 
@@ -369,31 +369,31 @@ public final class BCBoardScr extends BoardScr {
       int var5;
       int var10003;
       if (BoardScr.j || BoardScr.k) {
-         GameCanvas.c(var1);
+         Canvas.resetTrans(var1);
          var4 = var1;
          var3 = this;
          if (this.O.size() > 0) {
             if (this.T != -1) {
                var1.setColor(16777215);
-               if (GameCanvas.l % 20 > 10) {
+               if (Canvas.gameTick % 20 > 10) {
                   var1.fillRect(this.R + this.T % 3 * (g + 10), this.S + this.T / 3 * (h + 8), g, h);
                }
             }
 
             if (this.U != -1) {
                var1.setColor(1112500);
-               if (GameCanvas.l % 20 > 10) {
+               if (Canvas.gameTick % 20 > 10) {
                   var1.fillRect(this.R + this.U % 3 * (g + 10), this.S + this.U / 3 * (h + 8), g, h);
                }
             }
 
             for(var5 = 0; var5 < var3.O.size(); ++var5) {
                class_kl var6 = (class_kl)var3.O.elementAt(var5);
-               if (AvatarData.c((short)(GameCanvas.m > 200 ? 872 : 873)).d != -1) {
+               if (AvatarData.c((short)(Canvas.m > 200 ? 872 : 873)).count != -1) {
                   var10003 = var6.a * h;
                   int var10007 = var3.R + var5 % 3 * (g + 10);
                   int var10008 = var3.S + var5 / 3 * (h + 8);
-                  var4.drawRegion(AvatarData.c((short)(GameCanvas.m > 200 ? 872 : 873)).a, 0, var10003, g, h, 0, var10007, var10008, 0);
+                  var4.drawRegion(AvatarData.c((short)(Canvas.m > 200 ? 872 : 873)).img, 0, var10003, g, h, 0, var10007, var10008, 0);
                }
             }
          }
@@ -401,20 +401,20 @@ public final class BCBoardScr extends BoardScr {
 
       this.a_(var1);
       if (BoardScr.j || BoardScr.k) {
-         GameCanvas.c(var1);
+         Canvas.resetTrans(var1);
          var4 = var1;
          var3 = this;
 
          int var7;
          for(var5 = 0; var5 < BoardScr.m.size(); ++var5) {
             Avatar var10;
-            if ((var10 = (Avatar)BoardScr.m.elementAt(var5)).w == BoardScr.r || var10.w != -1) {
-               if (var3.n != var10.w || GameCanvas.l % 10 >= 5) {
-                  GameCanvas.Q.a(var4, var10.c() + T1.k(), var10.aw, var10.ax + 5, 2);
+            if ((var10 = (Avatar)BoardScr.m.elementAt(var5)).IDDB == BoardScr.r || var10.IDDB != -1) {
+               if (var3.n != var10.IDDB || Canvas.gameTick % 10 >= 5) {
+                  Canvas.smallFontYellow.a(var4, var10.getMoneyNew() + T1.k(), var10.x, var10.y + 5, 2);
                }
 
-               if ((var7 = a(var3.M, BoardScr.i(var10.w))) != -1 && AvatarData.c((short)871).d != -1) {
-                  var4.drawRegion(AvatarData.c((short)871).a, 0, b(var7) * 12, 12, 12, 0, var10.aw, var10.ax + 5 + AvMain.ai, 17);
+               if ((var7 = a(var3.M, BoardScr.i(var10.IDDB))) != -1 && AvatarData.c((short)871).count != -1) {
+                  var4.drawRegion(AvatarData.c((short)871).img, 0, b(var7) * 12, 12, 12, 0, var10.x, var10.y + 5 + AvMain.ai, 17);
                }
             }
          }
@@ -422,7 +422,7 @@ public final class BCBoardScr extends BoardScr {
          int var2;
          if (BoardScr.j || BoardScr.k) {
             if ((var2 = (int)((long)BoardScr.v - BoardScr.t)) > 0 && !BoardScr.l && this.N.size() <= 0) {
-               GameCanvas.O.a(var1, String.valueOf(var2), GameCanvas.o, 10, 2);
+               Canvas.O.a(var1, String.valueOf(var2), Canvas.o, 10, 2);
             }
 
             if (this.aG) {
@@ -433,7 +433,7 @@ public final class BCBoardScr extends BoardScr {
                }
 
                if (this.aC < 50) {
-                  GameCanvas.L.a(var1, "Bắt đầu tả", GameCanvas.o, this.S - 40, 2);
+                  Canvas.L.a(var1, "Bắt đầu tả", Canvas.o, this.S - 40, 2);
                }
             }
          }
@@ -451,20 +451,20 @@ public final class BCBoardScr extends BoardScr {
             for(var2 = 0; var2 < this.L.size(); ++var2) {
                class_ky var9;
                if ((var9 = (class_ky)this.L.elementAt(var2)).c > 0 && !(var9 = var9).h) {
-                  FontX var11 = GameCanvas.O;
-                  if (GameCanvas.m <= 200) {
-                     var11 = GameCanvas.Q;
+                  FontX var11 = Canvas.O;
+                  if (Canvas.m <= 200) {
+                     var11 = Canvas.smallFontYellow;
                   }
 
-                  if (GameCanvas.Z > 0) {
-                     var11 = GameCanvas.K;
+                  if (Canvas.Z > 0) {
+                     var11 = Canvas.K;
                   }
 
                   int var12 = var9.a + g / 4 + var9.d % 2 * g / 2;
                   var7 = var9.b + h / 4 + var9.d / 2 * h / 2;
-                  if (AvatarData.c((short)(GameCanvas.m > 200 ? 870 : 871)).d != -1) {
+                  if (AvatarData.c((short)(Canvas.m > 200 ? 870 : 871)).count != -1) {
                      var10003 = var9.d * c;
-                     var1.drawRegion(AvatarData.c((short)(GameCanvas.m > 200 ? 870 : 871)).a, 0, var10003, b, c, 0, var12, var7, 3);
+                     var1.drawRegion(AvatarData.c((short)(Canvas.m > 200 ? 870 : 871)).img, 0, var10003, b, c, 0, var12, var7, 3);
                   }
 
                   var11.a(var1, String.valueOf(var9.c), var12, var7 - var11.a() / 2, 2);
@@ -472,8 +472,8 @@ public final class BCBoardScr extends BoardScr {
             }
          }
 
-         if (GameMidlet.i.w != BoardScr.r && BoardScr.j && this.N.size() == 0) {
-            var1.drawImage(this.aJ, this.R + g / 2 + this.V % 3 * (g + 10), this.S + h / 2 + this.V / 3 * (h + 8) + GameCanvas.l % 4 + 5, 3);
+         if (GameMidlet.avatar.IDDB != BoardScr.r && BoardScr.j && this.N.size() == 0) {
+            var1.drawImage(this.aJ, this.R + g / 2 + this.V % 3 * (g + 10), this.S + h / 2 + this.V / 3 * (h + 8) + Canvas.gameTick % 4 + 5, 3);
          }
 
          this.e(var1);
@@ -490,17 +490,17 @@ public final class BCBoardScr extends BoardScr {
 
    public final void l() {
       super.l();
-      if (!this.aA[BoardScr.i(GameMidlet.i.w)] && GameMidlet.i.w != BoardScr.r) {
+      if (!this.aA[BoardScr.i(GameMidlet.avatar.IDDB)] && GameMidlet.avatar.IDDB != BoardScr.r) {
          BCBoardScr var2 = this;
-         if (!this.f && BoardScr.j && !BoardScr.l && this.O.size() > 0 && GameCanvas.g) {
-            GameCanvas.g = false;
+         if (!this.f && BoardScr.j && !BoardScr.l && this.O.size() > 0 && Canvas.g) {
+            Canvas.g = false;
 
             for(int var3 = 0; var3 < var2.O.size(); ++var3) {
                class_kl var4 = (class_kl)var2.O.elementAt(var3);
-               if (GameCanvas.h >= var4.c && GameCanvas.h <= var4.c + g && GameCanvas.i >= var4.d && GameCanvas.i <= var4.d + h) {
+               if (Canvas.h >= var4.c && Canvas.h <= var4.c + g && Canvas.i >= var4.d && Canvas.i <= var4.d + h) {
                   var2.V = (byte)var3;
                   if (!var2.aE) {
-                     if (!var2.aA[BoardScr.i(GameMidlet.i.w)]) {
+                     if (!var2.aA[BoardScr.i(GameMidlet.avatar.IDDB)]) {
                         if (var2.az < 6) {
                            var2.A();
                         }
@@ -522,7 +522,7 @@ public final class BCBoardScr extends BoardScr {
             }
          }
 
-         if (GameCanvas.a(6)) {
+         if (Canvas.a(6)) {
             ++this.V;
             if (this.V > 5) {
                this.V = 0;
@@ -531,7 +531,7 @@ public final class BCBoardScr extends BoardScr {
             return;
          }
 
-         if (GameCanvas.a(4)) {
+         if (Canvas.a(4)) {
             --this.V;
             if (this.V < 0) {
                this.V = 5;
@@ -540,12 +540,12 @@ public final class BCBoardScr extends BoardScr {
             return;
          }
 
-         if (GameCanvas.a(8)) {
+         if (Canvas.a(8)) {
             if (this.V / 3 <= 0) {
                this.V = (byte)(this.V + 3);
                return;
             }
-         } else if (GameCanvas.a(2) && this.V > 2) {
+         } else if (Canvas.a(2) && this.V > 2) {
             this.V = (byte)(this.V - 3);
          }
       }
@@ -568,7 +568,7 @@ public final class BCBoardScr extends BoardScr {
          BoardScr.t = (long)((int)(System.currentTimeMillis() / 1000L - BoardScr.u));
          if (BoardScr.j && !BoardScr.l && !BoardScr.k && (long)BoardScr.v - BoardScr.t < 0L) {
             this.f = true;
-            if (GameMidlet.i.w != BoardScr.r) {
+            if (GameMidlet.avatar.IDDB != BoardScr.r) {
                if (this.aD == 0) {
                   this.aD = 1;
                   this.C();
@@ -644,8 +644,8 @@ public final class BCBoardScr extends BoardScr {
 
          for(var6 = 0; var6 < this.aL.size(); ++var6) {
             Point var9;
-            if (CRes.f((var11 = CRes.a((var9 = (Point)this.aL.elementAt(var6)).n - var9.aw, -(var9.m - var9.ax))) - var9.e) > 10) {
-               var9.e -= var9.aA * var9.az;
+            if (CRes.f((var11 = CRes.a((var9 = (Point)this.aL.elementAt(var6)).n - var9.x, -(var9.m - var9.y))) - var9.e) > 10) {
+               var9.e -= var9.height * var9.catagory;
                var9.e = CRes.c(var9.e);
             } else {
                var9.e = var11;
@@ -659,9 +659,9 @@ public final class BCBoardScr extends BoardScr {
             ++var9.f;
             var11 = var9.i * CRes.b(var9.e) >> 10;
             int var12 = -(var9.i * CRes.a(var9.e)) >> 10;
-            if (CRes.a(var9.aw, var9.ax, var9.n, var9.m) >= var9.i) {
-               var9.aw += var11;
-               var9.ax += var12;
+            if (CRes.a(var9.x, var9.y, var9.n, var9.m) >= var9.i) {
+               var9.x += var11;
+               var9.y += var12;
             } else {
                this.aL.removeElement(var9);
             }
@@ -682,9 +682,9 @@ public final class BCBoardScr extends BoardScr {
 
       for(byte var2 = 0; var2 < 5; ++var2) {
          Avatar var3;
-         if ((var3 = (Avatar)BoardScr.m.elementAt(var2)).w != -1) {
-            BoardScr.a(var3.w, String.valueOf(var4.aI[var2]));
-            var3.b(var3.c() + var4.aI[var2]);
+         if ((var3 = (Avatar)BoardScr.m.elementAt(var2)).IDDB != -1) {
+            BoardScr.a(var3.IDDB, String.valueOf(var4.aI[var2]));
+            var3.setMoneyNew(var3.getMoneyNew() + var4.aI[var2]);
          }
       }
 
@@ -697,7 +697,7 @@ public final class BCBoardScr extends BoardScr {
       this.f();
 
       for(int var1 = 0; var1 < BoardScr.m.size(); ++var1) {
-         if (((Avatar)BoardScr.m.elementAt(var1)).w != BoardScr.r) {
+         if (((Avatar)BoardScr.m.elementAt(var1)).IDDB != BoardScr.r) {
             this.M.addElement(String.valueOf(var1));
          }
       }
@@ -708,7 +708,7 @@ public final class BCBoardScr extends BoardScr {
 
    public final void j() {
       if (!this.aE) {
-         if (!this.aA[BoardScr.i(GameMidlet.i.w)]) {
+         if (!this.aA[BoardScr.i(GameMidlet.avatar.IDDB)]) {
             if (this.az < 6) {
                this.A();
             }
@@ -757,7 +757,7 @@ public final class BCBoardScr extends BoardScr {
       this.M.removeAllElements();
 
       for(int var1 = 0; var1 < BoardScr.m.size(); ++var1) {
-         if (((Avatar)BoardScr.m.elementAt(var1)).w != BoardScr.r) {
+         if (((Avatar)BoardScr.m.elementAt(var1)).IDDB != BoardScr.r) {
             this.M.addElement(String.valueOf(var1));
          }
       }
@@ -766,19 +766,19 @@ public final class BCBoardScr extends BoardScr {
 
    public final void b(byte var1) {
       super.s();
-      GameCanvas.h();
+      Canvas.h();
       this.u();
       BoardScr.r();
       this.M.removeAllElements();
       this.f();
 
       for(int var2 = 0; var2 < BoardScr.m.size(); ++var2) {
-         if (((Avatar)BoardScr.m.elementAt(var2)).w != BoardScr.r) {
+         if (((Avatar)BoardScr.m.elementAt(var2)).IDDB != BoardScr.r) {
             this.M.addElement(String.valueOf(var2));
          }
       }
 
-      if (GameMidlet.i.w != BoardScr.r) {
+      if (GameMidlet.avatar.IDDB != BoardScr.r) {
          this.m();
       } else {
          super.ad = null;
@@ -788,7 +788,7 @@ public final class BCBoardScr extends BoardScr {
       BoardScr.l = false;
       BoardScr.j = true;
       BoardScr.v = var1;
-      BoardScr.u = (long)GameCanvas.j();
+      BoardScr.u = (long) Canvas.j();
    }
 
    public final void c(byte var1) {
@@ -828,15 +828,15 @@ public final class BCBoardScr extends BoardScr {
    public final void f() {
       for(int var1 = 0; var1 < BoardScr.H; ++var1) {
          Avatar var2;
-         if ((var2 = (Avatar)BoardScr.m.elementAt(var1)).w != -1) {
-            var2.h = 0;
-            var2.b((byte)0);
-            var2.f(var2.H);
-            var2.a(aK[BoardScr.x[var1]].a, aK[BoardScr.x[var1]].b);
+         if ((var2 = (Avatar)BoardScr.m.elementAt(var1)).IDDB != -1) {
+            var2.ySat = 0;
+            var2.setAction((byte)0);
+            var2.setFrame(var2.action);
+            var2.setPos(aK[BoardScr.x[var1]].a, aK[BoardScr.x[var1]].b);
             if (BoardScr.x[var1] != 2 && BoardScr.x[var1] != 3 && BoardScr.x[var1] != 4) {
-               var2.K = var2.t = 0;
+               var2.direct = var2.dirLast = 0;
             } else {
-               var2.K = var2.t = Base.J;
+               var2.direct = var2.dirLast = Base.LEFT;
             }
          }
       }

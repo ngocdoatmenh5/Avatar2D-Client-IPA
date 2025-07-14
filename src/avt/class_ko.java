@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_ko extends Command {
    private int f = 0;
@@ -19,7 +19,7 @@ final class class_ko extends Command {
       } else {
          int var10002 = var2 + PopupShop.e / 2;
          int var10003 = var3 + PopupShop.e / 2;
-         AvatarData.a(var1, FarmData.c(this.g.a).h, var10002, var10003, 3);
+         AvatarData.a(var1, FarmData.getAnimalByID(this.g.a).iconProduct, var10002, var10003, 3);
       }
    }
 
@@ -30,7 +30,7 @@ final class class_ko extends Command {
          boolean var10001 = true;
          PopupShop.a(this.g.f);
          PopupShop.a(T1.ay + this.g.e);
-         PopupShop.a(T1.aK + GameCanvas.b(this.g.d[0] * this.g.e) + T1.T);
+         PopupShop.a(T1.aK + Canvas.getMoneys(this.g.d[0] * this.g.e) + T1.T);
          PopupShop.a(MapScr.r());
       }
 

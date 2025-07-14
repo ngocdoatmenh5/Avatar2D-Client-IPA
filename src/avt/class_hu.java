@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 final class class_hu implements IAction {
@@ -13,7 +13,7 @@ final class class_hu implements IAction {
    public final void perform() {
       if (this.a.a != -1) {
          GlobalService.gI().e(this.a.a);
-         GameCanvas.i();
+         Canvas.i();
       } else if (this.a.d != null && !this.a.d.equals("")) {
          GameMidlet.b(this.a.d);
       } else {

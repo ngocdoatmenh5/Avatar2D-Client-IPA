@@ -10,15 +10,15 @@ final class class_ft extends class_jt {
    }
 
    public final void a(Graphics var1) {
-      PaintPopup.a(this.a.aw * AvMain.Y, this.a.ax * AvMain.Y, this.a.d, this.a.e, 5921542, var1);
+      PaintPopup.a(this.a.x * AvMain.hd, this.a.y * AvMain.hd, this.a.d, this.a.e, 5921542, var1);
    }
 
    public final void a() {
-      if (this.a.ax < this.a.g) {
+      if (this.a.y < this.a.g) {
          Point var10000 = this.a;
-         var10000.aw += this.a.c;
+         var10000.x += this.a.c;
          var10000 = this.a;
-         var10000.ax += this.a.b;
+         var10000.y += this.a.b;
          ++this.a.b;
       } else {
          this.a.c = 0;

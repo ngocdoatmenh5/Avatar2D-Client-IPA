@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_kw implements IAction {
    private short a;
@@ -11,6 +11,6 @@ final class class_kw implements IAction {
 
    public final void perform() {
       PopupShop.b().d();
-      DialLuckyScr.b().a(GameCanvas.r, this.a);
+      DialLuckyScr.b().a(Canvas.currentMyScreen, this.a);
    }
 }

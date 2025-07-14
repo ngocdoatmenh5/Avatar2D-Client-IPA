@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_ep implements IAction {
    private FarmScr a;
@@ -20,10 +20,10 @@ final class class_ep implements IAction {
          FarmScr.a(this.a, (byte)4, this.c);
          LoadMap.p = this.d;
          this.a.M = (Animal)LoadMap.p;
-         this.a.M.p = true;
-         this.a.M.q = GameCanvas.j();
+         this.a.M.isStand = true;
+         this.a.M.timeStand = Canvas.j();
       }
 
-      FarmService.a().b(FarmScr.b, this.d.w, this.c);
+      FarmService.a().b(FarmScr.b, this.d.IDDB, this.c);
    }
 }

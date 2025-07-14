@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_ab implements IAction {
    private FarmScr a;
@@ -13,22 +13,22 @@ final class class_ab implements IAction {
 
    public final void perform() {
       boolean var1 = false;
-      AnimalInfo var2 = FarmData.c(this.b.k);
+      AnimalInfo var2 = FarmData.getAnimalByID(this.b.species);
 
       for(int var3 = 0; var3 < FarmScr.d.size(); ++var3) {
          Item var4;
          FarmItem var5;
-         if ((var5 = FarmScr.b((var4 = (Item)FarmScr.d.elementAt(var3)).a)).d == var2.c && var5.e == 5 && var4.e > 0) {
+         if ((var5 = FarmScr.b((var4 = (Item)FarmScr.d.elementAt(var3)).a)).d == var2.area && var5.e == 5 && var4.e > 0) {
             var1 = true;
-            this.b.i = false;
+            this.b.hunger = false;
             FarmScr.b();
-            FarmScr.a(var5.a, this.b.w);
+            FarmScr.a(var5.a, this.b.IDDB);
             this.a.d(10, -1);
          }
       }
 
       if (!var1) {
-         GameCanvas.b(T1.dY);
+         Canvas.b(T1.dY);
          this.a.a((int)8, (int)-1);
       }
 

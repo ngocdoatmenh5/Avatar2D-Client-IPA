@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class PetRace extends Base {
    public byte a;
@@ -21,7 +21,7 @@ public final class PetRace extends Base {
    public PetRace(class_jz var1) {
    }
 
-   public final void b() {
+   public final void update() {
       ++this.k;
       if (this.k >= 10) {
          this.k = 0;
@@ -36,18 +36,18 @@ public final class PetRace extends Base {
          this.m = 0;
       }
 
-      ++super.y;
-      if (super.y == 12) {
-         super.y = 0;
+      ++super.frame;
+      if (super.frame == 12) {
+         super.frame = 0;
       }
 
-      if (super.aw < (LoadMap.e + 1) * LoadMap.i) {
+      if (super.x < (LoadMap.wMap + 1) * LoadMap.i) {
          if (this.e != null && this.b < this.e.length && RaceScr.b().e <= 0) {
-            super.aw += this.f[this.b];
+            super.x += this.f[this.b];
             if (this.f[this.b] == 0) {
-               super.H = 2;
+               super.action = 2;
             } else {
-               super.H = 1;
+               super.action = 1;
             }
 
             --this.e[this.b];
@@ -64,9 +64,9 @@ public final class PetRace extends Base {
                }
             }
          } else {
-            super.H = 0;
+            super.action = 0;
             if (this.f != null && RaceScr.b().e <= 0) {
-               super.aw += this.f[this.f.length - 1];
+               super.x += this.f[this.f.length - 1];
             }
 
             if (this.h == 10 && this.e != null && this.b >= this.e.length) {
@@ -88,30 +88,30 @@ public final class PetRace extends Base {
 
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       ImageIcon var2;
-      if ((var2 = AvatarData.c(this.c)).d != -1) {
+      if ((var2 = AvatarData.c(this.c)).count != -1) {
          int var3 = var2.c / 5;
-         var1.drawRegion(var2.a, 0, RaceScr.m[super.H][super.y] * var3, var2.b, var3, 0, super.aw * MyObject.ay, super.ax * MyObject.ay, 33);
+         var1.drawRegion(var2.img, 0, RaceScr.m[super.action][super.frame] * var3, var2.b, var3, 0, super.x * MyObject.hd, super.y * MyObject.hd, 33);
          if (RaceScr.b().d && this.g > 0) {
-            GameCanvas.M.a(var1, "" + this.g, super.aw * MyObject.ay - var2.b / 2 - 8 * MyObject.ay, super.ax * MyObject.ay - AvMain.af / 2 - 3 * MyObject.ay, 1);
+            Canvas.M.a(var1, "" + this.g, super.x * MyObject.hd - var2.b / 2 - 8 * MyObject.hd, super.y * MyObject.hd - AvMain.af / 2 - 3 * MyObject.hd, 1);
          }
 
          if (this.i >= 0) {
-            var1.drawImage(RaceScr.h, super.aw * MyObject.ay + var2.b / 2, super.ax * MyObject.ay - var3, 33);
+            var1.drawImage(RaceScr.h, super.x * MyObject.hd + var2.b / 2, super.y * MyObject.hd - var3, 33);
          }
 
          if (this.l < 9) {
-            var1.drawImage(RaceScr.k[this.l / 3], super.aw * MyObject.ay, super.ax * MyObject.ay, 3);
+            var1.drawImage(RaceScr.k[this.l / 3], super.x * MyObject.hd, super.y * MyObject.hd, 3);
          }
 
          if (this.j >= 0) {
-            var1.drawImage(RaceScr.i, super.aw * MyObject.ay + var2.b / 2, super.ax * MyObject.ay - var3, 33);
-            var1.drawImage(RaceScr.j[this.k / 2], super.aw * MyObject.ay - var2.b / 2, super.ax * MyObject.ay, 3);
+            var1.drawImage(RaceScr.i, super.x * MyObject.hd + var2.b / 2, super.y * MyObject.hd - var3, 33);
+            var1.drawImage(RaceScr.j[this.k / 2], super.x * MyObject.hd - var2.b / 2, super.y * MyObject.hd, 3);
          }
 
-         if (super.w == AvCamera.a().h.w) {
-            var1.drawImage(MapScr.d, super.aw * MyObject.ay, super.ax * MyObject.ay - var3 - this.m / 2 - 10 * MyObject.ay, 3);
+         if (super.IDDB == AvCamera.gI().h.IDDB) {
+            var1.drawImage(MapScr.d, super.x * MyObject.hd, super.y * MyObject.hd - var3 - this.m / 2 - 10 * MyObject.hd, 3);
          }
       }
 

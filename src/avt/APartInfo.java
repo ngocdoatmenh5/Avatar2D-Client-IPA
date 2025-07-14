@@ -3,23 +3,23 @@ package avt;
 import javax.microedition.lcdui.Graphics;
 
 public final class APartInfo extends Part {
-   public byte a;
-   public byte b;
-   public short[] c;
-   public byte[] d;
-   public byte[] e;
+   public byte level;
+   public byte gender;
+   public short[] imgID;
+   public byte[] dx;
+   public byte[] dy;
 
-   public final void a(Graphics var1, int var2, int var3, int var4, int var5) {
-      if (super.g != -1) {
-         if (super.g >= 2000) {
+   public final void paintAvatar(Graphics var1, int var2, int var3, int var4, int var5) {
+      if (super.IDPart != -1) {
+         if (super.IDPart >= 2000) {
             ImageIcon var6;
-            if ((var6 = AvatarData.b(this.c[var2])).d != -1) {
-               var1.drawRegion(var6.a, 0, 0, var6.b, var6.c, var5, var3 + this.d[var2] * AvMain.Y - (var5 == Base.J ? (this.d[var2] * AvMain.Y << 1) + var6.b : 0), var4 + this.e[var2] * AvMain.Y, 0);
+            if ((var6 = AvatarData.b(this.imgID[var2])).count != -1) {
+               var1.drawRegion(var6.img, 0, 0, var6.b, var6.c, var5, var3 + this.dx[var2] * AvMain.hd - (var5 == Base.LEFT ? (this.dx[var2] * AvMain.hd << 1) + var6.b : 0), var4 + this.dy[var2] * AvMain.hd, 0);
                return;
             }
          } else {
-            ImageInfo var7 = AvatarData.a[this.c[var2]];
-            AvatarData.a(var1, var7.b, var7.c, var7.d, var7.e, var7.f, var3 + this.d[var2] * AvMain.Y - (var5 == Base.J ? (this.d[var2] * AvMain.Y << 1) + var7.e * AvMain.Y : 0), var4 + this.e[var2] * AvMain.Y, var5, 0);
+            ImageInfo var7 = AvatarData.listImgInfo[this.imgID[var2]];
+            AvatarData.a(var1, var7.b, var7.c, var7.d, var7.e, var7.f, var3 + this.dx[var2] * AvMain.hd - (var5 == Base.LEFT ? (this.dx[var2] * AvMain.hd << 1) + var7.e * AvMain.hd : 0), var4 + this.dy[var2] * AvMain.hd, var5, 0);
          }
       }
 

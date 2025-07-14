@@ -1,7 +1,7 @@
 package avt;
 
 import java.util.Vector;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class HomeMsgHandler extends IService implements IMiniGameMsgHandler {
    public static HomeMsgHandler a = new HomeMsgHandler();
@@ -20,7 +20,7 @@ public final class HomeMsgHandler extends IService implements IMiniGameMsgHandle
          switch (var1.a) {
             case -75:
                int var12 = var1.b().readInt();
-               GameCanvas.u.a(T1.t, new class_a(this, var12), 0);
+               Canvas.u.a(T1.t, new class_a(this, var12), 0);
             default:
                return;
             case -73:
@@ -43,8 +43,8 @@ public final class HomeMsgHandler extends IService implements IMiniGameMsgHandle
 
                   for(var7 = 0; var7 < var19; ++var7) {
                      Avatar var21;
-                     (var21 = new Avatar()).w = var1.b().readInt();
-                     var21.q = var1.b().readByte();
+                     (var21 = new Avatar()).IDDB = var1.b().readInt();
+                     var21.typeHome = var1.b().readByte();
                      var18.addElement(var21);
                   }
                }
@@ -54,8 +54,8 @@ public final class HomeMsgHandler extends IService implements IMiniGameMsgHandle
             case -66:
                MapItem var13;
                (var13 = new MapItem()).b = var1.b().readShort();
-               var13.aw = var1.b().readByte();
-               var13.ax = var1.b().readByte();
+               var13.x = var1.b().readByte();
+               var13.y = var1.b().readByte();
                HouseScr.b().b(var13);
                return;
             case -65:
@@ -75,8 +75,8 @@ public final class HomeMsgHandler extends IService implements IMiniGameMsgHandle
                for(int var8 = 0; var8 < var7; ++var8) {
                   MapItem var23;
                   (var23 = new MapItem()).b = var1.b().readShort();
-                  var23.aw = var1.b().readByte() * 24;
-                  var23.ax = var1.b().readByte() * 24;
+                  var23.x = var1.b().readByte() * 24;
+                  var23.y = var1.b().readByte() * 24;
                   var23.c = var1.b().readByte();
                   var18.addElement(var23);
                }
@@ -103,7 +103,7 @@ public final class HomeMsgHandler extends IService implements IMiniGameMsgHandle
                HouseScr.b().a(var3);
                return;
             case 51:
-               MapScr.b().a(ParkMsgHandler.b(var1));
+               MapScr.gI().a(ParkMsgHandler.b(var1));
                return;
             case 76:
                GlobalMessageHandler.c(var1);

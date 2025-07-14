@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class MenuNPC extends MenuMain {
    private static MenuNPC b;
@@ -42,7 +42,7 @@ public final class MenuNPC extends MenuMain {
 
    static {
       try {
-         a = new FrameImage(Image.createImage(T1.a() + "/race/popup/tile0.png"), 20 * AvMain.Y, 20 * AvMain.Y);
+         a = new FrameImage(Image.createImage(T1.a() + "/race/popup/tile0.png"), 20 * AvMain.hd, 20 * AvMain.hd);
       } catch (IOException var1) {
          var1.printStackTrace();
       }
@@ -53,15 +53,15 @@ public final class MenuNPC extends MenuMain {
    }
 
    public MenuNPC() {
-      this.f = 200 * AvMain.Y;
-      this.g = 190 * AvMain.Y;
-      this.d = (GameCanvas.m - this.f) / 2;
-      this.e = (GameCanvas.n - this.g) / 2;
-      this.i = 70 * AvMain.Y;
-      this.j = 120 * AvMain.Y;
-      this.h = this.f - this.j - 12 * AvMain.Y;
-      this.l = 30 * AvMain.Y;
-      this.k = this.l * 3 + 20 * AvMain.Y;
+      this.f = 200 * AvMain.hd;
+      this.g = 190 * AvMain.hd;
+      this.d = (Canvas.m - this.f) / 2;
+      this.e = (Canvas.n - this.g) / 2;
+      this.i = 70 * AvMain.hd;
+      this.j = 120 * AvMain.hd;
+      this.h = this.f - this.j - 12 * AvMain.hd;
+      this.l = 30 * AvMain.hd;
+      this.k = this.l * 3 + 20 * AvMain.hd;
       super.ad = new Command(T1.O, 0, this);
       super.ae = new Command(T1.d, 1, this);
    }
@@ -72,7 +72,7 @@ public final class MenuNPC extends MenuMain {
             this.b();
             return;
          case 1:
-            GameCanvas.t = null;
+            Canvas.t = null;
          default:
       }
    }
@@ -81,14 +81,14 @@ public final class MenuNPC extends MenuMain {
       this.n = var1;
       this.q = var5;
       this.c = var2;
-      this.F = var1.size() * this.l - (this.k - 20 * AvMain.Y);
+      this.F = var1.size() * this.l - (this.k - 20 * AvMain.hd);
       if (this.F < 0) {
          this.F = 0;
       }
 
       this.o = var3;
-      this.p = GameCanvas.M.a(var4, this.f - 50 * AvMain.Y);
-      GameCanvas.t = this;
+      this.p = Canvas.M.a(var4, this.f - 50 * AvMain.hd);
+      Canvas.t = this;
    }
 
    public final void k() {
@@ -148,14 +148,14 @@ public final class MenuNPC extends MenuMain {
       super.l();
       ++this.y;
       boolean var1 = false;
-      if (GameCanvas.a(2)) {
+      if (Canvas.a(2)) {
          --this.m;
          if (this.m < 0) {
             this.m = this.n.size() - 1;
          }
 
          var1 = true;
-      } else if (GameCanvas.a(8)) {
+      } else if (Canvas.a(8)) {
          ++this.m;
          if (this.m >= this.n.size()) {
             this.m = 0;
@@ -164,15 +164,15 @@ public final class MenuNPC extends MenuMain {
          var1 = true;
       }
 
-      if (GameCanvas.g) {
-         this.u = GameCanvas.k;
+      if (Canvas.g) {
+         this.u = Canvas.k;
          this.w = false;
-         if (GameCanvas.b(this.d + this.h, this.e + this.i, this.j, this.k)) {
+         if (Canvas.b(this.d + this.h, this.e + this.i, this.j, this.k)) {
             if (this.A != 0) {
                this.w = true;
             }
 
-            GameCanvas.g = false;
+            Canvas.g = false;
             this.r = this.B;
             this.x = this.y;
             this.v = true;
@@ -180,32 +180,32 @@ public final class MenuNPC extends MenuMain {
       }
 
       if (this.v) {
-         int var2 = this.u - GameCanvas.i;
-         this.u = GameCanvas.i;
+         int var2 = this.u - Canvas.i;
+         this.u = Canvas.i;
          long var3 = this.y - this.x;
          int var5;
          int var6;
-         if (GameCanvas.e) {
+         if (Canvas.e) {
             if (this.y % 2L == 0L) {
-               this.s = GameCanvas.i;
+               this.s = Canvas.i;
                this.z = this.y;
             }
 
             this.A = 0;
-            if (Math.abs(var2) < 10 * AvMain.Y) {
-               var5 = this.e + this.i + 10 * AvMain.Y;
+            if (Math.abs(var2) < 10 * AvMain.hd) {
+               var5 = this.e + this.i + 10 * AvMain.hd;
                var6 = this.l;
-               if ((var5 = (this.B + GameCanvas.i - var5) / var6) >= 0 && var5 < this.n.size()) {
+               if ((var5 = (this.B + Canvas.i - var5) / var6) >= 0 && var5 < this.n.size()) {
                   this.m = var5;
                }
             }
 
-            if (CRes.f(GameCanvas.l()) >= 10 * AvMain.Y) {
+            if (CRes.f(Canvas.l()) >= 10 * AvMain.hd) {
                super.aj = true;
             } else if (var3 > 3L && var3 < 8L) {
-               var5 = this.e + this.i + 10 * AvMain.Y;
+               var5 = this.e + this.i + 10 * AvMain.hd;
                var6 = this.l;
-               if ((var5 = (this.B + GameCanvas.i - var5) / var6) >= 0 && var5 < this.n.size() && !this.w) {
+               if ((var5 = (this.B + Canvas.i - var5) / var6) >= 0 && var5 < this.n.size() && !this.w) {
                   super.aj = false;
                }
             }
@@ -218,15 +218,15 @@ public final class MenuNPC extends MenuMain {
             this.C = this.B;
          }
 
-         if (GameCanvas.f && GameCanvas.b(this.d, this.e, this.f, this.g)) {
+         if (Canvas.f && Canvas.b(this.d, this.e, this.f, this.g)) {
             this.w = false;
             var5 = (int)(this.y - this.z);
-            if (CRes.f(var6 = this.s - GameCanvas.i) > 40 && var5 < 10 && this.B > 0 && this.B < this.F) {
+            if (CRes.f(var6 = this.s - Canvas.i) > 40 && var5 < 10 && this.B > 0 && this.B < this.F) {
                this.A = var6 / var5 * 10;
             }
 
             this.z = -1L;
-            if (Math.abs(var2) < 10 * AvMain.Y) {
+            if (Math.abs(var2) < 10 * AvMain.hd) {
                if (var3 <= 4L) {
                   super.aj = false;
                   this.t = 5;
@@ -236,11 +236,11 @@ public final class MenuNPC extends MenuMain {
             }
 
             this.v = false;
-            GameCanvas.f = false;
+            Canvas.f = false;
          }
-      } else if (GameCanvas.f && !GameCanvas.b(this.d, this.e, this.f, this.g)) {
-         GameCanvas.f = false;
-         GameCanvas.t = null;
+      } else if (Canvas.f && !Canvas.b(this.d, this.e, this.f, this.g)) {
+         Canvas.f = false;
+         Canvas.t = null;
       }
 
       if (var1) {
@@ -259,31 +259,31 @@ public final class MenuNPC extends MenuMain {
 
    private void b() {
       if (!this.q[this.m]) {
-         GameCanvas.t = null;
+         Canvas.t = null;
       } else {
-         GameCanvas.i();
+         Canvas.i();
       }
 
       ((Command)this.n.elementAt(this.m)).b();
    }
 
    public final void a(Graphics var1) {
-      GameCanvas.c(var1);
-      GameCanvas.S.a(var1, this.d, this.e, this.f, this.g, 0);
+      Canvas.resetTrans(var1);
+      Canvas.S.a(var1, this.d, this.e, this.f, this.g, 0);
       var1.translate(this.d, this.e);
       var1.setColor(695195);
-      var1.fillRect(12 * AvMain.Y, 12 * AvMain.Y, this.f - 24 * AvMain.Y, 50 * AvMain.Y);
+      var1.fillRect(12 * AvMain.hd, 12 * AvMain.hd, this.f - 24 * AvMain.hd, 50 * AvMain.hd);
       var1.setColor(12648440);
-      var1.fillRect(15 * AvMain.Y, 15 * AvMain.Y, this.f - 30 * AvMain.Y, 44 * AvMain.Y);
+      var1.fillRect(15 * AvMain.hd, 15 * AvMain.hd, this.f - 30 * AvMain.hd, 44 * AvMain.hd);
 
       int var2;
       for(var2 = 0; var2 < this.p.length; ++var2) {
-         GameCanvas.N.a(var1, this.p[var2], 20 * AvMain.Y, 12 * AvMain.Y + 25 * AvMain.Y - this.p.length * AvMain.af / 2 + var2 * AvMain.af, 0);
+         Canvas.N.a(var1, this.p[var2], 20 * AvMain.hd, 12 * AvMain.hd + 25 * AvMain.hd - this.p.length * AvMain.af / 2 + var2 * AvMain.af, 0);
       }
 
       Avatar var9 = LoadMap.g(this.c);
-      GameCanvas.K.a(var1, this.o, this.h / 2, this.i + this.k / 2 - AvMain.ah - 20 * AvMain.Y, 2);
-      var9.a(var1, this.h / 2, this.i + this.k / 2 + var9.aA, true);
+      Canvas.K.a(var1, this.o, this.h / 2, this.i + this.k / 2 - AvMain.ah - 20 * AvMain.hd, 2);
+      var9.paintIcon(var1, this.h / 2, this.i + this.k / 2 + var9.height, true);
       var2 = 4441283;
       FrameImage var7 = a;
       int var6 = this.k;
@@ -322,10 +322,10 @@ public final class MenuNPC extends MenuMain {
          Command var11 = (Command)this.n.elementAt(var2);
          if (var2 == this.m && !super.aj) {
             var1.setColor(10543802);
-            var1.fillRect(4 * AvMain.Y, 10 * AvMain.Y + var2 * this.l, this.j - 8 * AvMain.Y, this.l);
+            var1.fillRect(4 * AvMain.hd, 10 * AvMain.hd + var2 * this.l, this.j - 8 * AvMain.hd, this.l);
          }
 
-         GameCanvas.K.a(var1, var11.a, 10 * AvMain.Y, 10 * AvMain.Y + var2 * this.l + this.l / 2 - AvMain.ah / 2, 0);
+         Canvas.K.a(var1, var11.a, 10 * AvMain.hd, 10 * AvMain.hd + var2 * this.l + this.l / 2 - AvMain.ah / 2, 0);
       }
 
       super.a(var1);

@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class Xingau {
    private int c;
@@ -23,7 +23,7 @@ public final class Xingau {
       this.b = var5;
       j = 50;
       i = 54;
-      if (AvMain.Y == 2) {
+      if (AvMain.hd == 2) {
          j = 108;
          i = 108;
       }
@@ -31,16 +31,16 @@ public final class Xingau {
    }
 
    public final void a(Graphics var1) {
-      if (AvatarData.c((short)874).d != -1) {
+      if (AvatarData.c((short)874).count != -1) {
          int var10003 = this.e * j;
-         var1.drawRegion(AvatarData.c((short)874).a, 0, var10003, i, j, 0, this.c, this.f, 17);
+         var1.drawRegion(AvatarData.c((short)874).img, 0, var10003, i, j, 0, this.c, this.f, 17);
       }
 
    }
 
    public final void a() {
       if (!this.b) {
-         if (GameCanvas.l % 2 == 0) {
+         if (Canvas.gameTick % 2 == 0) {
             ++this.d;
             if (this.d > h[this.g].length - 1) {
                this.d = 0;

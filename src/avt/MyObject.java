@@ -3,19 +3,19 @@ package avt;
 import javax.microedition.lcdui.Graphics;
 
 public abstract class MyObject {
-   public int aw;
-   public int ax;
-   public static int ay;
-   public byte az = 0;
-   public short aA = 0;
+   public int x;
+   public int y;
+   public static int hd;
+   public byte catagory = 0;
+   public short height = 0;
 
    static {
-      ay = AvMain.Y;
+      hd = AvMain.hd;
    }
 
-   public void b() {
+   public void update() {
    }
 
-   public void a(Graphics var1) {
+   public void paint(Graphics var1) {
    }
 }

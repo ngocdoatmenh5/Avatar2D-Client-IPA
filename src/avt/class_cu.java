@@ -1,13 +1,13 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_cu implements IAction {
    class_cu(CasinoMsgHandler var1) {
    }
 
    public final void perform() {
-      GameCanvas.i();
+      Canvas.i();
       CasinoService.a().a(BoardScr.p);
    }
 }

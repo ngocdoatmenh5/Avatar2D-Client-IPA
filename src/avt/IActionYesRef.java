@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class IActionYesRef implements IAction {
    IActionYesRef(MiniMap var1) {
@@ -19,6 +19,6 @@ final class IActionYesRef implements IAction {
       var1[3].d(0);
       String[][] var3 = new String[][]{{"Tên:", ""}, {"Mật khẩu:", ""}, {"Nhập lại", "mật khẩu:"}, {"Số di động", "hoặc email:"}};
       InputFace.b().a(var1, "Đăng Ký", var3, new Command(T1.cy, new IActionOkReg(this, var1)));
-      GameCanvas.A = InputFace.b();
+      Canvas.A = InputFace.b();
    }
 }

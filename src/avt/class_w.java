@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_w implements IAction {
    private FarmScr a;
@@ -17,7 +17,7 @@ final class class_w implements IAction {
       for(int var2 = 0; var2 < FarmScr.d.size(); ++var2) {
          Item var3;
          if (FarmScr.b((var3 = (Item)FarmScr.d.elementAt(var2)).a).e == 6) {
-            FarmService.a().b(FarmScr.b, this.b.w, var3.a);
+            FarmService.a().b(FarmScr.b, this.b.IDDB, var3.a);
             var1 = true;
             this.a.d(10, -1);
             break;
@@ -26,7 +26,7 @@ final class class_w implements IAction {
 
       if (!var1) {
          FarmScr.b().a((int)8, (int)-1);
-         GameCanvas.b(T1.ea);
+         Canvas.b(T1.ea);
       }
 
    }

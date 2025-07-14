@@ -19,9 +19,9 @@ public final class Kiss {
       this.g = new byte[3];
 
       for(int var4 = 0; var4 < 3; ++var4) {
-         this.e[var4] = (byte)CRes.e(8);
+         this.e[var4] = (byte)CRes.rnd(8);
          this.d[var4] = -var4 * 20;
-         this.f[var4] = (byte)(CRes.e(2) == 0 ? 1 : -1);
+         this.f[var4] = (byte)(CRes.rnd(2) == 0 ? 1 : -1);
          this.g[var4] = 6;
       }
 

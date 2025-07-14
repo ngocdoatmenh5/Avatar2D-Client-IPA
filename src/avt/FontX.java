@@ -6,7 +6,7 @@ import javax.microedition.lcdui.Graphics;
 public interface FontX {
    void a(Graphics var1, String var2, int var3, int var4, int var5);
 
-   int a(String var1);
+   int getWidth(String var1);
 
    String[] a(String var1, int var2);
 

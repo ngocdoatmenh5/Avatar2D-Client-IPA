@@ -2,7 +2,7 @@ package avt;
 
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class class_cw {
    public boolean a;
@@ -28,7 +28,7 @@ public final class class_cw {
    private long u;
 
    static {
-      l = GameCanvas.N.a();
+      l = Canvas.N.a();
    }
 
    public class_cw(String var1, int var2, Command var3, Command var4, boolean var5) {
@@ -58,7 +58,7 @@ public final class class_cw {
 
    public final void a(String var1) {
       Vector var4;
-      int var2 = (var4 = GameCanvas.N.b(var1, GameCanvas.m - ((MessageScr.e << 1) + 30 + 10 * (AvMain.Y - 1)))).size();
+      int var2 = (var4 = Canvas.N.b(var1, Canvas.m - ((MessageScr.e << 1) + 30 + 10 * (AvMain.hd - 1)))).size();
 
       for(int var3 = 0; var3 < var2; ++var3) {
          this.e.addElement(var4.elementAt(var3));
@@ -87,8 +87,8 @@ public final class class_cw {
    }
 
    public final void a(Graphics var1) {
-      class_il.a().a(var1, GameCanvas.m - 50, 0);
-      var1.setClip(0, 0, GameCanvas.m - (MessageScr.e << 1), this.i + 4);
+      class_il.a().a(var1, Canvas.m - 50, 0);
+      var1.setClip(0, 0, Canvas.m - (MessageScr.e << 1), this.i + 4);
       var1.translate(0, -m);
       int var2;
       if ((var2 = m / l) < 0) {
@@ -102,7 +102,7 @@ public final class class_cw {
 
       for(var2 = var2; var2 < var3; ++var2) {
          String var4 = (String)this.e.elementAt(var2);
-         GameCanvas.N.a(var1, var4, 10 * AvMain.Y, var2 * l + 5, 0);
+         Canvas.N.a(var1, var4, 10 * AvMain.hd, var2 * l + 5, 0);
       }
 
    }
@@ -110,40 +110,40 @@ public final class class_cw {
    public final void b() {
       ++this.t;
       boolean var1 = false;
-      if (GameCanvas.d[2]) {
+      if (Canvas.d[2]) {
          var1 = true;
          j -= l;
-      } else if (GameCanvas.d[8]) {
+      } else if (Canvas.d[8]) {
          j += l;
          var1 = true;
       }
 
-      if (GameCanvas.g) {
-         GameCanvas.g = false;
+      if (Canvas.g) {
+         Canvas.g = false;
          this.p = m;
          this.s = true;
          this.q = 0;
       }
 
       if (this.s) {
-         if (GameCanvas.e) {
-            if (GameCanvas.l % 3 == 0) {
-               this.r = GameCanvas.i;
+         if (Canvas.e) {
+            if (Canvas.gameTick % 3 == 0) {
+               this.r = Canvas.i;
                this.u = this.t;
             }
 
             this.q = 0;
-            if ((j = this.p + GameCanvas.l()) < 0 || j > k) {
-               j = this.p + GameCanvas.l() / 2;
+            if ((j = this.p + Canvas.l()) < 0 || j > k) {
+               j = this.p + Canvas.l() / 2;
             }
 
             m = j;
          }
 
-         if (GameCanvas.f) {
+         if (Canvas.f) {
             int var2 = (int)(this.t - this.u);
             int var3;
-            if (CRes.f(var3 = this.r - GameCanvas.i) > 40 && var2 < 10 && j > 0 && j < k) {
+            if (CRes.f(var3 = this.r - Canvas.i) > 40 && var2 < 10 && j > 0 && j < k) {
                this.q = var3 / var2 * 10;
             }
 

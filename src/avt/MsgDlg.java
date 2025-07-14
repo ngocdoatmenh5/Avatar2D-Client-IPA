@@ -2,7 +2,7 @@ package avt;
 
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class MsgDlg extends Dialog {
    private Vector c;
@@ -55,8 +55,8 @@ public final class MsgDlg extends Dialog {
 
          for(int var5 = 0; var5 < var3.size(); ++var5) {
             var2 = (Command)var3.elementAt(var5);
-            if (GameCanvas.K.a(var2.a) > this.u) {
-               this.u = GameCanvas.K.a(var2.a) + (GameCanvas.H ? this.g / 3 : 0);
+            if (Canvas.K.getWidth(var2.a) > this.u) {
+               this.u = Canvas.K.getWidth(var2.a) + (Canvas.H ? this.g / 3 : 0);
             }
          }
       } else {
@@ -71,79 +71,79 @@ public final class MsgDlg extends Dialog {
       this.k = 0;
       this.r = -1L;
       this.a();
-      GameCanvas.v = GameCanvas.s;
+      Canvas.v = Canvas.s;
    }
 
    public final void a() {
-      this.g = GameCanvas.m - 80;
-      if (GameCanvas.m < 200) {
-         this.g = GameCanvas.m - 40;
-         if (GameCanvas.m <= 128) {
-            this.g = GameCanvas.m - 10;
+      this.g = Canvas.m - 80;
+      if (Canvas.m < 200) {
+         this.g = Canvas.m - 40;
+         if (Canvas.m <= 128) {
+            this.g = Canvas.m - 10;
          }
       }
 
       if (this.d.equals(T1.b)) {
-         this.g = GameCanvas.o;
+         this.g = Canvas.o;
       }
 
-      this.c = GameCanvas.M.b(this.d, this.g - 16);
+      this.c = Canvas.M.b(this.d, this.g - 16);
       this.h = this.c.size() * this.m + 20;
       this.n = 0;
       if (super.ad != null) {
-         this.h += this.q + 15 * AvMain.Y;
-         this.n += this.q + 15 * AvMain.Y;
+         this.h += this.q + 15 * AvMain.hd;
+         this.n += this.q + 15 * AvMain.hd;
       }
 
-      if (this.h < this.q * 3 + (AvMain.Y - 1) * 15) {
-         this.h = this.q * 3 + (AvMain.Y - 1) * 15;
+      if (this.h < this.q * 3 + (AvMain.hd - 1) * 15) {
+         this.h = this.q * 3 + (AvMain.hd - 1) * 15;
       }
 
-      this.i = GameCanvas.o - this.g / 2;
-      this.j = GameCanvas.q - GameCanvas.T - this.h - 10;
+      this.i = Canvas.o - this.g / 2;
+      this.j = Canvas.q - Canvas.T - this.h - 10;
    }
 
    public final void a(boolean var1) {
       this.a = var1;
       this.h = this.c.size() * this.m + 20;
       if (this.a) {
-         this.h += 25 * AvMain.Y + 4;
-         this.n += 25 * AvMain.Y + 4;
+         this.h += 25 * AvMain.hd + 4;
+         this.n += 25 * AvMain.hd + 4;
       }
 
-      int var2 = this.q * 3 + (AvMain.Y - 1) * 15;
+      int var2 = this.q * 3 + (AvMain.hd - 1) * 15;
       if (this.h < var2) {
          this.h = var2;
       }
 
-      this.j = GameCanvas.q - GameCanvas.T - this.h - 10;
-      this.s = (long)GameCanvas.j();
+      this.j = Canvas.q - Canvas.T - this.h - 10;
+      this.s = (long) Canvas.j();
    }
 
    public final void a(Graphics var1) {
-      GameCanvas.c(var1);
+      Canvas.resetTrans(var1);
       if (System.currentTimeMillis() / 100L - this.t >= 5L) {
-         GameCanvas.S.a(var1, this.i, this.j, this.g, this.h, PaintPopup.d[0], PaintPopup.d[1], 0);
+         Canvas.S.a(var1, this.i, this.j, this.g, this.h, PaintPopup.d[0], PaintPopup.d[1], 0);
          if (super.ad != null) {
-            PaintPopup.a(this.i + 1, this.j + this.h - (this.q + 15 * AvMain.Y - 4), this.g - 2, this.q, 15530985, var1);
+            PaintPopup.a(this.i + 1, this.j + this.h - (this.q + 15 * AvMain.hd - 4), this.g - 2, this.q, 15530985, var1);
          }
 
          if (this.a) {
-            b.a(this.k, this.i + this.g / 2, this.j + 4 + (this.h - this.n) / 2 + this.c.size() * AvMain.af / 2 + (this.h - (4 + (this.h - this.n) / 2 + this.c.size() * AvMain.af / 2)) / 2, 0, 3, var1);
+            b.drawFrame(this.k, this.i + this.g / 2, this.j + 4 + (this.h - this.n) / 2 + this.c.size() * AvMain.af / 2 + (this.h - (4 + (this.h - this.n) / 2 + this.c.size() * AvMain.af / 2)) / 2, 0, 3, var1);
          }
 
          if (this.l > 0) {
             Command var2 = (Command)this.e.elementAt(this.f);
-            GameCanvas.K.a(var1, var2.a, GameCanvas.o, this.j + this.h - (this.q + 15 * AvMain.Y - 4) + this.q / 2 - AvMain.ah / 2, 2);
+            Canvas.K.a(var1, var2.a, Canvas.o, this.j + this.h - (this.q + 15 * AvMain.hd - 4) + this.q / 2 - AvMain.ah / 2, 2);
             if (this.l > 1) {
-               GameCanvas.S.b(var1, GameCanvas.o - this.u / 2 - 11, (GameCanvas.Z != 2 ? AvMain.ah / 2 : 0) + this.j + this.h - (this.q + 15 * AvMain.Y - 4) + MyScreen.av / 2 + 1 + (GameCanvas.Z == 1 ? -7 : 0) + (GameCanvas.Z == 0 ? -3 : 0), 17 + this.u, this.o / 3, this.p / 3);
+               Canvas.S.b(var1, Canvas.o - this.u / 2 - 11, (Canvas.Z != 2 ? AvMain.ah / 2 : 0) + this.j + this.h - (this.q + 15 * AvMain.hd - 4) + MyScreen.av / 2 + 1 + (Canvas.Z == 1 ? -7 : 0) + (Canvas.Z == 0 ? -3 : 0), 17 + this.u, this.o / 3, this.p / 3);
             }
          } else if (super.ad != null) {
-            GameCanvas.K.a(var1, super.ad.a, GameCanvas.o, this.j + this.h - (this.q + 15 * AvMain.Y - 4) + this.q / 2 - AvMain.ah / 2, 2);
+            Canvas.K.a(var1, super.ad.a, Canvas.o, this.j + this.h - (this.q + 15 * AvMain.hd - 4) + this.q / 2 - AvMain.ah / 2, 2);
          }
 
          for(int var3 = 0; var3 < this.c.size(); ++var3) {
-            GameCanvas.M.a(var1, (String)this.c.elementAt(var3), GameCanvas.o, this.j + 4 + (this.h - this.n) / 2 - this.c.size() * AvMain.af / 2 + var3 * AvMain.af, 2);
+            Canvas.M.a(var1, (String)this.c.elementAt(var3), Canvas.o, this.j + 4 + (this.h - this.n) / 2 - this.c.size() * AvMain.af / 2 + var3 * AvMain.af, 2);
          }
 
       }
@@ -152,14 +152,14 @@ public final class MsgDlg extends Dialog {
    public final void a(int var1, int var2) {
       switch (var1) {
          case -2:
-            MapScr.b().v();
+            MapScr.gI().v();
             return;
          case -1:
             this.a = false;
-            GameCanvas.v = null;
+            Canvas.v = null;
             return;
          default:
-            GameCanvas.r.a(var1, var2);
+            Canvas.currentMyScreen.a(var1, var2);
       }
    }
 
@@ -188,19 +188,19 @@ public final class MsgDlg extends Dialog {
             this.k = 0;
          }
 
-         if ((long)GameCanvas.j() - this.s > 30L) {
+         if ((long) Canvas.j() - this.s > 30L) {
             String var1 = "";
 
             for(var2 = 0; var2 < this.c.size(); ++var2) {
                var1 = var1 + (String)this.c.elementAt(var2) + " ";
             }
 
-            GameCanvas.b(var1, -2, (AvMain)null);
+            Canvas.b(var1, -2, (AvMain)null);
          }
       }
 
       if (this.r != -1L && System.currentTimeMillis() / 100L - this.r > 0L) {
-         GameCanvas.b[5] = true;
+         Canvas.b[5] = true;
       }
 
       if (this.o > 0) {
@@ -211,34 +211,34 @@ public final class MsgDlg extends Dialog {
          --this.p;
       }
 
-      if (GameCanvas.a(4)) {
+      if (Canvas.a(4)) {
          this.b(-1);
          this.o = 5;
-      } else if (GameCanvas.a(6)) {
+      } else if (Canvas.a(6)) {
          this.b(1);
          this.p = 5;
       }
 
-      if (GameCanvas.f) {
+      if (Canvas.f) {
          label84: {
             int var3 = 0;
             if (this.e != null && this.e.size() > 0) {
                Command var4 = (Command)this.e.elementAt(this.f);
-               var3 = GameCanvas.K.a(var4.a) + 20;
+               var3 = Canvas.K.getWidth(var4.a) + 20;
             } else if (super.ad != null) {
-               var3 = GameCanvas.K.a(super.ad.a) + 20;
+               var3 = Canvas.K.getWidth(super.ad.a) + 20;
             }
 
-            var3 *= AvMain.Y;
-            if (super.ad != null && GameCanvas.a(GameCanvas.o - var3 / 2, this.j + this.h - (this.q + 18 * AvMain.Y - 4), var3, this.q)) {
-               GameCanvas.h();
+            var3 *= AvMain.hd;
+            if (super.ad != null && Canvas.a(Canvas.o - var3 / 2, this.j + this.h - (this.q + 18 * AvMain.hd - 4), var3, this.q)) {
+               Canvas.h();
                this.a(super.ad);
             } else {
-               if (!GameCanvas.a(this.i + 1, this.j + this.h - (this.q + 18 * AvMain.Y - 4), this.g - 2, this.q)) {
+               if (!Canvas.a(this.i + 1, this.j + this.h - (this.q + 18 * AvMain.hd - 4), this.g - 2, this.q)) {
                   break label84;
                }
 
-               if ((var2 = GameCanvas.o - GameCanvas.h) > var3 / 2) {
+               if ((var2 = Canvas.o - Canvas.h) > var3 / 2) {
                   this.b(-1);
                   this.o = 5;
                } else if (var2 < -var3 / 2) {
@@ -247,7 +247,7 @@ public final class MsgDlg extends Dialog {
                }
             }
 
-            GameCanvas.f = false;
+            Canvas.f = false;
          }
       }
 

@@ -8,6 +8,6 @@ final class class_bk extends Command {
    }
 
    public final void a(Graphics var1, int var2, int var3) {
-      FarmScr.p.a(1, var2, var3, 0, 3, var1);
+      FarmScr.p.drawFrame(1, var2, var3, 0, 3, var1);
    }
 }

@@ -8,7 +8,7 @@ import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.MIDlet;
-import javax.microedition.midlet.MIDletStateChangeException;
+
 import avt.*;
 
 public class GameMidlet extends MIDlet {
@@ -19,9 +19,9 @@ public class GameMidlet extends MIDlet {
    public static int e = 8;
    public static byte f = -1;
    public static String g;
-   private static GameCanvas o;
+   private static Canvas o;
    public static GameMidlet h;
-   public static Avatar i;
+   public static Avatar avatar;
    public static class_kp j;
    public static Vector k;
    private static Display p;
@@ -62,8 +62,8 @@ public class GameMidlet extends MIDlet {
       } catch (Exception var4) {
       }
 
-      (o = new GameCanvas()).d();
-      i = new Avatar();
+      (o = new Canvas()).d();
+      avatar = new Avatar();
       j = new class_kp();
       class_jv.b().a();
       o.sizeChanged(0, 0);

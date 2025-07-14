@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_i extends Command {
    private MapScr f;
@@ -25,9 +25,9 @@ final class class_i extends Command {
          PopupShop.n();
          String var1 = "";
          PopupShop.a(var1 + AvatarData.a(this.g));
-         PopupShop.a(T1.az + GameCanvas.a(this.g.i[0], this.g.i[1], false));
+         PopupShop.a(T1.az + Canvas.a(this.g.i[0], this.g.i[1], false));
          PopupShop.a(T1.dx + AvatarData.b(this.g));
-         PopupShop.a(T1.em[0] + MapScr.C.v);
+         PopupShop.a(T1.em[0] + MapScr.C.lvMain);
       }
 
    }

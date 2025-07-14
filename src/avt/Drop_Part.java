@@ -16,37 +16,37 @@ public final class Drop_Part extends Base {
    private byte k;
 
    public Drop_Part() {
-      super.az = 5;
+      super.catagory = 5;
    }
 
    public Drop_Part(byte var1, short var2, int var3) {
       this.d = var3;
-      super.az = 5;
+      super.catagory = 5;
       this.e = var1;
       this.a = var2;
       this.h = 0;
       Part var4;
-      if ((var4 = AvatarData.a(this.a)).h < AvatarData.a.length) {
-         super.aA = AvatarData.a[var4.h].f;
+      if ((var4 = AvatarData.a(this.a)).h < AvatarData.listImgInfo.length) {
+         super.height = AvatarData.listImgInfo[var4.h].f;
       }
 
-      this.i = (byte)CRes.e(10);
+      this.i = (byte)CRes.rnd(10);
    }
 
-   public final void b() {
+   public final void update() {
       switch (this.k) {
          case 0:
          case 1:
-            super.aw += (short)(this.b - super.aw >> 2);
-            super.ax += (short)(this.c - super.ax >> 2);
+            super.x += (short)(this.b - super.x >> 2);
+            super.y += (short)(this.c - super.y >> 2);
             if (this.g >= -6) {
                this.f = (short)(this.f + this.g);
                --this.g;
             }
 
-            if ((CRes.f(super.aw - this.b) < 4 || CRes.f(super.ax - this.c) < 4) && this.f <= 1) {
-               super.aw = this.b;
-               super.ax = this.c;
+            if ((CRes.f(super.x - this.b) < 4 || CRes.f(super.y - this.c) < 4) && this.f <= 1) {
+               super.x = this.b;
+               super.y = this.c;
                this.f = 0;
                this.g = 0;
                if (this.k == 1) {
@@ -79,13 +79,13 @@ public final class Drop_Part extends Base {
 
    }
 
-   public final void a(Graphics var1) {
-      var1.drawImage(LoadMap.r, super.aw, super.ax + 1, 33);
+   public final void paint(Graphics var1) {
+      var1.drawImage(LoadMap.r, super.x, super.y + 1, 33);
       if (this.e == 0) {
-         AvatarData.a(this.a).paintIcon(var1, super.aw, super.ax + this.i / 10 - this.f, 0, 33);
+         AvatarData.a(this.a).paintIcon(var1, super.x, super.y + this.i / 10 - this.f, 0, 33);
       } else {
-         super.aA = (short)(AvatarData.c(this.a).c + 10);
-         AvatarData.a(var1, this.a, super.aw, super.ax + this.i / 10 - this.f, 33);
+         super.height = (short)(AvatarData.c(this.a).c + 10);
+         AvatarData.a(var1, this.a, super.x, super.y + this.i / 10 - this.f, 33);
       }
 
       this.i += this.j;
@@ -98,8 +98,8 @@ public final class Drop_Part extends Base {
    public final void a(int var1) {
       Avatar var2;
       if ((var2 = LoadMap.g(var1)) != null) {
-         this.b = var2.aw;
-         this.c = var2.ax;
+         this.b = var2.x;
+         this.c = var2.y;
          this.k = 1;
          this.f = 0;
       } else {
@@ -112,21 +112,21 @@ public final class Drop_Part extends Base {
 
    public final void a(int var1, short var2, short var3) {
       if (var1 == -2) {
-         super.aw = var2;
-         super.ax = var3;
+         super.x = var2;
+         super.y = var3;
          this.k = 2;
       } else {
          Avatar var4;
          if ((var4 = LoadMap.g(var1)) != null) {
-            super.aw = var4.aw;
-            super.ax = var4.ax;
+            super.x = var4.x;
+            super.y = var4.y;
             this.k = 0;
             this.g = 6;
             this.f = 0;
          } else {
             this.k = 4;
-            super.aw = var2;
-            super.ax = var3;
+            super.x = var2;
+            super.y = var3;
             this.f = 100;
             this.g = 0;
          }

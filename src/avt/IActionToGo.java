@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class IActionToGo implements IAction {
    private BoardListOnScr a;
@@ -11,7 +11,7 @@ final class IActionToGo implements IAction {
 
    public final void perform() {
       try {
-         this.a.j = Integer.parseInt(GameCanvas.u.a());
+         this.a.j = Integer.parseInt(Canvas.u.a());
       } catch (Exception var1) {
          return;
       }

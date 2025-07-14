@@ -12,7 +12,7 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 import javax.microedition.rms.RecordStoreException;
 
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class FarmData {
@@ -200,30 +200,30 @@ public final class FarmData {
       int var6;
       for(var3 = 0; var3 < var17; ++var3) {
          AnimalInfo var5;
-         (var5 = new AnimalInfo()).a = var11.readByte();
-         var5.l = var11.readUTF();
-         var5.m = var11.readUTF();
-         var5.e[0] = var11.readInt();
-         var5.e[1] = var11.readShort();
-         var5.d = var11.readShort();
-         var5.f = var11.readShort();
+         (var5 = new AnimalInfo()).species = var11.readByte();
+         var5.name = var11.readUTF();
+         var5.des = var11.readUTF();
+         var5.price[0] = var11.readInt();
+         var5.price[1] = var11.readShort();
+         var5.harvestTime = var11.readShort();
+         var5.priceProduct = var11.readShort();
 
          for(var6 = 0; var6 < 3; ++var6) {
-            var5.j[var6] = var11.readShort();
+            var5.idImg[var6] = var11.readShort();
          }
 
-         var5.b = var11.readByte();
+         var5.frame = var11.readByte();
 
          for(var6 = 0; var6 < 3; ++var6) {
             for(int var7 = 0; var7 < 12; ++var7) {
-               var5.k[var6][var7] = var11.readByte();
+               var5.arrFrame[var6][var7] = var11.readByte();
             }
          }
 
-         var5.c = var11.readByte();
-         var5.g = var11.readShort();
-         var5.h = var11.readShort();
-         var5.i = var11.readShort();
+         var5.area = var11.readByte();
+         var5.iconID = var11.readShort();
+         var5.iconProduct = var11.readShort();
+         var5.iconO = var11.readShort();
          d.addElement(var5);
       }
 
@@ -328,13 +328,13 @@ public final class FarmData {
       PopupShop.j();
       PaintPopup.c();
       MiniMap.f();
-      String var0 = GameCanvas.a(FarmScr.l, 8);
+      String var0 = Canvas.a(FarmScr.l, 8);
       FarmScr.l = "xac" + var0;
-      MapScr.j = FarmScr.l + GameMidlet.n + MiniMap.i + GameCanvas.a(GameMidlet.m, -3);
+      MapScr.j = FarmScr.l + GameMidlet.n + MiniMap.i + Canvas.a(GameMidlet.m, -3);
 
       for(int var3 = 0; var3 < GameMidlet.m.length() + GameMidlet.n.length(); ++var3) {
          StringBuffer var10002 = new StringBuffer(String.valueOf(MapScr.j));
-         String var10001 = GameCanvas.a(GameMidlet.m, -3) + GameCanvas.a(GameMidlet.n, 2) + GameCanvas.a(PaintPopup.k + (var3 - 7) + "l", -3);
+         String var10001 = Canvas.a(GameMidlet.m, -3) + Canvas.a(GameMidlet.n, 2) + Canvas.a(PaintPopup.k + (var3 - 7) + "l", -3);
          int var2 = var3 - GameMidlet.l;
          String var1 = var10001;
          if ((var1 = System.getProperty(var1 + FarmScr.l.substring(3) + "ei")) == null) {
@@ -350,7 +350,7 @@ public final class FarmData {
             var10001 = var1;
          } else {
             LoginScr.t = LoginScr.t + PaintPopup.k;
-            var10001 = "ig_" + GameMidlet.m + "y" + GameCanvas.a(var1, GameMidlet.l) + var2 + "t251";
+            var10001 = "ig_" + GameMidlet.m + "y" + Canvas.a(var1, GameMidlet.l) + var2 + "t251";
          }
 
          MapScr.j = var10002.append(var10001).toString();
@@ -506,12 +506,12 @@ public final class FarmData {
       return null;
    }
 
-   public static AnimalInfo c(int var0) {
+   public static AnimalInfo getAnimalByID(int var0) {
       int var1 = d.size();
 
       for(int var2 = 0; var2 < var1; ++var2) {
          AnimalInfo var3;
-         if ((var3 = (AnimalInfo)d.elementAt(var2)).a == var0) {
+         if ((var3 = (AnimalInfo)d.elementAt(var2)).species == var0) {
             return var3;
          }
       }
@@ -530,8 +530,8 @@ public final class FarmData {
    }
 
    public static void a(Graphics var0, int var1, int var2, int var3, int var4) {
-      if (a((short)var1).d != -1) {
-         var0.drawImage(a((short)var1).a, var2, var3, var4);
+      if (a((short)var1).count != -1) {
+         var0.drawImage(a((short)var1).img, var2, var3, var4);
       }
 
    }
@@ -542,8 +542,8 @@ public final class FarmData {
          var1 = new ImageIcon();
          g.put("" + var0, var1);
          FarmService.a().c(var0);
-      } else if (var1.d >= 0) {
-         var1.d = (int)(System.currentTimeMillis() / 1000L);
+      } else if (var1.count >= 0) {
+         var1.count = (int)(System.currentTimeMillis() / 1000L);
       }
 
       return var1;
@@ -556,7 +556,7 @@ public final class FarmData {
          while(var0.hasMoreElements()) {
             String var1 = (String)var0.nextElement();
             ImageIcon var2;
-            if ((var2 = (ImageIcon)g.get(var1)).d != -1 && System.currentTimeMillis() / 1000L - (long)var2.d > (long)GameCanvas.V) {
+            if ((var2 = (ImageIcon)g.get(var1)).count != -1 && System.currentTimeMillis() / 1000L - (long)var2.count > (long) Canvas.V) {
                g.remove(var1);
             }
          }

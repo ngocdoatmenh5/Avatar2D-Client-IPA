@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 final class class_jx extends Command {
@@ -23,25 +23,25 @@ final class class_jx extends Command {
    public final void a() {
       if (PopupShop.n && this.h == PopupShop.j) {
          Part var1 = this.f;
-         if (this.f.g == -1) {
+         if (this.f.IDPart == -1) {
             var1 = AvatarData.a(this.g);
          }
 
-         if (var1.g != -1) {
+         if (var1.IDPart != -1) {
             MapScr.a(var1);
             PopupShop.n();
             PopupShop.a(var1.l);
             if (this.i == -1) {
-               PopupShop.a(GameCanvas.a(var1.i[0], var1.i[1], false));
+               PopupShop.a(Canvas.a(var1.i[0], var1.i[1], false));
             }
 
             if (var1.f == -1) {
-               PopupShop.a(T1.em[0] + ((APartInfo)var1).a);
+               PopupShop.a(T1.em[0] + ((APartInfo)var1).level);
             }
 
-            PopupShop.a(T1.ao + GameMidlet.i.c);
-            if (MapScr.u) {
-               PopupShop.a(T1.dE + GameMidlet.i.a[3] + " " + T1.k());
+            PopupShop.a(T1.ao + GameMidlet.avatar.strMoney);
+            if (MapScr.isNewVersion) {
+               PopupShop.a(T1.dE + GameMidlet.avatar.money[3] + " " + T1.k());
             }
          }
       }
@@ -50,11 +50,11 @@ final class class_jx extends Command {
 
    public final void a(Graphics var1, int var2, int var3) {
       Part var4 = this.f;
-      if (this.f.g == -1) {
+      if (this.f.IDPart == -1) {
          var4 = AvatarData.a(this.g);
       }
 
-      if (var4.g != -1) {
+      if (var4.IDPart != -1) {
          var4.a(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
       }
 

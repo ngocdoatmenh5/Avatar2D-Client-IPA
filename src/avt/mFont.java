@@ -38,9 +38,9 @@ public final class mFont implements FontX {
       if (var5 == 0) {
          var5 = var3;
       } else if (var5 == 1) {
-         var5 = var3 - this.a(var2);
+         var5 = var3 - this.getWidth(var2);
       } else {
-         var5 = var3 - (this.a(var2) >> 1);
+         var5 = var3 - (this.getWidth(var2) >> 1);
       }
 
       for(int var7 = 0; var7 < var6; ++var7) {
@@ -62,7 +62,7 @@ public final class mFont implements FontX {
 
    }
 
-   public final int a(String var1) {
+   public final int getWidth(String var1) {
       int var3 = 0;
 
       for(int var4 = 0; var4 < var1.length(); ++var4) {
@@ -106,7 +106,7 @@ public final class mFont implements FontX {
          int var7 = 0;
 
          while(true) {
-            while(this.a(var5) < var2) {
+            while(this.getWidth(var5) < var2) {
                var5 = var5 + var1.charAt(var7);
                ++var7;
                if (var1.charAt(var7) == '\n') {

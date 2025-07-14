@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_ec implements IAction {
    class_ec(class_ed var1) {
@@ -8,6 +8,6 @@ final class class_ec implements IAction {
 
    public final void perform() {
       GlobalService.gI().g(0);
-      GameCanvas.i();
+      Canvas.i();
    }
 }

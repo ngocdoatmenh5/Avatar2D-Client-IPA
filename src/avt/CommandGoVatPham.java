@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 final class CommandGoVatPham extends Command {
    private final FarmItem f;
@@ -21,7 +21,7 @@ final class CommandGoVatPham extends Command {
       if (this.g == PopupShop.j) {
          PopupShop.n();
          PopupShop.a(this.f.f);
-         PopupShop.a(T1.az + GameCanvas.a(this.f.g, this.f.h, false));
+         PopupShop.a(T1.az + Canvas.a(this.f.g, this.f.h, false));
       }
 
    }

@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class class_hz extends SubObject {
    private String a;
@@ -9,14 +9,14 @@ public final class class_hz extends SubObject {
    private byte c = 0;
 
    public class_hz(String var1, int var2, int var3) {
-      super.az = 8;
-      super.aw = var2;
-      super.ax = var3;
+      super.catagory = 8;
+      super.x = var2;
+      super.y = var3;
       this.a = var1;
-      this.b = (byte)CRes.e(8);
+      this.b = (byte)CRes.rnd(8);
    }
 
-   public final void b() {
+   public final void update() {
       ++this.b;
       if (this.b >= 8) {
          this.b = 0;
@@ -24,17 +24,17 @@ public final class class_hz extends SubObject {
 
    }
 
-   public final void a(Graphics var1) {
-      if (OptionScr.b().b[1] != 1 && GameCanvas.D == null) {
-         if (super.aw * MyObject.ay >= AvCamera.a().a && super.aw * MyObject.ay <= AvCamera.a().a + GameCanvas.m && super.ax * MyObject.ay >= AvCamera.a().b && super.ax * MyObject.ay <= AvCamera.a().b + GameCanvas.n + 10 && GameCanvas.r != MenuCenter.b()) {
-            var1.drawImage(LoadMap.r, super.aw * MyObject.ay, super.ax * MyObject.ay, 3);
+   public final void paint(Graphics var1) {
+      if (OptionScr.b().b[1] != 1 && Canvas.D == null) {
+         if (super.x * MyObject.hd >= AvCamera.gI().xCam && super.x * MyObject.hd <= AvCamera.gI().xCam + Canvas.m && super.y * MyObject.hd >= AvCamera.gI().yCam && super.y * MyObject.hd <= AvCamera.gI().yCam + Canvas.n + 10 && Canvas.currentMyScreen != MenuCenter.gI()) {
+            var1.drawImage(LoadMap.r, super.x * MyObject.hd, super.y * MyObject.hd, 3);
             if (MiniMap.gI().b != null) {
-               int var10002 = super.aw * MyObject.ay;
-               int var10003 = (super.ax - 10 + this.b / 2) * MyObject.ay;
-               MiniMap.gI().b.a(0, var10002, var10003, 0, 33, var1);
+               int var10002 = super.x * MyObject.hd;
+               int var10003 = (super.y - 10 + this.b / 2) * MyObject.hd;
+               MiniMap.gI().b.drawFrame(0, var10002, var10003, 0, 33, var1);
             }
 
-            GameCanvas.Q.a(var1, this.a, super.aw * MyObject.ay, (super.ax - 32 + this.b / 2) * MyObject.ay, 2);
+            Canvas.smallFontYellow.a(var1, this.a, super.x * MyObject.hd, (super.y - 32 + this.b / 2) * MyObject.hd, 2);
          }
       }
    }

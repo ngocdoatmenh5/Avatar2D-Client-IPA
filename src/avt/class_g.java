@@ -10,6 +10,6 @@ final class class_g implements IAction {
    }
 
    public final void perform() {
-      MapScr.h(this.b.g);
+      MapScr.h(this.b.IDPart);
    }
 }

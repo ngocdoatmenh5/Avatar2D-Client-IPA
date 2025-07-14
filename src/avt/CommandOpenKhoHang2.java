@@ -23,9 +23,9 @@ final class CommandOpenKhoHang2 extends Command {
          FarmItem var1 = FarmScr.b(this.f.a);
          int var2 = this.f.e;
          if (var1.d == 4) {
-            var2 -= FarmScr.j[1].size();
+            var2 -= FarmScr.listFood[1].size();
          } else if (var1.d == 1) {
-            var2 -= FarmScr.j[0].size();
+            var2 -= FarmScr.listFood[0].size();
          }
 
          PopupShop.a(T1.ay + var2);

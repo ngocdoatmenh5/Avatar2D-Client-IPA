@@ -2,7 +2,7 @@ package avt;
 
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class MenuCenter extends MyScreen {
@@ -26,13 +26,13 @@ public final class MenuCenter extends MyScreen {
    private boolean r = false;
    private int s;
 
-   public static MenuCenter b() {
+   public static MenuCenter gI() {
       return a == null ? (a = new MenuCenter()) : a;
    }
 
    public final void a() {
-      if (GameCanvas.r != this) {
-         this.m = GameCanvas.r;
+      if (Canvas.currentMyScreen != this) {
+         this.m = Canvas.currentMyScreen;
       }
 
       this.c();
@@ -58,7 +58,7 @@ public final class MenuCenter extends MyScreen {
    }
 
    public final void c() {
-      if (GameCanvas.Z == 0) {
+      if (Canvas.Z == 0) {
          super.ae = new Command(T1.d, 0);
       } else {
          this.j = true;
@@ -68,13 +68,13 @@ public final class MenuCenter extends MyScreen {
    }
 
    public MenuCenter() {
-      this.s = 50 * AvMain.Y;
+      this.s = 50 * AvMain.hd;
    }
 
    private void h() {
       this.m.a();
       if (MapScr.h != null) {
-         MapScr.h.L = false;
+         MapScr.h.ableShow = false;
       }
 
       this.r = false;
@@ -87,7 +87,7 @@ public final class MenuCenter extends MyScreen {
       StringObj var8;
       switch (var1) {
          case 1:
-            MapScr.b().j();
+            MapScr.gI().j();
             return;
          case 2:
             MenuCenter var10 = this;
@@ -106,51 +106,51 @@ public final class MenuCenter extends MyScreen {
             return;
          case 4:
             MapScr.x = true;
-            ParkService.a().b(GameMidlet.i.w);
+            ParkService.a().b(GameMidlet.avatar.IDDB);
             return;
          case 5:
             ListScr.b().b(false);
             return;
          case 6:
             this.c = false;
-            GlobalService.gI().c(GameMidlet.i.w);
+            GlobalService.gI().c(GameMidlet.avatar.IDDB);
             return;
          case 7:
-            MapScr.b();
+            MapScr.gI();
             MapScr.c(MapScr.h);
             return;
          case 8:
             GlobalService.gI().e(26);
-            GameCanvas.i();
+            Canvas.i();
             return;
          case 9:
-            MapScr.b().g();
+            MapScr.gI().g();
             return;
          case 10:
-            MapScr.b();
+            MapScr.gI();
             MapScr.o();
             return;
          case 11:
             MapScr.x = true;
-            MapScr.b();
+            MapScr.gI();
             MapScr.p();
             return;
          case 12:
-            MapScr.b().i();
+            MapScr.gI().i();
             return;
          case 13:
-            MapScr.b();
+            MapScr.gI();
             MapScr.h();
             return;
          case 14:
          default:
             break;
          case 15:
-            MapScr.b().a(GameMidlet.j);
+            MapScr.gI().a(GameMidlet.j);
             return;
          case 16:
             if ((var8 = (StringObj)MapScr.o.elementAt(var2)).f == 1) {
-               GlobalService.gI().b(var8.e, MapScr.h != null ? MapScr.h.w : -1);
+               GlobalService.gI().b(var8.e, MapScr.h != null ? MapScr.h.IDDB : -1);
                return;
             }
             break;
@@ -159,27 +159,27 @@ public final class MenuCenter extends MyScreen {
             return;
          case 18:
             if ((var8 = (StringObj)MapScr.o.elementAt(var2)).f == 0) {
-               GlobalService.gI().b(var8.e, MapScr.h != null ? MapScr.h.w : -1);
+               GlobalService.gI().b(var8.e, MapScr.h != null ? MapScr.h.IDDB : -1);
                return;
             }
             break;
          case 19:
             byte[] var7 = new byte[]{4, 5, 6, 7, 8, 9, 10, 11, 12};
             if (var2 == 0) {
-               MapScr.b();
+               MapScr.gI();
                MapScr.b((int)4);
                return;
             }
 
-            MapScr.b();
+            MapScr.gI();
             MapScr.b((int)var7[var2]);
             return;
          case 20:
-            if (GameMidlet.i.Q != 0 && GameMidlet.i.Q != -5 || Bus.b) {
+            if (GameMidlet.avatar.task != 0 && GameMidlet.avatar.task != -5 || Bus.b) {
                return;
             }
 
-            if (LoadMap.p == null || LoadMap.p.az != 5) {
+            if (LoadMap.p == null || LoadMap.p.catagory != 5) {
                Vector var9 = new Vector();
                Command var3 = this.a(T1.cw, 4, 17);
                Command var4 = this.a(T1.dr, 6, 14);
@@ -189,8 +189,8 @@ public final class MenuCenter extends MyScreen {
                var9.addElement(var6);
                var9.addElement(var5);
                var9.addElement(var4);
-               if (GameCanvas.r != PopupShop.b()) {
-                  b().a(var9);
+               if (Canvas.currentMyScreen != PopupShop.b()) {
+                  gI().a(var9);
                }
 
                return;
@@ -199,7 +199,7 @@ public final class MenuCenter extends MyScreen {
             ParkService.a().c(((Drop_Part)LoadMap.p).d);
             break;
          case 21:
-            GlobalService.gI().c(GameMidlet.i.w);
+            GlobalService.gI().c(GameMidlet.avatar.IDDB);
             this.c = true;
       }
 
@@ -230,12 +230,12 @@ public final class MenuCenter extends MyScreen {
    }
 
    public final void f() {
-      if (GameMidlet.i.Q == 0 || GameMidlet.i.Q == -5) {
+      if (GameMidlet.avatar.task == 0 || GameMidlet.avatar.task == -5) {
          if (!Bus.b) {
-            if (LoadMap.p != null && LoadMap.p.az == 5) {
+            if (LoadMap.p != null && LoadMap.p.catagory == 5) {
                ParkService.a().c(((Drop_Part)LoadMap.p).d);
-            } else if (LoadMap.p != null && LoadMap.p.az == 0 && ((Avatar)LoadMap.p).w == -100) {
-               GameCanvas.a(T1.eb, (IAction)(new class_jc(this)));
+            } else if (LoadMap.p != null && LoadMap.p.catagory == 0 && ((Avatar)LoadMap.p).IDDB == -100) {
+               Canvas.a(T1.eb, (IAction)(new class_jc(this)));
             } else {
                Vector var1 = new Vector();
                Command var2 = this.a(T1.bX, 1, 1);
@@ -243,24 +243,24 @@ public final class MenuCenter extends MyScreen {
                Command var4 = this.a(T1.bZ, 3, 20);
                Command var5 = this.a(T1.by, 20, 17);
                Command var6 = this.a(T1.aa, 5, 18);
-               if (GameCanvas.Z == 0) {
+               if (Canvas.Z == 0) {
                   var1.addElement(var4);
                }
 
                var1.addElement(var5);
                var1.addElement(var3);
-               if (GameCanvas.Z == 0) {
-                  var1.addElement(MapScr.b().f);
+               if (Canvas.Z == 0) {
+                  var1.addElement(MapScr.gI().f);
                }
 
-               if (GameMidlet.i.H != 14) {
+               if (GameMidlet.avatar.action != 14) {
                   var1.addElement(var2);
                }
 
                var1.addElement(var6);
                int var7;
                StringObj var8;
-               if (GameCanvas.Z > 0 && MapScr.n != null && MapScr.n.size() > 0) {
+               if (Canvas.Z > 0 && MapScr.n != null && MapScr.n.size() > 0) {
                   for(var7 = 0; var7 < MapScr.n.size(); ++var7) {
                      var8 = (StringObj)MapScr.n.elementAt(var7);
                      var1.addElement(new class_jg(this, var8.a, 17, var7, var8));
@@ -275,9 +275,9 @@ public final class MenuCenter extends MyScreen {
                   }
                }
 
-               if (GameCanvas.r != PopupShop.b()) {
+               if (Canvas.currentMyScreen != PopupShop.b()) {
                   this.b = null;
-                  b().a(var1);
+                  gI().a(var1);
                }
             }
          }
@@ -285,13 +285,13 @@ public final class MenuCenter extends MyScreen {
    }
 
    public static void g() {
-      Avatar var0 = GameMidlet.i;
-      if (GameCanvas.r != a) {
+      Avatar var0 = GameMidlet.avatar;
+      if (Canvas.currentMyScreen != a) {
          PopupShop.b().m = true;
-         PopupShop.b().a(new String[]{T1.l, T1.co}, new Vector[]{MapScr.b().a((Avatar)var0, 0), MapScr.b().a(GameMidlet.k, var0.w, 1)}, (Vector)null);
-         PopupShop.b().a(MapScr.b().a(var0.e, 0, 0, false), 0);
-         PopupShop.b().a(MapScr.b().a(GameMidlet.k, 1, 0, true), 1);
-         if (GameCanvas.r != PopupShop.b()) {
+         PopupShop.b().a(new String[]{T1.l, T1.co}, new Vector[]{MapScr.gI().a((Avatar)var0, 0), MapScr.gI().a(GameMidlet.k, var0.IDDB, 1)}, (Vector)null);
+         PopupShop.b().a(MapScr.gI().a(var0.seriPart, 0, 0, false), 0);
+         PopupShop.b().a(MapScr.gI().a(GameMidlet.k, 1, 0, true), 1);
+         if (Canvas.currentMyScreen != PopupShop.b()) {
             PopupShop.b().a();
          }
 
@@ -308,23 +308,23 @@ public final class MenuCenter extends MyScreen {
 
    public final void a(Vector var1) {
       this.k = var1;
-      if (GameCanvas.H) {
-         this.g = 40 * AvMain.Y + (AvMain.Y - 1) * 20;
-         if (GameCanvas.Z == 1 && GameCanvas.m > 300) {
+      if (Canvas.H) {
+         this.g = 40 * AvMain.hd + (AvMain.hd - 1) * 20;
+         if (Canvas.Z == 1 && Canvas.m > 300) {
             this.g += 20;
          }
       } else {
          this.g = 30;
       }
 
-      this.h = this.g + 2 * AvMain.Y;
+      this.h = this.g + 2 * AvMain.hd;
       this.f = AvMain.ag << 1;
       this.e = 0;
-      this.i = GameCanvas.m / this.h;
-      if (var1.size() * this.h < GameCanvas.m) {
-         this.e = (GameCanvas.m - var1.size() * this.h) / 2;
+      this.i = Canvas.m / this.h;
+      if (var1.size() * this.h < Canvas.m) {
+         this.e = (Canvas.m - var1.size() * this.h) / 2;
       } else {
-         this.e = (GameCanvas.m - this.i * this.h) / 2;
+         this.e = (Canvas.m - this.i * this.h) / 2;
       }
 
       this.l = new short[var1.size()];
@@ -338,16 +338,16 @@ public final class MenuCenter extends MyScreen {
       }
 
       this.r = false;
-      if (MapScr.h != null && GameCanvas.Z > 0) {
-         MapScr.h.L = true;
+      if (MapScr.h != null && Canvas.Z > 0) {
+         MapScr.h.ableShow = true;
       }
 
-      if (GameCanvas.Z > 0) {
-         this.f = GameCanvas.p - (var1.size() / this.i + 1) * this.g / 2;
+      if (Canvas.Z > 0) {
+         this.f = Canvas.hh - (var1.size() / this.i + 1) * this.g / 2;
       }
 
       this.a();
-      if (GameCanvas.Z == 0) {
+      if (Canvas.Z == 0) {
          super.ad = this.n;
       }
 
@@ -366,11 +366,11 @@ public final class MenuCenter extends MyScreen {
    }
 
    public final void l() {
-      if (GameCanvas.g) {
+      if (Canvas.g) {
          boolean var1 = false;
 
          for(int var2 = this.k.size() - 1; var2 >= 0; --var2) {
-            if (GameCanvas.a(this.l[var2] + this.e, this.f + var2 / this.i * this.h, this.g, this.g)) {
+            if (Canvas.a(this.l[var2] + this.e, this.f + var2 / this.i * this.h, this.g, this.g)) {
                this.d = var2;
                this.p = true;
                this.j = false;
@@ -391,12 +391,12 @@ public final class MenuCenter extends MyScreen {
             this.j = false;
          }
 
-         if (GameCanvas.f) {
+         if (Canvas.f) {
             this.p = false;
             this.j = true;
 
             for(var3 = this.k.size() - 1; var3 >= 0; --var3) {
-               if (GameCanvas.a(this.l[var3] + this.e, this.f + var3 / this.i * this.h, this.g, this.g)) {
+               if (Canvas.a(this.l[var3] + this.e, this.f + var3 / this.i * this.h, this.g, this.g)) {
                   if (var3 == this.d) {
                      this.h();
                      this.a(1, -1);
@@ -405,21 +405,21 @@ public final class MenuCenter extends MyScreen {
                }
             }
 
-            GameCanvas.f = false;
+            Canvas.f = false;
          }
       }
 
-      if (GameCanvas.a(4)) {
+      if (Canvas.a(4)) {
          --this.d;
          if (this.d < 0) {
             this.d = this.k.size() - 1;
          }
-      } else if (GameCanvas.a(6)) {
+      } else if (Canvas.a(6)) {
          ++this.d;
          if (this.d >= this.k.size()) {
             this.d = 0;
          }
-      } else if (GameCanvas.a(2)) {
+      } else if (Canvas.a(2)) {
          if ((var3 = this.d - this.i) < 0) {
             if ((var3 = this.k.size() / this.i * this.i + this.i + var3) < this.k.size()) {
                this.d = var3;
@@ -427,7 +427,7 @@ public final class MenuCenter extends MyScreen {
          } else {
             this.d = var3;
          }
-      } else if (GameCanvas.a(8)) {
+      } else if (Canvas.a(8)) {
          this.d += this.i;
          if (this.d >= this.k.size()) {
             this.d %= this.i;
@@ -439,15 +439,15 @@ public final class MenuCenter extends MyScreen {
 
    public final void a(Graphics var1) {
       this.m.b(var1);
-      GameCanvas.c(var1);
+      Canvas.resetTrans(var1);
       Graphics var3 = var1;
       MenuCenter var2 = this;
-      if (GameMidlet.i.H != 14) {
-         GameMidlet.i.a(var1, GameMidlet.i.aw * AvMain.Y - AvCamera.a().a, GameMidlet.i.ax * AvMain.Y - AvCamera.a().b, false);
+      if (GameMidlet.avatar.action != 14) {
+         GameMidlet.avatar.paintIcon(var1, GameMidlet.avatar.x * AvMain.hd - AvCamera.gI().xCam, GameMidlet.avatar.y * AvMain.hd - AvCamera.gI().yCam, false);
       }
 
       Command var4 = (Command)this.k.elementAt(this.d);
-      GameCanvas.L.a(var1, var4.a, GameCanvas.o, this.f - 15, 2);
+      Canvas.L.a(var1, var4.a, Canvas.o, this.f - 15, 2);
       var1.translate(this.e, this.f);
 
       for(int var5 = this.k.size() - 1; var5 >= 0; --var5) {
@@ -457,7 +457,7 @@ public final class MenuCenter extends MyScreen {
             var7 = 4;
          }
 
-         GameCanvas.S.a(var3, var2.l[var5], var5 / var2.i * var2.h, var2.g, var2.g, var7);
+         Canvas.S.a(var3, var2.l[var5], var5 / var2.i * var2.h, var2.g, var2.g, var7);
          var6.a(var3, var2.h / 2 + var2.l[var5], var2.h / 2 + var5 / var2.i * var2.h);
       }
 

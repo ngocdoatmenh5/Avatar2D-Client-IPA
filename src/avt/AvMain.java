@@ -1,11 +1,11 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public class AvMain {
-   public static int Y = 1;
+   public static int hd = 1;
    public static int Z;
    public static int aa;
    public static int ab;
@@ -29,8 +29,8 @@ public class AvMain {
    }
 
    public void a(Graphics var1) {
-      GameCanvas.c(var1);
-      GameCanvas.S.a(var1, this.ac, this.ad, this.ae);
+      Canvas.resetTrans(var1);
+      Canvas.S.a(var1, this.ac, this.ad, this.ae);
    }
 
    public void d(int var1, int var2) {
@@ -44,9 +44,9 @@ public class AvMain {
 
    private void b(Command var1) {
       if (var1 != null) {
-         GameCanvas.g = false;
-         GameCanvas.f = false;
-         GameCanvas.h();
+         Canvas.g = false;
+         Canvas.f = false;
+         Canvas.h();
          this.a(var1);
       }
 
@@ -56,21 +56,21 @@ public class AvMain {
    }
 
    public void l() {
-      if (GameCanvas.f) {
-         if (GameCanvas.b(0, GameCanvas.ae[0].b, GameCanvas.m - 1, GameCanvas.T)) {
-            switch (GameCanvas.S.d()) {
+      if (Canvas.f) {
+         if (Canvas.b(0, Canvas.ae[0].b, Canvas.m - 1, Canvas.T)) {
+            switch (Canvas.S.d()) {
                case 0:
-                  if (GameCanvas.Z == 0) {
+                  if (Canvas.Z == 0) {
                      this.b(this.ac);
                   }
                   break;
                case 1:
-                  if (GameCanvas.Z == 0) {
+                  if (Canvas.Z == 0) {
                      this.b(this.ad);
                   }
                   break;
                case 2:
-                  if (GameCanvas.Z == 0) {
+                  if (Canvas.Z == 0) {
                      this.b(this.ae);
                   }
             }
@@ -79,8 +79,8 @@ public class AvMain {
          a = 0;
          b = 0;
          c = 0;
-         if (GameCanvas.m()) {
-            if (GameCanvas.a(0, 0, 50 * Y, 50 * Y)) {
+         if (Canvas.m()) {
+            if (Canvas.a(0, 0, 50 * hd, 50 * hd)) {
                if (!OptionScr.d) {
                   if (TField.m) {
                      ak = true;
@@ -91,58 +91,58 @@ public class AvMain {
                }
 
                OptionScr.d = !OptionScr.d;
-               GameCanvas.a.sizeChanged(0, 0);
-               GameCanvas.f = false;
+               Canvas.a.sizeChanged(0, 0);
+               Canvas.f = false;
             }
 
-            if (GameMidlet.e == 9 && GameCanvas.a(50, 0, 50 * Y, 50 * Y)) {
+            if (GameMidlet.e == 9 && Canvas.a(50, 0, 50 * hd, 50 * hd)) {
                if (!OptionScr.d) {
                   OptionScr.d = true;
                   OptionScr.b().b[4] = 1;
-                  GameCanvas.a.b();
-                  GameCanvas.z.a = true;
-                  if (GameCanvas.r == MapScr.b()) {
-                     class_im.d().d = MapScr.b();
+                  Canvas.a.b();
+                  Canvas.z.a = true;
+                  if (Canvas.currentMyScreen == MapScr.gI()) {
+                     class_im.d().d = MapScr.gI();
                      class_im.c = true;
                   }
                } else {
                   OptionScr.d = false;
                   OptionScr.b().b[4] = 0;
-                  GameCanvas.a.b();
-                  if (GameCanvas.r == MapScr.b()) {
+                  Canvas.a.b();
+                  if (Canvas.currentMyScreen == MapScr.gI()) {
                      class_im.c = false;
                   }
                }
 
-               GameCanvas.f = false;
+               Canvas.f = false;
             }
          }
       }
 
-      if (GameCanvas.a(5)) {
+      if (Canvas.a(5)) {
          if (this.ad != null) {
-            GameCanvas.h();
+            Canvas.h();
             this.a(this.ad);
             return;
          }
 
-         if (GameCanvas.t == this) {
+         if (Canvas.t == this) {
             this.a(this.ac);
             return;
          }
       } else {
-         if (GameCanvas.a(12)) {
+         if (Canvas.a(12)) {
             this.a(this.ac);
             return;
          }
 
-         if (GameCanvas.E) {
-            if (GameCanvas.a(13) || GameCanvas.c[13]) {
-               GameCanvas.c[13] = false;
+         if (Canvas.E) {
+            if (Canvas.a(13) || Canvas.c[13]) {
+               Canvas.c[13] = false;
                this.a(this.ae);
                return;
             }
-         } else if (GameCanvas.a(13)) {
+         } else if (Canvas.a(13)) {
             this.a(this.ae);
          }
       }

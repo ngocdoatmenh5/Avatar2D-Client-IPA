@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class IActionMiniMapKey implements IAction {
    IActionMiniMapKey(MapScr var1) {
@@ -8,7 +8,7 @@ final class IActionMiniMapKey implements IAction {
 
    public final void perform() {
       int var1 = MiniMap.gI().e;
-      if (GameCanvas.a(8)) {
+      if (Canvas.a(8)) {
          if (var1 == 0) {
             var1 = 5;
          } else if (var1 == 1) {
@@ -22,7 +22,7 @@ final class IActionMiniMapKey implements IAction {
          }
 
          MiniMap.gI().m = true;
-      } else if (GameCanvas.a(2)) {
+      } else if (Canvas.a(2)) {
          if (var1 == 4) {
             var1 = 1;
          } else if (var1 == 5) {
@@ -36,7 +36,7 @@ final class IActionMiniMapKey implements IAction {
          }
 
          MiniMap.gI().m = true;
-      } else if (GameCanvas.a(6)) {
+      } else if (Canvas.a(6)) {
          if (var1 == 0) {
             var1 = 3;
          } else if (var1 == 1) {
@@ -52,7 +52,7 @@ final class IActionMiniMapKey implements IAction {
          }
 
          MiniMap.gI().m = true;
-      } else if (GameCanvas.a(4)) {
+      } else if (Canvas.a(4)) {
          if (var1 == 1) {
             var1 = 3;
          } else if (var1 == 2) {

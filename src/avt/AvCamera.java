@@ -1,11 +1,11 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 public final class AvCamera {
    private static AvCamera i;
-   public int a;
-   public int b;
+   public int xCam;
+   public int yCam;
    public int c;
    public int d;
    private int j;
@@ -21,7 +21,7 @@ public final class AvCamera {
    public static boolean g;
    public Base h;
 
-   public static AvCamera a() {
+   public static AvCamera gI() {
       if (i == null) {
          i = new AvCamera();
       }
@@ -37,15 +37,15 @@ public final class AvCamera {
       if (this.h != null) {
          label56: {
             g = false;
-            q = LoadMap.i * AvMain.Y;
-            p = GameCanvas.m / 10;
-            if (this.h.aw * AvMain.Y > GameCanvas.o) {
-               if (this.h.aw * AvMain.Y < LoadMap.e * q - GameCanvas.o - q) {
-                  this.c = this.h.aw * AvMain.Y - GameCanvas.o;
+            q = LoadMap.i * AvMain.hd;
+            p = Canvas.m / 10;
+            if (this.h.x * AvMain.hd > Canvas.o) {
+               if (this.h.x * AvMain.hd < LoadMap.wMap * q - Canvas.o - q) {
+                  this.c = this.h.x * AvMain.hd - Canvas.o;
                   break label56;
                }
 
-               this.c = LoadMap.e * q - GameCanvas.m;
+               this.c = LoadMap.wMap * q - Canvas.m;
                if (this.c >= 0) {
                   break label56;
                }
@@ -54,29 +54,29 @@ public final class AvCamera {
             this.c = 0;
          }
 
-         if (GameCanvas.m > LoadMap.e * q) {
-            this.c = -(GameCanvas.m - LoadMap.e * q) / 2;
+         if (Canvas.m > LoadMap.wMap * q) {
+            this.c = -(Canvas.m - LoadMap.wMap * q) / 2;
          }
 
-         if (GameCanvas.n > LoadMap.f * q && (var1 - 1 == 57 || var1 - 1 == 58 || var1 - 1 == 59 || var1 - 1 == 108)) {
-            this.d = -(GameCanvas.n - LoadMap.f * q) / 2;
+         if (Canvas.n > LoadMap.f * q && (var1 - 1 == 57 || var1 - 1 == 58 || var1 - 1 == 59 || var1 - 1 == 108)) {
+            this.d = -(Canvas.n - LoadMap.f * q) / 2;
          } else {
-            this.d = LoadMap.f * q - GameCanvas.n;
+            this.d = LoadMap.f * q - Canvas.n;
          }
 
-         this.j = LoadMap.e * q - GameCanvas.m;
-         this.k = LoadMap.f * q - GameCanvas.n;
-         this.a = this.c;
-         if (this.a < 0) {
-            this.a = 0;
+         this.j = LoadMap.wMap * q - Canvas.m;
+         this.k = LoadMap.f * q - Canvas.n;
+         this.xCam = this.c;
+         if (this.xCam < 0) {
+            this.xCam = 0;
          }
 
-         if (this.a > this.j) {
-            this.a = this.j;
+         if (this.xCam > this.j) {
+            this.xCam = this.j;
          }
 
-         if (this.b > this.k) {
-            this.b = this.k;
+         if (this.yCam > this.k) {
+            this.yCam = this.k;
          }
 
          if (this.d > this.k) {
@@ -87,42 +87,42 @@ public final class AvCamera {
    }
 
    public final void b() {
-      this.a = this.c;
-      this.b = this.d;
+      this.xCam = this.c;
+      this.yCam = this.d;
    }
 
    public final void c() {
       if (!f) {
-         if (this.a != this.c) {
-            this.l = this.c - this.a << 1;
+         if (this.xCam != this.c) {
+            this.l = this.c - this.xCam << 1;
             this.m += this.l;
-            this.a += this.m >> 4;
+            this.xCam += this.m >> 4;
             this.m &= 15;
-            if (this.a < 0) {
-               this.a = 0;
+            if (this.xCam < 0) {
+               this.xCam = 0;
             }
 
-            if (this.a > this.j) {
-               this.a = this.j;
+            if (this.xCam > this.j) {
+               this.xCam = this.j;
             }
          }
       } else {
-         if (this.a < 0) {
-            this.a = 0;
+         if (this.xCam < 0) {
+            this.xCam = 0;
          }
 
-         if (this.a > LoadMap.e * LoadMap.i * AvMain.Y - GameCanvas.m) {
-            this.a = LoadMap.e * LoadMap.i * AvMain.Y - GameCanvas.m;
+         if (this.xCam > LoadMap.wMap * LoadMap.i * AvMain.hd - Canvas.m) {
+            this.xCam = LoadMap.wMap * LoadMap.i * AvMain.hd - Canvas.m;
          }
       }
 
-      if (this.b != this.d) {
-         this.n = this.d - this.b << 1;
+      if (this.yCam != this.d) {
+         this.n = this.d - this.yCam << 1;
          this.o += this.n;
-         this.b += this.o >> 4;
+         this.yCam += this.o >> 4;
          this.o &= 15;
-         if (this.b > this.k) {
-            this.b = this.k;
+         if (this.yCam > this.k) {
+            this.yCam = this.k;
          }
       }
 
@@ -130,46 +130,46 @@ public final class AvCamera {
 
    public final void a(int var1, int var2) {
       this.e = 0L;
-      this.c = var1 - GameCanvas.o;
-      this.d = var2 - GameCanvas.p;
+      this.c = var1 - Canvas.o;
+      this.d = var2 - Canvas.hh;
       if (this.c < 0) {
          this.c = 0;
       }
 
-      if (this.c > LoadMap.e * q - GameCanvas.m) {
-         this.c = LoadMap.e * q - GameCanvas.m;
+      if (this.c > LoadMap.wMap * q - Canvas.m) {
+         this.c = LoadMap.wMap * q - Canvas.m;
       }
 
-      if (this.d > LoadMap.f * q - GameCanvas.n) {
-         this.d = LoadMap.f * q - GameCanvas.n;
+      if (this.d > LoadMap.f * q - Canvas.n) {
+         this.d = LoadMap.f * q - Canvas.n;
       }
 
       this.e();
    }
 
    public final void b(int var1, int var2) {
-      this.a = this.c = 0;
-      this.b = this.d = 0;
+      this.xCam = this.c = 0;
+      this.yCam = this.d = 0;
    }
 
    public final void d() {
       this.c();
       if (System.currentTimeMillis() / 100L - this.e >= 20L && !g) {
          int var1;
-         if (this.h.K == 0) {
-            var1 = this.h.aw * AvMain.Y + p;
+         if (this.h.direct == 0) {
+            var1 = this.h.x * AvMain.hd + p;
          } else {
-            var1 = this.h.aw * AvMain.Y - p;
+            var1 = this.h.x * AvMain.hd - p;
          }
 
-         this.c = var1 - GameCanvas.o;
-         this.d = (this.h.ax + this.h.N) * AvMain.Y - (GameCanvas.n - (GameCanvas.p - q));
-         if (this.h.K == Base.J) {
-            if (this.h.aw * AvMain.Y < GameCanvas.o) {
+         this.c = var1 - Canvas.o;
+         this.d = (this.h.y + this.h.N) * AvMain.hd - (Canvas.n - (Canvas.hh - q));
+         if (this.h.direct == Base.LEFT) {
+            if (this.h.x * AvMain.hd < Canvas.o) {
                this.c = 0;
             }
-         } else if (this.h.aw * AvMain.Y > LoadMap.e * q - GameCanvas.o) {
-            this.c = LoadMap.e * q - GameCanvas.m;
+         } else if (this.h.x * AvMain.hd > LoadMap.wMap * q - Canvas.o) {
+            this.c = LoadMap.wMap * q - Canvas.m;
          }
 
          this.e();
@@ -177,12 +177,12 @@ public final class AvCamera {
    }
 
    private void e() {
-      if (LoadMap.a >= 0 && LoadMap.a < LoadMap.h.length && LoadMap.h[LoadMap.a] == -1 && LoadMap.b == null && GameCanvas.n > LoadMap.f * q) {
-         this.b = this.d = -(GameCanvas.n - LoadMap.f * q) / 2;
+      if (LoadMap.a >= 0 && LoadMap.a < LoadMap.h.length && LoadMap.h[LoadMap.a] == -1 && LoadMap.b == null && Canvas.n > LoadMap.f * q) {
+         this.yCam = this.d = -(Canvas.n - LoadMap.f * q) / 2;
       }
 
-      if (GameCanvas.m > LoadMap.e * q) {
-         this.a = this.c = -(GameCanvas.m - LoadMap.e * q) / 2;
+      if (Canvas.m > LoadMap.wMap * q) {
+         this.xCam = this.c = -(Canvas.m - LoadMap.wMap * q) / 2;
       }
 
    }

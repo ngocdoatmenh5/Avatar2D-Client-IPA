@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_cn implements IAction {
    private BoardListOnScr a;
@@ -11,7 +11,7 @@ final class class_cn implements IAction {
 
    public final void perform() {
       class_dl var1 = (class_dl)this.a.g.elementAt(this.a.ar);
-      CasinoService.a().a(this.a.h, var1.a, GameCanvas.u.a());
-      GameCanvas.h();
+      CasinoService.a().a(this.a.h, var1.a, Canvas.u.a());
+      Canvas.h();
    }
 }

@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 public final class T1 {
    public static String a;
@@ -608,7 +608,7 @@ public final class T1 {
    }
 
    public static String a() {
-      return eR[GameCanvas.Z];
+      return eR[Canvas.Z];
    }
 
    public static String[][] b() {
@@ -648,10 +648,10 @@ public final class T1 {
    }
 
    public static String k() {
-      return MapScr.u ? "xeng" : C;
+      return MapScr.isNewVersion ? "xeng" : C;
    }
 
    public static String l() {
-      return MapScr.u ? "xèng" : C;
+      return MapScr.isNewVersion ? "xèng" : C;
    }
 }

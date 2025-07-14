@@ -1,7 +1,7 @@
 package avt;
 
 import java.util.Vector;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class TienLenMsgHandler extends IService implements IMiniGameMsgHandler {
    private static TienLenMsgHandler a = new TienLenMsgHandler();
@@ -36,7 +36,7 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
                }
 
                var15 = var1.b().readInt();
-               GameCanvas.h();
+               Canvas.h();
                BoardScr.r();
                TLBoardScr.b().a(var15, var14, var17);
                CasinoService var11 = CasinoService.a();
@@ -103,7 +103,7 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
                   var12 = null;
                }
 
-               GameCanvas.h();
+               Canvas.h();
                TLBoardScr.b();
                TLBoardScr.m();
                if (var12 != null) {

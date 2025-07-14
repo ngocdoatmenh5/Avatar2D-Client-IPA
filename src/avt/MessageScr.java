@@ -2,7 +2,7 @@ package avt;
 
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class MessageScr extends MyScreen {
@@ -41,16 +41,16 @@ public final class MessageScr extends MyScreen {
    private void f() {
       PaintPopup var10000;
       int var10002;
-      if (OnScreen.b && GameCanvas.Z == 0) {
+      if (OnScreen.b && Canvas.Z == 0) {
          var10000 = PaintPopup.a();
-         var10002 = GameCanvas.m - (e << 1);
-         var10000.a(this.b(this.b).b, var10002, GameCanvas.q - GameCanvas.T - (e << 1), this.g.size());
+         var10002 = Canvas.m - (e << 1);
+         var10000.a(this.b(this.b).b, var10002, Canvas.q - Canvas.T - (e << 1), this.g.size());
       } else {
          var10000 = PaintPopup.a();
-         var10002 = GameCanvas.m - (e << 1);
-         int var10003 = GameCanvas.n - GameCanvas.ab - GameCanvas.T - 10;
+         var10002 = Canvas.m - (e << 1);
+         int var10003 = Canvas.n - Canvas.ab - Canvas.T - 10;
          var10000.a(this.b(this.b).b, var10002, var10003 + (OnScreen.b && this.h != BoardScr.i ? -20 : 0), this.g.size());
-         i = PaintPopup.a().h = 10 + GameCanvas.ab;
+         i = PaintPopup.a().h = 10 + Canvas.ab;
       }
    }
 
@@ -81,7 +81,7 @@ public final class MessageScr extends MyScreen {
                class_cw var6 = this.b(this.b);
                String var7;
                if ((var7 = c.f()).indexOf("hack") != -1) {
-                  var6.a(GameMidlet.i.x + ": " + var7);
+                  var6.a(GameMidlet.avatar.name + ": " + var7);
                   var7 = var7 + " ";
 
                   for(int var3 = 0; var3 < var6.e.size(); ++var3) {
@@ -96,7 +96,7 @@ public final class MessageScr extends MyScreen {
 
                GlobalService.gI().a(var6.g, var7);
                c.a("");
-               var6.a(GameMidlet.i.x + ": " + var7);
+               var6.a(GameMidlet.avatar.name + ": " + var7);
             }
 
             return;
@@ -126,7 +126,7 @@ public final class MessageScr extends MyScreen {
    }
 
    public final void c() {
-      if (GameCanvas.Z == 0) {
+      if (Canvas.Z == 0) {
          if (OnScreen.b) {
             super.ac = new Command(T1.d, 4);
          } else {
@@ -143,7 +143,7 @@ public final class MessageScr extends MyScreen {
 
    public MessageScr() {
       this.f = new Command(T1.ch, 10);
-      if (GameCanvas.Z == 0) {
+      if (Canvas.Z == 0) {
          i = 10;
          e = 10;
       } else {
@@ -163,13 +163,13 @@ public final class MessageScr extends MyScreen {
    }
 
    public final void e() {
-      if (GameCanvas.r == this) {
+      if (Canvas.currentMyScreen == this) {
          this.f();
          this.b(this.b).c();
       }
 
       c.b = PaintPopup.a().h + PaintPopup.a().e - c.d - 6;
-      c.c = GameCanvas.m - (PaintPopup.a().g << 1) - 10;
+      c.c = Canvas.m - (PaintPopup.a().g << 1) - 10;
    }
 
    private void g() {
@@ -182,7 +182,7 @@ public final class MessageScr extends MyScreen {
 
       this.j = this.b(this.b).h;
       this.b(this.b).c();
-      if (GameCanvas.r == this) {
+      if (Canvas.currentMyScreen == this) {
          PaintPopup.a().a(this.b(this.b).b, this.b);
       }
 
@@ -195,7 +195,7 @@ public final class MessageScr extends MyScreen {
          this.b(var4);
       } else {
          var4.a = true;
-         if (GameCanvas.r == this) {
+         if (Canvas.currentMyScreen == this) {
             this.h();
          }
       }
@@ -219,7 +219,7 @@ public final class MessageScr extends MyScreen {
 
    public final void a(Graphics var1) {
       this.h.b(var1);
-      GameCanvas.c(var1);
+      Canvas.resetTrans(var1);
       PaintPopup.a().a(var1);
       var1.translate(e, i + PaintPopup.o + AvMain.Z);
       this.b(this.b).a(var1);
@@ -268,16 +268,16 @@ public final class MessageScr extends MyScreen {
    }
 
    public final void l() {
-      if (OnScreen.b && GameCanvas.Z != 0) {
-         GameCanvas.S.a(super.ac, super.ad, super.ae);
+      if (OnScreen.b && Canvas.Z != 0) {
+         Canvas.S.a(super.ac, super.ad, super.ae);
       } else {
          super.l();
       }
 
       int var1;
-      if (GameCanvas.g && (var1 = PaintPopup.a().d()) != 0) {
+      if (Canvas.g && (var1 = PaintPopup.a().d()) != 0) {
          this.e(var1);
-         GameCanvas.g = false;
+         Canvas.g = false;
       }
 
       this.b(this.b).b();
@@ -325,7 +325,7 @@ public final class MessageScr extends MyScreen {
 
    public final void b(class_cw var1) {
       this.g.addElement(var1);
-      if (GameCanvas.r == this) {
+      if (Canvas.currentMyScreen == this) {
          PaintPopup.a().a(this.g.size());
          this.h();
       }

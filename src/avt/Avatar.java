@@ -2,74 +2,74 @@ package avt;
 
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class Avatar extends Base {
-   private byte aB;
-   public int[] a = new int[]{0, -1, 0, 0};
-   public int b;
-   public String c = "";
-   public byte d;
-   public Vector e;
-   public Vector f;
-   public Vector g = new Vector();
-   public byte h;
-   public int i;
-   public int j;
-   public int k;
-   public String l;
-   public String m;
-   public int n;
-   public boolean o;
-   public boolean p = false;
-   public byte q = -1;
-   private byte aC;
-   public byte r;
-   public byte s;
-   public byte t;
-   public short u;
-   public short v;
-   private boolean aD = false;
-   private boolean aE = false;
-   public int Q = 0;
-   public int R = -1;
-   private int aF = 0;
-   public short S = 4;
-   public short T = 0;
-   public short U;
-   private short aG;
-   private short aH;
-   public short V = -1;
-   public short W;
-   public short X = -1;
+   private byte cFrame;
+   public int[] money = new int[]{0, -1, 0, 0};
+   public int luongKhoa;
+   public String strMoney = "";
+   public byte gender;
+   public Vector seriPart;
+   public Vector emotionList;
+   public Vector moveList = new Vector();
+   public byte ySat;
+   public int idFrom;
+   public int idTo;
+   public int idGift;
+   public String showName;
+   public String text2;
+   public int exp;
+   public boolean isReady;
+   public boolean isLeave = false;
+   public byte typeHome = -1;
+   private byte maxJump;
+   public byte perLvFarm;
+   public byte dirFirst;
+   public byte dirLast;
+   public short lvFarm;
+   public short lvMain;
+   private boolean isLoad = false;
+   private boolean isSetAction = false;
+   public int task = 0;
+   public int isJumps = -1;
+   private int numSleep = 0;
+   public short feel = 4;
+   public short numFeel = 0;
+   public short firFeel;
+   private short wName;
+   private short nFrame;
+   public short idPet = -1;
+   public short hungerPet;
+   public short idImg = -1;
    public short Y;
-   public short Z = 0;
-   public short aa = -1;
-   public short ab = -1;
-   private int aI = 0;
-   public byte ac = -1;
-   public boolean ad;
-   public static FrameImage ae;
-   public byte af = 0;
-   public byte ag = -1;
-   public short ah = 1000;
-   public short ai = 300;
-   public short aj = 0;
-   public short ak = 0;
-   public short al = 1000;
-   public short am = 1000;
+   public short timeTask = 0;
+   public short idWedding = -1;
+   public short idStatus = -1;
+   private int angle = 0;
+   public byte blogNews = -1;
+   public boolean isNo;
+   public static FrameImage imgBlog;
+   public byte fight = 0;
+   public byte countDefent = -1;
+   public short hp = 1000;
+   public short mp = 300;
+   public short plusHP = 0;
+   public short plusMP = 0;
+   public short maxHP = 1000;
+   public short maxMP = 1000;
    public short an;
    private short aJ;
-   public Avatar ao;
-   public static FrameImage ap;
-   public static FrameImage aq;
-   private byte aK = 0;
-   private Kiss aL;
-   public String[] ar;
-   private int aM;
-   private static byte[][] aN = new byte[][]{{0, 0, 0, 0, 0, 1, 1, 1, 1, 1}, {0, 0, 0, 0, 0, 2, 2, 2, 2, 2}, {3, 3, 3, 3, 3, 3, 3, 3, 3, 3}, {4, 4, 4, 4, 4, 4, 4, 4, 4, 4}, {5, 5, 5, 5, 5, 5, 5, 5, 5, 5}, {6, 6, 6, 6, 6, 6, 6, 6, 6, 6}, {7, 7, 7, 7, 7, 7, 7, 7, 7, 7}, {8, 8, 8, 8, 8, 8, 8, 8, 8, 8}, {9, 9, 9, 9, 9, 9, 9, 9, 9, 9}, {10, 10, 10, 10, 10, 10, 10, 10, 10, 10}, {11, 11, 11, 11, 11, 11, 11, 11, 11, 11}, {12, 12, 12, 12, 12, 12, 12, 12, 12, 12}, {13, 13, 13, 13, 13, 13, 13, 13, -2, 13}, {14, 14, 14, 14, 14, 14, 14, 14, 14, 14}, {0, 0, 0, 0, 0, 1, 1, 1, 1, 1}};
-   private static byte[] aO = new byte[]{-3, 0, 1};
+   public Avatar focus;
+   public static FrameImage imgHit;
+   public static FrameImage imgKiss;
+   private byte timeHit = 0;
+   private Kiss kiss;
+   public String[] textChat;
+   private int countChat;
+   private static byte[][] FRAME = new byte[][]{{0, 0, 0, 0, 0, 1, 1, 1, 1, 1}, {0, 0, 0, 0, 0, 2, 2, 2, 2, 2}, {3, 3, 3, 3, 3, 3, 3, 3, 3, 3}, {4, 4, 4, 4, 4, 4, 4, 4, 4, 4}, {5, 5, 5, 5, 5, 5, 5, 5, 5, 5}, {6, 6, 6, 6, 6, 6, 6, 6, 6, 6}, {7, 7, 7, 7, 7, 7, 7, 7, 7, 7}, {8, 8, 8, 8, 8, 8, 8, 8, 8, 8}, {9, 9, 9, 9, 9, 9, 9, 9, 9, 9}, {10, 10, 10, 10, 10, 10, 10, 10, 10, 10}, {11, 11, 11, 11, 11, 11, 11, 11, 11, 11}, {12, 12, 12, 12, 12, 12, 12, 12, 12, 12}, {13, 13, 13, 13, 13, 13, 13, 13, -2, 13}, {14, 14, 14, 14, 14, 14, 14, 14, 14, 14}, {0, 0, 0, 0, 0, 1, 1, 1, 1, 1}};
+   private static byte[] duX = new byte[]{-3, 0, 1};
    public short as = 0;
    public boolean[][] at;
    private short[] aP;
@@ -79,65 +79,65 @@ public final class Avatar extends Base {
    public AvPosition av;
 
    public Avatar() {
-      super.az = 0;
-      super.aA = 42;
-      this.aB = (byte)CRes.e(9);
-      this.aC = (byte)(CRes.e(30) + 10);
+      super.catagory = 0;
+      super.height = 42;
+      this.cFrame = (byte)CRes.rnd(9);
+      this.maxJump = (byte)(CRes.rnd(30) + 10);
    }
 
-   public final int a() {
-      return this.a[0];
+   public final int getMoney() {
+      return this.money[0];
    }
 
-   public final void a(int var1) {
-      this.a[0] = var1;
-      this.c = GameCanvas.b(this.a[0]) + T1.T;
+   public final void setMoney(int var1) {
+      this.money[0] = var1;
+      this.strMoney = Canvas.getMoneys(this.money[0]) + T1.T;
    }
 
-   public final int c() {
-      return MapScr.u ? this.a[3] : this.a[0];
+   public final int getMoneyNew() {
+      return MapScr.isNewVersion ? this.money[3] : this.money[0];
    }
 
-   public final void b(int var1) {
-      if (MapScr.u) {
-         this.a[3] = var1;
+   public final void setMoneyNew(int var1) {
+      if (MapScr.isNewVersion) {
+         this.money[3] = var1;
       } else {
-         this.a[0] = var1;
+         this.money[0] = var1;
       }
    }
 
-   public final void c(int var1) {
-      this.a[2] = var1;
+   public final void setGold(int var1) {
+      this.money[2] = var1;
    }
 
-   public final void a(Graphics var1) {
-      if ((super.aw + 15) * MyObject.ay >= AvCamera.a().a && (super.aw - 15) * MyObject.ay <= AvCamera.a().a + GameCanvas.m && !super.L && (GameCanvas.Z <= 0 || GameCanvas.r != MenuCenter.b())) {
-         if (super.H != 14) {
-            var1.drawImage(LoadMap.r, (super.aw + (super.K == Base.J ? 2 : -2)) * MyObject.ay, (super.ax - 1) * MyObject.ay, 3);
+   public final void paint(Graphics var1) {
+      if ((super.x + 15) * MyObject.hd >= AvCamera.gI().xCam && (super.x - 15) * MyObject.hd <= AvCamera.gI().xCam + Canvas.m && !super.ableShow && (Canvas.Z <= 0 || Canvas.currentMyScreen != MenuCenter.gI())) {
+         if (super.action != 14) {
+            var1.drawImage(LoadMap.r, (super.x + (super.direct == Base.LEFT ? 2 : -2)) * MyObject.hd, (super.y - 1) * MyObject.hd, 3);
          }
 
-         int var2 = this.e.size();
+         int var2 = this.seriPart.size();
          boolean var3 = false;
 
          int var4;
          for(var4 = 0; var4 < var2; ++var4) {
             Part var5;
-            if ((var5 = AvatarData.a(((SeriPart)this.e.elementAt(var4)).a)) != null && (super.H != 14 || var5.j == 30 || var5.j == 40 || var5.j == 50)) {
-               if (var5.j == 40) {
-                  if (this.S != 4) {
-                     var5 = AvatarData.a(this.S);
-                  } else if ((this.S == 4 || this.S == 6) && this.aH < 1 + this.d) {
+            if ((var5 = AvatarData.a(((SeriPart)this.seriPart.elementAt(var4)).idPart)) != null && (super.action != 14 || var5.zOrder == 30 || var5.zOrder == 40 || var5.zOrder == 50)) {
+               if (var5.zOrder == 40) {
+                  if (this.feel != 4) {
+                     var5 = AvatarData.a(this.feel);
+                  } else if ((this.feel == 4 || this.feel == 6) && this.nFrame < 1 + this.gender) {
                      var3 = true;
                   }
                }
 
-               if (LoadMap.a != 24 && LoadMap.a != 53 || AvatarData.c((int)var5.j) || var5.j == 52) {
-                  var5.a(var1, super.y, super.aw * MyObject.ay, (super.ax + super.B + this.h + super.N) * MyObject.ay, super.K);
+               if (LoadMap.a != 24 && LoadMap.a != 53 || AvatarData.c((int)var5.zOrder) || var5.zOrder == 52) {
+                  var5.paintAvatar(var1, super.frame, super.x * MyObject.hd, (super.y + super.vh + this.ySat + super.N) * MyObject.hd, super.direct);
                   if (var3) {
                      var3 = false;
                      var5 = AvatarData.a((short)606);
-                     if (LoadMap.a != 24 && LoadMap.a != 53 || AvatarData.c((int)var5.j) || var5.j == 52) {
-                        var5.a(var1, super.y, super.aw * MyObject.ay, (super.ax + super.B + this.h + super.N) * MyObject.ay, super.K);
+                     if (LoadMap.a != 24 && LoadMap.a != 53 || AvatarData.c((int)var5.zOrder) || var5.zOrder == 52) {
+                        var5.paintAvatar(var1, super.frame, super.x * MyObject.hd, (super.y + super.vh + this.ySat + super.N) * MyObject.hd, super.direct);
                      }
                   }
                }
@@ -145,84 +145,84 @@ public final class Avatar extends Base {
          }
 
          if ((OptionScr.b().b[0] == 0 || this == LoadMap.p) && LoadMap.a != 24) {
-            this.a(var1, super.aw * MyObject.ay, (super.ax + super.N) * MyObject.ay - AvMain.ai);
+            this.paintName(var1, super.x * MyObject.hd, (super.y + super.N) * MyObject.hd - AvMain.ai);
          }
 
-         if (this.aL != null) {
+         if (this.kiss != null) {
             Graphics var7 = var1;
-            Kiss var6 = this.aL;
+            Kiss var6 = this.kiss;
 
             for(var4 = 0; var4 < 3; ++var4) {
-               aq.a(var6.e[var4] / 3, (var6.a + var6.c[var4]) * AvMain.Y, (var6.b + var6.d[var4]) * AvMain.Y, 0, 3, var7);
+               imgKiss.drawFrame(var6.e[var4] / 3, (var6.a + var6.c[var4]) * AvMain.hd, (var6.b + var6.d[var4]) * AvMain.hd, 0, 3, var7);
             }
          }
 
-         if (this.aK > 0 && this.Q == -2) {
-            ap.a(GameCanvas.l % 6 >= 3 ? 0 : 1, super.aw * MyObject.ay, super.ax * MyObject.ay - super.aA / 2, 0, 3, var1);
+         if (this.timeHit > 0 && this.task == -2) {
+            imgHit.drawFrame(Canvas.gameTick % 6 >= 3 ? 0 : 1, super.x * MyObject.hd, super.y * MyObject.hd - super.height / 2, 0, 3, var1);
          }
 
-         super.a(var1);
+         super.paint(var1);
       }
    }
 
-   public final void a(Graphics var1, int var2, int var3, boolean var4) {
-      var1.drawImage(LoadMap.r, var2 + (super.K == Base.J ? 2 : -2), var3 - 1, 3);
-      if (this.e != null) {
-         int var5 = this.e.size();
+   public final void paintIcon(Graphics var1, int var2, int var3, boolean var4) {
+      var1.drawImage(LoadMap.r, var2 + (super.direct == Base.LEFT ? 2 : -2), var3 - 1, 3);
+      if (this.seriPart != null) {
+         int var5 = this.seriPart.size();
 
          for(int var6 = 0; var6 < var5; ++var6) {
             Part var7;
-            if ((var7 = AvatarData.a(((SeriPart)this.e.elementAt(var6)).a)) != null) {
-               if (var7.j == 40 && this.S != 4) {
-                  var7 = AvatarData.a(this.S);
+            if ((var7 = AvatarData.a(((SeriPart)this.seriPart.elementAt(var6)).idPart)) != null) {
+               if (var7.zOrder == 40 && this.feel != 4) {
+                  var7 = AvatarData.a(this.feel);
                }
 
-               var7.a(var1, super.y, var2, var3, super.K);
+               var7.paintAvatar(var1, super.frame, var2, var3, super.direct);
             }
          }
       }
 
       if (var4) {
-         this.a(var1, var2, var3 - AvMain.ai);
+         this.paintName(var1, var2, var3 - AvMain.ai);
       }
 
-      super.a(var1);
+      super.paint(var1);
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
+   public final void paintName(Graphics var1, int var2, int var3) {
       byte var4 = 0;
-      var3 = var3 - super.aA * MyObject.ay + (super.B + this.h) * MyObject.ay;
-      if (this.X != -1) {
+      var3 = var3 - super.height * MyObject.hd + (super.vh + this.ySat) * MyObject.hd;
+      if (this.idImg != -1) {
          var4 = 7;
-         AvatarData.a(var1, this.X, var2 + aO[super.K] * MyObject.ay - this.aG / 2, var3 + AvMain.ai / 2, 3);
+         AvatarData.a(var1, this.idImg, var2 + duX[super.direct] * MyObject.hd - this.wName / 2, var3 + AvMain.ai / 2, 3);
       }
 
-      var2 += (aO[super.K] + var4) * MyObject.ay;
-      if (this.aa != -1) {
-         AvatarData.a(var1, this.aa, var2 + this.aG / 2 + 6 * MyObject.ay, var3 + AvMain.ai / 2, 3);
+      var2 += (duX[super.direct] + var4) * MyObject.hd;
+      if (this.idWedding != -1) {
+         AvatarData.a(var1, this.idWedding, var2 + this.wName / 2 + 6 * MyObject.hd, var3 + AvMain.ai / 2, 3);
       }
 
-      if (this.ac != -1) {
-         ae.a(this.ac, var2 + this.aG / 2 + 7 * MyObject.ay, var3 + 3, 0, 3, var1);
+      if (this.blogNews != -1) {
+         imgBlog.drawFrame(this.blogNews, var2 + this.wName / 2 + 7 * MyObject.hd, var3 + 3, 0, 3, var1);
       }
 
-      if (super.w == GameMidlet.i.w) {
-         GameCanvas.P.a(var1, super.x, var2, var3, 2);
+      if (super.IDDB == GameMidlet.avatar.IDDB) {
+         Canvas.smallFontRed.a(var1, super.name, var2, var3, 2);
       } else {
-         GameCanvas.Q.a(var1, super.x, var2, var3, 2);
+         Canvas.smallFontYellow.a(var1, super.name, var2, var3, 2);
       }
    }
 
-   public final void d(int var1) {
-      this.n = var1;
+   public final void setExp(int var1) {
+      this.exp = var1;
       int var2 = 1;
 
       while(true) {
          int var4 = var2 * 100;
          int var3 = var1;
          if ((var1 -= var4) < 0) {
-            this.v = (byte)var2;
-            this.r = (byte)(var3 * 100 / (var2 * 100));
+            this.lvMain = (byte)var2;
+            this.perLvFarm = (byte)(var3 * 100 / (var2 * 100));
             return;
          }
 
@@ -231,33 +231,33 @@ public final class Avatar extends Base {
       }
    }
 
-   public final void a(SeriPart var1) {
-      if (this.e == null) {
-         this.e = new Vector();
+   public final void addSeri(SeriPart var1) {
+      if (this.seriPart == null) {
+         this.seriPart = new Vector();
       }
 
-      this.e.addElement(var1);
+      this.seriPart.addElement(var1);
    }
 
-   public final void a(String var1) {
-      super.x = var1;
+   public final void setName(String var1) {
+      super.name = var1;
       if (var1.length() > 7) {
-         this.l = var1.substring(0, 6) + "..";
+         this.showName = var1.substring(0, 6) + "..";
       } else {
-         this.l = var1;
+         this.showName = var1;
       }
 
-      this.aG = (short)GameCanvas.P.a(var1);
+      this.wName = (short) Canvas.smallFontRed.getWidth(var1);
    }
 
-   public final void e(int var1) {
-      this.S = (short)var1;
+   public final void setFeel(int var1) {
+      this.feel = (short)var1;
    }
 
-   public final void b() {
+   public final void update() {
       int var2;
-      if (this.aL != null) {
-         Kiss var1 = this.aL;
+      if (this.kiss != null) {
+         Kiss var1 = this.kiss;
 
          for(var2 = 0; var2 < 3; ++var2) {
             int var10002 = var1.d[var2]--;
@@ -292,61 +292,61 @@ public final class Avatar extends Base {
          }
       }
 
-      if (this.aD && GameCanvas.l % 20 == 10) {
-         this.h();
+      if (this.isLoad && Canvas.gameTick % 20 == 10) {
+         this.orderSeriesPath();
       }
 
-      if (this.p && (!MapScr.t || super.w != MapScr.E && super.w != MapScr.F) && this.g.size() == 0 && super.aw == super.C && super.ax == super.D) {
+      if (this.isLeave && (!MapScr.t || super.IDDB != MapScr.E && super.IDDB != MapScr.F) && this.moveList.size() == 0 && super.x == super.xCur && super.y == super.yCur) {
          LoadMap.c(this);
-         if (MapScr.h != null && MapScr.h.w == super.w) {
+         if (MapScr.h != null && MapScr.h.IDDB == super.IDDB) {
             MapScr.h = null;
             LoadMap.p = null;
          }
       }
 
-      if (super.C == super.aw && super.D == super.ax && this.au >= 0) {
+      if (super.xCur == super.x && super.yCur == super.y && this.au >= 0) {
          --this.au;
          if (this.au < 0) {
             this.au = -1;
-            this.aE = false;
-            this.Q = 0;
-            if (this == GameMidlet.i) {
+            this.isSetAction = false;
+            this.task = 0;
+            if (this == GameMidlet.avatar) {
                LoadMap.A = -1;
             }
          } else {
             var2 = (this.aR[this.au] & 255) * LoadMap.i + LoadMap.i / 2;
             int var3 = (this.aR[this.au] >> 8) * LoadMap.i + LoadMap.i / 2;
             if (this.au == 1) {
-               GameMidlet.i.aE = true;
-               var2 = this.av.a / AvMain.Y;
-               var3 = this.av.b / AvMain.Y;
+               GameMidlet.avatar.isSetAction = true;
+               var2 = this.av.a / AvMain.hd;
+               var3 = this.av.b / AvMain.hd;
                this.au = 0;
             }
 
-            if (this != GameMidlet.i) {
-               super.H = 1;
-               this.d(var2, var3);
-            } else if (!this.h(var2 - super.aw, var3 - super.ax) && !this.i(var2 - super.aw, var3 - super.ax)) {
+            if (this != GameMidlet.avatar) {
+               super.action = 1;
+               this.doAction(var2, var3);
+            } else if (!this.doJoin(var2 - super.x, var3 - super.y) && !this.detectCollisionMap(var2 - super.x, var3 - super.y)) {
                if (!LoadMap.c(LoadMap.c(var2, var3))) {
-                  super.H = 1;
-                  this.d(var2, var3);
+                  super.action = 1;
+                  this.doAction(var2, var3);
                }
             } else {
                this.au = 0;
                this.p();
-               this.aE = false;
+               this.isSetAction = false;
             }
          }
       }
 
-      this.d();
-      if (this.f != null) {
-         for(int var4 = 0; var4 < this.f.size(); ++var4) {
+      this.updateFrame();
+      if (this.emotionList != null) {
+         for(int var4 = 0; var4 < this.emotionList.size(); ++var4) {
             Emotion var5;
-            if ((var5 = (Emotion)this.f.elementAt(var4)).b == this.as) {
+            if ((var5 = (Emotion)this.emotionList.elementAt(var4)).b == this.as) {
                this.as = 0;
-               this.S = var5.a;
-               this.f.removeElement(var5);
+               this.feel = var5.a;
+               this.emotionList.removeElement(var5);
                break;
             }
          }
@@ -356,520 +356,520 @@ public final class Avatar extends Base {
 
    }
 
-   public final void f(int var1) {
+   public final void setFrame(int var1) {
       if (var1 < 0) {
-         super.y = aN[0][this.aB];
+         super.frame = FRAME[0][this.cFrame];
       } else {
-         super.y = aN[var1][this.aB];
+         super.frame = FRAME[var1][this.cFrame];
       }
    }
 
-   public final void d() {
-      if (this.aH <= 0) {
-         this.aH = (short)(10 + CRes.e(70) / (this.d + 1));
+   public final void updateFrame() {
+      if (this.nFrame <= 0) {
+         this.nFrame = (short)(10 + CRes.rnd(70) / (this.gender + 1));
       }
 
-      --this.aH;
-      ++this.aB;
-      if (this.aB >= 10) {
-         this.aB = 0;
+      --this.nFrame;
+      ++this.cFrame;
+      if (this.cFrame >= 10) {
+         this.cFrame = 0;
       }
 
-      if (super.H < 0) {
-         super.y = aN[0][this.aB];
-      } else if (super.H < aN.length) {
-         super.y = aN[super.H][this.aB];
+      if (super.action < 0) {
+         super.frame = FRAME[0][this.cFrame];
+      } else if (super.action < FRAME.length) {
+         super.frame = FRAME[super.action][this.cFrame];
       }
 
       int var3;
-      if (this.T != 0 || this.S == 11 || this.S == 7 || this.S == 9) {
-         if (this.T == 0) {
-            this.U = this.S;
+      if (this.numFeel != 0 || this.feel == 11 || this.feel == 7 || this.feel == 9) {
+         if (this.numFeel == 0) {
+            this.firFeel = this.feel;
          }
 
-         ++this.T;
-         if (this.T % 10 > 5) {
-            if (this.T > 45) {
-               this.T = 0;
+         ++this.numFeel;
+         if (this.numFeel % 10 > 5) {
+            if (this.numFeel > 45) {
+               this.numFeel = 0;
             }
 
             var3 = 4;
-            this.S = (short)var3;
+            this.feel = (short)var3;
          } else {
-            var3 = this.U;
-            this.S = (short)var3;
+            var3 = this.firFeel;
+            this.feel = (short)var3;
          }
       }
 
-      if ((this != GameMidlet.i || this.Q != 0 || GameCanvas.r == BoardScr.i) && super.H != 10) {
-         if (CRes.a(super.aw, super.ax + super.N, super.C, super.D) <= super.G) {
+      if ((this != GameMidlet.avatar || this.task != 0 || Canvas.currentMyScreen == BoardScr.i) && super.action != 10) {
+         if (CRes.a(super.x, super.y + super.N, super.xCur, super.yCur) <= super.G) {
             if (super.M && this.aJ == 0) {
                this.aJ = 0;
                super.M = false;
                super.N = 0;
             }
 
-            if (this.ao != null && this.aK == 0) {
-               if (this.Q == -2) {
-                  this.aK = 20;
-               } else if (this.Q == 11) {
-                  this.aK = 30;
-                  this.S = 107;
-                  this.ao.S = 107;
-                  this.aL = new Kiss(this, super.aw, super.ax);
+            if (this.focus != null && this.timeHit == 0) {
+               if (this.task == -2) {
+                  this.timeHit = 20;
+               } else if (this.task == 11) {
+                  this.timeHit = 30;
+                  this.feel = 107;
+                  this.focus.feel = 107;
+                  this.kiss = new Kiss(this, super.x, super.y);
                }
             }
 
-            if (this.Q == -5) {
-               this.t = super.K;
-               super.aw = super.C;
-               super.ax = super.D;
+            if (this.task == -5) {
+               this.dirLast = super.direct;
+               super.x = super.xCur;
+               super.y = super.yCur;
                if (this.au <= 0) {
-                  this.Q = 0;
+                  this.task = 0;
                }
 
-               if (GameCanvas.v == null) {
-                  MapScr.b();
-                  MapScr.a(super.aw, super.ax, super.K, super.N);
+               if (Canvas.v == null) {
+                  MapScr.gI();
+                  MapScr.doMove(super.x, super.y, super.direct, super.N);
                }
 
-               if (MapScr.t && GameMidlet.i.w == super.w) {
-                  super.K = 0;
+               if (MapScr.t && GameMidlet.avatar.IDDB == super.IDDB) {
+                  super.direct = 0;
                }
             } else {
-               if (super.w != GameMidlet.i.w) {
-                  super.C = super.aw;
-                  super.D = super.ax + super.N;
+               if (super.IDDB != GameMidlet.avatar.IDDB) {
+                  super.xCur = super.x;
+                  super.yCur = super.y + super.N;
                }
 
-               if (this.g.size() == 0) {
-                  if (super.H == 1) {
-                     super.H = 0;
+               if (this.moveList.size() == 0) {
+                  if (super.action == 1) {
+                     super.action = 0;
                   }
 
-                  super.K = this.t;
+                  super.direct = this.dirLast;
                } else {
-                  AvPosition var2 = (AvPosition)this.g.elementAt(0);
-                  this.d(var2.a, var2.b + var2.d);
+                  AvPosition var2 = (AvPosition)this.moveList.elementAt(0);
+                  this.doAction(var2.a, var2.b + var2.d);
                   this.aJ = var2.d;
                   if (var2.d != 0) {
                      super.M = true;
                   }
 
-                  if (super.C == -1 && super.D == -1) {
-                     super.C = super.aw;
-                     super.D = super.ax + super.N;
-                     if (super.H == 14) {
-                        LoadMap.g[super.ax / LoadMap.i * LoadMap.e + super.aw / LoadMap.i] = 112;
+                  if (super.xCur == -1 && super.yCur == -1) {
+                     super.xCur = super.x;
+                     super.yCur = super.y + super.N;
+                     if (super.action == 14) {
+                        LoadMap.type[super.y / LoadMap.i * LoadMap.wMap + super.x / LoadMap.i] = 112;
                      }
 
-                     super.H = (byte)var2.c;
-                     if (super.H == 14) {
-                        super.ax = super.D;
-                        super.aw = super.C;
-                        LoadMap.g[super.ax / LoadMap.i * LoadMap.e + super.aw / LoadMap.i] = 90;
+                     super.action = (byte)var2.c;
+                     if (super.action == 14) {
+                        super.y = super.yCur;
+                        super.x = super.xCur;
+                        LoadMap.type[super.y / LoadMap.i * LoadMap.wMap + super.x / LoadMap.i] = 90;
                      }
 
-                     if ((super.H == 2 || super.H == 13 || super.H == 4) && (var3 = (super.ax - LoadMap.i) / LoadMap.i * LoadMap.e + super.aw / LoadMap.i) >= 0 && var3 < LoadMap.g.length) {
-                        if (super.H == 4 && LoadMap.g[var3] == 67) {
-                           this.h = -10;
+                     if ((super.action == 2 || super.action == 13 || super.action == 4) && (var3 = (super.y - LoadMap.i) / LoadMap.i * LoadMap.wMap + super.x / LoadMap.i) >= 0 && var3 < LoadMap.type.length) {
+                        if (super.action == 4 && LoadMap.type[var3] == 67) {
+                           this.ySat = -10;
                         }
 
-                        int var4 = LoadMap.d(super.aw, super.ax - 10);
-                        super.D = super.ax;
+                        int var4 = LoadMap.getposMap(super.x, super.y - 10);
+                        super.yCur = super.y;
                         if (var4 != -1) {
                            short var6;
-                           if ((var6 = LoadMap.g[var4]) == 92) {
-                              this.h = -10;
+                           if ((var6 = LoadMap.type[var4]) == 92) {
+                              this.ySat = -10;
                            }
 
                            if (var6 == 79 || var6 == 92 || var6 == 90 || var6 == 54) {
-                              LoadMap.g[var4] = 90;
+                              LoadMap.type[var4] = 90;
                            }
                         }
                      }
                   } else {
-                     this.t = (byte)var2.c;
-                     super.K = this.t;
+                     this.dirLast = (byte)var2.c;
+                     super.direct = this.dirLast;
                   }
 
-                  this.g.removeElementAt(0);
+                  this.moveList.removeElementAt(0);
                }
             }
 
-            if (this.Q != 0 && this.Q != -5) {
-               if (super.w == this.j && LoadMap.g(this.i) == null) {
-                  this.Q = 0;
-                  this.i = -1;
-               } else if (this.i != -1 && this.j != -1) {
-                  Avatar var7 = LoadMap.g(this.i);
+            if (this.task != 0 && this.task != -5) {
+               if (super.IDDB == this.idTo && LoadMap.g(this.idFrom) == null) {
+                  this.task = 0;
+                  this.idFrom = -1;
+               } else if (this.idFrom != -1 && this.idTo != -1) {
+                  Avatar var7 = LoadMap.g(this.idFrom);
                   Avatar var8;
-                  if ((var8 = LoadMap.g(this.j)) != null && var7 != null) {
-                     if (var8.aw > var7.aw) {
-                        var8.K = var8.t = Base.J;
-                        var7.K = var7.t = 0;
+                  if ((var8 = LoadMap.g(this.idTo)) != null && var7 != null) {
+                     if (var8.x > var7.x) {
+                        var8.direct = var8.dirLast = Base.LEFT;
+                        var7.direct = var7.dirLast = 0;
                      } else {
-                        var8.K = var8.t = 0;
-                        var7.K = var7.t = Base.J;
+                        var8.direct = var8.dirLast = 0;
+                        var7.direct = var7.dirLast = Base.LEFT;
                      }
 
-                     if (super.w == this.i) {
+                     if (super.IDDB == this.idFrom) {
                         if (this.Y > 0) {
                            --this.Y;
                         } else {
-                           switch (this.Q) {
+                           switch (this.task) {
                               case -3:
                                  if (LoadMap.k == -1) {
                                     AnimateEffect var1 = new AnimateEffect(2, 0);
-                                    GameCanvas.B.addElement(var1);
+                                    Canvas.B.addElement(var1);
                                  }
 
-                                 this.Q = 0;
-                                 var8.Q = 0;
+                                 this.task = 0;
+                                 var8.task = 0;
                                  break;
                               case 9:
-                                 if (this == GameMidlet.i) {
-                                    MapScr.b();
-                                    MapScr.a((byte)9);
-                                 } else if (GameMidlet.i.Q == 8 && super.w == GameMidlet.i.i) {
-                                    MapScr.b();
-                                    MapScr.a((byte)8);
-                                    GameMidlet.i.Q = 0;
+                                 if (this == GameMidlet.avatar) {
+                                    MapScr.gI();
+                                    MapScr.doAction((byte)9);
+                                 } else if (GameMidlet.avatar.task == 8 && super.IDDB == GameMidlet.avatar.idFrom) {
+                                    MapScr.gI();
+                                    MapScr.doAction((byte)8);
+                                    GameMidlet.avatar.task = 0;
                                  }
 
-                                 MapScr.b();
+                                 MapScr.gI();
                                  MapScr.b(var8);
-                                 this.Q = 0;
-                                 var8.Q = 0;
+                                 this.task = 0;
+                                 var8.task = 0;
                                  break;
                               case 12:
                                  boolean var9 = false;
-                                 var8.Q = 0;
+                                 var8.task = 0;
                                  var9 = false;
-                                 this.Q = 0;
+                                 this.task = 0;
                            }
 
-                           this.k = -1;
-                           this.i = -1;
-                           this.j = -1;
+                           this.idGift = -1;
+                           this.idFrom = -1;
+                           this.idTo = -1;
                         }
                      }
                   } else {
                      if (var7 != null) {
-                        var7.Q = 0;
-                        var7.L = false;
+                        var7.task = 0;
+                        var7.ableShow = false;
                      }
 
                      if (var8 != null) {
-                        var8.Q = 0;
-                        var8.L = false;
+                        var8.task = 0;
+                        var8.ableShow = false;
                      }
                   }
                }
             }
          } else {
-            this.aI = CRes.a(super.C - super.aw, -(super.D - (super.ax + super.N)));
-            int var5 = super.G * CRes.b(this.aI) >> 10;
-            var3 = -(super.G * CRes.a(this.aI)) >> 10;
-            if (this.aE && this.Q == -5 && GameMidlet.i.e(super.aw + var5, super.ax + super.N + var3)) {
+            this.angle = CRes.a(super.xCur - super.x, -(super.yCur - (super.y + super.N)));
+            int var5 = super.G * CRes.b(this.angle) >> 10;
+            var3 = -(super.G * CRes.a(this.angle)) >> 10;
+            if (this.isSetAction && this.task == -5 && GameMidlet.avatar.setLayPLayer(super.x + var5, super.y + super.N + var3)) {
                this.p();
-               super.E = super.F = 0;
+               super.vx = super.vy = 0;
             } else {
-               super.E = var5;
-               super.F = var3;
-               super.A = 0;
-               super.B = 0;
-               this.h = 0;
-               this.g(super.aw + var5);
-               if (super.aw != super.C) {
-                  this.f();
+               super.vx = var5;
+               super.vy = var3;
+               super.vhy = 0;
+               super.vh = 0;
+               this.ySat = 0;
+               this.setDir(super.x + var5);
+               if (super.x != super.xCur) {
+                  this.resetTypeChair();
                }
 
-               if (super.ax + super.N != super.D) {
-                  this.f();
+               if (super.y + super.N != super.yCur) {
+                  this.resetTypeChair();
                }
 
-               super.H = 1;
+               super.action = 1;
             }
          }
       }
 
       if (super.M) {
-         super.aw += super.E;
-         super.N = (short)(super.N + super.F);
-         if (super.w == GameMidlet.i.w && super.N < -this.Z) {
-            super.N = (short)(-this.Z);
+         super.x += super.vx;
+         super.N = (short)(super.N + super.vy);
+         if (super.IDDB == GameMidlet.avatar.IDDB && super.N < -this.timeTask) {
+            super.N = (short)(-this.timeTask);
          }
       } else {
-         super.aw += super.E;
-         super.ax += super.F;
+         super.x += super.vx;
+         super.y += super.vy;
       }
 
-      super.B += super.A;
-      if (super.H == 10) {
-         ++super.A;
+      super.vh += super.vhy;
+      if (super.action == 10) {
+         ++super.vhy;
       }
 
-      if (Math.abs(super.A) >= super.z || Math.abs(super.B) > 28) {
-         super.H = 0;
-         super.A = 0;
-         super.B = 0;
+      if (Math.abs(super.vhy) >= super.z || Math.abs(super.vh) > 28) {
+         super.action = 0;
+         super.vhy = 0;
+         super.vh = 0;
       }
 
-      if (this.R != -1 && super.H == 0) {
-         ++this.R;
-         if (this.R > this.aC) {
-            this.R = -1;
-         } else if (this.R % 6 == 0) {
-            this.g();
+      if (this.isJumps != -1 && super.action == 0) {
+         ++this.isJumps;
+         if (this.isJumps > this.maxJump) {
+            this.isJumps = -1;
+         } else if (this.isJumps % 6 == 0) {
+            this.doJumps();
          }
       }
 
-      if (super.H == 0) {
-         this.h = 0;
+      if (super.action == 0) {
+         this.ySat = 0;
       }
 
-      if (super.H == 1 && super.E == 0 && super.F == 0) {
-         super.H = 0;
+      if (super.action == 1 && super.vx == 0 && super.vy == 0) {
+         super.action = 0;
       }
 
-      super.E = 0;
-      super.F = 0;
-      if (this.aK > 0) {
-         --this.aK;
-         if (this.aK == 0) {
-            if (this.Q == -2) {
-               this.ao.H = 4;
-               this.ao.S = 20;
-               super.H = 4;
-               this.S = 20;
-            } else if (this.Q == 11) {
-               this.S = 12;
-               this.ao.S = 12;
+      super.vx = 0;
+      super.vy = 0;
+      if (this.timeHit > 0) {
+         --this.timeHit;
+         if (this.timeHit == 0) {
+            if (this.task == -2) {
+               this.focus.action = 4;
+               this.focus.feel = 20;
+               super.action = 4;
+               this.feel = 20;
+            } else if (this.task == 11) {
+               this.feel = 12;
+               this.focus.feel = 12;
             }
 
-            this.Q = 0;
-            this.ao.Q = 0;
-            this.ao = null;
-            this.aL = null;
+            this.task = 0;
+            this.focus.task = 0;
+            this.focus = null;
+            this.kiss = null;
          }
       }
 
-      if (this.ar != null) {
-         super.O = new ChatPopup(100, this.ar[this.aM / 40], (byte)(this.i >= 2000000000 ? 1 : 0));
-         ++this.aM;
-         if (this.aM >= this.ar.length * 40) {
-            if (super.w >= 2000000000) {
-               this.aM = 0;
+      if (this.textChat != null) {
+         super.chat = new ChatPopup(100, this.textChat[this.countChat / 40], (byte)(this.idFrom >= 2000000000 ? 1 : 0));
+         ++this.countChat;
+         if (this.countChat >= this.textChat.length * 40) {
+            if (super.IDDB >= 2000000000) {
+               this.countChat = 0;
             } else {
-               this.ar = null;
+               this.textChat = null;
             }
          }
       }
 
-      super.b();
+      super.update();
    }
 
-   public final void e() {
-      if (super.H != -1 && !super.L) {
-         if (this.Q == 0 && !MapScr.t) {
-            super.E = 0;
-            super.F = 0;
-            if (GameCanvas.d[2]) {
-               AvCamera.a().e = 0L;
-               this.R = -1;
+   public final void updateKey() {
+      if (super.action != -1 && !super.ableShow) {
+         if (this.task == 0 && !MapScr.t) {
+            super.vx = 0;
+            super.vy = 0;
+            if (Canvas.d[2]) {
+               AvCamera.gI().e = 0L;
+               this.isJumps = -1;
                this.o();
                if (super.M) {
-                  super.F = -super.G;
-               } else if (this.i(super.E, -(super.G - 1))) {
-                  if (!this.h(super.E, -(super.G - 1))) {
-                     this.e(super.aw + super.E, super.ax - (super.G - 1));
+                  super.vy = -super.G;
+               } else if (this.detectCollisionMap(super.vx, -(super.G - 1))) {
+                  if (!this.doJoin(super.vx, -(super.G - 1))) {
+                     this.setLayPLayer(super.x + super.vx, super.y - (super.G - 1));
                   } else {
-                     super.E = 0;
-                     super.F = 0;
+                     super.vx = 0;
+                     super.vy = 0;
                   }
                }
-            } else if (GameCanvas.d[8]) {
-               AvCamera.a().e = 0L;
-               this.R = -1;
-               this.f();
-               this.g(0, 1);
+            } else if (Canvas.d[8]) {
+               AvCamera.gI().e = 0L;
+               this.isJumps = -1;
+               this.resetTypeChair();
+               this.resetNam_nghi(0, 1);
                if (super.M) {
-                  super.F = super.G;
+                  super.vy = super.G;
                   if (super.N + super.G >= 0) {
                      super.N = 0;
-                     if (LoadMap.c(super.aw, super.ax + LoadMap.i / 2) == 80) {
+                     if (LoadMap.c(super.x, super.y + LoadMap.i / 2) == 80) {
                         super.M = false;
                      } else {
-                        super.F = 0;
+                        super.vy = 0;
                      }
                   }
-               } else if (!this.h(super.E, super.G - 1)) {
-                  this.i(super.E, super.G - 1);
+               } else if (!this.doJoin(super.vx, super.G - 1)) {
+                  this.detectCollisionMap(super.vx, super.G - 1);
                } else {
-                  super.E = 0;
-                  super.F = 0;
+                  super.vx = 0;
+                  super.vy = 0;
                }
             }
 
-            if (GameCanvas.d[4]) {
-               AvCamera.a().e = 0L;
-               this.R = -1;
-               if (this.aF == 0 && super.K == Base.J) {
-                  this.aF = 3;
+            if (Canvas.d[4]) {
+               AvCamera.gI().e = 0L;
+               this.isJumps = -1;
+               if (this.numSleep == 0 && super.direct == Base.LEFT) {
+                  this.numSleep = 3;
                }
 
-               super.K = Base.J;
-               if (this.aF > 2) {
+               super.direct = Base.LEFT;
+               if (this.numSleep > 2) {
                   if (super.M) {
-                     super.E = -super.G;
-                  } else if (!this.h(-(super.G + 8), super.F)) {
-                     this.i(-(super.G + 8), super.F);
-                     this.g(-1, 0);
+                     super.vx = -super.G;
+                  } else if (!this.doJoin(-(super.G + 8), super.vy)) {
+                     this.detectCollisionMap(-(super.G + 8), super.vy);
+                     this.resetNam_nghi(-1, 0);
                   } else {
-                     super.E = 0;
-                     super.F = 0;
+                     super.vx = 0;
+                     super.vy = 0;
                   }
                }
 
-               ++this.aF;
-            } else if (GameCanvas.d[6]) {
-               AvCamera.a().e = 0L;
-               this.R = -1;
-               if (this.aF == 0 && super.K == 0) {
-                  this.aF = 3;
+               ++this.numSleep;
+            } else if (Canvas.d[6]) {
+               AvCamera.gI().e = 0L;
+               this.isJumps = -1;
+               if (this.numSleep == 0 && super.direct == 0) {
+                  this.numSleep = 3;
                }
 
-               super.K = 0;
-               if (this.aF > 2) {
+               super.direct = 0;
+               if (this.numSleep > 2) {
                   if (super.M) {
-                     super.E = super.G;
-                  } else if (!this.h(super.G + 6, super.F)) {
-                     this.i(super.G + 6, super.F);
-                     this.g(1, 0);
+                     super.vx = super.G;
+                  } else if (!this.doJoin(super.G + 6, super.vy)) {
+                     this.detectCollisionMap(super.G + 6, super.vy);
+                     this.resetNam_nghi(1, 0);
                   } else {
-                     super.E = 0;
-                     super.F = 0;
+                     super.vx = 0;
+                     super.vy = 0;
                   }
                }
 
-               ++this.aF;
+               ++this.numSleep;
             } else {
-               this.aF = 0;
+               this.numSleep = 0;
             }
 
             boolean var1 = false;
-            if (GameCanvas.b[2]) {
-               if (GameCanvas.d[4] || GameCanvas.d[6] || GameCanvas.d[8]) {
+            if (Canvas.b[2]) {
+               if (Canvas.d[4] || Canvas.d[6] || Canvas.d[8]) {
                   var1 = true;
                }
-            } else if (GameCanvas.b[4]) {
-               if (GameCanvas.d[2] || GameCanvas.d[6] || GameCanvas.d[8]) {
+            } else if (Canvas.b[4]) {
+               if (Canvas.d[2] || Canvas.d[6] || Canvas.d[8]) {
                   var1 = true;
                }
-            } else if (GameCanvas.b[6]) {
-               if (GameCanvas.d[4] || GameCanvas.d[2] || GameCanvas.d[8]) {
+            } else if (Canvas.b[6]) {
+               if (Canvas.d[4] || Canvas.d[2] || Canvas.d[8]) {
                   var1 = true;
                }
-            } else if (GameCanvas.b[8] && (GameCanvas.d[4] || GameCanvas.d[6] || GameCanvas.d[2])) {
+            } else if (Canvas.b[8] && (Canvas.d[4] || Canvas.d[6] || Canvas.d[2])) {
                var1 = true;
             }
 
-            if (GameCanvas.c[2] || GameCanvas.c[4] || GameCanvas.c[6] || GameCanvas.c[8]) {
+            if (Canvas.c[2] || Canvas.c[4] || Canvas.c[6] || Canvas.c[8]) {
                var1 = true;
-               GameCanvas.g();
+               Canvas.g();
             }
 
-            if (var1 && super.H != 2 && super.H != 13 && super.H != 4 && !GameCanvas.c[2]) {
-               MapScr.b();
-               MapScr.a(super.aw, super.ax, super.K, super.N);
+            if (var1 && super.action != 2 && super.action != 13 && super.action != 4 && !Canvas.c[2]) {
+               MapScr.gI();
+               MapScr.doMove(super.x, super.y, super.direct, super.N);
             }
 
-            if (super.E == 0 && super.F == 0 && super.H == 1) {
-               super.H = 0;
+            if (super.vx == 0 && super.vy == 0 && super.action == 1) {
+               super.action = 0;
             }
 
-            if (super.M && (super.E != 0 || super.F != 0)) {
-               super.H = 1;
+            if (super.M && (super.vx != 0 || super.vy != 0)) {
+               super.action = 1;
             }
 
-            GameCanvas.b[2] = GameCanvas.b[4] = GameCanvas.b[6] = GameCanvas.b[8] = false;
+            Canvas.b[2] = Canvas.b[4] = Canvas.b[6] = Canvas.b[8] = false;
          }
       }
    }
 
-   public final void a(byte var1) {
-      if (super.H != 10) {
+   public final void doAction(byte var1) {
+      if (super.action != 10) {
          if (var1 != 2 && var1 != 13 && var1 != 4) {
-            if (super.H != 14) {
-               super.H = 0;
+            if (super.action != 14) {
+               super.action = 0;
             }
          } else {
             short var2;
-            if ((var2 = LoadMap.g[(super.ax - 15) / LoadMap.i * LoadMap.e + super.aw / LoadMap.i]) != 79 && var2 != 81 && var2 != 54) {
+            if ((var2 = LoadMap.type[(super.y - 15) / LoadMap.i * LoadMap.wMap + super.x / LoadMap.i]) != 79 && var2 != 81 && var2 != 54) {
                if (var2 == 92 || var2 == 67) {
-                  this.h = -10;
+                  this.ySat = -10;
                }
             } else {
-               this.h = -6;
+               this.ySat = -6;
                if (var2 == 81) {
-                  this.h = (byte)(-6 * MyObject.ay);
+                  this.ySat = (byte)(-6 * MyObject.hd);
                }
             }
 
-            super.H = var1;
+            super.action = var1;
          }
 
          if (var1 == 10) {
-            this.g();
-         } else if (super.w != GameMidlet.i.w) {
-            this.g.addElement(new AvPosition(-1, -1, var1));
+            this.doJumps();
+         } else if (super.IDDB != GameMidlet.avatar.IDDB) {
+            this.moveList.addElement(new AvPosition(-1, -1, var1));
          } else {
-            super.H = var1;
+            super.action = var1;
          }
       }
    }
 
-   public final void d(int var1, int var2) {
-      super.C = var1;
-      super.D = var2;
-      this.g(var1);
+   public final void doAction(int var1, int var2) {
+      super.xCur = var1;
+      super.yCur = var2;
+      this.setDir(var1);
    }
 
-   private void g(int var1) {
-      if (var1 > super.aw) {
-         super.K = 0;
+   private void setDir(int var1) {
+      if (var1 > super.x) {
+         super.direct = 0;
       } else {
-         if (var1 < super.aw) {
-            super.K = Base.J;
+         if (var1 < super.x) {
+            super.direct = Base.LEFT;
          }
 
       }
    }
 
-   public final void f() {
-      if (super.H != 2 && super.H != 13) {
+   public final void resetTypeChair() {
+      if (super.action != 2 && super.action != 13) {
          this.o();
       } else {
          int var1;
-         if ((var1 = LoadMap.d(super.aw, super.ax - 18)) == -1) {
+         if ((var1 = LoadMap.getposMap(super.x, super.y - 18)) == -1) {
             return;
          }
 
-         super.H = 0;
-         this.h = 0;
-         if (LoadMap.g[var1] == 90) {
-            if (LoadMap.d[var1] == 80) {
-               LoadMap.g[var1] = 92;
+         super.action = 0;
+         this.ySat = 0;
+         if (LoadMap.type[var1] == 90) {
+            if (LoadMap.map[var1] == 80) {
+               LoadMap.type[var1] = 92;
                return;
             }
 
-            if (LoadMap.d[var1] == 97) {
-               LoadMap.g[var1] = 54;
+            if (LoadMap.map[var1] == 97) {
+               LoadMap.type[var1] = 54;
                return;
             }
 
-            LoadMap.g[var1] = 79;
+            LoadMap.type[var1] = 79;
             return;
          }
       }
@@ -877,38 +877,38 @@ public final class Avatar extends Base {
    }
 
    private void o() {
-      if (super.H == 14) {
-         super.H = 0;
-         this.a(HouseScr.b().f, HouseScr.b().g);
+      if (super.action == 14) {
+         super.action = 0;
+         this.setPos(HouseScr.b().f, HouseScr.b().g);
          AvatarService.a().a((int)0);
-         MapScr.b();
-         MapScr.a(GameMidlet.i.aw, GameMidlet.i.ax, GameMidlet.i.K, GameMidlet.i.Z);
-         GameCanvas.d[8] = false;
+         MapScr.gI();
+         MapScr.doMove(GameMidlet.avatar.x, GameMidlet.avatar.y, GameMidlet.avatar.direct, GameMidlet.avatar.timeTask);
+         Canvas.d[8] = false;
       }
 
    }
 
-   private void g(int var1, int var2) {
-      if (super.H == 4) {
-         if (LoadMap.d(super.aw, super.ax - 18) == -1) {
+   private void resetNam_nghi(int var1, int var2) {
+      if (super.action == 4) {
+         if (LoadMap.getposMap(super.x, super.y - 18) == -1) {
             return;
          }
 
-         if (LoadMap.c(super.aw + var1 * 12, super.ax + var2 * 12 - 10) == 80) {
-            super.H = 0;
-            this.h = 0;
+         if (LoadMap.c(super.x + var1 * 12, super.y + var2 * 12 - 10) == 80) {
+            super.action = 0;
+            this.ySat = 0;
          }
       }
 
    }
 
-   private boolean h(int var1, int var2) {
-      if (this != GameMidlet.i) {
+   private boolean doJoin(int var1, int var2) {
+      if (this != GameMidlet.avatar) {
          return false;
-      } else if (super.H != -1 && GameCanvas.v == null) {
+      } else if (super.action != -1 && Canvas.v == null) {
          boolean var3;
-         if ((var3 = GameCanvas.x.a(super.aw + var1, super.ax + var2)) && super.H == 1) {
-            super.H = 0;
+         if ((var3 = Canvas.x.a(super.x + var1, super.y + var2)) && super.action == 1) {
+            super.action = 0;
          }
 
          return var3;
@@ -917,50 +917,50 @@ public final class Avatar extends Base {
       }
    }
 
-   private boolean i(int var1, int var2) {
+   private boolean detectCollisionMap(int var1, int var2) {
       boolean var3;
-      if (var3 = this.b(var1, var2)) {
-         this.c(var1, var2);
+      if (var3 = this.detectCollision(var1, var2)) {
+         this.setWay(var1, var2);
       }
 
       return var3;
    }
 
-   public final boolean e(int var1, int var2) {
-      if ((super.H == 0 || super.H == 1) && (this.Q == 0 || this.Q == -5)) {
+   public final boolean setLayPLayer(int var1, int var2) {
+      if ((super.action == 0 || super.action == 1) && (this.task == 0 || this.task == -5)) {
          short var3;
-         if ((var3 = LoadMap.g[var2 / LoadMap.i * LoadMap.e + var1 / LoadMap.i]) != 79 && var3 != 81 && var3 != 54) {
+         if ((var3 = LoadMap.type[var2 / LoadMap.i * LoadMap.wMap + var1 / LoadMap.i]) != 79 && var3 != 81 && var3 != 54) {
             if (var3 == 92) {
-               super.H = 2;
-               this.h = -10;
-               super.aw = var1 / LoadMap.i * LoadMap.i + LoadMap.i / 2;
-               super.ax = var2 / LoadMap.i * LoadMap.i + LoadMap.i - 1;
-               MapScr.b();
-               MapScr.a(super.aw, var2, super.K, super.N);
-               MapScr.b();
-               MapScr.a((byte)2);
+               super.action = 2;
+               this.ySat = -10;
+               super.x = var1 / LoadMap.i * LoadMap.i + LoadMap.i / 2;
+               super.y = var2 / LoadMap.i * LoadMap.i + LoadMap.i - 1;
+               MapScr.gI();
+               MapScr.doMove(super.x, var2, super.direct, super.N);
+               MapScr.gI();
+               MapScr.doAction((byte)2);
                return true;
             } else if (var3 == 67) {
-               super.H = 4;
-               this.h = -10;
-               super.aw = var1 / LoadMap.i * LoadMap.i + LoadMap.i / 2;
-               MapScr.b();
-               MapScr.a(super.aw, var2, super.K, super.N);
-               MapScr.b();
-               MapScr.a((byte)4);
+               super.action = 4;
+               this.ySat = -10;
+               super.x = var1 / LoadMap.i * LoadMap.i + LoadMap.i / 2;
+               MapScr.gI();
+               MapScr.doMove(super.x, var2, super.direct, super.N);
+               MapScr.gI();
+               MapScr.doAction((byte)4);
                return true;
             } else {
                return false;
             }
          } else {
-            super.H = 2;
-            this.h = -6;
-            super.aw = var1 / LoadMap.i * LoadMap.i + LoadMap.i / 2;
-            super.ax = var2 / LoadMap.i * LoadMap.i + LoadMap.i - 1;
-            MapScr.b();
-            MapScr.a(super.aw, super.ax, super.K, super.N);
-            MapScr.b();
-            MapScr.a(super.H);
+            super.action = 2;
+            this.ySat = -6;
+            super.x = var1 / LoadMap.i * LoadMap.i + LoadMap.i / 2;
+            super.y = var2 / LoadMap.i * LoadMap.i + LoadMap.i - 1;
+            MapScr.gI();
+            MapScr.doMove(super.x, super.y, super.direct, super.N);
+            MapScr.gI();
+            MapScr.doAction(super.action);
             return true;
          }
       } else {
@@ -968,34 +968,34 @@ public final class Avatar extends Base {
       }
    }
 
-   public final void g() {
-      if (super.H == 0 || super.H == 1) {
-         super.H = 10;
-         if (this.R == -1) {
-            this.R = 0;
+   public final void doJumps() {
+      if (super.action == 0 || super.action == 1) {
+         super.action = 10;
+         if (this.isJumps == -1) {
+            this.isJumps = 0;
          }
 
-         super.A = (byte)(-super.z);
+         super.vhy = (byte)(-super.z);
       }
 
    }
 
-   public final void h() {
-      this.aD = false;
+   public final void orderSeriesPath() {
+      this.isLoad = false;
 
       try {
-         for(int var1 = 0; var1 < this.e.size() - 1; ++var1) {
+         for(int var1 = 0; var1 < this.seriPart.size() - 1; ++var1) {
             SeriPart var2;
-            if (AvatarData.a((var2 = (SeriPart)this.e.elementAt(var1)).a) != null) {
-               for(int var3 = var1 + 1; var3 < this.e.size(); ++var3) {
+            if (AvatarData.a((var2 = (SeriPart)this.seriPart.elementAt(var1)).idPart) != null) {
+               for(int var3 = var1 + 1; var3 < this.seriPart.size(); ++var3) {
                   SeriPart var4;
-                  if (AvatarData.a((var4 = (SeriPart)this.e.elementAt(var3)).a).g == -1) {
-                     this.aD = true;
+                  if (AvatarData.a((var4 = (SeriPart)this.seriPart.elementAt(var3)).idPart).IDPart == -1) {
+                     this.isLoad = true;
                   }
 
-                  if (AvatarData.a(var4.a) != null && AvatarData.a(var2.a).j > AvatarData.a(var4.a).j) {
-                     this.e.setElementAt(var2, var3);
-                     this.e.setElementAt(var4, var1);
+                  if (AvatarData.a(var4.idPart) != null && AvatarData.a(var2.idPart).zOrder > AvatarData.a(var4.idPart).zOrder) {
+                     this.seriPart.setElementAt(var2, var3);
+                     this.seriPart.setElementAt(var4, var1);
                      var2 = var4;
                   }
                }
@@ -1003,77 +1003,77 @@ public final class Avatar extends Base {
          }
 
       } catch (Exception var5) {
-         this.aD = true;
+         this.isLoad = true;
       }
    }
 
-   public final void f(int var1, int var2) {
-      for(int var3 = 0; var3 < this.e.size() - 1; ++var3) {
+   public final void addPart(int var1, int var2) {
+      for(int var3 = 0; var3 < this.seriPart.size() - 1; ++var3) {
          SeriPart var4;
-         Part var5 = AvatarData.a((var4 = (SeriPart)this.e.elementAt(var3)).a);
-         if (var2 == var5.j) {
-            this.e.removeElement(var4);
+         Part var5 = AvatarData.a((var4 = (SeriPart)this.seriPart.elementAt(var3)).idPart);
+         if (var2 == var5.zOrder) {
+            this.seriPart.removeElement(var4);
             break;
          }
       }
 
-      this.a(new SeriPart((short)var1));
+      this.addSeri(new SeriPart((short)var1));
    }
 
-   public final void b(byte var1) {
-      super.H = var1;
+   public final void setAction(byte var1) {
+      super.action = var1;
    }
 
-   public final void b(SeriPart var1) {
+   public final void addSeriPart(SeriPart var1) {
       Part var2;
-      if ((var2 = AvatarData.a(var1.a)) != null && var2.f != -2) {
+      if ((var2 = AvatarData.a(var1.idPart)) != null && var2.f != -2) {
          SeriPart var3;
-         if ((var3 = AvatarData.a(var2.j, this.e)) != null) {
-            this.e.removeElement(var3);
+         if ((var3 = AvatarData.a(var2.zOrder, this.seriPart)) != null) {
+            this.seriPart.removeElement(var3);
          }
 
-         this.e.addElement(var1);
+         this.seriPart.addElement(var1);
       }
    }
 
-   public final void i() {
-      for(int var1 = 0; var1 < this.e.size(); ++var1) {
+   public final void initPet() {
+      for(int var1 = 0; var1 < this.seriPart.size(); ++var1) {
          SeriPart var2;
-         if (AvatarData.a((var2 = (SeriPart)this.e.elementAt(var1)).a).j == -1) {
-            this.e.removeElement(var2);
-            this.V = var2.a;
+         if (AvatarData.a((var2 = (SeriPart)this.seriPart.elementAt(var1)).idPart).zOrder == -1) {
+            this.seriPart.removeElement(var2);
+            this.idPet = var2.idPart;
          }
       }
 
    }
 
-   public final void j() {
-      this.i();
-      LoadMap.a(this);
+   public final void setPet() {
+      this.initPet();
+      LoadMap.setPet(this);
    }
 
-   public final void a(short var1) {
-      this.V = var1;
+   public final void changePet(short var1) {
+      this.idPet = var1;
       Pet var2;
-      if ((var2 = LoadMap.h(super.w)) != null) {
+      if ((var2 = LoadMap.h(super.IDDB)) != null) {
          LoadMap.a((MyObject)var2);
-         this.V = var1;
+         this.idPet = var1;
       }
 
-      this.j();
+      this.setPet();
    }
 
-   public final void k() {
-      super.A = 0;
-      super.B = 0;
-      super.H = 0;
+   public final void resetAction() {
+      super.vhy = 0;
+      super.vh = 0;
+      super.action = 0;
    }
 
    private void p() {
       this.au = 0;
-      this.aE = false;
-      this.Q = 0;
-      if (this == GameMidlet.i) {
+      this.isSetAction = false;
+      this.task = 0;
+      if (this == GameMidlet.avatar) {
          LoadMap.A = -1;
       } else {
          this.av = null;
@@ -1090,39 +1090,39 @@ public final class Avatar extends Base {
       }
 
       short var1 = 88;
-      int var2 = LoadMap.i * AvMain.Y;
-      if (this.av.b / var2 * LoadMap.e + this.av.a / var2 > 0 && this.av.b / var2 * LoadMap.e + this.av.a / var2 < LoadMap.g.length) {
-         var1 = LoadMap.g[this.av.b / var2 * LoadMap.e + this.av.a / var2];
+      int var2 = LoadMap.i * AvMain.hd;
+      if (this.av.b / var2 * LoadMap.wMap + this.av.a / var2 > 0 && this.av.b / var2 * LoadMap.wMap + this.av.a / var2 < LoadMap.type.length) {
+         var1 = LoadMap.type[this.av.b / var2 * LoadMap.wMap + this.av.a / var2];
       }
 
-      if (this != GameMidlet.i || var1 == 80 || LoadMap.a == 24 || LoadMap.a((int)var1) || LoadMap.b(var1)) {
+      if (this != GameMidlet.avatar || var1 == 80 || LoadMap.a == 24 || LoadMap.a((int)var1) || LoadMap.b(var1)) {
          this.av.c = 0;
-         if (this.Q == 0 || this.Q == -5) {
-            this.Q = -5;
-            this.R = -1;
-            super.C = super.aw;
-            super.D = super.ax;
-            if (this == GameMidlet.i) {
-               if (super.aw > this.av.a / AvMain.Y) {
-                  LoadMap.A = Base.J;
+         if (this.task == 0 || this.task == -5) {
+            this.task = -5;
+            this.isJumps = -1;
+            super.xCur = super.x;
+            super.yCur = super.y;
+            if (this == GameMidlet.avatar) {
+               if (super.x > this.av.a / AvMain.hd) {
+                  LoadMap.A = Base.LEFT;
                } else {
                   LoadMap.A = 0;
                }
             }
 
-            this.m();
+            this.findPath();
          }
 
       }
    }
 
-   public final void m() {
-      int var1 = LoadMap.i * AvMain.Y;
-      if (super.aw / LoadMap.i == this.av.a / var1 && super.ax / LoadMap.i == this.av.b / var1) {
-         this.d(this.av.a / var1 * LoadMap.i + this.av.a % var1 / 2, this.av.b / var1 * LoadMap.i + this.av.b % var1 / 2);
+   public final void findPath() {
+      int var1 = LoadMap.i * AvMain.hd;
+      if (super.x / LoadMap.i == this.av.a / var1 && super.y / LoadMap.i == this.av.b / var1) {
+         this.doAction(this.av.a / var1 * LoadMap.i + this.av.a % var1 / 2, this.av.b / var1 * LoadMap.i + this.av.b % var1 / 2);
       } else {
-         int var10001 = super.aw / LoadMap.i;
-         int var10002 = super.ax / LoadMap.i;
+         int var10001 = super.x / LoadMap.i;
+         int var10002 = super.y / LoadMap.i;
          int var10003 = this.av.a / var1;
          int var5 = this.av.b / var1;
          int var4 = var10003;
@@ -1140,10 +1140,10 @@ public final class Avatar extends Base {
             var14.aP[var8] = 0;
             var14.aQ[var8] = 0;
             var14.aR[var8] = 0;
-            if (LoadMap.g[var8] != 80 && !LoadMap.a((int)LoadMap.g[var8])) {
-               var14.at[var8 % LoadMap.e][var8 / LoadMap.e] = true;
+            if (LoadMap.type[var8] != 80 && !LoadMap.a((int)LoadMap.type[var8])) {
+               var14.at[var8 % LoadMap.wMap][var8 / LoadMap.wMap] = true;
             } else {
-               var14.at[var8 % LoadMap.e][var8 / LoadMap.e] = false;
+               var14.at[var8 % LoadMap.wMap][var8 / LoadMap.wMap] = false;
             }
          }
 
@@ -1177,7 +1177,7 @@ public final class Avatar extends Base {
 
          var14.au = 0;
          if (var12) {
-            GameMidlet.i.k();
+            GameMidlet.avatar.resetAction();
             var13 = var6 - 1;
             var14.aR[var14.au++] = var14.aP[var13];
 
@@ -1202,7 +1202,7 @@ public final class Avatar extends Base {
          --var14.au;
          if (!var12) {
             this.au = 0;
-            if (this == GameMidlet.i) {
+            if (this == GameMidlet.avatar) {
                LoadMap.A = -1;
             }
 
@@ -1211,7 +1211,7 @@ public final class Avatar extends Base {
    }
 
    public final void n() {
-      short var1 = LoadMap.e;
+      short var1 = LoadMap.wMap;
       short var2 = LoadMap.f;
       this.at = new boolean[var1][var2];
       this.aP = new short[var1 * var2];
@@ -1219,21 +1219,21 @@ public final class Avatar extends Base {
       this.aR = new short[var1 * var2];
    }
 
-   public final void a(int var1, int var2, int var3) {
+   public final void updateMoney(int var1, int var2, int var3) {
       System.out.println("updateMoney: " + var1 + "    " + var2 + "   " + var3);
-      if (this.a[0] != var1) {
-         GameCanvas.a(var1 - this.a[0] + "xu", super.aw, super.ax - CRes.e(20), -1, 0, -1);
-         this.a[0] = var1;
+      if (this.money[0] != var1) {
+         Canvas.a(var1 - this.money[0] + "xu", super.x, super.y - CRes.rnd(20), -1, 0, -1);
+         this.money[0] = var1;
       }
 
-      if (this.a[2] != var2) {
-         GameCanvas.a(var2 - this.a[2] + "luong", super.aw, super.ax - CRes.e(20), -1, 0, -1);
-         this.a[2] = var2;
+      if (this.money[2] != var2) {
+         Canvas.a(var2 - this.money[2] + "luong", super.x, super.y - CRes.rnd(20), -1, 0, -1);
+         this.money[2] = var2;
       }
 
-      if (this.b != var3) {
-         GameCanvas.a(var3 - this.b + "luong", super.aw, super.ax - CRes.e(20), -1, 0, -1);
-         this.b = var3;
+      if (this.luongKhoa != var3) {
+         Canvas.a(var3 - this.luongKhoa + "luong", super.x, super.y - CRes.rnd(20), -1, 0, -1);
+         this.luongKhoa = var3;
       }
 
    }

@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class GamePad {
    private int b;
@@ -33,14 +33,14 @@ public final class GamePad {
 
    public GamePad() {
       int var1;
-      if (GameCanvas.n >= GameCanvas.m) {
-         GameCanvas.G = false;
-         this.e = GameCanvas.n / 6 << 1;
-         GameCanvas.n -= this.e;
+      if (Canvas.n >= Canvas.m) {
+         Canvas.G = false;
+         this.e = Canvas.n / 6 << 1;
+         Canvas.n -= this.e;
          this.b = 0;
-         this.c = GameCanvas.n + 4;
+         this.c = Canvas.n + 4;
          this.e -= 4;
-         this.d = GameCanvas.m;
+         this.d = Canvas.m;
          this.f = this.d / 4;
          this.g = this.e / 2;
          this.h = this.b;
@@ -63,12 +63,12 @@ public final class GamePad {
          this.s = new String[]{"1", "2", "3", T1.bb, "4", "5", "6", T1.cy, "7", "8", "9", "0"};
          this.u = new byte[]{-6, -1, 0, -7, -3, -2, -4, -5};
       } else {
-         GameCanvas.G = true;
-         this.d = GameCanvas.m / 6 << 1;
-         GameCanvas.m -= this.d + 1;
+         Canvas.G = true;
+         this.d = Canvas.m / 6 << 1;
+         Canvas.m -= this.d + 1;
          this.c = 1;
-         this.e = GameCanvas.a.getHeight();
-         this.b = GameCanvas.m + 4;
+         this.e = Canvas.a.getHeight();
+         this.b = Canvas.m + 4;
          this.d -= 4;
          this.f = this.d / 2;
          this.g = this.e / 4;
@@ -98,13 +98,13 @@ public final class GamePad {
    }
 
    private static void b() {
-      if (GameCanvas.Z > 0) {
+      if (Canvas.Z > 0) {
          TField.t.perform();
       } else if (class_im.c) {
          class_im.d().ae.b();
       } else {
-         if (GameCanvas.r.ae != null && GameCanvas.r.ae.a.equals(T1.bb)) {
-            GameCanvas.r.ae.b.perform();
+         if (Canvas.currentMyScreen.ae != null && Canvas.currentMyScreen.ae.a.equals(T1.bb)) {
+            Canvas.currentMyScreen.ae.b.perform();
          }
 
       }
@@ -114,7 +114,7 @@ public final class GamePad {
       int var2;
       int var3;
       if (!this.a) {
-         if (this.w && GameCanvas.f) {
+         if (this.w && Canvas.f) {
             this.w = false;
             if (System.currentTimeMillis() / 10L - this.x > 40L) {
                TField.c();
@@ -125,44 +125,44 @@ public final class GamePad {
             }
          }
 
-         if (GameCanvas.a(this.b, this.c, this.d, this.e)) {
-            if (GameCanvas.e) {
-               var2 = (GameCanvas.h - this.b) / this.f;
-               var3 = (GameCanvas.i - this.c) / this.g;
+         if (Canvas.a(this.b, this.c, this.d, this.e)) {
+            if (Canvas.e) {
+               var2 = (Canvas.h - this.b) / this.f;
+               var3 = (Canvas.i - this.c) / this.g;
                this.v = var3 * this.l + var2;
                var3 = this.v;
                if (var3 == 2) {
                   this.x = System.currentTimeMillis() / 10L;
                   this.w = true;
                } else {
-                  GameCanvas.a.keyPressed(this.u[var3]);
+                  Canvas.a.keyPressed(this.u[var3]);
                }
 
-               GameCanvas.e = false;
+               Canvas.e = false;
             }
 
-            if (GameCanvas.f && this.v != -1) {
+            if (Canvas.f && this.v != -1) {
                var3 = this.v;
                if (var3 != 2 && var3 < this.u.length) {
-                  GameCanvas.a.keyReleased(this.u[var3]);
+                  Canvas.a.keyReleased(this.u[var3]);
                }
 
                this.v = -1;
-               GameCanvas.f = false;
+               Canvas.f = false;
             }
          }
 
       } else {
-         if (GameCanvas.a(this.h, this.i, this.d, this.e)) {
-            if (GameCanvas.e) {
-               var2 = (GameCanvas.h - this.h) / this.k;
-               var3 = (GameCanvas.i - this.i) / this.j;
+         if (Canvas.a(this.h, this.i, this.d, this.e)) {
+            if (Canvas.e) {
+               var2 = (Canvas.h - this.h) / this.k;
+               var3 = (Canvas.i - this.i) / this.j;
                this.v = var3 * this.n + var2;
                var3 = this.v;
-               if (GameCanvas.G && var3 < 9) {
-                  GameCanvas.a.keyPressed(var3 + 49);
-               } else if (!GameCanvas.G && var3 % 4 != 3) {
-                  GameCanvas.a.keyPressed(var3 + 49 - var3 / 4);
+               if (Canvas.G && var3 < 9) {
+                  Canvas.a.keyPressed(var3 + 49);
+               } else if (!Canvas.G && var3 % 4 != 3) {
+                  Canvas.a.keyPressed(var3 + 49 - var3 / 4);
                } else {
                   switch (var3) {
                      case 3:
@@ -178,23 +178,23 @@ public final class GamePad {
                         this.a = false;
                         break;
                      case 10:
-                        GameCanvas.a.keyPressed(48);
+                        Canvas.a.keyPressed(48);
                         break;
                      case 11:
-                        if (GameCanvas.G) {
+                        if (Canvas.G) {
                            b();
                         } else {
-                           GameCanvas.a.keyPressed(48);
+                           Canvas.a.keyPressed(48);
                         }
                   }
                }
 
-               GameCanvas.e = false;
+               Canvas.e = false;
             }
 
-            if (GameCanvas.f && this.v != -1) {
+            if (Canvas.f && this.v != -1) {
                this.v = -1;
-               GameCanvas.f = false;
+               Canvas.f = false;
             }
          }
 
@@ -247,7 +247,7 @@ public final class GamePad {
                var3.fillRect(var2.h + var4 % var2.n * var2.k + 1, var5 + 1, var2.k - 2, var2.j - 2);
             }
 
-            GameCanvas.K.a(var3, var2.t[var4], var2.h + var4 % var2.n * var2.k + var2.k / 2, var5 - 5 + var2.j / 2, 2);
+            Canvas.K.a(var3, var2.t[var4], var2.h + var4 % var2.n * var2.k + var2.k / 2, var5 - 5 + var2.j / 2, 2);
          }
       } else {
          var3 = var1;
@@ -274,11 +274,11 @@ public final class GamePad {
             var5 = var2.b + var4 % var2.l * var2.f + var2.f / 2;
             int var6 = var2.c + var4 / var2.l * var2.g + var2.g / 2;
             if (var2.p[var4].equals("ABC")) {
-               GameCanvas.K.a(var3, TField.p[TField.n], var5, var6 - 5, 2);
+               Canvas.K.a(var3, TField.p[TField.n], var5, var6 - 5, 2);
             } else {
                for(int var7 = 0; var7 < 4; ++var7) {
                   if (var2.p[var4].equals(var2.y[var7])) {
-                     PaintPopup.b.a(0, var5, var6, var2.z[var7], 3, var3);
+                     PaintPopup.b.drawFrame(0, var5, var6, var2.z[var7], 3, var3);
                   }
                }
             }
@@ -287,7 +287,7 @@ public final class GamePad {
 
       var1.setClip(this.b - 4, this.c - 4, this.d + 4, this.e + 4);
       var1.setColor(2378578);
-      if (GameCanvas.G) {
+      if (Canvas.G) {
          var1.drawRect(this.b - 4, this.c, 4, this.e);
          var1.setColor(6201499);
          var1.fillRect(this.b - 4 + 1, this.c + 1, 3, this.e - 2);

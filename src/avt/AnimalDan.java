@@ -1,97 +1,97 @@
 package avt;
 
 public class AnimalDan extends Animal {
-   public int t = 0;
-   public byte u;
+   public int captainID = 0;
+   public byte indexFood;
 
    public AnimalDan(int var1, int var2, int var3, byte var4) {
       super(0, 0, var3, var4);
    }
 
-   public void b() {
-      super.b();
+   public void update() {
+      super.update();
    }
 
-   public final void f() {
-      super.f();
-      if (!super.f && super.w == this.t && super.c > 150) {
-         super.c = 150;
+   public final void setAngleAndDis() {
+      super.setAngleAndDis();
+      if (!super.isEat && super.IDDB == this.captainID && super.distant > 150) {
+         super.distant = 150;
       }
 
    }
 
-   public void a() {
+   public void setInit() {
    }
 
-   public Point i() {
-      return (Point)FarmScr.j[this.u].elementAt(CRes.e(FarmScr.j[this.u].size()));
+   public Point getPosEat() {
+      return (Point)FarmScr.listFood[this.indexFood].elementAt(CRes.rnd(FarmScr.listFood[this.indexFood].size()));
    }
 
-   public final void c() {
-      if (!super.f && this.t == super.w) {
-         this.g();
+   public final void updatePos() {
+      if (!super.isEat && this.captainID == super.IDDB) {
+         this.setPos();
       } else {
          AvPosition var1 = new AvPosition();
-         if (super.f && FarmScr.j[this.u].size() > 0) {
+         if (super.isEat && FarmScr.listFood[this.indexFood].size() > 0) {
             Point var5;
-            if ((var5 = this.i()) != null) {
-               var1.a = var5.aw;
-               var1.b = var5.ax;
+            if ((var5 = this.getPosEat()) != null) {
+               var1.a = var5.x;
+               var1.b = var5.y;
                super.G = 2;
-               super.n = var1;
+               super.posNext = var1;
             } else {
-               this.g();
+               this.setPos();
             }
          } else {
             int var2 = LoadMap.m.size();
 
             for(int var3 = 0; var3 < var2; ++var3) {
                Base var4;
-               if ((var4 = (Base)LoadMap.m.elementAt(var3)) instanceof AnimalDan && var4.w == this.t) {
-                  var1 = new AvPosition(var4.aw, var4.ax);
+               if ((var4 = (Base)LoadMap.m.elementAt(var3)) instanceof AnimalDan && var4.IDDB == this.captainID) {
+                  var1 = new AvPosition(var4.x, var4.y);
                   break;
                }
             }
 
-            if (this.u != 1 && !LoadMap.b(super.aw, super.ax)) {
-               this.g();
+            if (this.indexFood != 1 && !LoadMap.isTrans(super.x, super.y)) {
+               this.setPos();
             } else {
-               this.a(var1);
+               this.setFollowPos(var1);
             }
          }
       }
    }
 
-   public void a(AvPosition var1) {
+   public void setFollowPos(AvPosition var1) {
    }
 
-   public final void h() {
-      int var1 = FarmScr.j[this.u].size();
-      if (super.i && super.f && var1 > 0) {
+   public final void reset() {
+      int var1 = FarmScr.listFood[this.indexFood].size();
+      if (super.hunger && super.isEat && var1 > 0) {
          for(int var2 = 0; var2 < var1; ++var2) {
             Point var3;
-            if (CRes.f((var3 = (Point)FarmScr.j[this.u].elementAt(var2)).aw - super.aw) <= 2 && CRes.f(var3.ax - super.ax) <= 2) {
-               FarmScr.j[this.u].removeElement(var3);
+            if (CRes.f((var3 = (Point)FarmScr.listFood[this.indexFood].elementAt(var2)).x - super.x) <= 2 && CRes.f(var3.y - super.y) <= 2) {
+               FarmScr.listFood[this.indexFood].removeElement(var3);
                LoadMap.n.removeElement(var3);
-               super.i = false;
-               super.f = false;
+               super.hunger = false;
+               super.isEat = false;
                super.G = 1;
                FarmScr.b();
-               FarmScr.a(var3.j, super.w);
+               FarmScr.a(var3.j, super.IDDB);
                break;
             }
          }
       }
 
-      super.h();
-      super.e = 100 - (this.t != super.w ? this.u * CRes.e(70) : 0);
+      super.reset();
+      super.cycle = 100 - (this.captainID != super.IDDB ? this.indexFood * CRes.rnd(70) : 0);
    }
 
-   public final void d() {
-      if (FarmScr.j[this.u].size() == 0) {
-         super.f = false;
-      } else if (super.i && !super.f) {
-         super.f = true;
+   public final void updateEat() {
+      if (FarmScr.listFood[this.indexFood].size() == 0) {
+         super.isEat = false;
+      } else if (super.hunger && !super.isEat) {
+         super.isEat = true;
       }
    }
 }

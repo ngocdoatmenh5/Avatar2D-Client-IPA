@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 public final class CameraList {
    public int a;
@@ -82,53 +82,53 @@ public final class CameraList {
    public final void a() {
       ++this.B;
       this.C = false;
-      if (GameCanvas.b[8]) {
+      if (Canvas.b[8]) {
          this.y += this.s;
          if (this.y >= this.x) {
             this.y = 0;
          }
-      } else if (GameCanvas.b[2]) {
+      } else if (Canvas.b[2]) {
          this.y -= this.s;
          if (this.y < 0) {
             this.y = this.x - 1;
          }
-      } else if (GameCanvas.b[6]) {
+      } else if (Canvas.b[6]) {
          ++this.y;
          if (this.y >= this.x) {
             this.y = 0;
          }
-      } else if (GameCanvas.b[4]) {
+      } else if (Canvas.b[4]) {
          --this.y;
          if (this.y < 0) {
             this.y = this.x - 1;
          }
       }
 
-      if (GameCanvas.b[4] || GameCanvas.b[6] || GameCanvas.b[8] || GameCanvas.b[2]) {
+      if (Canvas.b[4] || Canvas.b[6] || Canvas.b[8] || Canvas.b[2]) {
          this.C = true;
-         GameCanvas.r.a(this.y, false);
-         GameCanvas.b[4] = false;
-         GameCanvas.b[6] = false;
-         GameCanvas.b[8] = false;
-         GameCanvas.b[2] = false;
+         Canvas.currentMyScreen.a(this.y, false);
+         Canvas.b[4] = false;
+         Canvas.b[6] = false;
+         Canvas.b[8] = false;
+         Canvas.b[2] = false;
       }
 
       if (this.C) {
          this.b();
       }
 
-      if (GameCanvas.t == null && GameCanvas.v == null) {
+      if (Canvas.t == null && Canvas.v == null) {
          if (this.H > 0) {
             --this.H;
-            if (this.H == 0 && GameCanvas.r != PopupShop.a) {
-               GameCanvas.r.a(this.y, true);
+            if (this.H == 0 && Canvas.currentMyScreen != PopupShop.a) {
+               Canvas.currentMyScreen.a(this.y, true);
             }
 
          } else {
-            if (GameCanvas.g && GameCanvas.a(this.w, this.e, this.q, this.r)) {
-               this.M = GameCanvas.k;
-               this.L = GameCanvas.j;
-               GameCanvas.g = false;
+            if (Canvas.g && Canvas.a(this.w, this.e, this.q, this.r)) {
+               this.M = Canvas.k;
+               this.L = Canvas.j;
+               Canvas.g = false;
                this.A = this.B;
                this.D = i;
                this.E = k;
@@ -139,14 +139,14 @@ public final class CameraList {
 
             if (this.p) {
                long var1 = this.B - this.A;
-               int var3 = this.M - GameCanvas.i;
-               this.M = GameCanvas.i;
-               int var4 = this.L - GameCanvas.h;
-               this.L = GameCanvas.h;
-               if (GameCanvas.e) {
+               int var3 = this.M - Canvas.i;
+               this.M = Canvas.i;
+               int var4 = this.L - Canvas.h;
+               this.L = Canvas.h;
+               if (Canvas.e) {
                   if (this.B % 2L == 0L) {
-                     this.F = GameCanvas.i;
-                     this.G = GameCanvas.h;
+                     this.F = Canvas.i;
+                     this.G = Canvas.h;
                      this.J = this.B;
                      this.K = this.B;
                   }
@@ -157,21 +157,21 @@ public final class CameraList {
                      j = this.D + var3;
                      this.D = j;
                   } else {
-                     j = this.D + GameCanvas.l() / 2;
+                     j = this.D + Canvas.l() / 2;
                   }
 
                   if (l > 0 && l < this.h) {
                      l = this.E + var4;
                      this.E = l;
                   } else {
-                     l = this.E + GameCanvas.k() / 2;
+                     l = this.E + Canvas.k() / 2;
                   }
 
                   i = j;
                   k = l;
                   if (var1 < 20L) {
-                     var3 = (j + GameCanvas.i - this.e) / this.v;
-                     var4 = (l + GameCanvas.h - this.w) / this.u;
+                     var3 = (j + Canvas.i - this.e) / this.v;
+                     var4 = (l + Canvas.h - this.w) / this.u;
                      this.y = var3 * this.s + var4;
                      if (this.y < 0) {
                         this.y = 0;
@@ -181,24 +181,24 @@ public final class CameraList {
                         this.y = this.t * this.s - 1;
                      }
 
-                     GameCanvas.r.a(this.y, false);
+                     Canvas.currentMyScreen.a(this.y, false);
                   }
 
-                  if (CRes.f(GameCanvas.l()) < 10 * AvMain.Y && CRes.f(GameCanvas.k()) < 10 * AvMain.Y) {
+                  if (CRes.f(Canvas.l()) < 10 * AvMain.hd && CRes.f(Canvas.k()) < 10 * AvMain.hd) {
                      if (var1 > 3L && var1 < 8L) {
                         this.I = false;
-                        GameCanvas.r.a(false);
+                        Canvas.currentMyScreen.a(false);
                      }
                   } else {
-                     GameCanvas.r.a(true);
+                     Canvas.currentMyScreen.a(true);
                   }
                }
 
-               if (GameCanvas.f) {
+               if (Canvas.f) {
                   this.p = false;
                   var3 = (int)(this.B - this.J);
-                  var4 = this.F - GameCanvas.i;
-                  int var5 = this.G - GameCanvas.h;
+                  var4 = this.F - Canvas.i;
+                  int var5 = this.G - Canvas.h;
                   if (CRes.f(var4) > 40 && var3 < 20 && j > 0 && j < this.c) {
                      this.n = var4 / var3 * 10;
                   }
@@ -210,21 +210,21 @@ public final class CameraList {
 
                   this.J = -1L;
                   this.K = -1L;
-                  if (CRes.f(GameCanvas.l()) < 10 * AvMain.Y && CRes.f(GameCanvas.k()) < 10 * AvMain.Y) {
+                  if (CRes.f(Canvas.l()) < 10 * AvMain.hd && CRes.f(Canvas.k()) < 10 * AvMain.hd) {
                      if (var1 <= 4L) {
                         this.H = 5;
-                        GameCanvas.r.a(false);
+                        Canvas.currentMyScreen.a(false);
                      } else {
-                        GameCanvas.r.a(this.y, true);
-                        if (GameCanvas.r != PopupShop.a) {
-                           GameCanvas.r.a(true);
+                        Canvas.currentMyScreen.a(this.y, true);
+                        if (Canvas.currentMyScreen != PopupShop.a) {
+                           Canvas.currentMyScreen.a(true);
                         }
                      }
 
                      this.I = false;
                   }
 
-                  GameCanvas.f = false;
+                  Canvas.f = false;
                }
             }
 
@@ -233,7 +233,7 @@ public final class CameraList {
    }
 
    private void b() {
-      if (!GameCanvas.e) {
+      if (!Canvas.e) {
          if ((j = this.y / this.s * this.v - this.r / 2 + this.v / 2) < 0) {
             j = 0;
          }

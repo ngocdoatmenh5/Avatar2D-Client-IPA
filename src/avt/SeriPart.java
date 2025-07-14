@@ -1,7 +1,7 @@
 package avt;
 
 public final class SeriPart {
-   public short a;
+   public short idPart;
    public byte b;
    public String c;
 
@@ -9,6 +9,6 @@ public final class SeriPart {
    }
 
    public SeriPart(short var1) {
-      this.a = var1;
+      this.idPart = var1;
    }
 }

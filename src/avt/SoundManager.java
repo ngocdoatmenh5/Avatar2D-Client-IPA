@@ -6,7 +6,7 @@ import javax.microedition.media.Manager;
 import javax.microedition.media.MediaException;
 import javax.microedition.media.Player;
 import javax.microedition.media.control.VolumeControl;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class SoundManager {
    private int c;
@@ -31,7 +31,7 @@ public final class SoundManager {
                var3.addElement(new Command(T1.ep[2], new class_bh(this, var4)));
                var3.addElement(new Command(T1.p, new class_bw(this)));
                var3.addElement(new Command(T1.ep[0], new class_bt(this, var4)));
-               GameCanvas.a(var1, var3);
+               Canvas.a(var1, var3);
             }
          }
       }

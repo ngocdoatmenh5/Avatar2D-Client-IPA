@@ -1,7 +1,6 @@
 package main;
 
 import java.util.Vector;
-import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
@@ -11,8 +10,8 @@ import javax.microedition.lcdui.List;
 
 import avt.*;
 
-public final class GameCanvas extends Canvas implements Runnable, CommandListener {
-   public static GameCanvas a;
+public final class Canvas extends javax.microedition.lcdui.Canvas implements Runnable, CommandListener {
+   public static Canvas a;
    private static boolean ag;
    public static boolean[] b = new boolean[14];
    public static boolean[] c = new boolean[14];
@@ -24,14 +23,14 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
    public static int i;
    public static int j;
    public static int k;
-   public static int l;
+   public static int gameTick;
    public static int m = 0;
    public static int n;
    public static int o;
-   public static int p;
+   public static int hh;
    public static int q;
    private static boolean ah;
-   public static MyScreen r;
+   public static MyScreen currentMyScreen;
    public static MsgDlg s;
    public static MenuMain t;
    public static class_hb u;
@@ -61,8 +60,8 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
    public static FontX M;
    public static FontX N;
    public static FontX O;
-   public static FontX P;
-   public static FontX Q;
+   public static FontX smallFontRed;
+   public static FontX smallFontYellow;
    public static FontX R;
    public static IPaint S;
    public static int T = 0;
@@ -86,12 +85,12 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
    public static AvPosition[] ae = new AvPosition[3];
    public static AvPosition af;
 
-   public GameCanvas() {
+   public Canvas() {
       this.setFullScreenMode(true);
       m = this.getWidth();
       q = n = this.getHeight();
       X = new T1();
-      AvMain.Y = 1;
+      AvMain.hd = 1;
       if (CRes.b(GameMidlet.m) == null) {
          FarmData.c();
       }
@@ -102,18 +101,18 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
       M = new mFont(2);
       N = new mFont(3);
       O = new mFont(4);
-      P = new mFont(5);
-      Q = new mFont(6);
+      smallFontRed = new mFont(5);
+      smallFontYellow = new mFont(6);
       R = new mFont(7);
       S = new MediumPaint();
       MyScreen.al = K.a() + 6;
       AvMain.af = (byte)N.a();
       AvMain.ag = (byte)L.a();
       AvMain.ah = (byte)K.a();
-      AvMain.ai = (byte)P.a();
+      AvMain.ai = (byte) smallFontRed.a();
       this.b();
       o = m / 2;
-      p = n / 2;
+      hh = n / 2;
       a = this;
       System.gc();
       TField.a(0);
@@ -172,8 +171,8 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
    public static void a() {
       ad = new Command(T1.p, -1);
       MenuSub.a().c();
-      if (r != null) {
-         r.c();
+      if (currentMyScreen != null) {
+         currentMyScreen.c();
       }
 
    }
@@ -201,7 +200,7 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
       q = n;
       o = m / 2;
       S.c();
-      p = n / 2;
+      hh = n / 2;
       S.a();
       if (t != null) {
          t = null;
@@ -211,7 +210,7 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
          LoginScr.b().f();
       }
 
-      AvCamera.a().b(LoadMap.a);
+      AvCamera.gI().b(LoadMap.a);
       if (PopupShop.a != null) {
          PopupShop.e();
       }
@@ -225,12 +224,12 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
          s.a(s.a);
       }
 
-      if (r != null) {
-         if (r == RaceScr.a) {
+      if (currentMyScreen != null) {
+         if (currentMyScreen == RaceScr.a) {
             RaceScr.b();
          }
 
-         if (BoardScr.i == r) {
+         if (BoardScr.i == currentMyScreen) {
             BoardScr.i.e();
          }
 
@@ -242,11 +241,11 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
             MiniMap.gI().e();
          }
 
-         if (RoomListOnScr.a == r) {
+         if (RoomListOnScr.a == currentMyScreen) {
             RoomListOnScr.a.e();
          }
 
-         if (BoardListOnScr.a == r) {
+         if (BoardListOnScr.a == currentMyScreen) {
             BoardListOnScr.a.g();
          }
       }
@@ -270,20 +269,20 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
          FilePack.a();
       }
 
-      if (r != null) {
-         if (r == class_ez.a) {
+      if (currentMyScreen != null) {
+         if (currentMyScreen == class_ez.a) {
             class_ez.b().e();
          }
 
-         if (r == OptionScr.a) {
+         if (currentMyScreen == OptionScr.a) {
             OptionScr.b().e();
          }
 
-         if (r == ListScr.b()) {
+         if (currentMyScreen == ListScr.b()) {
             ListScr.b().f();
          }
 
-         if (r == MoneyScr.b()) {
+         if (currentMyScreen == MoneyScr.b()) {
             MoneyScr.b().e();
          }
 
@@ -297,7 +296,7 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
    public static void a(String var0) {
       if (!OnScreen.b && !var0.equals("")) {
          StringObj var1;
-         (var1 = new StringObj(var0, -K.a(var0))).aw = m + 10;
+         (var1 = new StringObj(var0, -K.getWidth(var0))).x = m + 10;
          C.addElement(var1);
          if (ab == 0) {
             ab = 1;
@@ -351,12 +350,12 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
             }
 
             long var1 = System.currentTimeMillis();
-            if (++l > 10000) {
-               if (System.currentTimeMillis() - this.ar > 20000L && r == LoginScr.a) {
+            if (++gameTick > 10000) {
+               if (System.currentTimeMillis() - this.ar > 20000L && currentMyScreen == LoginScr.a) {
                   GameMidlet.h.notifyDestroyed();
                }
 
-               l = 0;
+               gameTick = 0;
             }
 
             if (J != -1) {
@@ -369,7 +368,7 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
                   }
                }
 
-               if (this.as >= p) {
+               if (this.as >= hh) {
                   this.as = 0;
                   J = -1;
                }
@@ -387,11 +386,11 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
                int var3;
                if (B.size() > 0) {
                   for(var3 = 0; var3 < B.size(); ++var3) {
-                     ((Effect)B.elementAt(var3)).b();
+                     ((Effect)B.elementAt(var3)).updateWind();
                   }
                }
 
-               if (r != null) {
+               if (currentMyScreen != null) {
                   if (class_im.c) {
                      class_im.d().l();
                   }
@@ -407,13 +406,13 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
 
                      StringObj var9;
                      StringObj var10000 = var9 = (StringObj)C.elementAt(0);
-                     var10000.aw -= 2;
-                     if (var9.aw < var9.c) {
+                     var10000.x -= 2;
+                     if (var9.x < var9.c) {
                         C.removeElementAt(0);
                      }
                   }
 
-                  r.k();
+                  currentMyScreen.k();
                   if (y.m) {
                      CameraList var10 = y;
                      if (t == null && v == null) {
@@ -494,7 +493,7 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
                      }
                   } else {
                      if (A == null && !class_im.c) {
-                        r.l();
+                        currentMyScreen.l();
                      }
 
                      if (y.m && A == null) {
@@ -502,7 +501,7 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
                      }
                   }
 
-                  if (l % 20 == 10) {
+                  if (gameTick % 20 == 10) {
                      AvatarData.g();
                      FarmData.d();
                      if ((byte)((int)(Runtime.getRuntime().freeMemory() / 1024L)) < 100) {
@@ -635,7 +634,7 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
             if (class_im.c) {
                class_im.d().b(var1);
             } else {
-               r.d(var1);
+               currentMyScreen.d(var1);
             }
          }
 
@@ -890,13 +889,13 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
    protected final void paint(Graphics var1) {
       var1.translate(0, 0);
       if (J != 0) {
-         if (r != null) {
-            r.a(var1);
+         if (currentMyScreen != null) {
+            currentMyScreen.a(var1);
          }
 
-         if (B.size() > 0 && r != RoomListOnScr.a && r != BoardListOnScr.a) {
+         if (B.size() > 0 && currentMyScreen != RoomListOnScr.a && currentMyScreen != BoardListOnScr.a) {
             for(int var2 = 0; var2 < B.size(); ++var2) {
-               ((Effect)B.elementAt(var2)).a(var1);
+               ((Effect)B.elementAt(var2)).paint(var1);
             }
          }
 
@@ -919,8 +918,8 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
          }
 
          Graphics var6 = var1;
-         c(var1);
-         var1.translate(-AvCamera.a().a, -AvCamera.a().b);
+         resetTrans(var1);
+         var1.translate(-AvCamera.gI().xCam, -AvCamera.gI().yCam);
 
          int var3;
          for(var3 = 0; var3 < ac.size(); ++var3) {
@@ -939,23 +938,23 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
 
             var6.fillRect(0, ab, m, 1);
             if (C.size() > 0) {
-               c(var6);
+               resetTrans(var6);
                var3 = ab / 2 - AvMain.ag / 2;
                var6.setClip(0, var3, m, AvMain.ag + 2);
                StringObj var4 = (StringObj)C.elementAt(0);
-               L.a(var6, var4.a, var4.aw, var3, 0);
-               c(var6);
+               L.a(var6, var4.a, var4.x, var3, 0);
+               resetTrans(var6);
             }
          }
       }
 
       if (J != -1) {
-         c(var1);
+         resetTrans(var1);
          var1.setColor(1);
-         var1.fillRect(0, 0, m, p - this.as);
-         var1.fillRect(0, p + this.as, m, p - this.as + 2 + T);
+         var1.fillRect(0, 0, m, hh - this.as);
+         var1.fillRect(0, hh + this.as, m, hh - this.as + 2 + T);
          if (J != 1) {
-            MsgDlg.b.a(this.at, o, p, 0, 3, var1);
+            MsgDlg.b.drawFrame(this.at, o, hh, 0, 3, var1);
          }
       }
 
@@ -963,7 +962,7 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
          z.a(var1);
       }
 
-      c(var1);
+      resetTrans(var1);
       if (E) {
          synchronized(an) {
             an.notify();
@@ -971,7 +970,7 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
       }
    }
 
-   public static void c(Graphics var0) {
+   public static void resetTrans(Graphics var0) {
       var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
       var0.translate(0, 0);
       var0.setClip(0, 0, m, q);
@@ -1043,7 +1042,7 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
    public static String a(int var0, int var1, int var2, boolean var3) {
       String var4 = "";
       if (var0 > 0) {
-         var4 = var4 + b(var0) + T1.C;
+         var4 = var4 + getMoneys(var0) + T1.C;
       }
 
       if (var1 > 0) {
@@ -1051,7 +1050,7 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
             var4 = var4 + " - ";
          }
 
-         var4 = var4 + b(var1) + T1.D;
+         var4 = var4 + getMoneys(var1) + T1.D;
       }
 
       if (var2 >= 0) {
@@ -1059,7 +1058,7 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
             var4 = var4 + " - ";
          }
 
-         var4 = var4 + b(var2) + T1.E;
+         var4 = var4 + getMoneys(var2) + T1.E;
       }
 
       return var4;
@@ -1068,7 +1067,7 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
    public static String a(int var0, int var1, boolean var2) {
       String var3 = "";
       if (var0 > 0) {
-         var3 = var3 + b(var0) + (var2 ? T1.C : T1.T);
+         var3 = var3 + getMoneys(var0) + (var2 ? T1.C : T1.T);
       }
 
       if (var1 > 0) {
@@ -1076,13 +1075,13 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
             var3 = var3 + " - ";
          }
 
-         var3 = var3 + b(var1) + T1.D;
+         var3 = var3 + getMoneys(var1) + T1.D;
       }
 
       return var3;
    }
 
-   public static String b(int var0) {
+   public static String getMoneys(int var0) {
       String var1 = "";
       int var2 = var0 / 1000 + 1;
 
@@ -1112,10 +1111,10 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
    public final void commandAction(javax.microedition.lcdui.Command var1, Displayable var2) {
       if (var1 != null && var1 != List.SELECT_COMMAND) {
          if (var1 == null) {
-            if (r == class_jv.a) {
+            if (currentMyScreen == class_jv.a) {
                OnScreen.e().a();
             } else {
-               MapScr.b().a();
+               MapScr.gI().a();
             }
 
             Display.getDisplay(GameMidlet.h).setCurrent(this);
@@ -1193,6 +1192,6 @@ public final class GameCanvas extends Canvas implements Runnable, CommandListene
    }
 
    public static boolean m() {
-      return v == null && t == null && r != MessageScr.d && r != PopupShop.b() && r != ListScr.a && r != RoomListOnScr.a && r != BoardListOnScr.a && r != MenuCenter.a && r != OnScreen.a && r != MiniMap.a && r != MoneyScr.a && !HouseScr.e && !HouseScr.b && r != class_hk.a && (r != DiamondScr.a || !BoardScr.j);
+      return v == null && t == null && currentMyScreen != MessageScr.d && currentMyScreen != PopupShop.b() && currentMyScreen != ListScr.a && currentMyScreen != RoomListOnScr.a && currentMyScreen != BoardListOnScr.a && currentMyScreen != MenuCenter.a && currentMyScreen != OnScreen.a && currentMyScreen != MiniMap.a && currentMyScreen != MoneyScr.a && !HouseScr.e && !HouseScr.b && currentMyScreen != class_hk.a && (currentMyScreen != DiamondScr.a || !BoardScr.j);
    }
 }

@@ -1,17 +1,17 @@
 package avt;
 
 public final class AnimalInfo {
-   public byte a;
-   public byte b;
-   public byte c;
-   public int d;
-   public int[] e = new int[2];
-   public short f;
-   public short g;
-   public short h = -1;
-   public short i = -1;
-   public short[] j = new short[3];
-   public byte[][] k = new byte[3][12];
-   public String l;
-   public String m;
+   public byte species;
+   public byte frame;
+   public byte area;
+   public int harvestTime;
+   public int[] price = new int[2];
+   public short priceProduct;
+   public short iconID;
+   public short iconProduct = -1;
+   public short iconO = -1;
+   public short[] idImg = new short[3];
+   public byte[][] arrFrame = new byte[3][12];
+   public String name;
+   public String des;
 }

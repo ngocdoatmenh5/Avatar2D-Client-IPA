@@ -2,14 +2,14 @@ package avt;
 
 import java.util.Hashtable;
 import java.util.Vector;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class GlobalLogicHandler {
    public static boolean a;
 
    public static void a(String var0) {
-      GameCanvas.b(var0);
+      Canvas.b(var0);
    }
 
    public static void a() {
@@ -17,10 +17,10 @@ public final class GlobalLogicHandler {
       if (AvatarData.d == -1) {
          AvatarService.a().b();
       } else {
-         MapScr.b().t();
+         MapScr.gI().t();
       }
 
-      AvatarService.a().e(GameMidlet.i.w);
+      AvatarService.a().e(GameMidlet.avatar.IDDB);
       AvatarData.h = new Hashtable();
       AvatarData.i = new Hashtable();
    }
@@ -30,16 +30,16 @@ public final class GlobalLogicHandler {
       Vector var3;
       (var3 = new Vector()).addElement(new Command(T1.z, var4));
       var3.addElement(new Command(T1.d, new class_dw(this)));
-      GameCanvas.s.a(false);
-      GameCanvas.a(var1, var3);
+      Canvas.s.a(false);
+      Canvas.a(var1, var3);
       a = true;
    }
 
    public final void a(String var1, boolean var2) {
       if (var2) {
-         GameCanvas.b(var1, new class_dq(this));
+         Canvas.b(var1, new class_dq(this));
       } else {
-         GameCanvas.b(var1);
+         Canvas.b(var1);
       }
    }
 
@@ -53,7 +53,7 @@ public final class GlobalLogicHandler {
          switch (var0) {
             case 3:
                CasinoMsgHandler.a();
-               MapScr.b();
+               MapScr.gI();
                MapScr.m();
             case 4:
             case 5:
@@ -62,22 +62,22 @@ public final class GlobalLogicHandler {
             default:
                break;
             case 8:
-               MapScr.b().y = true;
+               MapScr.gI().y = true;
                AvatarMsgHandler.a();
                if (MapScr.D != -1) {
                   GlobalService.gI().j(MapScr.D);
                   MapScr.D = -1;
                } else if (MapScr.g != -1) {
-                  GameCanvas.x.e(57 + MapScr.g);
-                  if (GameCanvas.I && LoadMap.a == 57) {
-                     (GameCanvas.D = new Welcome()).b(MapScr.a);
+                  Canvas.x.e(57 + MapScr.g);
+                  if (Canvas.I && LoadMap.a == 57) {
+                     (Canvas.D = new Welcome()).b(MapScr.a);
                   }
 
-                  GameMidlet.i.e(4);
-                  GameCanvas.h();
+                  GameMidlet.avatar.setFeel(4);
+                  Canvas.h();
                } else {
-                  MapScr.b().t();
-                  GameCanvas.h();
+                  MapScr.gI().t();
+                  Canvas.h();
                }
                break;
             case 9:
@@ -89,22 +89,22 @@ public final class GlobalLogicHandler {
                         LoadMap.t = -1;
                         ParkService.a().a(MapScr.m, -1);
                      } else if (GameMidlet.e == 3) {
-                        GameCanvas.S.i();
+                        Canvas.S.i();
                         ParkService.a().a(MapScr.m, -1);
                      } else if (MapScr.g != -1) {
-                        MapScr.b();
+                        MapScr.gI();
                         MapScr.x();
                      } else if (MapScr.G != -1) {
-                        GameCanvas.i();
+                        Canvas.i();
                         ParkService.a().a(MapScr.G, -1);
                         MapScr.G = -1;
                      } else {
-                        MapScr.b().s();
+                        MapScr.gI().s();
                      }
                   } else {
-                     GameCanvas.S.i();
+                     Canvas.S.i();
                      OnScreen.e().a();
-                     GameCanvas.h();
+                     Canvas.h();
                   }
                } else {
                   LoadMap.y = -1;
@@ -126,7 +126,7 @@ public final class GlobalLogicHandler {
                } else {
                   ParkService.a().a(25, 0);
                   FarmScr.e();
-                  FarmScr.b().b(GameMidlet.i.w, false);
+                  FarmScr.b().b(GameMidlet.avatar.IDDB, false);
                }
                break;
             case 11:
@@ -134,7 +134,7 @@ public final class GlobalLogicHandler {
                LoadMap.a = -1;
                ParkService.a().a(21, 0);
                if (MapScr.v != -1) {
-                  GameCanvas.i();
+                  Canvas.i();
                   AvatarService.a().c((int)0);
                }
                break;
@@ -145,7 +145,7 @@ public final class GlobalLogicHandler {
 
                GlobalMessageHandler.a().a = class_jz.a;
                GlobalService var1 = GlobalService.gI();
-               GameCanvas.i();
+               Canvas.i();
                var1.e((byte)1);
                var1.k();
          }
@@ -155,11 +155,11 @@ public final class GlobalLogicHandler {
    }
 
    public final void a(int var1, byte var2, String[] var3, String var4, String var5, boolean[] var6) {
-      if (GameCanvas.t != null) {
-         GameCanvas.t = null;
+      if (Canvas.t != null) {
+         Canvas.t = null;
       }
 
-      GameCanvas.h();
+      Canvas.h();
       Vector var7 = new Vector();
 
       for(int var8 = 0; var8 < var3.length; ++var8) {
@@ -175,9 +175,9 @@ public final class GlobalLogicHandler {
 
    public final void a(byte var1, byte var2, String var3) {
       if (var2 == 0) {
-         GameCanvas.a(var3, (IAction)(new class_ds(this, var1)));
+         Canvas.a(var3, (IAction)(new class_ds(this, var1)));
       } else {
-         GameCanvas.b(var3);
+         Canvas.b(var3);
       }
    }
 }

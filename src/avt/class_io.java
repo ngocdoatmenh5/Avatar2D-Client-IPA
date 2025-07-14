@@ -12,8 +12,8 @@ final class class_io implements IAction {
    }
 
    public final void perform() {
-      if (GameMidlet.i.H != 2) {
-         MapScr.a(MapScr.w[this.b]);
+      if (GameMidlet.avatar.action != 2) {
+         MapScr.doAction(MapScr.w[this.b]);
       }
 
    }

@@ -18,9 +18,9 @@ final class class_gi implements IAction {
       if (HouseScr.b(this.a) != -1) {
          HouseScr.a(this.a, HouseScr.b(this.a));
          HouseScr.b(this.a, HouseScr.c(this.a));
-         GameMidlet.i.aw = HouseScr.b(this.a) * 24;
-         GameMidlet.i.ax = HouseScr.c(this.a) * 24;
-         AvCamera.a().a(GameMidlet.i.aw * AvMain.Y, GameMidlet.i.ax * AvMain.Y);
+         GameMidlet.avatar.x = HouseScr.b(this.a) * 24;
+         GameMidlet.avatar.y = HouseScr.c(this.a) * 24;
+         AvCamera.gI().a(GameMidlet.avatar.x * AvMain.hd, GameMidlet.avatar.y * AvMain.hd);
       }
 
       HouseScr.b = true;

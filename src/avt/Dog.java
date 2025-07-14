@@ -14,48 +14,48 @@ public final class Dog extends Animal {
       ++t;
    }
 
-   public final void a() {
-      this.a((FarmScr.w + 3) * 24 + (CRes.e((LoadMap.e - FarmScr.x - FarmScr.w - 5) * 6) << 2), 48 + (CRes.e(30) << 2));
+   public final void setInit() {
+      this.setPos((FarmScr.w + 3) * 24 + (CRes.rnd((LoadMap.wMap - FarmScr.x - FarmScr.w - 5) * 6) << 2), 48 + (CRes.rnd(30) << 2));
    }
 
-   public final void d() {
+   public final void updateEat() {
       if (u == -1) {
-         super.f = false;
-      } else if (super.i && !super.f) {
-         super.f = true;
+         super.isEat = false;
+      } else if (super.hunger && !super.isEat) {
+         super.isEat = true;
       }
    }
 
-   public final void c() {
-      super.n = new AvPosition();
-      this.g();
+   public final void updatePos() {
+      super.posNext = new AvPosition();
+      this.setPos();
    }
 
-   public final void g() {
+   public final void setPos() {
       AvPosition var2;
-      if (super.f) {
+      if (super.isEat) {
          super.G = 2;
          var2 = s;
-         super.n = var2;
+         super.posNext = var2;
       } else {
-         var2 = new AvPosition(288 + (CRes.e(126) << 2), 24 + (CRes.e(36) << 2));
-         super.n = var2;
+         var2 = new AvPosition(288 + (CRes.rnd(126) << 2), 24 + (CRes.rnd(36) << 2));
+         super.posNext = var2;
       }
    }
 
-   public final void h() {
-      if (!super.f && CRes.d(2) == 0) {
-         super.e = 200;
+   public final void reset() {
+      if (!super.isEat && CRes.d(2) == 0) {
+         super.cycle = 200;
       }
 
-      if (super.f && CRes.a(s.a, s.b, super.aw, super.ax) < 18) {
-         super.f = false;
-         super.i = false;
-         super.e = 200;
+      if (super.isEat && CRes.a(s.a, s.b, super.x, super.y) < 18) {
+         super.isEat = false;
+         super.hunger = false;
+         super.cycle = 200;
          FarmScr.b();
-         FarmScr.a(u, super.w);
+         FarmScr.a(u, super.IDDB);
       }
 
-      super.h();
+      super.reset();
    }
 }

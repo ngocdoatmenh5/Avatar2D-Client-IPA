@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_n implements IAction {
    private final String a;
@@ -11,10 +11,10 @@ final class class_n implements IAction {
 
    public final void perform() {
       if (!Session_ME.a().c) {
-         GameCanvas.c(T1.M);
-         GameCanvas.c();
+         Canvas.c(T1.M);
+         Canvas.c();
       } else {
-         GameCanvas.i();
+         Canvas.i();
       }
 
       GlobalService.gI().a((byte)4, this.a);

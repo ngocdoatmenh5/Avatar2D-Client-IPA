@@ -13,14 +13,14 @@ import javax.microedition.lcdui.Image;
 import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
 
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class AvatarData {
    private static int m;
    private static int n;
    private static int o;
-   public static ImageInfo[] a;
+   public static ImageInfo[] listImgInfo;
    public static Part[] b;
    public static Vector c;
    private static Vector p = new Vector();
@@ -105,7 +105,7 @@ public final class AvatarData {
          if (var6 == null) {
             var10000 = false;
          } else {
-            a = g(var6);
+            listImgInfo = g(var6);
             var10000 = true;
          }
 
@@ -266,8 +266,8 @@ public final class AvatarData {
 
       for(int var2 = 0; var2 < var0.size(); ++var2) {
          Part var3;
-         if ((var3 = (Part)var0.elementAt(var2)).g > var1) {
-            var1 = var3.g;
+         if ((var3 = (Part)var0.elementAt(var2)).IDPart > var1) {
+            var1 = var3.IDPart;
          }
       }
 
@@ -275,7 +275,7 @@ public final class AvatarData {
 
       for(int var6 = 0; var6 < var0.size(); ++var6) {
          Part var4 = (Part)var0.elementAt(var6);
-         var5[var4.g] = var4;
+         var5[var4.IDPart] = var4;
       }
 
       return var5;
@@ -298,7 +298,7 @@ public final class AvatarData {
          short var7;
          if ((var7 = var10.readShort()) == -2) {
             PartSmall var13;
-            (var13 = new PartSmall()).g = (short)var4;
+            (var13 = new PartSmall()).IDPart = (short)var4;
             var13.i[0] = var5;
             var13.i[1] = var6;
             var13.f = var7;
@@ -308,7 +308,7 @@ public final class AvatarData {
             var11.addElement(var13);
          } else if (var7 != -1) {
             class_lb var12;
-            (var12 = new class_lb()).g = (short)var4;
+            (var12 = new class_lb()).IDPart = (short)var4;
             var12.i[0] = var5;
             var12.i[1] = var6;
             var12.f = var7;
@@ -316,24 +316,24 @@ public final class AvatarData {
             var11.addElement(var12);
          } else {
             APartInfo var8;
-            (var8 = new APartInfo()).g = (short)var4;
+            (var8 = new APartInfo()).IDPart = (short)var4;
             var8.i[0] = var5;
             var8.i[1] = var6;
             var8.f = var7;
             var8.l = var10.readUTF();
             var8.k = var10.readByte();
-            var8.j = var10.readByte();
-            var8.b = var10.readByte();
-            var8.a = var10.readByte();
+            var8.zOrder = var10.readByte();
+            var8.gender = var10.readByte();
+            var8.level = var10.readByte();
             var8.h = var10.readShort();
-            var8.c = new short[15];
-            var8.d = new byte[15];
-            var8.e = new byte[15];
+            var8.imgID = new short[15];
+            var8.dx = new byte[15];
+            var8.dy = new byte[15];
 
             for(var4 = 0; var4 < 15; ++var4) {
-               var8.c[var4] = var10.readShort();
-               var8.d[var4] = var10.readByte();
-               var8.e[var4] = var10.readByte();
+               var8.imgID[var4] = var10.readShort();
+               var8.dx[var4] = var10.readByte();
+               var8.dy[var4] = var10.readByte();
             }
 
             var11.addElement(var8);
@@ -381,7 +381,7 @@ public final class AvatarData {
             Part var2;
             (var2 = b[var0]).l = var1.l;
             var2.k = var1.k;
-            var2.j = var1.j;
+            var2.zOrder = var1.zOrder;
             var2.h = var1.h;
          }
       }
@@ -454,7 +454,7 @@ public final class AvatarData {
 
    public static void c(byte[] var0) throws IOException, RecordStoreException {
       --d;
-      a = g(var0);
+      listImgInfo = g(var0);
       CRes.a("avatarImgData", var0);
       l();
    }
@@ -521,8 +521,8 @@ public final class AvatarData {
          (var3 = new MapItem()).a = var5.readShort();
          var3.b = var5.readShort();
          var3.f = var5.readByte();
-         var3.aw = var5.readByte();
-         var3.ax = var5.readByte();
+         var3.x = var5.readByte();
+         var3.y = var5.readByte();
          f.addElement(var3);
       }
 
@@ -567,7 +567,7 @@ public final class AvatarData {
             var2.e = CRes.a(var2.d);
          }
 
-         if (GameCanvas.E || GameCanvas.F) {
+         if (Canvas.E || Canvas.F) {
             r = new Hashtable();
          }
 
@@ -585,8 +585,8 @@ public final class AvatarData {
 
          p.removeAllElements();
          p = null;
-         GameMidlet.i.h();
-         MapScr.b().t();
+         GameMidlet.avatar.orderSeriesPath();
+         MapScr.gI().t();
       }
    }
 
@@ -597,24 +597,24 @@ public final class AvatarData {
       var2.fillRect(0, 0, var1.getWidth(), var1.getHeight());
 
       int var3;
-      for(var3 = 0; var3 < a.length; ++var3) {
-         if (var0.a == a[var3].b) {
-            var2.drawRegion(var0.e, a[var3].c * AvMain.Y, a[var3].d * AvMain.Y, a[var3].e * AvMain.Y, a[var3].f * AvMain.Y, Base.J, a[var3].c, a[var3].d, 0);
+      for(var3 = 0; var3 < listImgInfo.length; ++var3) {
+         if (var0.a == listImgInfo[var3].b) {
+            var2.drawRegion(var0.e, listImgInfo[var3].c * AvMain.hd, listImgInfo[var3].d * AvMain.hd, listImgInfo[var3].e * AvMain.hd, listImgInfo[var3].f * AvMain.hd, Base.LEFT, listImgInfo[var3].c, listImgInfo[var3].d, 0);
          }
       }
 
       for(var3 = 0; var3 < b.length; ++var3) {
-         if (b[var3] != null && b[var3].f >= 0 && b[var3].g < 2000) {
+         if (b[var3] != null && b[var3].f >= 0 && b[var3].IDPart < 2000) {
             APartInfo var4 = (APartInfo)a(b[var3].f);
 
-            for(int var5 = 0; var5 < var4.c.length; ++var5) {
-               ImageInfo var6 = a[var4.c[var5]];
+            for(int var5 = 0; var5 < var4.imgID.length; ++var5) {
+               ImageInfo var6 = listImgInfo[var4.imgID[var5]];
                if (((class_lb)b[var3]).a == var0.a) {
-                  int var10002 = var6.c * AvMain.Y;
-                  int var10003 = var6.d * AvMain.Y;
-                  int var10004 = var6.e * AvMain.Y;
-                  int var10005 = var6.f * AvMain.Y;
-                  var2.drawRegion(a((int)var0.a).e, var10002, var10003, var10004, var10005, Base.J, var6.c, var6.d, 0);
+                  int var10002 = var6.c * AvMain.hd;
+                  int var10003 = var6.d * AvMain.hd;
+                  int var10004 = var6.e * AvMain.hd;
+                  int var10005 = var6.f * AvMain.hd;
+                  var2.drawRegion(a((int)var0.a).e, var10002, var10003, var10004, var10005, Base.LEFT, var6.c, var6.d, 0);
                }
             }
          }
@@ -631,14 +631,14 @@ public final class AvatarData {
 
    public static void a(Graphics var0, int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9) {
       int var10002;
-      if (var8 != 0 && (GameCanvas.E || GameCanvas.F)) {
-         var10002 = var2 * AvMain.Y;
-         var0.drawRegion(((BigImgInfo)r.get("" + var1)).e, var10002, var3 * AvMain.Y, var4 * AvMain.Y, var5 * AvMain.Y, 0, var6, var7, 0);
+      if (var8 != 0 && (Canvas.E || Canvas.F)) {
+         var10002 = var2 * AvMain.hd;
+         var0.drawRegion(((BigImgInfo)r.get("" + var1)).e, var10002, var3 * AvMain.hd, var4 * AvMain.hd, var5 * AvMain.hd, 0, var6, var7, 0);
       } else {
-         var10002 = var2 * AvMain.Y;
-         int var10003 = var3 * AvMain.Y;
-         int var10004 = var4 * AvMain.Y;
-         int var10005 = var5 * AvMain.Y;
+         var10002 = var2 * AvMain.hd;
+         int var10003 = var3 * AvMain.hd;
+         int var10004 = var4 * AvMain.hd;
+         int var10005 = var5 * AvMain.hd;
          var0.drawRegion(a(var1).e, var10002, var10003, var10004, var10005, var8, var6, var7, 0);
       }
    }
@@ -784,8 +784,8 @@ public final class AvatarData {
       if (var0 != null) {
          for(int var2 = 0; var2 < var0.size(); ++var2) {
             SeriPart var3;
-            Part var4 = a((var3 = (SeriPart)var0.elementAt(var2)).a);
-            if (var3 != null && var4 instanceof APartInfo && ((APartInfo)var4).j == var1) {
+            Part var4 = a((var3 = (SeriPart)var0.elementAt(var2)).idPart);
+            if (var3 != null && var4 instanceof APartInfo && ((APartInfo)var4).zOrder == var1) {
                return (APartInfo)var4;
             }
          }
@@ -799,7 +799,7 @@ public final class AvatarData {
 
       for(int var3 = 0; var3 < var2; ++var3) {
          SeriPart var4;
-         if ((var4 = (SeriPart)var0.elementAt(var3)).a == var1) {
+         if ((var4 = (SeriPart)var0.elementAt(var3)).idPart == var1) {
             return var4;
          }
       }
@@ -812,7 +812,7 @@ public final class AvatarData {
 
       for(int var3 = 0; var3 < var2; ++var3) {
          SeriPart var4;
-         if (a((var4 = (SeriPart)var1.elementAt(var3)).a).j == var0) {
+         if (a((var4 = (SeriPart)var1.elementAt(var3)).idPart).zOrder == var0) {
             return var4;
          }
       }
@@ -824,7 +824,7 @@ public final class AvatarData {
       if (var0 >= 2000) {
          Object var1;
          if ((var1 = (Part)j.get("" + var0)) == null) {
-            ((Part)(var1 = new APartInfo())).g = -1;
+            ((Part)(var1 = new APartInfo())).IDPart = -1;
             j.put("" + var0, var1);
             GlobalService.gI().b(var0);
          }
@@ -840,8 +840,8 @@ public final class AvatarData {
    }
 
    public static void a(Graphics var0, int var1, int var2, int var3, int var4) {
-      if (c((short)var1).d != -1) {
-         var0.drawImage(c((short)var1).a, var2, var3, var4);
+      if (c((short)var1).count != -1) {
+         var0.drawImage(c((short)var1).img, var2, var3, var4);
       }
 
    }
@@ -852,8 +852,8 @@ public final class AvatarData {
          var1 = new ImageIcon();
          i.put("" + var0, var1);
          GlobalService.gI().c(var0);
-      } else if (var1.d >= 0) {
-         var1.d = (int)(System.currentTimeMillis() / 1000L);
+      } else if (var1.count >= 0) {
+         var1.count = (int)(System.currentTimeMillis() / 1000L);
       }
 
       return var1;
@@ -865,8 +865,8 @@ public final class AvatarData {
          var1 = new ImageIcon();
          h.put("" + var0, var1);
          AvatarService.a().b(var0);
-      } else if (var1.d >= 0) {
-         var1.d = (int)(System.currentTimeMillis() / 1000L);
+      } else if (var1.count >= 0) {
+         var1.count = (int)(System.currentTimeMillis() / 1000L);
       }
 
       return var1;
@@ -881,7 +881,7 @@ public final class AvatarData {
 
          while(var0.hasMoreElements()) {
             var1 = (String)var0.nextElement();
-            if ((var2 = (ImageIcon)h.get(var1)).d != -1 && System.currentTimeMillis() / 1000L - (long)var2.d > (long)GameCanvas.V) {
+            if ((var2 = (ImageIcon)h.get(var1)).count != -1 && System.currentTimeMillis() / 1000L - (long)var2.count > (long) Canvas.V) {
                h.remove(var1);
             }
          }
@@ -892,7 +892,7 @@ public final class AvatarData {
 
          while(var0.hasMoreElements()) {
             var1 = (String)var0.nextElement();
-            if ((var2 = (ImageIcon)i.get(var1)).d != -1 && System.currentTimeMillis() / 1000L - (long)var2.d > (long)GameCanvas.V) {
+            if ((var2 = (ImageIcon)i.get(var1)).count != -1 && System.currentTimeMillis() / 1000L - (long)var2.count > (long) Canvas.V) {
                i.remove(var1);
             }
          }
@@ -903,9 +903,9 @@ public final class AvatarData {
    public static int b(Part var0) {
       byte var1;
       if (var0.f >= 0) {
-         var1 = ((APartInfo)a(var0.f)).a;
+         var1 = ((APartInfo)a(var0.f)).level;
       } else {
-         var1 = ((APartInfo)var0).a;
+         var1 = ((APartInfo)var0).level;
       }
 
       return var1;

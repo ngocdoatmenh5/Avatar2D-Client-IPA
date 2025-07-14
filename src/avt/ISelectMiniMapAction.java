@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class ISelectMiniMapAction implements IAction {
    ISelectMiniMapAction(MapScr var1) {
@@ -24,6 +24,6 @@ final class ISelectMiniMapAction implements IAction {
             GlobalService.gI().d((int)10);
       }
 
-      GameCanvas.c(var1 + T1.nameRegion[MiniMap.gI().e] + "...");
+      Canvas.c(var1 + T1.nameRegion[MiniMap.gI().e] + "...");
    }
 }

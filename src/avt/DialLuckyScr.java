@@ -3,7 +3,7 @@ package avt;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class DialLuckyScr extends MyScreen {
@@ -41,7 +41,7 @@ public final class DialLuckyScr extends MyScreen {
    public final void a(MyScreen var1, short var2) {
       this.r = var1;
       this.s = var2;
-      GameCanvas.d[5] = false;
+      Canvas.d[5] = false;
       super.a();
    }
 
@@ -63,7 +63,7 @@ public final class DialLuckyScr extends MyScreen {
             }
 
             var3.z.removeAllElements();
-            a(var3.w, GameMidlet.i, 0);
+            a(var3.w, GameMidlet.avatar, 0);
          default:
       }
    }
@@ -73,16 +73,16 @@ public final class DialLuckyScr extends MyScreen {
       this.b = FilePack.a("c");
       this.d = FilePack.a("sq");
       this.e = FilePack.a("q");
-      this.f = FrameImage.a("st", 11 * AvMain.Y, 11 * AvMain.Y);
+      this.f = FrameImage.a("st", 11 * AvMain.hd, 11 * AvMain.hd);
       this.c = FilePack.a("cb");
       FilePack.a();
-      if (GameCanvas.m < 200) {
+      if (Canvas.m < 200) {
          this.g = 80;
       } else {
          this.g = 90;
       }
 
-      this.n = new AvPosition(GameCanvas.m, GameCanvas.p);
+      this.n = new AvPosition(Canvas.m, Canvas.hh);
       this.i = 30;
       this.l = 360 / this.i;
       this.t = new Command(T1.dv, 0);
@@ -103,28 +103,28 @@ public final class DialLuckyScr extends MyScreen {
          switch (var4.b) {
             case 1:
                Part var6 = AvatarData.a(var4.a);
-               ImageInfo var7 = AvatarData.a[var6.h];
-               GameCanvas.a(0, var1.aw, var1.ax - 50, -1, CRes.a(var7.c * AvMain.Y, var7.d * AvMain.Y, var7.e * AvMain.Y, var7.f * AvMain.Y, AvatarData.a((int)var7.b).e), var2);
+               ImageInfo var7 = AvatarData.listImgInfo[var6.h];
+               Canvas.a(0, var1.x, var1.y - 50, -1, CRes.a(var7.c * AvMain.hd, var7.d * AvMain.hd, var7.e * AvMain.hd, var7.f * AvMain.hd, AvatarData.a((int)var7.b).e), var2);
                break;
             case 2:
                var5 = "+" + var4.c + T1.C;
-               var1.a(var1.a[0] + var4.c);
+               var1.setMoney(var1.money[0] + var4.c);
                var2 += 20;
                break;
             case 3:
                var5 = "+" + var4.f + " xp";
-               var1.d(var1.n + var4.f);
+               var1.setExp(var1.exp + var4.f);
                var2 += 20;
                break;
             case 4:
                var5 = "+" + var4.g + T1.D;
-               int[] var10000 = var1.a;
+               int[] var10000 = var1.money;
                var10000[2] += var4.g;
                var2 += 20;
          }
 
          if (!var5.equals("")) {
-            GameCanvas.a(var5, var1.aw, var1.ax - 50, -1, 1, var2);
+            Canvas.a(var5, var1.x, var1.y - 50, -1, 1, var2);
          }
       }
 
@@ -148,8 +148,8 @@ public final class DialLuckyScr extends MyScreen {
             --this.j;
          }
 
-         if (GameCanvas.l % 8 == 4) {
-            var1 = CRes.e(this.l);
+         if (Canvas.gameTick % 8 == 4) {
+            var1 = CRes.rnd(this.l);
             if ((var2 = this.h / 20 + var1 * this.i) > 360) {
                var2 -= 360;
             }
@@ -202,12 +202,12 @@ public final class DialLuckyScr extends MyScreen {
       for(var1 = 0; var1 < this.z.size(); ++var1) {
          Point var7;
          Point var10000 = var7 = (Point)this.z.elementAt(var1);
-         var10000.aw += var7.b;
+         var10000.x += var7.b;
          if (var7.b > 1 || var7.b < -1) {
             var7.b -= var7.b / CRes.f(var7.b);
          }
 
-         var7.ax += var7.e;
+         var7.y += var7.e;
          ++var7.e;
          ++var7.f;
          if (var7.f > 20) {
@@ -236,8 +236,8 @@ public final class DialLuckyScr extends MyScreen {
 
          Point var5;
          (var5 = new Point(var1, var2)).f = 0;
-         var5.b = var4 * (CRes.e(80) / 10);
-         var5.e = -CRes.e(70) / 10;
+         var5.b = var4 * (CRes.rnd(80) / 10);
+         var5.e = -CRes.rnd(70) / 10;
          this.z.addElement(var5);
       }
 
@@ -245,17 +245,17 @@ public final class DialLuckyScr extends MyScreen {
 
    public final void l() {
       if (!this.p) {
-         if (GameCanvas.S.d() == 1) {
-            if (GameCanvas.e) {
-               GameCanvas.d[5] = true;
+         if (Canvas.S.d() == 1) {
+            if (Canvas.e) {
+               Canvas.d[5] = true;
             }
 
-            if (GameCanvas.f) {
-               GameCanvas.c[5] = true;
+            if (Canvas.f) {
+               Canvas.c[5] = true;
             }
          }
 
-         if (GameCanvas.d[5] && !this.o && this.q) {
+         if (Canvas.d[5] && !this.o && this.q) {
             if (this.k < 270) {
                this.k += 3;
             }
@@ -263,14 +263,14 @@ public final class DialLuckyScr extends MyScreen {
             this.k -= 3;
          }
 
-         if (GameCanvas.c[5]) {
+         if (Canvas.c[5]) {
             if (this.k > 90 && !this.o && this.q) {
                this.m = this.k;
                GlobalService.gI().a(this.s, this.m - 90);
-               GameCanvas.i();
+               Canvas.i();
             }
 
-            GameCanvas.c[5] = false;
+            Canvas.c[5] = false;
          }
       }
 
@@ -278,7 +278,7 @@ public final class DialLuckyScr extends MyScreen {
    }
 
    public final void a(int var1, int var2, Vector var3) {
-      if (var1 != GameMidlet.i.w) {
+      if (var1 != GameMidlet.avatar.IDDB) {
          Avatar var4;
          if ((var4 = LoadMap.g(var1)) != null) {
             a(var3, var4, var2 + 100 + 20);
@@ -289,14 +289,14 @@ public final class DialLuckyScr extends MyScreen {
          this.w = var3;
          this.j = 100 + (this.m - 90);
          this.o = true;
-         GameCanvas.h();
+         Canvas.h();
       }
 
    }
 
    public final void a(Graphics var1) {
       this.r.b(var1);
-      GameCanvas.c(var1);
+      Canvas.resetTrans(var1);
       int var2 = this.h / 20;
 
       int var3;
@@ -327,19 +327,19 @@ public final class DialLuckyScr extends MyScreen {
                switch ((var13 = (Gift)var11.w.elementAt(var5)).b) {
                   case 1:
                      AvatarData.a(var13.a).a(var12, var13.d, var13.e, 3);
-                     GameCanvas.L.a(var12, var13.h, var13.d - 17, var13.e - 7, 1);
+                     Canvas.L.a(var12, var13.h, var13.d - 17, var13.e - 7, 1);
                      break;
                   case 2:
-                     GameCanvas.L.a(var12, T1.C, var13.d, var13.e - AvMain.ag / 2, 2);
-                     GameCanvas.L.a(var12, String.valueOf(var13.c), var13.d - 17, var13.e - 8, 1);
+                     Canvas.L.a(var12, T1.C, var13.d, var13.e - AvMain.ag / 2, 2);
+                     Canvas.L.a(var12, String.valueOf(var13.c), var13.d - 17, var13.e - 8, 1);
                      break;
                   case 3:
-                     GameCanvas.L.a(var12, "xp", var13.d, var13.e - AvMain.ag / 2, 2);
-                     GameCanvas.L.a(var12, String.valueOf(var13.f), var13.d - 17, var13.e - 8, 1);
+                     Canvas.L.a(var12, "xp", var13.d, var13.e - AvMain.ag / 2, 2);
+                     Canvas.L.a(var12, String.valueOf(var13.f), var13.d - 17, var13.e - 8, 1);
                      break;
                   case 4:
-                     GameCanvas.L.a(var12, T1.D, var13.d, var13.e - AvMain.ag / 2, 2);
-                     GameCanvas.L.a(var12, String.valueOf(var13.g), var13.d - 17, var13.e - 8, 1);
+                     Canvas.L.a(var12, T1.D, var13.d, var13.e - AvMain.ag / 2, 2);
+                     Canvas.L.a(var12, String.valueOf(var13.g), var13.d - 17, var13.e - 8, 1);
                }
             }
          }
@@ -400,7 +400,7 @@ public final class DialLuckyScr extends MyScreen {
    private void c(Graphics var1) {
       for(int var2 = 0; var2 < this.z.size(); ++var2) {
          Point var3 = (Point)this.z.elementAt(var2);
-         this.f.a(var3.f / 5, var3.aw, var3.ax, 0, 3, var1);
+         this.f.drawFrame(var3.f / 5, var3.x, var3.y, 0, 3, var1);
       }
 
    }

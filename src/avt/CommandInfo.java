@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 final class CommandInfo extends Command {
    private final Avatar f;
@@ -20,16 +20,16 @@ final class CommandInfo extends Command {
    }
 
    public final void a(Graphics var1, int var2, int var3) {
-      GameCanvas.c(var1);
-      var2 = PaintPopup.o + (AvMain.Z << 1) + 10 * AvMain.Y + 30 * (AvMain.Y - 1) + PopupShop.b;
+      Canvas.resetTrans(var1);
+      var2 = PaintPopup.o + (AvMain.Z << 1) + 10 * AvMain.hd + 30 * (AvMain.hd - 1) + PopupShop.b;
       byte var5 = AvMain.ah;
-      this.f.a(var1, GameCanvas.m / 2, var2, false);
-      GameCanvas.K.a(var1, T1.aA + this.f.x, GameCanvas.m / 2, var2 + var5, 2);
-      GameCanvas.K.a(var1, T1.em[3] + this.g + " (" + this.h + "%)", GameCanvas.m / 2, var2 + (var5 << 1), 2);
-      GameCanvas.K.a(var1, T1.cC + this.i, GameCanvas.m / 2, var2 + var5 * 3, 2);
-      GameCanvas.K.a(var1, T1.cD + ": ", GameCanvas.m / 2, var2 + (var5 << 2), 2);
+      this.f.paintIcon(var1, Canvas.m / 2, var2, false);
+      Canvas.K.a(var1, T1.aA + this.f.name, Canvas.m / 2, var2 + var5, 2);
+      Canvas.K.a(var1, T1.em[3] + this.g + " (" + this.h + "%)", Canvas.m / 2, var2 + (var5 << 1), 2);
+      Canvas.K.a(var1, T1.cC + this.i, Canvas.m / 2, var2 + var5 * 3, 2);
+      Canvas.K.a(var1, T1.cD + ": ", Canvas.m / 2, var2 + (var5 << 2), 2);
       if (this.j != -1) {
-         ((PartSmall)AvatarData.a(this.j)).a(var1, GameCanvas.m / 2, var2 + var5 * 6, 3);
+         ((PartSmall)AvatarData.a(this.j)).a(var1, Canvas.m / 2, var2 + var5 * 6, 3);
       }
 
    }

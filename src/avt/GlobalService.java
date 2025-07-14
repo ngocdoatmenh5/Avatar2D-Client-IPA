@@ -2,7 +2,7 @@ package avt;
 
 import java.io.IOException;
 import javax.microedition.rms.RecordStore;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class GlobalService extends IService {
@@ -50,10 +50,10 @@ public final class GlobalService extends IService {
 
          super.b.c().writeUTF(var4);
          super.b.c().writeInt(d());
-         super.b.c().writeInt(GameCanvas.m);
-         super.b.c().writeInt(GameCanvas.n);
-         super.b.c().writeBoolean(GameCanvas.H);
-         super.b.c().writeByte(AvMain.Y - 1);
+         super.b.c().writeInt(Canvas.m);
+         super.b.c().writeInt(Canvas.n);
+         super.b.c().writeBoolean(Canvas.H);
+         super.b.c().writeByte(AvMain.hd - 1);
          super.b.c().writeUTF("2.5.8");
          System.out.println("setProviderAndClientType: " + PopupShop.i + "    " + MiniMap.i + "    " + MapScr.j);
          super.b.c().writeUTF(PopupShop.i);
@@ -142,13 +142,13 @@ public final class GlobalService extends IService {
       this.e((byte)-35);
 
       try {
-         super.b.c().writeByte(GameMidlet.i.d);
-         int var1 = GameMidlet.i.e.size();
+         super.b.c().writeByte(GameMidlet.avatar.gender);
+         int var1 = GameMidlet.avatar.seriPart.size();
          super.b.c().writeByte(var1);
 
          for(int var2 = 0; var2 < var1; ++var2) {
-            SeriPart var3 = (SeriPart)GameMidlet.i.e.elementAt(var2);
-            super.b.c().writeShort(var3.a);
+            SeriPart var3 = (SeriPart)GameMidlet.avatar.seriPart.elementAt(var2);
+            super.b.c().writeShort(var3.idPart);
          }
       } catch (IOException var4) {
       }
@@ -418,14 +418,14 @@ public final class GlobalService extends IService {
    }
 
    public final void j(int var1) {
-      GameCanvas.i();
+      Canvas.i();
       this.e((byte)-99);
       this.o(var1);
       this.k();
    }
 
    public final void c(int var1, int var2) {
-      GameCanvas.i();
+      Canvas.i();
       this.e((byte)5);
       this.o(var1);
       this.n(var2);

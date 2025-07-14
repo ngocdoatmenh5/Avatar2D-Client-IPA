@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_fm extends Command {
    private final String f;
@@ -24,26 +24,26 @@ final class class_fm extends Command {
    }
 
    public final void a(Graphics var1, int var2, int var3) {
-      var2 = 15 * AvMain.Y;
-      GameCanvas.K.a(var1, this.f, PopupShop.c / 2 - 7, var2, 2);
-      var2 += this.g.aA + GameCanvas.K.a() + 15 * AvMain.Y;
-      this.g.a(var1, PopupShop.c / 4 - 7, var2, true);
-      this.h.a(var1, PopupShop.c / 4 * 3 - 7, var2, true);
+      var2 = 15 * AvMain.hd;
+      Canvas.K.a(var1, this.f, PopupShop.c / 2 - 7, var2, 2);
+      var2 += this.g.height + Canvas.K.a() + 15 * AvMain.hd;
+      this.g.paintIcon(var1, PopupShop.c / 4 - 7, var2, true);
+      this.h.paintIcon(var1, PopupShop.c / 4 * 3 - 7, var2, true);
       ImageIcon var4;
-      if ((var4 = AvatarData.c(this.i)).d != -1) {
-         var1.drawImage(var4.a, PopupShop.c / 2 - 7, var2 - this.g.aA / 2, 3);
+      if ((var4 = AvatarData.c(this.i)).count != -1) {
+         var1.drawImage(var4.img, PopupShop.c / 2 - 7, var2 - this.g.height / 2, 3);
          if (this.j > 0) {
-            GameCanvas.N.a(var1, "lv" + this.j + "+" + this.k + "%", PopupShop.c / 2 - 7, var2, 2);
-            var2 += GameCanvas.N.a();
+            Canvas.N.a(var1, "lv" + this.j + "+" + this.k + "%", PopupShop.c / 2 - 7, var2, 2);
+            var2 += Canvas.N.a();
             MapScr.a(var1, "", PopupShop.c / 2 - 8, var2, this.k);
          }
       }
 
-      var2 += GameCanvas.N.a() << 1;
-      GameCanvas.K.a(var1, this.l, PopupShop.c / 2 - 7, var2 - 5, 2);
+      var2 += Canvas.N.a() << 1;
+      Canvas.K.a(var1, this.l, PopupShop.c / 2 - 7, var2 - 5, 2);
    }
 
    public final void a() {
-      this.h.b();
+      this.h.update();
    }
 }

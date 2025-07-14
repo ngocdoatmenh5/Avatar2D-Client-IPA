@@ -105,11 +105,11 @@ public final class CRes {
       return a.nextInt() % 2;
    }
 
-   public static int e(int var0) {
+   public static int rnd(int var0) {
       return a.nextInt(var0);
    }
 
-   public static int b(int var0, int var1) {
+   public static int rnd(int var0, int var1) {
       return a.nextInt(2) == 0 ? var0 : var1;
    }
 

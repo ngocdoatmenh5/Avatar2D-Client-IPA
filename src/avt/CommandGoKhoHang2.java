@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 final class CommandGoKhoHang2 extends Command {
    private final FarmItem f;
@@ -25,9 +25,9 @@ final class CommandGoKhoHang2 extends Command {
          PopupShop.a(this.f.f);
          PopupShop.a(T1.ay + this.h.e);
          if (this.f.h > 0) {
-            PopupShop.a(T1.aK + GameCanvas.b(this.h.e * this.f.h) + T1.T);
+            PopupShop.a(T1.aK + Canvas.getMoneys(this.h.e * this.f.h) + T1.T);
          } else if (this.f.g > 0) {
-            PopupShop.a(T1.aK + GameCanvas.b(this.h.e * this.f.g) + T1.T);
+            PopupShop.a(T1.aK + Canvas.getMoneys(this.h.e * this.f.g) + T1.T);
          }
 
          PopupShop.a(MapScr.r());

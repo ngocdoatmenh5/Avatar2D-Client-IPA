@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_a implements IAction {
    private final int a;
@@ -10,7 +10,7 @@ final class class_a implements IAction {
    }
 
    public final void perform() {
-      AvatarService.a().a(GameCanvas.u.a(), this.a, 1);
-      GameCanvas.h();
+      AvatarService.a().a(Canvas.u.a(), this.a, 1);
+      Canvas.h();
    }
 }

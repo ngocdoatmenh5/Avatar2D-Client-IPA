@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public class Command {
    public String a;
@@ -40,7 +40,7 @@ public class Command {
       } else if (class_im.c) {
          class_im.d().a(this.c, this.e);
       } else {
-         GameCanvas.r.a(this.c, this.e);
+         Canvas.currentMyScreen.a(this.c, this.e);
       }
    }
 
@@ -48,6 +48,6 @@ public class Command {
    }
 
    public void a(Graphics var1, int var2, int var3) {
-      GameCanvas.L.a(var1, this.a, var2, var3, 2);
+      Canvas.L.a(var1, this.a, var2, var3, 2);
    }
 }

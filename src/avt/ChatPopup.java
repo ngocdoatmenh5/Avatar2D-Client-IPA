@@ -2,7 +2,7 @@ package avt;
 
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class ChatPopup {
    private int e;
@@ -34,7 +34,7 @@ public final class ChatPopup {
       this.a(var1, var2);
    }
 
-   public final void a(int var1, int var2) {
+   public final void setPos(int var1, int var2) {
       this.a = var1;
       this.b = var2;
    }
@@ -47,7 +47,7 @@ public final class ChatPopup {
       if (this.e == 0) {
          return true;
       } else {
-         if (GameCanvas.r == BoardScr.i) {
+         if (Canvas.currentMyScreen == BoardScr.i) {
             if (this.b - this.c < 0) {
                this.b = this.c + 10;
             }
@@ -56,8 +56,8 @@ public final class ChatPopup {
                this.a = 32;
             }
 
-            if (this.a + 30 > GameCanvas.m) {
-               this.a = GameCanvas.m - 40;
+            if (this.a + 30 > Canvas.m) {
+               this.a = Canvas.m - 40;
             }
          }
 
@@ -66,27 +66,27 @@ public final class ChatPopup {
    }
 
    public final void a(int var1, String var2) {
-      this.f = 80 * AvMain.Y;
-      this.d = GameCanvas.N.a(var2, this.f - 25);
+      this.f = 80 * AvMain.hd;
+      this.d = Canvas.N.a(var2, this.f - 25);
       this.c = AvMain.af * this.d.length + 4 + 4;
       if (this.c < g << 1) {
          this.c = g << 1;
       }
 
       if (this.d.length == 1) {
-         this.f = GameCanvas.N.a(this.d[0]) + 20;
+         this.f = Canvas.N.getWidth(this.d[0]) + 20;
       }
 
-      if (this.f < 30 * AvMain.Y) {
-         this.f = 30 * AvMain.Y;
+      if (this.f < 30 * AvMain.hd) {
+         this.f = 30 * AvMain.hd;
       }
 
       this.e = var1;
    }
 
-   public final void a(Graphics var1) {
-      int var2 = AvMain.Y;
-      if (GameCanvas.r == BoardScr.i) {
+   public final void paintAnimal(Graphics var1) {
+      int var2 = AvMain.hd;
+      if (Canvas.currentMyScreen == BoardScr.i) {
          var2 = 1;
       }
 
@@ -95,7 +95,7 @@ public final class ChatPopup {
       byte var3 = AvMain.af;
 
       for(int var4 = 0; var4 < this.d.length; ++var4) {
-         GameCanvas.N.a(var1, this.d[var4], this.a * var2 - this.f / 2 + this.f / 2, this.b * var2 - this.c / 2 + var4 * var3 - this.d.length * var3 / 2, 2);
+         Canvas.N.a(var1, this.d[var4], this.a * var2 - this.f / 2 + this.f / 2, this.b * var2 - this.c / 2 + var4 * var3 - this.d.length * var3 / 2, 2);
       }
 
    }

@@ -3,7 +3,7 @@ package avt;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class MoneyScr extends MyScreen {
@@ -53,7 +53,7 @@ public final class MoneyScr extends MyScreen {
          this.c = 1;
          var1 = T1.ev[1];
          FarmService.a().e(0, 0);
-         GameCanvas.i();
+         Canvas.i();
       } else {
          var1 = T1.ev[0];
          this.c = 0;
@@ -84,27 +84,27 @@ public final class MoneyScr extends MyScreen {
    public final void a(int var1, int var2) {
       switch (var1) {
          case 0:
-            GameCanvas.y.m = false;
+            Canvas.y.m = false;
             this.e.a();
             this.i = null;
             return;
          case 1:
          case 2:
             if (this.c != 0) {
-               GameCanvas.u.a(T1.ay, 100, 1);
+               Canvas.u.a(T1.ay, 100, 1);
                return;
             }
 
             String var3;
             MoneyInfo var8;
             if ((var8 = (MoneyInfo)this.b.elementAt(super.ar)).c.indexOf(T1.aH) != -1) {
-               var3 = GameCanvas.K.a(var8.c, T1.aI, GameMidlet.i.x);
-               GameCanvas.a(T1.cL, (IAction)(new class_ci(this, var3)));
+               var3 = Canvas.K.a(var8.c, T1.aI, GameMidlet.avatar.name);
+               Canvas.a(T1.cL, (IAction)(new class_ci(this, var3)));
             } else {
                String var9;
                if (var8.c.indexOf("napthe:") != -1) {
                   var3 = var8.c.substring(0, var8.c.indexOf("napthe:") + "napthe:".length());
-                  var3 = GameCanvas.K.a(var8.c, var3, "");
+                  var3 = Canvas.K.a(var8.c, var3, "");
                   String var10001 = var3;
                   var3 = var8.a;
                   var9 = var10001;
@@ -114,10 +114,10 @@ public final class MoneyScr extends MyScreen {
                   var4[0].d(0);
                   var4[1].d(1);
                   InputFace.b().a(var4, var3, T1.eH, new Command(T1.cy, new class_ch(this, var9, var4)));
-                  GameCanvas.A = InputFace.b();
+                  Canvas.A = InputFace.b();
                } else {
                   if (var8.c.indexOf("ServerNap:") == -1) {
-                     GameCanvas.i();
+                     Canvas.i();
                      GlobalService var10000 = GlobalService.gI();
                      var9 = var8.b;
                      GlobalService var7 = var10000;
@@ -128,24 +128,24 @@ public final class MoneyScr extends MyScreen {
                   }
 
                   var3 = var8.c.substring(0, var8.c.indexOf("ServerNap:") + "ServerNap:".length());
-                  var3 = GameCanvas.K.a(var8.c, var3, "");
+                  var3 = Canvas.K.a(var8.c, var3, "");
                   AvatarService var6;
                   (var6 = AvatarService.a()).e((byte)-76);
                   var6.c(var3);
                   var6.k();
-                  GameCanvas.i();
+                  Canvas.i();
                }
             }
             break;
          case 100:
             try {
-               if (GameCanvas.u.a().equals("")) {
+               if (Canvas.u.a().equals("")) {
                   return;
                }
 
-               var1 = Integer.parseInt(GameCanvas.u.a());
+               var1 = Integer.parseInt(Canvas.u.a());
                FarmService.a().e(var1, super.ar == 0 ? 1 : 0);
-               GameCanvas.i();
+               Canvas.i();
                return;
             } catch (Exception var5) {
             }
@@ -169,15 +169,15 @@ public final class MoneyScr extends MyScreen {
    }
 
    public final void a(Graphics var1) {
-      GameCanvas.c(var1);
+      Canvas.resetTrans(var1);
       if (OnScreen.b) {
-         GameCanvas.S.b(var1);
-         GameCanvas.S.a(var1, T1.cf.toUpperCase(), GameMidlet.i.a[0] + T1.C, GameMidlet.i.a[2] + T1.D);
+         Canvas.S.b(var1);
+         Canvas.S.a(var1, T1.cf.toUpperCase(), GameMidlet.avatar.money[0] + T1.C, GameMidlet.avatar.money[2] + T1.D);
       } else if (this.e != null) {
          this.e.b(var1);
       }
 
-      if (InputFace.a == null || GameCanvas.A != InputFace.a) {
+      if (InputFace.a == null || Canvas.A != InputFace.a) {
          if (!OnScreen.b) {
             PaintPopup.a().a(var1);
             var1.translate(0, this.k + PaintPopup.o + AvMain.Z);
@@ -189,14 +189,14 @@ public final class MoneyScr extends MyScreen {
 
          if (this.d == 1) {
             int var2 = (this.m - PaintPopup.o + (AvMain.Z << 1)) / 6;
-            GameCanvas.N.a(var1, T1.aA + GameMidlet.i.x, this.j + this.l / 2, var2 / 2, 2);
+            Canvas.N.a(var1, T1.aA + GameMidlet.avatar.name, this.j + this.l / 2, var2 / 2, 2);
             if (!FarmScr.z) {
-               GameCanvas.N.a(var1, T1.aJ + ": " + GameMidlet.i.c, this.j + this.l / 2, var2 / 2 + var2, 2);
+               Canvas.N.a(var1, T1.aJ + ": " + GameMidlet.avatar.strMoney, this.j + this.l / 2, var2 / 2 + var2, 2);
             }
 
-            GameCanvas.N.a(var1, GameMidlet.i.a[2] + T1.D, this.j + this.l / 2, var2 / 2 + (var2 << 1), 2);
+            Canvas.N.a(var1, GameMidlet.avatar.money[2] + T1.D, this.j + this.l / 2, var2 / 2 + (var2 << 1), 2);
             if (FarmScr.z) {
-               GameCanvas.N.a(var1, MapScr.r(), this.j + this.l / 2, var2 / 2 + var2 * 3, 2);
+               Canvas.N.a(var1, MapScr.r(), this.j + this.l / 2, var2 / 2 + var2 * 3, 2);
             }
          } else {
             var1.translate(0, -CameraList.i);
@@ -207,11 +207,11 @@ public final class MoneyScr extends MyScreen {
             }
          }
 
-         if (GameCanvas.D == null || !Welcome.d) {
+         if (Canvas.D == null || !Welcome.d) {
             super.a(var1);
          }
 
-         GameCanvas.a(var1);
+         Canvas.a(var1);
       }
    }
 
@@ -232,30 +232,30 @@ public final class MoneyScr extends MyScreen {
             var2 = 2;
          }
 
-         GameCanvas.y.a(this.j, this.k + (!OnScreen.b ? PaintPopup.o + AvMain.Z : 0), this.l, this.n, this.l, var1, this.l, this.m - (PaintPopup.o + 2 * AvMain.Z) - AvMain.Z, var2);
+         Canvas.y.a(this.j, this.k + (!OnScreen.b ? PaintPopup.o + AvMain.Z : 0), this.l, this.n, this.l, var1, this.l, this.m - (PaintPopup.o + 2 * AvMain.Z) - AvMain.Z, var2);
       }
    }
 
    private void g() {
       if (OnScreen.b) {
-         this.l = GameCanvas.m + 8;
-         this.m = GameCanvas.n - 25 - MyScreen.al + (AvMain.Z << 1);
+         this.l = Canvas.m + 8;
+         this.m = Canvas.n - 25 - MyScreen.al + (AvMain.Z << 1);
       } else {
          this.l = LoginScr.b().l;
          this.m = LoginScr.b().m;
       }
 
       this.n = MyScreen.av;
-      this.j = GameCanvas.o - this.l / 2;
+      this.j = Canvas.o - this.l / 2;
    }
 
    private void c(Graphics var1) {
       for(int var2 = 0; var2 < 2; ++var2) {
          if (!super.aj && var2 == super.ar) {
-            GameCanvas.S.c(var1, this.j + 3 * AvMain.Y, var2 * this.n + 5, this.l - 6 * AvMain.Y, this.n);
+            Canvas.S.c(var1, this.j + 3 * AvMain.hd, var2 * this.n + 5, this.l - 6 * AvMain.hd, this.n);
          }
 
-         GameCanvas.K.a(var1, T1.ew[var2], this.j + 10 + (super.ar == var2 ? this.o : 0), var2 * this.n + 5 + this.n / 2 - AvMain.ah / 2, 0);
+         Canvas.K.a(var1, T1.ew[var2], this.j + 10 + (super.ar == var2 ? this.o : 0), var2 * this.n + 5 + this.n / 2 - AvMain.ah / 2, 0);
       }
 
    }
@@ -269,9 +269,9 @@ public final class MoneyScr extends MyScreen {
          if (var4 == super.ar && !super.aj) {
             if (OnScreen.b) {
                var1.setColor(14328855);
-               var1.fillRect(this.j, var4 * this.n, this.l - 3 * AvMain.Y, this.n);
+               var1.fillRect(this.j, var4 * this.n, this.l - 3 * AvMain.hd, this.n);
             } else {
-               GameCanvas.S.c(var1, this.j + 6, var4 * this.n, this.l - 6 * AvMain.Y, this.n);
+               Canvas.S.c(var1, this.j + 6, var4 * this.n, this.l - 6 * AvMain.hd, this.n);
             }
          }
 
@@ -281,7 +281,7 @@ public final class MoneyScr extends MyScreen {
       for(var4 = 0; var4 < var3; ++var4) {
          MoneyInfo var5 = (MoneyInfo)this.b.elementAt(var4);
          var1.setClip(this.j + var2 - 3, CameraList.i, this.l - var2 - 2, this.m - (!OnScreen.b ? PaintPopup.o + 2 * AvMain.Z : 0));
-         GameCanvas.K.a(var1, var5.a, this.j + var2, var4 * this.n + this.n / 2 - AvMain.ah / 2, 0);
+         Canvas.K.a(var1, var5.a, this.j + var2, var4 * this.n + this.n / 2 - AvMain.ah / 2, 0);
       }
 
    }
@@ -289,12 +289,12 @@ public final class MoneyScr extends MyScreen {
    public final void l() {
       super.l();
       if (!OnScreen.b) {
-         if (GameCanvas.b[4] || GameCanvas.b[6]) {
+         if (Canvas.b[4] || Canvas.b[6]) {
             this.h();
          }
 
-         if (GameCanvas.g && GameCanvas.a(0, PaintPopup.a().h, GameCanvas.m, PaintPopup.o)) {
-            GameCanvas.g = false;
+         if (Canvas.g && Canvas.a(0, PaintPopup.a().h, Canvas.m, PaintPopup.o)) {
+            Canvas.g = false;
             this.h();
          }
       }
@@ -331,9 +331,9 @@ public final class MoneyScr extends MyScreen {
       int var2;
       if (this.c == 0) {
          MoneyInfo var1 = (MoneyInfo)this.b.elementAt(super.ar);
-         var2 = GameCanvas.K.a(var1.a);
+         var2 = Canvas.K.getWidth(var1.a);
       } else {
-         var2 = GameCanvas.K.a(T1.ew[super.ar]);
+         var2 = Canvas.K.getWidth(T1.ew[super.ar]);
       }
 
       if (var2 > this.l - 20) {

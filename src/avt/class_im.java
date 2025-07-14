@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class class_im extends AvMain {
    public static class_im a;
@@ -39,7 +39,7 @@ public final class class_im extends AvMain {
       if (OnScreen.b && OptionScr.d) {
          OptionScr.d = false;
          OptionScr.b().b[4] = 0;
-         GameCanvas.a.b();
+         Canvas.a.b();
       }
 
    }
@@ -51,19 +51,19 @@ public final class class_im extends AvMain {
       this.b.e = false;
       this.b.a(true);
       this.b();
-      this.b.a = (GameCanvas.m - this.b.c) / 2;
+      this.b.a = (Canvas.m - this.b.c) / 2;
       this.b.c(40);
       super.ae = this.b.a();
    }
 
    public final void b() {
-      this.b.b = GameCanvas.q - GameCanvas.T - this.b.d - 5;
+      this.b.b = Canvas.q - Canvas.T - this.b.d - 5;
       if (OnScreen.b) {
          TField var10000 = this.b;
-         var10000.b -= 2 * AvMain.Y;
+         var10000.b -= 2 * AvMain.hd;
       }
 
-      this.b.c = GameCanvas.m - 10;
+      this.b.c = Canvas.m - 10;
    }
 
    public final void b(int var1) {
@@ -78,7 +78,7 @@ public final class class_im extends AvMain {
    }
 
    public final void a(int var1, IChatable var2) {
-      if (GameCanvas.A == null) {
+      if (Canvas.A == null) {
          this.b.b(var1);
          if (!this.b.f().equals("")) {
             this.d = var2;
@@ -91,8 +91,8 @@ public final class class_im extends AvMain {
 
    public final void l() {
       this.b.e();
-      if (OnScreen.b && GameCanvas.Z != 0) {
-         GameCanvas.S.a(super.ac, super.ad, super.ae);
+      if (OnScreen.b && Canvas.Z != 0) {
+         Canvas.S.a(super.ac, super.ad, super.ae);
       } else {
          super.l();
       }

@@ -15,40 +15,40 @@ public final class Cattle extends Animal {
       ++t;
    }
 
-   public final void a() {
-      this.a(FarmScr.C.a + 48 + (CRes.e((FarmScr.w - 2) * 6) << 2), FarmScr.C.b + 24 + (CRes.e(12) << 2));
+   public final void setInit() {
+      this.setPos(FarmScr.C.a + 48 + (CRes.rnd((FarmScr.w - 2) * 6) << 2), FarmScr.C.b + 24 + (CRes.rnd(12) << 2));
    }
 
-   public final void c() {
-      super.n = new AvPosition();
+   public final void updatePos() {
+      super.posNext = new AvPosition();
       AvPosition var2;
-      if (!super.f) {
-         var2 = new AvPosition(FarmScr.C.a + 12 + (CRes.e(FarmScr.w * 6) << 2), FarmScr.C.b + 12 + (CRes.e(18) << 2));
-         super.n = var2;
+      if (!super.isEat) {
+         var2 = new AvPosition(FarmScr.C.a + 12 + (CRes.rnd(FarmScr.w * 6) << 2), FarmScr.C.b + 12 + (CRes.rnd(18) << 2));
+         super.posNext = var2;
       } else {
          var2 = r;
-         super.n = var2;
+         super.posNext = var2;
       }
    }
 
-   public final void d() {
-      if (super.i && !super.f) {
+   public final void updateEat() {
+      if (super.hunger && !super.isEat) {
          if (v != -1) {
-            super.f = true;
+            super.isEat = true;
          }
 
       }
    }
 
-   public final void h() {
-      super.h();
-      if (super.f && CRes.f(r.a - super.aw) < 20 && CRes.f(r.b - super.ax) < 15) {
-         super.f = false;
-         super.i = false;
+   public final void reset() {
+      super.reset();
+      if (super.isEat && CRes.f(r.a - super.x) < 20 && CRes.f(r.b - super.y) < 15) {
+         super.isEat = false;
+         super.hunger = false;
          FarmScr.b();
-         FarmScr.a(v, super.w);
+         FarmScr.a(v, super.IDDB);
       }
 
-      super.e = 100 + 50 * (super.k - 50);
+      super.cycle = 100 + 50 * (super.species - 50);
    }
 }

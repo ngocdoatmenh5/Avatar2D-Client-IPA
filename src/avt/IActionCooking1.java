@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class IActionCooking1 implements IAction {
    private final Food a;
@@ -17,10 +17,10 @@ final class IActionCooking1 implements IAction {
             var2 = FarmScr.g(this.a.e[var1]);
             if (this.a.e[var1] < 50) {
                var3 = FarmData.b((int)this.a.e[var1]).a;
-            } else if (FarmData.c(this.a.e[var1]).c == 1) {
-               var3 = T1.bn + " " + FarmData.c(this.a.e[var1]).l;
-            } else if (FarmData.c(this.a.e[var1]).c == 2) {
-               var3 = T1.bm + " " + FarmData.c(this.a.e[var1]).l;
+            } else if (FarmData.getAnimalByID(this.a.e[var1]).area == 1) {
+               var3 = T1.bn + " " + FarmData.getAnimalByID(this.a.e[var1]).name;
+            } else if (FarmData.getAnimalByID(this.a.e[var1]).area == 2) {
+               var3 = T1.bm + " " + FarmData.getAnimalByID(this.a.e[var1]).name;
             }
          } else {
             var2 = FarmScr.f(this.a.e[var1]);
@@ -28,7 +28,7 @@ final class IActionCooking1 implements IAction {
          }
 
          if (var2 == null || var2.e < this.a.f[var1]) {
-            GameCanvas.b(T1.eI + var3);
+            Canvas.b(T1.eI + var3);
             return;
          }
       }

@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_gd implements IAction {
    private final int a;
@@ -15,13 +15,13 @@ final class class_gd implements IAction {
 
    public final void perform() {
       if (this.a == 2) {
-         GlobalService.gI().a(1, (int)this.b, (short)this.c.a);
+         GlobalService.gI().a(1, (int)this.b, (short)this.c.idPart);
       } else if (this.a == 3) {
-         GlobalService.gI().a(0, (int)this.b, (short)this.c.a);
+         GlobalService.gI().a(0, (int)this.b, (short)this.c.idPart);
       } else {
-         GlobalService.gI().a(this.c.a, (byte)this.a);
+         GlobalService.gI().a(this.c.idPart, (byte)this.a);
       }
 
-      GameCanvas.i();
+      Canvas.i();
    }
 }

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class LoginScr extends MyScreen {
@@ -58,14 +58,14 @@ public final class LoginScr extends MyScreen {
    }
 
    public final void d() {
-      GameCanvas.b(T1.P, 54);
+      Canvas.b(T1.P, 54);
    }
 
    public final void a() {
       this.c();
       super.a();
-      GameCanvas.h();
-      if (GameCanvas.H) {
+      Canvas.h();
+      if (Canvas.H) {
          this.H = -1;
       }
 
@@ -94,9 +94,9 @@ public final class LoginScr extends MyScreen {
 
       FilePack.a();
       this.A = -50;
-      GameCanvas.x.e(26);
-      GameMidlet.i.aw = GameMidlet.i.C = LoadMap.e * 24 / 2 + 30;
-      AvCamera.a().a = AvCamera.a().c = 200;
+      Canvas.x.e(26);
+      GameMidlet.avatar.x = GameMidlet.avatar.xCur = LoadMap.wMap * 24 / 2 + 30;
+      AvCamera.gI().xCam = AvCamera.gI().c = 200;
       this.b.a(true);
       this.c.a(false);
       this.z = 0;
@@ -128,14 +128,14 @@ public final class LoginScr extends MyScreen {
    }
 
    public final void f() {
-      if (GameCanvas.n > 200) {
-         this.B = GameCanvas.p - 80;
+      if (Canvas.n > 200) {
+         this.B = Canvas.hh - 80;
       } else {
-         this.B = GameCanvas.p - 65;
+         this.B = Canvas.hh - 65;
       }
 
       this.A = -50;
-      this.p = GameCanvas.m - 30;
+      this.p = Canvas.m - 30;
       if (this.p < 70) {
          this.p = 70;
       }
@@ -144,38 +144,38 @@ public final class LoginScr extends MyScreen {
          this.p = 99;
       }
 
-      this.q = (GameCanvas.m - this.p >> 1) + 29;
-      if (GameCanvas.m <= 128) {
+      this.q = (Canvas.m - this.p >> 1) + 29;
+      if (Canvas.m <= 128) {
          this.p = 80;
-         this.q = (GameCanvas.m - this.p >> 1) + 20;
+         this.q = (Canvas.m - this.p >> 1) + 20;
       }
 
-      this.q -= (AvMain.Y - 1) * 40;
-      GameCanvas.S.a(this);
+      this.q -= (AvMain.hd - 1) * 40;
+      Canvas.S.a(this);
       this.B = this.k / 2;
       this.A = this.B;
-      AvCamera.a().h = GameMidlet.i;
-      AvCamera.a().d();
+      AvCamera.gI().h = GameMidlet.avatar;
+      AvCamera.gI().d();
    }
 
    public final void d(int var1, int var2) {
       switch (var1) {
          case 0:
             this.i = true;
-            GameCanvas.S.a(this);
+            Canvas.S.a(this);
             return;
          case 1:
             this.i = false;
-            GameCanvas.S.a(this);
+            Canvas.S.a(this);
             return;
          case 2:
-            GameCanvas.b(T1.P, 54);
+            Canvas.b(T1.P, 54);
             return;
          case 3:
-            GameCanvas.b(T1.du, 55, (AvMain)null);
+            Canvas.b(T1.du, 55, (AvMain)null);
             return;
          case 4:
-            GameCanvas.u.a(T1.bC, 100, 3);
+            Canvas.u.a(T1.bC, 100, 3);
             return;
          case 5:
             OptionScr.b().a();
@@ -193,16 +193,16 @@ public final class LoginScr extends MyScreen {
             }
 
             if (!Session_ME.a().c) {
-               GameCanvas.c(T1.M);
-               GameCanvas.c();
+               Canvas.c(T1.M);
+               Canvas.c();
             } else {
-               GameCanvas.i();
+               Canvas.i();
             }
 
             GlobalService.gI().a((byte)5, (String)null);
             return;
          case 9:
-            GameCanvas.b(T1.bH + T1.bG);
+            Canvas.b(T1.bH + T1.bG);
             AvatarData.a();
          case 50:
          default:
@@ -251,26 +251,26 @@ public final class LoginScr extends MyScreen {
             return;
          case 3:
             if (this.b.f().equals("")) {
-               GameCanvas.b(T1.eo[0]);
+               Canvas.b(T1.eo[0]);
             } else if (this.c.f().equals("")) {
-               GameCanvas.b(T1.eo[1]);
+               Canvas.b(T1.eo[1]);
             } else if (this.d.f().equals("")) {
-               GameCanvas.b(T1.eo[2]);
+               Canvas.b(T1.eo[2]);
             } else if (!this.c.f().equals(this.d.f())) {
-               GameCanvas.b(T1.eo[3]);
+               Canvas.b(T1.eo[3]);
             } else {
-               GameCanvas.h();
+               Canvas.h();
                this.r = System.currentTimeMillis();
                if (this.e.f().equals("")) {
                   n();
                   return;
                }
 
-               GameCanvas.b("Bạn nên điền chính xác số di động hoặc email. Khi quên mật khẩu, bạn sẽ dùng nó để lấy lại. Bạn có chắc chắn đã điền số di động / email đúng chưa?", 102);
+               Canvas.b("Bạn nên điền chính xác số di động hoặc email. Khi quên mật khẩu, bạn sẽ dùng nó để lấy lại. Bạn có chắc chắn đã điền số di động / email đúng chưa?", 102);
             }
             break;
          case 50:
-            GameCanvas.b(T1.bI);
+            Canvas.b(T1.bI);
             return;
          case 51:
             this.m();
@@ -291,7 +291,7 @@ public final class LoginScr extends MyScreen {
             return;
          case 100:
             String var3;
-            if ((var3 = GameCanvas.u.a()).equals("")) {
+            if ((var3 = Canvas.u.a()).equals("")) {
                return;
             }
 
@@ -306,18 +306,18 @@ public final class LoginScr extends MyScreen {
          case 103:
             return;
          case 104:
-            this.o();
+            this.clickNewGame();
       }
 
    }
 
    private void m() {
-      GameCanvas.i();
-      GameCanvas.c();
+      Canvas.i();
+      Canvas.c();
       GlobalService.gI().c(this.b.f().toLowerCase(), this.c.f().toLowerCase(), this.e.f());
       this.i = false;
       super.ad = this.f;
-      GameCanvas.S.a(this);
+      Canvas.S.a(this);
    }
 
    private static void n() {
@@ -325,7 +325,7 @@ public final class LoginScr extends MyScreen {
       (var0 = new Vector()).addElement(new Command(T1.e, 51));
       var0.addElement(new Command(T1.bK, 52));
       var0.addElement(new Command(T1.bL, 53));
-      GameCanvas.a(T1.bM, var0);
+      Canvas.a(T1.bM, var0);
    }
 
    public final void k() {
@@ -333,7 +333,7 @@ public final class LoginScr extends MyScreen {
          GameMidlet.h.notifyDestroyed();
       }
 
-      if (!v && this == GameCanvas.r && GameCanvas.t == null && !v) {
+      if (!v && this == Canvas.currentMyScreen && Canvas.t == null && !v) {
          this.b.e();
          this.c.e();
          if (this.i) {
@@ -362,7 +362,7 @@ public final class LoginScr extends MyScreen {
          super.ae = this.C;
       }
 
-      GameCanvas.x.b();
+      Canvas.x.b();
    }
 
    public final void d(int var1) {
@@ -382,50 +382,50 @@ public final class LoginScr extends MyScreen {
    public final void a(Graphics var1) {
       this.b(var1);
       super.a(var1);
-      GameCanvas.a(var1);
+      Canvas.a(var1);
    }
 
    public final void b(Graphics var1) {
-      GameCanvas.x.b(var1);
-      GameCanvas.x.d(var1);
-      GameCanvas.c(var1);
+      Canvas.x.b(var1);
+      Canvas.x.d(var1);
+      Canvas.resetTrans(var1);
       int var4;
       if (v) {
          Graphics var3 = var1;
          LoginScr var2 = this;
-         GameCanvas.S.a(var1, this.j, this.k, this.l, this.m, 0);
+         Canvas.S.a(var1, this.j, this.k, this.l, this.m, 0);
          var1.translate(this.j, this.k + this.y);
          if (this.H != -1) {
-            GameCanvas.S.c(var1, 5 * AvMain.Y, this.H * this.x, this.l - 10 * AvMain.Y, this.x);
+            Canvas.S.c(var1, 5 * AvMain.hd, this.H * this.x, this.l - 10 * AvMain.hd, this.x);
          }
 
          for(var4 = 0; var4 < var2.G.length; ++var4) {
-            GameCanvas.K.a(var3, var2.G[var4], var2.l / 2, var4 * var2.x + var2.x / 2 - GameCanvas.K.a() / 2, 2);
+            Canvas.K.a(var3, var2.G[var4], var2.l / 2, var4 * var2.x + var2.x / 2 - Canvas.K.a() / 2, 2);
          }
-      } else if (GameCanvas.v == null && this == GameCanvas.r) {
-         GameCanvas.S.a(var1, this.j, this.k, this.l, this.m, 0);
+      } else if (Canvas.v == null && this == Canvas.currentMyScreen) {
+         Canvas.S.a(var1, this.j, this.k, this.l, this.m, 0);
          var1.setClip(this.j + 4, this.k + 4, this.l - 8, this.m - 8);
          if (!this.F.equals("") && OptionScr.b().b[4] == 0) {
-            GameCanvas.S.a(var1, "Hotline: " + this.F, this.j + this.l - 8, this.k + this.m - AvMain.ah - 4, 1);
+            Canvas.S.a(var1, "Hotline: " + this.F, this.j + this.l - 8, this.k + this.m - AvMain.ah - 4, 1);
          }
 
          this.b.a(var1);
          var1.setClip(this.j + 4, this.k + 4, this.l - 8, this.m - 8);
-         if ((var4 = GameCanvas.K.a(T1.bN + ":")) < this.b.a - this.j) {
+         if ((var4 = Canvas.K.getWidth(T1.bN + ":")) < this.b.a - this.j) {
             var4 = (this.b.a - this.j - var4) / 2 + AvMain.Z;
          } else {
             var4 = this.b.a - var4 - 5;
          }
 
-         GameCanvas.S.a(var1, T1.bN, this.j + var4, this.b.b + this.b.d / 2 - AvMain.ah / 2, 0);
-         GameCanvas.S.a(var1, T1.bO + ":", this.j + var4, this.c.b + this.b.d / 2 - AvMain.ah / 2, 0);
+         Canvas.S.a(var1, T1.bN, this.j + var4, this.b.b + this.b.d / 2 - AvMain.ah / 2, 0);
+         Canvas.S.a(var1, T1.bO + ":", this.j + var4, this.c.b + this.b.d / 2 - AvMain.ah / 2, 0);
          if (!this.i) {
-            GameCanvas.S.a(var1, this.n, this.o, this.z, this.E);
+            Canvas.S.a(var1, this.n, this.o, this.z, this.E);
          } else {
-            GameCanvas.S.a(var1, T1.cE, this.j + var4, this.d.b + this.b.d / 2 - AvMain.ah, 0);
-            GameCanvas.S.a(var1, T1.bO + ":", this.j + var4, this.d.b + this.b.d / 2, 0);
-            GameCanvas.S.a(var1, "Số di động", this.j + var4, this.e.b + this.b.d / 2 - AvMain.ah, 0);
-            GameCanvas.S.a(var1, "hoặc email:", this.j + var4, this.e.b + this.b.d / 2, 0);
+            Canvas.S.a(var1, T1.cE, this.j + var4, this.d.b + this.b.d / 2 - AvMain.ah, 0);
+            Canvas.S.a(var1, T1.bO + ":", this.j + var4, this.d.b + this.b.d / 2, 0);
+            Canvas.S.a(var1, "Số di động", this.j + var4, this.e.b + this.b.d / 2 - AvMain.ah, 0);
+            Canvas.S.a(var1, "hoặc email:", this.j + var4, this.e.b + this.b.d / 2, 0);
             this.d.a(var1);
             this.e.a(var1);
          }
@@ -433,30 +433,30 @@ public final class LoginScr extends MyScreen {
          this.c.a(var1);
       }
 
-      GameCanvas.c(var1);
-      var1.drawImage(MyScreen.am, GameCanvas.o, this.A, 3);
+      Canvas.resetTrans(var1);
+      var1.drawImage(MyScreen.am, Canvas.o, this.A, 3);
    }
 
    public final void l() {
       if (v) {
          LoginScr loginScr = this;
-         if (GameCanvas.a(2)) {
+         if (Canvas.a(2)) {
             loginScr.H = (byte)(loginScr.H - 1);
             if (loginScr.H < 0) {
                loginScr.H = (byte)(loginScr.G.length - 1);
             }
-         } else if (GameCanvas.a(8)) {
+         } else if (Canvas.a(8)) {
             loginScr.H = (byte)(loginScr.H + 1);
             if (loginScr.H >= loginScr.G.length) {
                loginScr.H = 0;
             }
          }
-         if (GameCanvas.g) {
+         if (Canvas.g) {
             int n = 0;
             while (n < loginScr.G.length) {
-               if (GameCanvas.b(loginScr.j, loginScr.k + loginScr.y + n * loginScr.x, loginScr.l, loginScr.x)) {
+               if (Canvas.b(loginScr.j, loginScr.k + loginScr.y + n * loginScr.x, loginScr.l, loginScr.x)) {
                   loginScr.H = (byte)n;
-                  GameCanvas.g = false;
+                  Canvas.g = false;
                   loginScr.K = true;
                   break;
                }
@@ -464,31 +464,31 @@ public final class LoginScr extends MyScreen {
             }
          }
          if (loginScr.K) {
-            if (GameCanvas.e && !GameCanvas.b(loginScr.j, loginScr.k + loginScr.y + loginScr.H * loginScr.x, loginScr.l, loginScr.x)) {
+            if (Canvas.e && !Canvas.b(loginScr.j, loginScr.k + loginScr.y + loginScr.H * loginScr.x, loginScr.l, loginScr.x)) {
                loginScr.H = (byte)-1;
             }
-            if (GameCanvas.f) {
-               GameCanvas.f = false;
+            if (Canvas.f) {
+               Canvas.f = false;
                loginScr.K = false;
                if (loginScr.H != -1) {
-                  loginScr.o();
+                  loginScr.clickNewGame();
                }
             }
          }
          super.l();
          return;
       }
-      if (GameCanvas.f && GameCanvas.a(0, 0, GameCanvas.m, GameCanvas.n) && GameCanvas.a(this.n - 10, this.o, 70, MyScreen.al * AvMain.Y + 10)) {
+      if (Canvas.f && Canvas.a(0, 0, Canvas.m, Canvas.n) && Canvas.a(this.n - 10, this.o, 70, MyScreen.al * AvMain.hd + 10)) {
          this.j();
       }
-      if (GameCanvas.b[2]) {
+      if (Canvas.b[2]) {
          this.z = this.z > 0 ? --this.z : (this.i ? 3 : 2);
       }
-      if (GameCanvas.b[8]) {
+      if (Canvas.b[8]) {
          this.z = this.z < (this.i ? 3 : 2) ? ++this.z : 0;
       }
-      if (GameCanvas.b[2] || GameCanvas.b[8]) {
-         GameCanvas.e();
+      if (Canvas.b[2] || Canvas.b[8]) {
+         Canvas.e();
          if (this.z == 0) {
             this.b.a(true);
             this.c.a(false);
@@ -517,7 +517,7 @@ public final class LoginScr extends MyScreen {
       super.l();
    }
 
-   private void o() {
+   private void clickNewGame() {
       System.out.println("clickNewGame: " + w + "    " + this.H);
       switch (this.H) {
          case 0:
@@ -549,7 +549,7 @@ public final class LoginScr extends MyScreen {
             if (this.G.length != 2) {
                class_jk var1 = new class_jk(this);
                if (!this.I.equals("") && this.b.f().equals("")) {
-                  GameCanvas.a("Tài khoản của bạn chưa được đăng kí liên kết với một tài khoản Team. Bạn sẽ mất tài khoản đang chơi nếu tiếp tục. Bạn có muốn tiếp tục ?", (IAction)var1);
+                  Canvas.a("Tài khoản của bạn chưa được đăng kí liên kết với một tài khoản Team. Bạn sẽ mất tài khoản đang chơi nếu tiếp tục. Bạn có muốn tiếp tục ?", (IAction)var1);
                   return;
                }
 
@@ -565,7 +565,7 @@ public final class LoginScr extends MyScreen {
    private void p() {
       class_dg var1 = new class_dg(this);
       if (!this.I.equals("") && this.b.f().equals("")) {
-         GameCanvas.a("Tài khoản của bạn chưa được đăng kí liên kết với một tài khoản Team. Bạn sẽ mất tài khoản đang chơi nếu tiếp tục. Bạn có muốn tiếp tục ?", (IAction)var1);
+         Canvas.a("Tài khoản của bạn chưa được đăng kí liên kết với một tài khoản Team. Bạn sẽ mất tài khoản đang chơi nếu tiếp tục. Bạn có muốn tiếp tục ?", (IAction)var1);
       } else {
          var1.perform();
       }
@@ -637,7 +637,7 @@ public final class LoginScr extends MyScreen {
    }
 
    public final void i() {
-      GameCanvas.c();
+      Canvas.c();
       GlobalService.gI().f(b().F.hashCode());
       System.out.println("login: " + v + "    " + this.H);
       if (!v || (this.H != 0 || this.G.length != 2) && (this.H != 1 || this.G.length != 3)) {

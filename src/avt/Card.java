@@ -1,7 +1,7 @@
 package avt;
 
 import javax.microedition.lcdui.Graphics;
-import main.GameCanvas;
+import main.Canvas;
 
 public final class Card {
    public byte a;
@@ -36,19 +36,19 @@ public final class Card {
    }
 
    public final void a(Graphics var1) {
-      GameCanvas.S.a(var1, this);
+      Canvas.S.a(var1, this);
    }
 
    public final void b(Graphics var1) {
-      GameCanvas.S.b(var1, this);
+      Canvas.S.b(var1, this);
    }
 
    public final void c(Graphics var1) {
-      GameCanvas.S.c(var1, this);
+      Canvas.S.c(var1, this);
    }
 
    public final void a(Graphics var1, boolean var2) {
-      GameCanvas.S.a(var1, this, var2);
+      Canvas.S.a(var1, this, var2);
    }
 
    public final int a() {

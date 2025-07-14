@@ -1,6 +1,6 @@
 package avt;
 
-import main.GameCanvas;
+import main.Canvas;
 
 final class class_cg implements IAction {
    short a;
@@ -14,6 +14,6 @@ final class class_cg implements IAction {
    }
 
    public final void perform() {
-      GameCanvas.a(this.c, (IAction)(new class_gm(this)));
+      Canvas.a(this.c, (IAction)(new class_gm(this)));
    }
 }

@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import main.GameCanvas;
+import main.Canvas;
 import main.GameMidlet;
 
 public final class MapScr extends MyScreen implements IChatable {
@@ -33,7 +33,7 @@ public final class MapScr extends MyScreen implements IChatable {
    public static boolean r = false;
    public static boolean s = false;
    public static boolean t = false;
-   public static boolean u = false;
+   public static boolean isNewVersion = false;
    public static int v = -1;
    static byte[] w = new byte[]{10, 4, 3, 5};
    private byte K = 0;
@@ -57,7 +57,7 @@ public final class MapScr extends MyScreen implements IChatable {
       super.a();
    }
 
-   public static MapScr b() {
+   public static MapScr gI() {
       if (a == null) {
          a = new MapScr();
       }
@@ -68,9 +68,9 @@ public final class MapScr extends MyScreen implements IChatable {
    public final void c() {
       this.H = new Command(T1.c, 0, this);
       super.ac = this.H;
-      this.f = MenuCenter.b().a(T1.bR, new class_ig(this), 15);
-      this.e = new Command(GameCanvas.H ? (GameCanvas.Z == 0 ? T1.O : T1.c) : "", 1, this);
-      if (GameCanvas.Z > 0 && GameCanvas.D == null) {
+      this.f = MenuCenter.gI().a(T1.bR, new class_ig(this), 15);
+      this.e = new Command(Canvas.H ? (Canvas.Z == 0 ? T1.O : T1.c) : "", 1, this);
+      if (Canvas.Z > 0 && Canvas.D == null) {
          super.ac = this.e;
       }
 
@@ -85,7 +85,7 @@ public final class MapScr extends MyScreen implements IChatable {
             return;
          case 1:
             if (!t) {
-               MenuCenter.b().f();
+               MenuCenter.gI().f();
                return;
             }
             break;
@@ -107,7 +107,7 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    public final void e() {
-      GameCanvas.i();
+      Canvas.i();
       g = -1;
       i = -1;
       if (GameMidlet.e == 8) {
@@ -118,7 +118,7 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    protected static void f() {
-      MessageScr.b().a(GameCanvas.r);
+      MessageScr.b().a(Canvas.currentMyScreen);
    }
 
    protected final void g() {
@@ -129,22 +129,22 @@ public final class MapScr extends MyScreen implements IChatable {
 
    protected static void h() {
       if (h != null) {
-         ParkService.a().c(0, h.w);
+         ParkService.a().c(0, h.IDDB);
       }
 
    }
 
    public final void a(byte var1, int var2) {
-      GameCanvas.h();
+      Canvas.h();
       Avatar var3;
       if ((var3 = LoadMap.g(var2)) != null) {
          if (var1 == 0) {
-            GameCanvas.a(T1.dp + var3.x + ". " + T1.dq, (IAction)(new class_ih(this, var2)));
+            Canvas.a(T1.dp + var3.name + ". " + T1.dq, (IAction)(new class_ih(this, var2)));
          } else {
             if (var1 == 1) {
                v = var2;
                GlobalService.gI().d((int)11);
-               GameCanvas.i();
+               Canvas.i();
             }
 
          }
@@ -152,7 +152,7 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    protected final void i() {
-      MessageScr.b().a(h.w, h.x);
+      MessageScr.b().a(h.IDDB, h.name);
       MessageScr.b().a((MyScreen)this);
    }
 
@@ -181,15 +181,15 @@ public final class MapScr extends MyScreen implements IChatable {
 
    }
 
-   public static void a(byte var0) {
-      GameMidlet.i.a(var0);
+   public static void doAction(byte var0) {
+      GameMidlet.avatar.doAction(var0);
       AvatarService.a().a((int)var0);
    }
 
    public static void b(int var0) {
-      GameMidlet.i.e(var0);
-      GameMidlet.i.U = GameMidlet.i.S;
-      GameMidlet.i.T = 0;
+      GameMidlet.avatar.setFeel(var0);
+      GameMidlet.avatar.firFeel = GameMidlet.avatar.feel;
+      GameMidlet.avatar.numFeel = 0;
       AvatarService.a().a(var0 + 100);
    }
 
@@ -197,13 +197,13 @@ public final class MapScr extends MyScreen implements IChatable {
       Avatar var2;
       if ((var2 = LoadMap.g(var0)) != null) {
          if (var1 >= 100) {
-            var2.e(var1 - 100);
-            var2.U = var2.S;
-            var2.T = 0;
+            var2.setFeel(var1 - 100);
+            var2.firFeel = var2.feel;
+            var2.numFeel = 0;
             return;
          }
 
-         var2.a(var1);
+         var2.doAction(var1);
       }
 
    }
@@ -212,26 +212,26 @@ public final class MapScr extends MyScreen implements IChatable {
       Vector var1 = new Vector();
 
       for(int var2 = 0; var2 < 4; ++var2) {
-         Command var3 = MenuCenter.b().a(T1.ey[var2], new class_io(this, var2), var2 + 7);
+         Command var3 = MenuCenter.gI().a(T1.ey[var2], new class_io(this, var2), var2 + 7);
          var1.addElement(var3);
       }
 
-      MenuCenter.b().b = null;
-      MenuCenter.b().a(var1);
+      MenuCenter.gI().b = null;
+      MenuCenter.gI().a(var1);
    }
 
    public final void k() {
-      GameCanvas.x.b();
-      if (GameCanvas.Z == 0 && LoadMap.p != null) {
-         if (h != null && LoadMap.p.az != 5 && h.w > 2000000000) {
+      Canvas.x.b();
+      if (Canvas.Z == 0 && LoadMap.p != null) {
+         if (h != null && LoadMap.p.catagory != 5 && h.IDDB > 2000000000) {
             super.ad = this.J;
          } else {
             super.ad = null;
          }
 
          super.ae = LoadMap.q;
-         if (LoadMap.p.az == 0) {
-            super.ae.a = ((Avatar)LoadMap.p).x;
+         if (LoadMap.p.catagory == 0) {
+            super.ae.a = ((Avatar)LoadMap.p).name;
             if (super.ae.a.length() > 8) {
                super.ae.a = super.ae.a.substring(0, 8) + "..";
             }
@@ -247,31 +247,31 @@ public final class MapScr extends MyScreen implements IChatable {
       Avatar var3;
       if (t) {
          Avatar var4;
-         if (this.K == 1 && GameCanvas.J == -1) {
+         if (this.K == 1 && Canvas.J == -1) {
             System.out.println("updateWedding1111111111111: " + this.K);
             this.K = 2;
             var2 = LoadMap.g(-100);
             var3 = LoadMap.g(E);
             var4 = LoadMap.g(F);
             if (var3 != null && var4 != null) {
-               AvCamera.a().h = var2;
+               AvCamera.gI().h = var2;
                System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-               var2.a(150, T1.eB[0] + var3.x + T1.eB[1] + var4.x + T1.eB[2], (byte)1);
+               var2.a(150, T1.eB[0] + var3.name + T1.eB[1] + var4.name + T1.eB[2], (byte)1);
             } else {
                this.B();
             }
          }
 
-         if (this.K == 2 && GameCanvas.l % 4 == 2 && LoadMap.g(-100).O == null) {
+         if (this.K == 2 && Canvas.gameTick % 4 == 2 && LoadMap.g(-100).chat == null) {
             this.K = 3;
             var3 = LoadMap.g(E);
             var4 = LoadMap.g(F);
             if (var3 != null && var4 != null) {
-               var4.C = 26 * LoadMap.i - LoadMap.i;
-               var4.Q = -5;
-               var3.C = 26 * LoadMap.i - (LoadMap.i << 1);
-               var3.Q = -5;
-               AvCamera.a().h = var3;
+               var4.xCur = 26 * LoadMap.i - LoadMap.i;
+               var4.task = -5;
+               var3.xCur = 26 * LoadMap.i - (LoadMap.i << 1);
+               var3.task = -5;
+               AvCamera.gI().h = var3;
             } else {
                this.B();
             }
@@ -280,11 +280,11 @@ public final class MapScr extends MyScreen implements IChatable {
          if (this.K == 3) {
             var2 = LoadMap.g(E);
             var3 = LoadMap.g(F);
-            if (var2 != null && var3 != null && var2.Q == 0 && var3.Q == 0) {
+            if (var2 != null && var3 != null && var2.task == 0 && var3.task == 0) {
                this.K = 4;
                var4 = LoadMap.g(-100);
-               AvCamera.a().h = var4;
-               var4.a(200, T1.eC[0] + var2.x + T1.eB[1] + var3.x, (byte)1);
+               AvCamera.gI().h = var4;
+               var4.a(200, T1.eC[0] + var2.name + T1.eB[1] + var3.name, (byte)1);
                var4.a(200, T1.eC[1], (byte)1);
                var4.a(150, T1.eC[2], (byte)1);
                var4.a(100, T1.eC[3], (byte)1);
@@ -296,8 +296,8 @@ public final class MapScr extends MyScreen implements IChatable {
             var3 = LoadMap.g(F);
             var2.G = 4;
             var3.G = 4;
-            if ((var4 = LoadMap.g(-100)).O == null && var4.P.size() == 0) {
-               if (E == GameMidlet.i.w) {
+            if ((var4 = LoadMap.g(-100)).chat == null && var4.listChat.size() == 0) {
+               if (E == GameMidlet.avatar.IDDB) {
                   ParkService.a().b(F, 101);
                }
 
@@ -312,17 +312,17 @@ public final class MapScr extends MyScreen implements IChatable {
          if (this.L > 20) {
             if (this.L == 21) {
                AnimateEffect var5 = new AnimateEffect(2, 0);
-               GameCanvas.B.addElement(var5);
-               AvCamera.a().h = GameMidlet.i;
-               GameMidlet.i.G = 4;
+               Canvas.B.addElement(var5);
+               AvCamera.gI().h = GameMidlet.avatar;
+               GameMidlet.avatar.G = 4;
             }
 
-            if (GameMidlet.i.w != E) {
+            if (GameMidlet.avatar.IDDB != E) {
                t = false;
                this.L = -1;
             }
 
-            if (GameMidlet.i.Q == 0 && GameMidlet.i.w == E) {
+            if (GameMidlet.avatar.task == 0 && GameMidlet.avatar.IDDB == E) {
                t = false;
                var2 = LoadMap.g(E);
                var3 = LoadMap.g(F);
@@ -338,9 +338,9 @@ public final class MapScr extends MyScreen implements IChatable {
          }
       }
 
-      if (super.ad == null && GameCanvas.Z == 0 && GameCanvas.D == null) {
+      if (super.ad == null && Canvas.Z == 0 && Canvas.D == null) {
          super.ad = this.e;
-      } else if (GameCanvas.D != null) {
+      } else if (Canvas.D != null) {
          super.ad = null;
       }
 
@@ -371,7 +371,7 @@ public final class MapScr extends MyScreen implements IChatable {
 
       for(int var1 = 0; var1 < LoadMap.m.size(); ++var1) {
          MyObject var2;
-         if ((var2 = (MyObject)LoadMap.m.elementAt(var1)).az == 0) {
+         if ((var2 = (MyObject)LoadMap.m.elementAt(var1)).catagory == 0) {
             Avatar var3;
             (var3 = (Avatar)var2).G = 4;
          }
@@ -380,31 +380,31 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    public final void l() {
-      if (GameCanvas.g && GameCanvas.a(0, 0, GameCanvas.m, 0)) {
-         GameCanvas.g = false;
-         GlobalService.gI().c(GameMidlet.i.w);
+      if (Canvas.g && Canvas.a(0, 0, Canvas.m, 0)) {
+         Canvas.g = false;
+         GlobalService.gI().c(GameMidlet.avatar.IDDB);
       }
 
-      if (GameCanvas.D == null || !Welcome.d) {
+      if (Canvas.D == null || !Welcome.d) {
          super.l();
       }
 
-      GameCanvas.x.a();
-      GameMidlet.i.e();
+      Canvas.x.a();
+      GameMidlet.avatar.updateKey();
    }
 
    public final void a(Graphics var1) {
       this.b(var1);
-      if (GameCanvas.D == null || !Welcome.d) {
+      if (Canvas.D == null || !Welcome.d) {
          super.a(var1);
       }
 
-      GameCanvas.a(var1);
+      Canvas.a(var1);
    }
 
    public final void b(Graphics var1) {
-      GameCanvas.c(var1);
-      GameCanvas.x.b(var1);
+      Canvas.resetTrans(var1);
+      Canvas.x.b(var1);
       int var2;
       if (l.size() > 0) {
          for(var2 = 0; var2 < l.size(); ++var2) {
@@ -412,24 +412,24 @@ public final class MapScr extends MyScreen implements IChatable {
          }
       }
 
-      GameCanvas.x.d(var1);
-      GameCanvas.c(var1);
+      Canvas.x.d(var1);
+      Canvas.resetTrans(var1);
       if (this.M.size() != 0) {
          String var4 = (String)this.M.elementAt(0);
          if ((var2 = this.O - this.N) > 10) {
             var2 = 10;
          }
 
-         int var5 = GameCanvas.m;
+         int var5 = Canvas.m;
 
          for(int var6 = 0; var6 < var2; ++var6) {
             var5 >>= 1;
          }
 
-         GameCanvas.L.a(var1, var4, var5 + 3, 2, 0);
+         Canvas.L.a(var1, var4, var5 + 3, 2, 0);
       }
 
-      GameCanvas.c(var1);
+      Canvas.resetTrans(var1);
    }
 
    public final void a(int var1, int var2) {
@@ -438,11 +438,11 @@ public final class MapScr extends MyScreen implements IChatable {
             this.A();
             return;
          case 2:
-            GlobalService.gI().h(h.w);
+            GlobalService.gI().h(h.IDDB);
             return;
          case 52:
-            if (GameCanvas.r == MiniMap.a && LoadMap.a == -1) {
-               GameCanvas.i();
+            if (Canvas.currentMyScreen == MiniMap.a && LoadMap.a == -1) {
+               Canvas.i();
                GlobalService.gI().d((int)8);
             }
          default:
@@ -451,35 +451,35 @@ public final class MapScr extends MyScreen implements IChatable {
 
    public final void a(byte var1, byte var2, short var3, short var4, Vector var5, Vector var6, Vector var7) {
       if (var2 == -1) {
-         GameCanvas.b(T1.aW, 52, (AvMain)null);
+         Canvas.b(T1.aW, 52, (AvMain)null);
       } else {
          if (LoadMap.y == -1) {
             LoadMap.F = var6;
             LoadMap.G = var7;
          }
 
-         GameCanvas.S.a(var1);
-         GameCanvas.g();
+         Canvas.S.a(var1);
+         Canvas.g();
          b = (byte)var1;
          c = var2;
          h = null;
          LoadMap.p = null;
-         GameMidlet.i.Q = 0;
-         if (GameCanvas.I || var1 != LoadMap.a || var1 == LoadMap.a && LoadMap.y == -1 || LoadMap.y == -1 && (LoadMap.a == 14 || LoadMap.a == 15 || LoadMap.a == 16)) {
-            GameMidlet.i.L = false;
+         GameMidlet.avatar.task = 0;
+         if (Canvas.I || var1 != LoadMap.a || var1 == LoadMap.a && LoadMap.y == -1 || LoadMap.y == -1 && (LoadMap.a == 14 || LoadMap.a == 15 || LoadMap.a == 16)) {
+            GameMidlet.avatar.ableShow = false;
             if (var1 != LoadMap.a) {
-               GameMidlet.i.aw = var3;
-               GameMidlet.i.ax = var4;
+               GameMidlet.avatar.x = var3;
+               GameMidlet.avatar.y = var4;
             }
 
             LoadMap.l.removeAllElements();
-            GameCanvas.x.e(var1 + 1);
+            Canvas.x.e(var1 + 1);
          } else {
             l.removeAllElements();
             LoadMap.m.removeAllElements();
             LoadMap.n.removeAllElements();
-            GameCanvas.B.removeAllElements();
-            LoadMap.b(GameMidlet.i);
+            Canvas.B.removeAllElements();
+            LoadMap.b(GameMidlet.avatar);
          }
 
          if (var6 != null) {
@@ -487,23 +487,23 @@ public final class MapScr extends MyScreen implements IChatable {
          }
 
          if (LoadMap.B != -1) {
-            GameMidlet.i.a(LoadMap.B, LoadMap.C);
+            GameMidlet.avatar.setPos(LoadMap.B, LoadMap.C);
             LoadMap.C = -1;
             LoadMap.B = -1;
          }
 
          if (LoadMap.H != -1) {
-            GameMidlet.i.aw = LoadMap.H;
-            GameMidlet.i.ax = LoadMap.I;
+            GameMidlet.avatar.x = LoadMap.H;
+            GameMidlet.avatar.y = LoadMap.I;
             LoadMap.I = -1;
             LoadMap.H = -1;
-            a(GameMidlet.i.aw, GameMidlet.i.ax, GameMidlet.i.K, 0);
+            doMove(GameMidlet.avatar.x, GameMidlet.avatar.y, GameMidlet.avatar.direct, 0);
          }
 
-         GameCanvas.a.b();
-         if (GameCanvas.r != this) {
+         Canvas.a.b();
+         if (Canvas.currentMyScreen != this) {
             if (OnScreen.c == 0) {
-               b().a();
+               gI().a();
             } else {
                OnScreen.c = 2;
                class_jv.b().a();
@@ -512,68 +512,68 @@ public final class MapScr extends MyScreen implements IChatable {
 
          for(var1 = 0; var1 < var5.size(); ++var1) {
             MyObject var8;
-            if ((var8 = (MyObject)var5.elementAt(var1)).az == 0) {
+            if ((var8 = (MyObject)var5.elementAt(var1)).catagory == 0) {
                Avatar var9;
-               (var9 = (Avatar)var8).C = var9.aw;
-               var9.D = var9.ax;
-               var9.t = var9.K;
-               var9.h();
-               if (var9.w != GameMidlet.i.w) {
+               (var9 = (Avatar)var8).xCur = var9.x;
+               var9.yCur = var9.y;
+               var9.dirLast = var9.direct;
+               var9.orderSeriesPath();
+               if (var9.IDDB != GameMidlet.avatar.IDDB) {
                   e(var9);
                   LoadMap.b(var9);
                }
-            } else if (var8.az == 5) {
+            } else if (var8.catagory == 5) {
                Drop_Part var10;
-               (var10 = (Drop_Part)var8).b = var10.aw;
-               var10.c = var10.ax;
+               (var10 = (Drop_Part)var8).b = var10.x;
+               var10.c = var10.y;
                LoadMap.m.addElement(var10);
             }
          }
 
          if (Bus.b) {
-            a(Bus.a.a, Bus.a.b, GameMidlet.i.K, GameMidlet.i.N);
+            doMove(Bus.a.a, Bus.a.b, GameMidlet.avatar.direct, GameMidlet.avatar.N);
          } else {
-            ++GameMidlet.i.ax;
+            ++GameMidlet.avatar.y;
             this.n();
          }
 
-         b((int)GameMidlet.i.S);
-         if (GameCanvas.Z == 0 && GameCanvas.D == null) {
+         b((int)GameMidlet.avatar.feel);
+         if (Canvas.Z == 0 && Canvas.D == null) {
             super.ac = this.H;
          }
 
          h = null;
          if (LoadMap.a != 25) {
-            GameCanvas.h();
+            Canvas.h();
          }
 
-         GameCanvas.a.sizeChanged(0, 0);
-         if (GameCanvas.I) {
+         Canvas.a.sizeChanged(0, 0);
+         if (Canvas.I) {
             if (LoadMap.a == 9 && Welcome.e != 0) {
-               (GameCanvas.D = new Welcome()).b();
+               (Canvas.D = new Welcome()).b();
             } else if (!Bus.b && LoadMap.a == 23) {
-               (GameCanvas.D = new Welcome()).d();
+               (Canvas.D = new Welcome()).d();
             } else if (LoadMap.a == 25 && Welcome.f > 0) {
-               (GameCanvas.D = new Welcome()).a((MyScreen)a);
+               (Canvas.D = new Welcome()).a((MyScreen)a);
             }
 
             super.ac = null;
             super.ad = null;
          }
 
-         GameMidlet.i.M = false;
-         GameMidlet.i.N = 0;
-         GameMidlet.i.G = 4;
+         GameMidlet.avatar.M = false;
+         GameMidlet.avatar.N = 0;
+         GameMidlet.avatar.G = 4;
          r = false;
          t = false;
-         GameCanvas.A = null;
+         Canvas.A = null;
          if (LoadMap.a == 108) {
-            AvCamera.a().d();
-            AvCamera.a().b();
+            AvCamera.gI().d();
+            AvCamera.gI().b();
          }
 
-         if (GameCanvas.J == 0) {
-            GameCanvas.J = 1;
+         if (Canvas.J == 0) {
+            Canvas.J = 1;
          }
 
       }
@@ -608,43 +608,43 @@ public final class MapScr extends MyScreen implements IChatable {
       if (g == -1) {
          this.n();
          System.out.println("doJoinShop: " + var1);
-         GameCanvas.i();
+         Canvas.i();
          g = var1;
          GlobalService.gI().d((int)8);
       }
    }
 
-   public static void a(int var0, int var1, int var2, int var3) {
+   public static void doMove(int var0, int var1, int var2, int var3) {
       if ((GameMidlet.e == 9 || GameMidlet.e == 11) && !t) {
-         GameMidlet.i.C = var0;
-         GameMidlet.i.D = var1;
+         GameMidlet.avatar.xCur = var0;
+         GameMidlet.avatar.yCur = var1;
          ParkService.a().a(var0, var1, var2, var3);
       }
    }
 
    public final void n() {
-      a(GameMidlet.i.aw, GameMidlet.i.ax, GameMidlet.i.K, GameMidlet.i.N);
+      doMove(GameMidlet.avatar.x, GameMidlet.avatar.y, GameMidlet.avatar.direct, GameMidlet.avatar.N);
    }
 
    public static void a(int var0, int var1, int var2, int var3, short var4) {
       Avatar var5 = LoadMap.g(var0);
-      if (var0 != GameMidlet.i.w && !t) {
+      if (var0 != GameMidlet.avatar.IDDB && !t) {
          if (var5 != null) {
-            if (var5.L && var5.Q == 0) {
-               var5.L = false;
-               var5.a(var1, var2);
+            if (var5.ableShow && var5.task == 0) {
+               var5.ableShow = false;
+               var5.setPos(var1, var2);
                var5.N = var4;
             }
 
-            if (var5.H == -3) {
-               var5.H = 0;
+            if (var5.action == -3) {
+               var5.action = 0;
             }
 
-            var5.R = -1;
-            if (var5.Q == 0) {
+            var5.isJumps = -1;
+            if (var5.task == 0) {
                AvPosition var6;
                (var6 = new AvPosition(var1, var2, var3)).d = var4;
-               var5.g.addElement(var6);
+               var5.moveList.addElement(var6);
             }
          }
 
@@ -653,10 +653,10 @@ public final class MapScr extends MyScreen implements IChatable {
 
    public final void a(Avatar var1) {
       e(var1);
-      var1.h();
-      var1.L = true;
+      var1.orderSeriesPath();
+      var1.ableShow = true;
       Avatar var2;
-      if ((var2 = LoadMap.g(var1.w)) != null) {
+      if ((var2 = LoadMap.g(var1.IDDB)) != null) {
          LoadMap.m.removeElement(var2);
       }
 
@@ -665,8 +665,8 @@ public final class MapScr extends MyScreen implements IChatable {
 
    private static void e(Avatar var0) {
       APartInfo var1;
-      if ((var1 = AvatarData.a(var0.e, 50)) != null) {
-         var0.d = var1.b;
+      if ((var1 = AvatarData.a(var0.seriPart, 50)) != null) {
+         var0.gender = var1.gender;
       }
 
    }
@@ -674,8 +674,8 @@ public final class MapScr extends MyScreen implements IChatable {
    public static void c(int var0) {
       Avatar var1;
       if ((var1 = LoadMap.g(var0)) != null) {
-         var1.f();
-         var1.p = true;
+         var1.resetTypeChair();
+         var1.isLeave = true;
          Fish var2;
          if ((var2 = class_kv.c(var0)) != null) {
             l.removeElement(var2);
@@ -693,18 +693,18 @@ public final class MapScr extends MyScreen implements IChatable {
       if (!var1.trim().equals("")) {
          if (var1.indexOf("dmw") != -1) {
             if (h != null) {
-               GlobalService.gI().b(h.w, var1);
+               GlobalService.gI().b(h.IDDB, var1);
             }
 
-         } else if (var1.indexOf("ptw") == 0 && h != null && h.O != null && h.O.d != null) {
+         } else if (var1.indexOf("ptw") == 0 && h != null && h.chat != null && h.chat.d != null) {
             String var2 = var1 + " (";
 
-            for(int var3 = 0; var3 < h.O.d.length; ++var3) {
-               var2 = var2 + " " + h.O.d[var3];
+            for(int var3 = 0; var3 < h.chat.d.length; ++var3) {
+               var2 = var2 + " " + h.chat.d[var3];
             }
 
             var2 = var2 + ").";
-            GlobalService.gI().b(h.w, var2);
+            GlobalService.gI().b(h.IDDB, var2);
          } else {
             ParkService.a().a(var1);
          }
@@ -715,11 +715,11 @@ public final class MapScr extends MyScreen implements IChatable {
       if (LoadMap.a != 24 && LoadMap.a != 53) {
          Avatar var2;
          if ((var2 = LoadMap.g(var0)) != null) {
-            var2.O = null;
+            var2.chat = null;
             var2.a(100, var1, (byte)(var0 >= 2000000000 ? 1 : 0));
             if (var0 < 2000000000) {
                MessageScr var10000 = MessageScr.b();
-               var1 = var2.x + ": " + var1;
+               var1 = var2.name + ": " + var1;
                var10000.a.a(var1);
             }
 
@@ -728,25 +728,25 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    protected static void o() {
-      if (h != null && h.Q == 0) {
-         ParkService.a().b(h.w, 101);
+      if (h != null && h.task == 0) {
+         ParkService.a().b(h.IDDB, 101);
       }
    }
 
    public final void e(int var1) {
       if (h != null) {
          APartInfo var2;
-         GameCanvas.a((var2 = (APartInfo)AvatarData.a((short)var1)).i[0], var2.i[1], new class_ij(this, var2), new class_ik(this, var2), (IAction)null);
+         Canvas.a((var2 = (APartInfo)AvatarData.a((short)var1)).i[0], var2.i[1], new class_ij(this, var2), new class_ik(this, var2), (IAction)null);
       }
    }
 
    public static void f(int var0) {
-      ParkService.a().b(h.w, var0);
+      ParkService.a().b(h.IDDB, var0);
    }
 
    public final void a(int var1, int var2, int var3, String var4, int var5) {
       if (var3 == -1) {
-         GameCanvas.b(var4);
+         Canvas.b(var4);
       } else {
          this.a(1, var1, var2, var3, (int)var5);
       }
@@ -754,11 +754,11 @@ public final class MapScr extends MyScreen implements IChatable {
 
    public final void a(int var1, int var2, int var3, String var4, int var5, int var6, int var7, int var8) {
       if (var3 == -1) {
-         GameCanvas.b(var4);
+         Canvas.b(var4);
       } else {
-         if (var1 == GameMidlet.i.w) {
+         if (var1 == GameMidlet.avatar.IDDB) {
             System.out.println("onGiftGiving: " + var5);
-            GameMidlet.i.a(var6, var7, var8);
+            GameMidlet.avatar.updateMoney(var6, var7, var8);
          }
 
          this.a(0, var1, var2, var3, (int)0);
@@ -769,98 +769,98 @@ public final class MapScr extends MyScreen implements IChatable {
       Avatar var6 = LoadMap.g(var2);
       Avatar var7 = LoadMap.g(var3);
       if (var6 != null && var7 != null) {
-         if (var6.Q == 0 && var7.Q == 0) {
-            var6.j = var7.w;
-            var6.i = var6.w;
-            var7.i = var6.w;
-            var7.j = var7.w;
-            if (var2 == GameMidlet.i.w) {
-               GameMidlet.i.D = var7.ax;
-               if (GameMidlet.i.aw < var7.aw) {
-                  var2 = var7.aw - 15;
+         if (var6.task == 0 && var7.task == 0) {
+            var6.idTo = var7.IDDB;
+            var6.idFrom = var6.IDDB;
+            var7.idFrom = var6.IDDB;
+            var7.idTo = var7.IDDB;
+            if (var2 == GameMidlet.avatar.IDDB) {
+               GameMidlet.avatar.yCur = var7.y;
+               if (GameMidlet.avatar.x < var7.x) {
+                  var2 = var7.x - 15;
                } else {
-                  var2 = var7.aw + 15;
+                  var2 = var7.x + 15;
                }
 
-               GameMidlet.i.C = var2;
-               a(var2, var7.ax, GameMidlet.i.K, GameMidlet.i.N);
+               GameMidlet.avatar.xCur = var2;
+               doMove(var2, var7.y, GameMidlet.avatar.direct, GameMidlet.avatar.N);
             }
 
-            if (var3 == GameMidlet.i.w) {
-               a(GameMidlet.i.aw, GameMidlet.i.ax, var6.K == 0 ? Base.J : 0, GameMidlet.i.N);
+            if (var3 == GameMidlet.avatar.IDDB) {
+               doMove(GameMidlet.avatar.x, GameMidlet.avatar.y, var6.direct == 0 ? Base.LEFT : 0, GameMidlet.avatar.N);
             }
 
             if (var1 == 1) {
-               var7.R = -1;
+               var7.isJumps = -1;
                switch (var4) {
                   case 0:
-                     var7.Q = var6.Q = -3;
-                     this.b(var6.x + " " + T1.ca + var7.x);
+                     var7.task = var6.task = -3;
+                     this.b(var6.name + " " + T1.ca + var7.name);
                      break;
                   case 100:
-                     if (var7.Q == 0) {
-                        var6.Q = -2;
-                        var7.Q = -2;
-                        var6.g.removeAllElements();
-                        var7.g.removeAllElements();
-                        var6.ao = var7;
-                        var6.d(var7.aw, var7.ax + 5);
+                     if (var7.task == 0) {
+                        var6.task = -2;
+                        var7.task = -2;
+                        var6.moveList.removeAllElements();
+                        var7.moveList.removeAllElements();
+                        var6.focus = var7;
+                        var6.doAction(var7.x, var7.y + 5);
                      }
                      break;
                   case 101:
-                     if (var7.Q == 0) {
-                        var6.Q = 11;
-                        var7.Q = 11;
-                        var6.g.removeAllElements();
-                        var7.g.removeAllElements();
-                        var6.ao = var7;
-                        if (var6.aw < var7.aw) {
-                           var6.d(var7.aw - 20, var7.ax + 2);
+                     if (var7.task == 0) {
+                        var6.task = 11;
+                        var7.task = 11;
+                        var6.moveList.removeAllElements();
+                        var7.moveList.removeAllElements();
+                        var6.focus = var7;
+                        if (var6.x < var7.x) {
+                           var6.doAction(var7.x - 20, var7.y + 2);
                         } else {
-                           var6.d(var7.aw + 20, var7.ax + 2);
+                           var6.doAction(var7.x + 20, var7.y + 2);
                         }
                      }
                      break;
                   case 102:
                   case 103:
-                     var7.Q = var6.Q = 12;
+                     var7.task = var6.task = 12;
                      var7.Y = var6.Y = (short)var5;
-                     this.b(var6.x + " " + T1.bS + " " + var7.x);
+                     this.b(var6.name + " " + T1.bS + " " + var7.name);
                      break;
                   default:
-                     this.b(var6.x + " " + "tặng quà" + " " + var7.x);
+                     this.b(var6.name + " " + "tặng quà" + " " + var7.name);
                }
             } else {
-               var6.Q = 9;
-               var7.Q = 8;
-               var7.R = -1;
-               var7.k = var4;
+               var6.task = 9;
+               var7.task = 8;
+               var7.isJumps = -1;
+               var7.idGift = var4;
                Part var8 = AvatarData.a((short)var4);
-               this.b(var6.x + " " + T1.di + " " + var8.l + " " + T1.dh + " " + var7.x);
+               this.b(var6.name + " " + T1.di + " " + var8.l + " " + T1.dh + " " + var7.name);
             }
 
-            var7.U = var7.S;
-            var7.T = 0;
-            var6.U = var6.S;
-            var6.T = 0;
+            var7.firFeel = var7.feel;
+            var7.numFeel = 0;
+            var6.firFeel = var6.feel;
+            var6.numFeel = 0;
          }
       }
    }
 
    public static void b(Avatar var0) {
       SeriPart var1;
-      if ((var1 = AvatarData.a(((APartInfo)AvatarData.a((short)var0.k)).j, var0.e)) == null) {
-         var0.a(new SeriPart((short)var0.k));
-         var0.h();
+      if ((var1 = AvatarData.a(((APartInfo)AvatarData.a((short)var0.idGift)).zOrder, var0.seriPart)) == null) {
+         var0.addSeri(new SeriPart((short)var0.idGift));
+         var0.orderSeriesPath();
       } else {
-         var1.a = (short)var0.k;
+         var1.idPart = (short)var0.idGift;
       }
    }
 
    public static void c(Avatar var0) {
       if (var0 != null) {
-         ParkService.a().a(var0.w);
-         GameCanvas.b(T1.b + " " + var0.x + "  " + T1.e);
+         ParkService.a().a(var0.IDDB);
+         Canvas.b(T1.b + " " + var0.name + "  " + T1.e);
       }
    }
 
@@ -870,7 +870,7 @@ public final class MapScr extends MyScreen implements IChatable {
       MessageScr var4 = MessageScr.b();
       var3.a = true;
       var4.b(var3);
-      if (GameCanvas.r != MessageScr.b()) {
+      if (Canvas.currentMyScreen != MessageScr.b()) {
          ++MyScreen.as;
       }
 
@@ -882,23 +882,23 @@ public final class MapScr extends MyScreen implements IChatable {
          ListScr.h();
       }
 
-      GameCanvas.b(var1);
+      Canvas.b(var1);
    }
 
    protected static void p() {
       if (h != null) {
-         GameCanvas.d(T1.b);
-         ParkService.a().b(h.w);
+         Canvas.d(T1.b);
+         ParkService.a().b(h.IDDB);
       }
 
    }
 
    public static void b(int var0, int var1) {
-      if (var0 != GameMidlet.i.w) {
+      if (var0 != GameMidlet.avatar.IDDB) {
          Avatar var2;
          SeriPart var3;
-         if ((var2 = LoadMap.g(var0)) != null && (var3 = AvatarData.b(var2.e, var1)) != null) {
-            var2.e.removeElement(var3);
+         if ((var2 = LoadMap.g(var0)) != null && (var3 = AvatarData.b(var2.seriPart, var1)) != null) {
+            var2.seriPart.removeElement(var3);
          }
 
       }
@@ -911,8 +911,8 @@ public final class MapScr extends MyScreen implements IChatable {
 
    public final void a(Vector var1) {
       GameMidlet.k = var1;
-      if (MenuCenter.b().c) {
-         MenuCenter.b();
+      if (MenuCenter.gI().c) {
+         MenuCenter.gI();
          MenuCenter.g();
       } else {
          this.q();
@@ -922,34 +922,34 @@ public final class MapScr extends MyScreen implements IChatable {
    public static void a(int var0, short var1) {
       Avatar var2;
       if ((var2 = LoadMap.g(var0)) != null) {
-         if (AvatarData.a(var1).j == -1) {
-            if (var2.V == var1) {
+         if (AvatarData.a(var1).zOrder == -1) {
+            if (var2.idPet == var1) {
                Pet var3;
-               if ((var3 = LoadMap.h(var2.w)) != null) {
+               if ((var3 = LoadMap.h(var2.IDDB)) != null) {
                   LoadMap.m.removeElement(var3);
-                  var2.V = -1;
+                  var2.idPet = -1;
                }
             } else {
-               var2.a(var1);
-               AvatarService.a().e(var2.w);
+               var2.changePet(var1);
+               AvatarService.a().e(var2.IDDB);
             }
          } else {
             SeriPart var4;
-            if ((var4 = AvatarData.b(var2.e, var1)) != null) {
-               var2.e.removeElement(var4);
+            if ((var4 = AvatarData.b(var2.seriPart, var1)) != null) {
+               var2.seriPart.removeElement(var4);
             } else {
-               var2.b(new SeriPart(var1));
-               var2.h();
+               var2.addSeriPart(new SeriPart(var1));
+               var2.orderSeriesPath();
             }
          }
 
-         if (var0 == GameMidlet.i.w) {
-            if (GameCanvas.r == PopupShop.b()) {
+         if (var0 == GameMidlet.avatar.IDDB) {
+            if (Canvas.currentMyScreen == PopupShop.b()) {
                PopupShop.b().d();
             }
 
             GameMidlet.k = null;
-            GameCanvas.h();
+            Canvas.h();
          }
 
          r = false;
@@ -962,13 +962,13 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    protected final void q() {
-      Avatar var1 = GameMidlet.i;
-      if (GameCanvas.r != MenuCenter.a) {
+      Avatar var1 = GameMidlet.avatar;
+      if (Canvas.currentMyScreen != MenuCenter.a) {
          PopupShop.b().m = true;
-         PopupShop.b().a(new String[]{T1.co, T1.l}, new Vector[]{this.a(GameMidlet.k, var1.w, 1), this.a((Avatar)var1, 0)}, (Vector)null);
-         PopupShop.b().a(this.a(var1.e, 0, 0, false), 1);
+         PopupShop.b().a(new String[]{T1.co, T1.l}, new Vector[]{this.a(GameMidlet.k, var1.IDDB, 1), this.a((Avatar)var1, 0)}, (Vector)null);
+         PopupShop.b().a(this.a(var1.seriPart, 0, 0, false), 1);
          PopupShop.b().a(this.a(GameMidlet.k, 1, 0, true), 0);
-         if (GameCanvas.r != PopupShop.b()) {
+         if (Canvas.currentMyScreen != PopupShop.b()) {
             PopupShop.b().a();
          }
 
@@ -977,28 +977,28 @@ public final class MapScr extends MyScreen implements IChatable {
 
    public final Vector a(Avatar var1, int var2) {
       Avatar var6;
-      (var6 = new Avatar()).x = var1.x;
-      var6.a(var1.a());
-      var6.w = var1.w;
-      var6.V = var1.V;
-      var6.W = var1.W;
+      (var6 = new Avatar()).name = var1.name;
+      var6.setMoney(var1.getMoney());
+      var6.IDDB = var1.IDDB;
+      var6.idPet = var1.idPet;
+      var6.hungerPet = var1.hungerPet;
 
-      for(int var3 = 0; var3 < var1.e.size(); ++var3) {
+      for(int var3 = 0; var3 < var1.seriPart.size(); ++var3) {
          SeriPart var4;
          Part var5;
-         if ((var5 = AvatarData.a((var4 = (SeriPart)var1.e.elementAt(var3)).a)) != null && var5.j != 30 && var5.j != 40) {
-            var6.a(var4);
+         if ((var5 = AvatarData.a((var4 = (SeriPart)var1.seriPart.elementAt(var3)).idPart)) != null && var5.zOrder != 30 && var5.zOrder != 40) {
+            var6.addSeri(var4);
          }
       }
 
-      if (var6.V != -1) {
+      if (var6.idPet != -1) {
          SeriPart var7;
-         (var7 = new SeriPart(var6.V)).b = (byte)(100 - var6.W);
-         var6.e.addElement(var7);
+         (var7 = new SeriPart(var6.idPet)).b = (byte)(100 - var6.hungerPet);
+         var6.seriPart.addElement(var7);
       }
 
       new Vector();
-      return this.a(var6.e, var6.w, 0);
+      return this.a(var6.seriPart, var6.IDDB, 0);
    }
 
    public final Vector a(Vector var1, int var2, int var3) {
@@ -1006,9 +1006,9 @@ public final class MapScr extends MyScreen implements IChatable {
 
       for(int var5 = 0; var5 < var1.size(); ++var5) {
          SeriPart var7;
-         Part var8 = AvatarData.a((var7 = (SeriPart)var1.elementAt(var5)).a);
+         Part var8 = AvatarData.a((var7 = (SeriPart)var1.elementAt(var5)).idPart);
          String var9 = null;
-         if (var2 == GameMidlet.i.w && (!AvatarData.c((int)var8.j) || var3 != 0)) {
+         if (var2 == GameMidlet.avatar.IDDB && (!AvatarData.c((int)var8.zOrder) || var3 != 0)) {
             if (var3 == 1) {
                var9 = T1.cs;
             } else {
@@ -1032,7 +1032,7 @@ public final class MapScr extends MyScreen implements IChatable {
       (var2 = new Vector()).addElement(this.b(var1));
       PopupShop.b().m = true;
       PopupShop.b().a(new String[]{T1.by}, new Vector[1], var2);
-      if (GameCanvas.r != PopupShop.b()) {
+      if (Canvas.currentMyScreen != PopupShop.b()) {
          PopupShop.b().a();
       }
 
@@ -1040,7 +1040,7 @@ public final class MapScr extends MyScreen implements IChatable {
 
    public static void a(Graphics var0, String var1, int var2, int var3, int var4) {
       var0.drawImage(k, var2, var3 + 2, 17);
-      int var5 = k.getWidth() - 4 * AvMain.Y;
+      int var5 = k.getWidth() - 4 * AvMain.hd;
       int var6;
       if ((var6 = var4 * var5 / 100) > var5) {
          var6 = var5;
@@ -1050,29 +1050,29 @@ public final class MapScr extends MyScreen implements IChatable {
          var6 = 0;
       }
 
-      GameCanvas.N.a(var0, var1, var2 - 32 * AvMain.Y, var3 + 4 * AvMain.Y - AvMain.af / 2, 1);
-      PaintPopup.a(var5 = var2 - 27 * AvMain.Y, var3 + 4 * AvMain.Y - 1, var6, 4 * AvMain.Y, 47084, var0);
-      PaintPopup.a(var5, var3 + 5 * AvMain.Y - 1, var6, 1 * AvMain.Y, 8575990, var0);
-      PaintPopup.a(var5 + var6, var3 + 4 * AvMain.Y - 1, 1, 4 * AvMain.Y, 13379, var0);
+      Canvas.N.a(var0, var1, var2 - 32 * AvMain.hd, var3 + 4 * AvMain.hd - AvMain.af / 2, 1);
+      PaintPopup.a(var5 = var2 - 27 * AvMain.hd, var3 + 4 * AvMain.hd - 1, var6, 4 * AvMain.hd, 47084, var0);
+      PaintPopup.a(var5, var3 + 5 * AvMain.hd - 1, var6, 1 * AvMain.hd, 8575990, var0);
+      PaintPopup.a(var5 + var6, var3 + 4 * AvMain.hd - 1, 1, 4 * AvMain.hd, 13379, var0);
       if (!var1.equals("")) {
-         GameCanvas.N.a(var0, String.valueOf(var4), var2 + 29 * AvMain.Y + GameCanvas.N.a("100"), var3 + 4 * AvMain.Y - AvMain.af / 2, 1);
+         Canvas.N.a(var0, String.valueOf(var4), var2 + 29 * AvMain.hd + Canvas.N.getWidth("100"), var3 + 4 * AvMain.hd - AvMain.af / 2, 1);
       }
 
    }
 
    public static String r() {
-      return T1.aJ + ": " + GameCanvas.b(GameMidlet.i.a[0]) + T1.T;
+      return T1.aJ + ": " + Canvas.getMoneys(GameMidlet.avatar.money[0]) + T1.T;
    }
 
    private static void f(int var0, int var1) {
       if (var0 != var1) {
-         GameCanvas.a((var1 - var0 > 0 ? "+" : "") + (var1 - var0), GameMidlet.i.aw, GameMidlet.i.ax - 40, -1, 0, -1);
+         Canvas.a((var1 - var0 > 0 ? "+" : "") + (var1 - var0), GameMidlet.avatar.x, GameMidlet.avatar.y - 40, -1, 0, -1);
       }
 
    }
 
    public final void a(int var1, class_kp var2, Avatar var3, String var4, short var5, byte var6, byte var7, String var8, short var9, String var10) {
-      if (var1 == GameMidlet.i.w) {
+      if (var1 == GameMidlet.avatar.IDDB) {
          f(GameMidlet.j.g, var2.g);
          f(GameMidlet.j.a, var2.a);
          f(GameMidlet.j.b, var2.b);
@@ -1082,7 +1082,7 @@ public final class MapScr extends MyScreen implements IChatable {
          GameMidlet.j = var2;
       }
 
-      GameCanvas.h();
+      Canvas.h();
       Avatar var19;
       if ((var19 = LoadMap.g(var1)) != null && x) {
          x = false;
@@ -1097,30 +1097,30 @@ public final class MapScr extends MyScreen implements IChatable {
          class_kp var21 = var2;
          Object var20 = var19;
          Vector var12 = new Vector();
-         if (var19.w != GameMidlet.i.w) {
+         if (var19.IDDB != GameMidlet.avatar.IDDB) {
             var12 = this.a((Avatar)var19, 0);
          }
 
          Vector var13 = new Vector();
-         String var16 = T1.aJ + ": " + GameCanvas.a(GameMidlet.i.a[0], GameMidlet.i.a[2], GameMidlet.i.b, true);
-         StringObj var17 = new StringObj(var16, GameCanvas.N.a(var16));
-         Pet var18 = LoadMap.h(var19.w);
+         String var16 = T1.aJ + ": " + Canvas.a(GameMidlet.avatar.money[0], GameMidlet.avatar.money[2], GameMidlet.avatar.luongKhoa, true);
+         StringObj var17 = new StringObj(var16, Canvas.N.getWidth(var16));
+         Pet var18 = LoadMap.h(var19.IDDB);
          class_fj var15 = new class_fj((String)null, (IAction)null, var19, var18, var17);
-         var19.K = 0;
+         var19.direct = 0;
          var13.addElement(var15);
          if (var22 != null) {
-            var22.aa = var19.aa;
+            var22.idWedding = var19.idWedding;
             var20 = new class_fm(this, "", (IAction)null, var23, var19, var22, var6, var7, var24, var25);
             var13.addElement(var20);
          }
 
-         if (GameMidlet.i.w != ((Base)var20).w) {
+         if (GameMidlet.avatar.IDDB != ((Base)var20).IDDB) {
             var13.addElement(this.b(var21));
          }
 
-         if (GameCanvas.r != MenuCenter.a) {
+         if (Canvas.currentMyScreen != MenuCenter.a) {
             PopupShop.b().m = true;
-            if (GameMidlet.i.w == ((Base)var20).w) {
+            if (GameMidlet.avatar.IDDB == ((Base)var20).IDDB) {
                if (var22 != null) {
                   PopupShop.b().a(new String[]{T1.by, T1.a}, new Vector[2], var13);
                   if (var26 != -1) {
@@ -1138,7 +1138,7 @@ public final class MapScr extends MyScreen implements IChatable {
                PopupShop.b().a(new String[]{T1.by, T1.cd, T1.by}, new Vector[]{null, null, var12}, var13);
             }
 
-            if (GameCanvas.r != PopupShop.b()) {
+            if (Canvas.currentMyScreen != PopupShop.b()) {
                PopupShop.b().a();
             }
          }
@@ -1169,26 +1169,26 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    protected final void a(Item var1) {
-      GameCanvas.a(T1.aF, (IAction)(new class_fc(this, var1)));
+      Canvas.a(T1.aF, (IAction)(new class_fc(this, var1)));
    }
 
    public static void a(short var0, int var1) {
-      GameCanvas.h();
+      Canvas.h();
       PopupShop.n = true;
       Item var2;
       if ((var2 = Item.a(AvatarData.c, var0)) != null) {
          if (var2.c == 5) {
-            AvatarService.a().e(GameMidlet.i.w);
+            AvatarService.a().e(GameMidlet.avatar.IDDB);
          }
 
-         GameMidlet.i.a(var1);
+         GameMidlet.avatar.setMoney(var1);
       }
 
    }
 
    public final void a(byte var1, int var2, String var3, short[] var4, int var5, String[] var6) {
-      if (GameCanvas.r != PopupShop.b()) {
-         d(GameMidlet.i);
+      if (Canvas.currentMyScreen != PopupShop.b()) {
+         d(GameMidlet.avatar);
          if (var2 == 26) {
             if (h == null) {
                return;
@@ -1196,7 +1196,7 @@ public final class MapScr extends MyScreen implements IChatable {
 
             d(h);
          } else {
-            d(GameMidlet.i);
+            d(GameMidlet.avatar);
          }
 
          Vector var7 = new Vector();
@@ -1235,17 +1235,17 @@ public final class MapScr extends MyScreen implements IChatable {
 
                   var3 = "Tặng";
                   int var10002;
-                  if (var23.j == 20) {
+                  if (var23.zOrder == 20) {
                      var14[0].addElement(new class_jx(this, var3, new class_gt(this, var23, var4 != null ? var4[var20] : -1, var2, var11, var5, var21[0]), var23, var4 != null ? var4[var20] : -1, var21[0], var5, var2));
                      var10002 = var21[0]++;
-                  } else if (var23.j == 10) {
+                  } else if (var23.zOrder == 10) {
                      var14[1].addElement(new class_jx(this, var3, new class_gt(this, var23, var4 != null ? var4[var20] : -1, var2, var11, var5, var21[1]), var23, var4 != null ? var4[var20] : -1, var21[1], var5, var2));
                      var10002 = var21[1]++;
-                  } else if (var23.j != 52 && var23.j != 53 && var23.j != 5) {
-                     if (var23.j == 60) {
+                  } else if (var23.zOrder != 52 && var23.zOrder != 53 && var23.zOrder != 5) {
+                     if (var23.zOrder == 60) {
                         var14[3].addElement(new class_jx(this, var3, new class_gt(this, var23, var4 != null ? var4[var20] : -1, var2, var11, var5, var21[3]), var23, var4 != null ? var4[var20] : -1, var21[3], var5, var2));
                         var10002 = var21[3]++;
-                     } else if (var23.j == 70) {
+                     } else if (var23.zOrder == 70) {
                         var14[4].addElement(new class_jx(this, var3, new class_gt(this, var23, var4 != null ? var4[var20] : -1, var2, var11, var5, var21[4]), var23, var4 != null ? var4[var20] : -1, var21[4], var5, var2));
                         var10002 = var21[4]++;
                      } else {
@@ -1328,19 +1328,19 @@ public final class MapScr extends MyScreen implements IChatable {
                }
             }
 
-            GameCanvas.h();
+            Canvas.h();
          }
 
       }
    }
 
    public static void b(int var0, byte var1) {
-      if (var0 == GameMidlet.i.w) {
-         GameMidlet.i.W = var1;
+      if (var0 == GameMidlet.avatar.IDDB) {
+         GameMidlet.avatar.hungerPet = var1;
       } else {
          Avatar var2;
          if ((var2 = LoadMap.g(var0)) != null) {
-            var2.W = var1;
+            var2.hungerPet = var1;
          }
 
       }
@@ -1353,13 +1353,13 @@ public final class MapScr extends MyScreen implements IChatable {
          var5.addElement(new Command(var4[var6], new class_ac(this, var1, var2, var6)));
       }
 
-      GameCanvas.a(var3, var5);
+      Canvas.a(var3, var5);
    }
 
    public static void b(int var0, short var1) {
       Avatar var2;
       if ((var2 = LoadMap.g(var0)) != null) {
-         var2.X = var1;
+         var2.idImg = var1;
       }
 
    }
@@ -1381,7 +1381,7 @@ public final class MapScr extends MyScreen implements IChatable {
             var2.addElement(new class_y(this, var4.a, new IActionExchange(this, var4), var4));
          }
 
-         MenuCenter.b().a(var2);
+         MenuCenter.gI().a(var2);
       }
    }
 
@@ -1405,7 +1405,7 @@ public final class MapScr extends MyScreen implements IChatable {
 
          MyObject var3;
          Drop_Part var5;
-         if ((var3 = (MyObject)LoadMap.m.elementAt(var2)).az == 5 && (var5 = (Drop_Part)var3).d == var0) {
+         if ((var3 = (MyObject)LoadMap.m.elementAt(var2)).catagory == 5 && (var5 = (Drop_Part)var3).d == var0) {
             var10000 = var5;
             break;
          }
@@ -1431,7 +1431,7 @@ public final class MapScr extends MyScreen implements IChatable {
    public static void a(int var0, Vector var1) {
       Avatar var2;
       if ((var2 = LoadMap.g(var0)) != null) {
-         var2.f = var1;
+         var2.emotionList = var1;
          var2.as = 0;
       }
 
@@ -1440,7 +1440,7 @@ public final class MapScr extends MyScreen implements IChatable {
    public final void s() {
       if (this.y) {
          this.y = true;
-         GameCanvas.i();
+         Canvas.i();
          if (MiniMap.gI().e == 2) {
             GlobalService.gI().c((byte)-1);
          } else {
@@ -1451,21 +1451,21 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    public final void t() {
-      if (GameMidlet.i.d == 0) {
+      if (GameMidlet.avatar.gender == 0) {
          if (!GlobalLogicHandler.a) {
             RegisterScr.b().a();
-            GameCanvas.h();
+            Canvas.h();
          }
       } else {
-         if (GameCanvas.r != MessageScr.d && GameCanvas.r != OptionScr.a) {
-            GameCanvas.J = 0;
+         if (Canvas.currentMyScreen != MessageScr.d && Canvas.currentMyScreen != OptionScr.a) {
+            Canvas.J = 0;
          }
 
          if (!this.y) {
             GlobalService.gI().d((int)9);
             GlobalService.gI().c((byte)0);
          } else {
-            int var1 = 16 * AvMain.Y;
+            int var1 = 16 * AvMain.hd;
             LoadMap.y = -1;
             FilePack.b(T1.aw);
             FrameImage var10 = FrameImage.a("ct", var1, var1);
@@ -1498,12 +1498,12 @@ public final class MapScr extends MyScreen implements IChatable {
 
             LoadMap.a = -1;
             MiniMap.j = true;
-            MiniMap.gI().a(var10, var3, var2, (byte)34, 16 * AvMain.Y, new Command(T1.O, new ISelectMiniMapAction(this)));
+            MiniMap.gI().a(var10, var3, var2, (byte)34, 16 * AvMain.hd, new Command(T1.O, new ISelectMiniMapAction(this)));
             MiniMap.gI().h = new IActionMiniMapKey(this);
             MiniMap.gI().e = 3;
             MiniMap.gI().a();
-            GameCanvas.h();
-            if (MiniMap.n != null && MiniMap.o == 0 && !GameCanvas.I) {
+            Canvas.h();
+            if (MiniMap.n != null && MiniMap.o == 0 && !Canvas.I) {
                MiniMap.n.perform();
                MiniMap.o = 1;
             }
@@ -1523,7 +1523,7 @@ public final class MapScr extends MyScreen implements IChatable {
       var1[0].a(true);
       Command var3 = new Command(T1.cy, new class_m(this, var1));
       InputFace.b().a(var1, T1.cx, T1.eF, var3);
-      GameCanvas.A = InputFace.b();
+      Canvas.A = InputFace.b();
    }
 
    public static boolean a(TField[] var0) {
@@ -1544,7 +1544,7 @@ public final class MapScr extends MyScreen implements IChatable {
       }
 
       if (var1 != -1) {
-         GameCanvas.b(T1.er[var1]);
+         Canvas.b(T1.er[var1]);
          return false;
       } else {
          return true;
@@ -1553,13 +1553,13 @@ public final class MapScr extends MyScreen implements IChatable {
 
    public static void a(byte[] var0, byte var1, byte var2, byte var3, Image var4, short[] var5, Vector var6, Vector var7) {
       B = var5;
-      GameCanvas.J = 0;
+      Canvas.J = 0;
       b = var1;
       LoadMap.F = var6;
       LoadMap.G = var7;
       ByteArrayInputStream var11 = new ByteArrayInputStream(var0);
-      LoadMap.d = new short[var0.length];
-      LoadMap.e = var3;
+      LoadMap.map = new short[var0.length];
+      LoadMap.wMap = var3;
       LoadMap.f = (short)(var0.length / var3);
       LoadMap.b = var4;
       if (var4 != null) {
@@ -1569,8 +1569,8 @@ public final class MapScr extends MyScreen implements IChatable {
       }
 
       try {
-         for(int var10 = 0; var10 < LoadMap.d.length; ++var10) {
-            LoadMap.d[var10] = (short)var11.read();
+         for(int var10 = 0; var10 < LoadMap.map.length; ++var10) {
+            LoadMap.map[var10] = (short)var11.read();
          }
       } catch (Exception var8) {
          var8.printStackTrace();
@@ -1579,17 +1579,17 @@ public final class MapScr extends MyScreen implements IChatable {
       if (var2 != LoadMap.y) {
          GlobalService.gI().d(var2);
       } else {
-         GameCanvas.x.e();
+         Canvas.x.e();
       }
    }
 
    public final void v() {
-      GameCanvas.a(T1.P, (IAction)(new class_l(this)));
+      Canvas.a(T1.P, (IAction)(new class_l(this)));
    }
 
    public static void w() {
-      if (GameMidlet.i.e != null) {
-         GameMidlet.i.e.removeAllElements();
+      if (GameMidlet.avatar.seriPart != null) {
+         GameMidlet.avatar.seriPart.removeAllElements();
       }
 
       LoadMap.t = -1;
@@ -1602,17 +1602,17 @@ public final class MapScr extends MyScreen implements IChatable {
       OnScreen.c = 0;
       ListScr.d = null;
       LoadMap.m.removeAllElements();
-      GameMidlet.i = new Avatar();
+      GameMidlet.avatar = new Avatar();
       GameMidlet.j = new class_kp();
-      GameCanvas.C.removeAllElements();
+      Canvas.C.removeAllElements();
       GlobalMessageHandler.a().a = null;
    }
 
    public final void d(int var1, int var2) {
       switch (var1) {
          case 0:
-            AvatarService.a().b(GameMidlet.i.w);
-            GameCanvas.i();
+            AvatarService.a().b(GameMidlet.avatar.IDDB);
+            Canvas.i();
             return;
          case 1:
             HouseScr.b().e();
@@ -1621,17 +1621,17 @@ public final class MapScr extends MyScreen implements IChatable {
             GlobalService.gI().h(var2);
             return;
          case 3:
-            b().b(GameMidlet.i, 0);
+            gI().b(GameMidlet.avatar, 0);
             return;
          case 4:
-            b().b(GameMidlet.i, 1);
+            gI().b(GameMidlet.avatar, 1);
          default:
       }
    }
 
    public static void g(int var0) {
       HouseScr.b().c = (byte)var0;
-      if (GameMidlet.i.q != var0 && GameMidlet.i.q != -1) {
+      if (GameMidlet.avatar.typeHome != var0 && GameMidlet.avatar.typeHome != -1) {
          HouseScr.b().e();
       } else {
          Vector var1;
@@ -1642,15 +1642,15 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    public static void d(Avatar var0) {
-      (C = new Avatar()).e = new Vector();
-      C.K = 0;
-      C.d = var0.d;
-      C.v = var0.v;
+      (C = new Avatar()).seriPart = new Vector();
+      C.direct = 0;
+      C.gender = var0.gender;
+      C.lvMain = var0.lvMain;
 
-      for(int var1 = 0; var1 < var0.e.size(); ++var1) {
+      for(int var1 = 0; var1 < var0.seriPart.size(); ++var1) {
          SeriPart var2;
-         (var2 = new SeriPart()).a = ((SeriPart)var0.e.elementAt(var1)).a;
-         C.a(var2);
+         (var2 = new SeriPart()).idPart = ((SeriPart)var0.seriPart.elementAt(var1)).idPart;
+         C.addSeri(var2);
       }
 
    }
@@ -1705,19 +1705,19 @@ public final class MapScr extends MyScreen implements IChatable {
             Part var9;
             int var10;
             if ((var9 = AvatarData.b[var8]).f >= 0) {
-               var10 = ((APartInfo)AvatarData.b[var9.f]).b;
+               var10 = ((APartInfo)AvatarData.b[var9.f]).gender;
             } else {
-               var10 = ((APartInfo)var9).b;
+               var10 = ((APartInfo)var9).gender;
             }
 
-            if (var9 != null && (var9.i[0] > 0 || var9.i[1] > 0) && (var1.d == var10 || var10 == 0) && (var5[0] == var9.k || var5[1] == var9.k) && var9.f > -2) {
+            if (var9 != null && (var9.i[0] > 0 || var9.i[1] > 0) && (var1.gender == var10 || var10 == 0) && (var5[0] == var9.k || var5[1] == var9.k) && var9.f > -2) {
                if (var3 == null) {
                   byte var12 = var4[0];
                   var6[0].addElement(new class_i(this, T1.O, new class_k(this, var9), var9, var12));
                   ++var4[0];
                } else {
                   for(var10 = 0; var10 < var6.length; ++var10) {
-                     if (var3[var10] == var9.j) {
+                     if (var3[var10] == var9.zOrder) {
                         byte var11 = var4[var10];
                         var6[var10].addElement(new class_e(this, T1.O, new class_g(this, var9), var9, var11));
                         ++var4[var10];
@@ -1733,34 +1733,34 @@ public final class MapScr extends MyScreen implements IChatable {
       PopupShop.b().a(var7, var6, (Vector)null);
       PopupShop.g = var2;
       PopupShop.b().i();
-      GameCanvas.h();
-      if (LoadMap.a == 57 && GameCanvas.I) {
-         (GameCanvas.D = new Welcome()).b(PopupShop.a);
+      Canvas.h();
+      if (LoadMap.a == 57 && Canvas.I) {
+         (Canvas.D = new Welcome()).b(PopupShop.a);
       }
 
    }
 
    public static void a(Part var0) {
-      (C = new Avatar()).K = 0;
-      C.e = new Vector();
+      (C = new Avatar()).direct = 0;
+      C.seriPart = new Vector();
       boolean var1 = false;
 
-      for(int var2 = 0; var2 < GameMidlet.i.e.size(); ++var2) {
+      for(int var2 = 0; var2 < GameMidlet.avatar.seriPart.size(); ++var2) {
          SeriPart var3;
-         (var3 = new SeriPart()).a = ((SeriPart)GameMidlet.i.e.elementAt(var2)).a;
-         if (AvatarData.a(var3.a).j == var0.j) {
-            var3.a = var0.g;
+         (var3 = new SeriPart()).idPart = ((SeriPart)GameMidlet.avatar.seriPart.elementAt(var2)).idPart;
+         if (AvatarData.a(var3.idPart).zOrder == var0.zOrder) {
+            var3.idPart = var0.IDPart;
             var1 = true;
          }
 
-         C.a(var3);
+         C.addSeri(var3);
       }
 
       if (!var1) {
          SeriPart var5;
-         (var5 = new SeriPart()).a = var0.g;
-         C.a(var5);
-         C.h();
+         (var5 = new SeriPart()).idPart = var0.IDPart;
+         C.addSeri(var5);
+         C.orderSeriesPath();
       }
 
    }
@@ -1770,31 +1770,31 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    public static void b(Part var0) {
-      GameCanvas.a(var0.i[0], var0.i[1], new class_at(var0), new class_ar(var0), (IAction)null);
+      Canvas.a(var0.i[0], var0.i[1], new class_at(var0), new class_ar(var0), (IAction)null);
    }
 
    public static void a(short var0, String var1, int var2, int var3, int var4) {
-      GameCanvas.b(var1);
-      GameMidlet.i.a(var2);
-      GameMidlet.i.c(var3);
-      GameMidlet.i.b = var4;
+      Canvas.b(var1);
+      GameMidlet.avatar.setMoney(var2);
+      GameMidlet.avatar.setGold(var3);
+      GameMidlet.avatar.luongKhoa = var4;
       Part var5;
       if ((var5 = AvatarData.a(var0)).f != -2) {
          SeriPart var6;
-         if ((var6 = AvatarData.a(var5.j, GameMidlet.i.e)) != null) {
-            var6.a = var0;
-         } else if (var5.j == -1 && GameMidlet.i.V != -1) {
-            GameMidlet.i.a(var0);
-            AvatarService.a().e(GameMidlet.i.w);
+         if ((var6 = AvatarData.a(var5.zOrder, GameMidlet.avatar.seriPart)) != null) {
+            var6.idPart = var0;
+         } else if (var5.zOrder == -1 && GameMidlet.avatar.idPet != -1) {
+            GameMidlet.avatar.changePet(var0);
+            AvatarService.a().e(GameMidlet.avatar.IDDB);
          } else {
-            GameMidlet.i.a(new SeriPart(var0));
-            GameMidlet.i.h();
+            GameMidlet.avatar.addSeri(new SeriPart(var0));
+            GameMidlet.avatar.orderSeriesPath();
          }
 
-         GameMidlet.i.e(11);
-         if (var5.j == -1 && GameMidlet.i.V == -1) {
-            GameMidlet.i.j();
-            AvatarService.a().e(GameMidlet.i.w);
+         GameMidlet.avatar.setFeel(11);
+         if (var5.zOrder == -1 && GameMidlet.avatar.idPet == -1) {
+            GameMidlet.avatar.setPet();
+            AvatarService.a().e(GameMidlet.avatar.IDDB);
          }
       }
 
@@ -1814,41 +1814,41 @@ public final class MapScr extends MyScreen implements IChatable {
       byte[] var5 = new byte[]{59, 60, 58, 104, 105, 101, 102};
       LoadMap.F = var3;
       LoadMap.G = var4;
-      GameCanvas.x.e(var5[var1]);
+      Canvas.x.e(var5[var1]);
       if (var3 != null) {
          LoadMap.d();
       }
 
       for(int var6 = 0; var6 < var2.size(); ++var6) {
          MyObject var7;
-         if ((var7 = (MyObject)var2.elementAt(var6)).az == 0) {
+         if ((var7 = (MyObject)var2.elementAt(var6)).catagory == 0) {
             Avatar var8;
-            (var8 = (Avatar)var7).C = var8.aw;
-            var8.D = var8.ax;
-            var8.t = var8.K;
-            var8.h();
-            if (var8.w != GameMidlet.i.w) {
+            (var8 = (Avatar)var7).xCur = var8.x;
+            var8.yCur = var8.y;
+            var8.dirLast = var8.direct;
+            var8.orderSeriesPath();
+            if (var8.IDDB != GameMidlet.avatar.IDDB) {
                e(var8);
                LoadMap.b(var8);
             }
-         } else if (var7.az == 5) {
+         } else if (var7.catagory == 5) {
             Drop_Part var9;
-            (var9 = (Drop_Part)var7).b = var9.aw;
-            var9.c = var9.ax;
+            (var9 = (Drop_Part)var7).b = var9.x;
+            var9.c = var9.y;
             LoadMap.m.addElement(var9);
          }
       }
 
       if (Bus.b) {
-         a(Bus.a.a, Bus.a.b, GameMidlet.i.K, GameMidlet.i.N);
+         doMove(Bus.a.a, Bus.a.b, GameMidlet.avatar.direct, GameMidlet.avatar.N);
       } else {
-         ++GameMidlet.i.ax;
+         ++GameMidlet.avatar.y;
          this.n();
       }
 
-      b((int)GameMidlet.i.S);
-      if (GameCanvas.I && var5[var1] == 101) {
-         (GameCanvas.D = new Welcome()).e();
+      b((int)GameMidlet.avatar.feel);
+      if (Canvas.I && var5[var1] == 101) {
+         (Canvas.D = new Welcome()).e();
       }
 
    }
@@ -1856,18 +1856,18 @@ public final class MapScr extends MyScreen implements IChatable {
    public static void i(int var0) {
       D = var0;
       G = LoadMap.a;
-      b().n();
+      gI().n();
       GlobalService.gI().d((int)8);
-      GameCanvas.i();
+      Canvas.i();
    }
 
    public final void e(int var1, int var2) {
-      if (GameCanvas.r == PopupShop.a) {
+      if (Canvas.currentMyScreen == PopupShop.a) {
          PopupShop.b().d();
       }
 
       System.out.println("onWeddingStart 1111111111111");
-      GameCanvas.J = 1;
+      Canvas.J = 1;
       E = var1;
       F = var2;
       t = true;
@@ -1890,10 +1890,10 @@ public final class MapScr extends MyScreen implements IChatable {
 
       MyObject var10;
       for(var3 = 0; var3 < LoadMap.m.size() - 1; ++var3) {
-         if ((var10 = (MyObject)LoadMap.m.elementAt(var3)).az == 0) {
+         if ((var10 = (MyObject)LoadMap.m.elementAt(var3)).catagory == 0) {
             for(var5 = var3 + 1; var5 < LoadMap.m.size(); ++var5) {
                MyObject var14;
-               if ((var14 = (MyObject)LoadMap.m.elementAt(var5)).az == 0 && ((Avatar)var10).w > ((Avatar)var14).w) {
+               if ((var14 = (MyObject)LoadMap.m.elementAt(var5)).catagory == 0 && ((Avatar)var10).IDDB > ((Avatar)var14).IDDB) {
                   LoadMap.m.setElementAt(var14, var3);
                   LoadMap.m.setElementAt(var10, var5);
                   var10 = var14;
@@ -1903,27 +1903,27 @@ public final class MapScr extends MyScreen implements IChatable {
       }
 
       for(var3 = 0; var3 < LoadMap.m.size(); ++var3) {
-         if ((var10 = (MyObject)LoadMap.m.elementAt(var3)).az == 0) {
+         if ((var10 = (MyObject)LoadMap.m.elementAt(var3)).catagory == 0) {
             Avatar var13;
-            (var13 = (Avatar)var10).g.removeAllElements();
-            if (var13.w == var2) {
-               var13.aw = var13.C = 0;
-               var13.ax = var13.D = 8 * LoadMap.i + LoadMap.i / 2 - LoadMap.i / 2;
+            (var13 = (Avatar)var10).moveList.removeAllElements();
+            if (var13.IDDB == var2) {
+               var13.x = var13.xCur = 0;
+               var13.y = var13.yCur = 8 * LoadMap.i + LoadMap.i / 2 - LoadMap.i / 2;
                var13.G = 2;
                this.K = 1;
-               var13.f(2475, 20);
-               var13.f(2476, 10);
-               var13.f(300, 60);
-               var13.f(302, 70);
-               var13.h();
-            } else if (var13.w == var1) {
-               var13.aw = var13.C = 0;
-               var13.ax = var13.D = 8 * LoadMap.i + LoadMap.i / 2 + LoadMap.i / 2;
+               var13.addPart(2475, 20);
+               var13.addPart(2476, 10);
+               var13.addPart(300, 60);
+               var13.addPart(302, 70);
+               var13.orderSeriesPath();
+            } else if (var13.IDDB == var1) {
+               var13.x = var13.xCur = 0;
+               var13.y = var13.yCur = 8 * LoadMap.i + LoadMap.i / 2 + LoadMap.i / 2;
                var13.G = 2;
                this.K = 1;
-               var13.f(2477, 20);
-               var13.f(2478, 10);
-               var13.h();
+               var13.addPart(2477, 20);
+               var13.addPart(2478, 10);
+               var13.orderSeriesPath();
             }
          }
       }
@@ -1937,19 +1937,19 @@ public final class MapScr extends MyScreen implements IChatable {
       for(int var15 = 0; var15 < LoadMap.m.size(); ++var15) {
          MyObject var7;
          Avatar var8;
-         if ((var7 = (MyObject)LoadMap.m.elementAt(var15)).az == 0 && (var8 = (Avatar)var7).w != -100) {
+         if ((var7 = (MyObject)LoadMap.m.elementAt(var15)).catagory == 0 && (var8 = (Avatar)var7).IDDB != -100) {
             AvPosition var9;
-            GameCanvas.h = GameCanvas.j = (var9 = (AvPosition)p.elementAt(var5 / 2)).a - AvCamera.a().a + LoadMap.i / 2;
-            GameCanvas.i = GameCanvas.k = var9.b - AvCamera.a().b + LoadMap.i / 2 + var15 % 2 * (LoadMap.i - 5);
+            Canvas.h = Canvas.j = (var9 = (AvPosition)p.elementAt(var5 / 2)).a - AvCamera.gI().xCam + LoadMap.i / 2;
+            Canvas.i = Canvas.k = var9.b - AvCamera.gI().yCam + LoadMap.i / 2 + var15 % 2 * (LoadMap.i - 5);
             ++var5;
-            var8.a(GameCanvas.h + AvCamera.a().a, GameCanvas.i + AvCamera.a().b);
+            var8.setPos(Canvas.h + AvCamera.gI().xCam, Canvas.i + AvCamera.gI().yCam);
          }
       }
 
       LoadMap.m.addElement(var11);
       LoadMap.m.addElement(var12);
       LoadMap.a(LoadMap.m);
-      GameCanvas.h();
+      Canvas.h();
       System.out.println("onWeddingStart 2222222222222222222: " + t + "     " + this.K);
    }
 }
