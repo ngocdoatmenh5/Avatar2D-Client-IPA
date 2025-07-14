@@ -7,7 +7,7 @@ final class class_et extends Command {
       super(var2, var3);
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
+   public final void paint(Graphics var1, int var2, int var3) {
       FarmScr.p.drawFrame(1, var2, var3, 0, 3, var1);
    }
 }

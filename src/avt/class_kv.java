@@ -67,9 +67,9 @@ public final class class_kv extends MyScreen
       this.e = new Command(T.d, 2);
       super.center = this.d;
       FilePack.b(T.av);
-      this.a = FilePack.a("cucphao");
-      this.b = FrameImage.a("ca", 14 * AvMain.hd, 14 * AvMain.hd);
-      FilePack.a();
+      this.a = FilePack.getImage("cucphao");
+      this.b = FrameImage.init("ca", 14 * AvMain.hd, 14 * AvMain.hd);
+      FilePack.reset();
       this.j = 530;
    }
 
@@ -120,7 +120,7 @@ public final class class_kv extends MyScreen
 
    public final void update() {
       MapScr.gI().update();
-      if (this.g.i && !this.g.j) {
+      if (this.g.isCanCau && !this.g.isSuccess) {
          if (this.l < this.m.length && System.currentTimeMillis() - this.n > this.o) {
             this.f(0);
          }
@@ -128,14 +128,14 @@ public final class class_kv extends MyScreen
             --this.p;
             if (this.p < 0) {
                this.p = 0;
-               this.g.a(1);
+               this.g.setPosDay(1);
             }
          }
       }
    }
 
    public final void keyPress(final int n) {
-      if (this.g.i && !this.g.j) {
+      if (this.g.isCanCau && !this.g.isSuccess) {
          switch (n) {
             case 50:
             case 52:
@@ -151,7 +151,7 @@ public final class class_kv extends MyScreen
    }
 
    public final void updateKey() {
-      if (this.g.i && !this.g.j) {
+      if (this.g.isCanCau && !this.g.isSuccess) {
          if (Canvas.a(2)) {
             this.f(2);
          }
@@ -175,12 +175,12 @@ public final class class_kv extends MyScreen
       }
       ++this.l;
       if (GameMidlet.avatar.action != 2) {
-         this.g.a(0);
+         this.g.setPosDay(0);
          this.p = 2;
       }
       if (this.l >= this.m.length) {
-         this.g.a(0);
-         this.g.j = true;
+         this.g.setPosDay(0);
+         this.g.isSuccess = true;
          ParkService.a().a(true, this.m);
          Canvas.startWaitDlg();
       }
@@ -188,7 +188,7 @@ public final class class_kv extends MyScreen
 
    public final void paint(final Graphics graphics) {
       MapScr.gI().paintMain(graphics);
-      if (this.g.i && !this.g.j && this.o != -1) {
+      if (this.g.isCanCau && !this.g.isSuccess && this.o != -1) {
          Canvas.resetTrans(graphics);
          graphics.translate(-AvCamera.gI().xCam, -AvCamera.gI().yCam);
          graphics.setColor(8575990);
@@ -225,27 +225,27 @@ public final class class_kv extends MyScreen
          MapScr.l.addElement(fish);
          if (b.action != 2) {
             if (b.IDDB != GameMidlet.avatar.IDDB) {
-               fish.b = b;
-               fish.k = true;
+               fish.ava = b;
+               fish.isWait = true;
             }
             return;
          }
-         fish.a(b);
+         fish.doQuanCau(b);
       }
    }
 
    public final void a(int i, final int h, final short o, final byte[][] array) {
       final Fish c;
-      if ((c = c(i)) != null && c.f != 0) {
-         if ((c.b.action != 13 && c.b.action != 2) || c.i) {
+      if ((c = c(i)) != null && c.isQuan != 0) {
+         if ((c.ava.action != 13 && c.ava.action != 2) || c.isCanCau) {
             return;
          }
-         c.i = true;
-         c.a(0);
-         c.b.action = 2;
-         c.h = h;
+         c.isCanCau = true;
+         c.setPosDay(0);
+         c.ava.action = 2;
+         c.idFish = h;
          if (o != -1) {
-            Canvas.a(T.cA, c.b.x, c.b.y - 60, -1, 1, -1);
+            Canvas.a(T.cA, c.ava.x, c.ava.y - 60, -1, 1, -1);
          }
          if (i == GameMidlet.avatar.IDDB) {
             this.n = System.currentTimeMillis();
@@ -254,11 +254,11 @@ public final class class_kv extends MyScreen
             this.k = new Image[array.length];
             this.m = new byte[array.length];
             for (i = 0; i < this.k.length; ++i) {
-               this.k[i] = CRes.a(array[i]);
+               this.k[i] = CRes.createImage(array[i]);
             }
             this.o = o;
-            this.h = this.g.d[this.g.a - 2].x;
-            this.i = this.g.d[this.g.a - 2].y - 30;
+            this.h = this.g.posTemp[this.g.size - 2].x;
+            this.i = this.g.posTemp[this.g.size - 2].y - 30;
             if (o == -1) {
                this.f(0);
             }
@@ -269,17 +269,17 @@ public final class class_kv extends MyScreen
    public final void c(final int n, final int h) {
       final Fish c;
       if ((c = c(n)) != null) {
-         if (c.b.action != 2 && c.b.action != 13) {
+         if (c.ava.action != 2 && c.ava.action != 13) {
             MapScr.l.removeElement(c);
             return;
          }
          if (h < 0) {
-            Canvas.a(T.cB, c.b.x, c.b.y - 60, -1, 1, -1);
+            Canvas.a(T.cB, c.ava.x, c.ava.y - 60, -1, 1, -1);
          }
-         c.h = h;
-         c.j = true;
-         c.a(0);
-         if (c.b.IDDB == GameMidlet.avatar.IDDB) {
+         c.idFish = h;
+         c.isSuccess = true;
+         c.setPosDay(0);
+         if (c.ava.IDDB == GameMidlet.avatar.IDDB) {
             super.right = this.f;
             Canvas.endDlg();
          }
@@ -289,7 +289,7 @@ public final class class_kv extends MyScreen
    public static Fish c(final int n) {
       for (int i = 0; i < MapScr.l.size(); ++i) {
          final Fish fish;
-         if ((fish = (Fish) MapScr.l.elementAt(i)).b.IDDB == n) {
+         if ((fish = (Fish) MapScr.l.elementAt(i)).ava.IDDB == n) {
             return fish;
          }
       }
@@ -305,9 +305,9 @@ public final class class_kv extends MyScreen
       }
       if (c != null) {
          final PartSmall partSmall;
-         if (c.h > 0 && (partSmall = (PartSmall)AvatarData.getPart((short)c.h)) != null) {
+         if (c.idFish > 0 && (partSmall = (PartSmall)AvatarData.getPart((short)c.idFish)) != null) {
             final ImageInfo imageInfo;
-            Canvas.a(1, c.b.x, c.b.y + c.b.ySat - 50, -1, Image.createImage(AvatarData.getBigImgInfo((int)(imageInfo = AvatarData.listImgInfo[partSmall.h]).bigID).img, imageInfo.x0 * AvMain.hd, imageInfo.y0 * AvMain.hd, imageInfo.w * AvMain.hd, imageInfo.h * AvMain.hd, 0), -1);
+            Canvas.a(1, c.ava.x, c.ava.y + c.ava.ySat - 50, -1, Image.createImage(AvatarData.getBigImgInfo((int)(imageInfo = AvatarData.listImgInfo[partSmall.h]).bigID).img, imageInfo.x0 * AvMain.hd, imageInfo.y0 * AvMain.hd, imageInfo.w * AvMain.hd, imageInfo.h * AvMain.hd, 0), -1);
          }
          MapScr.l.removeElement(c);
       }
@@ -315,7 +315,7 @@ public final class class_kv extends MyScreen
 
    public final void a(final boolean b, final String s) {
       if (b) {
-         this.g.a();
+         this.g.doSetDayCau();
          super.center = this.d;
          this.switchToMe();
          AvCamera.setDistance(Canvas.w / 3);
@@ -339,21 +339,21 @@ public final class class_kv extends MyScreen
       if ((g = LoadMap.g(n)) != null && (g.action == 2 || g.action == 13)) {
          final Fish obj = new Fish();
          MapScr.l.addElement(obj);
-         obj.a(g);
-         obj.b();
-         obj.c[obj.a - 1].x = g.x + 70 + (AvMain.hd - 1) * 35 + CRes.rnd(25);
-         obj.c[obj.a - 1].y = g.y;
-         obj.f = 1;
-         obj.g = -1;
-         obj.a(1);
+         obj.doQuanCau(g);
+         obj.doQuanDay();
+         obj.posDay[obj.size - 1].x = g.x + 70 + (AvMain.hd - 1) * 35 + CRes.rnd(25);
+         obj.posDay[obj.size - 1].y = g.y;
+         obj.isQuan = 1;
+         obj.countQuan = -1;
+         obj.setPosDay(1);
          if (n2 == 2) {
-            obj.i = true;
+            obj.isCanCau = true;
             return;
          }
          if (n2 == 3) {
-            obj.i = true;
-            obj.j = true;
-            obj.e = 2;
+            obj.isCanCau = true;
+            obj.isSuccess = true;
+            obj.distant = 2;
          }
       }
    }

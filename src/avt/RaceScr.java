@@ -140,16 +140,16 @@ public final class RaceScr extends MyScreen implements IChatable {
 
       if (!var3) {
          if (var4) {
-            for(var5 = 0; var5 < LoadMap.m.size(); ++var5) {
+            for(var5 = 0; var5 < LoadMap.playerLists.size(); ++var5) {
                MyObject var6;
-               if ((var6 = (MyObject)LoadMap.m.elementAt(var5)).catagory == 10) {
+               if ((var6 = (MyObject)LoadMap.playerLists.elementAt(var5)).catagory == 10) {
                   LoadMap.a(var6);
                }
             }
          }
 
          if (a != Canvas.currentMyScreen) {
-            LoadMap.a(LoadMap.m);
+            LoadMap.a(LoadMap.playerLists);
             b().switchToMe();
             LoadMap.t = -1;
             this.b(1);
@@ -176,7 +176,7 @@ public final class RaceScr extends MyScreen implements IChatable {
             for(var5 = 0; var5 < 6; ++var5) {
                this.c[var5].x = 20;
                this.c[var5].y = 80 + var5 * 12;
-               LoadMap.m.addElement(this.c[var5]);
+               LoadMap.playerLists.addElement(this.c[var5]);
             }
 
             AvCamera.gI().followPlayer = this.c[2];
@@ -291,11 +291,11 @@ public final class RaceScr extends MyScreen implements IChatable {
          case 2:
             class_fl var3 = new class_fl(this);
             if (this.d) {
-               Canvas.a(avt.T.eP, (IAction)var3);
+               Canvas.startOKDlg(avt.T.eP, (IAction)var3);
                return;
             }
 
-            Canvas.a(avt.T.ee, (IAction)var3);
+            Canvas.startOKDlg(avt.T.ee, (IAction)var3);
             return;
          case 3:
             AvCamera var10000 = AvCamera.gI();
@@ -325,7 +325,7 @@ public final class RaceScr extends MyScreen implements IChatable {
             Vector var2;
             (var2 = new Vector()).addElement(new Command(avt.T.ed, 0, this));
             var2.addElement(new Command(avt.T.x, 2, this));
-            MenuSub.a().a(var2, 0);
+            MenuSub.gI().startAt(var2, 0);
             return;
          case 8:
             super.center = this.s;
@@ -393,8 +393,8 @@ public final class RaceScr extends MyScreen implements IChatable {
             this.x = false;
             Canvas.currentFace = this.l;
             int[] var10000 = GameMidlet.avatar.money;
-            var10000[0] += this.l.f;
-            Canvas.a(this.l.f, Canvas.hw, Canvas.h - 30 * AvMain.hd, -1, -1);
+            var10000[0] += this.l.tienNhanDuoc;
+            Canvas.a(this.l.tienNhanDuoc, Canvas.hw, Canvas.h - 30 * AvMain.hd, -1, -1);
             this.l = null;
          }
       }
@@ -404,14 +404,14 @@ public final class RaceScr extends MyScreen implements IChatable {
          --this.e;
       }
 
-      if (this.z != null && this.z.a()) {
-         this.z.d = null;
+      if (this.z != null && this.z.setOut()) {
+         this.z.chats = null;
       }
 
       if (this.d || !this.w) {
-         for(var1 = 0; var1 < LoadMap.m.size(); ++var1) {
+         for(var1 = 0; var1 < LoadMap.playerLists.size(); ++var1) {
             Base var4;
-            if ((var4 = (Base)LoadMap.m.elementAt(var1)).catagory == 9) {
+            if ((var4 = (Base)LoadMap.playerLists.elementAt(var1)).catagory == 9) {
                Avatar var5 = (Avatar)var4;
                if (System.currentTimeMillis() / 1000L - (long)var5.exp > (long)var5.an) {
                   var5.exp = (int)(System.currentTimeMillis() / 1000L);
@@ -486,7 +486,7 @@ public final class RaceScr extends MyScreen implements IChatable {
                this.aF = this.aE;
             } else {
                for(var1 = 0; var1 < 9; ++var1) {
-                  if (Canvas.b(this.M + 5 * AvMain.hd + var1 % 3 * (5 * AvMain.hd + this.T.a), this.N + (this.P - 29 * AvMain.hd * 3) + var1 / 3 * 29 * AvMain.hd - 1 * AvMain.hd, 60 * AvMain.hd, 26 * AvMain.hd)) {
+                  if (Canvas.b(this.M + 5 * AvMain.hd + var1 % 3 * (5 * AvMain.hd + this.T.frameWidth), this.N + (this.P - 29 * AvMain.hd * 3) + var1 / 3 * 29 * AvMain.hd - 1 * AvMain.hd, 60 * AvMain.hd, 26 * AvMain.hd)) {
                      this.aB = var1;
                      Canvas.isPointerClick = false;
                      this.aD = true;
@@ -505,7 +505,7 @@ public final class RaceScr extends MyScreen implements IChatable {
                   break;
                }
 
-               if (Canvas.b(this.C + this.I + this.K - 1 * AvMain.hd - this.T.a, this.D + this.J + 3 * AvMain.hd + 35 * AvMain.hd * var1 + 31 * AvMain.hd / 2 - 15 * AvMain.hd, 60 * AvMain.hd, 31 * AvMain.hd)) {
+               if (Canvas.b(this.C + this.I + this.K - 1 * AvMain.hd - this.T.frameWidth, this.D + this.J + 3 * AvMain.hd + 35 * AvMain.hd * var1 + 31 * AvMain.hd / 2 - 15 * AvMain.hd, 60 * AvMain.hd, 31 * AvMain.hd)) {
                   this.aA = var1;
                   this.aD = true;
                   Canvas.isPointerClick = false;
@@ -519,7 +519,7 @@ public final class RaceScr extends MyScreen implements IChatable {
       if (this.aD) {
          if (Canvas.isPointerDown) {
             if (this.aB != -1) {
-               if (!Canvas.b(this.M + 5 * AvMain.hd + this.aB % 3 * (5 * AvMain.hd + this.T.a), this.N + (this.P - 29 * AvMain.hd * 3) + this.aB / 3 * 29 * AvMain.hd - 1 * AvMain.hd, 60 * AvMain.hd, 26 * AvMain.hd)) {
+               if (!Canvas.b(this.M + 5 * AvMain.hd + this.aB % 3 * (5 * AvMain.hd + this.T.frameWidth), this.N + (this.P - 29 * AvMain.hd * 3) + this.aB / 3 * 29 * AvMain.hd - 1 * AvMain.hd, 60 * AvMain.hd, 26 * AvMain.hd)) {
                   this.aB = -1;
                }
             } else if (this.V != 0) {
@@ -530,7 +530,7 @@ public final class RaceScr extends MyScreen implements IChatable {
                if (!Canvas.b(this.C + this.I + 32 * AvMain.hd / 2 - 15 * AvMain.hd, this.D + this.J + 3 * AvMain.hd + 35 * AvMain.hd * this.az + 31 * AvMain.hd / 2 - 15 * AvMain.hd, 31 * AvMain.hd, 31 * AvMain.hd)) {
                   this.az = -1;
                }
-            } else if (this.aA != -1 && !this.U && !Canvas.b(this.C + this.I + this.K - 1 * AvMain.hd - this.T.a, this.D + this.J + 3 * AvMain.hd + 35 * AvMain.hd * this.aA + 31 * AvMain.hd / 2 - 15 * AvMain.hd, 60 * AvMain.hd, 31 * AvMain.hd)) {
+            } else if (this.aA != -1 && !this.U && !Canvas.b(this.C + this.I + this.K - 1 * AvMain.hd - this.T.frameWidth, this.D + this.J + 3 * AvMain.hd + 35 * AvMain.hd * this.aA + 31 * AvMain.hd / 2 - 15 * AvMain.hd, 60 * AvMain.hd, 31 * AvMain.hd)) {
                this.aA = -1;
             }
          }
@@ -579,30 +579,30 @@ public final class RaceScr extends MyScreen implements IChatable {
    }
 
    private static void a(Graphics var0, int var1, int var2, int var3, int var4, FrameImage var5, int var6) {
-      var5.a(0, var1, var2, 0, var0);
-      var5.a(2, var1 + var3 - var5.a, var2, 0, var0);
-      var5.a(5, var1, var2 + var4 - var5.b, 0, var0);
-      var5.a(7, var1 + var3 - var5.a, var2 + var4 - var5.b, 0, var0);
+      var5.drawFrame(0, var1, var2, 0, var0);
+      var5.drawFrame(2, var1 + var3 - var5.frameWidth, var2, 0, var0);
+      var5.drawFrame(5, var1, var2 + var4 - var5.frameHeight, 0, var0);
+      var5.drawFrame(7, var1 + var3 - var5.frameWidth, var2 + var4 - var5.frameHeight, 0, var0);
 
       int var7;
-      for(var7 = 0; var7 < (var3 - (var5.a << 1)) / var5.a; ++var7) {
-         var5.a(1, var1 + (var7 + 1) * var5.a, var2, 0, var0);
-         var5.a(6, var1 + (var7 + 1) * var5.a, var2 + var4 - var5.b, 0, var0);
+      for(var7 = 0; var7 < (var3 - (var5.frameWidth << 1)) / var5.frameWidth; ++var7) {
+         var5.drawFrame(1, var1 + (var7 + 1) * var5.frameWidth, var2, 0, var0);
+         var5.drawFrame(6, var1 + (var7 + 1) * var5.frameWidth, var2 + var4 - var5.frameHeight, 0, var0);
       }
 
-      var5.a(1, var1 + var3 - (var5.a << 1), var2, 0, var0);
-      var5.a(6, var1 + var3 - (var5.a << 1), var2 + var4 - var5.b, 0, var0);
+      var5.drawFrame(1, var1 + var3 - (var5.frameWidth << 1), var2, 0, var0);
+      var5.drawFrame(6, var1 + var3 - (var5.frameWidth << 1), var2 + var4 - var5.frameHeight, 0, var0);
 
-      for(var7 = 0; var7 < (var4 - (var5.b << 1)) / var5.b; ++var7) {
-         var5.a(3, var1, var2 + (var7 + 1) * var5.b, 0, var0);
-         var5.a(4, var1 + var3 - var5.a, var2 + (var7 + 1) * var5.b, 0, var0);
+      for(var7 = 0; var7 < (var4 - (var5.frameHeight << 1)) / var5.frameHeight; ++var7) {
+         var5.drawFrame(3, var1, var2 + (var7 + 1) * var5.frameHeight, 0, var0);
+         var5.drawFrame(4, var1 + var3 - var5.frameWidth, var2 + (var7 + 1) * var5.frameHeight, 0, var0);
       }
 
-      var5.a(3, var1, var2 + var4 - (var5.b << 1), 0, var0);
-      var5.a(4, var1 + var3 - var5.a, var2 + var4 - (var5.b << 1), 0, var0);
+      var5.drawFrame(3, var1, var2 + var4 - (var5.frameHeight << 1), 0, var0);
+      var5.drawFrame(4, var1 + var3 - var5.frameWidth, var2 + var4 - (var5.frameHeight << 1), 0, var0);
       if (var6 != -1) {
          var0.setColor(var6);
-         var0.fillRect(var1 + var5.a, var2 + var5.b, var3 - (var5.a << 1), var4 - (var5.b << 1));
+         var0.fillRect(var1 + var5.frameWidth, var2 + var5.frameHeight, var3 - (var5.frameWidth << 1), var4 - (var5.frameHeight << 1));
       }
 
    }
@@ -613,41 +613,41 @@ public final class RaceScr extends MyScreen implements IChatable {
       if (this.w) {
          Canvas.paint.a(var1, this.C, this.D, this.A, this.B, PaintPopup.d[2], PaintPopup.d[3], 1);
          var1.translate(this.C, this.D);
-         Canvas.K.a(var1, avt.T.ec, this.A / 2, 6 * AvMain.hd, 2);
+         Canvas.normalFont.drawString(var1, avt.T.ec, this.A / 2, 6 * AvMain.hd, 2);
          a(var1, this.E, this.F, this.G, this.H, this.Q, -1);
          a(var1, this.I, this.J, this.K, this.L, MenuNPC.a, -12335933);
 
          for(int var2 = 0; var2 < 6; ++var2) {
             this.R.drawFrame(this.az == var2 ? 1 : 0, this.I + 32 * AvMain.hd / 2, this.J + 3 * AvMain.hd + this.W * var2 + 31 * AvMain.hd / 2, 0, 3, var1);
-            AvatarData.a(var1, this.c[var2].d, this.I + 32 * AvMain.hd / 2, this.J + 3 * AvMain.hd + this.W * var2 + 31 * AvMain.hd / 2, 3);
-            Canvas.M.a(var1, "x" + this.c[var2].a, this.I + 32 * AvMain.hd / 2 + this.R.a / 2 - 5 * AvMain.hd, this.J + 3 * AvMain.hd + this.W * var2 + 31 * AvMain.hd / 2 + this.R.b / 2 - AvMain.af, 2);
-            this.T.a(this.aA == var2 ? 1 : 0, this.I + this.K - 1 * AvMain.hd - this.T.a, this.J + 7 * AvMain.hd + this.W * var2, 0, var1);
+            AvatarData.paintImg(var1, this.c[var2].d, this.I + 32 * AvMain.hd / 2, this.J + 3 * AvMain.hd + this.W * var2 + 31 * AvMain.hd / 2, 3);
+            Canvas.M.drawString(var1, "x" + this.c[var2].a, this.I + 32 * AvMain.hd / 2 + this.R.frameWidth / 2 - 5 * AvMain.hd, this.J + 3 * AvMain.hd + this.W * var2 + 31 * AvMain.hd / 2 + this.R.frameHeight / 2 - AvMain.af, 2);
+            this.T.drawFrame(this.aA == var2 ? 1 : 0, this.I + this.K - 1 * AvMain.hd - this.T.frameWidth, this.J + 7 * AvMain.hd + this.W * var2, 0, var1);
             if (this.c[var2].g > 0) {
-               Canvas.K.a(var1, "" + this.c[var2].g, this.I + this.K - 1 * AvMain.hd - this.T.a / 2, this.J + 7 * AvMain.hd + this.W * var2 + this.T.b / 2 - AvMain.ah / 2 - AvMain.hd - 1, 2);
+               Canvas.normalFont.drawString(var1, "" + this.c[var2].g, this.I + this.K - 1 * AvMain.hd - this.T.frameWidth / 2, this.J + 7 * AvMain.hd + this.W * var2 + this.T.frameHeight / 2 - AvMain.ah / 2 - AvMain.hd - 1, 2);
             } else {
-               Canvas.K.a(var1, avt.T.ec, this.I + this.K - 1 * AvMain.hd - this.T.a / 2, this.J + 7 * AvMain.hd + this.W * var2 + this.T.b / 2 - AvMain.ah / 2 - AvMain.hd - 1, 2);
+               Canvas.normalFont.drawString(var1, avt.T.ec, this.I + this.K - 1 * AvMain.hd - this.T.frameWidth / 2, this.J + 7 * AvMain.hd + this.W * var2 + this.T.frameHeight / 2 - AvMain.ah / 2 - AvMain.hd - 1, 2);
             }
          }
 
          if (this.aH && this.c != null) {
-            Canvas.K.a(var1, this.aK, this.E + this.G / 2, this.F + 6 * AvMain.hd, 2);
-            AvatarData.a(var1, this.aI, this.E + this.G / 2, this.F + 40 * AvMain.hd, 3);
+            Canvas.normalFont.drawString(var1, this.aK, this.E + this.G / 2, this.F + 6 * AvMain.hd, 2);
+            AvatarData.paintImg(var1, this.aI, this.E + this.G / 2, this.F + 40 * AvMain.hd, 3);
             int var4 = this.F + 70 * AvMain.hd;
-            Canvas.K.a(var1, avt.T.aP, this.E + 5 * AvMain.hd, var4, 0);
-            Canvas.N.a(var1, this.aJ + "%", this.E + this.G - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.af / 2, 1);
+            Canvas.normalFont.drawString(var1, avt.T.aP, this.E + 5 * AvMain.hd, var4, 0);
+            Canvas.fontChatB.drawString(var1, this.aJ + "%", this.E + this.G - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.af / 2, 1);
             var4 += AvMain.ah;
-            Canvas.K.a(var1, avt.T.eg, this.E + 5 * AvMain.hd, var4, 0);
-            Canvas.N.a(var1, "X" + this.aL, this.E + this.G - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.af / 2, 1);
+            Canvas.normalFont.drawString(var1, avt.T.eg, this.E + 5 * AvMain.hd, var4, 0);
+            Canvas.fontChatB.drawString(var1, "X" + this.aL, this.E + this.G - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.af / 2, 1);
             var4 += AvMain.ah;
-            Canvas.K.a(var1, avt.T.eh, this.E + 5 * AvMain.hd, var4, 0);
-            Canvas.N.a(var1, avt.T.eD[this.aM], this.E + this.G - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.af / 2, 1);
+            Canvas.normalFont.drawString(var1, avt.T.eh, this.E + 5 * AvMain.hd, var4, 0);
+            Canvas.fontChatB.drawString(var1, avt.T.eD[this.aM], this.E + this.G - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.af / 2, 1);
             var4 += AvMain.ah;
-            Canvas.K.a(var1, avt.T.eQ, this.E + 5 * AvMain.hd, var4, 0);
-            Canvas.N.a(var1, avt.T.eD[this.aN], this.E + this.G - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.af / 2, 1);
-            this.S.drawFrame(0, this.E + this.S.a / 2 + 8 * AvMain.hd, this.F + this.H - AvMain.ag - this.S.b - 8 * AvMain.hd, 0, 3, var1);
-            Canvas.K.a(var1, String.valueOf(this.v), this.E + 8 * AvMain.hd + this.S.a + 2 * AvMain.hd, this.F + this.H - AvMain.ag - this.S.b - 8 * AvMain.hd - Canvas.K.a() / 2, 0);
-            this.S.drawFrame(1, this.E + this.S.a / 2 + 8 * AvMain.hd, this.F + this.H - AvMain.ag - AvMain.hd, 0, 3, var1);
-            Canvas.K.a(var1, String.valueOf(GameMidlet.avatar.money[0]), this.E + 8 * AvMain.hd + this.S.a + 2 * AvMain.hd, this.F + this.H - AvMain.ag - AvMain.hd - AvMain.ah / 2, 0);
+            Canvas.normalFont.drawString(var1, avt.T.eQ, this.E + 5 * AvMain.hd, var4, 0);
+            Canvas.fontChatB.drawString(var1, avt.T.eD[this.aN], this.E + this.G - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.af / 2, 1);
+            this.S.drawFrame(0, this.E + this.S.frameWidth / 2 + 8 * AvMain.hd, this.F + this.H - AvMain.ag - this.S.frameHeight - 8 * AvMain.hd, 0, 3, var1);
+            Canvas.normalFont.drawString(var1, String.valueOf(this.v), this.E + 8 * AvMain.hd + this.S.frameWidth + 2 * AvMain.hd, this.F + this.H - AvMain.ag - this.S.frameHeight - 8 * AvMain.hd - Canvas.normalFont.getHeight() / 2, 0);
+            this.S.drawFrame(1, this.E + this.S.frameWidth / 2 + 8 * AvMain.hd, this.F + this.H - AvMain.ag - AvMain.hd, 0, 3, var1);
+            Canvas.normalFont.drawString(var1, String.valueOf(GameMidlet.avatar.money[0]), this.E + 8 * AvMain.hd + this.S.frameWidth + 2 * AvMain.hd, this.F + this.H - AvMain.ag - AvMain.hd - AvMain.ah / 2, 0);
          }
 
          if (this.U) {
@@ -662,7 +662,7 @@ public final class RaceScr extends MyScreen implements IChatable {
       }
 
       Canvas.resetTrans(var1);
-      if (this.z != null && this.z.d != null) {
+      if (this.z != null && this.z.chats != null) {
          this.z.paintAnimal(var1);
       }
 
@@ -671,7 +671,7 @@ public final class RaceScr extends MyScreen implements IChatable {
       }
 
       if ((this.d || !this.w) && Canvas.currentDialog == null && this.x) {
-         Canvas.L.a(var1, String.valueOf(this.n), Canvas.hw, 5, 2);
+         Canvas.borderFont.drawString(var1, String.valueOf(this.n), Canvas.hw, 5, 2);
       }
 
       Canvas.a(var1);
@@ -681,11 +681,11 @@ public final class RaceScr extends MyScreen implements IChatable {
       Canvas.resetTrans(var1);
       Canvas.paint.a(var1, this.M, this.N, this.O, this.P, PaintPopup.d[2], PaintPopup.d[3], 1);
       var1.translate(this.M, this.N);
-      Canvas.K.a(var1, avt.T.ef, this.O / 2, 10 * AvMain.hd, 2);
+      Canvas.normalFont.drawString(var1, avt.T.ef, this.O / 2, 10 * AvMain.hd, 2);
 
       for(int var2 = 0; var2 < 9; ++var2) {
-         this.T.a(this.aB == var2 ? 1 : 0, 5 * AvMain.hd + var2 % 3 * (5 * AvMain.hd + this.T.a), this.P - 29 * AvMain.hd * 3 + var2 / 3 * 29 * AvMain.hd, 0, var1);
-         Canvas.smallFontYellow.a(var1, String.valueOf(this.aG[var2]), 5 * AvMain.hd + var2 % 3 * (5 * AvMain.hd + this.T.a) + this.T.a / 2, this.P - 29 * AvMain.hd * 3 + var2 / 3 * 29 * AvMain.hd + this.T.b / 2 - AvMain.ai / 2, 2);
+         this.T.drawFrame(this.aB == var2 ? 1 : 0, 5 * AvMain.hd + var2 % 3 * (5 * AvMain.hd + this.T.frameWidth), this.P - 29 * AvMain.hd * 3 + var2 / 3 * 29 * AvMain.hd, 0, var1);
+         Canvas.smallFontYellow.drawString(var1, String.valueOf(this.aG[var2]), 5 * AvMain.hd + var2 % 3 * (5 * AvMain.hd + this.T.frameWidth) + this.T.frameWidth / 2, this.P - 29 * AvMain.hd * 3 + var2 / 3 * 29 * AvMain.hd + this.T.frameHeight / 2 - AvMain.ai / 2, 2);
       }
 
    }
@@ -696,11 +696,11 @@ public final class RaceScr extends MyScreen implements IChatable {
 
       for(int var2 = 0; var2 < 6; ++var2) {
          if (AvCamera.gI().xCam <= 4 * LoadMap.i * AvMain.hd) {
-            LoadMap.c.b(0, var2 % 2 == 0 ? 2 : 3, 3 * LoadMap.i * AvMain.hd, (var2 + 6) * LoadMap.i * AvMain.hd, 0, var1);
+            LoadMap.c.drawFrameXY(0, var2 % 2 == 0 ? 2 : 3, 3 * LoadMap.i * AvMain.hd, (var2 + 6) * LoadMap.i * AvMain.hd, 0, var1);
          }
 
          if (AvCamera.gI().xCam + Canvas.w >= (LoadMap.wMap - 3) * LoadMap.i * AvMain.hd) {
-            LoadMap.c.b(0, var2 % 2 == 0 ? 2 : 3, (LoadMap.wMap - 3) * LoadMap.i * AvMain.hd, (var2 + 6) * LoadMap.i * AvMain.hd, 0, var1);
+            LoadMap.c.drawFrameXY(0, var2 % 2 == 0 ? 2 : 3, (LoadMap.wMap - 3) * LoadMap.i * AvMain.hd, (var2 + 6) * LoadMap.i * AvMain.hd, 0, var1);
          }
       }
 
@@ -711,8 +711,8 @@ public final class RaceScr extends MyScreen implements IChatable {
    public final void onChatFromMe(String var1) {
       if (!var1.equals("")) {
          this.z = new ChatPopup(50, var1, (byte)0);
-         this.z.a = Canvas.hw;
-         this.z.b = Canvas.h - this.z.c - MyScreen.at - ChatTextField.gI().b.d;
+         this.z.xc = Canvas.hw;
+         this.z.yc = Canvas.h - this.z.h - MyScreen.at - ChatTextField.gI().tfChat.d;
          GlobalService var10000 = GlobalService.gI();
          String var2 = var1;
          GlobalService var3 = var10000;
@@ -740,9 +740,9 @@ public final class RaceScr extends MyScreen implements IChatable {
       }
 
       int var4;
-      for(var4 = 0; var4 < LoadMap.m.size(); ++var4) {
+      for(var4 = 0; var4 < LoadMap.playerLists.size(); ++var4) {
          Base var5;
-         if ((var5 = (Base)LoadMap.m.elementAt(var4)).catagory == 9 && var5.x * AvMain.hd > var3 && var5.x * AvMain.hd < var3 + Canvas.w) {
+         if ((var5 = (Base)LoadMap.playerLists.elementAt(var4)).catagory == 9 && var5.x * AvMain.hd > var3 && var5.x * AvMain.hd < var3 + Canvas.w) {
             var2.addElement(var5);
          }
       }

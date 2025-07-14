@@ -3,30 +3,30 @@ package avt;
 import javax.microedition.lcdui.Graphics;
 
 public final class Drop_Part extends Base {
-   public short a;
-   private short f;
-   public int b;
-   public int c;
-   public int d;
+   public short idDrop;
+   private short deltaH;
+   public int x0;
+   public int y0;
+   public int ID;
    private byte g;
-   private byte h;
+   private byte dir;
    private byte i;
    private byte j = 1;
-   public byte e;
-   private byte k;
+   public byte type;
+   private byte state;
 
    public Drop_Part() {
       super.catagory = 5;
    }
 
    public Drop_Part(byte var1, short var2, int var3) {
-      this.d = var3;
+      this.ID = var3;
       super.catagory = 5;
-      this.e = var1;
-      this.a = var2;
-      this.h = 0;
+      this.type = var1;
+      this.idDrop = var2;
+      this.dir = 0;
       Part var4;
-      if ((var4 = AvatarData.getPart(this.a)).h < AvatarData.listImgInfo.length) {
+      if ((var4 = AvatarData.getPart(this.idDrop)).h < AvatarData.listImgInfo.length) {
          super.height = AvatarData.listImgInfo[var4.h].h;
       }
 
@@ -34,105 +34,105 @@ public final class Drop_Part extends Base {
    }
 
    public final void update() {
-      switch (this.k) {
+      switch (this.state) {
          case 0:
          case 1:
-            super.x += (short)(this.b - super.x >> 2);
-            super.y += (short)(this.c - super.y >> 2);
+            super.x += (short)(this.x0 - super.x >> 2);
+            super.y += (short)(this.y0 - super.y >> 2);
             if (this.g >= -6) {
-               this.f = (short)(this.f + this.g);
+               this.deltaH = (short)(this.deltaH + this.g);
                --this.g;
             }
 
-            if ((CRes.abs(super.x - this.b) < 4 || CRes.abs(super.y - this.c) < 4) && this.f <= 1) {
-               super.x = this.b;
-               super.y = this.c;
-               this.f = 0;
+            if ((CRes.abs(super.x - this.x0) < 4 || CRes.abs(super.y - this.y0) < 4) && this.deltaH <= 1) {
+               super.x = this.x0;
+               super.y = this.y0;
+               this.deltaH = 0;
                this.g = 0;
-               if (this.k == 1) {
+               if (this.state == 1) {
                   LoadMap.a((MyObject)this);
                }
 
-               this.k = 2;
+               this.state = 2;
                return;
             }
          case 2:
          default:
             break;
          case 3:
-            this.f = (short)(this.f + 3);
-            if (this.f > 50) {
+            this.deltaH = (short)(this.deltaH + 3);
+            if (this.deltaH > 50) {
                LoadMap.a((MyObject)this);
                return;
             }
             break;
          case 4:
-            if (this.f > 0) {
-               this.f = (short)(this.f - this.g);
+            if (this.deltaH > 0) {
+               this.deltaH = (short)(this.deltaH - this.g);
                ++this.g;
                return;
             }
 
-            this.f = 0;
-            this.k = 2;
+            this.deltaH = 0;
+            this.state = 2;
       }
 
    }
 
    public final void paint(Graphics var1) {
       var1.drawImage(LoadMap.r, super.x, super.y + 1, 33);
-      if (this.e == 0) {
-         AvatarData.getPart(this.a).paintIcon(var1, super.x, super.y + this.i / 10 - this.f, 0, 33);
+      if (this.type == 0) {
+         AvatarData.getPart(this.idDrop).paintIcon(var1, super.x, super.y + this.i / 10 - this.deltaH, 0, 33);
       } else {
-         super.height = (short)(AvatarData.getImgIcon(this.a).c + 10);
-         AvatarData.a(var1, this.a, super.x, super.y + this.i / 10 - this.f, 33);
+         super.height = (short)(AvatarData.getImgIcon(this.idDrop).c + 10);
+         AvatarData.paintImg(var1, this.idDrop, super.x, super.y + this.i / 10 - this.deltaH, 33);
       }
 
       this.i += this.j;
       if (CRes.abs(this.i) >= 10) {
-         this.h = (byte)(-this.h);
+         this.dir = (byte)(-this.dir);
       }
 
    }
 
-   public final void a(int var1) {
+   public final void startFlyTo(int var1) {
       Avatar var2;
       if ((var2 = LoadMap.g(var1)) != null) {
-         this.b = var2.x;
-         this.c = var2.y;
-         this.k = 1;
-         this.f = 0;
+         this.x0 = var2.x;
+         this.y0 = var2.y;
+         this.state = 1;
+         this.deltaH = 0;
       } else {
-         this.f = 0;
-         this.k = 3;
+         this.deltaH = 0;
+         this.state = 3;
       }
 
       this.g = 6;
    }
 
-   public final void a(int var1, short var2, short var3) {
+   public final void startDropFrom(int var1, short var2, short var3) {
       if (var1 == -2) {
          super.x = var2;
          super.y = var3;
-         this.k = 2;
+         this.state = 2;
       } else {
          Avatar var4;
          if ((var4 = LoadMap.g(var1)) != null) {
             super.x = var4.x;
             super.y = var4.y;
-            this.k = 0;
+            this.state = 0;
             this.g = 6;
-            this.f = 0;
+            this.deltaH = 0;
          } else {
-            this.k = 4;
+            this.state = 4;
             super.x = var2;
             super.y = var3;
-            this.f = 100;
+            this.deltaH = 100;
             this.g = 0;
          }
       }
 
-      this.b = var2;
-      this.c = var3;
+      this.x0 = var2;
+      this.y0 = var3;
    }
 }

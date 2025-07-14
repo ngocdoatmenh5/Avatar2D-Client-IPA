@@ -44,7 +44,7 @@ public final class MessageScr extends MyScreen {
       if (OnScreen.b && Canvas.stypeInt == 0) {
          var10000 = PaintPopup.gI();
          var10002 = Canvas.w - (e << 1);
-         var10000.a(this.b(this.b).b, var10002, Canvas.q - Canvas.hTab - (e << 1), this.g.size());
+         var10000.a(this.b(this.b).b, var10002, Canvas.hCan - Canvas.hTab - (e << 1), this.g.size());
       } else {
          var10000 = PaintPopup.gI();
          var10002 = Canvas.w - (e << 1);
@@ -111,7 +111,7 @@ public final class MessageScr extends MyScreen {
             }
 
             var5.addElement(new Command(T.d, 2));
-            MenuSub.a().a(var5, 0);
+            MenuSub.gI().startAt(var5, 0);
             return;
          case 6:
          case 7:
@@ -225,7 +225,7 @@ public final class MessageScr extends MyScreen {
       this.b(this.b).a(var1);
       if (this.j) {
          var1.translate(-var1.getTranslateX(), -var1.getTranslateY());
-         c.a(var1);
+         c.paint(var1);
       }
 
       if (OnScreen.b) {

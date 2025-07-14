@@ -8,7 +8,7 @@ final class class_fr implements IAction {
    }
 
    public final void perform() {
-      Item var1 = (Item)FarmScr.f.elementAt(this.a);
-      FarmScr.b().a((int)var1.ID, var1.name);
+      Item var1 = (Item)FarmScr.itemProduct.elementAt(this.a);
+      FarmScr.gI().a((int)var1.ID, var1.name);
    }
 }

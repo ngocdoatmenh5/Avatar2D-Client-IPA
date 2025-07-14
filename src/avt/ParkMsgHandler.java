@@ -33,7 +33,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
          int var18;
          switch (var1.a) {
             case -69:
-               Canvas.b(T.dl, new class_ka(this));
+               Canvas.startOK(T.dl, new class_ka(this));
                return;
             case -68:
                var14 = var1.reader().readByte();
@@ -49,10 +49,10 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                MapScr.c(var10);
                return;
             case 54:
-               GlobalMessageHandler.c(var1);
+               GlobalMessageHandler.readMove(var1);
                return;
             case 55:
-               GlobalMessageHandler.d(var1);
+               GlobalMessageHandler.readChat(var1);
                return;
             case 57:
                var2 = var1.reader().readInt();

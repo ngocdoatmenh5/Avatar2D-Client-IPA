@@ -80,7 +80,7 @@ public class AvMain {
          b = 0;
          c = 0;
          if (Canvas.isPaintIconVir()) {
-            if (Canvas.a(0, 0, 50 * hd, 50 * hd)) {
+            if (Canvas.isPointer(0, 0, 50 * hd, 50 * hd)) {
                if (!OptionScr.d) {
                   if (TField.m) {
                      ak = true;
@@ -95,22 +95,22 @@ public class AvMain {
                Canvas.isPointerRelease = false;
             }
 
-            if (GameMidlet.CLIENT_TYPE == 9 && Canvas.a(50, 0, 50 * hd, 50 * hd)) {
+            if (GameMidlet.CLIENT_TYPE == 9 && Canvas.isPointer(50, 0, 50 * hd, 50 * hd)) {
                if (!OptionScr.d) {
                   OptionScr.d = true;
                   OptionScr.gI().b[4] = 1;
                   Canvas.instance.b();
                   Canvas.z.a = true;
                   if (Canvas.currentMyScreen == MapScr.gI()) {
-                     ChatTextField.gI().d = MapScr.gI();
-                     ChatTextField.c = true;
+                     ChatTextField.gI().parentMyScreen = MapScr.gI();
+                     ChatTextField.isShow = true;
                   }
                } else {
                   OptionScr.d = false;
                   OptionScr.gI().b[4] = 0;
                   Canvas.instance.b();
                   if (Canvas.currentMyScreen == MapScr.gI()) {
-                     ChatTextField.c = false;
+                     ChatTextField.isShow = false;
                   }
                }
 
@@ -151,22 +151,22 @@ public class AvMain {
 
    public final void perform(Command var1) {
       if (var1 != null) {
-         if (var1.b != null) {
-            var1.b.perform();
+         if (var1.action != null) {
+            var1.action.perform();
             return;
          }
 
-         if (var1.d != null) {
-            var1.d.commandTab(var1.c);
+         if (var1.pointer != null) {
+            var1.pointer.commandTab(var1.indexMenu);
             return;
          }
 
-         if (ChatTextField.c) {
-            ChatTextField.gI().commandTab(var1.c, var1.e);
+         if (ChatTextField.isShow) {
+            ChatTextField.gI().commandTab(var1.indexMenu, var1.subIndex);
             return;
          }
 
-         this.commandTab(var1.c, var1.e);
+         this.commandTab(var1.indexMenu, var1.subIndex);
       }
 
    }

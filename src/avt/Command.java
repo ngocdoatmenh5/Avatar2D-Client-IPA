@@ -5,49 +5,49 @@ import main.Canvas;
 
 public class Command {
    public String caption;
-   public IAction b;
-   public byte c;
-   public AvMain d;
-   public short e = -1;
+   public IAction action;
+   public byte indexMenu;
+   public AvMain pointer;
+   public short subIndex = -1;
 
    public Command(String var1, IAction var2) {
       this.caption = var1;
-      this.b = var2;
+      this.action = var2;
    }
 
    public Command(String var1, int var2) {
       this.caption = var1;
-      this.c = (byte)var2;
+      this.indexMenu = (byte)var2;
    }
 
    public Command(String var1, int var2, AvMain var3) {
       this.caption = var1;
-      this.c = (byte)var2;
-      this.d = var3;
+      this.indexMenu = (byte)var2;
+      this.pointer = var3;
    }
 
    public Command(String var1, int var2, int var3) {
       this.caption = var1;
-      this.c = (byte)var2;
-      this.e = (byte)var3;
+      this.indexMenu = (byte)var2;
+      this.subIndex = (byte)var3;
    }
 
-   public final void b() {
-      if (this.b != null) {
-         this.b.perform();
-      } else if (this.d != null) {
-         this.d.commandTab(this.c);
-      } else if (ChatTextField.c) {
-         ChatTextField.gI().commandTab(this.c, this.e);
+   public final void perform() {
+      if (this.action != null) {
+         this.action.perform();
+      } else if (this.pointer != null) {
+         this.pointer.commandTab(this.indexMenu);
+      } else if (ChatTextField.isShow) {
+         ChatTextField.gI().commandTab(this.indexMenu, this.subIndex);
       } else {
-         Canvas.currentMyScreen.commandTab(this.c, this.e);
+         Canvas.currentMyScreen.commandTab(this.indexMenu, this.subIndex);
       }
    }
 
-   public void a() {
+   public void update() {
    }
 
-   public void a(Graphics var1, int var2, int var3) {
-      Canvas.L.a(var1, this.caption, var2, var3, 2);
+   public void paint(Graphics var1, int var2, int var3) {
+      Canvas.borderFont.drawString(var1, this.caption, var2, var3, 2);
    }
 }

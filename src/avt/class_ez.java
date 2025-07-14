@@ -44,8 +44,8 @@ public final class class_ez extends MyScreen {
 
    public class_ez() {
       FilePack.b(T.av);
-      this.c = FilePack.a("tp");
-      FilePack.a();
+      this.c = FilePack.getImage("tp");
+      FilePack.reset();
       this.c();
       CRes.b();
    }
@@ -107,20 +107,20 @@ public final class class_ez extends MyScreen {
 
          String var1;
          if ((var1 = GameMidlet.a(GameMidlet.d[OptionScr.gI().b[4]][this.m])) != null) {
-            String[] var6 = Canvas.K.a(var1, "*");
+            String[] var6 = Canvas.normalFont.a(var1, "*");
             GameMidlet.c[OptionScr.gI().b[4]] = new int[var6.length - 1][];
             GameMidlet.b[OptionScr.gI().b[4]] = new String[var6.length - 1][];
             GameMidlet.a[OptionScr.gI().b[4]] = new String[var6.length - 1][];
 
             for(int var2 = 1; var2 < var6.length; ++var2) {
-               String[] var3 = Canvas.K.a(var6[var2], "\n");
+               String[] var3 = Canvas.normalFont.a(var6[var2], "\n");
                GameMidlet.a[OptionScr.gI().b[4]][var2 - 1] = new String[var3.length - 1];
                GameMidlet.b[OptionScr.gI().b[4]][var2 - 1] = new String[var3.length - 2];
                GameMidlet.c[OptionScr.gI().b[4]][var2 - 1] = new int[var3.length - 2];
                GameMidlet.a[OptionScr.gI().b[4]][var2 - 1][0] = var3[0];
 
                for(int var4 = 1; var4 < var3.length - 1; ++var4) {
-                  String[] var5 = Canvas.K.a(var3[var4], ":");
+                  String[] var5 = Canvas.normalFont.a(var3[var4], ":");
                   GameMidlet.a[OptionScr.gI().b[4]][var2 - 1][var4] = var5[0];
                   GameMidlet.b[OptionScr.gI().b[4]][var2 - 1][var4 - 1] = var5[1];
                   var5[2] = var5[2].substring(0, var5[2].length() - 1);
@@ -360,7 +360,7 @@ public final class class_ez extends MyScreen {
       Canvas.resetTrans(var1);
       PaintPopup.gI().a(var1);
       if (GameMidlet.avatar != null && !GameMidlet.avatar.name.equals("")) {
-         Canvas.L.a(var1, T.dz + ", " + GameMidlet.avatar.name, PaintPopup.gI().g + PaintPopup.gI().f / 2, PaintPopup.gI().h - AvMain.ag, 2);
+         Canvas.borderFont.drawString(var1, T.dz + ", " + GameMidlet.avatar.name, PaintPopup.gI().g + PaintPopup.gI().f / 2, PaintPopup.gI().h - AvMain.ag, 2);
       }
 
       var1.translate(k, l);
@@ -373,12 +373,12 @@ public final class class_ez extends MyScreen {
       int var2 = (MyScreen.av - AvMain.ah) / 2;
 
       for(int var3 = 0; var3 < GameMidlet.a[OptionScr.gI().b[4]].length; ++var3) {
-         Canvas.K.a(var1, GameMidlet.a[OptionScr.gI().b[4]][var3][0], 24 * AvMain.hd, var2, 0);
+         Canvas.normalFont.drawString(var1, GameMidlet.a[OptionScr.gI().b[4]][var3][0], 24 * AvMain.hd, var2, 0);
          PaintPopup.a.drawFrame(0, 14 * AvMain.hd, var2 + AvMain.ah / 2, 5, 3, var1);
          var2 += MyScreen.av;
          if (this.d && this.b == var3) {
             for(int var4 = 1; var4 < GameMidlet.a[OptionScr.gI().b[4]][var3].length; ++var4) {
-               Canvas.K.a(var1, GameMidlet.a[OptionScr.gI().b[4]][var3][var4], 36 * AvMain.hd, var2, 0);
+               Canvas.normalFont.drawString(var1, GameMidlet.a[OptionScr.gI().b[4]][var3][var4], 36 * AvMain.hd, var2, 0);
                var1.drawImage(this.c, 24 * AvMain.hd, var2 + AvMain.ah / 2, 3);
                var2 += MyScreen.av;
             }

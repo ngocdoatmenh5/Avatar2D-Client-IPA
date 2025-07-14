@@ -4,65 +4,65 @@ import javax.microedition.lcdui.Graphics;
 import main.Canvas;
 
 public final class EffectObj extends Base {
-   public short a;
-   public short b;
-   public short c;
-   public int d;
-   public byte e;
-   private byte f;
+   public short ID;
+   public short dx;
+   public short dy;
+   public int idPlayer;
+   public byte style;
+   private byte index;
 
    public EffectObj() {
-      this.b = this.c = 0;
+      this.dx = this.dy = 0;
       super.catagory = 6;
-      this.f = 0;
+      this.index = 0;
    }
 
    public final void update() {
       EffectData var1;
-      if ((var1 = AvatarData.getEffect(this.a)) != null) {
-         ++this.f;
-         if (this.f < var1.a.length) {
+      if ((var1 = AvatarData.getEffect(this.ID)) != null) {
+         ++this.index;
+         if (this.index < var1.arrFrame.length) {
             return;
          }
       }
 
-      this.a();
+      this.removee();
    }
 
    public final void paint(Graphics var1) {
       if (Canvas.stypeInt <= 0 || Canvas.currentMyScreen != MenuCenter.gI()) {
          EffectData var2;
-         if ((var2 = AvatarData.getEffect(this.a)) != null) {
-            if (this.e == 0) {
+         if ((var2 = AvatarData.getEffect(this.ID)) != null) {
+            if (this.style == 0) {
                Avatar var3;
-               if ((var3 = LoadMap.g(this.d)) == null) {
-                  this.a();
+               if ((var3 = LoadMap.g(this.idPlayer)) == null) {
+                  this.removee();
                   return;
                }
 
-               super.x = var3.x + this.b;
-               super.y = var3.y + this.c;
+               super.x = var3.x + this.dx;
+               super.y = var3.y + this.dy;
             }
 
-            var2.a(var1, super.x, super.y, this.f);
+            var2.paint(var1, super.x, super.y, this.index);
          }
 
       }
    }
 
-   private void a() {
-      switch (this.e) {
+   private void removee() {
+      switch (this.style) {
          case 0:
-            LoadMap.m.removeElement(this);
+            LoadMap.playerLists.removeElement(this);
             return;
          case 1:
-            LoadMap.l.removeElement(this);
+            LoadMap.treeLists.removeElement(this);
             return;
          case 2:
-            LoadMap.v.removeElement(this);
+            LoadMap.effBgList.removeElement(this);
             return;
          case 3:
-            LoadMap.w.removeElement(this);
+            LoadMap.effCameraList.removeElement(this);
          default:
       }
    }

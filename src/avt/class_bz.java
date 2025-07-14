@@ -10,7 +10,7 @@ final class class_bz extends Command {
       this.f = var5;
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
-      FarmData.b((int)this.f.ID).a(var1, 7, var2, var3, 3);
+   public final void paint(Graphics var1, int var2, int var3) {
+      FarmData.getTreeByID((int)this.f.ID).a(var1, 7, var2, var3, 3);
    }
 }

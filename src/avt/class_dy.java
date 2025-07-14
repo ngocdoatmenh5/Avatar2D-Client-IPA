@@ -40,7 +40,7 @@ final class class_dy implements Runnable {
          if (!Session_ME.l) {
             if (this.a.b != null) {
                this.a.c();
-               this.a.b.b();
+               this.a.b.onConnectionFail();
             }
 
          }

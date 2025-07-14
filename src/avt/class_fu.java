@@ -11,23 +11,23 @@ final class class_fu extends Command {
       this.f = var5;
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
-      FarmData.b[this.f].a(var1, 7, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
+   public final void paint(Graphics var1, int var2, int var3) {
+      FarmData.treeInfo[this.f].a(var1, 7, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
    }
 
-   public final void a() {
-      if (this.f == PopupShop.j && PopupShop.n) {
-         PopupShop.n();
-         PopupShop.a(FarmData.b[this.f].k + "(" + FarmData.b[this.f].e + T.bq + ")");
-         PopupShop.a(T.az + Canvas.getPriceMoney(FarmData.b[this.f].g[0], FarmData.b[this.f].g[1], false));
-         PopupShop.a(T.em[2] + ": " + FarmData.b[this.f].m);
-         if (FarmData.b[this.f].l) {
-            FarmItem var1 = FarmScr.b(FarmData.b[this.f].j);
-            PopupShop.a(T.dP + ": " + var1.f);
+   public final void update() {
+      if (this.f == PopupShop.focus && PopupShop.isTransFocus) {
+         PopupShop.resetIsTrans();
+         PopupShop.addStr(FarmData.treeInfo[this.f].name1 + "(" + FarmData.treeInfo[this.f].harvestTime + T.bq + ")");
+         PopupShop.addStr(T.az + Canvas.getPriceMoney(FarmData.treeInfo[this.f].priceSeed[0], FarmData.treeInfo[this.f].priceSeed[1], false));
+         PopupShop.addStr(T.em[2] + ": " + FarmData.treeInfo[this.f].m);
+         if (FarmData.treeInfo[this.f].l) {
+            FarmItem var1 = FarmScr.b(FarmData.treeInfo[this.f].j);
+            PopupShop.addStr(T.dP + ": " + var1.des);
          }
 
-         PopupShop.a(T.dQ + ": " + Canvas.getMoneys(FarmData.b[this.f].i));
-         PopupShop.a(MapScr.r());
+         PopupShop.addStr(T.dQ + ": " + Canvas.getMoneys(FarmData.treeInfo[this.f].numProduct));
+         PopupShop.addStr(MapScr.r());
       }
 
    }

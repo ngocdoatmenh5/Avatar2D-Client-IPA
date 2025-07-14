@@ -1,12 +1,12 @@
 package avt;
 
 public final class Gift {
-   public short a;
-   public byte b;
-   public int c;
-   public int d;
-   public int e;
-   public int f;
-   public int g;
-   public String h;
+   public short idPart;
+   public byte type;
+   public int xu;
+   public int x;
+   public int y;
+   public int xp;
+   public int luong;
+   public String expire;
 }

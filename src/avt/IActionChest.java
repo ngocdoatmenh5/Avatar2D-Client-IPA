@@ -2,10 +2,10 @@ package avt;
 
 import main.Canvas;
 
-final class class_ds implements IAction {
+final class IActionChest implements IAction {
    private final byte a;
 
-   class_ds(GlobalLogicHandler var1, byte var2) {
+   IActionChest(GlobalLogicHandler var1, byte var2) {
       this.a = var2;
    }
 

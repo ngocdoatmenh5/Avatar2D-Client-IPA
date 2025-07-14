@@ -62,7 +62,7 @@ public final class ListScr extends MyScreen {
 
    public final void f() {
       if (Canvas.stypeInt == 0) {
-         PaintPopup.gI().a(this.n, Canvas.w - 20, Canvas.q - Canvas.hTab - 20, 1);
+         PaintPopup.gI().a(this.n, Canvas.w - 20, Canvas.hCan - Canvas.hTab - 20, 1);
       } else {
          PaintPopup.gI().a(this.n, Canvas.w - 20 * AvMain.hd, Canvas.h - Canvas.ab - Canvas.hTab - 10 + (OnScreen.b ? 7 * AvMain.hd : 0), 1);
       }
@@ -148,9 +148,9 @@ public final class ListScr extends MyScreen {
             }
 
             var9 = AvatarData.getImgIcon((short)var13.d).c + 4;
-            AvatarData.a(var12, var13.d, 10 * AvMain.hd + 10 + var9 / 2, var6 + var11.l / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
-            Canvas.K.a(var12, var13.a, 10 * AvMain.hd + 10 + var9, var6 + var11.l / 2 - 12 * AvMain.hd, 0);
-            Canvas.N.a(var12, var13.b, 10 * AvMain.hd + 10 - var8, var6 + var11.l / 2 + 3 * AvMain.hd, 0);
+            AvatarData.paintImg(var12, var13.d, 10 * AvMain.hd + 10 + var9 / 2, var6 + var11.l / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
+            Canvas.normalFont.drawString(var12, var13.a, 10 * AvMain.hd + 10 + var9, var6 + var11.l / 2 - 12 * AvMain.hd, 0);
+            Canvas.fontChatB.drawString(var12, var13.b, 10 * AvMain.hd + 10 - var8, var6 + var11.l / 2 + 3 * AvMain.hd, 0);
             var6 += var11.l;
             var12.translate(0, CameraList.cmtoY);
          }
@@ -169,7 +169,7 @@ public final class ListScr extends MyScreen {
             int var10;
             if (!var11.o && var4 == var11.g) {
                Canvas.paint.c(var12, 10 * AvMain.hd + 3 + 2 * AvMain.hd, var6 + 2, Canvas.w - 20 * AvMain.hd - 6 - 4 * AvMain.hd, var11.l - 4);
-               int var10000 = var10 = Canvas.N.getWidth(var14.text2);
+               int var10000 = var10 = Canvas.fontChatB.getWidth(var14.text2);
                int var10003 = AvMain.hd - 1;
                if (var10000 > PaintPopup.gI().f - (57 + var10003 * 30)) {
                   var11.p += 2;
@@ -189,23 +189,23 @@ public final class ListScr extends MyScreen {
             var10 = 0;
             if (var14.idImg != -1) {
                var10 = 6 * AvMain.hd;
-               AvatarData.a(var12, var14.idImg, 60 + (AvMain.hd - 1) * 30 + var10, var6 + var11.l / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
+               AvatarData.paintImg(var12, var14.idImg, 60 + (AvMain.hd - 1) * 30 + var10, var6 + var11.l / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
             }
 
             int var10001 = 60 + (AvMain.hd - 1) * 30;
             int var10005 = AvMain.hd - 1;
             var12.setClip(var10001, CameraList.cmtoY, PaintPopup.gI().f - (47 + var10005 * 30), PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
-            Canvas.K.a(var12, var14.name, 60 + (var10 << 1) + (AvMain.hd - 1) * 30, var6 + var11.l / 2 - 12 * AvMain.hd, 0);
+            Canvas.normalFont.drawString(var12, var14.name, 60 + (var10 << 1) + (AvMain.hd - 1) * 30, var6 + var11.l / 2 - 12 * AvMain.hd, 0);
             if (var14.idWedding != -1) {
-               AvatarData.a(var12, var14.idWedding, 60 + 6 * AvMain.hd + (var10 << 1) + (AvMain.hd - 1) * 30 + Canvas.K.getWidth(var14.name), var6 + var11.l / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
+               AvatarData.paintImg(var12, var14.idWedding, 60 + 6 * AvMain.hd + (var10 << 1) + (AvMain.hd - 1) * 30 + Canvas.normalFont.getWidth(var14.name), var6 + var11.l / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
             }
 
             if (var14.idStatus != -1) {
                var7 = 12 * AvMain.hd;
-               AvatarData.a(var12, var14.idStatus, 60 - var9 + (AvMain.hd - 1) * 30 + 6 * AvMain.hd, var6 + var11.l / 2 + 3 * AvMain.hd + AvMain.af / 2, 3);
+               AvatarData.paintImg(var12, var14.idStatus, 60 - var9 + (AvMain.hd - 1) * 30 + 6 * AvMain.hd, var6 + var11.l / 2 + 3 * AvMain.hd + AvMain.af / 2, 3);
             }
 
-            Canvas.N.a(var12, var14.text2, 60 - var9 + (AvMain.hd - 1) * 30 + var7, var6 + var11.l / 2 + 3 * AvMain.hd, 0);
+            Canvas.fontChatB.drawString(var12, var14.text2, 60 - var9 + (AvMain.hd - 1) * 30 + var7, var6 + var11.l / 2 + 3 * AvMain.hd, 0);
             var6 += var11.l;
             var12.translate(0, CameraList.cmtoY);
          }
@@ -282,7 +282,7 @@ public final class ListScr extends MyScreen {
       this.j = 0;
       if (d == null) {
          Canvas.startWaitDlg();
-         CasinoService.gI().d();
+         CasinoService.gI().requestFriendList();
       } else {
          this.b = Canvas.currentMyScreen;
          this.a(h);
@@ -346,7 +346,7 @@ public final class ListScr extends MyScreen {
                (var11 = new StringObj()).d = var16.readShort();
                var11.a = var16.readUTF();
                var11.b = var16.readUTF();
-               var11.c = Canvas.N.getWidth(var11.b);
+               var11.c = Canvas.fontChatB.getWidth(var11.b);
                var10.addElement(var11);
             }
          } else {
@@ -454,7 +454,7 @@ public final class ListScr extends MyScreen {
             return;
          case 4:
             Canvas.startWaitDlg();
-            FarmScr.b().b(((Avatar)d.elementAt(this.g)).IDDB, true);
+            FarmScr.gI().b(((Avatar)d.elementAt(this.g)).IDDB, true);
       }
 
    }
@@ -470,7 +470,7 @@ public final class ListScr extends MyScreen {
    public final void commandActionPointer(int var1, int var2) {
       switch (var1) {
          case 50:
-            CasinoService.gI().d();
+            CasinoService.gI().requestFriendList();
          default:
       }
    }

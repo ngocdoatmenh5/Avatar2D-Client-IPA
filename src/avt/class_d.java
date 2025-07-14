@@ -12,15 +12,15 @@ final class class_d extends Command {
       this.g = var6;
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
-      FarmData.b((int)this.f.ID).a(var1, 7, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
+   public final void paint(Graphics var1, int var2, int var3) {
+      FarmData.getTreeByID((int)this.f.ID).a(var1, 7, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
    }
 
-   public final void a() {
-      if (this.g == PopupShop.j) {
-         PopupShop.n();
-         PopupShop.a(this.f.name);
-         PopupShop.a(T.ay + this.f.e);
+   public final void update() {
+      if (this.g == PopupShop.focus) {
+         PopupShop.resetIsTrans();
+         PopupShop.addStr(this.f.name);
+         PopupShop.addStr(T.ay + this.f.e);
       }
 
    }

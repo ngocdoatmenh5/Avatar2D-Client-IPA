@@ -12,7 +12,7 @@ final class CommandFeel extends Command {
       this.g = var6;
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
+   public final void paint(Graphics var1, int var2, int var3) {
       APartInfo var4;
       (var4 = (APartInfo)AvatarData.getPart((short)0)).a(var1, var2 + 2 + var4.dx[0] * AvMain.hd, var3 + 21 + 20 * (AvMain.hd - 1) + var4.dy[0] * AvMain.hd, 0);
       (var4 = (APartInfo)AvatarData.getPart((short)this.f[this.g])).a(var1, var2 + 2 + var4.dx[0] * AvMain.hd, var3 + 21 + 20 * (AvMain.hd - 1) + var4.dy[0] * AvMain.hd, 0);

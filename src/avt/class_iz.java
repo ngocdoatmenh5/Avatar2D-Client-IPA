@@ -10,7 +10,7 @@ final class class_iz extends Command {
       this.f = var4;
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
-      MenuSub.f.b(this.f / MenuSub.f.c, this.f % MenuSub.f.c, var2, var3, 3, var1);
+   public final void paint(Graphics var1, int var2, int var3) {
+      MenuSub.f.drawFrameXY(this.f / MenuSub.f.nFrame, this.f % MenuSub.f.nFrame, var2, var3, 3, var1);
    }
 }

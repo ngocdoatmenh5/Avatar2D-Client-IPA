@@ -7,7 +7,7 @@ final class class_ap extends Command {
       super(var2, 13);
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
-      FarmData.a(var1, FarmScr.J.e > 0 ? 64 : 63, var2, var3, 3);
+   public final void paint(Graphics var1, int var2, int var3) {
+      FarmData.paintImg(var1, FarmScr.starFruil.e > 0 ? 64 : 63, var2, var3, 3);
    }
 }

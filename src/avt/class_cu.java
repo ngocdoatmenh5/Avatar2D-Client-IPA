@@ -8,6 +8,6 @@ final class class_cu implements IAction {
 
    public final void perform() {
       Canvas.startWaitDlg();
-      CasinoService.gI().a(BoardScr.roomID);
+      CasinoService.gI().requestBoardList(BoardScr.roomID);
    }
 }

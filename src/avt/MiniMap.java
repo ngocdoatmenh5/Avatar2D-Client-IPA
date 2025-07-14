@@ -60,7 +60,7 @@ public final class MiniMap extends MyScreen {
 
    public final void switchToMe() {
       super.switchToMe();
-      if (!GlobalLogicHandler.a) {
+      if (!GlobalLogicHandler.isNewVersion) {
          Canvas.endDlg();
       }
 
@@ -87,12 +87,12 @@ public final class MiniMap extends MyScreen {
 
    public MiniMap() {
       FilePack.b(T.aw);
-      this.b = FrameImage.a("up", 13 * AvMain.hd, 11 * AvMain.hd);
-      FilePack.a();
+      this.b = FrameImage.init("up", 13 * AvMain.hd, 11 * AvMain.hd);
+      FilePack.reset();
       FilePack.b(T.av);
-      v = FilePack.a("sIc");
-      w = FilePack.a("b_p");
-      FilePack.a();
+      v = FilePack.getImage("sIc");
+      w = FilePack.getImage("b_p");
+      FilePack.reset();
       this.l = new Command(T.c, 0);
       super.left = this.l;
    }
@@ -119,7 +119,7 @@ public final class MiniMap extends MyScreen {
                var3.addElement(new Command(T.cF, 4));
                var3.addElement(new Command(T.cJ, 5));
                var3.addElement(new Command(T.x, 6));
-               MenuSub.a().a(var3, 0);
+               MenuSub.gI().startAt(var3, 0);
             }
 
             return;
@@ -203,15 +203,15 @@ public final class MiniMap extends MyScreen {
       this.g();
       if (j) {
          FilePack.b(T.av);
-         H = new FrameImage(FilePack.a("k"), 40 * AvMain.hd, 40 * AvMain.hd);
-         FilePack.a();
+         H = new FrameImage(FilePack.getImage("k"), 40 * AvMain.hd, 40 * AvMain.hd);
+         FilePack.reset();
       }
 
    }
 
    public final void init() {
       this.c = (Canvas.w - this.s * this.u) / 2;
-      this.d = (Canvas.q - Canvas.hTab - this.t * this.u) / 2;
+      this.d = (Canvas.hCan - Canvas.hTab - this.t * this.u) / 2;
       if (this.c < 0) {
          this.c = 0;
       }
@@ -221,7 +221,7 @@ public final class MiniMap extends MyScreen {
       }
 
       A = this.s * this.u - Canvas.w;
-      E = this.t * this.u - Canvas.q;
+      E = this.t * this.u - Canvas.hCan;
       if (A < 0) {
          f = 0;
          A = 0;
@@ -343,7 +343,7 @@ public final class MiniMap extends MyScreen {
       }
 
       this.m = false;
-      if (Canvas.a(0, 0, Canvas.w, Canvas.h)) {
+      if (Canvas.isPointer(0, 0, Canvas.w, Canvas.h)) {
          int var1 = Canvas.dx();
          int var2 = Canvas.dy();
          int var3;
@@ -353,7 +353,7 @@ public final class MiniMap extends MyScreen {
 
             for(var3 = 0; var3 < this.r.size(); ++var3) {
                var4 = (class_kb)this.r.elementAt(var3);
-               if (Canvas.a(this.c + var4.a * this.u + this.u / 2 - 24 * AvMain.hd - f, this.d + var4.b * this.u - 56 * AvMain.hd - g, 48 * AvMain.hd, 56 * AvMain.hd)) {
+               if (Canvas.isPointer(this.c + var4.a * this.u + this.u / 2 - 24 * AvMain.hd - f, this.d + var4.b * this.u - 56 * AvMain.hd - g, 48 * AvMain.hd, 56 * AvMain.hd)) {
                   this.e = var3;
                   return;
                }
@@ -400,8 +400,8 @@ public final class MiniMap extends MyScreen {
             this.F = false;
             if (CRes.abs(var1) < 10 && CRes.abs(var2) < 10) {
                var4 = (class_kb)this.r.elementAt(this.e);
-               if (Canvas.a(this.c + var4.a * this.u + this.u / 2 - 24 * AvMain.hd - f, this.d + var4.b * this.u - 56 * AvMain.hd - g, 48 * AvMain.hd, 56 * AvMain.hd)) {
-                  this.I.b();
+               if (Canvas.isPointer(this.c + var4.a * this.u + this.u / 2 - 24 * AvMain.hd - f, this.d + var4.b * this.u - 56 * AvMain.hd - g, 48 * AvMain.hd, 56 * AvMain.hd)) {
+                  this.I.perform();
                   return;
                }
 
@@ -443,7 +443,7 @@ public final class MiniMap extends MyScreen {
    private void g() {
       class_kb var1;
       x = (var1 = (class_kb)this.r.elementAt(this.e)).a * this.u - Canvas.w / 2;
-      B = var1.b * this.u - Canvas.q / 2;
+      B = var1.b * this.u - Canvas.hCan / 2;
       h();
    }
 
@@ -478,7 +478,7 @@ public final class MiniMap extends MyScreen {
    public final void paintMain(Graphics var1) {
       Canvas.resetTrans(var1);
       var1.setColor(0);
-      var1.fillRect(0, 0, Canvas.w, Canvas.q);
+      var1.fillRect(0, 0, Canvas.w, Canvas.hCan);
       var1.translate(this.c, this.d);
       var1.translate(-f, -g);
 
@@ -486,8 +486,8 @@ public final class MiniMap extends MyScreen {
       int var4;
       for(var2 = 0; var2 < this.q.length; ++var2) {
          byte var3;
-         var4 = (var3 = this.q[var2]) / this.p.c;
-         this.p.b(var4, var3 % this.p.c, var2 % this.s * this.u, var2 / this.s * this.u, var1);
+         var4 = (var3 = this.q[var2]) / this.p.nFrame;
+         this.p.drawFrameXY(var4, var3 % this.p.nFrame, var2 % this.s * this.u, var2 / this.s * this.u, var1);
       }
 
       for(var2 = 0; var2 < this.r.size(); ++var2) {
@@ -497,7 +497,7 @@ public final class MiniMap extends MyScreen {
             if (j) {
                H.drawFrame(var2, var9.a * this.u + this.u / 2, var9.b * this.u - 12 * AvMain.hd, 0, 33, var1);
             } else {
-               AvatarData.a(var1, var9.d, var9.a * this.u + this.u / 2, var9.b * this.u - 12 * AvMain.hd, 33);
+               AvatarData.paintImg(var1, var9.d, var9.a * this.u + this.u / 2, var9.b * this.u - 12 * AvMain.hd, 33);
             }
          } else {
             var1.drawImage(v, var9.a * this.u + this.u / 2, var9.b * this.u - var9.e / 3, 33);
@@ -519,8 +519,8 @@ public final class MiniMap extends MyScreen {
             var7 = g + 50;
          }
 
-         if (var7 > g + Canvas.q - 20) {
-            var7 = g + Canvas.q - 20;
+         if (var7 > g + Canvas.hCan - 20) {
+            var7 = g + Canvas.hCan - 20;
          }
 
          if (var6 < f + 20) {
@@ -531,7 +531,7 @@ public final class MiniMap extends MyScreen {
             var6 = f + Canvas.w - 47;
          }
 
-         Canvas.L.a(var10, var5.c, var6 + 10, var7 - (var4 == var8.e ? 70 * AvMain.hd : 35 * AvMain.hd) - var5.e / 3, 2);
+         Canvas.borderFont.drawString(var10, var5.c, var6 + 10, var7 - (var4 == var8.e ? 70 * AvMain.hd : 35 * AvMain.hd) - var5.e / 3, 2);
       }
 
       Graphics var11 = var1;

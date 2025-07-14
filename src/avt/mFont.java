@@ -16,7 +16,7 @@ public final class mFont implements FontX {
 
    public mFont(int var1) {
       try {
-         DataInputStream var2 = new DataInputStream(CRes.c(T.a() + "/font/" + e[var1]));
+         DataInputStream var2 = new DataInputStream(CRes.getResourceAsStream(T.a() + "/font/" + e[var1]));
          this.b = var2.readUTF();
          this.c = new byte[this.b.length()];
 
@@ -26,14 +26,14 @@ public final class mFont implements FontX {
 
          this.d = var2.readByte();
          FilePack.b(T.ar);
-         this.a = FilePack.a(String.valueOf(var1));
-         FilePack.a();
+         this.a = FilePack.getImage(String.valueOf(var1));
+         FilePack.reset();
       } catch (Exception var4) {
          var4.printStackTrace();
       }
    }
 
-   public final void a(Graphics var1, String var2, int var3, int var4, int var5) {
+   public final void drawString(Graphics var1, String var2, int var3, int var4, int var5) {
       int var6 = var2.length();
       if (var5 == 0) {
          var5 = var3;
@@ -82,9 +82,9 @@ public final class mFont implements FontX {
       return var3;
    }
 
-   public final String[] a(String var1, int var2) {
+   public final String[] splitFontBStrInLine(String var1, int var2) {
       Vector var5;
-      String[] var3 = new String[var2 = (var5 = this.b(var1, var2)).size()];
+      String[] var3 = new String[var2 = (var5 = this.splitFontBStrInLineV(var1, var2)).size()];
 
       for(int var4 = 0; var4 < var2; ++var4) {
          var3[var4] = (String)var5.elementAt(var4);
@@ -93,7 +93,7 @@ public final class mFont implements FontX {
       return var3;
    }
 
-   public final Vector b(String var1, int var2) {
+   public final Vector splitFontBStrInLineV(String var1, int var2) {
       Vector var3 = new Vector();
       int var4;
       if ((var4 = var1.length()) <= 1) {
@@ -188,7 +188,7 @@ public final class mFont implements FontX {
       return var8;
    }
 
-   public final int a() {
+   public final int getHeight() {
       return this.d;
    }
 }

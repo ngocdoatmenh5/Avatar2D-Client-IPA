@@ -5,12 +5,12 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class CasinoMsgHandler extends IService implements IMiniGameMsgHandler {
-   public static CasinoMsgHandler a = new CasinoMsgHandler();
-   public IMiniGameMsgHandler c;
+   public static CasinoMsgHandler me = new CasinoMsgHandler();
+   public IMiniGameMsgHandler miniGameMessageHandler;
    public static BoardScr d;
 
-   public static void a() {
-      GlobalMessageHandler.gI().miniGameMessageHandler = a;
+   public static void gI() {
+      GlobalMessageHandler.gI().miniGameMessageHandler = me;
    }
 
    public final void onMessage(Message var1) {
@@ -119,8 +119,8 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                   }
                }
 
-               if (BoardListOnScr.e != 0) {
-                  byte var10000 = BoardListOnScr.e;
+               if (BoardListOnScr.type != 0) {
+                  byte var10000 = BoardListOnScr.type;
                   byte var10001 = BoardListOnScr.c;
                }
 
@@ -148,7 +148,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                Canvas.currentDialog = null;
                if (BoardScr.setR_B(var15, var16)) {
                   if (var13 == GameMidlet.avatar.IDDB) {
-                     Canvas.b(T.H, new class_cu(this));
+                     Canvas.startOK(T.H, new class_cu(this));
                      return;
                   }
 
@@ -237,23 +237,23 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                      break;
                   case 22:
                      BoardScr.numPlayer = 5;
-                     BoardListOnScr.e = BoardListOnScr.d;
-                     RoomListOnScr.a(3, BCBoardScr.gI());
+                     BoardListOnScr.type = BoardListOnScr.d;
+                     RoomListOnScr.setName(3, BCBoardScr.gI());
                      if (class_da.a == null) {
                         class_da.a = new class_da();
                      }
 
-                     a.c = class_da.a;
+                     me.miniGameMessageHandler = class_da.a;
                      break;
                   default:
                      return;
                }
 
                Canvas.startWaitDlg(T.b);
-               CasinoService.gI().b();
+               CasinoService.gI().requestRoomList();
                return;
             default:
-               this.c.onMessage(var1);
+               this.miniGameMessageHandler.onMessage(var1);
                return;
          }
       } catch (Exception var11) {

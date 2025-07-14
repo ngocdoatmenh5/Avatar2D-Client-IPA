@@ -187,7 +187,7 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void d(int var1) {
+   public final void getHandler(int var1) {
       this.createMessage((byte)-1);
       this.writeByte(var1);
       this.sendMessage();

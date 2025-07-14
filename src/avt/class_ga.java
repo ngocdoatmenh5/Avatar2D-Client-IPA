@@ -21,7 +21,7 @@ final class class_ga implements IAction {
             ++this.b.y;
          }
 
-         LoadMap.a(LoadMap.l);
+         LoadMap.a(LoadMap.treeLists);
          HouseScr.h(this.a);
       }
    }

@@ -1,10 +1,10 @@
 package avt;
 
 public final class Food {
-   public short a;
-   public short b;
-   public short c;
-   public String d;
-   public short[] e;
-   public short[] f;
+   public short ID;
+   public short productID;
+   public short cookTime;
+   public String text;
+   public short[] material;
+   public short[] numberMaterial;
 }

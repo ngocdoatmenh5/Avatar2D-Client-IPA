@@ -53,11 +53,11 @@ public final class PaintPopup {
       this.p = var4;
       if (var1 != null) {
          this.s = var1;
-         if (Canvas.K.getWidth(this.s) > this.f / 2 && this.s.length() > 10) {
+         if (Canvas.normalFont.getWidth(this.s) > this.f / 2 && this.s.length() > 10) {
             this.s = this.s.substring(0, 10);
          }
 
-         this.i = Canvas.K.getWidth(this.s) + 10 + (Canvas.stypeInt != 0 ? 35 * Canvas.stypeInt : 0);
+         this.i = Canvas.normalFont.getWidth(this.s) + 10 + (Canvas.stypeInt != 0 ? 35 * Canvas.stypeInt : 0);
       }
 
       if (this.i < 40) {
@@ -74,7 +74,7 @@ public final class PaintPopup {
 
    public final void init() {
       this.g = Canvas.hw - this.f / 2;
-      this.h = (Canvas.q - Canvas.hTab) / 2 - this.e / 2;
+      this.h = (Canvas.hCan - Canvas.hTab) / 2 - this.e / 2;
    }
 
    public final void a(int var1, int var2) {
@@ -92,7 +92,7 @@ public final class PaintPopup {
 
       this.s = var1;
       int var3;
-      if ((var3 = Canvas.K.getWidth(this.s) + 10) > this.i) {
+      if ((var3 = Canvas.normalFont.getWidth(this.s) + 10) > this.i) {
          this.i = var3;
          this.r = (this.f - this.i) / this.j;
       }
@@ -126,7 +126,7 @@ public final class PaintPopup {
          int var2;
          for(var2 = this.l - 1; var2 >= this.q; --var2) {
             var1 = var2 - this.q;
-            if (Canvas.a(this.g + 3 + var1 * this.j, this.h + 3, this.j, o)) {
+            if (Canvas.isPointer(this.g + 3 + var1 * this.j, this.h + 3, this.j, o)) {
                return var2 - this.l;
             }
          }
@@ -137,7 +137,7 @@ public final class PaintPopup {
 
          for(int var3 = this.l + 1; var3 < var2; ++var3) {
             var1 = var3 - this.q;
-            if (Canvas.a(this.g + 3 + var1 * this.j + (this.i - this.j), this.h + 3, this.j, o)) {
+            if (Canvas.isPointer(this.g + 3 + var1 * this.j + (this.i - this.j), this.h + 3, this.j, o)) {
                return var3 - this.l;
             }
          }

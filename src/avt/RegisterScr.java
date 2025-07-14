@@ -53,17 +53,17 @@ public final class RegisterScr extends MyScreen {
       this.e();
       super.center = new Command(T.cj, 0);
       SeriPart var1 = new SeriPart();
-      int var2 = CRes.a.nextInt(this.i.size());
+      int var2 = CRes.random.nextInt(this.i.size());
       var1.idPart = ((APartInfo)this.i.elementAt(var2)).IDPart;
       GameMidlet.avatar.addSeri(var1);
       var1 = new SeriPart();
-      var2 = CRes.a.nextInt(this.h.size());
+      var2 = CRes.random.nextInt(this.h.size());
       var1.idPart = ((APartInfo)this.h.elementAt(var2)).IDPart;
       GameMidlet.avatar.addSeri(var1);
       (var1 = new SeriPart()).idPart = 4;
       GameMidlet.avatar.addSeri(var1);
       var1 = new SeriPart();
-      var2 = CRes.a.nextInt(this.g.size());
+      var2 = CRes.random.nextInt(this.g.size());
       var1.idPart = ((APartInfo)this.g.elementAt(var2)).IDPart;
       GameMidlet.avatar.addSeri(var1);
       GameMidlet.avatar.addSeri(new SeriPart((short)0));
@@ -124,7 +124,7 @@ public final class RegisterScr extends MyScreen {
       ++this.j;
       if (this.j > 50) {
          this.j = 0;
-         int var1 = CRes.a.nextInt(3);
+         int var1 = CRes.random.nextInt(3);
          if (GameMidlet.avatar.action != 10) {
             if (var1 == 0) {
                GameMidlet.avatar.setAction((byte)1);

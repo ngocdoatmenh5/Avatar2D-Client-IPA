@@ -23,7 +23,7 @@ final class class_eg implements IAction {
 
    public final void perform() {
       GlobalService.gI().a((int)this.b.IDPart, (int)this.c);
-      this.d.removeElementAt(PopupShop.j);
+      this.d.removeElementAt(PopupShop.focus);
       this.e.removeElement(this.f);
       if (this.g == 0) {
          if (MenuCenter.gI().c) {

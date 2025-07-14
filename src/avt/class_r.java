@@ -12,7 +12,7 @@ final class class_r implements IAction {
    }
 
    public final void perform() {
-      FarmService.a().a((short)((short)this.a), (byte)((byte)this.b), 2);
+      FarmService.gI().doBuyItem((short)((short)this.a), (byte)((byte)this.b), 2);
       PopupShop.k = false;
    }
 }

@@ -5,6 +5,6 @@ final class class_eu implements IAction {
    }
 
    public final void perform() {
-      FarmService.a().i(0, -1);
+      FarmService.gI().doUpdateStore(0, -1);
    }
 }

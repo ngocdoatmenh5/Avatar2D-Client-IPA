@@ -1,7 +1,7 @@
 package avt;
 
 public final class CardUtils {
-   public static void a(byte[] var0) {
+   public static void sort(byte[] var0) {
       for(int var1 = 0; var1 < var0.length - 1; ++var1) {
          for(int var2 = var1 + 1; var2 < var0.length; ++var2) {
             if (var0[var1] > var0[var2]) {
@@ -14,7 +14,7 @@ public final class CardUtils {
 
    }
 
-   public static byte b(byte[] var0) {
+   public static byte getType(byte[] var0) {
       if (var0.length == 1) {
          return 0;
       } else if (var0.length == 2 && var0[0] / 4 == var0[1] / 4) {

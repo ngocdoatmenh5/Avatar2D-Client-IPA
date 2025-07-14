@@ -24,7 +24,7 @@ final class class_kh implements Runnable {
          Session_ME.l = true;
          this.a.a.d = false;
          this.a.a.c = false;
-         this.a.a.b.b();
+         this.a.a.b.onConnectionFail();
       }
 
    }

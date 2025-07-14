@@ -87,19 +87,19 @@ public final class class_cp {
             } else {
                byte var10000 = this.i;
                boolean var10001 = true;
-               var3 = Canvas.L;
+               var3 = Canvas.borderFont;
             }
          }
 
-         var3.a(var1, this.a, this.b * var2, this.c * var2, 2);
+         var3.drawString(var1, this.a, this.b * var2, this.c * var2, 2);
          if (this.g == null) {
             if (this.j != -1) {
-               FarmData.a(var1, this.j, this.b * var2, (this.c - 5) * var2, 33);
+               FarmData.paintImg(var1, this.j, this.b * var2, (this.c - 5) * var2, 33);
                return;
             }
 
             if (this.k != -1) {
-               AvatarData.a(var1, this.k, this.b * var2, (this.c - 5) * var2, 33);
+               AvatarData.paintImg(var1, this.k, this.b * var2, (this.c - 5) * var2, 33);
                return;
             }
          } else if (!this.f) {

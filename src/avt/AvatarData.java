@@ -564,7 +564,7 @@ public final class AvatarData {
                var2.data = var3;
             }
 
-            var2.img = CRes.a(var2.data);
+            var2.img = CRes.createImage(var2.data);
          }
 
          if (Canvas.E || Canvas.F) {
@@ -620,7 +620,7 @@ public final class AvatarData {
          }
       }
 
-      var1 = CRes.a(var1, -65281);
+      var1 = CRes.createRGBImage(var1, -65281);
       BigImgInfo var7;
       (var7 = new BigImgInfo()).follow = var0.follow;
       var7.id = var0.id;
@@ -839,7 +839,7 @@ public final class AvatarData {
       return var0.follow >= 0 ? getPart(var0.follow).name : var0.name;
    }
 
-   public static void a(Graphics var0, int var1, int var2, int var3, int var4) {
+   public static void paintImg(Graphics var0, int var1, int var2, int var3, int var4) {
       if (getImgIcon((short)var1).count != -1) {
          var0.drawImage(getImgIcon((short)var1).img, var2, var3, var4);
       }
@@ -914,7 +914,7 @@ public final class AvatarData {
    public static EffectData getEffect(short var0) {
       for(int var1 = 0; var1 < effectList.size(); ++var1) {
          EffectData var2;
-         if ((var2 = (EffectData) effectList.elementAt(var1)).e == var0) {
+         if ((var2 = (EffectData) effectList.elementAt(var1)).ID == var0) {
             return var2;
          }
       }

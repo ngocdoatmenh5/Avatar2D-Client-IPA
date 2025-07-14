@@ -155,9 +155,9 @@ public final class OptionScr extends MyScreen {
          this.e(1);
       }
 
-      if (Canvas.isPointerClick && Canvas.a(PaintPopup.gI().g, PaintPopup.gI().h, PaintPopup.gI().f, PaintPopup.gI().e)) {
+      if (Canvas.isPointerClick && Canvas.isPointer(PaintPopup.gI().g, PaintPopup.gI().h, PaintPopup.gI().f, PaintPopup.gI().e)) {
          Canvas.isPointerClick = false;
-         if (Canvas.a(PaintPopup.gI().g, PaintPopup.gI().h, PaintPopup.gI().f, PaintPopup.gI().e)) {
+         if (Canvas.isPointer(PaintPopup.gI().g, PaintPopup.gI().h, PaintPopup.gI().f, PaintPopup.gI().e)) {
             int var1;
             for(int var2 = var1 = (Canvas.py - (PaintPopup.gI().h + PaintPopup.o + AvMain.Z)) / this.j; var2 >= 0; --var2) {
                if (!this.l[var2]) {
@@ -255,11 +255,11 @@ public final class OptionScr extends MyScreen {
 
       for(int var5 = 0; var5 < this.h; ++var5) {
          if (this.l[var5]) {
-            Canvas.K.a(var1, T.eG[var5][2], -50 * (AvMain.hd - 1), var4 + var3, 0);
-            Canvas.K.a(var1, T.eG[var5][this.b[var5]], 52 + 50 * AvMain.hd, var4 + var3 - 1, 2);
+            Canvas.normalFont.drawString(var1, T.eG[var5][2], -50 * (AvMain.hd - 1), var4 + var3, 0);
+            Canvas.normalFont.drawString(var1, T.eG[var5][this.b[var5]], 52 + 50 * AvMain.hd, var4 + var3 - 1, 2);
             byte var2 = 0;
             int var6;
-            if ((var6 = Canvas.K.getWidth(T.eG[var5][this.b[var5]]) + 10 + 15 * (Canvas.stypeInt + 1) + PaintPopup.b.a) < 25 * AvMain.hd) {
+            if ((var6 = Canvas.normalFont.getWidth(T.eG[var5][this.b[var5]]) + 10 + 15 * (Canvas.stypeInt + 1) + PaintPopup.b.frameWidth) < 25 * AvMain.hd) {
                var6 = 25 * AvMain.hd;
             }
 
@@ -267,14 +267,14 @@ public final class OptionScr extends MyScreen {
                var2 = 1;
             }
 
-            int var7 = var4 + var3 + AvMain.ah / 2 - PaintPopup.b.b / 2;
-            PaintPopup.b.a(var2, 52 + 50 * AvMain.hd - var6 / 2, var7, 0, var1);
-            PaintPopup.b.a(var2, 52 + 50 * AvMain.hd + var6 / 2 - PaintPopup.b.a, var7, 2, var1);
+            int var7 = var4 + var3 + AvMain.ah / 2 - PaintPopup.b.frameHeight / 2;
+            PaintPopup.b.drawFrame(var2, 52 + 50 * AvMain.hd - var6 / 2, var7, 0, var1);
+            PaintPopup.b.drawFrame(var2, 52 + 50 * AvMain.hd + var6 / 2 - PaintPopup.b.frameWidth, var7, 2, var1);
             var4 += this.j;
          }
       }
 
-      Canvas.K.a(var1, String.valueOf(this.c), 52 + 50 * AvMain.hd, 2 * this.j + var3, 2);
+      Canvas.normalFont.drawString(var1, String.valueOf(this.c), 52 + 50 * AvMain.hd, 2 * this.j + var3, 2);
       ++this.f;
    }
 }

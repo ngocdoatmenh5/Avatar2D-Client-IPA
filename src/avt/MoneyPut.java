@@ -26,10 +26,10 @@ public final class MoneyPut {
          }
 
          if (Canvas.stypeInt > 0) {
-            var3 = Canvas.K;
+            var3 = Canvas.normalFont;
          }
 
-         var3.a(var1, String.valueOf(this.a), this.b, this.c - AvMain.ah / 2, 2);
+         var3.drawString(var1, String.valueOf(this.a), this.b, this.c - AvMain.ah / 2, 2);
       }
 
    }

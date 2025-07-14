@@ -12,6 +12,6 @@ final class class_ct implements IAction {
    }
 
    public final void perform() {
-      Canvas.a(this.a, (IAction)(new IActionYesRef(this.b)));
+      Canvas.startOKDlg(this.a, (IAction)(new IActionYesRef(this.b)));
    }
 }

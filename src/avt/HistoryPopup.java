@@ -31,7 +31,7 @@ public final class HistoryPopup extends Dialog {
 
       for(int var5 = 0; var5 < var3.length; ++var5) {
          int var4;
-         if ((var4 = Canvas.K.getWidth(var3[var5]) + 40 * AvMain.hd) > this.c) {
+         if ((var4 = Canvas.normalFont.getWidth(var3[var5]) + 40 * AvMain.hd) > this.c) {
             this.c = var4;
          }
       }
@@ -47,7 +47,7 @@ public final class HistoryPopup extends Dialog {
    public final void updateKey() {
       ++this.n;
       boolean var1 = false;
-      if (Canvas.isPointerClick && Canvas.a((Canvas.w - this.c) / 2, (Canvas.h - this.d) / 2, this.c, this.d) && !this.l) {
+      if (Canvas.isPointerClick && Canvas.isPointer((Canvas.w - this.c) / 2, (Canvas.h - this.d) / 2, this.c, this.d) && !this.l) {
          this.k = this.g;
          this.l = true;
          this.m = 0;
@@ -150,15 +150,15 @@ public final class HistoryPopup extends Dialog {
    }
 
    public final void paint(Graphics var1) {
-      Canvas.paint.a(var1, (Canvas.w - this.c) / 2, (Canvas.q - this.d) / 2 - (PaintPopup.o + 3 * AvMain.hd), this.d + PaintPopup.o + 3 * AvMain.hd, this.c, 0, 0, PaintPopup.gI().j, PaintPopup.gI().i, PaintPopup.o, 1, 1, PaintPopup.gI().n, PaintPopup.gI().m, "Lịch sử");
+      Canvas.paint.a(var1, (Canvas.w - this.c) / 2, (Canvas.hCan - this.d) / 2 - (PaintPopup.o + 3 * AvMain.hd), this.d + PaintPopup.o + 3 * AvMain.hd, this.c, 0, 0, PaintPopup.gI().j, PaintPopup.gI().i, PaintPopup.o, 1, 1, PaintPopup.gI().n, PaintPopup.gI().m, "Lịch sử");
       Canvas.resetTrans(var1);
-      var1.translate((Canvas.w - this.c) / 2, (Canvas.q - this.d) / 2);
+      var1.translate((Canvas.w - this.c) / 2, (Canvas.hCan - this.d) / 2);
       var1.setClip(0, 5 * AvMain.hd, this.c, this.d - 10 * AvMain.hd);
       var1.translate(0, -this.g);
 
       for(int var2 = 0; var2 < this.a.length; ++var2) {
-         AvatarData.a(var1, this.a[var2], 15 * AvMain.hd, 15 * AvMain.hd + var2 * this.e, 3);
-         Canvas.K.a(var1, this.b[var2], 35 * AvMain.hd, 15 * AvMain.hd + var2 * this.e - AvMain.ag / 2, 0);
+         AvatarData.paintImg(var1, this.a[var2], 15 * AvMain.hd, 15 * AvMain.hd + var2 * this.e, 3);
+         Canvas.normalFont.drawString(var1, this.b[var2], 35 * AvMain.hd, 15 * AvMain.hd + var2 * this.e - AvMain.ag / 2, 0);
       }
 
       super.paint(var1);

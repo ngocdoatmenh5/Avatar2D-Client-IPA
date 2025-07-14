@@ -59,7 +59,7 @@ public final class class_hk extends MyScreen {
 
    public final void a(int var1, boolean var2) {
       if (var2 && super.ar == var1 && super.center != null) {
-         super.center.b();
+         super.center.perform();
       }
 
       super.a(var1, var2);

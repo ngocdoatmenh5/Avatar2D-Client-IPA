@@ -47,11 +47,11 @@ public final class MenuCenter extends MyScreen {
          case 1:
             this.h();
             Command var3;
-            if ((var3 = (Command)this.k.elementAt(this.d)).b != null) {
-               var3.b.perform();
+            if ((var3 = (Command)this.k.elementAt(this.d)).action != null) {
+               var3.action.perform();
                return;
             } else {
-               this.commandActionPointer(var3.c, var3.e);
+               this.commandActionPointer(var3.indexMenu, var3.subIndex);
             }
          default:
       }
@@ -196,7 +196,7 @@ public final class MenuCenter extends MyScreen {
                return;
             }
 
-            ParkService.a().c(((Drop_Part)LoadMap.p).d);
+            ParkService.a().c(((Drop_Part)LoadMap.p).ID);
             break;
          case 21:
             GlobalService.gI().c(GameMidlet.avatar.IDDB);
@@ -233,9 +233,9 @@ public final class MenuCenter extends MyScreen {
       if (GameMidlet.avatar.task == 0 || GameMidlet.avatar.task == -5) {
          if (!Bus.isRun) {
             if (LoadMap.p != null && LoadMap.p.catagory == 5) {
-               ParkService.a().c(((Drop_Part)LoadMap.p).d);
+               ParkService.a().c(((Drop_Part)LoadMap.p).ID);
             } else if (LoadMap.p != null && LoadMap.p.catagory == 0 && ((Avatar)LoadMap.p).IDDB == -100) {
-               Canvas.a(T.eb, (IAction)(new class_jc(this)));
+               Canvas.startOKDlg(T.eb, (IAction)(new class_jc(this)));
             } else {
                Vector var1 = new Vector();
                Command var2 = this.a(T.bX, 1, 1);
@@ -370,7 +370,7 @@ public final class MenuCenter extends MyScreen {
          boolean var1 = false;
 
          for(int var2 = this.k.size() - 1; var2 >= 0; --var2) {
-            if (Canvas.a(this.l[var2] + this.e, this.f + var2 / this.i * this.h, this.g, this.g)) {
+            if (Canvas.isPointer(this.l[var2] + this.e, this.f + var2 / this.i * this.h, this.g, this.g)) {
                this.d = var2;
                this.p = true;
                this.j = false;
@@ -396,7 +396,7 @@ public final class MenuCenter extends MyScreen {
             this.j = true;
 
             for(var3 = this.k.size() - 1; var3 >= 0; --var3) {
-               if (Canvas.a(this.l[var3] + this.e, this.f + var3 / this.i * this.h, this.g, this.g)) {
+               if (Canvas.isPointer(this.l[var3] + this.e, this.f + var3 / this.i * this.h, this.g, this.g)) {
                   if (var3 == this.d) {
                      this.h();
                      this.commandTab(1, -1);
@@ -447,7 +447,7 @@ public final class MenuCenter extends MyScreen {
       }
 
       Command var4 = (Command)this.k.elementAt(this.d);
-      Canvas.L.a(var1, var4.caption, Canvas.hw, this.f - 15, 2);
+      Canvas.borderFont.drawString(var1, var4.caption, Canvas.hw, this.f - 15, 2);
       var1.translate(this.e, this.f);
 
       for(int var5 = this.k.size() - 1; var5 >= 0; --var5) {
@@ -458,7 +458,7 @@ public final class MenuCenter extends MyScreen {
          }
 
          Canvas.paint.a(var3, var2.l[var5], var5 / var2.i * var2.h, var2.g, var2.g, var7);
-         var6.a(var3, var2.h / 2 + var2.l[var5], var2.h / 2 + var5 / var2.i * var2.h);
+         var6.paint(var3, var2.h / 2 + var2.l[var5], var2.h / 2 + var5 / var2.i * var2.h);
       }
 
       super.paint(var1);

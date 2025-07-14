@@ -3,7 +3,7 @@ package avt;
 public interface IMessageHandler {
    void onMessage(Message var1);
 
-   void b();
+   void onConnectionFail();
 
-   void c();
+   void onDisconnected();
 }

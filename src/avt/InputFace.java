@@ -44,12 +44,12 @@ public final class InputFace extends Face {
       this.e = (Canvas.h - Canvas.hTab - this.g) / 2;
 
       for(int var5 = 0; var5 < var1.length; ++var5) {
-         var1[var5].c = this.f - 50 * (Canvas.stypeInt + 1) - Canvas.K.getWidth(var3[0][0]);
+         var1[var5].c = this.f - 50 * (Canvas.stypeInt + 1) - Canvas.normalFont.getWidth(var3[0][0]);
          var1[var5].a = this.d + this.f - var1[var5].c - 10 * (Canvas.stypeInt + 1);
          var1[var5].b = this.e + PaintPopup.o + AvMain.Z + AvMain.ah + (var1[0].d * var5 << 1);
       }
 
-      this.i = Canvas.K.getWidth(var2) + 20 * AvMain.hd;
+      this.i = Canvas.normalFont.getWidth(var2) + 20 * AvMain.hd;
       if (this.i < 50 + 20 * AvMain.hd) {
          this.i = 50 + 20 * AvMain.hd;
       }
@@ -112,7 +112,7 @@ public final class InputFace extends Face {
       for(int var2 = 0; var2 < this.b.length; ++var2) {
          var1.setClip(this.d + 4 * AvMain.hd, this.e, this.f - 8 * AvMain.hd, this.g);
          int var3;
-         if ((var3 = this.b[var2].a - Canvas.K.getWidth(this.j[var2][0]) - 5) > this.d + 4 * AvMain.hd + 5) {
+         if ((var3 = this.b[var2].a - Canvas.normalFont.getWidth(this.j[var2][0]) - 5) > this.d + 4 * AvMain.hd + 5) {
             var3 = this.d + 4 * AvMain.hd + 5;
          }
 
@@ -122,10 +122,10 @@ public final class InputFace extends Face {
          }
 
          for(int var5 = 0; var5 < var4; ++var5) {
-            Canvas.K.a(var1, this.j[var2][var5], var3, this.b[var2].b + this.b[var2].d / 2 - AvMain.ah * var4 / 2 + AvMain.ah * var5, 0);
+            Canvas.normalFont.drawString(var1, this.j[var2][var5], var3, this.b[var2].b + this.b[var2].d / 2 - AvMain.ah * var4 / 2 + AvMain.ah * var5, 0);
          }
 
-         this.b[var2].a(var1);
+         this.b[var2].paint(var1);
       }
 
       super.paint(var1);

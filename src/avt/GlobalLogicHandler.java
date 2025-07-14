@@ -6,13 +6,13 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class GlobalLogicHandler {
-   public static boolean a;
+   public static boolean isNewVersion;
 
-   public static void a(String var0) {
+   public static void onServerMessage(String var0) {
       Canvas.startOKDlg(var0);
    }
 
-   public static void a() {
+   public static void onLoginSuccess() {
       AvatarMsgHandler.onHandler();
       if (AvatarData.playing == -1) {
          AvatarService.gI().getBigData();
@@ -25,34 +25,34 @@ public final class GlobalLogicHandler {
       AvatarData.listImgPart = new Hashtable();
    }
 
-   public final void a(String var1, String var2) {
+   public final void onVersion(String var1, String var2) {
       class_dv var4 = new class_dv(this, var2);
       Vector var3;
       (var3 = new Vector()).addElement(new Command(T.z, var4));
       var3.addElement(new Command(T.d, new class_dw(this)));
       Canvas.msgdlg.setIsWaiting(false);
       Canvas.a(var1, var3);
-      a = true;
+      isNewVersion = true;
    }
 
-   public final void a(String var1, boolean var2) {
+   public final void onSetMoneyError(String var1, boolean var2) {
       if (var2) {
-         Canvas.b(var1, new class_dq(this));
+         Canvas.startOK(var1, new class_dq(this));
       } else {
          Canvas.startOKDlg(var1);
       }
    }
 
-   public static void a(byte var0) {
+   public static void doGetHandler(byte var0) {
       if (GameMidlet.CLIENT_TYPE == 9) {
-         a = false;
+         isNewVersion = false;
       }
 
       System.out.println("doGetHandler: " + var0 + "    " + MapScr.g);
       if (GlobalMessageHandler.gI().miniGameMessageHandler != null) {
          switch (var0) {
             case 3:
-               CasinoMsgHandler.a();
+               CasinoMsgHandler.gI();
                MapScr.gI();
                MapScr.m();
             case 4:
@@ -111,22 +111,22 @@ public final class GlobalLogicHandler {
                }
                break;
             case 10:
-               if (FarmMsgHandler.a == null) {
-                  FarmMsgHandler.a = new FarmMsgHandler();
+               if (FarmMsgHandler.instance == null) {
+                  FarmMsgHandler.instance = new FarmMsgHandler();
                }
 
-               GlobalMessageHandler.gI().miniGameMessageHandler = FarmMsgHandler.a;
-               if (FarmData.h == -1) {
+               GlobalMessageHandler.gI().miniGameMessageHandler = FarmMsgHandler.instance;
+               if (FarmData.playing == -1) {
                   FarmService var2;
-                  (var2 = FarmService.a()).createMessage((byte)51);
+                  (var2 = FarmService.gI()).createMessage((byte)51);
                   var2.writeUTF(AvatarData.l);
                   var2.sendMessage();
-               } else if (FarmScr.f == null) {
-                  FarmService.a().d();
+               } else if (FarmScr.itemProduct == null) {
+                  FarmService.gI().getInventory();
                } else {
                   ParkService.a().a(25, 0);
-                  FarmScr.e();
-                  FarmScr.b().b(GameMidlet.avatar.IDDB, false);
+                  FarmScr.init();
+                  FarmScr.gI().b(GameMidlet.avatar.IDDB, false);
                }
                break;
             case 11:
@@ -154,7 +154,7 @@ public final class GlobalLogicHandler {
       GameMidlet.CLIENT_TYPE = var0;
    }
 
-   public final void a(int var1, byte var2, String[] var3, String var4, String var5, boolean[] var6) {
+   public final void onMenuOption(int var1, byte var2, String[] var3, String var4, String var5, boolean[] var6) {
       if (Canvas.menuMain != null) {
          Canvas.menuMain = null;
       }
@@ -167,15 +167,15 @@ public final class GlobalLogicHandler {
       }
 
       if (var4 != null) {
-         MenuNPC.a().a(var7, var1, var4, var5, var6);
+         MenuNPC.gI().setInfo(var7, var1, var4, var5, var6);
       } else {
-         MenuSub.a().a(var7, 0);
+         MenuSub.gI().startAt(var7, 0);
       }
    }
 
-   public final void a(byte var1, byte var2, String var3) {
+   public final void onUpdateCHest(byte var1, byte var2, String var3) {
       if (var2 == 0) {
-         Canvas.a(var3, (IAction)(new class_ds(this, var1)));
+         Canvas.startOKDlg(var3, (IAction)(new IActionChest(this, var1)));
       } else {
          Canvas.startOKDlg(var3);
       }

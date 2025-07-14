@@ -14,6 +14,6 @@ final class class_cg implements IAction {
    }
 
    public final void perform() {
-      Canvas.a(this.c, (IAction)(new class_gm(this)));
+      Canvas.startOKDlg(this.c, (IAction)(new class_gm(this)));
    }
 }

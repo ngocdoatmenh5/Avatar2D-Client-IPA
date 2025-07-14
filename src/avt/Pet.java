@@ -89,7 +89,7 @@ public final class Pet extends Animal {
          super.frame = 0;
       }
 
-      if ((this.u != this.r.x || this.v != this.r.y) && CRes.a(this.u, this.v, this.r.x, this.r.y) > 40) {
+      if ((this.u != this.r.x || this.v != this.r.y) && CRes.distance(this.u, this.v, this.r.x, this.r.y) > 40) {
          int var2 = 10 + CRes.rnd(20);
          if (this.r.direct == 0) {
             var2 = -(10 + CRes.rnd(20));
@@ -120,7 +120,7 @@ public final class Pet extends Animal {
             }
 
             --super.cycle;
-            if (CRes.a(super.x, super.y, this.r.x, this.r.y) > 35) {
+            if (CRes.distance(super.x, super.y, this.r.x, this.r.y) > 35) {
                super.reset();
                super.cycle = 0;
                super.G = 4;
@@ -242,7 +242,7 @@ public final class Pet extends Animal {
       var1 = -var1 * super.disTrans * CRes.sin(CRes.fixangle(super.angle)) >> 10;
       super.x = super.xCur + var2;
       super.y = super.yCur + var1;
-      var1 = CRes.a(super.xCur, super.yCur, super.x, super.y);
+      var1 = CRes.distance(super.xCur, super.yCur, super.x, super.y);
       ++super.disTrans;
       if (var1 > super.distant) {
          this.reset();

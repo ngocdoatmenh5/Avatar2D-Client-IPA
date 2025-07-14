@@ -27,7 +27,7 @@ final class class_ch implements IAction {
          Canvas.startOKDlg(T.en[1]);
       } else {
          GlobalService.gI().b(var2, var3, var4);
-         var1.commandTab(var1.left.c, var1.left.e);
+         var1.commandTab(var1.left.indexMenu, var1.left.subIndex);
          Canvas.startWaitDlg();
       }
    }

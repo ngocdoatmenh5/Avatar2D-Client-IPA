@@ -36,8 +36,8 @@ public final class AnimateEffect extends Effect {
             this.number = 30;
             if (img == null) {
                FilePack.b(T.av);
-               img = FrameImage.a("cobay", 16 * AvMain.hd, 10 * AvMain.hd);
-               FilePack.a();
+               img = FrameImage.init("cobay", 16 * AvMain.hd, 10 * AvMain.hd);
+               FilePack.reset();
             }
          case 2:
          default:
@@ -45,8 +45,8 @@ public final class AnimateEffect extends Effect {
          case 3:
             this.number = Canvas.w * Canvas.h / 1000;
             FilePack.b(T.av);
-            FrameImage.a("tuyet", 5 * AvMain.hd, 5 * AvMain.hd);
-            FilePack.a();
+            FrameImage.init("tuyet", 5 * AvMain.hd, 5 * AvMain.hd);
+            FilePack.reset();
             e = img;
       }
 
@@ -116,20 +116,20 @@ public final class AnimateEffect extends Effect {
 
             return;
          case 2:
-            if (super.c == -1) {
+            if (super.IDAction == -1) {
                return;
             } else {
-               EffectData var2 = AvatarData.getEffect(super.c);
+               EffectData var2 = AvatarData.getEffect(super.IDAction);
 
                for(var3 = 0; var3 < this.number; ++var3) {
                   ++(var4 = (Point)this.list.elementAt(var3)).h;
-                  if (var4.x * AvMain.hd / 10 > AvCamera.gI().xCam && var4.x * AvMain.hd / 10 < AvCamera.gI().xCam + Canvas.w && var4.y * AvMain.hd / 10 > AvCamera.gI().yCam && var4.y * AvMain.hd / 10 < AvCamera.gI().yCam + Canvas.q) {
+                  if (var4.x * AvMain.hd / 10 > AvCamera.gI().xCam && var4.x * AvMain.hd / 10 < AvCamera.gI().xCam + Canvas.w && var4.y * AvMain.hd / 10 > AvCamera.gI().yCam && var4.y * AvMain.hd / 10 < AvCamera.gI().yCam + Canvas.hCan) {
                      if (var2 != null) {
-                        if (var4.h >= var2.a.length) {
+                        if (var4.h >= var2.arrFrame.length) {
                            var4.h = 0;
                         }
 
-                        var2.a(var1, var4.x / 10, var4.y / 10, var4.h);
+                        var2.paint(var1, var4.x / 10, var4.y / 10, var4.h);
                      }
 
                      ++var4.dis;
@@ -144,7 +144,7 @@ public final class AnimateEffect extends Effect {
          case 3:
             for(var3 = 0; var3 < this.number; ++var3) {
                if ((var4 = (Point)this.list.elementAt(var3)).x * AvMain.hd / 10 > AvCamera.gI().xCam && var4.x * AvMain.hd / 10 < AvCamera.gI().xCam + Canvas.w && var4.y * AvMain.hd / 10 > AvCamera.gI().yCam) {
-                  e.a(2 - var4.e, var4.x * AvMain.hd / 10, var4.y * AvMain.hd / 10, 0, var1);
+                  e.drawFrame(2 - var4.e, var4.x * AvMain.hd / 10, var4.y * AvMain.hd / 10, 0, var1);
                }
             }
          default:

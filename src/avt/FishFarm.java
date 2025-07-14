@@ -3,41 +3,41 @@ package avt;
 import javax.microedition.lcdui.Graphics;
 
 public final class FishFarm extends AnimalDan {
-   public static int r = 5;
-   private AvPosition s;
-   private byte v = 0;
+   public static int WTile = 5;
+   private AvPosition waves;
+   private byte zump = 0;
 
    public FishFarm(int var1, byte var2, byte var3) {
       super(0, 0, var1, var2);
       super.captainID = 0;
       super.indexFood = 1;
       super.catagory = 7;
-      this.s = new AvPosition(-10, 0, CRes.rnd(8));
+      this.waves = new AvPosition(-10, 0, CRes.rnd(8));
    }
 
    public final void update() {
-      if (this.s.anchor == 6 || this.s.x == -10) {
-         this.s.x = super.x + (super.period == 2 && super.direct == 0 ? 3 : -3);
-         this.s.y = super.y + 2;
+      if (this.waves.anchor == 6 || this.waves.x == -10) {
+         this.waves.x = super.x + (super.period == 2 && super.direct == 0 ? 3 : -3);
+         this.waves.y = super.y + 2;
       }
 
-      ++this.s.anchor;
-      if (this.s.anchor > 17 * (3 - super.period) || this.v > 0) {
-         this.s.anchor = 0;
+      ++this.waves.anchor;
+      if (this.waves.anchor > 17 * (3 - super.period) || this.zump > 0) {
+         this.waves.anchor = 0;
       }
 
       AnimalInfo var1 = FarmData.getAnimalByID(super.species);
       super.indexFr = var1.arrFrame[super.action][super.frame];
-      if (CRes.rnd(100) == 2 && this.v <= 0 && super.action == 0) {
-         this.v = 8;
+      if (CRes.rnd(100) == 2 && this.zump <= 0 && super.action == 0) {
+         this.zump = 8;
       }
 
-      if (this.v > 0) {
-         super.indexFr = (byte)(2 - this.v / 3 + 2);
-         --this.v;
-         super.l = this.v;
+      if (this.zump > 0) {
+         super.indexFr = (byte)(2 - this.zump / 3 + 2);
+         --this.zump;
+         super.l = this.zump;
          if (super.l >= 4) {
-            super.l = (byte)(4 - this.v % 4);
+            super.l = (byte)(4 - this.zump % 4);
          }
 
          super.l = (byte)(super.l + 5);
@@ -51,22 +51,22 @@ public final class FishFarm extends AnimalDan {
 
    public final void paint(Graphics var1) {
       super.paint(var1);
-      if (this.s.anchor < 16) {
+      if (this.waves.anchor < 16) {
          var1.setColor(Fish.l[LoadMap.j]);
-         var1.drawRoundRect((this.s.x - this.s.anchor / 2) * MyObject.hd, (this.s.y - this.s.anchor / 4) * MyObject.hd, this.s.anchor * MyObject.hd, this.s.anchor / 2 * MyObject.hd, this.s.anchor * MyObject.hd, this.s.anchor * MyObject.hd);
+         var1.drawRoundRect((this.waves.x - this.waves.anchor / 2) * MyObject.hd, (this.waves.y - this.waves.anchor / 4) * MyObject.hd, this.waves.anchor * MyObject.hd, this.waves.anchor / 2 * MyObject.hd, this.waves.anchor * MyObject.hd, this.waves.anchor * MyObject.hd);
       }
 
    }
 
    public final void setInit() {
       super.posNext = new AvPosition();
-      super.x = super.xCur = super.posNext.x = FarmScr.D.x + CRes.rnd(FarmScr.x - 1) * 24;
+      super.x = super.xCur = super.posNext.x = FarmScr.D.x + CRes.rnd(FarmScr.numTilePond - 1) * 24;
       super.y = super.yCur = super.posNext.y = FarmScr.D.y + 12 + CRes.rnd(2) * 24;
       (new StringBuffer("777777777777777777777: ")).append(super.x).append("   ").append(super.y).toString();
    }
 
    public final void setPos() {
-      AvPosition var2 = new AvPosition(FarmScr.D.x + 30 + CRes.rnd(FarmScr.x - 2) * 24, FarmScr.D.y + 12 + CRes.rnd(2) * 24);
+      AvPosition var2 = new AvPosition(FarmScr.D.x + 30 + CRes.rnd(FarmScr.numTilePond - 2) * 24, FarmScr.D.y + 12 + CRes.rnd(2) * 24);
       super.posNext = var2;
    }
 

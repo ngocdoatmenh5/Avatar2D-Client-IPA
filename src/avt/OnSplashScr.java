@@ -46,7 +46,7 @@ public final class OnSplashScr extends MyScreen {
    public final void paint(Graphics var1) {
       Canvas.paint.paintDefaultBg(var1);
       if (this.b > 1) {
-         var1.drawImage(c, Canvas.hw, Canvas.q / 2, 3);
+         var1.drawImage(c, Canvas.hw, Canvas.hCan / 2, 3);
       }
 
       Canvas.a(var1);

@@ -15,19 +15,19 @@ final class class_i extends Command {
       this.h = var5;
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
+   public final void paint(Graphics var1, int var2, int var3) {
       this.g.paintIcon(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 0, 3);
    }
 
-   public final void a() {
-      if (this.h == PopupShop.j) {
+   public final void update() {
+      if (this.h == PopupShop.focus) {
          MapScr.a(this.g);
-         PopupShop.n();
+         PopupShop.resetIsTrans();
          String var1 = "";
-         PopupShop.a(var1 + AvatarData.getName(this.g));
-         PopupShop.a(T.az + Canvas.getPriceMoney(this.g.i[0], this.g.i[1], false));
-         PopupShop.a(T.dx + AvatarData.getLevel(this.g));
-         PopupShop.a(T.em[0] + MapScr.C.lvMain);
+         PopupShop.addStr(var1 + AvatarData.getName(this.g));
+         PopupShop.addStr(T.az + Canvas.getPriceMoney(this.g.i[0], this.g.i[1], false));
+         PopupShop.addStr(T.dx + AvatarData.getLevel(this.g));
+         PopupShop.addStr(T.em[0] + MapScr.C.lvMain);
       }
 
    }

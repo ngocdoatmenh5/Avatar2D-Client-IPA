@@ -14,10 +14,10 @@ final class class_w implements IAction {
    public final void perform() {
       boolean var1 = false;
 
-      for(int var2 = 0; var2 < FarmScr.d.size(); ++var2) {
+      for(int var2 = 0; var2 < FarmScr.listItemFarm.size(); ++var2) {
          Item var3;
-         if (FarmScr.b((var3 = (Item)FarmScr.d.elementAt(var2)).ID).e == 6) {
-            FarmService.a().b(FarmScr.b, this.b.IDDB, var3.ID);
+         if (FarmScr.b((var3 = (Item)FarmScr.listItemFarm.elementAt(var2)).ID).action == 6) {
+            FarmService.gI().doUsingItem(FarmScr.idFarm, this.b.IDDB, var3.ID);
             var1 = true;
             this.a.commandActionPointer(10, -1);
             break;
@@ -25,7 +25,7 @@ final class class_w implements IAction {
       }
 
       if (!var1) {
-         FarmScr.b().commandTab((int)8, (int)-1);
+         FarmScr.gI().commandTab((int)8, (int)-1);
          Canvas.startOKDlg(T.ea);
       }
 

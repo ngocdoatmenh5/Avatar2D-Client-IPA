@@ -10,7 +10,7 @@ final class class_iv extends Command {
       this.f = var4;
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
+   public final void paint(Graphics var1, int var2, int var3) {
       MenuSub.f.drawFrame(this.f, var2, var3, 0, 3, var1);
    }
 }

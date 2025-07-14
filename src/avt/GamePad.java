@@ -100,11 +100,11 @@ public final class GamePad {
    private static void b() {
       if (Canvas.stypeInt > 0) {
          TField.t.perform();
-      } else if (ChatTextField.c) {
-         ChatTextField.gI().right.b();
+      } else if (ChatTextField.isShow) {
+         ChatTextField.gI().right.perform();
       } else {
          if (Canvas.currentMyScreen.right != null && Canvas.currentMyScreen.right.caption.equals(T.bb)) {
-            Canvas.currentMyScreen.right.b.perform();
+            Canvas.currentMyScreen.right.action.perform();
          }
 
       }
@@ -125,7 +125,7 @@ public final class GamePad {
             }
          }
 
-         if (Canvas.a(this.b, this.c, this.d, this.e)) {
+         if (Canvas.isPointer(this.b, this.c, this.d, this.e)) {
             if (Canvas.isPointerDown) {
                var2 = (Canvas.px - this.b) / this.f;
                var3 = (Canvas.py - this.c) / this.g;
@@ -153,7 +153,7 @@ public final class GamePad {
          }
 
       } else {
-         if (Canvas.a(this.h, this.i, this.d, this.e)) {
+         if (Canvas.isPointer(this.h, this.i, this.d, this.e)) {
             if (Canvas.isPointerDown) {
                var2 = (Canvas.px - this.h) / this.k;
                var3 = (Canvas.py - this.i) / this.j;
@@ -247,7 +247,7 @@ public final class GamePad {
                var3.fillRect(var2.h + var4 % var2.n * var2.k + 1, var5 + 1, var2.k - 2, var2.j - 2);
             }
 
-            Canvas.K.a(var3, var2.t[var4], var2.h + var4 % var2.n * var2.k + var2.k / 2, var5 - 5 + var2.j / 2, 2);
+            Canvas.normalFont.drawString(var3, var2.t[var4], var2.h + var4 % var2.n * var2.k + var2.k / 2, var5 - 5 + var2.j / 2, 2);
          }
       } else {
          var3 = var1;
@@ -274,7 +274,7 @@ public final class GamePad {
             var5 = var2.b + var4 % var2.l * var2.f + var2.f / 2;
             int var6 = var2.c + var4 / var2.l * var2.g + var2.g / 2;
             if (var2.p[var4].equals("ABC")) {
-               Canvas.K.a(var3, TField.p[TField.n], var5, var6 - 5, 2);
+               Canvas.normalFont.drawString(var3, TField.p[TField.n], var5, var6 - 5, 2);
             } else {
                for(int var7 = 0; var7 < 4; ++var7) {
                   if (var2.p[var4].equals(var2.y[var7])) {

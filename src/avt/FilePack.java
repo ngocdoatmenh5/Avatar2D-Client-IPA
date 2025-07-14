@@ -5,87 +5,87 @@ import java.io.IOException;
 import javax.microedition.lcdui.Image;
 
 public final class FilePack {
-   static FilePack a;
-   private String[] b;
-   private int[] c;
-   private int[] d;
-   private byte[] e;
-   private int f;
-   private int g;
-   private String h;
-   private byte[] i = new byte[]{78, 103, 117, 121, 101, 110, 86, 97, 110, 77, 105, 110, 104};
-   private int j;
-   private DataInputStream k;
+   static FilePack instance;
+   private String[] fname;
+   private int[] fpos;
+   private int[] flen;
+   private byte[] fullData;
+   private int nFile;
+   private int hSize;
+   private String name;
+   private byte[] code = new byte[]{78, 103, 117, 121, 101, 110, 86, 97, 110, 77, 105, 110, 104};
+   private int codeLen;
+   private DataInputStream file;
 
    public FilePack() {
-      this.j = this.i.length;
+      this.codeLen = this.code.length;
    }
 
-   public static void a() {
-      a.b();
-      a = null;
+   public static void reset() {
+      instance.close();
+      instance = null;
       System.gc();
    }
 
    public FilePack(String var1) {
-      this.j = this.i.length;
+      this.codeLen = this.code.length;
       int var3 = 0;
       int var4 = 0;
-      this.h = var1;
-      this.g = 0;
-      this.k = new DataInputStream(this.getClass().getResourceAsStream(this.h));
+      this.name = var1;
+      this.hSize = 0;
+      this.file = new DataInputStream(this.getClass().getResourceAsStream(this.name));
 
       try {
-         this.f = this.k.readUnsignedByte();
-         ++this.g;
-         this.b = new String[this.f];
-         this.c = new int[this.f];
-         this.d = new int[this.f];
+         this.nFile = this.file.readUnsignedByte();
+         ++this.hSize;
+         this.fname = new String[this.nFile];
+         this.fpos = new int[this.nFile];
+         this.flen = new int[this.nFile];
 
-         for(int var5 = 0; var5 < this.f; ++var5) {
+         for(int var5 = 0; var5 < this.nFile; ++var5) {
             byte var7;
-            byte[] var2 = new byte[var7 = this.k.readByte()];
-            this.k.read(var2);
-            this.a(var2);
-            this.b[var5] = new String(var2);
-            this.c[var5] = var3;
-            this.d[var5] = this.k.readUnsignedShort();
-            var3 += this.d[var5];
-            var4 += this.d[var5];
-            this.g += var7 + 3;
+            byte[] var2 = new byte[var7 = this.file.readByte()];
+            this.file.read(var2);
+            this.encode(var2);
+            this.fname[var5] = new String(var2);
+            this.fpos[var5] = var3;
+            this.flen[var5] = this.file.readUnsignedShort();
+            var3 += this.flen[var5];
+            var4 += this.flen[var5];
+            this.hSize += var7 + 3;
          }
 
-         this.e = new byte[var4];
-         this.k.readFully(this.e);
-         this.a(this.e);
+         this.fullData = new byte[var4];
+         this.file.readFully(this.fullData);
+         this.encode(this.fullData);
       } catch (IOException var6) {
          var6.printStackTrace();
       }
 
-      this.b();
+      this.close();
    }
 
-   public static Image a(String var0) {
-      return a.d(var0 + ".png");
+   public static Image getImage(String var0) {
+      return instance.loadImage(var0 + ".png");
    }
 
    public static void b(String var0) {
-      a = new FilePack(T.a() + var0);
+      instance = new FilePack(T.a() + var0);
    }
 
-   private void a(byte[] var1) {
+   private void encode(byte[] var1) {
       int var2 = var1.length;
 
       for(int var3 = 0; var3 < var2; ++var3) {
-         var1[var3] ^= this.i[var3 % this.j];
+         var1[var3] ^= this.code[var3 % this.codeLen];
       }
 
    }
 
-   private void b() {
+   private void close() {
       try {
-         if (this.k != null) {
-            this.k.close();
+         if (this.file != null) {
+            this.file.close();
             return;
          }
       } catch (IOException var1) {
@@ -93,21 +93,21 @@ public final class FilePack {
 
    }
 
-   private Image d(String var1) {
-      for(int var2 = 0; var2 < this.f; ++var2) {
-         if (this.b[var2].compareTo(var1) == 0) {
-            return Image.createImage(this.e, this.c[var2], this.d[var2]);
+   private Image loadImage(String var1) {
+      for(int var2 = 0; var2 < this.nFile; ++var2) {
+         if (this.fname[var2].compareTo(var1) == 0) {
+            return Image.createImage(this.fullData, this.fpos[var2], this.flen[var2]);
          }
       }
 
       return null;
    }
 
-   public final byte[] c(String var1) {
-      for(int var2 = 0; var2 < this.f; ++var2) {
-         if (this.b[var2].compareTo(var1) == 0) {
-            byte[] var3 = new byte[this.d[var2]];
-            System.arraycopy(this.e, this.c[var2], var3, 0, this.d[var2]);
+   public final byte[] loadData(String var1) {
+      for(int var2 = 0; var2 < this.nFile; ++var2) {
+         if (this.fname[var2].compareTo(var1) == 0) {
+            byte[] var3 = new byte[this.flen[var2]];
+            System.arraycopy(this.fullData, this.fpos[var2], var3, 0, this.flen[var2]);
             return var3;
          }
       }

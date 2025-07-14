@@ -23,7 +23,7 @@ final class class_gt implements IAction {
 
    public final void perform() {
       if (this.e == 100) {
-         Canvas.a(T.cP, (IAction)(new class_kw(this.g, this.b)));
+         Canvas.startOKDlg(T.cP, (IAction)(new class_kw(this.g, this.b)));
       } else if (this.e == 26) {
          Canvas.endDlg();
          MapScr.gI().e(this.b);
@@ -35,7 +35,7 @@ final class class_gt implements IAction {
          }
 
          if (this.c != -1 && this.e != 17 && this.e != 18) {
-            Canvas.a(this.d, (IAction)(new class_eq(this.g, this.c, this.e, this.f)));
+            Canvas.startOKDlg(this.d, (IAction)(new class_eq(this.g, this.c, this.e, this.f)));
          } else {
             MapScr.b(var1);
          }

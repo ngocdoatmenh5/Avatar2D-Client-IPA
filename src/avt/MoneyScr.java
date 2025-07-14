@@ -44,15 +44,15 @@ public final class MoneyScr extends MyScreen {
    public final void e() {
       if (this.i == null) {
          FilePack.b(T.au);
-         this.i = FilePack.a("coin");
-         FilePack.a();
+         this.i = FilePack.getImage("coin");
+         FilePack.reset();
       }
 
       String var1;
       if (LoadMap.TYPEMAP == 25) {
          this.c = 1;
          var1 = T.ev[1];
-         FarmService.a().e(0, 0);
+         FarmService.gI().doTransMoney(0, 0);
          Canvas.startWaitDlg();
       } else {
          var1 = T.ev[0];
@@ -72,9 +72,9 @@ public final class MoneyScr extends MyScreen {
    public final void a(int var1, boolean var2) {
       if (var2 && super.ar == var1) {
          if (super.center != null) {
-            super.center.b();
+            super.center.perform();
          } else if (super.left != null) {
-            super.left.b();
+            super.left.perform();
          }
       }
 
@@ -98,13 +98,13 @@ public final class MoneyScr extends MyScreen {
             String var3;
             MoneyInfo var8;
             if ((var8 = (MoneyInfo)this.b.elementAt(super.ar)).c.indexOf(T.aH) != -1) {
-               var3 = Canvas.K.a(var8.c, T.aI, GameMidlet.avatar.name);
-               Canvas.a(T.cL, (IAction)(new class_ci(this, var3)));
+               var3 = Canvas.normalFont.a(var8.c, T.aI, GameMidlet.avatar.name);
+               Canvas.startOKDlg(T.cL, (IAction)(new class_ci(this, var3)));
             } else {
                String var9;
                if (var8.c.indexOf("napthe:") != -1) {
                   var3 = var8.c.substring(0, var8.c.indexOf("napthe:") + "napthe:".length());
-                  var3 = Canvas.K.a(var8.c, var3, "");
+                  var3 = Canvas.normalFont.a(var8.c, var3, "");
                   String var10001 = var3;
                   var3 = var8.a;
                   var9 = var10001;
@@ -128,7 +128,7 @@ public final class MoneyScr extends MyScreen {
                   }
 
                   var3 = var8.c.substring(0, var8.c.indexOf("ServerNap:") + "ServerNap:".length());
-                  var3 = Canvas.K.a(var8.c, var3, "");
+                  var3 = Canvas.normalFont.a(var8.c, var3, "");
                   AvatarService var6;
                   (var6 = AvatarService.gI()).createMessage((byte)-76);
                   var6.writeUTF(var3);
@@ -144,7 +144,7 @@ public final class MoneyScr extends MyScreen {
                }
 
                var1 = Integer.parseInt(Canvas.inputDlg.a());
-               FarmService.a().e(var1, super.ar == 0 ? 1 : 0);
+               FarmService.gI().doTransMoney(var1, super.ar == 0 ? 1 : 0);
                Canvas.startWaitDlg();
                return;
             } catch (Exception var5) {
@@ -189,14 +189,14 @@ public final class MoneyScr extends MyScreen {
 
          if (this.d == 1) {
             int var2 = (this.m - PaintPopup.o + (AvMain.Z << 1)) / 6;
-            Canvas.N.a(var1, T.aA + GameMidlet.avatar.name, this.j + this.l / 2, var2 / 2, 2);
+            Canvas.fontChatB.drawString(var1, T.aA + GameMidlet.avatar.name, this.j + this.l / 2, var2 / 2, 2);
             if (!FarmScr.z) {
-               Canvas.N.a(var1, T.aJ + ": " + GameMidlet.avatar.strMoney, this.j + this.l / 2, var2 / 2 + var2, 2);
+               Canvas.fontChatB.drawString(var1, T.aJ + ": " + GameMidlet.avatar.strMoney, this.j + this.l / 2, var2 / 2 + var2, 2);
             }
 
-            Canvas.N.a(var1, GameMidlet.avatar.money[2] + T.D, this.j + this.l / 2, var2 / 2 + (var2 << 1), 2);
+            Canvas.fontChatB.drawString(var1, GameMidlet.avatar.money[2] + T.D, this.j + this.l / 2, var2 / 2 + (var2 << 1), 2);
             if (FarmScr.z) {
-               Canvas.N.a(var1, MapScr.r(), this.j + this.l / 2, var2 / 2 + var2 * 3, 2);
+               Canvas.fontChatB.drawString(var1, MapScr.r(), this.j + this.l / 2, var2 / 2 + var2 * 3, 2);
             }
          } else {
             var1.translate(0, -CameraList.cmtoY);
@@ -255,7 +255,7 @@ public final class MoneyScr extends MyScreen {
             Canvas.paint.c(var1, this.j + 3 * AvMain.hd, var2 * this.n + 5, this.l - 6 * AvMain.hd, this.n);
          }
 
-         Canvas.K.a(var1, T.ew[var2], this.j + 10 + (super.ar == var2 ? this.o : 0), var2 * this.n + 5 + this.n / 2 - AvMain.ah / 2, 0);
+         Canvas.normalFont.drawString(var1, T.ew[var2], this.j + 10 + (super.ar == var2 ? this.o : 0), var2 * this.n + 5 + this.n / 2 - AvMain.ah / 2, 0);
       }
 
    }
@@ -281,7 +281,7 @@ public final class MoneyScr extends MyScreen {
       for(var4 = 0; var4 < var3; ++var4) {
          MoneyInfo var5 = (MoneyInfo)this.b.elementAt(var4);
          var1.setClip(this.j + var2 - 3, CameraList.cmtoY, this.l - var2 - 2, this.m - (!OnScreen.b ? PaintPopup.o + 2 * AvMain.Z : 0));
-         Canvas.K.a(var1, var5.a, this.j + var2, var4 * this.n + this.n / 2 - AvMain.ah / 2, 0);
+         Canvas.normalFont.drawString(var1, var5.a, this.j + var2, var4 * this.n + this.n / 2 - AvMain.ah / 2, 0);
       }
 
    }
@@ -293,7 +293,7 @@ public final class MoneyScr extends MyScreen {
             this.h();
          }
 
-         if (Canvas.isPointerClick && Canvas.a(0, PaintPopup.gI().h, Canvas.w, PaintPopup.o)) {
+         if (Canvas.isPointerClick && Canvas.isPointer(0, PaintPopup.gI().h, Canvas.w, PaintPopup.o)) {
             Canvas.isPointerClick = false;
             this.h();
          }
@@ -331,9 +331,9 @@ public final class MoneyScr extends MyScreen {
       int var2;
       if (this.c == 0) {
          MoneyInfo var1 = (MoneyInfo)this.b.elementAt(super.ar);
-         var2 = Canvas.K.getWidth(var1.a);
+         var2 = Canvas.normalFont.getWidth(var1.a);
       } else {
-         var2 = Canvas.K.getWidth(T.ew[super.ar]);
+         var2 = Canvas.normalFont.getWidth(T.ew[super.ar]);
       }
 
       if (var2 > this.l - 20) {

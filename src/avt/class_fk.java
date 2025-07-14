@@ -10,7 +10,7 @@ final class class_fk extends Command {
       this.f = var4;
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
+   public final void paint(Graphics var1, int var2, int var3) {
       var2 = PopupShop.c / 2 + 7;
       int var4 = (var3 = (PopupShop.d - MyScreen.at - (AvMain.Z << 1)) / 7) / 2 - MapScr.k.getHeight() / 2;
       MapScr.a(var1, T.eu[0] + this.f.g, var2, var4, this.f.f);

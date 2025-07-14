@@ -43,11 +43,11 @@ public class AnimalDan extends Animal {
                this.setPos();
             }
          } else {
-            int var2 = LoadMap.m.size();
+            int var2 = LoadMap.playerLists.size();
 
             for(int var3 = 0; var3 < var2; ++var3) {
                Base var4;
-               if ((var4 = (Base)LoadMap.m.elementAt(var3)) instanceof AnimalDan && var4.IDDB == this.captainID) {
+               if ((var4 = (Base)LoadMap.playerLists.elementAt(var3)) instanceof AnimalDan && var4.IDDB == this.captainID) {
                   var1 = new AvPosition(var4.x, var4.y);
                   break;
                }
@@ -76,8 +76,8 @@ public class AnimalDan extends Animal {
                super.hunger = false;
                super.isEat = false;
                super.G = 1;
-               FarmScr.b();
-               FarmScr.a(var3.j, super.IDDB);
+               FarmScr.gI();
+               FarmScr.a(var3.itemID, super.IDDB);
                break;
             }
          }

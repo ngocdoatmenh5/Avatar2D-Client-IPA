@@ -28,33 +28,33 @@ public class SubObject extends MyObject {
          switch (this.type) {
             case -10:
             case -3:
-               var1.drawImage(FarmScr.m, var2, var3, 40);
+               var1.drawImage(FarmScr.imgBuyLant, var2, var3, 40);
                return;
             case -9:
                if (Canvas.welcome != null) {
                   var1.drawImage(LoadMap.r, var2, var3, 3);
-                  AvatarData.a(var1, 900, var2, var3 + Canvas.welcome.a - 10, 33);
+                  AvatarData.paintImg(var1, 900, var2, var3 + Canvas.welcome.a - 10, 33);
                }
             case -4:
             case -1:
             default:
                return;
             case -8:
-               a(var1, var2, var3, FarmScr.g);
+               a(var1, var2, var3, FarmScr.listNest);
                return;
             case -7:
-               a(var1, var2, var3, FarmScr.h);
+               a(var1, var2, var3, FarmScr.listBucket);
                return;
             case -6:
                FarmScr.s.drawFrame(0, var2, var3, 0, 3, var1);
-               if (Dog.u != -1) {
+               if (Dog.itemID != -1) {
                   FarmScr.s.drawFrame(1, var2, var3, 0, 3, var1);
                }
 
                return;
             case -5:
                FarmScr.r.drawFrame(0, var2, var3, 0, 3, var1);
-               if (Cattle.v != -1) {
+               if (Cattle.itemID != -1) {
                   FarmScr.r.drawFrame(2, var2, var3, 0, 3, var1);
                }
 
@@ -66,7 +66,7 @@ public class SubObject extends MyObject {
 
                return;
             case 0:
-               AvatarData.a(var1, 243, var2, var3, 33);
+               AvatarData.paintImg(var1, 243, var2, var3, 33);
          }
       }
    }
@@ -77,13 +77,13 @@ public class SubObject extends MyObject {
          if ((var5 = (AvPosition)var3.elementAt(var4)).x * MyObject.hd == var1 && var5.y * MyObject.hd == var2) {
             AnimalInfo var6;
             if ((var6 = FarmData.getAnimalByID(var5.anchor)).iconO != -1) {
-               AvatarData.a(var0, var6.iconO, var1, var2, 3);
+               AvatarData.paintImg(var0, var6.iconO, var1, var2, 3);
             }
 
-            for(int var7 = 0; var7 < FarmScr.i.size(); ++var7) {
+            for(int var7 = 0; var7 < FarmScr.animalLists.size(); ++var7) {
                Animal var8;
-               if ((var8 = (Animal)FarmScr.i.elementAt(var7)).species == var5.anchor && var8.numEggOne > 0) {
-                  AvatarData.a(var0, var6.iconProduct, var1, var2, 3);
+               if ((var8 = (Animal)FarmScr.animalLists.elementAt(var7)).species == var5.anchor && var8.numEggOne > 0) {
+                  AvatarData.paintImg(var0, var6.iconProduct, var1, var2, 3);
                   return;
                }
             }

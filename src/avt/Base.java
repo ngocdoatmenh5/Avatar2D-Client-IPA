@@ -49,7 +49,7 @@ public class Base extends MyObject {
    public void update() {
       if (this.chat != null) {
          this.chat.setPos(super.x, super.y - super.height - 12);
-         if (this.chat.a()) {
+         if (this.chat.setOut()) {
             this.chat = null;
             this.getChat();
          }

@@ -14,9 +14,9 @@ final class IActionTriBenh1 implements IAction {
    public final void perform() {
       boolean var1 = false;
 
-      for(int var2 = 0; var2 < FarmScr.d.size(); ++var2) {
+      for(int var2 = 0; var2 < FarmScr.listItemFarm.size(); ++var2) {
          Item var3;
-         FarmItem var4 = FarmScr.b((var3 = (Item)FarmScr.d.elementAt(var2)).ID);
+         FarmItem var4 = FarmScr.b((var3 = (Item)FarmScr.listItemFarm.elementAt(var2)).ID);
          if (var3.ID == 120) {
             FarmScr.a(this.a, var4, var3.ID, this.b);
             var1 = true;
@@ -26,7 +26,7 @@ final class IActionTriBenh1 implements IAction {
 
       if (!var1) {
          Canvas.startOKDlg(T.dV);
-         FarmScr.b().commandTab((int)8, (int)-1);
+         FarmScr.gI().commandTab((int)8, (int)-1);
       }
 
    }

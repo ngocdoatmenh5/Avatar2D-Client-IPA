@@ -48,7 +48,7 @@ public final class MenuNPC extends MenuMain {
       }
    }
 
-   public static MenuNPC a() {
+   public static MenuNPC gI() {
       return b == null ? (b = new MenuNPC()) : b;
    }
 
@@ -77,7 +77,7 @@ public final class MenuNPC extends MenuMain {
       }
    }
 
-   public final void a(Vector var1, int var2, String var3, String var4, boolean[] var5) {
+   public final void setInfo(Vector var1, int var2, String var3, String var4, boolean[] var5) {
       this.n = var1;
       this.q = var5;
       this.c = var2;
@@ -87,7 +87,7 @@ public final class MenuNPC extends MenuMain {
       }
 
       this.o = var3;
-      this.p = Canvas.M.a(var4, this.f - 50 * AvMain.hd);
+      this.p = Canvas.M.splitFontBStrInLine(var4, this.f - 50 * AvMain.hd);
       Canvas.menuMain = this;
    }
 
@@ -264,7 +264,7 @@ public final class MenuNPC extends MenuMain {
          Canvas.startWaitDlg();
       }
 
-      ((Command)this.n.elementAt(this.m)).b();
+      ((Command)this.n.elementAt(this.m)).perform();
    }
 
    public final void paint(Graphics var1) {
@@ -278,11 +278,11 @@ public final class MenuNPC extends MenuMain {
 
       int var2;
       for(var2 = 0; var2 < this.p.length; ++var2) {
-         Canvas.N.a(var1, this.p[var2], 20 * AvMain.hd, 12 * AvMain.hd + 25 * AvMain.hd - this.p.length * AvMain.af / 2 + var2 * AvMain.af, 0);
+         Canvas.fontChatB.drawString(var1, this.p[var2], 20 * AvMain.hd, 12 * AvMain.hd + 25 * AvMain.hd - this.p.length * AvMain.af / 2 + var2 * AvMain.af, 0);
       }
 
       Avatar var9 = LoadMap.g(this.c);
-      Canvas.K.a(var1, this.o, this.h / 2, this.i + this.k / 2 - AvMain.ah - 20 * AvMain.hd, 2);
+      Canvas.normalFont.drawString(var1, this.o, this.h / 2, this.i + this.k / 2 - AvMain.ah - 20 * AvMain.hd, 2);
       var9.paintIcon(var1, this.h / 2, this.i + this.k / 2 + var9.height, true);
       var2 = 4441283;
       FrameImage var7 = a;
@@ -291,29 +291,29 @@ public final class MenuNPC extends MenuMain {
       int var4 = this.i;
       int var3 = this.h;
       Graphics var10 = var1;
-      var7.a(0, var3, var4, 0, var1);
-      var7.a(2, var3 + var5 - var7.a, var4, 0, var1);
-      var7.a(5, var3, var4 + var6 - var7.b, 0, var1);
-      var7.a(7, var3 + var5 - var7.a, var4 + var6 - var7.b, 0, var1);
+      var7.drawFrame(0, var3, var4, 0, var1);
+      var7.drawFrame(2, var3 + var5 - var7.frameWidth, var4, 0, var1);
+      var7.drawFrame(5, var3, var4 + var6 - var7.frameHeight, 0, var1);
+      var7.drawFrame(7, var3 + var5 - var7.frameWidth, var4 + var6 - var7.frameHeight, 0, var1);
 
       int var8;
-      for(var8 = 0; var8 < (var5 - (var7.a << 1)) / var7.a; ++var8) {
-         var7.a(1, var3 + (var8 + 1) * var7.a, var4, 0, var10);
-         var7.a(6, var3 + (var8 + 1) * var7.a, var4 + var6 - var7.b, 0, var10);
+      for(var8 = 0; var8 < (var5 - (var7.frameWidth << 1)) / var7.frameWidth; ++var8) {
+         var7.drawFrame(1, var3 + (var8 + 1) * var7.frameWidth, var4, 0, var10);
+         var7.drawFrame(6, var3 + (var8 + 1) * var7.frameWidth, var4 + var6 - var7.frameHeight, 0, var10);
       }
 
-      var7.a(1, var3 + var5 - (var7.a << 1), var4, 0, var10);
-      var7.a(6, var3 + var5 - (var7.a << 1), var4 + var6 - var7.b, 0, var10);
+      var7.drawFrame(1, var3 + var5 - (var7.frameWidth << 1), var4, 0, var10);
+      var7.drawFrame(6, var3 + var5 - (var7.frameWidth << 1), var4 + var6 - var7.frameHeight, 0, var10);
 
-      for(var8 = 0; var8 < (var6 - (var7.b << 1)) / var7.b; ++var8) {
-         var7.a(3, var3, var4 + (var8 + 1) * var7.b, 0, var10);
-         var7.a(4, var3 + var5 - var7.a, var4 + (var8 + 1) * var7.b, 0, var10);
+      for(var8 = 0; var8 < (var6 - (var7.frameHeight << 1)) / var7.frameHeight; ++var8) {
+         var7.drawFrame(3, var3, var4 + (var8 + 1) * var7.frameHeight, 0, var10);
+         var7.drawFrame(4, var3 + var5 - var7.frameWidth, var4 + (var8 + 1) * var7.frameHeight, 0, var10);
       }
 
-      var7.a(3, var3, var4 + var6 - (var7.b << 1), 0, var10);
-      var7.a(4, var3 + var5 - var7.a, var4 + var6 - (var7.b << 1), 0, var10);
+      var7.drawFrame(3, var3, var4 + var6 - (var7.frameHeight << 1), 0, var10);
+      var7.drawFrame(4, var3 + var5 - var7.frameWidth, var4 + var6 - (var7.frameHeight << 1), 0, var10);
       var10.setColor(4441283);
-      var10.fillRect(var3 + var7.a, var4 + var7.b, var5 - (var7.a << 1), var6 - (var7.b << 1));
+      var10.fillRect(var3 + var7.frameWidth, var4 + var7.frameHeight, var5 - (var7.frameWidth << 1), var6 - (var7.frameHeight << 1));
       var1.translate(this.h, this.i);
       var1.setClip(0, 0, this.j, this.k);
       var1.translate(0, -this.C);
@@ -325,7 +325,7 @@ public final class MenuNPC extends MenuMain {
             var1.fillRect(4 * AvMain.hd, 10 * AvMain.hd + var2 * this.l, this.j - 8 * AvMain.hd, this.l);
          }
 
-         Canvas.K.a(var1, var11.caption, 10 * AvMain.hd, 10 * AvMain.hd + var2 * this.l + this.l / 2 - AvMain.ah / 2, 0);
+         Canvas.normalFont.drawString(var1, var11.caption, 10 * AvMain.hd, 10 * AvMain.hd + var2 * this.l + this.l / 2 - AvMain.ah / 2, 0);
       }
 
       super.paint(var1);

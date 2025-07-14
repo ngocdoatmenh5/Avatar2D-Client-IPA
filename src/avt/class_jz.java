@@ -117,13 +117,13 @@ public final class class_jz implements IMiniGameMsgHandler {
             case 10:
                RaceScr.b().l = new dialogWin();
                RaceScr.b().l.b = var1.reader().readByte();
-               RaceScr.b().l.a = var1.reader().readUTF();
+               RaceScr.b().l.name = var1.reader().readUTF();
                RaceScr.b();
                var1.reader().readByte();
-               RaceScr.b().l.c = var1.reader().readInt();
-               RaceScr.b().l.d = var1.reader().readInt();
-               RaceScr.b().l.e = var1.reader().readInt();
-               RaceScr.b().l.f = var1.reader().readInt();
+               RaceScr.b().l.tienCuoc = var1.reader().readInt();
+               RaceScr.b().l.tienAn = var1.reader().readInt();
+               RaceScr.b().l.tienThue = var1.reader().readInt();
+               RaceScr.b().l.tienNhanDuoc = var1.reader().readInt();
             case 3:
             case 4:
             case 6:

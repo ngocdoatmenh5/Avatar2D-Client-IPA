@@ -12,6 +12,6 @@ final class class_ay implements IAction {
    }
 
    public final void perform() {
-      Canvas.b(this.a, new IActionYesRef(this.b));
+      Canvas.startOK(this.a, new IActionYesRef(this.b));
    }
 }

@@ -34,7 +34,7 @@ public final class class_hz extends SubObject {
                MiniMap.gI().b.drawFrame(0, var10002, var10003, 0, 33, var1);
             }
 
-            Canvas.smallFontYellow.a(var1, this.a, super.x * MyObject.hd, (super.y - 32 + this.b / 2) * MyObject.hd, 2);
+            Canvas.smallFontYellow.drawString(var1, this.a, super.x * MyObject.hd, (super.y - 32 + this.b / 2) * MyObject.hd, 2);
          }
       }
    }

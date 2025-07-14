@@ -141,9 +141,9 @@ public final class BCBoardScr extends BoardScr {
    public final void init() {
       super.init();
       if (Canvas.w > 150) {
-         posAvatar5 = new AvPosition[]{new AvPosition(20 * AvMain.hd, 50 + 30 * AvMain.hd, 6), new AvPosition(20 * AvMain.hd, Canvas.hh + 60, 6), new AvPosition(Canvas.hw, Canvas.q - Canvas.hTab - 10, 33), new AvPosition(Canvas.w - 14 * AvMain.hd, Canvas.hh + 60, 10), new AvPosition(Canvas.w - 14 * AvMain.hd, 50 + 30 * AvMain.hd, 10)};
+         posAvatar5 = new AvPosition[]{new AvPosition(20 * AvMain.hd, 50 + 30 * AvMain.hd, 6), new AvPosition(20 * AvMain.hd, Canvas.hh + 60, 6), new AvPosition(Canvas.hw, Canvas.hCan - Canvas.hTab - 10, 33), new AvPosition(Canvas.w - 14 * AvMain.hd, Canvas.hh + 60, 10), new AvPosition(Canvas.w - 14 * AvMain.hd, 50 + 30 * AvMain.hd, 10)};
       } else {
-         posAvatar5 = new AvPosition[]{new AvPosition(20, 13, 6), new AvPosition(20, Canvas.hh - 5, 6), new AvPosition(Canvas.hw, Canvas.q - Canvas.hTab - 10, 33), new AvPosition(Canvas.w - 14, Canvas.hh - 5, 10), new AvPosition(Canvas.w - 14, 13, 10)};
+         posAvatar5 = new AvPosition[]{new AvPosition(20, 13, 6), new AvPosition(20, Canvas.hh - 5, 6), new AvPosition(Canvas.hw, Canvas.hCan - Canvas.hTab - 10, 33), new AvPosition(Canvas.w - 14, Canvas.hh - 5, 10), new AvPosition(Canvas.w - 14, 13, 10)};
       }
    }
 
@@ -156,7 +156,7 @@ public final class BCBoardScr extends BoardScr {
          Point var5;
          (var5 = new Point(var6.x, var6.y)).o = (short)var4;
          var5.color = CRes.rnd(3);
-         var2 = (byte) CRes.a(var8.x - var6.x, -(var8.x - var6.y));
+         var2 = (byte) CRes.tan(var8.x - var6.x, -(var8.x - var6.y));
          var5.b = var2;
          var5.catagory = (byte)CRes.rnd(-1, 1);
          var5.e = CRes.fixangle(var5.b + var5.catagory * 90);
@@ -244,7 +244,7 @@ public final class BCBoardScr extends BoardScr {
       if (!this.taOK) {
          BoardScr.setCmdWaiting();
          this.canpointer = true;
-         CasinoService.gI().a(this.idffr, this.idT);
+         CasinoService.gI().ta(this.idffr, this.idT);
          BoardScr.disableReady = true;
          super.currentPlayer = -1;
       }
@@ -355,7 +355,7 @@ public final class BCBoardScr extends BoardScr {
       for(int var4 = 0; var4 < var2.listFireWork.size(); ++var4) {
          Point var5;
          if ((var5 = (Point)var2.listFireWork.elementAt(var4)).dis >= 0) {
-            Canvas.O.a(var3, "+" + var5.o, var5.x, var5.y, 2);
+            Canvas.O.drawString(var3, "+" + var5.o, var5.x, var5.y, 2);
          }
       }
 
@@ -410,7 +410,7 @@ public final class BCBoardScr extends BoardScr {
             Avatar var10;
             if ((var10 = (Avatar)BoardScr.avatarInfos.elementAt(var5)).IDDB == BoardScr.ownerID || var10.IDDB != -1) {
                if (var3.currentPlayer != var10.IDDB || Canvas.gameTick % 10 >= 5) {
-                  Canvas.smallFontYellow.a(var4, var10.getMoneyNew() + avt.T.k(), var10.x, var10.y + 5, 2);
+                  Canvas.smallFontYellow.drawString(var4, var10.getMoneyNew() + avt.T.k(), var10.x, var10.y + 5, 2);
                }
 
                if ((var7 = getSeatATmapSeat(var3.mapSeat, BoardScr.getIndexByID(var10.IDDB))) != -1 && AvatarData.getImgIcon((short)871).count != -1) {
@@ -422,7 +422,7 @@ public final class BCBoardScr extends BoardScr {
          int var2;
          if (BoardScr.isStartGame || BoardScr.disableReady) {
             if ((var2 = (int)((long)BoardScr.interval - BoardScr.dieTime)) > 0 && !BoardScr.isGameEnd && this.xn.size() <= 0) {
-               Canvas.O.a(var1, String.valueOf(var2), Canvas.hw, 10, 2);
+               Canvas.O.drawString(var1, String.valueOf(var2), Canvas.hw, 10, 2);
             }
 
             if (this.beginCharTa) {
@@ -433,7 +433,7 @@ public final class BCBoardScr extends BoardScr {
                }
 
                if (this.count < 50) {
-                  Canvas.L.a(var1, "Bắt đầu tả", Canvas.hw, this.ybg - 40, 2);
+                  Canvas.borderFont.drawString(var1, "Bắt đầu tả", Canvas.hw, this.ybg - 40, 2);
                }
             }
          }
@@ -457,7 +457,7 @@ public final class BCBoardScr extends BoardScr {
                   }
 
                   if (Canvas.stypeInt > 0) {
-                     var11 = Canvas.K;
+                     var11 = Canvas.normalFont;
                   }
 
                   int var12 = var9.a + rW / 4 + var9.d % 2 * rW / 2;
@@ -467,7 +467,7 @@ public final class BCBoardScr extends BoardScr {
                      var1.drawRegion(AvatarData.getImgIcon((short)(Canvas.w > 200 ? 870 : 871)).img, 0, var10003, b, c, 0, var12, var7, 3);
                   }
 
-                  var11.a(var1, String.valueOf(var9.c), var12, var7 - var11.a() / 2, 2);
+                  var11.drawString(var1, String.valueOf(var9.c), var12, var7 - var11.getHeight() / 2, 2);
                }
             }
          }
@@ -484,7 +484,7 @@ public final class BCBoardScr extends BoardScr {
    private void putMoneyFN() {
       BoardScr.setCmdWaiting();
       this.canpointer = true;
-      CasinoService.gI().a(this.bc);
+      CasinoService.gI().PutMoneyOk(this.bc);
       this.moneyInput.removeAllElements();
    }
 
@@ -644,7 +644,7 @@ public final class BCBoardScr extends BoardScr {
 
          for(var6 = 0; var6 < this.listFireWork.size(); ++var6) {
             Point var9;
-            if (CRes.abs((var11 = CRes.a((var9 = (Point)this.listFireWork.elementAt(var6)).xTo - var9.x, -(var9.yTo - var9.y))) - var9.e) > 10) {
+            if (CRes.abs((var11 = CRes.tan((var9 = (Point)this.listFireWork.elementAt(var6)).xTo - var9.x, -(var9.yTo - var9.y))) - var9.e) > 10) {
                var9.e -= var9.height * var9.catagory;
                var9.e = CRes.fixangle(var9.e);
             } else {
@@ -659,7 +659,7 @@ public final class BCBoardScr extends BoardScr {
             ++var9.color;
             var11 = var9.dis * CRes.cos(var9.e) >> 10;
             int var12 = -(var9.dis * CRes.sin(var9.e)) >> 10;
-            if (CRes.a(var9.x, var9.y, var9.xTo, var9.yTo) >= var9.dis) {
+            if (CRes.distance(var9.x, var9.y, var9.xTo, var9.yTo) >= var9.dis) {
                var9.x += var11;
                var9.y += var12;
             } else {
@@ -821,7 +821,7 @@ public final class BCBoardScr extends BoardScr {
          var4.addElement(var3);
       }
 
-      CasinoService.gI().a(var4);
+      CasinoService.gI().PutMoneyOk(var4);
       this.loadXingau();
    }
 

@@ -28,7 +28,7 @@ public final class class_cw {
    private long u;
 
    static {
-      l = Canvas.N.a();
+      l = Canvas.fontChatB.getHeight();
    }
 
    public class_cw(String var1, int var2, Command var3, Command var4, boolean var5) {
@@ -58,7 +58,7 @@ public final class class_cw {
 
    public final void a(String var1) {
       Vector var4;
-      int var2 = (var4 = Canvas.N.b(var1, Canvas.w - ((MessageScr.e << 1) + 30 + 10 * (AvMain.hd - 1)))).size();
+      int var2 = (var4 = Canvas.fontChatB.splitFontBStrInLineV(var1, Canvas.w - ((MessageScr.e << 1) + 30 + 10 * (AvMain.hd - 1)))).size();
 
       for(int var3 = 0; var3 < var2; ++var3) {
          this.e.addElement(var4.elementAt(var3));
@@ -102,7 +102,7 @@ public final class class_cw {
 
       for(var2 = var2; var2 < var3; ++var2) {
          String var4 = (String)this.e.elementAt(var2);
-         Canvas.N.a(var1, var4, 10 * AvMain.hd, var2 * l + 5, 0);
+         Canvas.fontChatB.drawString(var1, var4, 10 * AvMain.hd, var2 * l + 5, 0);
       }
 
    }

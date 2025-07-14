@@ -94,7 +94,7 @@ public final class PetRace extends Base {
          int var3 = var2.c / 5;
          var1.drawRegion(var2.img, 0, RaceScr.m[super.action][super.frame] * var3, var2.b, var3, 0, super.x * MyObject.hd, super.y * MyObject.hd, 33);
          if (RaceScr.b().d && this.g > 0) {
-            Canvas.M.a(var1, "" + this.g, super.x * MyObject.hd - var2.b / 2 - 8 * MyObject.hd, super.y * MyObject.hd - AvMain.af / 2 - 3 * MyObject.hd, 1);
+            Canvas.M.drawString(var1, "" + this.g, super.x * MyObject.hd - var2.b / 2 - 8 * MyObject.hd, super.y * MyObject.hd - AvMain.af / 2 - 3 * MyObject.hd, 1);
          }
 
          if (this.i >= 0) {

@@ -16,7 +16,7 @@ final class class_ep implements IAction {
    }
 
    public final void perform() {
-      if (this.b.e == 4) {
+      if (this.b.action == 4) {
          FarmScr.a(this.a, (byte)4, this.c);
          LoadMap.p = this.d;
          this.a.M = (Animal)LoadMap.p;
@@ -24,6 +24,6 @@ final class class_ep implements IAction {
          this.a.M.timeStand = Canvas.getSecond();
       }
 
-      FarmService.a().b(FarmScr.b, this.d.IDDB, this.c);
+      FarmService.gI().doUsingItem(FarmScr.idFarm, this.d.IDDB, this.c);
    }
 }

@@ -53,9 +53,9 @@ public final class ReportDlg extends Dialog {
       for(int var3 = 0; var3 < this.a.size(); ++var3) {
          String var4;
          if ((var4 = (String)this.a.elementAt(var3)).substring(0, 1).equals("0")) {
-            Canvas.smallFontYellow.a(var1, var4.substring(1), this.d + this.e / 2, var2 + 3 + AvMain.ah / 2 - AvMain.ai / 2, 2);
+            Canvas.smallFontYellow.drawString(var1, var4.substring(1), this.d + this.e / 2, var2 + 3 + AvMain.ah / 2 - AvMain.ai / 2, 2);
          } else {
-            Canvas.K.a(var1, var4, this.d + 15, var2 + 3, 0);
+            Canvas.normalFont.drawString(var1, var4, this.d + 15, var2 + 3, 0);
          }
 
          var2 += AvMain.ah;

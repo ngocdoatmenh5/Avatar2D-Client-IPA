@@ -22,8 +22,8 @@ public final class Bus {
    public final void setBus(byte var1) {
       if (!isRun && GameMidlet.avatar.action != -1) {
          FilePack.b(T.at);
-         this.imgBus = FilePack.a("839");
-         FilePack.a();
+         this.imgBus = FilePack.getImage("839");
+         FilePack.reset();
          direct = var1;
          if (var1 == 1) {
             AvCamera.gI().xCam = AvCamera.gI().xTo = posBusStop.x * AvMain.hd - Canvas.hw - 300;
@@ -47,7 +47,7 @@ public final class Bus {
 
    public final void update() {
       if ((damToc == 1 && direct == 1 || damToc == -1 && direct == -1) && direct == -1 && !isExit) {
-         GlobalService.gI().d((int)8);
+         GlobalService.gI().getHandler((int)8);
          GameMidlet.avatar.ableShow = true;
          isExit = true;
       }

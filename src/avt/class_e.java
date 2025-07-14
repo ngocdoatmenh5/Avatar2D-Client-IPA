@@ -15,13 +15,13 @@ final class class_e extends Command {
       this.h = var5;
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
+   public final void paint(Graphics var1, int var2, int var3) {
       this.g.paintIcon(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 0, 3);
    }
 
-   public final void a() {
-      if (this.h == PopupShop.j) {
-         PopupShop.n();
+   public final void update() {
+      if (this.h == PopupShop.focus) {
+         PopupShop.resetIsTrans();
          MapScr.a(this.g);
          String var1 = "";
          if (this.g.zOrder == 20) {
@@ -34,10 +34,10 @@ final class class_e extends Command {
             var1 = T.aD;
          }
 
-         PopupShop.a(var1 + AvatarData.getName(this.g));
-         PopupShop.a(Canvas.getPriceMoney(this.g.i[0], this.g.i[1], true));
-         PopupShop.a(T.dx + AvatarData.getLevel(this.g));
-         PopupShop.a(T.em[0] + MapScr.C.lvMain);
+         PopupShop.addStr(var1 + AvatarData.getName(this.g));
+         PopupShop.addStr(Canvas.getPriceMoney(this.g.i[0], this.g.i[1], true));
+         PopupShop.addStr(T.dx + AvatarData.getLevel(this.g));
+         PopupShop.addStr(T.em[0] + MapScr.C.lvMain);
       }
 
    }

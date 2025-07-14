@@ -194,12 +194,12 @@ public final class Avatar extends Base {
       var3 = var3 - super.height * MyObject.hd + (super.vh + this.ySat) * MyObject.hd;
       if (this.idImg != -1) {
          var4 = 7;
-         AvatarData.a(var1, this.idImg, var2 + duX[super.direct] * MyObject.hd - this.wName / 2, var3 + AvMain.ai / 2, 3);
+         AvatarData.paintImg(var1, this.idImg, var2 + duX[super.direct] * MyObject.hd - this.wName / 2, var3 + AvMain.ai / 2, 3);
       }
 
       var2 += (duX[super.direct] + var4) * MyObject.hd;
       if (this.idWedding != -1) {
-         AvatarData.a(var1, this.idWedding, var2 + this.wName / 2 + 6 * MyObject.hd, var3 + AvMain.ai / 2, 3);
+         AvatarData.paintImg(var1, this.idWedding, var2 + this.wName / 2 + 6 * MyObject.hd, var3 + AvMain.ai / 2, 3);
       }
 
       if (this.blogNews != -1) {
@@ -207,9 +207,9 @@ public final class Avatar extends Base {
       }
 
       if (super.IDDB == GameMidlet.avatar.IDDB) {
-         Canvas.smallFontRed.a(var1, super.name, var2, var3, 2);
+         Canvas.smallFontRed.drawString(var1, super.name, var2, var3, 2);
       } else {
-         Canvas.smallFontYellow.a(var1, super.name, var2, var3, 2);
+         Canvas.smallFontYellow.drawString(var1, super.name, var2, var3, 2);
       }
    }
 
@@ -343,9 +343,9 @@ public final class Avatar extends Base {
       if (this.emotionList != null) {
          for(int var4 = 0; var4 < this.emotionList.size(); ++var4) {
             Emotion var5;
-            if ((var5 = (Emotion)this.emotionList.elementAt(var4)).b == this.as) {
+            if ((var5 = (Emotion)this.emotionList.elementAt(var4)).time == this.as) {
                this.as = 0;
-               this.feel = var5.a;
+               this.feel = var5.id;
                this.emotionList.removeElement(var5);
                break;
             }
@@ -402,7 +402,7 @@ public final class Avatar extends Base {
       }
 
       if ((this != GameMidlet.avatar || this.task != 0 || Canvas.currentMyScreen == BoardScr.me) && super.action != 10) {
-         if (CRes.a(super.x, super.y + super.N, super.xCur, super.yCur) <= super.G) {
+         if (CRes.distance(super.x, super.y + super.N, super.xCur, super.yCur) <= super.G) {
             if (super.M && this.aJ == 0) {
                this.aJ = 0;
                super.M = false;
@@ -568,7 +568,7 @@ public final class Avatar extends Base {
                }
             }
          } else {
-            this.angle = CRes.a(super.xCur - super.x, -(super.yCur - (super.y + super.N)));
+            this.angle = CRes.tan(super.xCur - super.x, -(super.yCur - (super.y + super.N)));
             int var5 = super.G * CRes.cos(this.angle) >> 10;
             var3 = -(super.G * CRes.sin(this.angle)) >> 10;
             if (this.isSetAction && this.task == -5 && GameMidlet.avatar.setLayPLayer(super.x + var5, super.y + super.N + var3)) {

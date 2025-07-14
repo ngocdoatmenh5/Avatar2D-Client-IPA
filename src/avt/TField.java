@@ -86,7 +86,7 @@ public final class TField {
    }
 
    public final Command a() {
-      t = this.K.b;
+      t = this.K.action;
       return Canvas.stypeInt == 0 ? this.K : null;
    }
 
@@ -104,7 +104,7 @@ public final class TField {
       }
 
       this.a(false);
-      this.d = r.b;
+      this.d = r.frameHeight;
    }
 
    public final void b() {
@@ -400,7 +400,7 @@ public final class TField {
       }
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       boolean var2 = this.v;
       if (this.H == 2) {
          this.g = this.D;
@@ -451,8 +451,8 @@ public final class TField {
          --this.l;
       }
 
-      if (Canvas.isPointerClick && Canvas.menuMain == null && Canvas.isPointerClick && Canvas.a(0, 0, Canvas.w, Canvas.h - Canvas.hTab / 2)) {
-         if (Canvas.a(this.a, this.b - 6, this.c, this.d + 12)) {
+      if (Canvas.isPointerClick && Canvas.menuMain == null && Canvas.isPointerClick && Canvas.isPointer(0, 0, Canvas.w, Canvas.h - Canvas.hTab / 2)) {
+         if (Canvas.isPointer(this.a, this.b - 6, this.c, this.d + 12)) {
             if (!this.v) {
                this.v = true;
             } else {

@@ -7,6 +7,6 @@ final class class_dj implements IAction {
    }
 
    public final void perform() {
-      Canvas.a(T.dB, (IAction)(new class_di(this)));
+      Canvas.startOKDlg(T.dB, (IAction)(new class_di(this)));
    }
 }

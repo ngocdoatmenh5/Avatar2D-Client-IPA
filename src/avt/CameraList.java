@@ -125,7 +125,7 @@ public final class CameraList {
             }
 
          } else {
-            if (Canvas.isPointerClick && Canvas.a(this.x, this.y, this.h, this.disY)) {
+            if (Canvas.isPointerClick && Canvas.isPointer(this.x, this.y, this.h, this.disY)) {
                this.M = Canvas.pyLast;
                this.L = Canvas.pxLast;
                Canvas.isPointerClick = false;

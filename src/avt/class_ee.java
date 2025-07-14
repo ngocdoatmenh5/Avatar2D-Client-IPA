@@ -13,6 +13,6 @@ final class class_ee implements IAction {
       Vector var1;
       (var1 = new Vector()).addElement(this.a);
       var1.addElement(new Command(T.dk, new class_ed(this)));
-      MenuSub.a().a(var1, 0);
+      MenuSub.gI().startAt(var1, 0);
    }
 }

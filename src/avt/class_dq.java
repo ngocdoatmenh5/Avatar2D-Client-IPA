@@ -14,6 +14,6 @@ final class class_dq implements IAction {
       LoginScr.gI().switchToMe();
       Canvas.menuMain = null;
       SoundManager.a.a();
-      FarmData.a();
+      FarmData.init();
    }
 }

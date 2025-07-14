@@ -10,7 +10,7 @@ final class class_jg extends Command {
       this.f = var5;
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
-      AvatarData.a(var1, this.f.d, var2, var3, 3);
+   public final void paint(Graphics var1, int var2, int var3) {
+      AvatarData.paintImg(var1, this.f.d, var2, var3, 3);
    }
 }

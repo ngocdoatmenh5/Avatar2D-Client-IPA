@@ -10,7 +10,7 @@ final class class_fb extends Command {
       this.f = var4;
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
-      this.f.a(var1, var2, var3, 0, 3);
+   public final void paint(Graphics var1, int var2, int var3) {
+      this.f.paint(var1, var2, var3, 0, 3);
    }
 }

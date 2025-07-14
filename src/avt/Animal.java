@@ -92,7 +92,7 @@ public class Animal extends Base {
          } else {
             PaintPopup.a(var3 - (var6 + 22) * MyObject.hd / 2, var4 - (18 + this.l) * MyObject.hd - var2, (var6 + 22) * MyObject.hd, 4 * MyObject.hd, 1, var1);
             PaintPopup.a(var3 - (var6 + 20) * MyObject.hd / 2, var4 - (17 + this.l) * MyObject.hd - var2, this.health * (var6 + 20) / 100 * MyObject.hd, 2 * MyObject.hd, 65280, var1);
-            Canvas.smallFontYellow.a(var1, var7 / 60 + ":" + (var7 - var7 / 60 * 60), var3, var4 - (13 + this.l) * MyObject.hd - var2, 2);
+            Canvas.smallFontYellow.drawString(var1, var7 / 60 + ":" + (var7 - var7 / 60 * 60), var3, var4 - (13 + this.l) * MyObject.hd - var2, 2);
          }
 
          if (super.catagory == 7) {
@@ -174,7 +174,7 @@ public class Animal extends Base {
       } else {
          super.x = super.xCur + var1;
          super.y = super.yCur + var2;
-         var1 = CRes.a(super.xCur, super.yCur, super.x, super.y);
+         var1 = CRes.distance(super.xCur, super.yCur, super.x, super.y);
          ++this.disTrans;
          if (var1 > this.distant) {
             this.reset();
@@ -184,8 +184,8 @@ public class Animal extends Base {
    }
 
    public void setAngleAndDis() {
-      this.distant = CRes.a(super.x, super.y, this.posNext.x, this.posNext.y);
-      this.angle = CRes.a(this.posNext.x - super.x, -(this.posNext.y - super.y));
+      this.distant = CRes.distance(super.x, super.y, this.posNext.x, this.posNext.y);
+      this.angle = CRes.tan(this.posNext.x - super.x, -(this.posNext.y - super.y));
    }
 
    public void setPos() {

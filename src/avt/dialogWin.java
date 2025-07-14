@@ -4,46 +4,46 @@ import javax.microedition.lcdui.Graphics;
 import main.Canvas;
 
 public final class dialogWin extends Face {
-   public String a;
+   public String name;
    public byte b;
-   private int g = 200;
-   private int h;
-   public int c;
-   public int d;
-   public int e;
-   public int f;
+   private int wPopupWin = 200;
+   private int hPopupWin;
+   public int tienCuoc;
+   public int tienAn;
+   public int tienThue;
+   public int tienNhanDuoc;
 
    public dialogWin() {
-      this.h = (short)(AvMain.ah * 11);
+      this.hPopupWin = (short)(AvMain.ah * 11);
       super.left = RaceScr.b().b;
    }
 
    public final void paint(Graphics var1) {
-      Canvas.paint.a(var1, (Canvas.w - this.g) / 2, (Canvas.h - this.h) / 2, this.g, this.h, PaintPopup.d[2], PaintPopup.d[3], 1);
-      var1.translate((Canvas.w - this.g) / 2, (Canvas.h - this.h) / 2);
+      Canvas.paint.a(var1, (Canvas.w - this.wPopupWin) / 2, (Canvas.h - this.hPopupWin) / 2, this.wPopupWin, this.hPopupWin, PaintPopup.d[2], PaintPopup.d[3], 1);
+      var1.translate((Canvas.w - this.wPopupWin) / 2, (Canvas.h - this.hPopupWin) / 2);
       int var2;
-      Canvas.K.a(var1, String.valueOf(RaceScr.b().n), this.g / 2, (var2 = 0 + AvMain.ah) - AvMain.ah / 2 - 2 * AvMain.hd, 2);
-      Canvas.K.a(var1, "Thú đua chiến thắng", this.g / 2, var2 += AvMain.ah / 2 + 2 * AvMain.hd, 2);
-      Canvas.L.a(var1, this.a, this.g / 2, var2 += AvMain.ah + 6 * AvMain.hd, 2);
+      Canvas.normalFont.drawString(var1, String.valueOf(RaceScr.b().n), this.wPopupWin / 2, (var2 = 0 + AvMain.ah) - AvMain.ah / 2 - 2 * AvMain.hd, 2);
+      Canvas.normalFont.drawString(var1, "Thú đua chiến thắng", this.wPopupWin / 2, var2 += AvMain.ah / 2 + 2 * AvMain.hd, 2);
+      Canvas.borderFont.drawString(var1, this.name, this.wPopupWin / 2, var2 += AvMain.ah + 6 * AvMain.hd, 2);
       var2 += AvMain.ah << 1;
 
       for(int var3 = 0; var3 < 6; ++var3) {
          ImageIcon var4;
          if (this.b == RaceScr.b().c[var3].IDDB && (var4 = AvatarData.getImgIcon(RaceScr.b().c[var3].c)).count != -1) {
             int var5 = var4.c / 5;
-            var1.drawRegion(var4.img, 0, RaceScr.m[0][0] * var5, var4.b, var5, 0, this.g / 2, var2 + AvMain.ah / 2, 3);
+            var1.drawRegion(var4.img, 0, RaceScr.m[0][0] * var5, var4.b, var5, 0, this.wPopupWin / 2, var2 + AvMain.ah / 2, 3);
          }
       }
 
       var2 += AvMain.ah / 2;
-      Canvas.K.a(var1, "Tiền cược: ", 10, var2 += AvMain.ah, 0);
-      Canvas.smallFontYellow.a(var1, "" + this.c, this.g - 20, var2 + AvMain.ah / 2 - AvMain.ai / 2, 1);
-      Canvas.K.a(var1, "Tiền ăn: ", 10, var2 += AvMain.ah, 0);
-      Canvas.smallFontYellow.a(var1, "" + this.d, this.g - 20, var2 + AvMain.ah / 2 - AvMain.ai / 2, 1);
-      Canvas.K.a(var1, "Tiền thuế: ", 10, var2 += AvMain.ah, 0);
-      Canvas.smallFontYellow.a(var1, "" + this.e, this.g - 20, var2 + AvMain.ah / 2 - AvMain.ai / 2, 1);
-      Canvas.K.a(var1, "Tiền nhận được: ", 10, var2 += AvMain.ah, 0);
-      Canvas.smallFontYellow.a(var1, "" + this.f, this.g - 20, var2 + AvMain.ah / 2 - AvMain.ai / 2, 1);
+      Canvas.normalFont.drawString(var1, "Tiền cược: ", 10, var2 += AvMain.ah, 0);
+      Canvas.smallFontYellow.drawString(var1, "" + this.tienCuoc, this.wPopupWin - 20, var2 + AvMain.ah / 2 - AvMain.ai / 2, 1);
+      Canvas.normalFont.drawString(var1, "Tiền ăn: ", 10, var2 += AvMain.ah, 0);
+      Canvas.smallFontYellow.drawString(var1, "" + this.tienAn, this.wPopupWin - 20, var2 + AvMain.ah / 2 - AvMain.ai / 2, 1);
+      Canvas.normalFont.drawString(var1, "Tiền thuế: ", 10, var2 += AvMain.ah, 0);
+      Canvas.smallFontYellow.drawString(var1, "" + this.tienThue, this.wPopupWin - 20, var2 + AvMain.ah / 2 - AvMain.ai / 2, 1);
+      Canvas.normalFont.drawString(var1, "Tiền nhận được: ", 10, var2 += AvMain.ah, 0);
+      Canvas.smallFontYellow.drawString(var1, "" + this.tienNhanDuoc, this.wPopupWin - 20, var2 + AvMain.ah / 2 - AvMain.ai / 2, 1);
       super.paint(var1);
    }
 }

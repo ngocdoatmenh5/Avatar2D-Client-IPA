@@ -12,7 +12,7 @@ final class class_bs implements IAction {
    }
 
    public final void perform() {
-      FarmScr.a(this.a, (byte)3, this.b.a);
-      FarmService.a().b(FarmScr.b, this.c, this.b.a);
+      FarmScr.a(this.a, (byte)3, this.b.ID);
+      FarmService.gI().doUsingItem(FarmScr.idFarm, this.c, this.b.ID);
    }
 }

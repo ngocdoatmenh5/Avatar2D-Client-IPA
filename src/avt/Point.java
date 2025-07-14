@@ -12,7 +12,7 @@ public final class Point extends MyObject {
    public int g;
    public int h;
    public byte dis = 0;
-   public short j;
+   public short itemID;
    public boolean k;
    public boolean l;
    public short yTo;
@@ -32,7 +32,7 @@ public final class Point extends MyObject {
       super.y = var2;
       this.xTo = (short)var1;
       this.yTo = (short)var2;
-      this.j = (short)var3;
+      this.itemID = (short)var3;
    }
 
    public final void update() {

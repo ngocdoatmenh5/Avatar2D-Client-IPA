@@ -4,7 +4,7 @@ import javax.microedition.lcdui.Graphics;
 import main.Canvas;
 
 public final class StarFruitObj extends SubObject {
-   public short a;
+   public short lv;
    public short b;
    public short c;
    public short d;
@@ -21,14 +21,14 @@ public final class StarFruitObj extends SubObject {
             --this.e;
             if (this.e == 0) {
                FarmService var1;
-               (var1 = FarmService.a()).createMessage((byte)83);
+               (var1 = FarmService.gI()).createMessage((byte)83);
                var1.sendMessage();
             }
          }
 
          this.h = System.currentTimeMillis();
          ImageIcon var4;
-         if ((var4 = FarmData.a(this.b)).b > 0 && this.k == 0) {
+         if ((var4 = FarmData.getImgIcon(this.b)).b > 0 && this.k == 0) {
             this.k = var4.b / 3 << 1;
             this.l = var4.c / 2;
             StarFruitObj var5 = this;
@@ -49,26 +49,26 @@ public final class StarFruitObj extends SubObject {
 
    public final void paint(Graphics var1) {
       if (super.type >= 0 || super.x * MyObject.hd + this.k / 2 >= AvCamera.gI().xCam && super.x * MyObject.hd - this.k / 2 <= AvCamera.gI().xCam + Canvas.w) {
-         FarmData.a(var1, this.b, super.x * MyObject.hd, super.y * MyObject.hd, 33);
+         FarmData.paintImg(var1, this.b, super.x * MyObject.hd, super.y * MyObject.hd, 33);
          int var2;
          if (this.d > 0 && this.i != null) {
             for(var2 = 0; var2 < this.i.length; ++var2) {
-               FarmData.a(var1, this.c, super.x * MyObject.hd + this.i[var2], super.y * MyObject.hd - (FarmData.a(this.b).c / 2 + 5) + this.j[var2], 3);
+               FarmData.paintImg(var1, this.c, super.x * MyObject.hd + this.i[var2], super.y * MyObject.hd - (FarmData.getImgIcon(this.b).c / 2 + 5) + this.j[var2], 3);
             }
          }
 
-         var2 = FarmData.a(this.b).c + AvMain.ag;
+         var2 = FarmData.getImgIcon(this.b).c + AvMain.ag;
          if (this.e > 0) {
             var2 += AvMain.ai;
          }
 
-         FarmData.a(var1, this.c, (super.x - 8) * MyObject.hd, super.y * MyObject.hd - var2, 3);
-         Canvas.L.a(var1, "Lv" + this.a, super.x * MyObject.hd, super.y * MyObject.hd - var2 - AvMain.ag / 2, 0);
+         FarmData.paintImg(var1, this.c, (super.x - 8) * MyObject.hd, super.y * MyObject.hd - var2, 3);
+         Canvas.borderFont.drawString(var1, "Lv" + this.lv, super.x * MyObject.hd, super.y * MyObject.hd - var2 - AvMain.ag / 2, 0);
          if (this.e > 0) {
             int var3 = this.e / 3600;
             int var4 = (this.e - var3 * 3600) / 60;
             int var5 = this.e - var3 * 3600 - var4 * 60;
-            Canvas.smallFontYellow.a(var1, var3 + ":" + var4 + ":" + var5, (super.x + 3) * MyObject.hd, super.y * MyObject.hd - var2 + Canvas.L.a() / 2 + 2 * MyObject.hd, 2);
+            Canvas.smallFontYellow.drawString(var1, var3 + ":" + var4 + ":" + var5, (super.x + 3) * MyObject.hd, super.y * MyObject.hd - var2 + Canvas.borderFont.getHeight() / 2 + 2 * MyObject.hd, 2);
          }
 
       }

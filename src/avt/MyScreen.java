@@ -34,16 +34,16 @@ public abstract class MyScreen extends AvMain {
    }
 
    public void paint(Graphics var1) {
-      if (Canvas.menuMain == null && Canvas.currentDialog == null && Canvas.currentFace == null && !ChatTextField.c) {
+      if (Canvas.menuMain == null && Canvas.currentDialog == null && Canvas.currentFace == null && !ChatTextField.isShow) {
          super.paint(var1);
       } else {
          Canvas.resetTrans(var1);
       }
 
       if (!Session_ME.a().b()) {
-         Canvas.M.a(var1, "2.5.8", Canvas.af.x, Canvas.af.y, Canvas.af.anchor);
+         Canvas.M.drawString(var1, "2.5.8", Canvas.af.x, Canvas.af.y, Canvas.af.anchor);
       } else if (Canvas.currentMyScreen == class_ez.a || Canvas.currentMyScreen == MiniMap.a) {
-         Canvas.M.a(var1, Session_ME.a().k, Canvas.af.x, Canvas.af.y, Canvas.af.anchor);
+         Canvas.M.drawString(var1, Session_ME.a().k, Canvas.af.x, Canvas.af.y, Canvas.af.anchor);
       }
 
       Canvas.paint.a(var1);

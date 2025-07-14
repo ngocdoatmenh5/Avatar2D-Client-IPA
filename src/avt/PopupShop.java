@@ -26,7 +26,7 @@ public final class PopupShop extends MyScreen {
    private boolean[] y;
    private String[] z;
    public static String i;
-   public static int j = 0;
+   public static int focus = 0;
    public static boolean k = false;
    private static int A = 0;
    public static int l = 0;
@@ -35,7 +35,7 @@ public final class PopupShop extends MyScreen {
    private int D;
    private int E = 0;
    public boolean m = false;
-   public static boolean n = false;
+   public static boolean isTransFocus = false;
    public static boolean o = false;
    private static boolean F = false;
    private static int G = 0;
@@ -59,7 +59,7 @@ public final class PopupShop extends MyScreen {
       C = Canvas.currentMyScreen;
       this.D = Canvas.h + 50;
       this.E = Canvas.getSecond();
-      n = true;
+      isTransFocus = true;
       G = 86;
       if (Canvas.stypeInt != 0) {
          G = 86 + 40 * Canvas.stypeInt;
@@ -76,8 +76,8 @@ public final class PopupShop extends MyScreen {
             this.close();
             return;
          case 1:
-            if (j < this.h[g].size()) {
-               ((Command)this.h[g].elementAt(j)).b.perform();
+            if (focus < this.h[g].size()) {
+               ((Command)this.h[g].elementAt(focus)).action.perform();
                this.m();
             }
 
@@ -91,33 +91,33 @@ public final class PopupShop extends MyScreen {
          default:
             break;
          case 7:
-            FarmScr.b().f(var2, 0);
+            FarmScr.gI().f(var2, 0);
             return;
          case 8:
-            if (var2 < FarmData.d.size()) {
-               AnimalInfo var6 = (AnimalInfo)FarmData.d.elementAt(var2);
-               FarmScr.b().a(var6);
+            if (var2 < FarmData.listAnimalInfo.size()) {
+               AnimalInfo var6 = (AnimalInfo)FarmData.listAnimalInfo.elementAt(var2);
+               FarmScr.gI().a(var6);
                return;
             }
             break;
          case 9:
-            if (var2 < FarmData.e.size()) {
-               var4 = (FarmItem)FarmData.e.elementAt(var2);
-               FarmScr.b().f(var4.a, 4);
+            if (var2 < FarmData.listItemFarm.size()) {
+               var4 = (FarmItem)FarmData.listItemFarm.elementAt(var2);
+               FarmScr.gI().f(var4.ID, 4);
                return;
             }
             break;
          case 10:
-            if (var2 < FarmScr.f.size()) {
-               Item var5 = (Item)FarmScr.f.elementAt(var2);
-               FarmScr.b().a((int)var5.ID, var5.name);
+            if (var2 < FarmScr.itemProduct.size()) {
+               Item var5 = (Item)FarmScr.itemProduct.elementAt(var2);
+               FarmScr.gI().a((int)var5.ID, var5.name);
                return;
             }
             break;
          case 11:
-            if (var2 < FarmScr.e.size()) {
-               var4 = FarmScr.b(((Item)FarmScr.e.elementAt(var2)).ID);
-               FarmScr.b().a((int)var4.a, var4.f);
+            if (var2 < FarmScr.listFarmProduct.size()) {
+               var4 = FarmScr.b(((Item)FarmScr.listFarmProduct.elementAt(var2)).ID);
+               FarmScr.gI().a((int)var4.ID, var4.des);
                return;
             }
             break;
@@ -209,9 +209,9 @@ public final class PopupShop extends MyScreen {
       return k;
    }
 
-   public static void a(String var0) {
+   public static void addStr(String var0) {
       if (var0 != null) {
-         B.addElement(new StringObj(var0, Canvas.K.getWidth(var0)));
+         B.addElement(new StringObj(var0, Canvas.normalFont.getWidth(var0)));
       }
 
    }
@@ -232,7 +232,7 @@ public final class PopupShop extends MyScreen {
    }
 
    public final void i() {
-      j = 0;
+      focus = 0;
       u = 0;
       if (o || this.y[g]) {
          u = AvMain.af;
@@ -286,8 +286,8 @@ public final class PopupShop extends MyScreen {
          int var1 = this.h[g].size();
 
          for(int var2 = 0; var2 < var1; ++var2) {
-            if (n) {
-               ((Command)this.h[g].elementAt(var2)).a();
+            if (isTransFocus) {
+               ((Command)this.h[g].elementAt(var2)).update();
             }
          }
       }
@@ -320,13 +320,13 @@ public final class PopupShop extends MyScreen {
             this.K = 5;
          }
 
-         if (Canvas.a(0, 0, Canvas.w, Canvas.h - Canvas.hTab)) {
+         if (Canvas.isPointer(0, 0, Canvas.w, Canvas.h - Canvas.hTab)) {
             Canvas.isPointerClick = false;
          }
 
          if (Canvas.isPointerRelease) {
-            var2 = j % r * e;
-            int var3 = (j / r + 1) * e;
+            var2 = focus % r * e;
+            int var3 = (focus / r + 1) * e;
             if (var2 + e / 2 - G / 2 + q + 5 < 0) {
                var2 = -e / 2 + G / 2 - q - 5;
             } else if (var2 + e / 2 - G / 2 + G > Canvas.w) {
@@ -339,14 +339,14 @@ public final class PopupShop extends MyScreen {
             var3 += AvMain.Z + 8;
             var2 = var2 + e / 2 - 35 * (Canvas.stypeInt + 1) / 2 - 2 - 10 - 10 * AvMain.hd;
             var3 = var3 + var4 / 2 + var4 + AvMain.ah / 2;
-            if (Canvas.a(var2, var3 - 15 * AvMain.hd - 5, 20 + 20 * AvMain.hd, 30 * AvMain.hd)) {
+            if (Canvas.isPointer(var2, var3 - 15 * AvMain.hd - 5, 20 + 20 * AvMain.hd, 30 * AvMain.hd)) {
                this.c(-1);
                this.J = 5;
-            } else if (Canvas.a(var2 + 35 * (Canvas.stypeInt + 1), var3 - 15 * AvMain.hd - 5, 20 + 20 * AvMain.hd, 30 * AvMain.hd)) {
+            } else if (Canvas.isPointer(var2 + 35 * (Canvas.stypeInt + 1), var3 - 15 * AvMain.hd - 5, 20 + 20 * AvMain.hd, 30 * AvMain.hd)) {
                this.c(1);
                this.K = 5;
-            } else if (Canvas.a(var2 + 20 + 20 * AvMain.hd, var3 - 15 * AvMain.hd - 5, var2 + 35 * (Canvas.stypeInt + 1) - (var2 + 20 + 20 * AvMain.hd), 30 * AvMain.hd)) {
-               super.center.b();
+            } else if (Canvas.isPointer(var2 + 20 + 20 * AvMain.hd, var3 - 15 * AvMain.hd - 5, var2 + 35 * (Canvas.stypeInt + 1) - (var2 + 20 + 20 * AvMain.hd), 30 * AvMain.hd)) {
+               super.center.perform();
             }
          }
 
@@ -360,27 +360,27 @@ public final class PopupShop extends MyScreen {
       } else {
          PopupShop var1 = this;
          if (Canvas.a(6)) {
-            if (j % r != r - 1 && r != 1 && !F) {
-               ++j;
+            if (focus % r != r - 1 && r != 1 && !F) {
+               ++focus;
             } else {
                this.b(1);
             }
 
-            Canvas.cameraList.setSelect(j);
+            Canvas.cameraList.setSelect(focus);
             this.m();
          } else if (Canvas.a(4)) {
-            if (j % r != 0 && r != 1 && !F) {
-               --j;
+            if (focus % r != 0 && r != 1 && !F) {
+               --focus;
             } else {
                this.b(-1);
             }
 
-            Canvas.cameraList.setSelect(j);
+            Canvas.cameraList.setSelect(focus);
             this.m();
          } else if (Canvas.a(2)) {
             if (this.h[g] != null && this.h[g].size() > 0 && !F) {
-               if (j / r > 0) {
-                  j -= r;
+               if (focus / r > 0) {
+                  focus -= r;
                } else {
                   for(var2 = 0; var2 < var1.h.length; ++var2) {
                      if (var2 != g) {
@@ -392,7 +392,7 @@ public final class PopupShop extends MyScreen {
                }
             }
 
-            Canvas.cameraList.setSelect(j);
+            Canvas.cameraList.setSelect(focus);
             var1.m();
          } else if (Canvas.a(8)) {
             if (F) {
@@ -403,11 +403,11 @@ public final class PopupShop extends MyScreen {
                      PaintPopup.gI().a(0, var2);
                   }
                }
-            } else if (r > 1 && j / r + 1 < s) {
-               j += r;
+            } else if (r > 1 && focus / r + 1 < s) {
+               focus += r;
             }
 
-            Canvas.cameraList.setSelect(j);
+            Canvas.cameraList.setSelect(focus);
             var1.m();
          }
 
@@ -435,11 +435,11 @@ public final class PopupShop extends MyScreen {
 
    public final void a(int var1, boolean var2) {
       if (!k) {
-         if (j == var1 && super.center != null && !var2) {
-            super.center.b();
+         if (focus == var1 && super.center != null && !var2) {
+            super.center.perform();
          }
 
-         j = var1;
+         focus = var1;
          this.m();
       }
    }
@@ -447,12 +447,12 @@ public final class PopupShop extends MyScreen {
    private static void o() {
       if (g == 1) {
          FarmItem var0;
-         I = Canvas.getPriceMoney((var0 = (FarmItem)FarmData.e.elementAt(j)).g * A, var0.h * A, true);
+         I = Canvas.getPriceMoney((var0 = (FarmItem)FarmData.listItemFarm.elementAt(focus)).priceXu * A, var0.priceLuong * A, true);
       } else {
-         I = Canvas.getPriceMoney(FarmData.b[j].g[0] * A, FarmData.b[j].g[1] * A, true);
+         I = Canvas.getPriceMoney(FarmData.treeInfo[focus].priceSeed[0] * A, FarmData.treeInfo[focus].priceSeed[1] * A, true);
       }
 
-      if ((G = Canvas.K.getWidth(I) + 16 + 30 * Canvas.stypeInt) < 86 * AvMain.hd) {
+      if ((G = Canvas.normalFont.getWidth(I) + 16 + 30 * Canvas.stypeInt) < 86 * AvMain.hd) {
          G = 86 * AvMain.hd;
       }
 
@@ -475,8 +475,8 @@ public final class PopupShop extends MyScreen {
    }
 
    public final void m() {
-      if (this.h[g] != null && j < this.h[g].size()) {
-         super.center = (Command)this.h[g].elementAt(j);
+      if (this.h[g] != null && focus < this.h[g].size()) {
+         super.center = (Command)this.h[g].elementAt(focus);
       } else if (this.w != null && g < this.w.size()) {
          Command var1;
          if ((var1 = (Command)this.w.elementAt(g)) != null) {
@@ -486,7 +486,7 @@ public final class PopupShop extends MyScreen {
          super.center = null;
       }
 
-      n = true;
+      isTransFocus = true;
       this.E = Canvas.getSecond();
    }
 
@@ -504,13 +504,13 @@ public final class PopupShop extends MyScreen {
       int var4;
       if (o) {
          String var2 = Canvas.getPriceMoney(GameMidlet.avatar.money[0], GameMidlet.avatar.money[2], GameMidlet.avatar.luongKhoa, true);
-         var3 = Canvas.N.getWidth(var2);
+         var3 = Canvas.fontChatB.getWidth(var2);
          if (CRes.abs(var4 = this.M) > var3 + 20 - (c - 20)) {
             var4 = 0;
          }
 
          var1.setClip(0, 0, c - 20, 20);
-         Canvas.N.a(var1, var2, var4, 0, 0);
+         Canvas.fontChatB.drawString(var1, var2, var4, 0, 0);
          if (var3 > c - 20) {
             if (CRes.abs(this.M) > var3 + 50 - (c - 20)) {
                this.M = 0;
@@ -524,7 +524,7 @@ public final class PopupShop extends MyScreen {
 
       if (this.h[g] != null) {
          if (this.y[g]) {
-            Canvas.N.a(var1, this.z[g], 0, 0, 0);
+            Canvas.fontChatB.drawString(var1, this.z[g], 0, 0, 0);
             var1.translate(0, u);
          }
 
@@ -537,7 +537,7 @@ public final class PopupShop extends MyScreen {
          }
 
          if (!this.L && !F) {
-            PaintPopup.a(3 + j % r * e, j / r * e + 3, e - 5, e - 5, 2293623, var1);
+            PaintPopup.a(3 + focus % r * e, focus / r * e + 3, e - 5, e - 5, 2293623, var1);
          }
 
          var9 = this.h[g].size();
@@ -550,7 +550,7 @@ public final class PopupShop extends MyScreen {
          }
 
          for(var3 = var3; var3 < var4 && var3 < var9; ++var3) {
-            ((Command)this.h[g].elementAt(var3)).a(var1, e * (var3 % r), e * (var3 / r));
+            ((Command)this.h[g].elementAt(var3)).paint(var1, e * (var3 % r), e * (var3 / r));
          }
 
          var1.translate(0, CameraList.cmtoY - l);
@@ -571,7 +571,7 @@ public final class PopupShop extends MyScreen {
             }
 
             var11 = var1;
-            if (B != null && j < this.h[g].size()) {
+            if (B != null && focus < this.h[g].size()) {
                var4 = o ? 80 : 0;
                var1.setClip(0, f * e, c - var4 + 5, d);
 
@@ -585,15 +585,15 @@ public final class PopupShop extends MyScreen {
                      }
                   }
 
-                  Canvas.N.a(var11, var12.a, 2 - var7, f * e + var5 * t, 0);
+                  Canvas.fontChatB.drawString(var11, var12.a, 2 - var7, f * e + var5 * t, 0);
                }
             }
          } else {
             var11 = var1;
             PopupShop var10 = this;
-            if (Canvas.getSecond() - this.E > 0 && !k && B != null && j < this.h[g].size()) {
-               var4 = j % r * e - this.N / 2 + e / 2;
-               var5 = (j / r + 1) * e - CameraList.cmtoY + 5;
+            if (Canvas.getSecond() - this.E > 0 && !k && B != null && focus < this.h[g].size()) {
+               var4 = focus % r * e - this.N / 2 + e / 2;
+               var5 = (focus / r + 1) * e - CameraList.cmtoY + 5;
                int var6 = B.size() * AvMain.af + (AvMain.Z << 1) + 8;
                if (var5 + var6 + b + 12 > Canvas.h) {
                   var5 -= var6 + e + 10;
@@ -624,7 +624,7 @@ public final class PopupShop extends MyScreen {
                      }
                   }
 
-                  Canvas.N.a(var11, var12.a, var4 - var8, var5 + 5 + var7 * t, 0);
+                  Canvas.fontChatB.drawString(var11, var12.a, var4 - var8, var5 + 5 + var7 * t, 0);
                }
             }
          }
@@ -632,11 +632,11 @@ public final class PopupShop extends MyScreen {
          if (k) {
             Canvas.resetTrans(var1);
             var1.translate(q, Canvas.cameraList.y);
-            Canvas.paint.a(var1, j, r, e, G, q, H, g, A, I, this.J, this.K);
+            Canvas.paint.a(var1, focus, r, e, G, q, H, g, A, I, this.J, this.K);
          }
       } else {
          var1.setClip(-5, 0, c - 10, d);
-         ((Command)this.w.elementAt(g)).a(var1, 0, 0);
+         ((Command)this.w.elementAt(g)).paint(var1, 0, 0);
       }
 
       if (Canvas.welcome == null || Welcome.g || !Welcome.d) {
@@ -646,8 +646,8 @@ public final class PopupShop extends MyScreen {
       Canvas.a(var1);
    }
 
-   public static void n() {
-      n = false;
+   public static void resetIsTrans() {
+      isTransFocus = false;
       B.removeAllElements();
       if (k) {
          o();

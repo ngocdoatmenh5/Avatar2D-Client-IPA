@@ -92,7 +92,7 @@ public final class LoginScr extends MyScreen {
          var2.printStackTrace();
       }
 
-      FilePack.a();
+      FilePack.reset();
       this.A = -50;
       Canvas.loadMap.e(26);
       GameMidlet.avatar.x = GameMidlet.avatar.xCur = LoadMap.wMap * 24 / 2 + 30;
@@ -237,7 +237,7 @@ public final class LoginScr extends MyScreen {
 
             var5.addElement(new Command(T.bG, 9));
             var5.addElement(var4);
-            MenuSub.a().a(var5, 0);
+            MenuSub.gI().startAt(var5, 0);
             return;
          case 1:
             v = true;
@@ -400,7 +400,7 @@ public final class LoginScr extends MyScreen {
          }
 
          for(var4 = 0; var4 < var2.G.length; ++var4) {
-            Canvas.K.a(var3, var2.G[var4], var2.l / 2, var4 * var2.x + var2.x / 2 - Canvas.K.a() / 2, 2);
+            Canvas.normalFont.drawString(var3, var2.G[var4], var2.l / 2, var4 * var2.x + var2.x / 2 - Canvas.normalFont.getHeight() / 2, 2);
          }
       } else if (Canvas.currentDialog == null && this == Canvas.currentMyScreen) {
          Canvas.paint.a(var1, this.j, this.k, this.l, this.m, 0);
@@ -409,9 +409,9 @@ public final class LoginScr extends MyScreen {
             Canvas.paint.a(var1, "Hotline: " + this.F, this.j + this.l - 8, this.k + this.m - AvMain.ah - 4, 1);
          }
 
-         this.b.a(var1);
+         this.b.paint(var1);
          var1.setClip(this.j + 4, this.k + 4, this.l - 8, this.m - 8);
-         if ((var4 = Canvas.K.getWidth(T.bN + ":")) < this.b.a - this.j) {
+         if ((var4 = Canvas.normalFont.getWidth(T.bN + ":")) < this.b.a - this.j) {
             var4 = (this.b.a - this.j - var4) / 2 + AvMain.Z;
          } else {
             var4 = this.b.a - var4 - 5;
@@ -426,11 +426,11 @@ public final class LoginScr extends MyScreen {
             Canvas.paint.a(var1, T.bO + ":", this.j + var4, this.d.b + this.b.d / 2, 0);
             Canvas.paint.a(var1, "Số di động", this.j + var4, this.e.b + this.b.d / 2 - AvMain.ah, 0);
             Canvas.paint.a(var1, "hoặc email:", this.j + var4, this.e.b + this.b.d / 2, 0);
-            this.d.a(var1);
-            this.e.a(var1);
+            this.d.paint(var1);
+            this.e.paint(var1);
          }
 
-         this.c.a(var1);
+         this.c.paint(var1);
       }
 
       Canvas.resetTrans(var1);
@@ -478,7 +478,7 @@ public final class LoginScr extends MyScreen {
          super.updateKey();
          return;
       }
-      if (Canvas.isPointerRelease && Canvas.a(0, 0, Canvas.w, Canvas.h) && Canvas.a(this.n - 10, this.o, 70, MyScreen.al * AvMain.hd + 10)) {
+      if (Canvas.isPointerRelease && Canvas.isPointer(0, 0, Canvas.w, Canvas.h) && Canvas.isPointer(this.n - 10, this.o, 70, MyScreen.al * AvMain.hd + 10)) {
          this.j();
       }
       if (Canvas.keyPressed[2]) {
@@ -549,7 +549,7 @@ public final class LoginScr extends MyScreen {
             if (this.G.length != 2) {
                class_jk var1 = new class_jk(this);
                if (!this.I.equals("") && this.b.f().equals("")) {
-                  Canvas.a("Tài khoản của bạn chưa được đăng kí liên kết với một tài khoản Team. Bạn sẽ mất tài khoản đang chơi nếu tiếp tục. Bạn có muốn tiếp tục ?", (IAction)var1);
+                  Canvas.startOKDlg("Tài khoản của bạn chưa được đăng kí liên kết với một tài khoản Team. Bạn sẽ mất tài khoản đang chơi nếu tiếp tục. Bạn có muốn tiếp tục ?", (IAction)var1);
                   return;
                }
 
@@ -565,7 +565,7 @@ public final class LoginScr extends MyScreen {
    private void p() {
       class_dg var1 = new class_dg(this);
       if (!this.I.equals("") && this.b.f().equals("")) {
-         Canvas.a("Tài khoản của bạn chưa được đăng kí liên kết với một tài khoản Team. Bạn sẽ mất tài khoản đang chơi nếu tiếp tục. Bạn có muốn tiếp tục ?", (IAction)var1);
+         Canvas.startOKDlg("Tài khoản của bạn chưa được đăng kí liên kết với một tài khoản Team. Bạn sẽ mất tài khoản đang chơi nếu tiếp tục. Bạn có muốn tiếp tục ?", (IAction)var1);
       } else {
          var1.perform();
       }

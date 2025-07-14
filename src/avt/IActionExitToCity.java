@@ -12,7 +12,7 @@ final class IActionExitToCity implements IAction {
          ParkService.a().a(9, -1);
       } else {
          Canvas.startWaitDlg();
-         GlobalService.gI().d((int)9);
+         GlobalService.gI().getHandler((int)9);
       }
    }
 }

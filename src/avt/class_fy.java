@@ -13,17 +13,17 @@ final class class_fy extends Command {
       this.g = var6;
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
-      AvatarData.a(var1, this.f.iconID, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
+   public final void paint(Graphics var1, int var2, int var3) {
+      AvatarData.paintImg(var1, this.f.iconID, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
    }
 
-   public final void a() {
-      if (this.g == PopupShop.j - FarmData.b.length && PopupShop.n) {
-         PopupShop.n();
-         PopupShop.a(this.f.name + "(" + this.f.harvestTime + T.bq + ")");
-         PopupShop.a(T.az + Canvas.getPriceMoney(this.f.price[0], this.f.price[1], false));
-         PopupShop.a(this.f.des);
-         PopupShop.a(MapScr.r());
+   public final void update() {
+      if (this.g == PopupShop.focus - FarmData.treeInfo.length && PopupShop.isTransFocus) {
+         PopupShop.resetIsTrans();
+         PopupShop.addStr(this.f.name + "(" + this.f.harvestTime + T.bq + ")");
+         PopupShop.addStr(T.az + Canvas.getPriceMoney(this.f.price[0], this.f.price[1], false));
+         PopupShop.addStr(this.f.des);
+         PopupShop.addStr(MapScr.r());
       }
 
    }

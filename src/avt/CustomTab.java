@@ -7,164 +7,164 @@ import javax.microedition.lcdui.Image;
 import main.Canvas;
 
 public final class CustomTab extends Face {
-   public static CustomTab a;
-   private int b;
+   public static CustomTab me;
+   private int x;
    private int c;
    private int d;
-   private int e;
-   private int f;
-   private Vector g = new Vector();
-   private Vector h = new Vector();
-   private Hashtable i;
-   private String j = "";
-   private String k = "";
-   private int l = 5;
-   private int m = 5;
-   private int n = 30;
-   private byte o;
-   private static int p;
-   private static int q;
-   private static int r;
-   private static int s;
-   private static int t;
-   private static int u;
-   private static int v = 14;
-   private long w;
-   private int x = 0;
-   private int y = 0;
-   private boolean z = false;
-   private int A;
-   private int B;
-   private int C;
-   private int D;
+   private int w;
+   private int h;
+   private Vector listLabel = new Vector();
+   private Vector listPic = new Vector();
+   private Hashtable listImg;
+   private String title = "";
+   private String strTemp   = "";
+   private int x0  = 5;
+   private int y0 = 5;
+   private int wTab = 30;
+   private byte idAction;
+   private static int cmtoY;
+   private static int cmy;
+   private static int cmdy;
+   private static int cmvy;
+   private static int cmyLim;
+   private static int yL;
+   private static int wStr = 14;
+   private long time;
+   private int ww = 0;
+   private int pa = 0;
+   private boolean trans = false;
+   private int vY;
+   private int count;
+   private int timePointY;
+   private int dyTran;
 
-   public static CustomTab b() {
-      return a == null ? (a = new CustomTab()) : a;
+   public static CustomTab gI() {
+      return me == null ? (me = new CustomTab()) : me;
    }
 
    public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
-            this.g.removeAllElements();
-            this.h.removeAllElements();
-            this.i.clear();
+            this.listLabel.removeAllElements();
+            this.listPic.removeAllElements();
+            this.listImg.clear();
             Canvas.currentFace = null;
             Canvas.endDlg();
-            a = null;
+            me = null;
             return;
          case 1:
-            GlobalService.gI().b(this.o);
+            GlobalService.gI().b(this.idAction);
          default:
       }
    }
 
    public CustomTab() {
-      this.e();
+      this.setSize();
       super.right = new Command(T.d, 0);
-      v = AvMain.af;
+      wStr = AvMain.af;
    }
 
-   private void e() {
-      this.e = Canvas.w - 20;
-      this.f = Canvas.h - Canvas.hTab - 20;
+   private void setSize() {
+      this.w = Canvas.w - 20;
+      this.h = Canvas.h - Canvas.hTab - 20;
    }
 
    public final void d() {
-      this.e();
-      this.a(this.i, this.j, this.k, this.o);
+      this.setSize();
+      this.setInfo(this.listImg, this.title, this.strTemp, this.idAction);
    }
 
-   private void a(String var1) {
+   private void setFont(String var1) {
       int var2;
       if ((var2 = var1.indexOf("Ę")) != -1) {
          String var3 = var1.substring(0, var2);
-         this.a(var3, "");
+         this.setCanhle(var3, "");
          if ((var2 = (var1 = var1.substring(var2 + 1)).indexOf("\n")) != -1) {
             var3 = var1.substring(0, var2);
-            this.a(var3, "Ę");
+            this.setCanhle(var3, "Ę");
             var1 = var1.substring(var2 + 1);
-            this.a(var1);
+            this.setFont(var1);
          } else {
-            this.a(var1, "Ę");
+            this.setCanhle(var1, "Ę");
          }
       } else {
-         this.a(var1, "");
+         this.setCanhle(var1, "");
       }
    }
 
-   private void a(String var1, String var2) {
+   private void setCanhle(String var1, String var2) {
       if (!var1.equals("")) {
          int var3;
          if ((var3 = var1.indexOf("ę")) != -1) {
             String var4;
             if (!(var4 = var1.substring(0, var3)).equals("")) {
-               this.a(var4, var2, 0);
+               this.addd(var4, var2, 0);
             }
 
             int var5 = Integer.parseInt(var1.substring(var3 + 1, var3 + 2));
             if ((var3 = (var1 = var1.substring(var3 + 2, var1.length())).indexOf("\n")) != -1) {
-               this.a(var1.substring(0, var3), var2, var5);
-               this.a(var1.substring(var3 + 1), var2);
+               this.addd(var1.substring(0, var3), var2, var5);
+               this.setCanhle(var1.substring(var3 + 1), var2);
             } else {
-               this.a(var1, var2, var5);
+               this.addd(var1, var2, var5);
             }
          } else {
-            this.a(var1, var2, 0);
+            this.addd(var1, var2, 0);
          }
       }
    }
 
-   private void a(String var1, String var2, int var3) {
+   private void addd(String var1, String var2, int var3) {
       boolean var4 = false;
       String[] var5;
       if (var1.indexOf("tem") != -1) {
          var4 = true;
-         var5 = Canvas.N.a(var1, this.e - 30 - 8 * AvMain.hd);
+         var5 = Canvas.fontChatB.splitFontBStrInLine(var1, this.w - 30 - 8 * AvMain.hd);
       } else {
-         var5 = Canvas.K.a(var1, this.e - 30 - 8 * AvMain.hd);
+         var5 = Canvas.normalFont.splitFontBStrInLine(var1, this.w - 30 - 8 * AvMain.hd);
       }
 
       for(int var6 = 0; var6 < var5.length; ++var6) {
          int var7;
          if (var4) {
-            var7 = Canvas.N.getWidth(var5[var6]);
+            var7 = Canvas.fontChatB.getWidth(var5[var6]);
          } else {
-            var7 = Canvas.K.getWidth(var5[var6]);
+            var7 = Canvas.normalFont.getWidth(var5[var6]);
          }
 
-         if (var7 > this.x) {
-            this.x = var7;
+         if (var7 > this.ww) {
+            this.ww = var7;
          }
 
          StringObj var8;
-         (var8 = new StringObj(this.l, this.m += v, var2 + var5[var6])).e = var3;
-         this.g.addElement(var8);
+         (var8 = new StringObj(this.x0, this.y0 += wStr, var2 + var5[var6])).e = var3;
+         this.listLabel.addElement(var8);
       }
 
    }
 
-   public final void a(Hashtable var1, String var2, String var3, byte var4) {
-      this.B = 0;
+   public final void setInfo(Hashtable var1, String var2, String var3, byte var4) {
+      this.count = 0;
       super.center = null;
       if (var4 != -1) {
          super.center = new Command(T.O, 1);
       }
 
-      this.o = var4;
-      this.x = 0;
-      this.n = Canvas.K.getWidth(var2) + 20 * AvMain.hd;
-      if (this.n < 50 + 20 * AvMain.hd) {
-         this.n = 50 + 20 * AvMain.hd;
+      this.idAction = var4;
+      this.ww = 0;
+      this.wTab = Canvas.normalFont.getWidth(var2) + 20 * AvMain.hd;
+      if (this.wTab < 50 + 20 * AvMain.hd) {
+         this.wTab = 50 + 20 * AvMain.hd;
       }
 
-      this.i = var1;
-      this.j = var2;
-      this.k = var3;
-      this.g.removeAllElements();
-      this.h.removeAllElements();
+      this.listImg = var1;
+      this.title = var2;
+      this.strTemp = var3;
+      this.listLabel.removeAllElements();
+      this.listPic.removeAllElements();
       boolean var9 = false;
-      this.l = 0;
-      this.m = -10;
+      this.x0 = 0;
+      this.y0 = -10;
 
       int var10;
       label97:
@@ -178,7 +178,7 @@ public final class CustomTab extends Face {
             var10 = (var13 = var13.substring(var10 + 1, var13.length())).indexOf(",");
             int var6 = Integer.parseInt(var13.substring(0, var10));
             boolean var11 = Integer.parseInt(var13.substring(var10 + 1, var13.length())) != 0;
-            Image var14 = (Image)this.i.get(var5);
+            Image var14 = (Image)this.listImg.get(var5);
             byte var7 = 0;
             if (var6 == 17) {
                var7 = 1;
@@ -186,12 +186,12 @@ public final class CustomTab extends Face {
                var7 = 2;
             }
 
-            PictureObj var15 = new PictureObj(this, Integer.parseInt(var5), var7, this.m + v + 5, var6, var11);
+            PictureObj var15 = new PictureObj(this, Integer.parseInt(var5), var7, this.y0 + wStr + 5, var6, var11);
             var14.getWidth();
             var15.e = var14.getHeight();
             if (var11) {
-               PictureObj var12 = (PictureObj)this.h.elementAt(this.h.size() - 1);
-               var6 = ((Image)this.i.get(String.valueOf(var12.d))).getHeight();
+               PictureObj var12 = (PictureObj)this.listPic.elementAt(this.listPic.size() - 1);
+               var6 = ((Image)this.listImg.get(String.valueOf(var12.d))).getHeight();
                if (var14.getHeight() > var6) {
                   var12.b += var14.getHeight() - var6;
                }
@@ -199,8 +199,8 @@ public final class CustomTab extends Face {
                var15.b = var12.b + var6 - var14.getHeight();
             }
 
-            this.m = var15.b + var14.getHeight() - 10;
-            this.h.addElement(var15);
+            this.y0 = var15.b + var14.getHeight() - 10;
+            this.listPic.addElement(var15);
             var13 = "";
          }
 
@@ -209,7 +209,7 @@ public final class CustomTab extends Face {
          while(true) {
             while((var10 = var13.indexOf("¶")) == -1) {
                if (!var13.equals("")) {
-                  this.a(var13.substring(0, var13.length() - 1));
+                  this.setFont(var13.substring(0, var13.length() - 1));
                }
 
                if (var3.indexOf("µ") != -1 || var3.indexOf("¶") == -1) {
@@ -225,156 +225,156 @@ public final class CustomTab extends Face {
 
             try {
                Integer.parseInt(var5, 16);
-               this.a("¶" + var5);
-               this.m -= v / 2;
+               this.setFont("¶" + var5);
+               this.y0 -= wStr / 2;
             } catch (Exception var8) {
-               this.a(var5);
+               this.setFont(var5);
             }
          }
       }
 
-      this.a(var3);
+      this.setFont(var3);
       this.c = 9 * AvMain.hd;
-      if (this.x < 140 * AvMain.hd) {
-         this.x = 140 * AvMain.hd;
+      if (this.ww < 140 * AvMain.hd) {
+         this.ww = 140 * AvMain.hd;
       }
 
-      if (this.x >= 120 && this.x < this.e - 30) {
-         this.e = this.x + 20 * AvMain.hd;
+      if (this.ww >= 120 && this.ww < this.w - 30) {
+         this.w = this.ww + 20 * AvMain.hd;
          this.c = 10 * AvMain.hd;
       }
 
-      if (this.m + 10 + (v << 1) < this.f - 30) {
-         this.f = this.m + 10 + (v << 1) + 20;
+      if (this.y0 + 10 + (wStr << 1) < this.h - 30) {
+         this.h = this.y0 + 10 + (wStr << 1) + 20;
       }
 
-      if (this.f < 80 * AvMain.hd + MyScreen.at) {
-         this.f = 80 * AvMain.hd + MyScreen.at;
+      if (this.h < 80 * AvMain.hd + MyScreen.at) {
+         this.h = 80 * AvMain.hd + MyScreen.at;
       }
 
-      if ((t = this.m - (this.f - PaintPopup.o - 2 * AvMain.Z - (v << 1))) < 0) {
-         t = 0;
+      if ((cmyLim = this.y0 - (this.h - PaintPopup.o - 2 * AvMain.Z - (wStr << 1))) < 0) {
+         cmyLim = 0;
       }
 
-      p = 0;
-      q = 0;
-      this.b = (Canvas.w - this.e) / 2;
-      this.d = (Canvas.h - Canvas.hTab - this.f) / 2;
-      this.w = System.currentTimeMillis();
+      cmtoY = 0;
+      cmy = 0;
+      this.x = (Canvas.w - this.w) / 2;
+      this.d = (Canvas.h - Canvas.hTab - this.h) / 2;
+      this.time = System.currentTimeMillis();
    }
 
    public final void updateKey() {
-      if (System.currentTimeMillis() - this.w >= 1000L) {
-         this.w = System.currentTimeMillis();
+      if (System.currentTimeMillis() - this.time >= 1000L) {
+         this.time = System.currentTimeMillis();
       }
 
-      ++this.B;
+      ++this.count;
       boolean var1 = false;
-      if (u != 0) {
-         u += -u >> 1;
+      if (yL != 0) {
+         yL += -yL >> 1;
       }
 
-      if (u == -1) {
-         u = 0;
+      if (yL == -1) {
+         yL = 0;
       }
 
-      if (Canvas.isPointerClick && Canvas.a(this.b, this.d, this.e, this.f) && !this.z) {
-         this.y = q;
-         this.z = true;
-         this.A = 0;
+      if (Canvas.isPointerClick && Canvas.isPointer(this.x, this.d, this.w, this.h) && !this.trans) {
+         this.pa = cmy;
+         this.trans = true;
+         this.vY = 0;
       }
 
-      if (this.z) {
+      if (this.trans) {
          int var2 = Canvas.dy();
          if (Canvas.isPointerDown) {
             if (Canvas.gameTick % 3 == 0) {
-               this.D = Canvas.py;
-               this.C = this.B;
+               this.dyTran = Canvas.py;
+               this.timePointY = this.count;
             }
 
-            p = this.y + var2;
-            this.A = 0;
-            if (p < 0 || p > t) {
-               p = this.y + var2 / 2;
+            cmtoY = this.pa + var2;
+            this.vY = 0;
+            if (cmtoY < 0 || cmtoY > cmyLim) {
+               cmtoY = this.pa + var2 / 2;
             }
 
-            q = p;
+            cmy = cmtoY;
          }
 
          if (Canvas.isPointerRelease) {
-            this.z = false;
-            int var3 = this.B - this.C;
+            this.trans = false;
+            int var3 = this.count - this.timePointY;
             int var4;
-            if (CRes.abs(var4 = this.D - Canvas.py) > 40 && var3 < 10 && p > 0 && p < t) {
-               this.A = var4 / var3 * 10;
+            if (CRes.abs(var4 = this.dyTran - Canvas.py) > 40 && var3 < 10 && cmtoY > 0 && cmtoY < cmyLim) {
+               this.vY = var4 / var3 * 10;
             }
 
-            this.C = -1;
+            this.timePointY = -1;
             if (Math.abs(var2) < 10) {
-               p = this.y + var2;
+               cmtoY = this.pa + var2;
             }
          }
       }
 
       if (Canvas.keyHold[2]) {
-         p -= 14;
+         cmtoY -= 14;
          var1 = true;
       } else if (Canvas.keyHold[8]) {
          var1 = true;
-         p += 14;
+         cmtoY += 14;
       }
 
       if (var1) {
-         if (p < 0) {
-            p = 0;
+         if (cmtoY < 0) {
+            cmtoY = 0;
          }
 
-         if (p > t) {
-            p = t;
+         if (cmtoY > cmyLim) {
+            cmtoY = cmyLim;
          }
       }
 
-      if (this.A != 0) {
-         if (q < 0 || q > t) {
-            this.A -= this.A / 4;
-            q += this.A / 20;
-            if (this.A / 10 <= 1) {
-               this.A = 0;
+      if (this.vY != 0) {
+         if (cmy < 0 || cmy > cmyLim) {
+            this.vY -= this.vY / 4;
+            cmy += this.vY / 20;
+            if (this.vY / 10 <= 1) {
+               this.vY = 0;
             }
          }
 
-         if (q < 0) {
-            if (q < -this.f / 2) {
-               q = -this.f / 2;
-               p = 0;
-               this.A = 0;
+         if (cmy < 0) {
+            if (cmy < -this.h / 2) {
+               cmy = -this.h / 2;
+               cmtoY = 0;
+               this.vY = 0;
             }
-         } else if (q > t) {
-            if (q < t + this.f / 2) {
-               q = t + this.f / 2;
-               p = t;
-               this.A = 0;
+         } else if (cmy > cmyLim) {
+            if (cmy < cmyLim + this.h / 2) {
+               cmy = cmyLim + this.h / 2;
+               cmtoY = cmyLim;
+               this.vY = 0;
             }
          } else {
-            q += this.A / 10;
+            cmy += this.vY / 10;
          }
 
-         p = q;
-         this.A -= this.A / 10;
-         if (this.A / 10 == 0) {
-            this.A = 0;
+         cmtoY = cmy;
+         this.vY -= this.vY / 10;
+         if (this.vY / 10 == 0) {
+            this.vY = 0;
          }
-      } else if (q < 0) {
-         p = 0;
-      } else if (q > t) {
-         p = t;
+      } else if (cmy < 0) {
+         cmtoY = 0;
+      } else if (cmy > cmyLim) {
+         cmtoY = cmyLim;
       }
 
-      if (q != p) {
-         s = p - q << 2;
-         r += s;
-         q += r >> 4;
-         r &= 15;
+      if (cmy != cmtoY) {
+         cmvy = cmtoY - cmy << 2;
+         cmdy += cmvy;
+         cmy += cmdy >> 4;
+         cmdy &= 15;
       }
 
       super.updateKey();
@@ -382,16 +382,16 @@ public final class CustomTab extends Face {
 
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      Canvas.paint.a(var1, this.b, this.d, this.f, this.e, 0, 0, PaintPopup.gI().j, this.n, PaintPopup.o, 1, 1, PaintPopup.gI().n, PaintPopup.gI().m, this.j);
-      var1.setClip(this.b + 4, this.d + PaintPopup.o + 4 * AvMain.hd, this.e - 8, this.f - PaintPopup.o - 8 * AvMain.hd);
-      var1.translate(this.b + this.c, this.d + PaintPopup.o);
-      var1.translate(0, -q);
+      Canvas.paint.a(var1, this.x, this.d, this.h, this.w, 0, 0, PaintPopup.gI().j, this.wTab, PaintPopup.o, 1, 1, PaintPopup.gI().n, PaintPopup.gI().m, this.title);
+      var1.setClip(this.x + 4, this.d + PaintPopup.o + 4 * AvMain.hd, this.w - 8, this.h - PaintPopup.o - 8 * AvMain.hd);
+      var1.translate(this.x + this.c, this.d + PaintPopup.o);
+      var1.translate(0, -cmy);
       var1.setColor(0);
 
       int var2;
-      for(var2 = 0; var2 < this.g.size(); ++var2) {
+      for(var2 = 0; var2 < this.listLabel.size(); ++var2) {
          StringObj var3;
-         if ((var3 = (StringObj)this.g.elementAt(var2)).y > q - 10 && var3.y < q + this.f) {
+         if ((var3 = (StringObj)this.listLabel.elementAt(var2)).y > cmy - 10 && var3.y < cmy + this.h) {
             int var4;
             if (var3.a.length() > 2 && var3.a.substring(0, 1).equals("¶")) {
                var4 = Integer.parseInt(var3.a.substring(1, var3.a.length()), 16);
@@ -399,29 +399,29 @@ public final class CustomTab extends Face {
             } else {
                var4 = var3.x;
                if (var3.e == 2) {
-                  var4 += (this.e - 30) / 2 + 4;
+                  var4 += (this.w - 30) / 2 + 4;
                } else if (var3.e == 1) {
-                  var4 += this.e - 30 + 10;
+                  var4 += this.w - 30 + 10;
                }
 
                if (var3.a.length() > 2 && var3.a.substring(0, 1).equals("Ę")) {
-                  Canvas.N.a(var1, var3.a.substring(1, var3.a.length()), var4, var3.y, var3.e);
+                  Canvas.fontChatB.drawString(var1, var3.a.substring(1, var3.a.length()), var4, var3.y, var3.e);
                } else if (var3.a.length() > 1 && var3.a.substring(0, 1).equals("0")) {
                   var1.setColor(8654855);
                   int var5 = Canvas.M.getWidth(var3.a.substring(1) + "") + 20;
-                  var1.fillRect(var4 - var5 / 2, var3.y + AvMain.ah / 2 - AvMain.ai / 2 - 1, var5, Canvas.M.a());
-                  Canvas.M.a(var1, var3.a.substring(1) + "", var4, var3.y + AvMain.ah / 2 - AvMain.af / 2, var3.e);
+                  var1.fillRect(var4 - var5 / 2, var3.y + AvMain.ah / 2 - AvMain.ai / 2 - 1, var5, Canvas.M.getHeight());
+                  Canvas.M.drawString(var1, var3.a.substring(1) + "", var4, var3.y + AvMain.ah / 2 - AvMain.af / 2, var3.e);
                } else {
-                  Canvas.K.a(var1, var3.a, var4, var3.y, var3.e);
+                  Canvas.normalFont.drawString(var1, var3.a, var4, var3.y, var3.e);
                }
             }
          }
       }
 
-      for(var2 = 0; var2 < this.h.size(); ++var2) {
+      for(var2 = 0; var2 < this.listPic.size(); ++var2) {
          PictureObj var6;
-         if ((var6 = (PictureObj)this.h.elementAt(var2)).b + var6.e > q && var6.b < q + this.f) {
-            var1.drawImage((Image)this.i.get(String.valueOf(var6.d)), var6.a * ((this.e - (this.c << 1)) / 2), var6.b, var6.c);
+         if ((var6 = (PictureObj)this.listPic.elementAt(var2)).b + var6.e > cmy && var6.b < cmy + this.h) {
+            var1.drawImage((Image)this.listImg.get(String.valueOf(var6.d)), var6.a * ((this.w - (this.c << 1)) / 2), var6.b, var6.c);
          }
       }
 

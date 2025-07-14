@@ -50,11 +50,11 @@ public final class RoomListOnScr extends MyScreen {
       switch (var1) {
          case 1:
             Canvas.startWaitDlg();
-            CasinoService.gI().c();
+            CasinoService.gI().joinAnyBoard();
             return;
          case 2:
             Canvas.startWaitDlg();
-            CasinoService.gI().b();
+            CasinoService.gI().requestRoomList();
             return;
          case 3:
             Canvas.startWaitDlg();
@@ -74,13 +74,13 @@ public final class RoomListOnScr extends MyScreen {
             }
 
             var3.addElement(new Command(T.am, 3));
-            MenuSub.a().a(var3, 0);
+            MenuSub.gI().startAt(var3, 0);
             return;
          case 1:
             this.f();
             return;
          case 2:
-            GlobalService.gI().d((int)9);
+            GlobalService.gI().getHandler((int)9);
             Canvas.startWaitDlg();
             return;
          case 3:
@@ -97,7 +97,7 @@ public final class RoomListOnScr extends MyScreen {
       super.right = this.h;
    }
 
-   public static void a(int var0, BoardScr var1) {
+   public static void setName(int var0, BoardScr var1) {
       if (!OnScreen.b) {
          c = T.ek[var0];
       } else {
@@ -138,7 +138,7 @@ public final class RoomListOnScr extends MyScreen {
    private void f() {
       byte var1;
       if ((var1 = ((RoomInfo)this.d.elementAt(this.e)).a) != -1) {
-         CasinoService.gI().a(var1);
+         CasinoService.gI().requestBoardList(var1);
          Canvas.startWaitDlg();
       }
    }
@@ -161,10 +161,10 @@ public final class RoomListOnScr extends MyScreen {
          Canvas.paint.e(var0, Canvas.hw - 100 * AvMain.hd, 5 * AvMain.hd - CameraList.cmtoY, 200 * AvMain.hd, 44 * AvMain.hd);
          FontX var2 = Canvas.O;
          if (Canvas.stypeInt == 0) {
-            var2 = Canvas.L;
+            var2 = Canvas.borderFont;
          }
 
-         var2.a(var0, var1, Canvas.hw, 5 * AvMain.hd - CameraList.cmtoY + 22 * AvMain.hd - var2.a() / 2, 2);
+         var2.drawString(var0, var1, Canvas.hw, 5 * AvMain.hd - CameraList.cmtoY + 22 * AvMain.hd - var2.getHeight() / 2, 2);
       }
 
    }

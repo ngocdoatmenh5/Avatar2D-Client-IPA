@@ -12,7 +12,7 @@ public final class BoardListOnScr extends MyScreen {
    public static byte b = 0;
    public static byte c = 1;
    public static byte d = 2;
-   public static byte e;
+   public static byte type;
    public static FrameImage f;
    private static Image k;
    private static Image l;
@@ -29,7 +29,7 @@ public final class BoardListOnScr extends MyScreen {
    int j;
 
    static {
-      e = c;
+      type = c;
    }
 
    public static BoardListOnScr gI() {
@@ -40,7 +40,7 @@ public final class BoardListOnScr extends MyScreen {
       OnScreen.f();
       MyScreen.repaint();
       super.ar = 0;
-      Canvas.paint.b(e);
+      Canvas.paint.b(type);
       if (k == null) {
          try {
             k = Image.createImage(T.a() + "/on/imgkhungsoban.on");
@@ -109,7 +109,7 @@ public final class BoardListOnScr extends MyScreen {
                gI().setXeng();
             } else {
                if (!var4.d) {
-                  CasinoService.gI().a(this.h, var4.a, "");
+                  CasinoService.gI().joinBoard(this.h, var4.a, "");
                   Canvas.startWaitDlg();
                   return;
                }
@@ -128,7 +128,7 @@ public final class BoardListOnScr extends MyScreen {
             return;
          case 5:
             Canvas.startWaitDlg();
-            CasinoService.gI().c();
+            CasinoService.gI().joinAnyBoard();
             return;
          case 6:
             Vector var3;
@@ -136,7 +136,7 @@ public final class BoardListOnScr extends MyScreen {
             var3.addElement(new Command("Đến bàn", 6));
             var3.addElement(MapScr.gI().f);
             var3.addElement(new Command(T.am, 7));
-            MenuSub.a().a(var3, 0);
+            MenuSub.gI().startAt(var3, 0);
       }
 
    }
@@ -145,7 +145,7 @@ public final class BoardListOnScr extends MyScreen {
       switch (var1) {
          case 1:
             Canvas.startWaitDlg(T.b);
-            CasinoService.gI().a(this.h);
+            CasinoService.gI().requestBoardList(this.h);
             return;
          case 3:
             Canvas.startWaitDlg();
@@ -156,7 +156,7 @@ public final class BoardListOnScr extends MyScreen {
             return;
          case 5:
             Canvas.startWaitDlg();
-            CasinoService.gI().c();
+            CasinoService.gI().joinAnyBoard();
             return;
          case 6:
             this.h();
@@ -178,12 +178,12 @@ public final class BoardListOnScr extends MyScreen {
    }
 
    public final void setXeng() {
-      Canvas.a("Hiện tại bạn không đủ Xèng để tham gia màn chơi, bạn có muốn nạp thêm Xèng không?", (IAction)(new IActionXeng(this)));
+      Canvas.startOKDlg("Hiện tại bạn không đủ Xèng để tham gia màn chơi, bạn có muốn nạp thêm Xèng không?", (IAction)(new IActionXeng(this)));
    }
 
    private static void i() {
       Canvas.cameraList.isShow = false;
-      CasinoService.gI().b();
+      CasinoService.gI().requestRoomList();
       Canvas.startWaitDlg();
    }
 
@@ -218,14 +218,14 @@ public final class BoardListOnScr extends MyScreen {
 
          f.drawFrame(var6.b, var4, var5, 0, 3, var1);
          var1.drawImage(k, var4 - this.r / 4, var5 - 30 * AvMain.hd, 3);
-         Canvas.smallFontYellow.a(var1, "" + var6.a, var4 - this.r / 4, var5 - 30 * AvMain.hd - AvMain.ai / 2, 2);
+         Canvas.smallFontYellow.drawString(var1, "" + var6.a, var4 - this.r / 4, var5 - 30 * AvMain.hd - AvMain.ai / 2, 2);
          if (var6.f > 0) {
-            Canvas.smallFontYellow.a(var1, var6.g, var4, var5 - 30 * AvMain.hd - AvMain.ai / 2, 2);
+            Canvas.smallFontYellow.drawString(var1, var6.g, var4, var5 - 30 * AvMain.hd - AvMain.ai / 2, 2);
          }
 
-         if (e == c && var6.c < 4) {
+         if (type == c && var6.c < 4) {
             var1.drawImage(l, var4 + this.r / 4, var5 - 30 * AvMain.hd, 3);
-            Canvas.smallFontRed.a(var1, "" + var6.c, var4 + this.r / 4, var5 - 30 * AvMain.hd - AvMain.ai / 2, 2);
+            Canvas.smallFontRed.drawString(var1, "" + var6.c, var4 + this.r / 4, var5 - 30 * AvMain.hd - AvMain.ai / 2, 2);
          }
 
          if (var6.e) {
@@ -269,7 +269,7 @@ public final class BoardListOnScr extends MyScreen {
 
    public final void a(int var1, boolean var2) {
       if (var2 && super.ar == var1 && this.s != null) {
-         this.s.b();
+         this.s.perform();
       }
 
       if (var1 >= 0 && var1 < this.g.size()) {

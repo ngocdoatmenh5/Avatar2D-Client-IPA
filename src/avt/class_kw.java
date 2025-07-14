@@ -11,6 +11,6 @@ final class class_kw implements IAction {
 
    public final void perform() {
       PopupShop.b().close();
-      DialLuckyScr.b().a(Canvas.currentMyScreen, this.a);
+      DialLuckyScr.gI().switchToMe(Canvas.currentMyScreen, this.a);
    }
 }

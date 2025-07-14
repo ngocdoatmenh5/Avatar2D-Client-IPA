@@ -52,15 +52,15 @@ public final class InputDlg extends Dialog {
       this.d = null;
       this.e = Canvas.w - 40;
       this.f = 70 * AvMain.hd;
-      if (Canvas.K.getWidth(var1) + 20 < this.e) {
-         this.e = Canvas.K.getWidth(var1) + 20;
+      if (Canvas.normalFont.getWidth(var1) + 20 < this.e) {
+         this.e = Canvas.normalFont.getWidth(var1) + 20;
       }
 
       if (this.e < Canvas.w / 2) {
          this.e = Canvas.w / 2;
       }
 
-      this.a = Canvas.K.a(var1, this.e - 20);
+      this.a = Canvas.normalFont.splitFontBStrInLine(var1, this.e - 20);
       this.b = new TField();
       this.b.e = false;
       this.b.c = this.e - 10;
@@ -90,11 +90,11 @@ public final class InputDlg extends Dialog {
       int var3 = 0;
 
       for(var2 = var2; var3 < this.a.length; var2 += AvMain.ah) {
-         Canvas.K.a(var1, this.a[var3], Canvas.hw, var2, 2);
+         Canvas.normalFont.drawString(var1, this.a[var3], Canvas.hw, var2, 2);
          ++var3;
       }
 
-      this.b.a(var1);
+      this.b.paint(var1);
       if (OnScreen.b) {
          Canvas.resetTrans(var1);
          Canvas.paint.c(var1);

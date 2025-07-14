@@ -49,7 +49,7 @@ public class GameMidlet extends MIDlet {
          AvatarData.d();
       }
 
-      InputStream var9 = CRes.c("/agent.txt");
+      InputStream var9 = CRes.getResourceAsStream("/agent.txt");
       StringBuffer var6 = new StringBuffer();
 
       try {

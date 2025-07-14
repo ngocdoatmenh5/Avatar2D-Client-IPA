@@ -27,11 +27,11 @@ final class class_eh implements IAction {
          }
       }
 
-      if (PopupShop.j < var1.size()) {
+      if (PopupShop.focus < var1.size()) {
          SeriPart var5;
          Part var6;
-         if (!AvatarData.isZOrderMain((int)(var6 = AvatarData.getPart((var5 = (SeriPart)var1.elementAt(PopupShop.j)).idPart)).zOrder) || this.c == 1) {
-            Canvas.a(T.cp, (IAction)(new class_eg(this, var6, this.c, var1, this.b, var5, this.d)));
+         if (!AvatarData.isZOrderMain((int)(var6 = AvatarData.getPart((var5 = (SeriPart)var1.elementAt(PopupShop.focus)).idPart)).zOrder) || this.c == 1) {
+            Canvas.startOKDlg(T.cp, (IAction)(new class_eg(this, var6, this.c, var1, this.b, var5, this.d)));
          }
 
       }

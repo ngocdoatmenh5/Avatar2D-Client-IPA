@@ -5,13 +5,13 @@ import main.Canvas;
 
 public abstract class Effect {
    public boolean isStop = false;
-   public short c = -1;
+   public short IDAction = -1;
 
    public abstract void updateWind();
 
    public abstract void paint(Graphics var1);
 
-   public final void c() {
+   public final void show() {
       Canvas.currentEffect.addElement(this);
    }
 

@@ -18,13 +18,13 @@ public interface IPaint {
 
    void b();
 
-   void a(Graphics var1, Card var2);
+   void paintHalf(Graphics var1, Card var2);
 
-   void b(Graphics var1, Card var2);
+   void paintHalfBackFull(Graphics var1, Card var2);
 
-   void c(Graphics var1, Card var2);
+   void paintFull(Graphics var1, Card var2);
 
-   void a(Graphics var1, Card var2, boolean var3);
+   void paintSmall(Graphics var1, Card var2, boolean var3);
 
    void a(Graphics var1);
 

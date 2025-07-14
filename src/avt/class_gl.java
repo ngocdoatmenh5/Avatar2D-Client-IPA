@@ -10,7 +10,7 @@ final class class_gl extends Command {
       this.f = var5;
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
+   public final void paint(Graphics var1, int var2, int var3) {
       LoadMap.c.drawFrame(this.f, var2 + 1, var3 + 1, 0, 3, var1);
    }
 }

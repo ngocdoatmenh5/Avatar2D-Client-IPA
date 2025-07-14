@@ -62,8 +62,8 @@ public final class HouseScr extends MyScreen implements IChatable {
       this.l = new Command(T.cy, 1);
       this.m = new Command(T.c, 2);
       FilePack.b(T.av);
-      this.v = FilePack.a("hand");
-      FilePack.a();
+      this.v = FilePack.getImage("hand");
+      FilePack.reset();
    }
 
    private void i() {
@@ -112,14 +112,14 @@ public final class HouseScr extends MyScreen implements IChatable {
    private static void o() {
       Vector var0 = new Vector();
 
-      for(int var1 = 0; var1 < LoadMap.m.size(); ++var1) {
+      for(int var1 = 0; var1 < LoadMap.playerLists.size(); ++var1) {
          Base var2;
-         if ((var2 = (Base)LoadMap.m.elementAt(var1)).catagory == 0 && var2.IDDB != GameMidlet.avatar.IDDB) {
+         if ((var2 = (Base)LoadMap.playerLists.elementAt(var1)).catagory == 0 && var2.IDDB != GameMidlet.avatar.IDDB) {
             var0.addElement(new Command(var2.name, 16, var1));
          }
       }
 
-      MenuSub.a().a(var0, 0);
+      MenuSub.gI().startAt(var0, 0);
    }
 
    private void p() {
@@ -145,7 +145,7 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
 
       if (var4.size() > 0) {
-         MenuSub.a().a(var4, Canvas.hw, 27 * AvMain.hd, 27 * AvMain.hd);
+         MenuSub.gI().a(var4, Canvas.hw, 27 * AvMain.hd, 27 * AvMain.hd);
       }
 
    }
@@ -185,7 +185,7 @@ public final class HouseScr extends MyScreen implements IChatable {
          }
       }
 
-      MenuSub.a().a(var1, 2);
+      MenuSub.gI().startAt(var1, 2);
    }
 
    private void b(String var1) {
@@ -203,7 +203,7 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
 
       if (var2.size() > 0) {
-         MenuSub.a().a(var2, Canvas.hw, 90, 90);
+         MenuSub.gI().a(var2, Canvas.hw, 90, 90);
          MenuSub.g = new class_gj(this);
       }
 
@@ -258,9 +258,9 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
 
       this.o.addElement(var1);
-      LoadMap.l.addElement(var1);
+      LoadMap.treeLists.addElement(var1);
       this.c(var1);
-      LoadMap.a(LoadMap.l);
+      LoadMap.a(LoadMap.treeLists);
    }
 
    public final void updateKey() {
@@ -318,7 +318,7 @@ public final class HouseScr extends MyScreen implements IChatable {
             int var3 = (AvCamera.gI().xCam + Canvas.px) / (LoadMap.i * AvMain.hd);
             int var2 = (AvCamera.gI().yCam + Canvas.py) / (LoadMap.i * AvMain.hd);
             if (var3 == this.h && var2 == this.i && super.center != null) {
-               super.center.b();
+               super.center.perform();
             }
 
             this.h = var3;
@@ -334,7 +334,7 @@ public final class HouseScr extends MyScreen implements IChatable {
                MapItem var4;
                (var4 = (MapItem)this.o.elementAt(this.d)).x = this.h * 24;
                var4.y = this.i * 24;
-               LoadMap.a(LoadMap.l);
+               LoadMap.a(LoadMap.treeLists);
             }
          }
 
@@ -342,7 +342,7 @@ public final class HouseScr extends MyScreen implements IChatable {
    }
 
    private static boolean b(int var0, int var1) {
-      return LoadMap.map[var1 * LoadMap.wMap + var0] == LoadMap.c.c - 2 || LoadMap.map[var1 * LoadMap.wMap + var0] == -1;
+      return LoadMap.map[var1 * LoadMap.wMap + var0] == LoadMap.c.nFrame - 2 || LoadMap.map[var1 * LoadMap.wMap + var0] == -1;
    }
 
    public final void update() {
@@ -406,7 +406,7 @@ public final class HouseScr extends MyScreen implements IChatable {
       if (e) {
          if (b && this.j != -1) {
             MapItemType var5 = (MapItemType)AvatarData.listMapItemType.elementAt(this.j);
-            AvatarData.a(var1, var5.imgID, (this.h * 24 + var5.dx) * AvMain.hd, (this.i * 24 + var5.dy) * AvMain.hd, 0);
+            AvatarData.paintImg(var1, var5.imgID, (this.h * 24 + var5.dx) * AvMain.hd, (this.i * 24 + var5.dy) * AvMain.hd, 0);
          }
 
          if (Canvas.menuMain == null) {
@@ -414,7 +414,7 @@ public final class HouseScr extends MyScreen implements IChatable {
          }
 
          if (this.p != -1) {
-            Canvas.L.a(var1, this.r[this.j].a + "(" + Canvas.getPriceMoney(this.r[this.j].b, this.r[this.j].c, true) + ")", (this.h * 24 + 12) * AvMain.hd, (this.i * 24 - 40) * AvMain.hd, 2);
+            Canvas.borderFont.drawString(var1, this.r[this.j].a + "(" + Canvas.getPriceMoney(this.r[this.j].b, this.r[this.j].c, true) + ")", (this.h * 24 + 12) * AvMain.hd, (this.i * 24 - 40) * AvMain.hd, 2);
          }
 
          ++this.C;
@@ -530,11 +530,11 @@ public final class HouseScr extends MyScreen implements IChatable {
 
       for(var8 = 0; var8 < var10.size(); ++var8) {
          MapItem var15 = (MapItem)var10.elementAt(var8);
-         LoadMap.l.addElement(var15);
+         LoadMap.treeLists.addElement(var15);
          var9.c(var15);
       }
 
-      LoadMap.a(LoadMap.l);
+      LoadMap.a(LoadMap.treeLists);
       this.switchToMe();
       Canvas.endDlg();
    }
@@ -562,7 +562,7 @@ public final class HouseScr extends MyScreen implements IChatable {
             n = var1.readShort();
             byte[] var2 = new byte[var1.available()];
             var1.read(var2);
-            this.u.img = CRes.a(var2);
+            this.u.img = CRes.createImage(var2);
             var1.close();
          } catch (Exception var3) {
             var3.printStackTrace();
@@ -574,7 +574,7 @@ public final class HouseScr extends MyScreen implements IChatable {
 
    public final void a(byte[] var1, int var2) {
       n = (short)var2;
-      this.u.img = CRes.a(var1);
+      this.u.img = CRes.createImage(var1);
       ByteArrayOutputStream var3 = new ByteArrayOutputStream();
       DataOutputStream var4 = new DataOutputStream(var3);
 
@@ -650,8 +650,8 @@ public final class HouseScr extends MyScreen implements IChatable {
                var7.addElement(new Command(T.cT, 2));
                var1 = 0;
 
-               for(var3 = 0; var3 < LoadMap.m.size(); ++var3) {
-                  if (((MyObject)LoadMap.m.elementAt(var3)).catagory == 0) {
+               for(var3 = 0; var3 < LoadMap.playerLists.size(); ++var3) {
+                  if (((MyObject)LoadMap.playerLists.elementAt(var3)).catagory == 0) {
                      ++var1;
                   }
                }
@@ -664,16 +664,16 @@ public final class HouseScr extends MyScreen implements IChatable {
             }
 
             var7.addElement(new Command(T.x, 5));
-            MenuSub.a().a(var7, 0);
+            MenuSub.gI().startAt(var7, 0);
             return;
          case 3:
             (var7 = new Vector()).addElement(new Command(T.cY, 11));
             var7.addElement(new Command(T.cZ, 12));
             var7.addElement(new Command(T.bg, 13));
-            MenuSub.a().a(var7, 2);
-            MenuSub var10000 = MenuSub.a();
-            int var10001 = this.h * 24 * AvMain.hd - AvCamera.gI().xCam - MenuSub.a().c / 2 + 12;
-            int var4 = this.i * 24 * AvMain.hd - AvCamera.gI().yCam - MenuSub.a().d - 12;
+            MenuSub.gI().startAt(var7, 2);
+            MenuSub var10000 = MenuSub.gI();
+            int var10001 = this.h * 24 * AvMain.hd - AvCamera.gI().xCam - MenuSub.gI().c / 2 + 12;
+            int var4 = this.i * 24 * AvMain.hd - AvCamera.gI().yCam - MenuSub.gI().d - 12;
             var3 = var10001;
             MenuSub var5 = var10000;
             var10000.a = var3;
@@ -791,7 +791,7 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
 
       var1 = var10000;
-      LoadMap.l.removeElement(var1);
+      LoadMap.treeLists.removeElement(var1);
       this.o.removeElement(var1);
       this.e(var1);
       ParkMsgHandler.a();
@@ -881,7 +881,7 @@ public final class HouseScr extends MyScreen implements IChatable {
    public final void e() {
       if (ListScr.d == null) {
          Canvas.startWaitDlg();
-         CasinoService.gI().d();
+         CasinoService.gI().requestFriendList();
          ListScr.e = 2;
       } else if (ListScr.f) {
          ListScr.f = false;
@@ -944,7 +944,7 @@ public final class HouseScr extends MyScreen implements IChatable {
                var10.addElement(new Command(T.cW, 8));
             }
 
-            MenuSub.a().a(var10, 2);
+            MenuSub.gI().startAt(var10, 2);
             return;
          case 3:
             o();
@@ -1018,7 +1018,7 @@ public final class HouseScr extends MyScreen implements IChatable {
             return;
          case 13:
             if (var3 != -1 && var5.typeID != this.z) {
-               Canvas.a(T.da, (IAction)(new class_fw(this, var5)));
+               Canvas.startOKDlg(T.da, (IAction)(new class_fw(this, var5)));
                return;
             }
 
@@ -1044,8 +1044,8 @@ public final class HouseScr extends MyScreen implements IChatable {
             InputFace.b().left = new Command(T.d, 8);
             return;
          case 16:
-            if (var2 < LoadMap.m.size()) {
-               Base var6 = (Base)LoadMap.m.elementAt(var2);
+            if (var2 < LoadMap.playerLists.size()) {
+               Base var6 = (Base)LoadMap.playerLists.elementAt(var2);
                AvatarService.gI().doKickOutHome(var6.IDDB);
                return;
             }
@@ -1120,7 +1120,7 @@ public final class HouseScr extends MyScreen implements IChatable {
          Canvas.startOKDlg(var2);
       } else {
          int var3 = PopupShop.g;
-         int var5 = PopupShop.j;
+         int var5 = PopupShop.focus;
          SeriPart var4;
          if (var3 == 0) {
             var4 = (SeriPart)this.E.elementAt(var5);
@@ -1139,7 +1139,7 @@ public final class HouseScr extends MyScreen implements IChatable {
 
    public final void h() {
       int var1 = PopupShop.g;
-      int var2 = PopupShop.j;
+      int var2 = PopupShop.focus;
       PopupShop.b().close();
       this.a(this.E, this.D, this.F, this.G);
       PopupShop.g = var1;
@@ -1148,9 +1148,9 @@ public final class HouseScr extends MyScreen implements IChatable {
          var2 = 0;
       }
 
-      PopupShop.j = var2;
+      PopupShop.focus = var2;
       PopupShop.b().m();
-      Canvas.cameraList.setSelect(PopupShop.j);
+      Canvas.cameraList.setSelect(PopupShop.focus);
    }
 
    public final void a(byte var1, String var2, String[] var3, short[] var4, short[] var5, String[] var6, String[] var7, int[] var8, short[] var9) {

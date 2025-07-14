@@ -9,22 +9,22 @@ import javax.microedition.rms.RecordStoreException;
 import main.GameMidlet;
 
 public final class CRes {
-   public static Random a = new Random();
-   private static short[] c = new short[]{0, 18, 36, 54, 71, 89, 107, 125, 143, 160, 178, 195, 213, 230, 248, 265, 282, 299, 316, 333, 350, 367, 384, 400, 416, 433, 449, 465, 481, 496, 512, 527, 543, 558, 573, 587, 602, 616, 630, 644, 658, 672, 685, 698, 711, 724, 737, 749, 761, 773, 784, 796, 807, 818, 828, 839, 849, 859, 868, 878, 887, 896, 904, 912, 920, 928, 935, 943, 949, 956, 962, 968, 974, 979, 984, 989, 994, 998, 1002, 1005, 1008, 1011, 1014, 1016, 1018, 1020, 1022, 1023, 1023, 1024, 1024};
-   private static short[] d;
-   private static int[] e;
+   public static Random random = new Random();
+   private static short[] sinn = new short[]{0, 18, 36, 54, 71, 89, 107, 125, 143, 160, 178, 195, 213, 230, 248, 265, 282, 299, 316, 333, 350, 367, 384, 400, 416, 433, 449, 465, 481, 496, 512, 527, 543, 558, 573, 587, 602, 616, 630, 644, 658, 672, 685, 698, 711, 724, 737, 749, 761, 773, 784, 796, 807, 818, 828, 839, 849, 859, 868, 878, 887, 896, 904, 912, 920, 928, 935, 943, 949, 956, 962, 968, 974, 979, 984, 989, 994, 998, 1002, 1005, 1008, 1011, 1014, 1016, 1018, 1020, 1022, 1023, 1023, 1024, 1024};
+   private static short[] coss;
+   private static int[] tann;
    public static String b;
 
-   public static void a() {
-      d = new short[91];
-      e = new int[91];
+   public static void init() {
+      coss = new short[91];
+      tann = new int[91];
 
       for(int var0 = 0; var0 <= 90; ++var0) {
-         d[var0] = c[90 - var0];
-         if (d[var0] == 0) {
-            e[var0] = Integer.MAX_VALUE;
+         coss[var0] = sinn[90 - var0];
+         if (coss[var0] == 0) {
+            tann[var0] = Integer.MAX_VALUE;
          } else {
-            e[var0] = (c[var0] << 10) / d[var0];
+            tann[var0] = (sinn[var0] << 10) / coss[var0];
          }
       }
 
@@ -32,25 +32,25 @@ public final class CRes {
 
    public static final int sin(int var0) {
       if ((var0 = fixangle(var0)) >= 0 && var0 < 90) {
-         return c[var0];
+         return sinn[var0];
       } else if (var0 >= 90 && var0 < 180) {
-         return c[180 - var0];
+         return sinn[180 - var0];
       } else {
-         return var0 >= 180 && var0 < 270 ? -c[var0 - 180] : -c[360 - var0];
+         return var0 >= 180 && var0 < 270 ? -sinn[var0 - 180] : -sinn[360 - var0];
       }
    }
 
    public static final int cos(int var0) {
       if ((var0 = fixangle(var0)) >= 0 && var0 < 90) {
-         return d[var0];
+         return coss[var0];
       } else if (var0 >= 90 && var0 < 180) {
-         return -d[180 - var0];
+         return -coss[180 - var0];
       } else {
-         return var0 >= 180 && var0 < 270 ? -d[var0 - 180] : d[360 - var0];
+         return var0 >= 180 && var0 < 270 ? -coss[var0 - 180] : coss[360 - var0];
       }
    }
 
-   public static final int a(int var0, int var1) {
+   public static final int tan(int var0, int var1) {
       int var10000;
       int var2;
       if (var0 != 0) {
@@ -58,7 +58,7 @@ public final class CRes {
 
          label44: {
             for(int var3 = 0; var3 <= 90; ++var3) {
-               if (e[var3] >= var2) {
+               if (tann[var3] >= var2) {
                   var10000 = var3;
                   break label44;
                }
@@ -101,16 +101,16 @@ public final class CRes {
       return var0;
    }
 
-   public static int d(int var0) {
-      return a.nextInt() % 2;
+   public static int random(int var0) {
+      return random.nextInt() % 2;
    }
 
    public static int rnd(int var0) {
-      return a.nextInt(var0);
+      return random.nextInt(var0);
    }
 
    public static int rnd(int var0, int var1) {
-      return a.nextInt(2) == 0 ? var0 : var1;
+      return random.nextInt(2) == 0 ? var0 : var1;
    }
 
    public static int abs(int var0) {
@@ -123,7 +123,7 @@ public final class CRes {
       MapScr.j = b(b);
    }
 
-   public static int a(int var0, int var1, int var2, int var3) {
+   public static int distance(int var0, int var1, int var2, int var3) {
       if ((var0 = (var0 - var2) * (var0 - var2) + (var1 - var3) * (var1 - var3)) <= 0) {
          return 0;
       } else {
@@ -194,39 +194,39 @@ public final class CRes {
       }
    }
 
-   public static Image a(int var0, int var1, int var2, int var3, Image var4) {
+   public static Image createRGBImage(int var0, int var1, int var2, int var3, Image var4) {
       int[] var5 = new int[var2 * var3];
       var4.getRGB(var5, 0, var2, var0, var1, var2, var3);
       return Image.createRGBImage(var5, var2, var3, true);
    }
 
-   public static Image a(byte[] var0) {
+   public static Image createImage(byte[] var0) {
       return Image.createImage(var0, 0, var0.length);
    }
 
    public static void c() {
       LoginScr.s = 1;
 
-      for(int var0 = 0; var0 < FarmScr.b().K.size(); ++var0) {
-         Command var1 = (Command)FarmScr.b().K.elementAt(var0);
+      for(int var0 = 0; var0 < FarmScr.gI().K.size(); ++var0) {
+         Command var1 = (Command)FarmScr.gI().K.elementAt(var0);
          LoginScr.s += var1.caption.hashCode();
       }
 
       LoginScr.gI().g();
    }
 
-   public static Image a(byte[] var0, byte[] var1) {
+   public static Image createImage(byte[] var0, byte[] var1) {
       byte[] var2 = new byte[var0.length + var1.length];
       System.arraycopy(var0, 0, var2, 0, var0.length);
       System.arraycopy(var1, 0, var2, var0.length, var1.length);
       return Image.createImage(var2, 0, var2.length);
    }
 
-   public static InputStream c(String var0) {
+   public static InputStream getResourceAsStream(String var0) {
       return "".getClass().getResourceAsStream(var0);
    }
 
-   public static Image a(Image var0, int var1) {
+   public static Image createRGBImage(Image var0, int var1) {
       int var2 = var0.getWidth();
       int var3 = var0.getHeight();
       int[] var4 = new int[var2 * var3];

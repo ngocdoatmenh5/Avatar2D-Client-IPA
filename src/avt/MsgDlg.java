@@ -32,7 +32,7 @@ public final class MsgDlg extends Dialog {
    }
 
    public final void setInfoC(String var1, Command var2, Vector var3) {
-      if (ChatTextField.c) {
+      if (ChatTextField.isShow) {
          ChatTextField.gI().a();
       }
 
@@ -46,17 +46,17 @@ public final class MsgDlg extends Dialog {
          Command var4 = (Command)var3.elementAt(this.f);
          super.center = var4;
          if (var4 != null) {
-            super.center.b = var4.b;
-            super.center.c = var4.c;
-            super.center.d = var4.d;
+            super.center.action = var4.action;
+            super.center.indexMenu = var4.indexMenu;
+            super.center.pointer = var4.pointer;
          }
 
          this.u = 0;
 
          for(int var5 = 0; var5 < var3.size(); ++var5) {
             var2 = (Command)var3.elementAt(var5);
-            if (Canvas.K.getWidth(var2.caption) > this.u) {
-               this.u = Canvas.K.getWidth(var2.caption) + (Canvas.isKeyBoard ? this.g / 3 : 0);
+            if (Canvas.normalFont.getWidth(var2.caption) > this.u) {
+               this.u = Canvas.normalFont.getWidth(var2.caption) + (Canvas.isKeyBoard ? this.g / 3 : 0);
             }
          }
       } else {
@@ -87,7 +87,7 @@ public final class MsgDlg extends Dialog {
          this.g = Canvas.hw;
       }
 
-      this.c = Canvas.M.b(this.d, this.g - 16);
+      this.c = Canvas.M.splitFontBStrInLineV(this.d, this.g - 16);
       this.h = this.c.size() * this.m + 20;
       this.n = 0;
       if (super.center != null) {
@@ -100,7 +100,7 @@ public final class MsgDlg extends Dialog {
       }
 
       this.i = Canvas.hw - this.g / 2;
-      this.j = Canvas.q - Canvas.hTab - this.h - 10;
+      this.j = Canvas.hCan - Canvas.hTab - this.h - 10;
    }
 
    public final void setIsWaiting(boolean var1) {
@@ -116,7 +116,7 @@ public final class MsgDlg extends Dialog {
          this.h = var2;
       }
 
-      this.j = Canvas.q - Canvas.hTab - this.h - 10;
+      this.j = Canvas.hCan - Canvas.hTab - this.h - 10;
       this.s = (long) Canvas.getSecond();
    }
 
@@ -134,16 +134,16 @@ public final class MsgDlg extends Dialog {
 
          if (this.l > 0) {
             Command var2 = (Command)this.e.elementAt(this.f);
-            Canvas.K.a(var1, var2.caption, Canvas.hw, this.j + this.h - (this.q + 15 * AvMain.hd - 4) + this.q / 2 - AvMain.ah / 2, 2);
+            Canvas.normalFont.drawString(var1, var2.caption, Canvas.hw, this.j + this.h - (this.q + 15 * AvMain.hd - 4) + this.q / 2 - AvMain.ah / 2, 2);
             if (this.l > 1) {
                Canvas.paint.b(var1, Canvas.hw - this.u / 2 - 11, (Canvas.stypeInt != 2 ? AvMain.ah / 2 : 0) + this.j + this.h - (this.q + 15 * AvMain.hd - 4) + MyScreen.av / 2 + 1 + (Canvas.stypeInt == 1 ? -7 : 0) + (Canvas.stypeInt == 0 ? -3 : 0), 17 + this.u, this.o / 3, this.p / 3);
             }
          } else if (super.center != null) {
-            Canvas.K.a(var1, super.center.caption, Canvas.hw, this.j + this.h - (this.q + 15 * AvMain.hd - 4) + this.q / 2 - AvMain.ah / 2, 2);
+            Canvas.normalFont.drawString(var1, super.center.caption, Canvas.hw, this.j + this.h - (this.q + 15 * AvMain.hd - 4) + this.q / 2 - AvMain.ah / 2, 2);
          }
 
          for(int var3 = 0; var3 < this.c.size(); ++var3) {
-            Canvas.M.a(var1, (String)this.c.elementAt(var3), Canvas.hw, this.j + 4 + (this.h - this.n) / 2 - this.c.size() * AvMain.af / 2 + var3 * AvMain.af, 2);
+            Canvas.M.drawString(var1, (String)this.c.elementAt(var3), Canvas.hw, this.j + 4 + (this.h - this.n) / 2 - this.c.size() * AvMain.af / 2 + var3 * AvMain.af, 2);
          }
 
       }
@@ -224,17 +224,17 @@ public final class MsgDlg extends Dialog {
             int var3 = 0;
             if (this.e != null && this.e.size() > 0) {
                Command var4 = (Command)this.e.elementAt(this.f);
-               var3 = Canvas.K.getWidth(var4.caption) + 20;
+               var3 = Canvas.normalFont.getWidth(var4.caption) + 20;
             } else if (super.center != null) {
-               var3 = Canvas.K.getWidth(super.center.caption) + 20;
+               var3 = Canvas.normalFont.getWidth(super.center.caption) + 20;
             }
 
             var3 *= AvMain.hd;
-            if (super.center != null && Canvas.a(Canvas.hw - var3 / 2, this.j + this.h - (this.q + 18 * AvMain.hd - 4), var3, this.q)) {
+            if (super.center != null && Canvas.isPointer(Canvas.hw - var3 / 2, this.j + this.h - (this.q + 18 * AvMain.hd - 4), var3, this.q)) {
                Canvas.endDlg();
                this.perform(super.center);
             } else {
-               if (!Canvas.a(this.i + 1, this.j + this.h - (this.q + 18 * AvMain.hd - 4), this.g - 2, this.q)) {
+               if (!Canvas.isPointer(this.i + 1, this.j + this.h - (this.q + 18 * AvMain.hd - 4), this.g - 2, this.q)) {
                   break label84;
                }
 

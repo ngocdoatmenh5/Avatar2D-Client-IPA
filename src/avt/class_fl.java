@@ -8,6 +8,6 @@ final class class_fl implements IAction {
 
    public final void perform() {
       Canvas.startWaitDlg();
-      GlobalService.gI().d((int)9);
+      GlobalService.gI().getHandler((int)9);
    }
 }

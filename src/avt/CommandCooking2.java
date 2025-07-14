@@ -8,11 +8,11 @@ final class CommandCooking2 extends Command {
       super(var2, 2, var4);
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
+   public final void paint(Graphics var1, int var2, int var3) {
       Food var7;
-      FarmItem var9 = FarmScr.b((var7 = FarmData.b(FarmScr.V)).b);
-      FarmData.a(var1, var9.b, Canvas.cameraList.disX / 2, PopupShop.d / 2 - 30, 3);
-      Canvas.N.a(var1, var7.d, Canvas.cameraList.disX / 2, PopupShop.d / 2 - 30 + 5 + FarmData.a(var9.b).c / 2 + AvMain.ai + 2, 2);
+      FarmItem var9 = FarmScr.b((var7 = FarmData.getFoodByID(FarmScr.V)).productID);
+      FarmData.paintImg(var1, var9.IDImg, Canvas.cameraList.disX / 2, PopupShop.d / 2 - 30, 3);
+      Canvas.fontChatB.drawString(var1, var7.text, Canvas.cameraList.disX / 2, PopupShop.d / 2 - 30 + 5 + FarmData.getImgIcon(var9.IDImg).c / 2 + AvMain.ai + 2, 2);
       String var8 = "";
       int var4 = FarmScr.U / 3600;
       FontX var5 = Canvas.M;
@@ -29,9 +29,9 @@ final class CommandCooking2 extends Command {
       var8 = var8 + var4;
       if (FarmScr.U == 0) {
          var8 = T.eL;
-         var5 = Canvas.N;
+         var5 = Canvas.fontChatB;
       }
 
-      var5.a(var1, var8, Canvas.cameraList.disX / 2, PopupShop.d / 2 - 30 + 5 + FarmData.a(var9.b).c / 2, 2);
+      var5.drawString(var1, var8, Canvas.cameraList.disX / 2, PopupShop.d / 2 - 30 + 5 + FarmData.getImgIcon(var9.IDImg).c / 2, 2);
    }
 }

@@ -11,9 +11,9 @@ final class class_ak implements IAction {
 
    public final void perform() {
       if (this.a == 2) {
-         Cattle.v = this.b.ID;
+         Cattle.itemID = this.b.ID;
       } else {
-         Dog.u = this.b.ID;
+         Dog.itemID = this.b.ID;
       }
    }
 }

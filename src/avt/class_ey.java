@@ -14,16 +14,16 @@ final class class_ey extends Command {
       this.g = var6;
    }
 
-   public final void a() {
-      if (PopupShop.n && PopupShop.j - this.g == this.f) {
-         PopupShop.n();
-         PopupShop.a(T.aA + this.h.c);
-         PopupShop.a(T.az + this.h.d + (this.h.e == 0 ? T.C : T.D));
+   public final void update() {
+      if (PopupShop.isTransFocus && PopupShop.focus - this.g == this.f) {
+         PopupShop.resetIsTrans();
+         PopupShop.addStr(T.aA + this.h.c);
+         PopupShop.addStr(T.az + this.h.d + (this.h.e == 0 ? T.C : T.D));
       }
 
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
-      AvatarData.a(var1, this.h.b, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
+   public final void paint(Graphics var1, int var2, int var3) {
+      AvatarData.paintImg(var1, this.h.b, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
    }
 }

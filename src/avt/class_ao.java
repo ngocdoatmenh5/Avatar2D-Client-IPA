@@ -7,7 +7,7 @@ final class class_ao extends Command {
       super(var2, 12);
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
-      FarmData.a(var1, 62, var2, var3, 3);
+   public final void paint(Graphics var1, int var2, int var3) {
+      FarmData.paintImg(var1, 62, var2, var3, 3);
    }
 }

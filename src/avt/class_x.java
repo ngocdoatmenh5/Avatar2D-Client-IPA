@@ -8,6 +8,6 @@ final class class_x implements IAction {
    }
 
    public final void perform() {
-      FarmService.a().a(this.a, 1);
+      FarmService.gI().doBuyAnimal(this.a, 1);
    }
 }

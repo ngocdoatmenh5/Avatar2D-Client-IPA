@@ -8,9 +8,9 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
 
    public static void a() {
       BoardScr.numPlayer = 4;
-      BoardListOnScr.e = BoardListOnScr.c;
-      RoomListOnScr.a(0, TLBoardScr.b());
-      CasinoMsgHandler.a.c = a;
+      BoardListOnScr.type = BoardListOnScr.c;
+      RoomListOnScr.setName(0, TLBoardScr.b());
+      CasinoMsgHandler.me.miniGameMessageHandler = a;
    }
 
    public final void onMessage(Message var1) {
@@ -42,7 +42,7 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
                CasinoService var11 = CasinoService.gI();
 
                try {
-                  var11.b((byte)53);
+                  var11.createMessageWithBoard((byte)53);
                } catch (Exception var6) {
                }
 

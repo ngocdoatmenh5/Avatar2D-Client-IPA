@@ -5,31 +5,31 @@ import main.Canvas;
 import main.GameMidlet;
 
 final class CommandShop1 extends Command {
-   private int f = 0;
-   private String g;
-   private String h;
-   private short i;
-   private short j;
-   private int k;
+   private int i = 0;
+   private String nameItem;
+   private String timeLimit;
+   private short idPart;
+   private short idPartGirl;
+   private int price;
 
    public CommandShop1(HouseScr var1, String var2, IAction var3, int var4, String var5, short var6, short var7, String var8, int var9, String var10, short var11) {
       super(var2, var3);
-      this.f = var4;
-      this.g = var5;
-      this.i = var6;
-      this.h = var8;
-      this.k = var9;
-      this.j = var11;
+      this.i = var4;
+      this.nameItem = var5;
+      this.idPart = var6;
+      this.timeLimit = var8;
+      this.price = var9;
+      this.idPartGirl = var11;
    }
 
-   public final void a() {
-      if (PopupShop.n && this.f == PopupShop.j) {
-         PopupShop.n();
+   public final void update() {
+      if (PopupShop.isTransFocus && this.i == PopupShop.focus) {
+         PopupShop.resetIsTrans();
          Part var1;
          if (GameMidlet.avatar.gender == 1) {
-            var1 = AvatarData.getPart(this.i);
+            var1 = AvatarData.getPart(this.idPart);
          } else {
-            var1 = AvatarData.getPart(this.j);
+            var1 = AvatarData.getPart(this.idPartGirl);
          }
 
          if (var1.IDPart != -1) {
@@ -42,24 +42,24 @@ final class CommandShop1 extends Command {
             }
          }
 
-         PopupShop.a(this.g);
-         if (this.h != null) {
-            PopupShop.a(this.h);
+         PopupShop.addStr(this.nameItem);
+         if (this.timeLimit != null) {
+            PopupShop.addStr(this.timeLimit);
          }
 
-         if (this.k >= 0) {
-            PopupShop.a(T.az + Canvas.getMoneys(this.k) + " Tim");
+         if (this.price >= 0) {
+            PopupShop.addStr(T.az + Canvas.getMoneys(this.price) + " Tim");
          }
       }
 
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
+   public final void paint(Graphics var1, int var2, int var3) {
       Part var4;
       if (GameMidlet.avatar.gender == 1) {
-         var4 = AvatarData.getPart(this.i);
+         var4 = AvatarData.getPart(this.idPart);
       } else {
-         var4 = AvatarData.getPart(this.j);
+         var4 = AvatarData.getPart(this.idPartGirl);
       }
 
       var4.paintIcon(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 0, 3);

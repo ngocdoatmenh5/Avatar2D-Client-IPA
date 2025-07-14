@@ -4,33 +4,33 @@ import javax.microedition.lcdui.Graphics;
 import main.Canvas;
 
 final class CommandGoKhoHang2 extends Command {
-   private final FarmItem f;
-   private final int g;
-   private final Item h;
+   private final FarmItem fItem;
+   private final int II;
+   private final Item item;
 
    CommandGoKhoHang2(FarmScr var1, String var2, int var3, int var4, FarmItem var5, int var6, Item var7) {
       super(var2, 11, var4);
-      this.f = var5;
-      this.g = var6;
-      this.h = var7;
+      this.fItem = var5;
+      this.II = var6;
+      this.item = var7;
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
-      this.f.a(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 0, 3);
+   public final void paint(Graphics var1, int var2, int var3) {
+      this.fItem.paint(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 0, 3);
    }
 
-   public final void a() {
-      if (PopupShop.n && this.g == PopupShop.j - FarmScr.f.size()) {
-         PopupShop.n();
-         PopupShop.a(this.f.f);
-         PopupShop.a(T.ay + this.h.e);
-         if (this.f.h > 0) {
-            PopupShop.a(T.aK + Canvas.getMoneys(this.h.e * this.f.h) + T.T);
-         } else if (this.f.g > 0) {
-            PopupShop.a(T.aK + Canvas.getMoneys(this.h.e * this.f.g) + T.T);
+   public final void update() {
+      if (PopupShop.isTransFocus && this.II == PopupShop.focus - FarmScr.itemProduct.size()) {
+         PopupShop.resetIsTrans();
+         PopupShop.addStr(this.fItem.des);
+         PopupShop.addStr(T.ay + this.item.e);
+         if (this.fItem.priceLuong > 0) {
+            PopupShop.addStr(T.aK + Canvas.getMoneys(this.item.e * this.fItem.priceLuong) + T.T);
+         } else if (this.fItem.priceXu > 0) {
+            PopupShop.addStr(T.aK + Canvas.getMoneys(this.item.e * this.fItem.priceXu) + T.T);
          }
 
-         PopupShop.a(MapScr.r());
+         PopupShop.addStr(MapScr.r());
       }
 
    }

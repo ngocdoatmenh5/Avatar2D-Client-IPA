@@ -30,8 +30,8 @@ public final class TransMoneyDlg extends Dialog {
             var3.printStackTrace();
          }
 
-         this.e = this.b.a * 3 + 30 * AvMain.hd;
-         this.f = this.b.b * 3 + 60 * AvMain.hd;
+         this.e = this.b.frameWidth * 3 + 30 * AvMain.hd;
+         this.f = this.b.frameHeight * 3 + 60 * AvMain.hd;
          this.c = (Canvas.w - this.e) / 2;
          this.d = (Canvas.h - this.f) / 2;
          this.g = this.f / 3;
@@ -47,7 +47,7 @@ public final class TransMoneyDlg extends Dialog {
    public final void commandTab(int var1) {
       switch (var1) {
          case 0:
-            Canvas.a("Bạn có chắc muốn chuyển tiền không ?", (IAction)(new class_jm(this)));
+            Canvas.startOKDlg("Bạn có chắc muốn chuyển tiền không ?", (IAction)(new class_jm(this)));
             return;
          case 1:
             Canvas.currentDialog = null;
@@ -96,7 +96,7 @@ public final class TransMoneyDlg extends Dialog {
 
       for(int var2 = 0; var2 < this.j.length; ++var2) {
          this.b.drawFrame(this.i == var2 ? 1 : 0, this.h / 2 + var2 % 3 * this.h, this.g / 2 + var2 / 3 * this.g, 0, 3, var1);
-         Canvas.smallFontYellow.a(var1, String.valueOf(this.j[var2]), this.h / 2 + var2 % 3 * this.h, this.g / 2 + var2 / 3 * this.g - AvMain.ai / 2, 2);
+         Canvas.smallFontYellow.drawString(var1, String.valueOf(this.j[var2]), this.h / 2 + var2 % 3 * this.h, this.g / 2 + var2 / 3 * this.g - AvMain.ai / 2, 2);
       }
 
       Canvas.resetTrans(var1);

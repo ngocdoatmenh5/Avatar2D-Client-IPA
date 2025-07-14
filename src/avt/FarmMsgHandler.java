@@ -6,7 +6,7 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class FarmMsgHandler extends IService implements IMiniGameMsgHandler {
-   public static FarmMsgHandler a;
+   public static FarmMsgHandler instance;
 
    public final void onMessage(Message var1) {
       try {
@@ -41,7 +41,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
 
                var94 = var1.reader().readInt();
                var83 = var1.reader().readInt();
-               FarmData.a(var107, var97, var94, var83);
+               FarmData.checkDataFarm(var107, var97, var94, var83);
                return;
             case 52:
             case 53:
@@ -63,17 +63,17 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                   var104[var6] = var1.reader().readByte();
                }
 
-               FarmData.a(var86, var95, var104);
+               FarmData.saveImgBig(var86, var95, var104);
                return;
             case 55:
                byte[] var101 = new byte[var1.reader().available()];
                var1.reader().read(var101);
-               FarmData.b(var101);
+               FarmData.saveImageData(var101);
                return;
             case 56:
                byte[] var106 = new byte[var1.reader().available()];
                var1.reader().read(var106);
-               FarmData.a(var106);
+               FarmData.saveTreeInfo(var106);
                return;
             case 60:
                var86 = var1.reader().readByte();
@@ -150,18 +150,18 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                   var103.addElement(var11);
                }
 
-               FarmScr.b();
+               FarmScr.gI();
                FarmScr.a(var93, var100, var91, var103, (byte)var86, var105, var9);
-               if (FarmData.h == 0 && a() && LoadMap.TYPEMAP != 25) {
-                  FarmData.b();
+               if (FarmData.playing == 0 && a() && LoadMap.TYPEMAP != 25) {
+                  FarmData.saveVersion();
                   ParkService.a().a(25, 0);
-                  FarmScr.e();
-                  FarmScr.b().b(GameMidlet.avatar.IDDB, false);
+                  FarmScr.init();
+                  FarmScr.gI().b(GameMidlet.avatar.IDDB, false);
                   return;
                }
                break;
             case 61:
-               b(var1);
+               readFarmData(var1);
                return;
             case 62:
                (var10 = new Item()).ID = var1.reader().readShort();
@@ -171,27 +171,27 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                var2 = var1.reader().readInt();
                var3 = var1.reader().readInt();
                var83 = var1.reader().readInt();
-               FarmScr.b();
+               FarmScr.gI();
                FarmScr.a(var10, var2, var3, var83);
                return;
             case 63:
                var2 = var1.reader().readInt();
                var3 = var1.reader().readInt();
                var85 = var1.reader().readShort();
-               FarmScr.b().a(var2, var3, var85);
+               FarmScr.gI().a(var2, var3, var85);
                return;
             case 64:
                var1.reader().readInt();
                var86 = var1.reader().readByte();
                byte var88 = var1.reader().readByte();
-               FarmScr.b().b(var86, var88);
+               FarmScr.gI().b(var86, var88);
                return;
             case 65:
                var1.reader().readByte();
-               if (FarmScr.b(var85 = var1.reader().readShort()) != null && (var89 = Item.a(FarmScr.d, var85)) != null) {
+               if (FarmScr.b(var85 = var1.reader().readShort()) != null && (var89 = Item.a(FarmScr.listItemFarm, var85)) != null) {
                   --var89.e;
                   if (var89.e <= 0) {
-                     FarmScr.d.removeElement(var89);
+                     FarmScr.listItemFarm.removeElement(var89);
                      return;
                   }
                }
@@ -199,16 +199,16 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
             case 66:
                var86 = var1.reader().readByte();
                var85 = var1.reader().readShort();
-               FarmScr.b();
+               FarmScr.gI();
                FarmScr.c(var86, var85);
                return;
             case 67:
-               FarmScr.b();
+               FarmScr.gI();
                var1.reader().readInt();
                FarmScr.i();
                return;
             case 69:
-               FarmScr.b();
+               FarmScr.gI();
                FarmScr.a(var1.reader().readUTF());
                return;
             case 70:
@@ -219,7 +219,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                var6 = var1.reader().readInt();
                int var7 = var1.reader().readInt();
                var83 = var1.reader().readInt();
-               FarmScr.b();
+               FarmScr.gI();
                FarmScr.a(var2, var3, var90, var5, var6, var7, var83);
                return;
             case 71:
@@ -229,25 +229,25 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                var3 = var1.reader().readInt();
                var4 = var1.reader().readInt();
                var83 = var1.reader().readInt();
-               FarmScr.b();
+               FarmScr.gI();
                FarmScr.a(var89, var3, var4, var83);
                return;
             case 72:
                var86 = var1.reader().readByte();
                String var84 = var1.reader().readUTF();
-               FarmScr.b().a((byte)var86, var84);
+               FarmScr.gI().a((byte)var86, var84);
                return;
             case 73:
                var1.reader().readInt();
                var86 = var1.reader().readByte();
                var83 = var1.reader().readInt();
-               FarmScr.b();
+               FarmScr.gI();
                FarmScr.g(var86, var83);
                return;
             case 74:
                var86 = var1.reader().readByte();
                var83 = var1.reader().readShort();
-               FarmScr.b();
+               FarmScr.gI();
                FarmScr.e(var86, var83);
                return;
             case 75:
@@ -258,10 +258,10 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                Canvas.startOKDlg(var1.reader().readUTF());
                return;
             case 76:
-               GlobalMessageHandler.c(var1);
+               GlobalMessageHandler.readMove(var1);
                return;
             case 77:
-               GlobalMessageHandler.d(var1);
+               GlobalMessageHandler.readChat(var1);
                return;
             case 78:
                if (a()) {
@@ -270,9 +270,9 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
 
                var2 = var1.reader().readByte();
                CellFarm var87;
-               (var87 = (CellFarm)FarmScr.c.elementAt(var2)).c = var1.reader().readByte();
-               a(var87, var1);
-               FarmScr.b().c(var2);
+               (var87 = (CellFarm)FarmScr.cell.elementAt(var2)).idTree = var1.reader().readByte();
+               readInfoCell(var87, var1);
+               FarmScr.gI().c(var2);
                return;
             case 79:
                if (a()) {
@@ -286,16 +286,16 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
 
                Animal var64;
                (var64 = FarmScr.e(var2)).species = (byte)var3;
-               a(var64, var1);
-               FarmScr.b();
+               readInfoAnimal(var64, var1);
+               FarmScr.gI();
                FarmScr.f();
                return;
             case 80:
                if (var1.reader().readByte() == 0) {
                   String var66 = var1.reader().readUTF();
                   Vector var110;
-                  (var110 = new Vector()).addElement(new Command(T.C, 3, FarmScr.a));
-                  var110.addElement(new Command(T.D, 4, FarmScr.a));
+                  (var110 = new Vector()).addElement(new Command(T.C, 3, FarmScr.instance));
+                  var110.addElement(new Command(T.D, 4, FarmScr.instance));
                   var110.addElement(Canvas.ad);
                   Canvas.a(var66, var110);
                   return;
@@ -308,15 +308,15 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                var70 = var1.reader().readInt();
                GameMidlet.avatar.updateMoney(var111, var112, var70);
                Canvas.load = 1;
-               FarmScr.b().b(GameMidlet.avatar.IDDB, true);
+               FarmScr.gI().b(GameMidlet.avatar.IDDB, true);
                FarmScr.R = true;
                return;
             case 81:
                if (var1.reader().readByte() == 0) {
                   String var109 = var1.reader().readUTF();
                   Vector var68;
-                  (var68 = new Vector()).addElement(new Command(T.C, 5, FarmScr.a));
-                  var68.addElement(new Command(T.D, 6, FarmScr.a));
+                  (var68 = new Vector()).addElement(new Command(T.C, 5, FarmScr.instance));
+                  var68.addElement(new Command(T.D, 6, FarmScr.instance));
                   var68.addElement(Canvas.ad);
                   Canvas.a(var109, var68);
                   return;
@@ -331,25 +331,25 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                var71 = var1.reader().readInt();
                System.out.println("");
                GameMidlet.avatar.updateMoney(var112, var70, var71);
-               FarmScr.b().b(GameMidlet.avatar.IDDB, true);
+               FarmScr.gI().b(GameMidlet.avatar.IDDB, true);
                FarmScr.R = true;
                return;
             case 82:
                short var67 = var1.reader().readShort();
                byte[] var69 = new byte[var1.reader().readShort()];
                var1.reader().read(var69);
-               FarmData.g.put("" + var67, new ImageIcon(CRes.a(var69)));
+               FarmData.listImgIcon.put("" + var67, new ImageIcon(CRes.createImage(var69)));
                return;
             case 83:
                if (var1.reader().readBoolean()) {
-                  FarmScr.J.b = var1.reader().readShort();
-                  ++FarmScr.J.a;
+                  FarmScr.starFruil.b = var1.reader().readShort();
+                  ++FarmScr.starFruil.lv;
                   return;
                }
                break;
             case 84:
                if (var1.reader().readByte() == 0) {
-                  Canvas.startOKDlg(var1.reader().readUTF(), 7, FarmScr.a);
+                  Canvas.startOKDlg(var1.reader().readUTF(), 7, FarmScr.instance);
                   return;
                }
 
@@ -357,26 +357,26 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                var72 = var1.reader().readShort();
                var10000 = GameMidlet.avatar.money;
                var10000[0] -= var71;
-               FarmScr.J.e = var72 * 60;
-               FarmScr.J.h = System.currentTimeMillis();
+               FarmScr.starFruil.e = var72 * 60;
+               FarmScr.starFruil.h = System.currentTimeMillis();
                Canvas.a(-var71, GameMidlet.avatar.x, GameMidlet.avatar.y, -1, -1);
                return;
             case 85:
                var71 = var1.reader().readShort();
                var72 = var1.reader().readShort();
-               FarmScr.b();
+               FarmScr.gI();
                FarmScr.a((short)var71, (short)var72);
                return;
             case 86:
                if (var1.reader().readByte() == 0) {
-                  Canvas.startOKDlg(var1.reader().readUTF(), 8, FarmScr.a);
+                  Canvas.startOKDlg(var1.reader().readUTF(), 8, FarmScr.instance);
                   return;
                }
 
                var1.reader().readInt();
-               FarmScr.J.b = var1.reader().readShort();
-               FarmScr.J.e = 0;
-               ++FarmScr.J.a;
+               FarmScr.starFruil.b = var1.reader().readShort();
+               FarmScr.starFruil.e = 0;
+               ++FarmScr.starFruil.lv;
                int var113 = var1.reader().readInt();
                var76 = var1.reader().readInt();
                GameMidlet.avatar.updateMoney(GameMidlet.avatar.money[0], var113, var76);
@@ -385,8 +385,8 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                if (var1.reader().readByte() == 0) {
                   String var75 = var1.reader().readUTF();
                   Vector var115;
-                  (var115 = new Vector()).addElement(new Command(T.C, 9, FarmScr.a));
-                  var115.addElement(new Command(T.D, 10, FarmScr.a));
+                  (var115 = new Vector()).addElement(new Command(T.C, 9, FarmScr.instance));
+                  var115.addElement(new Command(T.D, 10, FarmScr.instance));
                   var115.addElement(Canvas.ad);
                   Canvas.a(var75, var115);
                   return;
@@ -396,8 +396,8 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                var1.reader().readInt();
                byte var118 = var1.reader().readByte();
                Canvas.startOKDlg(var1.reader().readUTF());
-               ++((CellFarm)FarmScr.c.elementAt(var118)).p;
-               FarmScr.b().a(FarmScr.b, FarmScr.c, FarmScr.i, FarmScr.P, FarmScr.Q, FarmScr.V, FarmScr.U);
+               ++((CellFarm)FarmScr.cell.elementAt(var118)).level;
+               FarmScr.gI().onJoin(FarmScr.idFarm, FarmScr.cell, FarmScr.animalLists, FarmScr.P, FarmScr.Q, FarmScr.V, FarmScr.U);
                var79 = var1.reader().readInt();
                var80 = var1.reader().readInt();
                GameMidlet.avatar.updateMoney(GameMidlet.avatar.money[0], var79, var80);
@@ -415,22 +415,22 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                return;
             case 92:
                Food var119;
-               FarmItem var120 = FarmScr.b((var119 = FarmData.b(FarmScr.V)).b);
+               FarmItem var120 = FarmScr.b((var119 = FarmData.getFoodByID(FarmScr.V)).productID);
                Item var121;
-               if ((var121 = FarmScr.f(var119.b)) != null) {
+               if ((var121 = FarmScr.f(var119.productID)) != null) {
                   ++var121.e;
                } else {
-                  (var10 = new Item()).ID = var119.b;
+                  (var10 = new Item()).ID = var119.productID;
                   var10.e = 1;
-                  FarmScr.e.addElement(var10);
+                  FarmScr.listFarmProduct.addElement(var10);
                }
 
-               Canvas.a(0, FarmScr.W, FarmScr.X, -1, 0, var120.b, -1);
+               Canvas.a(0, FarmScr.W, FarmScr.X, -1, 0, var120.IDImg, -1);
                FarmScr.V = 0;
                return;
             case 93:
                if (var1.reader().readByte() == 0) {
-                  Canvas.startOKDlg(var1.reader().readUTF(), 11, FarmScr.a);
+                  Canvas.startOKDlg(var1.reader().readUTF(), 11, FarmScr.instance);
                   return;
                }
 
@@ -446,8 +446,8 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                if (var1.reader().readByte() == 0) {
                   String var114 = var1.reader().readUTF();
                   Vector var116;
-                  (var116 = new Vector()).addElement(new Command(T.C, 13, FarmScr.a));
-                  var116.addElement(new Command(T.D, 14, FarmScr.a));
+                  (var116 = new Vector()).addElement(new Command(T.C, 13, FarmScr.instance));
+                  var116.addElement(new Command(T.D, 14, FarmScr.instance));
                   var116.addElement(Canvas.ad);
                   Canvas.a(var114, var116);
                   return;
@@ -466,7 +466,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                var1.reader().readInt();
                ++FarmScr.O;
                Canvas.startOKDlg(var1.reader().readUTF());
-               FarmScr.b().a(FarmScr.b, FarmScr.c, FarmScr.i, FarmScr.P, FarmScr.Q, FarmScr.V, FarmScr.U);
+               FarmScr.gI().onJoin(FarmScr.idFarm, FarmScr.cell, FarmScr.animalLists, FarmScr.P, FarmScr.Q, FarmScr.V, FarmScr.U);
                return;
          }
       } catch (Exception var82) {
@@ -479,36 +479,36 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
       return LoadMap.TYPEMAP != 24 && LoadMap.TYPEMAP != 53;
    }
 
-   private static void a(CellFarm var0, Message var1) throws IOException {
+   private static void readInfoCell(CellFarm var0, Message var1) throws IOException {
       short var2 = var1.reader().readShort();
       FarmScr.a(var0.d, var2, var0, (Animal)null);
       var0.d = var2;
-      var0.h = (long)(var0.d * 60);
+      var0.tempTime = (long)(var0.d * 60);
       byte var5 = var1.reader().readByte();
-      FarmScr.a(var0.n, var5, var0, (Animal)null);
-      var0.n = var5;
-      var0.m = var1.reader().readByte();
-      var0.i = var1.reader().readBoolean();
+      FarmScr.a(var0.vitalityPer, var5, var0, (Animal)null);
+      var0.vitalityPer = var5;
+      var0.hervestPer = var1.reader().readByte();
+      var0.isArid = var1.reader().readBoolean();
       boolean var6 = var1.reader().readBoolean();
       int var3 = -1;
-      if (!var6 && var0.j) {
+      if (!var6 && var0.isWorm) {
          var3 = 0;
       }
 
-      var0.j = var6;
+      var0.isWorm = var6;
       boolean var4;
-      if (!(var4 = var1.reader().readBoolean()) && var0.k) {
+      if (!(var4 = var1.reader().readBoolean()) && var0.isGrass) {
          var3 = 9 * AvMain.hd;
       }
 
-      var0.k = var4;
+      var0.isGrass = var4;
       if (var3 >= 0) {
-         Canvas.a(0, var0.a * LoadMap.i + 11, var0.b * LoadMap.i, -1, CRes.a(0, var3, 13 * AvMain.hd, 9 * AvMain.hd, FarmScr.q.d), -1);
+         Canvas.a(0, var0.xCell * LoadMap.i + 11, var0.yCell * LoadMap.i, -1, CRes.createRGBImage(0, var3, 13 * AvMain.hd, 9 * AvMain.hd, FarmScr.q.imgFrame), -1);
       }
 
    }
 
-   private static void a(Animal var0, Message var1) throws IOException {
+   private static void readInfoAnimal(Animal var0, Message var1) throws IOException {
       var0.bornTime = var1.reader().readInt();
       byte var2 = var1.reader().readByte();
       FarmScr.a(var0.health, var2, (CellFarm)null, var0);
@@ -528,14 +528,14 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
       }
 
       if (var3 >= 0) {
-         Canvas.a(0, var0.x, var0.y - var0.height, -1, CRes.a(0, var3, 9 * AvMain.hd, 13 * AvMain.hd, FarmScr.u.d), -1);
+         Canvas.a(0, var0.x, var0.y - var0.height, -1, CRes.createRGBImage(0, var3, 9 * AvMain.hd, 13 * AvMain.hd, FarmScr.u.imgFrame), -1);
       }
 
       var0.disease[0] = var5;
       var0.disease[1] = var4;
    }
 
-   private static void b(Message var0) throws IOException {
+   private static void readFarmData(Message var0) throws IOException {
       int var1 = var0.reader().readInt();
       Vector var2 = new Vector();
       Vector var3 = new Vector();
@@ -547,36 +547,36 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
 
          for(int var5 = 0; var5 < var4; ++var5) {
             CellFarm var6;
-            (var6 = new CellFarm()).c = var0.reader().readByte();
-            if (var6.c == -1) {
+            (var6 = new CellFarm()).idTree = var0.reader().readByte();
+            if (var6.idTree == -1) {
                var2.addElement(var6);
             } else {
-               a(var6, var0);
+               readInfoCell(var6, var0);
                var2.addElement(var6);
             }
          }
 
          var10 = var0.reader().readByte();
          if (LoadMap.TYPEMAP != 24 || GameMidlet.avatar.IDDB != var1) {
-            Cattle.t = 0;
-            Dog.t = 0;
-            class_ex.r = 0;
-            FarmScr.i.removeAllElements();
+            Cattle.numPig = 0;
+            Dog.numBer = 0;
+            Chicken.numChicken = 0;
+            FarmScr.animalLists.removeAllElements();
          }
 
          for(int var11 = 0; var11 < var10; ++var11) {
             Object var7 = null;
             var8 = var0.reader().readByte();
-            int var9 = FarmScr.i.size();
+            int var9 = FarmScr.animalLists.size();
             if (LoadMap.TYPEMAP == 24 && var9 != 0 && var9 == var10) {
                FarmScr.e(var11);
-               var7 = (Animal)FarmScr.i.elementAt(var11);
+               var7 = (Animal)FarmScr.animalLists.elementAt(var11);
             } else {
                AnimalInfo var14 = FarmData.getAnimalByID(var8);
                if (var8 != -1) {
                   switch (var14.area) {
                      case 1:
-                        var7 = new class_ex(var11, (byte)var8, (byte)0);
+                        var7 = new Chicken(var11, (byte)var8, (byte)0);
                         break;
                      case 2:
                         var7 = new Cattle(var11, (byte)var8);
@@ -592,7 +592,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
 
             if (var8 != -1 && var7 != null) {
                ((Animal)var7).species = (byte)var8;
-               a((Animal)var7, var0);
+               readInfoAnimal((Animal)var7, var0);
                var3.addElement(var7);
             }
          }
@@ -600,17 +600,17 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
 
       var10 = var0.reader().readByte();
       byte var12 = var0.reader().readByte();
-      (FarmScr.J = new StarFruitObj()).a = var0.reader().readShort();
-      FarmScr.J.b = var0.reader().readShort();
-      FarmScr.J.c = var0.reader().readShort();
-      FarmScr.J.d = var0.reader().readShort();
+      (FarmScr.starFruil = new StarFruitObj()).lv = var0.reader().readShort();
+      FarmScr.starFruil.b = var0.reader().readShort();
+      FarmScr.starFruil.c = var0.reader().readShort();
+      FarmScr.starFruil.d = var0.reader().readShort();
       var0.reader().readShort();
       var0.reader().readShort();
-      FarmScr.J.e = var0.reader().readShort() * 60;
-      FarmScr.J.h = System.currentTimeMillis();
+      FarmScr.starFruil.e = var0.reader().readShort() * 60;
+      FarmScr.starFruil.h = System.currentTimeMillis();
 
       for(int var13 = 0; var13 < var4; ++var13) {
-         ((CellFarm)var2.elementAt(var13)).p = var0.reader().readByte();
+         ((CellFarm)var2.elementAt(var13)).level = var0.reader().readByte();
       }
 
       short var15 = 0;
@@ -620,6 +620,6 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
          var8 = var0.reader().readShort() * 60;
       }
 
-      FarmScr.b().a(var1, var2, var3, var10, var12, var15, var8);
+      FarmScr.gI().onJoin(var1, var2, var3, var10, var12, var15, var8);
    }
 }

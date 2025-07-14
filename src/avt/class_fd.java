@@ -7,7 +7,7 @@ final class class_fd extends Command {
       super(var2, 2);
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
-      var1.drawImage(FarmScr.n, var2, var3, 3);
+   public final void paint(Graphics var1, int var2, int var3) {
+      var1.drawImage(FarmScr.imgFocusCel, var2, var3, 3);
    }
 }

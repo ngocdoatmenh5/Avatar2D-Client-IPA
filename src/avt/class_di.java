@@ -13,6 +13,6 @@ final class class_di implements IAction {
       AvCamera.isFollow = false;
       MiniMap.gI().left = MiniMap.gI().l;
       MapScr.gI().c();
-      FarmScr.b().c();
+      FarmScr.gI().c();
    }
 }

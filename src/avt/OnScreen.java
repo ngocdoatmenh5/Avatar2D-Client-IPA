@@ -59,8 +59,8 @@ public final class OnScreen extends MyScreen {
       Canvas.endDlg();
       if (l == null) {
          FilePack.b(T.aw);
-         FrameImage.a("up", 13 * AvMain.hd, 11 * AvMain.hd);
-         FilePack.a();
+         FrameImage.init("up", 13 * AvMain.hd, 11 * AvMain.hd);
+         FilePack.reset();
 
          try {
             int var1 = 70 * AvMain.hd;
@@ -91,7 +91,7 @@ public final class OnScreen extends MyScreen {
          this.h = 100 * AvMain.hd;
       }
 
-      this.i = l.b + AvMain.ah + 5 * AvMain.hd;
+      this.i = l.frameHeight + AvMain.ah + 5 * AvMain.hd;
       this.f = (Canvas.w - this.j * this.h) / 2 + this.h / 2;
       if ((q = this.j * this.h - Canvas.w) < 0) {
          q = 0;
@@ -115,7 +115,7 @@ public final class OnScreen extends MyScreen {
       Canvas.h = Canvas.instance.getHeight() - Canvas.hTab;
 
       for(int var0 = 0; var0 < 3; ++var0) {
-         Canvas.ae[var0].y = Canvas.q - Canvas.hTab;
+         Canvas.ae[var0].y = Canvas.hCan - Canvas.hTab;
       }
 
    }
@@ -130,7 +130,7 @@ public final class OnScreen extends MyScreen {
                case 3:
                   var1 = this.e;
                   Canvas.startWaitDlg();
-                  GlobalService.gI().d((int)3);
+                  GlobalService.gI().getHandler((int)3);
                   MapScr.i = (byte)var1;
                   return;
                case 4:
@@ -172,7 +172,7 @@ public final class OnScreen extends MyScreen {
 
    private void h() {
       r = true;
-      this.d.b();
+      this.d.perform();
    }
 
    public final void update() {
@@ -234,14 +234,14 @@ public final class OnScreen extends MyScreen {
             --this.e;
          }
       } else if (Canvas.a(6)) {
-         if (this.e < l.c - 1 && this.e % this.j < this.j - 1) {
+         if (this.e < l.nFrame - 1 && this.e % this.j < this.j - 1) {
             ++this.e;
          }
       } else if (Canvas.a(2)) {
          if (this.e / this.j > 0) {
             this.e -= this.j;
          }
-      } else if (Canvas.a(8) && this.e / this.j < l.c / this.j && this.e + this.j < l.c) {
+      } else if (Canvas.a(8) && this.e / this.j < l.nFrame / this.j && this.e + this.j < l.nFrame) {
          this.e += this.j;
       }
 
@@ -334,7 +334,7 @@ public final class OnScreen extends MyScreen {
    public final void paintMain(Graphics var1) {
       Canvas.paint.paintDefaultBg(var1);
       if (Canvas.W != 2) {
-         Canvas.paint.a(var1, Canvas.hw, (this.g - l.b / 2) / 2);
+         Canvas.paint.a(var1, Canvas.hw, (this.g - l.frameHeight / 2) / 2);
       }
 
       var1.translate(this.f, this.g);
@@ -342,7 +342,7 @@ public final class OnScreen extends MyScreen {
 
       for(int var2 = 0; var2 < T.eA.length; ++var2) {
          l.drawFrame(var2, var2 % this.j * this.h, var2 / this.j * this.i, 0, 3, var1);
-         Canvas.M.a(var1, T.eA[var2], var2 % this.j * this.h, var2 / this.j * this.i + l.b / 2 + 5, 2);
+         Canvas.M.drawString(var1, T.eA[var2], var2 % this.j * this.h, var2 / this.j * this.i + l.frameHeight / 2 + 5, 2);
          if (this.e == var2 && (!Canvas.isKeyBoard || !r)) {
             var1.drawImage(s, var2 % this.j * this.h, var2 / this.j * this.i, 3);
          }

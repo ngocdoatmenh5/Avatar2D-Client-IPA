@@ -8,6 +8,6 @@ final class IActionPriceAnimal implements IAction {
    }
 
    public final void perform() {
-      FarmService.a().a(FarmScr.b, this.a);
+      FarmService.gI().doSellAnimal(FarmScr.idFarm, this.a);
    }
 }

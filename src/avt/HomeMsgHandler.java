@@ -81,7 +81,7 @@ public final class HomeMsgHandler extends IService implements IMiniGameMsgHandle
                   var18.addElement(var23);
                }
 
-               Vector var20 = GlobalMessageHandler.b(var1);
+               Vector var20 = GlobalMessageHandler.readListPlayer(var1);
                ParkMsgHandler.a();
                HouseScr.b().a((byte)var17, var2, var15, (byte)var19, var18, var20);
                return;
@@ -106,10 +106,10 @@ public final class HomeMsgHandler extends IService implements IMiniGameMsgHandle
                MapScr.gI().a(ParkMsgHandler.b(var1));
                return;
             case 76:
-               GlobalMessageHandler.c(var1);
+               GlobalMessageHandler.readMove(var1);
                return;
             case 77:
-               GlobalMessageHandler.d(var1);
+               GlobalMessageHandler.readChat(var1);
          }
       } catch (Exception var10) {
          var10.printStackTrace();

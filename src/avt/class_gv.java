@@ -71,9 +71,9 @@ final class class_gv implements Runnable {
          if (this.a.c) {
             if (this.a.b != null) {
                if (System.currentTimeMillis() - this.a.j > 500L) {
-                  this.a.b.c();
+                  this.a.b.onDisconnected();
                } else {
-                  this.a.b.b();
+                  this.a.b.onConnectionFail();
                }
             }
 
