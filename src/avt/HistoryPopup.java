@@ -36,7 +36,7 @@ public final class HistoryPopup extends Dialog {
          }
       }
 
-      this.hCell = AvMain.ag + 5 * AvMain.hd;
+      this.hCell = AvMain.hBorder + 5 * AvMain.hd;
       this.cmyLim = var2.length * this.hCell - (this.h - 10 * AvMain.hd);
       if (this.cmyLim < 0) {
          this.cmyLim = 0;
@@ -86,11 +86,11 @@ public final class HistoryPopup extends Dialog {
       }
 
       if (Canvas.keyHold[2]) {
-         this.cmtoY -= AvMain.ag;
+         this.cmtoY -= AvMain.hBorder;
          var1 = true;
       } else if (Canvas.keyHold[8]) {
          var1 = true;
-         this.cmtoY += AvMain.ag;
+         this.cmtoY += AvMain.hBorder;
       }
 
       if (var1) {
@@ -158,7 +158,7 @@ public final class HistoryPopup extends Dialog {
 
       for(int var2 = 0; var2 < this.idPet.length; ++var2) {
          AvatarData.paintImg(var1, this.idPet[var2], 15 * AvMain.hd, 15 * AvMain.hd + var2 * this.hCell, 3);
-         Canvas.normalFont.drawString(var1, this.time[var2], 35 * AvMain.hd, 15 * AvMain.hd + var2 * this.hCell - AvMain.ag / 2, 0);
+         Canvas.normalFont.drawString(var1, this.time[var2], 35 * AvMain.hd, 15 * AvMain.hd + var2 * this.hCell - AvMain.hBorder / 2, 0);
       }
 
       super.paint(var1);

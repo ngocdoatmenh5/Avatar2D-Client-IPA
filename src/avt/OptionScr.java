@@ -250,7 +250,7 @@ public final class OptionScr extends MyScreen {
          this.point = 0;
       }
 
-      int var3 = -AvMain.ah / 2 + this._hText_ / 2;
+      int var3 = -AvMain.hNormal / 2 + this._hText_ / 2;
       int var4 = 0;
 
       for(int var5 = 0; var5 < this.max; ++var5) {
@@ -267,7 +267,7 @@ public final class OptionScr extends MyScreen {
                var2 = 1;
             }
 
-            int var7 = var4 + var3 + AvMain.ah / 2 - PaintPopup.b.frameHeight / 2;
+            int var7 = var4 + var3 + AvMain.hNormal / 2 - PaintPopup.b.frameHeight / 2;
             PaintPopup.b.drawFrame(var2, 52 + 50 * AvMain.hd - var6 / 2, var7, 0, var1);
             PaintPopup.b.drawFrame(var2, 52 + 50 * AvMain.hd + var6 / 2 - PaintPopup.b.frameWidth, var7, 2, var1);
             var4 += this._hText_;

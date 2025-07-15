@@ -17,13 +17,13 @@ final class CommandGiftDef extends Command {
    public final void update() {
       if (PopupShop.isTransFocus && PopupShop.focus - this.g == this.f) {
          PopupShop.resetIsTrans();
-         PopupShop.addStr(T.aA + this.h.c);
-         PopupShop.addStr(T.az + this.h.d + (this.h.e == 0 ? T.C : T.D));
+         PopupShop.addStr(T.aA + this.h.name);
+         PopupShop.addStr(T.az + this.h.money + (this.h.typeMoney == 0 ? T.C : T.D));
       }
 
    }
 
    public final void paint(Graphics var1, int var2, int var3) {
-      AvatarData.paintImg(var1, this.h.b, var2 + PopupShop.h / 2, var3 + PopupShop.h / 2, 3);
+      AvatarData.paintImg(var1, this.h.IDIcon, var2 + PopupShop.h / 2, var3 + PopupShop.h / 2, 3);
    }
 }

@@ -31,7 +31,7 @@ public final class GlobalLogicHandler {
       (var3 = new Vector()).addElement(new Command(T.z, var4));
       var3.addElement(new Command(T.d, new IActionVersionDown2(this)));
       Canvas.msgdlg.setIsWaiting(false);
-      Canvas.a(var1, var3);
+      Canvas.setInfoC(var1, var3);
       isNewVersion = true;
    }
 
@@ -89,7 +89,7 @@ public final class GlobalLogicHandler {
                         LoadMap.rememMap = -1;
                         ParkService.gI().doJoinPark(MapScr.indexMap, -1);
                      } else if (GameMidlet.CLIENT_TYPE == 3) {
-                        Canvas.paint.i();
+                        Canvas.paint.initResourceFour();
                         ParkService.gI().doJoinPark(MapScr.indexMap, -1);
                      } else if (MapScr.typeJoin != -1) {
                         MapScr.gI();
@@ -102,7 +102,7 @@ public final class GlobalLogicHandler {
                         MapScr.gI().doJoin();
                      }
                   } else {
-                     Canvas.paint.i();
+                     Canvas.paint.initResourceFour();
                      OnScreen.gI().switchToMe();
                      Canvas.endDlg();
                   }

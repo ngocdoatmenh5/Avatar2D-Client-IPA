@@ -695,7 +695,7 @@ public final class AvatarData {
             for(int var3 = 0; var3 < GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2].length; ++var3) {
                var1.writeUTF(GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2][var3 + 1]);
                var1.writeUTF(GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2][var3]);
-               var1.writeInt(GameMidlet.c[OptionScr.gI().mapFocus[4]][var2][var3]);
+               var1.writeInt(GameMidlet.PORT[OptionScr.gI().mapFocus[4]][var2][var3]);
             }
          }
 
@@ -717,19 +717,19 @@ public final class AvatarData {
                } else {
                   GameMidlet.nameSV = new String[2][var1][];
                   GameMidlet.ipSV = new String[2][var1][];
-                  GameMidlet.c = new int[2][var1][];
+                  GameMidlet.PORT = new int[2][var1][];
 
                   for(int var2 = 0; var2 < var1; ++var2) {
                      byte var3 = var0.readByte();
                      GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2] = new String[var3 + 1];
                      GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2][0] = var0.readUTF();
                      GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2] = new String[var3];
-                     GameMidlet.c[OptionScr.gI().mapFocus[4]][var2] = new int[var3];
+                     GameMidlet.PORT[OptionScr.gI().mapFocus[4]][var2] = new int[var3];
 
                      for(int var4 = 0; var4 < var3; ++var4) {
                         GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2][var4 + 1] = var0.readUTF();
                         GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2][var4] = var0.readUTF();
-                        GameMidlet.c[OptionScr.gI().mapFocus[4]][var2][var4] = var0.readInt();
+                        GameMidlet.PORT[OptionScr.gI().mapFocus[4]][var2][var4] = var0.readInt();
                      }
                   }
 

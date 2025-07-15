@@ -40,13 +40,13 @@ public final class InputFace extends Face {
       this.title = var2;
       this.list = var1;
       this.nameChangePass = var3;
-      this.h = MyScreen.hTab + AvMain.hDuBox + AvMain.ah + (var1[0].height << 1) * var1.length + Canvas.stypeInt * 12;
+      this.h = MyScreen.hTab + AvMain.hDuBox + AvMain.hNormal + (var1[0].height << 1) * var1.length + Canvas.stypeInt * 12;
       this.y = (Canvas.h - Canvas.hTab - this.h) / 2;
 
       for(int var5 = 0; var5 < var1.length; ++var5) {
          var1[var5].width = this.w - 50 * (Canvas.stypeInt + 1) - Canvas.normalFont.getWidth(var3[0][0]);
          var1[var5].x = this.x + this.w - var1[var5].width - 10 * (Canvas.stypeInt + 1);
-         var1[var5].y = this.y + PaintPopup.hTab + AvMain.hDuBox + AvMain.ah + (var1[0].height * var5 << 1);
+         var1[var5].y = this.y + PaintPopup.hTab + AvMain.hDuBox + AvMain.hNormal + (var1[0].height * var5 << 1);
       }
 
       this.wTab = Canvas.normalFont.getWidth(var2) + 20 * AvMain.hd;
@@ -122,7 +122,7 @@ public final class InputFace extends Face {
          }
 
          for(int var5 = 0; var5 < var4; ++var5) {
-            Canvas.normalFont.drawString(var1, this.nameChangePass[var2][var5], var3, this.list[var2].y + this.list[var2].height / 2 - AvMain.ah * var4 / 2 + AvMain.ah * var5, 0);
+            Canvas.normalFont.drawString(var1, this.nameChangePass[var2][var5], var3, this.list[var2].y + this.list[var2].height / 2 - AvMain.hNormal * var4 / 2 + AvMain.hNormal * var5, 0);
          }
 
          this.list[var2].paint(var1);

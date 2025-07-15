@@ -7,11 +7,11 @@ import javax.microedition.lcdui.TextField;
 import main.Canvas;
 import main.GameMidlet;
 
-final class class_fs implements CommandListener {
+final class MiniMapCommandListener implements CommandListener {
    private final javax.microedition.lcdui.Command a;
    private final TextField b;
 
-   class_fs(MiniMap var1, javax.microedition.lcdui.Command var2, TextField var3) {
+   MiniMapCommandListener(MiniMap var1, javax.microedition.lcdui.Command var2, TextField var3) {
       this.a = var2;
       this.b = var3;
    }
@@ -26,6 +26,6 @@ final class class_fs implements CommandListener {
       }
 
       Canvas.instance.setFullScreenMode(true);
-      Display.getDisplay(GameMidlet.h).setCurrent(Canvas.instance);
+      Display.getDisplay(GameMidlet.instance).setCurrent(Canvas.instance);
    }
 }

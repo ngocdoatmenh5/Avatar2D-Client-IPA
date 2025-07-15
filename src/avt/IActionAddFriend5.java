@@ -8,7 +8,7 @@ final class IActionAddFriend5 implements IAction {
    }
 
    public final void perform() {
-      IActionAddFriend3 var1 = MessageScr.gI().b(MessageScr.gI().b);
+      UNK var1 = MessageScr.gI().b(MessageScr.gI().b);
       ParkService.gI().doAddFriend(this.a.IDDB, false);
       MessageScr.gI().a(var1);
    }

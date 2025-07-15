@@ -31,7 +31,7 @@ public final class SoundManager {
                var3.addElement(new Command(T.ep[2], new class_bh(this, var4)));
                var3.addElement(new Command(T.p, new class_bw(this)));
                var3.addElement(new Command(T.ep[0], new class_bt(this, var4)));
-               Canvas.a(var1, var3);
+               Canvas.setInfoC(var1, var3);
             }
          }
       }

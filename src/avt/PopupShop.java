@@ -338,7 +338,7 @@ public final class PopupShop extends MyScreen {
             int var4 = (H - (AvMain.hDuBox << 1)) / 4;
             var3 += AvMain.hDuBox + 8;
             var2 = var2 + h / 2 - 35 * (Canvas.stypeInt + 1) / 2 - 2 - 10 - 10 * AvMain.hd;
-            var3 = var3 + var4 / 2 + var4 + AvMain.ah / 2;
+            var3 = var3 + var4 / 2 + var4 + AvMain.hNormal / 2;
             if (Canvas.isPointer(var2, var3 - 15 * AvMain.hd - 5, 20 + 20 * AvMain.hd, 30 * AvMain.hd)) {
                this.setNumberPrice(-1);
                this.J = 5;
@@ -610,7 +610,7 @@ public final class PopupShop extends MyScreen {
                }
 
                var1.setClip(var4, var5, this.N, var6 * AvMain.hd);
-               Canvas.paint.a(var1, var4, var5, this.N, var6, PaintPopup.color[2], PaintPopup.color[3], 1);
+               Canvas.paint.drawRectangle(var1, var4, var5, this.N, var6, PaintPopup.color[2], PaintPopup.color[3], 1);
                var4 += AvMain.hDuBox;
                var5 += AvMain.hDuBox - AvMain.hBlack / 2;
 
@@ -632,7 +632,7 @@ public final class PopupShop extends MyScreen {
          if (k) {
             Canvas.resetTrans(var1);
             var1.translate(numTap, Canvas.cameraList.y);
-            Canvas.paint.a(var1, focus, num, h, wPrice, numTap, H, focusTap, numberPrice, I, this.J, this.K);
+            Canvas.paint.drawFormattedText(var1, focus, num, h, wPrice, numTap, H, focusTap, numberPrice, I, this.J, this.K);
          }
       } else {
          var1.setClip(-5, 0, w - 10, sai);

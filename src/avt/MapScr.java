@@ -677,7 +677,7 @@ public final class MapScr extends MyScreen implements IChatable {
          var1.resetTypeChair();
          var1.isLeave = true;
          Fish var2;
-         if ((var2 = FishingScr.c(var0)) != null) {
+         if ((var2 = FishingScr.getFish(var0)) != null) {
             listFish.removeElement(var2);
          }
       }
@@ -865,8 +865,8 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    public final void onRequestAddFriend(Avatar var1, String var2) {
-      IActionAddFriend3 var3;
-      (var3 = new IActionAddFriend3(T.y, -2, new Command(T.e, new IActionAddFriend4(this, var1)), new Command(T.cc, new IActionAddFriend5(this, var1)), false)).a(var2);
+      UNK var3;
+      (var3 = new UNK(T.y, -2, new Command(T.e, new IActionAddFriend4(this, var1)), new Command(T.cc, new IActionAddFriend5(this, var1)), false)).a(var2);
       MessageScr var4 = MessageScr.gI();
       var3.a = true;
       var4.b(var3);
@@ -1288,7 +1288,7 @@ public final class MapScr extends MyScreen implements IChatable {
 
                         for(var19 = 0; var19 < listItemEffect.size(); ++var19) {
                            ItemEffectInfo var22 = (ItemEffectInfo) listItemEffect.elementAt(var19);
-                           var14[5].addElement(new CommandGiftDef(this, T.bS, new IActionGiftDef(this, var19, var22.a), var19, var22, var18));
+                           var14[5].addElement(new CommandGiftDef(this, T.bS, new IActionGiftDef(this, var19, var22.IDAction), var19, var22, var18));
                         }
                      }
 
@@ -1353,7 +1353,7 @@ public final class MapScr extends MyScreen implements IChatable {
          var5.addElement(new Command(var4[var6], new class_ac(this, var1, var2, var6)));
       }
 
-      Canvas.a(var3, var5);
+      Canvas.setInfoC(var3, var5);
    }
 
    public static void onChangeClan(int var0, short var1) {

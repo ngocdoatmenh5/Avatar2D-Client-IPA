@@ -7,15 +7,15 @@ import main.GameMidlet;
 
 public final class MessageScr extends MyScreen {
    private Vector g = new Vector();
-   private MyScreen h;
-   public IActionAddFriend3 a;
+   private MyScreen lastScr;
+   public UNK a;
    public int b;
-   public static TField c;
+   public static TField tfChat;
    public static MessageScr me;
    public static int e;
    private static int i;
    public Command f;
-   private boolean j = true;
+   private boolean isNewMsg = true;
 
    public static MessageScr gI() {
       if (me == null) {
@@ -26,13 +26,13 @@ public final class MessageScr extends MyScreen {
    }
 
    public final void switchToMe(MyScreen var1) {
-      this.h = var1;
+      this.lastScr = var1;
       MyScreen.nMsg = 0;
       gI().b = gI().g.size() - 1;
       this.f();
       PaintPopup.gI().countCloseTab = this.b;
       gI().g();
-      this.j = this.b(this.b).h;
+      this.isNewMsg = this.b(this.b).h;
       this.init();
       PaintPopup.gI().setNameAndFocus(this.b(this.b).b, this.b);
       super.switchToMe();
@@ -49,7 +49,7 @@ public final class MessageScr extends MyScreen {
          var10000 = PaintPopup.gI();
          var10002 = Canvas.w - (e << 1);
          int var10003 = Canvas.h - Canvas.ab - Canvas.hTab - 10;
-         var10000.a(this.b(this.b).b, var10002, var10003 + (OnScreen.isOngame && this.h != BoardScr.me ? -20 : 0), this.g.size());
+         var10000.a(this.b(this.b).b, var10002, var10003 + (OnScreen.isOngame && this.lastScr != BoardScr.me ? -20 : 0), this.g.size());
          i = PaintPopup.gI().y = 10 + Canvas.ab;
       }
    }
@@ -57,8 +57,8 @@ public final class MessageScr extends MyScreen {
    public final void commandActionPointer(int var1, int var2) {
       switch (var1) {
          case 2:
-            this.h.switchToMe();
-            this.h = null;
+            this.lastScr.switchToMe();
+            this.lastScr = null;
          default:
             return;
          case 10:
@@ -69,18 +69,18 @@ public final class MessageScr extends MyScreen {
    public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 1:
-            ParkService.gI().chatToBoard(c.getText());
-            c.setText("");
+            ParkService.gI().chatToBoard(tfChat.getText());
+            tfChat.setText("");
             return;
          case 2:
-            this.h.switchToMe();
-            this.h = null;
+            this.lastScr.switchToMe();
+            this.lastScr = null;
             return;
          case 3:
-            if (!c.getText().equals("")) {
-               IActionAddFriend3 var6 = this.b(this.b);
+            if (!tfChat.getText().equals("")) {
+               UNK var6 = this.b(this.b);
                String var7;
-               if ((var7 = c.getText()).indexOf("hack") != -1) {
+               if ((var7 = tfChat.getText()).indexOf("hack") != -1) {
                   var6.a(GameMidlet.avatar.name + ": " + var7);
                   var7 = var7 + " ";
 
@@ -90,19 +90,19 @@ public final class MessageScr extends MyScreen {
                   }
 
                   GlobalService.gI().doServerKick(var6.g, var7);
-                  c.setText("");
+                  tfChat.setText("");
                   break;
                }
 
                GlobalService.gI().chatTo(var6.g, var7);
-               c.setText("");
+               tfChat.setText("");
                var6.a(GameMidlet.avatar.name + ": " + var7);
             }
 
             return;
          case 4:
-            this.h.switchToMe();
-            this.h = null;
+            this.lastScr.switchToMe();
+            this.lastScr = null;
             return;
          case 5:
             Vector var5 = new Vector();
@@ -138,7 +138,7 @@ public final class MessageScr extends MyScreen {
          super.left = new Command(T.ch, 10);
       }
 
-      this.a = new IActionAddFriend3(T.cg, -1, (Command)null, (Command)null, false);
+      this.a = new UNK(T.cg, -1, (Command)null, (Command)null, false);
    }
 
    public MessageScr() {
@@ -147,15 +147,15 @@ public final class MessageScr extends MyScreen {
          i = 10;
          e = 10;
       } else {
-         e = i = AvMain.aa;
+         e = i = AvMain.duPopup;
       }
 
-      (c = new TField()).x = e + 5;
+      (tfChat = new TField()).x = e + 5;
       this.init();
-      c.setFocus(true);
-      c.setMaxTextLenght(40);
+      tfChat.setFocus(true);
+      tfChat.setMaxTextLenght(40);
       this.initCmd();
-      IActionAddFriend3 var10000 = this.a;
+      UNK var10000 = this.a;
       var10000.i += 20;
       this.g.addElement(this.a);
       this.b = 0;
@@ -168,8 +168,8 @@ public final class MessageScr extends MyScreen {
          this.b(this.b).c();
       }
 
-      c.y = PaintPopup.gI().y + PaintPopup.gI().h - c.height - 6;
-      c.width = Canvas.w - (PaintPopup.gI().x << 1) - 10;
+      tfChat.y = PaintPopup.gI().y + PaintPopup.gI().h - tfChat.height - 6;
+      tfChat.width = Canvas.w - (PaintPopup.gI().x << 1) - 10;
    }
 
    private void g() {
@@ -177,10 +177,10 @@ public final class MessageScr extends MyScreen {
       super.center = this.b(this.b).c;
       super.right = this.b(this.b).d;
       if (super.center != null) {
-         c.setText(this.b(this.b).f);
+         tfChat.setText(this.b(this.b).f);
       }
 
-      this.j = this.b(this.b).h;
+      this.isNewMsg = this.b(this.b).h;
       this.b(this.b).c();
       if (Canvas.currentMyScreen == this) {
          PaintPopup.gI().setNameAndFocus(this.b(this.b).b, this.b);
@@ -189,9 +189,9 @@ public final class MessageScr extends MyScreen {
    }
 
    public final void a(int var1, String var2, String var3) {
-      IActionAddFriend3 var4;
+      UNK var4;
       if ((var4 = this.c(var1)) == null) {
-         var4 = new IActionAddFriend3(var2, var1, !var2.equals("admin") ? new Command(T.ba, 3) : null, !var2.equals("admin") ? c.a() : null, !var2.equals("admin"));
+         var4 = new UNK(var2, var1, !var2.equals("admin") ? new Command(T.ba, 3) : null, !var2.equals("admin") ? tfChat.a() : null, !var2.equals("admin"));
          this.b(var4);
       } else {
          var4.a = true;
@@ -203,29 +203,29 @@ public final class MessageScr extends MyScreen {
       var4.a(var2, var3);
    }
 
-   private IActionAddFriend3 c(int var1) {
+   private UNK c(int var1) {
       for(int var2 = 0; var2 < this.g.size(); ++var2) {
-         if (((IActionAddFriend3)this.g.elementAt(var2)).g == var1) {
-            return (IActionAddFriend3)this.g.elementAt(var2);
+         if (((UNK)this.g.elementAt(var2)).g == var1) {
+            return (UNK)this.g.elementAt(var2);
          }
       }
 
       return null;
    }
 
-   public final IActionAddFriend3 b(int var1) {
-      return var1 < this.g.size() ? (IActionAddFriend3)this.g.elementAt(var1) : null;
+   public final UNK b(int var1) {
+      return var1 < this.g.size() ? (UNK)this.g.elementAt(var1) : null;
    }
 
    public final void paint(Graphics var1) {
-      this.h.paintMain(var1);
+      this.lastScr.paintMain(var1);
       Canvas.resetTrans(var1);
       PaintPopup.gI().paint(var1);
       var1.translate(e, i + PaintPopup.hTab + AvMain.hDuBox);
       this.b(this.b).a(var1);
-      if (this.j) {
+      if (this.isNewMsg) {
          var1.translate(-var1.getTranslateX(), -var1.getTranslateY());
-         c.paint(var1);
+         tfChat.paint(var1);
       }
 
       if (OnScreen.isOngame) {
@@ -236,7 +236,7 @@ public final class MessageScr extends MyScreen {
    }
 
    private void e(int var1) {
-      this.b(this.b).f = c.getText();
+      this.b(this.b).f = tfChat.getText();
       this.b += var1;
       if (this.b < 0) {
          this.b = this.g.size() - 1;
@@ -248,7 +248,7 @@ public final class MessageScr extends MyScreen {
 
       this.g();
       this.b(this.b).a();
-      IActionAddFriend3.j = IActionAddFriend3.k;
+      UNK.j = UNK.k;
    }
 
    public final void keyPress(int var1) {
@@ -260,8 +260,8 @@ public final class MessageScr extends MyScreen {
          this.e(1);
       }
 
-      if (this.j) {
-         c.keyPressed(var1);
+      if (this.isNewMsg) {
+         tfChat.keyPressed(var1);
       }
 
       super.keyPress(var1);
@@ -284,17 +284,17 @@ public final class MessageScr extends MyScreen {
    }
 
    public final void update() {
-      if (this.j) {
-         c.update();
+      if (this.isNewMsg) {
+         tfChat.update();
       }
 
-      if (this.h != null) {
-         this.h.update();
+      if (this.lastScr != null) {
+         this.lastScr.update();
       }
 
    }
 
-   public final void a(IActionAddFriend3 var1) {
+   public final void a(UNK var1) {
       this.g.removeElement(var1);
       if (this.b >= this.g.size()) {
          this.b = this.g.size() - 1;
@@ -307,9 +307,9 @@ public final class MessageScr extends MyScreen {
    }
 
    public final void doAction(int var1, String var2) {
-      IActionAddFriend3 var3;
+      UNK var3;
       if ((var3 = this.c(var1)) == null) {
-         var3 = new IActionAddFriend3(var2, var1, new Command(T.ba, 3), c.a(), true);
+         var3 = new UNK(var2, var1, new Command(T.ba, 3), tfChat.a(), true);
          this.b(var3);
          var3.a(T.ci + var2);
       }
@@ -323,7 +323,7 @@ public final class MessageScr extends MyScreen {
       this.g();
    }
 
-   public final void b(IActionAddFriend3 var1) {
+   public final void b(UNK var1) {
       this.g.addElement(var1);
       if (Canvas.currentMyScreen == this) {
          PaintPopup.gI().setNumTab(this.g.size());

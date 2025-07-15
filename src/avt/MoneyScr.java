@@ -172,7 +172,7 @@ public final class MoneyScr extends MyScreen {
       Canvas.resetTrans(var1);
       if (OnScreen.isOngame) {
          Canvas.paint.paintDefaultBg(var1);
-         Canvas.paint.a(var1, T.cf.toUpperCase(), GameMidlet.avatar.money[0] + T.C, GameMidlet.avatar.money[2] + T.D);
+         Canvas.paint.drawTextElements(var1, T.cf.toUpperCase(), GameMidlet.avatar.money[0] + T.C, GameMidlet.avatar.money[2] + T.D);
       } else if (this.backScr != null) {
          this.backScr.paintMain(var1);
       }
@@ -252,10 +252,10 @@ public final class MoneyScr extends MyScreen {
    private void paintTransMoney(Graphics var1) {
       for(int var2 = 0; var2 < 2; ++var2) {
          if (!super.isHide_ && var2 == super.selected_) {
-            Canvas.paint.c(var1, this.x + 3 * AvMain.hd, var2 * this._hSmall__ + 5, this.w - 6 * AvMain.hd, this._hSmall__);
+            Canvas.paint.drawSelectedArea(var1, this.x + 3 * AvMain.hd, var2 * this._hSmall__ + 5, this.w - 6 * AvMain.hd, this._hSmall__);
          }
 
-         Canvas.normalFont.drawString(var1, T.ew[var2], this.x + 10 + (super.selected_ == var2 ? this.xTrans : 0), var2 * this._hSmall__ + 5 + this._hSmall__ / 2 - AvMain.ah / 2, 0);
+         Canvas.normalFont.drawString(var1, T.ew[var2], this.x + 10 + (super.selected_ == var2 ? this.xTrans : 0), var2 * this._hSmall__ + 5 + this._hSmall__ / 2 - AvMain.hNormal / 2, 0);
       }
 
    }
@@ -271,7 +271,7 @@ public final class MoneyScr extends MyScreen {
                var1.setColor(14328855);
                var1.fillRect(this.x, var4 * this._hSmall__, this.w - 3 * AvMain.hd, this._hSmall__);
             } else {
-               Canvas.paint.c(var1, this.x + 6, var4 * this._hSmall__, this.w - 6 * AvMain.hd, this._hSmall__);
+               Canvas.paint.drawSelectedArea(var1, this.x + 6, var4 * this._hSmall__, this.w - 6 * AvMain.hd, this._hSmall__);
             }
          }
 
@@ -281,7 +281,7 @@ public final class MoneyScr extends MyScreen {
       for(var4 = 0; var4 < var3; ++var4) {
          MoneyInfo var5 = (MoneyInfo)this.avs.elementAt(var4);
          var1.setClip(this.x + var2 - 3, CameraList.cmtoY, this.w - var2 - 2, this.h - (!OnScreen.isOngame ? PaintPopup.hTab + 2 * AvMain.hDuBox : 0));
-         Canvas.normalFont.drawString(var1, var5.info, this.x + var2, var4 * this._hSmall__ + this._hSmall__ / 2 - AvMain.ah / 2, 0);
+         Canvas.normalFont.drawString(var1, var5.info, this.x + var2, var4 * this._hSmall__ + this._hSmall__ / 2 - AvMain.hNormal / 2, 0);
       }
 
    }

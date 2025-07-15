@@ -14,13 +14,13 @@ import avt.*;
 public class GameMidlet extends MIDlet {
    public static String[][][] nameSV = new String[][][]{{{"Xu So Dieu Ky", "Thanh Pho Hoan My", "Thanh Pho Tam Giao", "Thanh Pho Than Thoai", "Thanh Pho Tri Ky", "Thanh Pho Hoa Binh", "Thanh Pho Dieu Ky", "Thanh Pho Mong Mo"}, {"Xu So Than Tien", "Thanh Pho Bao Binh", "Thanh Pho Nhan Ma", "Thanh Pho Su Tu"}}, {{"International Server", "Aries City"}}};
    public static String[][][] ipSV = new String[][][]{{{"112.213.85.102", "112.213.85.104", "27.0.14.77", "112.213.85.106", "112.213.85.110", "112.213.85.101", "112.213.85.103"}, {"115.84.183.38", "210.211.109.119", "210.211.109.119"}}, {{"112.78.1.25"}}};
-   public static int[][][] c = new int[][][]{{{19128, 19128, 19128, 19128, 19128, 19128, 19128, 19128, 19128}, {19128, 19128, 18128}}, {{19128}}};
-   public static final String[][] d = new String[][]{{"http://teamobi.com/srvips/avatar2.txt", "http://trochoididong.us/srvips/avatar_C.txt"}, {"http://teamobi.com/srvips/avatarinterd2.txt", "http://trochoididong.us/srvips/avatarinter_C.txt"}};
+   public static int[][][] PORT = new int[][][]{{{19128, 19128, 19128, 19128, 19128, 19128, 19128, 19128, 19128}, {19128, 19128, 18128}}, {{19128}}};
+   public static final String[][] linkGetHost = new String[][]{{"http://teamobi.com/srvips/avatar2.txt", "http://trochoididong.us/srvips/avatar_C.txt"}, {"http://teamobi.com/srvips/avatarinterd2.txt", "http://trochoididong.us/srvips/avatarinter_C.txt"}};
    public static int CLIENT_TYPE = 8;
    public static byte PROVIDER = -1;
    public static String g;
-   private static Canvas o;
-   public static GameMidlet h;
+   private static Canvas canvas;
+   public static GameMidlet instance;
    public static Avatar avatar;
    public static IndexPlayer myIndexP;
    public static Vector listContainer;
@@ -30,7 +30,7 @@ public class GameMidlet extends MIDlet {
    public static String n;
 
    public GameMidlet() {
-      h = this;
+      instance = this;
       InputStream var1 = this.getClass().getResourceAsStream("/provider.txt");
       StringBuffer var2 = new StringBuffer();
 
@@ -62,13 +62,13 @@ public class GameMidlet extends MIDlet {
       } catch (Exception var4) {
       }
 
-      (o = new Canvas()).d();
+      (canvas = new Canvas()).d();
       avatar = new Avatar();
       myIndexP = new IndexPlayer();
       SplashScr.gI().switchToMe();
-      o.sizeChanged(0, 0);
-      o.setSize();
-      Display.getDisplay(this).setCurrent(o);
+      canvas.sizeChanged(0, 0);
+      canvas.setSize();
+      Display.getDisplay(this).setCurrent(canvas);
       Session_ME.gI().setHandler((IMessageHandler)GlobalMessageHandler.gI());
       String var8;
       if ((var8 = CRes.b("avatar")) == null || !var8.equals("2.5.8")) {
@@ -78,25 +78,25 @@ public class GameMidlet extends MIDlet {
    }
 
    public void destroyApp(boolean var1) {
-      h.notifyDestroyed();
+      instance.notifyDestroyed();
    }
 
-   public static void a() {
-       h.destroyApp(true);
+   public static void exit() {
+       instance.destroyApp(true);
    }
 
    protected void pauseApp() {
    }
 
    protected void startApp() {
-      (p = Display.getDisplay(this)).setCurrent(o);
+      (p = Display.getDisplay(this)).setCurrent(canvas);
    }
 
    public static void doSendSMS(String var0, String var1) {
       (new Thread(new SMSMessageSender(var1, var0))).start();
    }
 
-   public static String a(String var0) {
+   public static String createhttpconnect(String var0) {
       try {
          HttpConnection var4;
          (var4 = (HttpConnection)Connector.open(var0)).setRequestMethod("GET");
@@ -123,8 +123,8 @@ public class GameMidlet extends MIDlet {
 
    public static void flatForm(String var0) {
       try {
-         h.platformRequest(var0);
-         h.notifyDestroyed();
+         instance.platformRequest(var0);
+         instance.notifyDestroyed();
       } catch (ConnectionNotFoundException var1) {
          var1.printStackTrace();
       }

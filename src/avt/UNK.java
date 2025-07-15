@@ -4,7 +4,7 @@ import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import main.Canvas;
 
-public final class IActionAddFriend3 {
+public final class UNK {
    public boolean a;
    public String b;
    public Command c;
@@ -31,7 +31,7 @@ public final class IActionAddFriend3 {
       l = Canvas.fontChatB.getHeight();
    }
 
-   public IActionAddFriend3(String var1, int var2, Command var3, Command var4, boolean var5) {
+   public UNK(String var1, int var2, Command var3, Command var4, boolean var5) {
       this.b = var1;
       this.g = var2;
       this.c = var3;
@@ -48,7 +48,7 @@ public final class IActionAddFriend3 {
    }
 
    private void d() {
-      this.i = PaintPopup.gI().h - PaintPopup.hTab - (AvMain.hDuBox << 1) - 7 - (this.h ? MessageScr.c.height : 0);
+      this.i = PaintPopup.gI().h - PaintPopup.hTab - (AvMain.hDuBox << 1) - 7 - (this.h ? MessageScr.tfChat.height : 0);
    }
 
    public final void a(String var1, String var2) {

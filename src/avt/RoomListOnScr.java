@@ -25,7 +25,7 @@ public final class RoomListOnScr extends MyScreen {
    }
 
    public final void switchToMe() {
-      Canvas.paint.h();
+      Canvas.paint.initResourceThree();
       super.switchToMe();
       super.right = this.cmdClose;
       if (Canvas.stypeInt == 0) {
@@ -152,13 +152,13 @@ public final class RoomListOnScr extends MyScreen {
    public final void paintMain(Graphics var1) {
       Canvas.paint.paintDefaultBg(var1);
       paintRoomList(var1, "Phòng " + title);
-      Canvas.paint.a(var1, this.roomList, this.hSmall_, this._selected);
+      Canvas.paint.drawVectorElements(var1, this.roomList, this.hSmall_, this._selected);
    }
 
    public static void paintRoomList(Graphics var0, String var1) {
       Canvas.paint.paintDefaultBg(var0);
       if (Canvas.w > 200) {
-         Canvas.paint.e(var0, Canvas.hw - 100 * AvMain.hd, 5 * AvMain.hd - CameraList.cmtoY, 200 * AvMain.hd, 44 * AvMain.hd);
+         Canvas.paint.drawContainer(var0, Canvas.hw - 100 * AvMain.hd, 5 * AvMain.hd - CameraList.cmtoY, 200 * AvMain.hd, 44 * AvMain.hd);
          FontX var2 = Canvas.O;
          if (Canvas.stypeInt == 0) {
             var2 = Canvas.borderFont;

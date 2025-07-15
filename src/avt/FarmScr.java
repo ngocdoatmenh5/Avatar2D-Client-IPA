@@ -242,7 +242,7 @@ public final class FarmScr extends MyScreen {
       (var1 = new Vector()).addElement(new Command(avt.T.C, 51));
       var1.addElement(new Command(avt.T.D, 52));
       var1.addElement(Canvas.ad);
-      Canvas.a(var0, var1);
+      Canvas.setInfoC(var0, var1);
    }
 
    private void setAction(IAction var1) {
@@ -1716,7 +1716,7 @@ public final class FarmScr extends MyScreen {
             Canvas.addFlyText(var1, var3.xCell * LoadMap.w + 11, var3.yCell * LoadMap.w, -1, 0, var2.idImg[var3.statusTree], -1);
          } else {
             ImageInfo var5 = FarmData.listImgInfo[var2.idImg[var3.statusTree]];
-            Canvas.a(var1, var3.xCell * LoadMap.w + 11, var3.yCell * LoadMap.w, -1, CRes.createRGBImage(var5.x0 * AvMain.hd, var5.y0 * AvMain.hd, var5.w * AvMain.hd, var5.h * AvMain.hd, FarmData.imgBig[var5.bigID]), -1);
+            Canvas.addFlyText(var1, var3.xCell * LoadMap.w + 11, var3.yCell * LoadMap.w, -1, CRes.createRGBImage(var5.x0 * AvMain.hd, var5.y0 * AvMain.hd, var5.w * AvMain.hd, var5.h * AvMain.hd, FarmData.imgBig[var5.bigID]), -1);
          }
       }
 
@@ -1776,7 +1776,7 @@ public final class FarmScr extends MyScreen {
             }
 
             if (var7 != null) {
-               Canvas.a(var1, var7.x, var7.y - 25, -1, AvatarData.getImgIcon(var2.iconProduct).img, -1);
+               Canvas.addFlyText(var1, var7.x, var7.y - 25, -1, AvatarData.getImgIcon(var2.iconProduct).img, -1);
             }
          }
 
@@ -2144,7 +2144,7 @@ public final class FarmScr extends MyScreen {
          int var2 = var1 - GameMidlet.avatar.money[0];
          LoadMap.focusObj = null;
          Image var3 = AvatarData.getImgIcon(FarmData.getAnimalByID(var4.species).idImg[var4.period]).img;
-         Canvas.a(var2, var4.x, var4.y - 7, -1, CRes.createRGBImage(0, var4.indexFr * var4.height, var3.getWidth(), var4.height, var3), -1);
+         Canvas.addFlyText(var2, var4.x, var4.y - 7, -1, CRes.createRGBImage(0, var4.indexFr * var4.height, var3.getWidth(), var4.height, var3), -1);
          animalLists.removeElement(var4);
          LoadMap.playerLists.removeElement(var4);
       }
@@ -2237,7 +2237,7 @@ public final class FarmScr extends MyScreen {
          Canvas.addFlyText(0, starFruil.x + starFruil.xFruit[var2], starFruil.y - 45 + starFruil.yFruit[var2], -1, 0, starFruil.fruitID, -1);
       }
 
-      Canvas.a(var1, GameMidlet.avatar.x, GameMidlet.avatar.y - GameMidlet.avatar.height, -1, 10);
+      Canvas.addFlyText(var1, GameMidlet.avatar.x, GameMidlet.avatar.y - GameMidlet.avatar.height, -1, 10);
       starFruil.numberFruit = 0;
       Item var3;
       if ((var3 = getItemProductByID(var0)) != null) {

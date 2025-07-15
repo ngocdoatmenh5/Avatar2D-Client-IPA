@@ -9,8 +9,8 @@ import main.Canvas;
 public final class CustomTab extends Face {
    public static CustomTab me;
    private int x;
-   private int c;
-   private int d;
+   private int xChange;
+   private int y;
    private int w;
    private int h;
    private Vector listLabel = new Vector();
@@ -234,14 +234,14 @@ public final class CustomTab extends Face {
       }
 
       this.setFont(var3);
-      this.c = 9 * AvMain.hd;
+      this.xChange = 9 * AvMain.hd;
       if (this.ww < 140 * AvMain.hd) {
          this.ww = 140 * AvMain.hd;
       }
 
       if (this.ww >= 120 && this.ww < this.w - 30) {
          this.w = this.ww + 20 * AvMain.hd;
-         this.c = 10 * AvMain.hd;
+         this.xChange = 10 * AvMain.hd;
       }
 
       if (this.y0 + 10 + (wStr << 1) < this.h - 30) {
@@ -259,7 +259,7 @@ public final class CustomTab extends Face {
       cmtoY = 0;
       cmy = 0;
       this.x = (Canvas.w - this.w) / 2;
-      this.d = (Canvas.h - Canvas.hTab - this.h) / 2;
+      this.y = (Canvas.h - Canvas.hTab - this.h) / 2;
       this.time = System.currentTimeMillis();
    }
 
@@ -278,7 +278,7 @@ public final class CustomTab extends Face {
          yL = 0;
       }
 
-      if (Canvas.isPointerClick && Canvas.isPointer(this.x, this.d, this.w, this.h) && !this.trans) {
+      if (Canvas.isPointerClick && Canvas.isPointer(this.x, this.y, this.w, this.h) && !this.trans) {
          this.pa = cmy;
          this.trans = true;
          this.vY = 0;
@@ -382,9 +382,9 @@ public final class CustomTab extends Face {
 
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      Canvas.paint.paintBoxTab(var1, this.x, this.d, this.h, this.w, 0, 0, PaintPopup.gI().wSub, this.wTab, PaintPopup.hTab, 1, 1, PaintPopup.gI().count, PaintPopup.gI().colorTab, this.title);
-      var1.setClip(this.x + 4, this.d + PaintPopup.hTab + 4 * AvMain.hd, this.w - 8, this.h - PaintPopup.hTab - 8 * AvMain.hd);
-      var1.translate(this.x + this.c, this.d + PaintPopup.hTab);
+      Canvas.paint.paintBoxTab(var1, this.x, this.y, this.h, this.w, 0, 0, PaintPopup.gI().wSub, this.wTab, PaintPopup.hTab, 1, 1, PaintPopup.gI().count, PaintPopup.gI().colorTab, this.title);
+      var1.setClip(this.x + 4, this.y + PaintPopup.hTab + 4 * AvMain.hd, this.w - 8, this.h - PaintPopup.hTab - 8 * AvMain.hd);
+      var1.translate(this.x + this.xChange, this.y + PaintPopup.hTab);
       var1.translate(0, -cmy);
       var1.setColor(0);
 
@@ -409,8 +409,8 @@ public final class CustomTab extends Face {
                } else if (var3.str.length() > 1 && var3.str.substring(0, 1).equals("0")) {
                   var1.setColor(8654855);
                   int var5 = Canvas.M.getWidth(var3.str.substring(1) + "") + 20;
-                  var1.fillRect(var4 - var5 / 2, var3.y + AvMain.ah / 2 - AvMain.hSmall / 2 - 1, var5, Canvas.M.getHeight());
-                  Canvas.M.drawString(var1, var3.str.substring(1) + "", var4, var3.y + AvMain.ah / 2 - AvMain.hBlack / 2, var3.anthor);
+                  var1.fillRect(var4 - var5 / 2, var3.y + AvMain.hNormal / 2 - AvMain.hSmall / 2 - 1, var5, Canvas.M.getHeight());
+                  Canvas.M.drawString(var1, var3.str.substring(1) + "", var4, var3.y + AvMain.hNormal / 2 - AvMain.hBlack / 2, var3.anthor);
                } else {
                   Canvas.normalFont.drawString(var1, var3.str, var4, var3.y, var3.anthor);
                }
@@ -421,7 +421,7 @@ public final class CustomTab extends Face {
       for(var2 = 0; var2 < this.listPic.size(); ++var2) {
          PictureObj var6;
          if ((var6 = (PictureObj)this.listPic.elementAt(var2)).b + var6.e > cmy && var6.b < cmy + this.h) {
-            var1.drawImage((Image)this.listImg.get(String.valueOf(var6.d)), var6.a * ((this.w - (this.c << 1)) / 2), var6.b, var6.c);
+            var1.drawImage((Image)this.listImg.get(String.valueOf(var6.d)), var6.a * ((this.w - (this.xChange << 1)) / 2), var6.b, var6.c);
          }
       }
 

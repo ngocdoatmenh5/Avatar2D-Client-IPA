@@ -40,7 +40,7 @@ public final class BoardListOnScr extends MyScreen {
       OnScreen.f();
       MyScreen.repaint();
       super.selected_ = 0;
-      Canvas.paint.b(type);
+      Canvas.paint.setValue(type);
       if (imgTitleBoard == null) {
          try {
             imgTitleBoard = Image.createImage(T.getPath() + "/on/imgkhungsoban.on");

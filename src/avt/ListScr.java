@@ -22,7 +22,7 @@ public final class ListScr extends MyScreen {
    public static String idFriendList = "friendlist";
    public static Hashtable hList = new Hashtable();
    private boolean isAction = false;
-   private String n;
+   private String name;
    private boolean isHide = false;
    private int xCus = -20;
    private Command cmdSelected;
@@ -62,9 +62,9 @@ public final class ListScr extends MyScreen {
 
    public final void f() {
       if (Canvas.stypeInt == 0) {
-         PaintPopup.gI().a(this.n, Canvas.w - 20, Canvas.hCan - Canvas.hTab - 20, 1);
+         PaintPopup.gI().a(this.name, Canvas.w - 20, Canvas.hCan - Canvas.hTab - 20, 1);
       } else {
-         PaintPopup.gI().a(this.n, Canvas.w - 20 * AvMain.hd, Canvas.h - Canvas.ab - Canvas.hTab - 10 + (OnScreen.isOngame ? 7 * AvMain.hd : 0), 1);
+         PaintPopup.gI().a(this.name, Canvas.w - 20 * AvMain.hd, Canvas.h - Canvas.ab - Canvas.hTab - 10 + (OnScreen.isOngame ? 7 * AvMain.hd : 0), 1);
       }
 
       PaintPopup.gI().y = 10 + Canvas.ab;
@@ -133,7 +133,7 @@ public final class ListScr extends MyScreen {
             StringObj var13 = (StringObj) tempList.elementAt(var7);
             int var8 = 0;
             if (!var11.isHide && var7 == var11.selected) {
-               Canvas.paint.c(var12, 10 * AvMain.hd + 3 + 2 * AvMain.hd, var6 + 2, Canvas.w - 20 * AvMain.hd - 6 - 4 * AvMain.hd, var11.wSmall - 4);
+               Canvas.paint.drawSelectedArea(var12, 10 * AvMain.hd + 3 + 2 * AvMain.hd, var6 + 2, Canvas.w - 20 * AvMain.hd - 6 - 4 * AvMain.hd, var11.wSmall - 4);
                if (var13.w2 > PaintPopup.gI().w - 40) {
                   var11.xCus += 2;
                   if (var11.xCus > var13.w2 - (PaintPopup.gI().w - 40)) {
@@ -148,7 +148,7 @@ public final class ListScr extends MyScreen {
             }
 
             var9 = AvatarData.getImgIcon((short)var13.dis).h + 4;
-            AvatarData.paintImg(var12, var13.dis, 10 * AvMain.hd + 10 + var9 / 2, var6 + var11.wSmall / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
+            AvatarData.paintImg(var12, var13.dis, 10 * AvMain.hd + 10 + var9 / 2, var6 + var11.wSmall / 2 - 12 * AvMain.hd + AvMain.hNormal / 2, 3);
             Canvas.normalFont.drawString(var12, var13.str, 10 * AvMain.hd + 10 + var9, var6 + var11.wSmall / 2 - 12 * AvMain.hd, 0);
             Canvas.fontChatB.drawString(var12, var13.str2, 10 * AvMain.hd + 10 - var8, var6 + var11.wSmall / 2 + 3 * AvMain.hd, 0);
             var6 += var11.wSmall;
@@ -168,7 +168,7 @@ public final class ListScr extends MyScreen {
             var9 = 0;
             int var10;
             if (!var11.isHide && var4 == var11.selected) {
-               Canvas.paint.c(var12, 10 * AvMain.hd + 3 + 2 * AvMain.hd, var6 + 2, Canvas.w - 20 * AvMain.hd - 6 - 4 * AvMain.hd, var11.wSmall - 4);
+               Canvas.paint.drawSelectedArea(var12, 10 * AvMain.hd + 3 + 2 * AvMain.hd, var6 + 2, Canvas.w - 20 * AvMain.hd - 6 - 4 * AvMain.hd, var11.wSmall - 4);
                int var10000 = var10 = Canvas.fontChatB.getWidth(var14.text2);
                int var10003 = AvMain.hd - 1;
                if (var10000 > PaintPopup.gI().w - (57 + var10003 * 30)) {
@@ -189,7 +189,7 @@ public final class ListScr extends MyScreen {
             var10 = 0;
             if (var14.idImg != -1) {
                var10 = 6 * AvMain.hd;
-               AvatarData.paintImg(var12, var14.idImg, 60 + (AvMain.hd - 1) * 30 + var10, var6 + var11.wSmall / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
+               AvatarData.paintImg(var12, var14.idImg, 60 + (AvMain.hd - 1) * 30 + var10, var6 + var11.wSmall / 2 - 12 * AvMain.hd + AvMain.hNormal / 2, 3);
             }
 
             int var10001 = 60 + (AvMain.hd - 1) * 30;
@@ -197,7 +197,7 @@ public final class ListScr extends MyScreen {
             var12.setClip(var10001, CameraList.cmtoY, PaintPopup.gI().w - (47 + var10005 * 30), PaintPopup.gI().h - 5 - (PaintPopup.hTab + 2 * AvMain.hDuBox));
             Canvas.normalFont.drawString(var12, var14.name, 60 + (var10 << 1) + (AvMain.hd - 1) * 30, var6 + var11.wSmall / 2 - 12 * AvMain.hd, 0);
             if (var14.idWedding != -1) {
-               AvatarData.paintImg(var12, var14.idWedding, 60 + 6 * AvMain.hd + (var10 << 1) + (AvMain.hd - 1) * 30 + Canvas.normalFont.getWidth(var14.name), var6 + var11.wSmall / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
+               AvatarData.paintImg(var12, var14.idWedding, 60 + 6 * AvMain.hd + (var10 << 1) + (AvMain.hd - 1) * 30 + Canvas.normalFont.getWidth(var14.name), var6 + var11.wSmall / 2 - 12 * AvMain.hd + AvMain.hNormal / 2, 3);
             }
 
             if (var14.idStatus != -1) {
@@ -391,7 +391,7 @@ public final class ListScr extends MyScreen {
          }
 
          gI().onList(this.focus, var10, Canvas.currentMyScreen);
-         this.n = var5;
+         this.name = var5;
          this.f();
          if (Canvas.currentMyScreen != this) {
             this.switchToMe();

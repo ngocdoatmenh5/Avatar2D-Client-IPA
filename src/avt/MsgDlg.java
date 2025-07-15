@@ -123,7 +123,7 @@ public final class MsgDlg extends Dialog {
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
       if (System.currentTimeMillis() / 100L - this.timeEnd >= 5L) {
-         Canvas.paint.a(var1, this.x, this.y, this.w, this.h, PaintPopup.color[0], PaintPopup.color[1], 0);
+         Canvas.paint.drawRectangle(var1, this.x, this.y, this.w, this.h, PaintPopup.color[0], PaintPopup.color[1], 0);
          if (super.center != null) {
             PaintPopup.fill(this.x + 1, this.y + this.h - (this.hCell + 15 * AvMain.hd - 4), this.w - 2, this.hCell, 15530985, var1);
          }
@@ -134,12 +134,12 @@ public final class MsgDlg extends Dialog {
 
          if (this.size > 0) {
             Command var2 = (Command)this.list.elementAt(this.index);
-            Canvas.normalFont.drawString(var1, var2.caption, Canvas.hw, this.y + this.h - (this.hCell + 15 * AvMain.hd - 4) + this.hCell / 2 - AvMain.ah / 2, 2);
+            Canvas.normalFont.drawString(var1, var2.caption, Canvas.hw, this.y + this.h - (this.hCell + 15 * AvMain.hd - 4) + this.hCell / 2 - AvMain.hNormal / 2, 2);
             if (this.size > 1) {
-               Canvas.paint.b(var1, Canvas.hw - this.u / 2 - 11, (Canvas.stypeInt != 2 ? AvMain.ah / 2 : 0) + this.y + this.h - (this.hCell + 15 * AvMain.hd - 4) + MyScreen.hText / 2 + 1 + (Canvas.stypeInt == 1 ? -7 : 0) + (Canvas.stypeInt == 0 ? -3 : 0), 17 + this.u, this.indexLeft / 3, this.indexRight / 3);
+               Canvas.paint.drawHighlightedArea(var1, Canvas.hw - this.u / 2 - 11, (Canvas.stypeInt != 2 ? AvMain.hNormal / 2 : 0) + this.y + this.h - (this.hCell + 15 * AvMain.hd - 4) + MyScreen.hText / 2 + 1 + (Canvas.stypeInt == 1 ? -7 : 0) + (Canvas.stypeInt == 0 ? -3 : 0), 17 + this.u, this.indexLeft / 3, this.indexRight / 3);
             }
          } else if (super.center != null) {
-            Canvas.normalFont.drawString(var1, super.center.caption, Canvas.hw, this.y + this.h - (this.hCell + 15 * AvMain.hd - 4) + this.hCell / 2 - AvMain.ah / 2, 2);
+            Canvas.normalFont.drawString(var1, super.center.caption, Canvas.hw, this.y + this.h - (this.hCell + 15 * AvMain.hd - 4) + this.hCell / 2 - AvMain.hNormal / 2, 2);
          }
 
          for(int var3 = 0; var3 < this.info.size(); ++var3) {

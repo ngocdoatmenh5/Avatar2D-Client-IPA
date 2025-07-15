@@ -318,7 +318,7 @@ public final class MainMenu extends MyScreen {
       }
 
       this.disSmall = this.wSmall + 2 * AvMain.hd;
-      this.y = AvMain.ag << 1;
+      this.y = AvMain.hBorder << 1;
       this.x = 0;
       this.numW = Canvas.w / this.disSmall;
       if (var1.size() * this.disSmall < Canvas.w) {

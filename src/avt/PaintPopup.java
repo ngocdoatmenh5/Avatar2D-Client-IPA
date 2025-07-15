@@ -34,7 +34,7 @@ public final class PaintPopup {
    }
 
    public PaintPopup() {
-      hTab = (byte)(AvMain.ah << 1);
+      hTab = (byte)(AvMain.hNormal << 1);
       if (Canvas.instance != null && Canvas.isKeyBoard) {
          this.wSub = 17;
       } else {

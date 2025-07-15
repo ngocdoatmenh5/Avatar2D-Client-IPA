@@ -690,10 +690,10 @@ public abstract class BoardScr extends MyScreen implements IChatable {
       if (var1 != 0) {
          if (!isStartGame) {
             var0 = getIndexByID(var0);
-            Canvas.a(var1, posAvatar[indexPlayer[var0]].x, posAvatar[indexPlayer[var0]].y, -1, -1);
+            Canvas.addFlyText(var1, posAvatar[indexPlayer[var0]].x, posAvatar[indexPlayer[var0]].y, -1, -1);
          } else {
             Avatar var2 = getAvatarByID(var0);
-            Canvas.a(var1, var2.x, var2.y, -1, -1);
+            Canvas.addFlyText(var1, var2.x, var2.y, -1, -1);
          }
       }
    }

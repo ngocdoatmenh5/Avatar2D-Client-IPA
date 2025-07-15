@@ -81,7 +81,7 @@ public final class InputDlg extends Dialog {
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
       Canvas.paint.paintPopupBack(var1, Canvas.hw - this.w / 2, Canvas.h - this.h - (Canvas.h - Canvas.ae[0].y + 5), this.w, this.h, 0);
-      int var2 = Canvas.h - this.h - (Canvas.h - Canvas.ae[0].y + 5) + (this.h - this.tfInput.height - 8) / 2 - (this.info.length >> 1) * AvMain.ah - AvMain.ah / 2;
+      int var2 = Canvas.h - this.h - (Canvas.h - Canvas.ae[0].y + 5) + (this.h - this.tfInput.height - 8) / 2 - (this.info.length >> 1) * AvMain.hNormal - AvMain.hNormal / 2;
       if (this.img != null) {
          var1.drawImage(this.img, Canvas.hw, this.tfInput.y - this.img.getHeight() / 2 - 5 * AvMain.hd, 3);
          var2 -= this.img.getHeight() / 2;
@@ -89,7 +89,7 @@ public final class InputDlg extends Dialog {
 
       int var3 = 0;
 
-      for(var2 = var2; var3 < this.info.length; var2 += AvMain.ah) {
+      for(var2 = var2; var3 < this.info.length; var2 += AvMain.hNormal) {
          Canvas.normalFont.drawString(var1, this.info[var3], Canvas.hw, var2, 2);
          ++var3;
       }
@@ -97,8 +97,8 @@ public final class InputDlg extends Dialog {
       this.tfInput.paint(var1);
       if (OnScreen.isOngame) {
          Canvas.resetTrans(var1);
-         Canvas.paint.c(var1);
-         Canvas.paint.b(var1, super.left, super.center, super.right);
+         Canvas.paint.paintBackground(var1);
+         Canvas.paint.paintCommandAlt(var1, super.left, super.center, super.right);
       } else {
          super.paint(var1);
       }

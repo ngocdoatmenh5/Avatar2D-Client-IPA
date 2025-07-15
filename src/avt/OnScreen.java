@@ -79,7 +79,7 @@ public final class OnScreen extends MyScreen {
       }
 
       super.switchToMe();
-      this.g = Canvas.h / 2 - AvMain.ah;
+      this.g = Canvas.h / 2 - AvMain.hNormal;
       this.j = 4;
       this.k = 70 * AvMain.hd;
       if (Canvas.stypeInt == 0) {
@@ -91,7 +91,7 @@ public final class OnScreen extends MyScreen {
          this.h = 100 * AvMain.hd;
       }
 
-      this.i = l.frameHeight + AvMain.ah + 5 * AvMain.hd;
+      this.i = l.frameHeight + AvMain.hNormal + 5 * AvMain.hd;
       this.f = (Canvas.w - this.j * this.h) / 2 + this.h / 2;
       if ((q = this.j * this.h - Canvas.w) < 0) {
          q = 0;
@@ -109,7 +109,7 @@ public final class OnScreen extends MyScreen {
    private static void g() {
       Canvas.hTab = MyScreen.hText;
       if (Canvas.stypeInt == 0) {
-         Canvas.hTab = AvMain.ag + 5;
+         Canvas.hTab = AvMain.hBorder + 5;
       }
 
       Canvas.h = Canvas.instance.getHeight() - Canvas.hTab;
@@ -248,7 +248,7 @@ public final class OnScreen extends MyScreen {
       int var1;
       if (Canvas.isPointerClick) {
          for(var1 = 0; var1 < T.nameMenuOn.length; ++var1) {
-            if (Canvas.b(this.f + var1 % this.j * this.h - this.k / 2, this.g + var1 / this.j * this.i - this.k / 2, this.k, this.k + AvMain.ah + 10)) {
+            if (Canvas.b(this.f + var1 % this.j * this.h - this.k / 2, this.g + var1 / this.j * this.i - this.k / 2, this.k, this.k + AvMain.hNormal + 10)) {
                this.B = Canvas.pxLast;
                this.y = this.x;
                this.t = n;
@@ -334,7 +334,7 @@ public final class OnScreen extends MyScreen {
    public final void paintMain(Graphics var1) {
       Canvas.paint.paintDefaultBg(var1);
       if (Canvas.W != 2) {
-         Canvas.paint.a(var1, Canvas.hw, (this.g - l.frameHeight / 2) / 2);
+         Canvas.paint.drawElement(var1, Canvas.hw, (this.g - l.frameHeight / 2) / 2);
       }
 
       var1.translate(this.f, this.g);
@@ -360,9 +360,9 @@ public final class OnScreen extends MyScreen {
 
    public static void paintTitle(Graphics var0, Command var1, Command var2, Command var3) {
       Canvas.resetTrans(var0);
-      Canvas.paint.c(var0);
+      Canvas.paint.paintBackground(var0);
       if (Canvas.menuMain == null && (Canvas.currentDialog == null || Canvas.currentDialog == TransMoneyDlg.me)) {
-         Canvas.paint.b(var0, var1, var2, var3);
+         Canvas.paint.paintCommandAlt(var0, var1, var2, var3);
       }
 
    }

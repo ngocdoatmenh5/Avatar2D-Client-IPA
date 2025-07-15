@@ -7,30 +7,30 @@ import javax.microedition.lcdui.Image;
 
 public final class FishingScr extends MyScreen
 {
-   private static FishingScr c;
-   private Command d;
-   private Command e;
-   private Command f;
-   public Image a;
-   public FrameImage b;
-   private Fish g;
+   private static FishingScr me;
+   private Command cmdQuanCau;
+   private Command cmdClose;
+   private Command cmdXong;
+   public Image imgPhao;
+   public FrameImage imgCa;
+   private Fish fish;
    private int h;
    private int i;
    private int j;
-   private Image[] k;
-   private int l;
-   private byte[] m;
-   private long n;
-   private short o;
-   private int p;
-   private int q;
-   private int r;
+   private Image[] imgArrow;
+   private int index;
+   private byte[] arrIndex;
+   private long cTime;
+   private short timeDelay;
+   private int iCancau;
+   private int xKeyArr;
+   private int yKeyArr;
 
-   public static FishingScr b() {
-      if (FishingScr.c == null) {
-         return FishingScr.c = new FishingScr();
+   public static FishingScr gI() {
+      if (FishingScr.me == null) {
+         return FishingScr.me = new FishingScr();
       }
-      return FishingScr.c;
+      return FishingScr.me;
    }
 
    public final void commandTab(final int n, final int n2) {
@@ -52,7 +52,7 @@ public final class FishingScr extends MyScreen
             return;
          }
          case 2: {
-            this.e();
+            this.doClose();
             ParkService.gI().doCauCaXong();
             break;
          }
@@ -60,20 +60,20 @@ public final class FishingScr extends MyScreen
    }
 
    public FishingScr() {
-      this.g = new Fish();
-      this.l = 0;
-      this.d = new Command(T.cz, 0);
-      this.f = new Command(T.cy, 1);
-      this.e = new Command(T.d, 2);
-      super.center = this.d;
+      this.fish = new Fish();
+      this.index = 0;
+      this.cmdQuanCau = new Command(T.cz, 0);
+      this.cmdXong = new Command(T.cy, 1);
+      this.cmdClose = new Command(T.d, 2);
+      super.center = this.cmdQuanCau;
       FilePack.b(T.av);
-      this.a = FilePack.getImage("cucphao");
-      this.b = FrameImage.init("ca", 14 * AvMain.hd, 14 * AvMain.hd);
+      this.imgPhao = FilePack.getImage("cucphao");
+      this.imgCa = FrameImage.init("ca", 14 * AvMain.hd, 14 * AvMain.hd);
       FilePack.reset();
       this.j = 530;
    }
 
-   private void e() {
+   private void doClose() {
       GameMidlet.avatar.resetTypeChair();
       if (GameMidlet.avatar.direct == 0) {
          final Avatar i = GameMidlet.avatar;
@@ -86,24 +86,24 @@ public final class FishingScr extends MyScreen
       final Avatar k = GameMidlet.avatar;
       k.y -= 10;
       AvCamera.setDistance(Canvas.w / 10);
-      MapScr.listFish.removeElement(this.g);
+      MapScr.listFish.removeElement(this.fish);
       MapScr.gI().switchToMe();
    }
 
-   public final boolean b(final int n, final int n2) {
-      this.r = Canvas.h - Canvas.h / 4;
-      if (this.r > Canvas.h - 70 * AvMain.hd) {
-         this.r = Canvas.h - 70 * AvMain.hd;
+   public final boolean doSat(final int n, final int n2) {
+      this.yKeyArr = Canvas.h - Canvas.h / 4;
+      if (this.yKeyArr > Canvas.h - 70 * AvMain.hd) {
+         this.yKeyArr = Canvas.h - 70 * AvMain.hd;
       }
-      this.q = 60;
-      if (this.q < (Canvas.w - LoadMap.wMap * 24) / 2 + 50 * AvMain.hd) {
-         this.q = (Canvas.w - LoadMap.wMap * 24) / 2 + 50 * AvMain.hd;
+      this.xKeyArr = 60;
+      if (this.xKeyArr < (Canvas.w - LoadMap.wMap * 24) / 2 + 50 * AvMain.hd) {
+         this.xKeyArr = (Canvas.w - LoadMap.wMap * 24) / 2 + 50 * AvMain.hd;
       }
-      this.l = 0;
+      this.index = 0;
       final int d = LoadMap.getposMap(n, n2);
       if (LoadMap.map[d + 1] == 100 || LoadMap.map[d + 1] == 16 || LoadMap.map[d + 1] == 13) {
          GameMidlet.avatar.direct = 0;
-         this.q = Canvas.w - this.q;
+         this.xKeyArr = Canvas.w - this.xKeyArr;
       }
       else {
          GameMidlet.avatar.direct = Base.LEFT;
@@ -113,29 +113,29 @@ public final class FishingScr extends MyScreen
       (a = ParkService.gI()).createMessage((byte)86);
       a.sendMessage();
       Canvas.startWaitDlg();
-      super.right = this.e;
-      Canvas.f();
+      super.right = this.cmdClose;
+      Canvas.clearKeyHold();
       return true;
    }
 
    public final void update() {
       MapScr.gI().update();
-      if (this.g.isCanCau && !this.g.isSuccess) {
-         if (this.l < this.m.length && System.currentTimeMillis() - this.n > this.o) {
-            this.f(0);
+      if (this.fish.isCanCau && !this.fish.isSuccess) {
+         if (this.index < this.arrIndex.length && System.currentTimeMillis() - this.cTime > this.timeDelay) {
+            this.setIndex(0);
          }
          if (GameMidlet.avatar.action == 2) {
-            --this.p;
-            if (this.p < 0) {
-               this.p = 0;
-               this.g.setPosDay(1);
+            --this.iCancau;
+            if (this.iCancau < 0) {
+               this.iCancau = 0;
+               this.fish.setPosDay(1);
             }
          }
       }
    }
 
    public final void keyPress(final int n) {
-      if (this.g.isCanCau && !this.g.isSuccess) {
+      if (this.fish.isCanCau && !this.fish.isSuccess) {
          switch (n) {
             case 50:
             case 52:
@@ -151,73 +151,73 @@ public final class FishingScr extends MyScreen
    }
 
    public final void updateKey() {
-      if (this.g.isCanCau && !this.g.isSuccess) {
+      if (this.fish.isCanCau && !this.fish.isSuccess) {
          if (Canvas.a(2)) {
-            this.f(2);
+            this.setIndex(2);
          }
          else if (Canvas.a(4)) {
-            this.f(1);
+            this.setIndex(1);
          }
          else if (Canvas.a(6)) {
-            this.f(3);
+            this.setIndex(3);
          }
          else if (Canvas.a(8)) {
-            this.f(4);
+            this.setIndex(4);
          }
       }
       super.updateKey();
    }
 
-   private void f(final int n) {
-      this.n = System.currentTimeMillis();
-      if (this.l < this.m.length) {
-         this.m[this.l] = (byte)n;
+   private void setIndex(final int n) {
+      this.cTime = System.currentTimeMillis();
+      if (this.index < this.arrIndex.length) {
+         this.arrIndex[this.index] = (byte)n;
       }
-      ++this.l;
+      ++this.index;
       if (GameMidlet.avatar.action != 2) {
-         this.g.setPosDay(0);
-         this.p = 2;
+         this.fish.setPosDay(0);
+         this.iCancau = 2;
       }
-      if (this.l >= this.m.length) {
-         this.g.setPosDay(0);
-         this.g.isSuccess = true;
-         ParkService.gI().doFinishFishing(true, this.m);
+      if (this.index >= this.arrIndex.length) {
+         this.fish.setPosDay(0);
+         this.fish.isSuccess = true;
+         ParkService.gI().doFinishFishing(true, this.arrIndex);
          Canvas.startWaitDlg();
       }
    }
 
    public final void paint(final Graphics graphics) {
       MapScr.gI().paintMain(graphics);
-      if (this.g.isCanCau && !this.g.isSuccess && this.o != -1) {
+      if (this.fish.isCanCau && !this.fish.isSuccess && this.timeDelay != -1) {
          Canvas.resetTrans(graphics);
          graphics.translate(-AvCamera.gI().xCam, -AvCamera.gI().yCam);
          graphics.setColor(8575990);
-         if (this.k != null && this.l < this.k.length) {
-            if (System.currentTimeMillis() - this.n > 50L) {
+         if (this.imgArrow != null && this.index < this.imgArrow.length) {
+            if (System.currentTimeMillis() - this.cTime > 50L) {
                graphics.setColor(1423411);
             }
             else {
                graphics.setColor(15612731);
             }
-            graphics.fillRoundRect(this.h - 1, this.i * AvMain.hd - 1, this.k[this.l].getWidth() + 2, this.k[this.l].getHeight() + 2, 5, 5);
-            graphics.drawImage(this.k[this.l], this.h, this.i * AvMain.hd, 0);
+            graphics.fillRoundRect(this.h - 1, this.i * AvMain.hd - 1, this.imgArrow[this.index].getWidth() + 2, this.imgArrow[this.index].getHeight() + 2, 5, 5);
+            graphics.drawImage(this.imgArrow[this.index], this.h, this.i * AvMain.hd, 0);
          }
       }
       super.paint(graphics);
    }
 
-   public final void b(final int n) {
+   public final void onQuanCau(final int n) {
       final Avatar g;
       if ((g = LoadMap.getAvatar(n)) != null) {
          final Avatar b = g;
          final Fish c;
-         if ((c = c(b.IDDB)) != null) {
+         if ((c = getFish(b.IDDB)) != null) {
             MapScr.listFish.removeElement(c);
          }
          Fish fish = new Fish();
          if (b.IDDB == GameMidlet.avatar.IDDB) {
             Canvas.endDlg();
-            this.g = fish;
+            this.fish = fish;
          }
          else {
             fish = new Fish();
@@ -234,9 +234,9 @@ public final class FishingScr extends MyScreen
       }
    }
 
-   public final void a(int i, final int h, final short o, final byte[][] array) {
+   public final void onCaCanCau(int i, final int h, final short o, final byte[][] array) {
       final Fish c;
-      if ((c = c(i)) != null && c.isQuan != 0) {
+      if ((c = getFish(i)) != null && c.isQuan != 0) {
          if ((c.ava.action != 13 && c.ava.action != 2) || c.isCanCau) {
             return;
          }
@@ -248,27 +248,27 @@ public final class FishingScr extends MyScreen
             Canvas.addFlyTextSmall(T.cA, c.ava.x, c.ava.y - 60, -1, 1, -1);
          }
          if (i == GameMidlet.avatar.IDDB) {
-            this.n = System.currentTimeMillis();
-            this.l = 0;
-            this.p = 2;
-            this.k = new Image[array.length];
-            this.m = new byte[array.length];
-            for (i = 0; i < this.k.length; ++i) {
-               this.k[i] = CRes.createImage(array[i]);
+            this.cTime = System.currentTimeMillis();
+            this.index = 0;
+            this.iCancau = 2;
+            this.imgArrow = new Image[array.length];
+            this.arrIndex = new byte[array.length];
+            for (i = 0; i < this.imgArrow.length; ++i) {
+               this.imgArrow[i] = CRes.createImage(array[i]);
             }
-            this.o = o;
-            this.h = this.g.posTemp[this.g.size - 2].x;
-            this.i = this.g.posTemp[this.g.size - 2].y - 30;
+            this.timeDelay = o;
+            this.h = this.fish.posTemp[this.fish.size - 2].x;
+            this.i = this.fish.posTemp[this.fish.size - 2].y - 30;
             if (o == -1) {
-               this.f(0);
+               this.setIndex(0);
             }
          }
       }
    }
 
-   public final void c(final int n, final int h) {
+   public final void onFinish(final int n, final int h) {
       final Fish c;
-      if ((c = c(n)) != null) {
+      if ((c = getFish(n)) != null) {
          if (c.ava.action != 2 && c.ava.action != 13) {
             MapScr.listFish.removeElement(c);
             return;
@@ -280,13 +280,13 @@ public final class FishingScr extends MyScreen
          c.isSuccess = true;
          c.setPosDay(0);
          if (c.ava.IDDB == GameMidlet.avatar.IDDB) {
-            super.right = this.f;
+            super.right = this.cmdXong;
             Canvas.endDlg();
          }
       }
    }
 
-   public static Fish c(final int n) {
+   public static Fish getFish(final int n) {
       for (int i = 0; i < MapScr.listFish.size(); ++i) {
          final Fish fish;
          if ((fish = (Fish) MapScr.listFish.elementAt(i)).ava.IDDB == n) {
@@ -296,27 +296,27 @@ public final class FishingScr extends MyScreen
       return null;
    }
 
-   public final void e(final int n) {
-      final Fish c = c(n);
+   public final void onCauCaXong(final int n) {
+      final Fish c = getFish(n);
       if (n == GameMidlet.avatar.IDDB) {
-         super.center = this.d;
-         super.right = this.e;
+         super.center = this.cmdQuanCau;
+         super.right = this.cmdClose;
          Canvas.endDlg();
       }
       if (c != null) {
          final PartSmall partSmall;
          if (c.idFish > 0 && (partSmall = (PartSmall)AvatarData.getPart((short)c.idFish)) != null) {
             final ImageInfo imageInfo;
-            Canvas.a(1, c.ava.x, c.ava.y + c.ava.ySat - 50, -1, Image.createImage(AvatarData.getBigImgInfo((int)(imageInfo = AvatarData.listImgInfo[partSmall.idIcon]).bigID).img, imageInfo.x0 * AvMain.hd, imageInfo.y0 * AvMain.hd, imageInfo.w * AvMain.hd, imageInfo.h * AvMain.hd, 0), -1);
+            Canvas.addFlyText(1, c.ava.x, c.ava.y + c.ava.ySat - 50, -1, Image.createImage(AvatarData.getBigImgInfo((int)(imageInfo = AvatarData.listImgInfo[partSmall.idIcon]).bigID).img, imageInfo.x0 * AvMain.hd, imageInfo.y0 * AvMain.hd, imageInfo.w * AvMain.hd, imageInfo.h * AvMain.hd, 0), -1);
          }
          MapScr.listFish.removeElement(c);
       }
    }
 
-   public final void a(final boolean b, final String s) {
+   public final void onStartFishing(final boolean b, final String s) {
       if (b) {
-         this.g.doSetDayCau();
-         super.center = this.d;
+         this.fish.doSetDayCau();
+         super.center = this.cmdQuanCau;
          this.switchToMe();
          AvCamera.setDistance(Canvas.w / 3);
          Canvas.endDlg();
@@ -328,13 +328,13 @@ public final class FishingScr extends MyScreen
    public final void commandActionPointer(final int n) {
       switch (n) {
          case 0: {
-            this.e();
+            this.doClose();
             break;
          }
       }
    }
 
-   public static void e(final int n, final int n2) {
+   public static void onStatus(final int n, final int n2) {
       final Avatar g;
       if ((g = LoadMap.getAvatar(n)) != null && (g.action == 2 || g.action == 13)) {
          final Fish obj = new Fish();
@@ -361,7 +361,7 @@ public final class FishingScr extends MyScreen
    public final void commandActionPointer(final int n, final int n2) {
    }
 
-   public final void a(final int n, final byte b, final byte b2, final int n2, final short n3) {
+   public final void onInfo(final int n, final byte b, final byte b2, final int n2, final short n3) {
       Avatar g;
       if ((g = LoadMap.getAvatar(n)) == null && ListScr.tempList != null) {
          for (int i = 0; i < ListScr.tempList.size(); ++i) {

@@ -297,7 +297,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                   (var110 = new Vector()).addElement(new Command(T.C, 3, FarmScr.instance));
                   var110.addElement(new Command(T.D, 4, FarmScr.instance));
                   var110.addElement(Canvas.ad);
-                  Canvas.a(var66, var110);
+                  Canvas.setInfoC(var66, var110);
                   return;
                }
 
@@ -318,7 +318,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                   (var68 = new Vector()).addElement(new Command(T.C, 5, FarmScr.instance));
                   var68.addElement(new Command(T.D, 6, FarmScr.instance));
                   var68.addElement(Canvas.ad);
-                  Canvas.a(var109, var68);
+                  Canvas.setInfoC(var109, var68);
                   return;
                }
 
@@ -359,7 +359,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                var10000[0] -= var71;
                FarmScr.starFruil.timeFinish = var72 * 60;
                FarmScr.starFruil.time = System.currentTimeMillis();
-               Canvas.a(-var71, GameMidlet.avatar.x, GameMidlet.avatar.y, -1, -1);
+               Canvas.addFlyText(-var71, GameMidlet.avatar.x, GameMidlet.avatar.y, -1, -1);
                return;
             case 85:
                var71 = var1.reader().readShort();
@@ -388,7 +388,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                   (var115 = new Vector()).addElement(new Command(T.C, 9, FarmScr.instance));
                   var115.addElement(new Command(T.D, 10, FarmScr.instance));
                   var115.addElement(Canvas.ad);
-                  Canvas.a(var75, var115);
+                  Canvas.setInfoC(var75, var115);
                   return;
                }
 
@@ -449,7 +449,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                   (var116 = new Vector()).addElement(new Command(T.C, 13, FarmScr.instance));
                   var116.addElement(new Command(T.D, 14, FarmScr.instance));
                   var116.addElement(Canvas.ad);
-                  Canvas.a(var114, var116);
+                  Canvas.setInfoC(var114, var116);
                   return;
                }
 
@@ -503,7 +503,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
 
       var0.isGrass = var4;
       if (var3 >= 0) {
-         Canvas.a(0, var0.xCell * LoadMap.w + 11, var0.yCell * LoadMap.w, -1, CRes.createRGBImage(0, var3, 13 * AvMain.hd, 9 * AvMain.hd, FarmScr.q.imgFrame), -1);
+         Canvas.addFlyText(0, var0.xCell * LoadMap.w + 11, var0.yCell * LoadMap.w, -1, CRes.createRGBImage(0, var3, 13 * AvMain.hd, 9 * AvMain.hd, FarmScr.q.imgFrame), -1);
       }
 
    }
@@ -528,7 +528,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
       }
 
       if (var3 >= 0) {
-         Canvas.a(0, var0.x, var0.y - var0.height, -1, CRes.createRGBImage(0, var3, 9 * AvMain.hd, 13 * AvMain.hd, FarmScr.u.imgFrame), -1);
+         Canvas.addFlyText(0, var0.x, var0.y - var0.height, -1, CRes.createRGBImage(0, var3, 9 * AvMain.hd, 13 * AvMain.hd, FarmScr.u.imgFrame), -1);
       }
 
       var0.disease[0] = var5;

@@ -99,16 +99,16 @@ public final class ServerListScr extends MyScreen {
    private void onGetText() {
       while(true) {
          Canvas.startWaitCancelDlg(T.b);
-         if (this.indexUSer >= GameMidlet.d[OptionScr.gI().mapFocus[4]].length) {
+         if (this.indexUSer >= GameMidlet.linkGetHost[OptionScr.gI().mapFocus[4]].length) {
             Canvas.startOKDlg(T.ds);
             this.indexUSer = 0;
             return;
          }
 
          String var1;
-         if ((var1 = GameMidlet.a(GameMidlet.d[OptionScr.gI().mapFocus[4]][this.indexUSer])) != null) {
+         if ((var1 = GameMidlet.createhttpconnect(GameMidlet.linkGetHost[OptionScr.gI().mapFocus[4]][this.indexUSer])) != null) {
             String[] var6 = Canvas.normalFont.split(var1, "*");
-            GameMidlet.c[OptionScr.gI().mapFocus[4]] = new int[var6.length - 1][];
+            GameMidlet.PORT[OptionScr.gI().mapFocus[4]] = new int[var6.length - 1][];
             GameMidlet.ipSV[OptionScr.gI().mapFocus[4]] = new String[var6.length - 1][];
             GameMidlet.nameSV[OptionScr.gI().mapFocus[4]] = new String[var6.length - 1][];
 
@@ -116,7 +116,7 @@ public final class ServerListScr extends MyScreen {
                String[] var3 = Canvas.normalFont.split(var6[var2], "\n");
                GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2 - 1] = new String[var3.length - 1];
                GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2 - 1] = new String[var3.length - 2];
-               GameMidlet.c[OptionScr.gI().mapFocus[4]][var2 - 1] = new int[var3.length - 2];
+               GameMidlet.PORT[OptionScr.gI().mapFocus[4]][var2 - 1] = new int[var3.length - 2];
                GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2 - 1][0] = var3[0];
 
                for(int var4 = 1; var4 < var3.length - 1; ++var4) {
@@ -124,7 +124,7 @@ public final class ServerListScr extends MyScreen {
                   GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2 - 1][var4] = var5[0];
                   GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2 - 1][var4 - 1] = var5[1];
                   var5[2] = var5[2].substring(0, var5[2].length() - 1);
-                  GameMidlet.c[OptionScr.gI().mapFocus[4]][var2 - 1][var4 - 1] = Integer.parseInt(var5[2]);
+                  GameMidlet.PORT[OptionScr.gI().mapFocus[4]][var2 - 1][var4 - 1] = Integer.parseInt(var5[2]);
                }
             }
 
@@ -360,26 +360,26 @@ public final class ServerListScr extends MyScreen {
       Canvas.resetTrans(var1);
       PaintPopup.gI().paint(var1);
       if (GameMidlet.avatar != null && !GameMidlet.avatar.name.equals("")) {
-         Canvas.borderFont.drawString(var1, T.dz + ", " + GameMidlet.avatar.name, PaintPopup.gI().x + PaintPopup.gI().w / 2, PaintPopup.gI().y - AvMain.ag, 2);
+         Canvas.borderFont.drawString(var1, T.dz + ", " + GameMidlet.avatar.name, PaintPopup.gI().x + PaintPopup.gI().w / 2, PaintPopup.gI().y - AvMain.hBorder, 2);
       }
 
       var1.translate(x, y);
       var1.setClip(0, 0, PaintPopup.gI().w - 9, PaintPopup.gI().h - (PaintPopup.hTab + (AvMain.hDuBox << 1)));
       var1.translate(0, -cmy);
       if (!super.isHide_) {
-         Canvas.paint.c(var1, 2 * AvMain.hd, this.indexSV * MyScreen.hText + (this.isSelected ? super.selected_ * MyScreen.hText : 0), PaintPopup.gI().w - 8 - 4 * AvMain.hd, MyScreen.hText);
+         Canvas.paint.drawSelectedArea(var1, 2 * AvMain.hd, this.indexSV * MyScreen.hText + (this.isSelected ? super.selected_ * MyScreen.hText : 0), PaintPopup.gI().w - 8 - 4 * AvMain.hd, MyScreen.hText);
       }
 
-      int var2 = (MyScreen.hText - AvMain.ah) / 2;
+      int var2 = (MyScreen.hText - AvMain.hNormal) / 2;
 
       for(int var3 = 0; var3 < GameMidlet.nameSV[OptionScr.gI().mapFocus[4]].length; ++var3) {
          Canvas.normalFont.drawString(var1, GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var3][0], 24 * AvMain.hd, var2, 0);
-         PaintPopup.imgArrowUp.drawFrame(0, 14 * AvMain.hd, var2 + AvMain.ah / 2, 5, 3, var1);
+         PaintPopup.imgArrowUp.drawFrame(0, 14 * AvMain.hd, var2 + AvMain.hNormal / 2, 5, 3, var1);
          var2 += MyScreen.hText;
          if (this.isSelected && this.indexSV == var3) {
             for(int var4 = 1; var4 < GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var3].length; ++var4) {
                Canvas.normalFont.drawString(var1, GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var3][var4], 36 * AvMain.hd, var2, 0);
-               var1.drawImage(this.img, 24 * AvMain.hd, var2 + AvMain.ah / 2, 3);
+               var1.drawImage(this.img, 24 * AvMain.hd, var2 + AvMain.hNormal / 2, 3);
                var2 += MyScreen.hText;
             }
          }

@@ -107,8 +107,8 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       paint = new MediumPaint();
       MyScreen.ITEM_HEIGHT = normalFont.getHeight() + 6;
       AvMain.hBlack = (byte) fontChatB.getHeight();
-      AvMain.ag = (byte) borderFont.getHeight();
-      AvMain.ah = (byte) normalFont.getHeight();
+      AvMain.hBorder = (byte) borderFont.getHeight();
+      AvMain.hNormal = (byte) normalFont.getHeight();
       AvMain.hSmall = (byte) smallFontRed.getHeight();
       this.setSize();
       hw = w / 2;
@@ -156,7 +156,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       loadMap = new LoadMap();
       cameraList = new CameraList();
       OptionScr.gI().initSize();
-      paint.c();
+      paint.initPos();
       if (this.hasPointerEvents()) {
          au = new Vector();
       }
@@ -185,9 +185,9 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    public final void setSize() {
       w = this.getWidth();
       h = this.getHeight();
-      AvMain.aa = 20;
+      AvMain.duPopup = 20;
       if (w < 176) {
-         AvMain.aa = 4;
+         AvMain.duPopup = 4;
       }
 
       if (OptionScr.isVirTualKey && isKeyBoard) {
@@ -199,7 +199,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
       hCan = h;
       hw = w / 2;
-      paint.c();
+      paint.initPos();
       hh = h / 2;
       paint.init();
       if (menuMain != null) {
@@ -313,7 +313,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             var0 = 0;
          }
 
-         String var1 = "socket://" + GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][ServerListScr.gI().indexSV][var0] + ":" + GameMidlet.c[OptionScr.gI().mapFocus[4]][ServerListScr.gI().indexSV][var0];
+         String var1 = "socket://" + GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][ServerListScr.gI().indexSV][var0] + ":" + GameMidlet.PORT[OptionScr.gI().mapFocus[4]][ServerListScr.gI().indexSV][var0];
          if (E) {
             if (OptionScr.e) {
                var1 = var1 + ";interface=wifi";
@@ -345,14 +345,14 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             if (this.ap > 0) {
                --this.ap;
                if (this.ap == 0) {
-                  Display.getDisplay(GameMidlet.h).vibrate(0);
+                  Display.getDisplay(GameMidlet.instance).vibrate(0);
                }
             }
 
             long var1 = System.currentTimeMillis();
             if (++gameTick > 10000) {
                if (System.currentTimeMillis() - this.ar > 20000L && currentMyScreen == LoginScr.me) {
-                  GameMidlet.h.notifyDestroyed();
+                  GameMidlet.instance.notifyDestroyed();
                }
 
                gameTick = 0;
@@ -400,7 +400,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                         --ab;
                      }
                   } else {
-                     if (ab < AvMain.ag) {
+                     if (ab < AvMain.hBorder) {
                         ++ab;
                      }
 
@@ -518,7 +518,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                isPointerRelease = false;
 
                for(var3 = 0; var3 < flyTexts.size(); ++var3) {
-                  ((FlyTextInfo) flyTexts.elementAt(var3)).a();
+                  ((FlyTextInfo) flyTexts.elementAt(var3)).update();
                }
 
                if (E || ak) {
@@ -833,7 +833,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
    }
 
-   public static void f() {
+   public static void clearKeyHold() {
       isPointerRelease = false;
       isPointerDown = false;
 
@@ -862,7 +862,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       return var2;
    }
 
-   public static void a(int var0, int var1, int var2, int var3, int var4) {
+   public static void addFlyText(int var0, int var1, int var2, int var3, int var4) {
       flyTexts.addElement(new FlyTextInfo(var1, var2, var0, -1, (Image)null, var4, -1, -1));
    }
 
@@ -870,7 +870,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       flyTexts.addElement(new FlyTextInfo(var1, var2, var0, -1, (Image)null, 0, var5, -1));
    }
 
-   public static void a(int var0, int var1, int var2, int var3, Image var4, int var5) {
+   public static void addFlyText(int var0, int var1, int var2, int var3, Image var4, int var5) {
       flyTexts.addElement(new FlyTextInfo(var1, var2, var0, -1, var4, var5, -1, -1));
    }
 
@@ -923,7 +923,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
          int var3;
          for(var3 = 0; var3 < flyTexts.size(); ++var3) {
-            ((FlyTextInfo) flyTexts.elementAt(var3)).a(var6);
+            ((FlyTextInfo) flyTexts.elementAt(var3)).paint(var6);
          }
 
          if (ab > 0) {
@@ -939,8 +939,8 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             var6.fillRect(0, ab, w, 1);
             if (listInfoSV.size() > 0) {
                resetTrans(var6);
-               var3 = ab / 2 - AvMain.ag / 2;
-               var6.setClip(0, var3, w, AvMain.ag + 2);
+               var3 = ab / 2 - AvMain.hBorder / 2;
+               var6.setClip(0, var3, w, AvMain.hBorder + 2);
                StringObj var4 = (StringObj) listInfoSV.elementAt(0);
                borderFont.drawString(var6, var4.str, var4.x, var3, 0);
                resetTrans(var6);
@@ -985,7 +985,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       msgdlg.setInfoC(var0, new Command(T.z, -1), (Vector)null);
    }
 
-   public static void a(String var0, Vector var1) {
+   public static void setInfoC(String var0, Vector var1) {
       if (OnScreen.isOngame) {
          msgdlg.setInfoC(var0, (Command)null, var1);
       } else {
@@ -997,33 +997,33 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       Vector var2;
       (var2 = new Vector()).addElement(new Command(T.o, var1));
       var2.addElement(ad);
-      a(var0, var2);
+      setInfoC(var0, var2);
    }
 
    public static void startOKDlg(String var0, int var1, AvMain var2) {
       Vector var3;
       (var3 = new Vector()).addElement(new Command(T.o, var1, var2));
       var3.addElement(ad);
-      a(var0, var3);
+      setInfoC(var0, var3);
    }
 
    public static void startOK(String var0, IAction var1) {
       Vector var2;
       (var2 = new Vector()).addElement(new Command(T.z, var1));
-      a(var0, var2);
+      setInfoC(var0, var2);
    }
 
    public static void startOKDlg(String var0, int var1) {
       Vector var2;
       (var2 = new Vector()).addElement(new Command(T.o, var1));
       var2.addElement(ad);
-      a(var0, var2);
+      setInfoC(var0, var2);
    }
 
    public static void startOK(String var0, int var1, AvMain var2) {
       Vector var3;
       (var3 = new Vector()).addElement(new Command(T.z, var1, var2));
-      a(var0, var3);
+      setInfoC(var0, var3);
    }
 
    public static void startWaitDlg(String var0) {
@@ -1117,7 +1117,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                MapScr.gI().switchToMe();
             }
 
-            Display.getDisplay(GameMidlet.h).setCurrent(this);
+            Display.getDisplay(GameMidlet.instance).setCurrent(this);
             this.setFullScreenMode(true);
             OnSplashScr.isOpen = false;
          }
@@ -1129,7 +1129,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
          }
 
          OnSplashScr.isOpen = false;
-         Display.getDisplay(GameMidlet.h).setCurrent(this);
+         Display.getDisplay(GameMidlet.instance).setCurrent(this);
          this.setFullScreenMode(true);
       }
 
@@ -1176,7 +1176,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
          var6.addElement(new Command(T.p, var4));
       }
 
-      a(var5, var6);
+      setInfoC(var5, var6);
    }
 
    public static int getSecond() {

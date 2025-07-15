@@ -150,8 +150,8 @@ public final class MiniMap extends MyScreen {
             var5.addCommand(var3);
             javax.microedition.lcdui.Command var4 = new javax.microedition.lcdui.Command(T.d, 2, 1);
             var5.addCommand(var4);
-            var5.setCommandListener(new class_fs(this, var3, var6));
-            Display.getDisplay(GameMidlet.h).setCurrent(var5);
+            var5.setCommandListener(new MiniMapCommandListener(this, var3, var6));
+            Display.getDisplay(GameMidlet.instance).setCurrent(var5);
             return;
          case 5:
             GlobalService.gI().requestService((byte)3, (String)null);

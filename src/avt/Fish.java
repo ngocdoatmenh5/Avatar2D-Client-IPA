@@ -426,12 +426,12 @@ public final class Fish {
 
             int var10002 = this.posTemp[this.size - 2].x;
             int var10003 = this.posTemp[this.size - 2].y;
-            var1.drawImage(FishingScr.b().a, var10002, var10003, 3);
+            var1.drawImage(FishingScr.gI().imgPhao, var10002, var10003, 3);
             if (this.isSuccess && this.idFish > 0) {
                int var10001 = 0 + this.count / 3;
                var10002 = this.posTemp[this.size - 2].x + 2;
                var10003 = this.posTemp[this.size - 2].y + 4;
-               FishingScr.b().b.drawFrame(var10001, var10002, var10003, 0, 24, var1);
+               FishingScr.gI().imgCa.drawFrame(var10001, var10002, var10003, 0, 24, var1);
                PartSmall var3;
                if (Canvas.gameTick % 10 > 5 && (var3 = (PartSmall)AvatarData.getPart((short)this.idFish)) != null) {
                   var3.paint(var1, this.ava.x * AvMain.hd, this.ava.y - 55 * AvMain.hd, 3);

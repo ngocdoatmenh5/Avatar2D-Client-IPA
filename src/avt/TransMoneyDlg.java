@@ -91,7 +91,7 @@ public final class TransMoneyDlg extends Dialog {
    public final void paint(Graphics var1) {
       Canvas.currentMyScreen.paintMain(var1);
       Canvas.resetTrans(var1);
-      Canvas.paint.h(var1, this.x, this.y, this.w, this.h);
+      Canvas.paint.drawBox(var1, this.x, this.y, this.w, this.h);
       var1.translate(this.x, this.y);
 
       for(int var2 = 0; var2 < this.money.length; ++var2) {

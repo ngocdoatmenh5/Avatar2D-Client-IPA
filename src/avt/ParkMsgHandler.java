@@ -105,16 +105,16 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                return;
             case 82:
                var4 = var1.reader().readInt();
-               FishingScr.b().b(var4);
+               FishingScr.gI().onQuanCau(var4);
                return;
             case 84:
                var2 = var1.reader().readInt();
                var11 = var1.reader().readShort();
-               FishingScr.b().c(var2, var11);
+               FishingScr.gI().onFinish(var2, var11);
                return;
             case 85:
                var10 = var1.reader().readInt();
-               FishingScr.b().e(var10);
+               FishingScr.gI().onCauCaXong(var10);
                return;
             case 86:
                boolean var19 = var1.reader().readBoolean();
@@ -123,13 +123,13 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                   var20 = var1.reader().readUTF();
                }
 
-               FishingScr.b().a(var19, var20);
+               FishingScr.gI().onStartFishing(var19, var20);
                return;
             case 87:
                var2 = var1.reader().readInt();
                var12 = var1.reader().readByte();
-               FishingScr.b();
-               FishingScr.e(var2, var12);
+               FishingScr.gI();
+               FishingScr.onStatus(var2, var12);
                return;
             case 88:
                var2 = var1.reader().readInt();
@@ -137,7 +137,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                var16 = var1.reader().readByte();
                var5 = var1.reader().readInt();
                var11 = var1.reader().readShort();
-               FishingScr.b().a(var2, var13, (byte)var16, var5, var11);
+               FishingScr.gI().onInfo(var2, var13, (byte)var16, var5, var11);
                return;
             case 91:
                var2 = var1.reader().readInt();
@@ -151,7 +151,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                   var1.reader().read(var6[var7]);
                }
 
-               FishingScr.b().a(var2, var3, (short)var4, var6);
+               FishingScr.gI().onCaCanCau(var2, var3, (short)var4, var6);
                return;
             case 92:
                if (MapScr.s = var1.reader().readBoolean()) {

@@ -31,7 +31,7 @@ public final class RegisterScr extends MyScreen {
             Vector var3;
             (var3 = new Vector()).addElement(new Command(T.o, 0, this));
             var3.addElement(new Command(T.p, 1, this));
-            Canvas.a(T.dC, var3);
+            Canvas.setInfoC(T.dC, var3);
          default:
       }
    }
@@ -173,7 +173,7 @@ public final class RegisterScr extends MyScreen {
    }
 
    public final void updateKey() {
-      Canvas.paint.j();
+      Canvas.paint.initResourceFive();
       super.updateKey();
    }
 

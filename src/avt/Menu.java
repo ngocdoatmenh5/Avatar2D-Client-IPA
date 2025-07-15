@@ -351,7 +351,7 @@ public final class Menu extends MenuMain {
          Graphics var3 = var1;
          Menu var2 = this;
          Canvas.resetTrans(var1);
-         Canvas.paint.a(var1, this.menuX, this.menuY, this.menuW, this.menuH);
+         Canvas.paint.drawArea(var1, this.menuX, this.menuY, this.menuW, this.menuH);
          var1.translate(this.menuX + AvMain.hDuBox + 2, this.menuY + AvMain.hDuBox + 2);
          var1.setClip(0, 0, this.menuW - (AvMain.hDuBox << 1) - 4, this.e);
          var1.translate(-this.cmy, 0);
@@ -386,7 +386,7 @@ public final class Menu extends MenuMain {
                }
             }
 
-            Canvas.borderFont.drawString(var3, var11.caption, var7, -AvMain.ag - AvMain.hDuBox - 6 - (AvMain.hd == 2 ? 15 : 0), 2);
+            Canvas.borderFont.drawString(var3, var11.caption, var7, -AvMain.hBorder - AvMain.hDuBox - 6 - (AvMain.hd == 2 ? 15 : 0), 2);
          }
 
          Canvas.resetTrans(var3);
@@ -396,15 +396,15 @@ public final class Menu extends MenuMain {
          Menu var9 = this;
          Canvas.resetTrans(var1);
          if (OnScreen.isOngame) {
-            Canvas.paint.e(var1, this.menuX - 2, this.m - 7, this.menuW + 4, this.menuH + 15);
+            Canvas.paint.drawContainer(var1, this.menuX - 2, this.m - 7, this.menuW + 4, this.menuH + 15);
          } else {
-            Canvas.paint.a(var1, this.menuX - 2, this.m - 7, this.menuW + 4, this.menuH + 15);
+            Canvas.paint.drawArea(var1, this.menuX - 2, this.m - 7, this.menuW + 4, this.menuH + 15);
          }
 
          var1.setClip(this.menuX, this.m, this.menuW, this.menuH);
          var1.translate(this.menuX + 3, this.m + 1);
          var1.translate(0, -this.cmy);
-         var6 = (this.e - AvMain.ah) / 2;
+         var6 = (this.e - AvMain.hNormal) / 2;
 
          for(var8 = 0; var8 < var9.size; ++var8) {
             var10.setColor(0);
@@ -413,7 +413,7 @@ public final class Menu extends MenuMain {
                   var10.setColor(35217);
                   var10.fillRect(0, var8 * var9.e, var9.menuW - 6, var9.e);
                } else {
-                  Canvas.paint.b(var10, 0, var8 * var9.e, var9.menuW - 6, var9.e);
+                  Canvas.paint.drawBorder(var10, 0, var8 * var9.e, var9.menuW - 6, var9.e);
                }
             }
 

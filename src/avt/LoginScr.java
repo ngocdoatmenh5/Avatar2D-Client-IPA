@@ -281,13 +281,13 @@ public final class LoginScr extends MyScreen {
             GameMidlet.flatForm("http://teamobi.com/dieukhoan.htm");
             return;
          case 54:
-            GameMidlet.a();
+            GameMidlet.exit();
             return;
          case 55:
             isSelectedLanguage = false;
             this.saveLogin();
             AvatarData.delErrorRms("avatarSV");
-            GameMidlet.a();
+            GameMidlet.exit();
             return;
          case 100:
             String var3;
@@ -325,12 +325,12 @@ public final class LoginScr extends MyScreen {
       (var0 = new Vector()).addElement(new Command(T.e, 51));
       var0.addElement(new Command(T.bK, 52));
       var0.addElement(new Command(T.bL, 53));
-      Canvas.a(T.bM, var0);
+      Canvas.setInfoC(T.bM, var0);
    }
 
    public final void update() {
       if ((System.currentTimeMillis() - this.timeOut) / 1000L > 300L) {
-         GameMidlet.h.notifyDestroyed();
+         GameMidlet.instance.notifyDestroyed();
       }
 
       if (!isNewGame && this == Canvas.currentMyScreen && Canvas.menuMain == null && !isNewGame) {
@@ -396,7 +396,7 @@ public final class LoginScr extends MyScreen {
          Canvas.paint.paintPopupBack(var1, this.xLogin, this.yLogin, this.wLogin, this.hLogin, 0);
          var1.translate(this.xLogin, this.yLogin + this.yNew);
          if (this.indexNewGame != -1) {
-            Canvas.paint.c(var1, 5 * AvMain.hd, this.indexNewGame * this.hCellNew, this.wLogin - 10 * AvMain.hd, this.hCellNew);
+            Canvas.paint.drawSelectedArea(var1, 5 * AvMain.hd, this.indexNewGame * this.hCellNew, this.wLogin - 10 * AvMain.hd, this.hCellNew);
          }
 
          for(var4 = 0; var4 < var2.listStrNew.length; ++var4) {
@@ -406,7 +406,7 @@ public final class LoginScr extends MyScreen {
          Canvas.paint.paintPopupBack(var1, this.xLogin, this.yLogin, this.wLogin, this.hLogin, 0);
          var1.setClip(this.xLogin + 4, this.yLogin + 4, this.wLogin - 8, this.hLogin - 8);
          if (!this.numSupport.equals("") && OptionScr.gI().mapFocus[4] == 0) {
-            Canvas.paint.drawString(var1, "Hotline: " + this.numSupport, this.xLogin + this.wLogin - 8, this.yLogin + this.hLogin - AvMain.ah - 4, 1);
+            Canvas.paint.drawString(var1, "Hotline: " + this.numSupport, this.xLogin + this.wLogin - 8, this.yLogin + this.hLogin - AvMain.hNormal - 4, 1);
          }
 
          this.tfUser.paint(var1);
@@ -417,14 +417,14 @@ public final class LoginScr extends MyScreen {
             var4 = this.tfUser.x - var4 - 5;
          }
 
-         Canvas.paint.drawString(var1, T.bN, this.xLogin + var4, this.tfUser.y + this.tfUser.height / 2 - AvMain.ah / 2, 0);
-         Canvas.paint.drawString(var1, T.bO + ":", this.xLogin + var4, this.tfPass.y + this.tfUser.height / 2 - AvMain.ah / 2, 0);
+         Canvas.paint.drawString(var1, T.bN, this.xLogin + var4, this.tfUser.y + this.tfUser.height / 2 - AvMain.hNormal / 2, 0);
+         Canvas.paint.drawString(var1, T.bO + ":", this.xLogin + var4, this.tfPass.y + this.tfUser.height / 2 - AvMain.hNormal / 2, 0);
          if (!this.isReg) {
             Canvas.paint.paintCheckBox(var1, this.xCheck, this.yCheck, this.focus, this.isCheckBox);
          } else {
-            Canvas.paint.drawString(var1, T.cE, this.xLogin + var4, this.tfReg.y + this.tfUser.height / 2 - AvMain.ah, 0);
+            Canvas.paint.drawString(var1, T.cE, this.xLogin + var4, this.tfReg.y + this.tfUser.height / 2 - AvMain.hNormal, 0);
             Canvas.paint.drawString(var1, T.bO + ":", this.xLogin + var4, this.tfReg.y + this.tfUser.height / 2, 0);
-            Canvas.paint.drawString(var1, "Số di động", this.xLogin + var4, this.tfEmail.y + this.tfUser.height / 2 - AvMain.ah, 0);
+            Canvas.paint.drawString(var1, "Số di động", this.xLogin + var4, this.tfEmail.y + this.tfUser.height / 2 - AvMain.hNormal, 0);
             Canvas.paint.drawString(var1, "hoặc email:", this.xLogin + var4, this.tfEmail.y + this.tfUser.height / 2, 0);
             this.tfReg.paint(var1);
             this.tfEmail.paint(var1);

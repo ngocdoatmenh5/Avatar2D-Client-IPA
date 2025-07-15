@@ -104,7 +104,7 @@ public final class DialLuckyScr extends MyScreen {
             case 1:
                Part var6 = AvatarData.getPart(var4.idPart);
                ImageInfo var7 = AvatarData.listImgInfo[var6.idIcon];
-               Canvas.a(0, var1.x, var1.y - 50, -1, CRes.createRGBImage(var7.x0 * AvMain.hd, var7.y0 * AvMain.hd, var7.w * AvMain.hd, var7.h * AvMain.hd, AvatarData.getBigImgInfo((int)var7.bigID).img), var2);
+               Canvas.addFlyText(0, var1.x, var1.y - 50, -1, CRes.createRGBImage(var7.x0 * AvMain.hd, var7.y0 * AvMain.hd, var7.w * AvMain.hd, var7.h * AvMain.hd, AvatarData.getBigImgInfo((int)var7.bigID).img), var2);
                break;
             case 2:
                var5 = "+" + var4.xu + T.C;
@@ -245,7 +245,7 @@ public final class DialLuckyScr extends MyScreen {
 
    public final void updateKey() {
       if (!this.isPaint) {
-         if (Canvas.paint.d() == 1) {
+         if (Canvas.paint.getDisplayValue() == 1) {
             if (Canvas.isPointerDown) {
                Canvas.keyHold[5] = true;
             }
@@ -330,15 +330,15 @@ public final class DialLuckyScr extends MyScreen {
                      Canvas.borderFont.drawString(var12, var13.expire, var13.x - 17, var13.y - 7, 1);
                      break;
                   case 2:
-                     Canvas.borderFont.drawString(var12, T.C, var13.x, var13.y - AvMain.ag / 2, 2);
+                     Canvas.borderFont.drawString(var12, T.C, var13.x, var13.y - AvMain.hBorder / 2, 2);
                      Canvas.borderFont.drawString(var12, String.valueOf(var13.xu), var13.x - 17, var13.y - 8, 1);
                      break;
                   case 3:
-                     Canvas.borderFont.drawString(var12, "xp", var13.x, var13.y - AvMain.ag / 2, 2);
+                     Canvas.borderFont.drawString(var12, "xp", var13.x, var13.y - AvMain.hBorder / 2, 2);
                      Canvas.borderFont.drawString(var12, String.valueOf(var13.xp), var13.x - 17, var13.y - 8, 1);
                      break;
                   case 4:
-                     Canvas.borderFont.drawString(var12, T.D, var13.x, var13.y - AvMain.ag / 2, 2);
+                     Canvas.borderFont.drawString(var12, T.D, var13.x, var13.y - AvMain.hBorder / 2, 2);
                      Canvas.borderFont.drawString(var12, String.valueOf(var13.luong), var13.x - 17, var13.y - 8, 1);
                }
             }

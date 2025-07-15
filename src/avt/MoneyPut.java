@@ -29,7 +29,7 @@ public final class MoneyPut {
             var3 = Canvas.normalFont;
          }
 
-         var3.drawString(var1, String.valueOf(this.valuea), this.x, this.y - AvMain.ah / 2, 2);
+         var3.drawString(var1, String.valueOf(this.valuea), this.x, this.y - AvMain.hNormal / 2, 2);
       }
 
    }

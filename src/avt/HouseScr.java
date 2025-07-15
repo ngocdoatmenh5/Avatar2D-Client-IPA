@@ -726,7 +726,7 @@ public final class HouseScr extends MyScreen implements IChatable {
          Vector var3;
          (var3 = new Vector()).addElement(new Command(T.o, 50));
          var3.addElement(new Command(T.p, 51));
-         Canvas.a(var2, var3);
+         Canvas.setInfoC(var2, var3);
       } else {
          Canvas.startOKDlg(var2);
          if (var1 == 2) {

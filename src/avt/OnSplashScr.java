@@ -37,7 +37,7 @@ public final class OnSplashScr extends MyScreen {
          LoadMap.C = GameMidlet.avatar.y;
          OnScreen.gI().switchToMe();
       } else if (this.splashScrStat == 0) {
-         Canvas.paint.f();
+         Canvas.paint.initResourceOne();
       }
 
       ++this.splashScrStat;

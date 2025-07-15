@@ -10,7 +10,7 @@ final class IActionAddFriend4 implements IAction {
    }
 
    public final void perform() {
-      IActionAddFriend3 var1 = MessageScr.gI().b(MessageScr.gI().b);
+      UNK var1 = MessageScr.gI().b(MessageScr.gI().b);
       if (ListScr.friendL != null) {
          ListScr.gI();
          ListScr.removeList();

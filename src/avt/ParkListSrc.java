@@ -82,8 +82,8 @@ public final class ParkListSrc extends MyScreen {
       var1.translate(0, 0);
       var1.setClip(0, 0, Canvas.w, Canvas.h);
       this.lastScr.paintMain(var1);
-      Canvas.paint.a(var1, Canvas.hw - (this.w * this.maxW + 10) / 2, Canvas.hh - this.w * this.maxH / 2, this.w * this.maxW + 10, this.w * this.maxH);
-      Canvas.paint.a(var1, this.w, this.maxW, this.maxH, super.isHide_, super.selected_, this.listBoard);
+      Canvas.paint.drawArea(var1, Canvas.hw - (this.w * this.maxW + 10) / 2, Canvas.hh - this.w * this.maxH / 2, this.w * this.maxW + 10, this.w * this.maxH);
+      Canvas.paint.drawStateElement(var1, this.w, this.maxW, this.maxH, super.isHide_, super.selected_, this.listBoard);
       super.paint(var1);
    }
 }

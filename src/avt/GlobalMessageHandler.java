@@ -9,15 +9,15 @@ import main.GameMidlet;
 
 public final class GlobalMessageHandler extends IService implements IMessageHandler {
    private GlobalLogicHandler c = new GlobalLogicHandler();
-   private static GlobalMessageHandler d;
+   private static GlobalMessageHandler instance;
    public IMiniGameMsgHandler miniGameMessageHandler;
 
    public static GlobalMessageHandler gI() {
-      if (d == null) {
-         d = new GlobalMessageHandler();
+      if (instance == null) {
+         instance = new GlobalMessageHandler();
       }
 
-      return d;
+      return instance;
    }
 
    public final void onConnectionFail() {
@@ -1182,11 +1182,11 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
 
                   for(var3 = 0; var3 < var206; ++var3) {
                      ItemEffectInfo var214;
-                     (var214 = new ItemEffectInfo()).a = var1.reader().readShort();
-                     var214.c = var1.reader().readUTF();
-                     var214.b = var1.reader().readShort();
-                     var214.d = var1.reader().readInt();
-                     var214.e = var1.reader().readByte();
+                     (var214 = new ItemEffectInfo()).IDAction = var1.reader().readShort();
+                     var214.name = var1.reader().readUTF();
+                     var214.IDIcon = var1.reader().readShort();
+                     var214.money = var1.reader().readInt();
+                     var214.typeMoney = var1.reader().readByte();
                      MapScr.listItemEffect.addElement(var214);
                   }
 

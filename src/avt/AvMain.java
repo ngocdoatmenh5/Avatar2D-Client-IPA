@@ -7,17 +7,17 @@ import main.GameMidlet;
 public class AvMain {
    public static int hd = 1;
    public static int hDuBox;
-   public static int aa;
-   public static int ab;
+   public static int duPopup;
+   public static int hFillTab;
    public Command left;
    public Command center;
    public Command right;
    public static byte hBlack;
-   public static byte ag;
-   public static byte ah;
+   public static byte hBorder;
+   public static byte hNormal;
    public static byte hSmall;
    public boolean isHide_;
-   public static boolean ak = false;
+   public static boolean isQwerty = false;
    private static byte a = 0;
    private static byte b = 0;
    private static byte c = 0;
@@ -58,7 +58,7 @@ public class AvMain {
    public void updateKey() {
       if (Canvas.isPointerRelease) {
          if (Canvas.b(0, Canvas.ae[0].y, Canvas.w - 1, Canvas.hTab)) {
-            switch (Canvas.paint.d()) {
+            switch (Canvas.paint.getDisplayValue()) {
                case 0:
                   if (Canvas.stypeInt == 0) {
                      this.click(this.left);
@@ -83,10 +83,10 @@ public class AvMain {
             if (Canvas.isPointer(0, 0, 50 * hd, 50 * hd)) {
                if (!OptionScr.isVirTualKey) {
                   if (TField.m) {
-                     ak = true;
+                     isQwerty = true;
                      TField.m = false;
                   }
-               } else if (ak) {
+               } else if (isQwerty) {
                   TField.m = true;
                }
 

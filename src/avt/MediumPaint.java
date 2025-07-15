@@ -122,7 +122,7 @@ public final class MediumPaint implements IPaint {
 
    }
 
-   public final void a(Graphics var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8) {
+   public final void drawRectangle(Graphics var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8) {
       a.drawFrame(0 + (var8 << 2), var2, var3, 0, var1);
       a.drawFrame(1 + (var8 << 2), var2 + var4 - 8, var3, 0, var1);
       a.drawFrame(2 + (var8 << 2), var2, var3 + var5 - 8, 0, var1);
@@ -138,7 +138,7 @@ public final class MediumPaint implements IPaint {
 
    public final void paintBoxTab(Graphics var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10, int var11, int var12, int[] var13, int[] var14, String var15) {
       Canvas.resetTrans(var1);
-      this.a(var1, var2, var3, var5, var4, PaintPopup.color[0], PaintPopup.color[1], 0);
+      this.drawRectangle(var1, var2, var3, var5, var4, PaintPopup.color[0], PaintPopup.color[1], 0);
 
       int var16;
       int var17;
@@ -193,27 +193,27 @@ public final class MediumPaint implements IPaint {
          var1.fillRect(var2 + 2 + var9 + var16 * var8, var3 + 11, 1, 15);
       }
 
-      this.a(var1, var2 + 3, var3 + var10, var5 - 6, var4 - var10 - 3, PaintPopup.color[2], PaintPopup.color[3], 1);
+      this.drawRectangle(var1, var2 + 3, var3 + var10, var5 - 6, var4 - var10 - 3, PaintPopup.color[2], PaintPopup.color[3], 1);
       PaintPopup.fill(var2 + 4 + (var6 - var7) * var8, var3 + var10 / 2, var9 - 2, var10, PaintPopup.color[2], var1);
-      Canvas.normalFont.drawString(var1, var15, var2 + 3 + var9 / 2 + (var6 - var7) * var8, var3 + var10 / 2 - AvMain.ah / 2, 2);
+      Canvas.normalFont.drawString(var1, var15, var2 + 3 + var9 / 2 + (var6 - var7) * var8, var3 + var10 / 2 - AvMain.hNormal / 2, 2);
    }
 
    public final void paintCmd(Graphics var1, Command var2, Command var3, Command var4) {
       if (var2 != null && var2.caption != null) {
-         Canvas.borderFont.drawString(var1, var2.caption, Canvas.ae[0].x + 2, Canvas.ae[0].y + Canvas.hTab / 2 - AvMain.ag / 2, 0);
+         Canvas.borderFont.drawString(var1, var2.caption, Canvas.ae[0].x + 2, Canvas.ae[0].y + Canvas.hTab / 2 - AvMain.hBorder / 2, 0);
       }
 
       if (var3 != null && var3.caption != null) {
-         Canvas.borderFont.drawString(var1, var3.caption, Canvas.ae[1].x + MyScreen.wTab / 2, Canvas.ae[1].y + Canvas.hTab / 2 - AvMain.ag / 2, 2);
+         Canvas.borderFont.drawString(var1, var3.caption, Canvas.ae[1].x + MyScreen.wTab / 2, Canvas.ae[1].y + Canvas.hTab / 2 - AvMain.hBorder / 2, 2);
       }
 
       if (var4 != null && var4.caption != null) {
-         Canvas.borderFont.drawString(var1, var4.caption, Canvas.ae[2].x + MyScreen.wTab - 2, Canvas.ae[2].y + Canvas.hTab / 2 - AvMain.ag / 2, 1);
+         Canvas.borderFont.drawString(var1, var4.caption, Canvas.ae[2].x + MyScreen.wTab - 2, Canvas.ae[2].y + Canvas.hTab / 2 - AvMain.hBorder / 2, 1);
       }
 
    }
 
-   public final void a(Graphics var1, int var2, int var3, int var4, int var5) {
+   public final void drawArea(Graphics var1, int var2, int var3, int var4, int var5) {
       this.paintPopupBack(var1, var2, var3, var4, var5, 0);
    }
 
@@ -340,7 +340,7 @@ public final class MediumPaint implements IPaint {
       AvMain.hDuBox = 5;
    }
 
-   public final void a(Graphics var1) {
+   public final void paintMSG(Graphics var1) {
       byte var2 = 0;
       if (Canvas.currentMyScreen == LoginScr.me || Canvas.currentMyScreen == MiniMap.me) {
          var2 = 14;
@@ -348,7 +348,7 @@ public final class MediumPaint implements IPaint {
 
       if (MyScreen.nMsg > 0 && Canvas.currentDialog == null) {
          var1.drawImage(MyScreen.ao, Canvas.w - 8 * AvMain.hd - 2, var2 + 2, 17);
-         Canvas.borderFont.drawString(var1, "" + MyScreen.nMsg, Canvas.w - 16 * AvMain.hd - 4, 1 + 6 * AvMain.hd - AvMain.ag / 2 + var2, 1);
+         Canvas.borderFont.drawString(var1, "" + MyScreen.nMsg, Canvas.w - 16 * AvMain.hd - 4, 1 + 6 * AvMain.hd - AvMain.hBorder / 2 + var2, 1);
       }
 
       if (MyScreen.ap != null && Canvas.isPaintIconVir()) {
@@ -360,7 +360,7 @@ public final class MediumPaint implements IPaint {
 
    }
 
-   public final void c() {
+   public final void initPos() {
       MyScreen.hText = Canvas.h / 12;
       if ((MyScreen.hTab = Canvas.h / 18) < 18) {
          MyScreen.hTab = 18;
@@ -374,7 +374,7 @@ public final class MediumPaint implements IPaint {
          MyScreen.hTab = 35;
       }
 
-      AvMain.ab = 0;
+      AvMain.hFillTab = 0;
       int var1 = Canvas.hTab = MyScreen.hTab;
       if (MyScreen.hText < 20 || Canvas.instance == null || !Canvas.isKeyBoard) {
          MyScreen.hText = 20;
@@ -391,7 +391,7 @@ public final class MediumPaint implements IPaint {
       Canvas.af = new AvPosition(Canvas.w - 2, 1, 1);
    }
 
-   public final int d() {
+   public final int getDisplayValue() {
       for(int var1 = 0; var1 < 3; ++var1) {
          if (Canvas.isPointer(Canvas.ae[var1].x, Canvas.ae[var1].y, MyScreen.wTab, Canvas.hTab)) {
             return var1;
@@ -433,8 +433,8 @@ public final class MediumPaint implements IPaint {
    }
 
    public final void paintPopupBack(Graphics var1, int var2, int var3, int var4, int var5, int var6) {
-      this.a(var1, var2, var3, var4, var5, PaintPopup.color[var6], PaintPopup.color[var6 + 1], 0);
-      this.a(var1, var2 + 3, var3 + 3, var4 - 6, var5 - 6, PaintPopup.color[2], PaintPopup.color[3], 1);
+      this.drawRectangle(var1, var2, var3, var4, var5, PaintPopup.color[var6], PaintPopup.color[var6 + 1], 0);
+      this.drawRectangle(var1, var2 + 3, var3 + 3, var4 - 6, var5 - 6, PaintPopup.color[2], PaintPopup.color[3], 1);
    }
 
    public final void paintCheckBox(Graphics var1, int var2, int var3, int var4, boolean var5) {
@@ -443,20 +443,20 @@ public final class MediumPaint implements IPaint {
          var6 = 1;
       }
 
-      h.drawFrame(var6, var2, var3 + AvMain.ah / 2, 0, var1);
+      h.drawFrame(var6, var2, var3 + AvMain.hNormal / 2, 0, var1);
       if (var5) {
-         h.drawFrame(2, var2, var3 + AvMain.ah / 2, 0, var1);
+         h.drawFrame(2, var2, var3 + AvMain.hNormal / 2, 0, var1);
       }
 
       Canvas.normalFont.drawString(var1, T.bQ, var2 + 15, var3 + h.frameHeight / 2, 0);
    }
 
-   public final void b(Graphics var1, int var2, int var3, int var4, int var5) {
+   public final void drawBorder(Graphics var1, int var2, int var3, int var4, int var5) {
       var1.setColor(15530985);
       var1.fillRect(0, var3, var4, var5);
    }
 
-   public final void b(Graphics var1, int var2, int var3, int var4, int var5, int var6) {
+   public final void drawHighlightedArea(Graphics var1, int var2, int var3, int var4, int var5, int var6) {
       PaintPopup.b.drawFrame(var5, var2 - n / 5, var3 - 3, 0, 3, var1);
       PaintPopup.b.drawFrame(var6, var2 + var4 + n / 5, var3 - 3, 3, 3, var1);
       if (++n >= 15) {
@@ -469,14 +469,14 @@ public final class MediumPaint implements IPaint {
       Canvas.normalFont.drawString(var1, var2, var3, var4, var5);
    }
 
-   public final void c(Graphics var1, int var2, int var3, int var4, int var5) {
+   public final void drawSelectedArea(Graphics var1, int var2, int var3, int var4, int var5) {
       var1.setColor(14279153);
       var1.fillRect(var2, var3, var4, var5);
    }
 
    public final void setVirtualKeyFish(int var1) {
       if (var1 == 14 || var1 == 15 || var1 == 16) {
-         if (AvMain.ak) {
+         if (AvMain.isQwerty) {
             TField.m = true;
          }
 
@@ -503,7 +503,7 @@ public final class MediumPaint implements IPaint {
       }
    }
 
-   public final void a(Graphics var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, String var10, int var11, int var12) {
+   public final void drawFormattedText(Graphics var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, String var10, int var11, int var12) {
       var6 = var2 % var3 * var4;
       var3 = (var2 / var3 + 1) * var4;
       var4 = var6 + var4 / 2;
@@ -519,18 +519,18 @@ public final class MediumPaint implements IPaint {
 
       Canvas.borderFont.drawString(var1, String.valueOf(var9), var4, var3 + var6 / 2 + var6 - 2, 2);
       Canvas.normalFont.drawString(var1, var10, var4, var3 + var6 / 2 + (var6 << 1), 2);
-      var2 = var3 + var6 / 2 + var6 + AvMain.ah / 2;
+      var2 = var3 + var6 / 2 + var6 + AvMain.hNormal / 2;
       i.drawFrame(var11 / 3, var4 - 17, var2 + 1, 2, 3, var1);
       i.drawFrame(var12 / 3, var4 - 17 + 35, var2, 0, 3, var1);
    }
 
-   public final void a(Graphics var1, int var2, int var3, int var4, boolean var5, int var6, int[] var7) {
+   public final void drawStateElement(Graphics var1, int var2, int var3, int var4, boolean var5, int var6, int[] var7) {
       Canvas.fontChatB.drawString(var1, T.aX + var6, Canvas.hw, Canvas.hh + var2 * var4 / 2 - 20, 2);
       var1.translate(Canvas.hw - (var2 * var3 + 10) / 2 + 4, Canvas.hh - var2 * var4 / 2 + 4);
       var1.setClip(0, 3, var2 * var3 + 2, var2 * var4 - 32);
       var1.translate(1, -CameraList.cmtoY);
       if (!var5) {
-         Canvas.paint.c(var1, var6 % var3 * var2, var6 / var3 * var2, var2, var2);
+         Canvas.paint.drawSelectedArea(var1, var6 % var3 * var2, var6 / var3 * var2, var2, var2);
       }
 
       int var8;
@@ -553,11 +553,11 @@ public final class MediumPaint implements IPaint {
 
    }
 
-   public final void a(Graphics var1, int var2, int var3) {
+   public final void drawElement(Graphics var1, int var2, int var3) {
       var1.drawImage(OnSplashScr.imgBg, var2, var3, 3);
    }
 
-   public final void a(Graphics var1, String var2, String var3, String var4) {
+   public final void drawTextElements(Graphics var1, String var2, String var3, String var4) {
       var1.setClip(0, 0, Canvas.w, Canvas.h);
       Canvas.paint.paintDefaultBg(var1);
       Canvas.R.drawString(var1, var2, Canvas.hw, 2, 2);
@@ -567,7 +567,7 @@ public final class MediumPaint implements IPaint {
       Canvas.M.drawString(var1, var4, Canvas.w - 10, 28, 1);
    }
 
-   public final void b(int var1) {
+   public final void setValue(int var1) {
       try {
          if (var1 == 0) {
             BoardListOnScr.imgBoard = new FrameImage(Image.createImage(T.getPath() + "/on/imgBan2.on"), 60, 46);
@@ -581,7 +581,7 @@ public final class MediumPaint implements IPaint {
       }
    }
 
-   public final void f() {
+   public final void initResourceOne() {
       try {
          PaintPopup.color = new int[]{21080, 12313816, 8703190, 2713971, 5107863, 4559225};
          a = new FrameImage(Image.createImage(T.getPath() + "/on/round.on"), 8, 8);
@@ -598,7 +598,7 @@ public final class MediumPaint implements IPaint {
       }
    }
 
-   public final void g() {
+   public final void initResourceTwo() {
       PaintPopup.color = new int[]{6201499, 2378578, 8705740, 2716523, 16701696, 7042560};
       FilePack.b(T.av);
       a = FrameImage.init("round", 8, 8);
@@ -613,7 +613,7 @@ public final class MediumPaint implements IPaint {
       CasinoMsgHandler.curScr = null;
    }
 
-   public final void h() {
+   public final void initResourceThree() {
       try {
          k = new FrameImage(Image.createImage(T.getPath() + "/on/imgDoor.on"), 45, 44);
          new FrameImage(Image.createImage(T.getPath() + "/on/trangthai.on"), 11, 4);
@@ -623,7 +623,7 @@ public final class MediumPaint implements IPaint {
       }
    }
 
-   public final void i() {
+   public final void initResourceFour() {
       RoomListOnScr.me = null;
       BoardListOnScr.me = null;
       BoardScr.me = null;
@@ -649,7 +649,7 @@ public final class MediumPaint implements IPaint {
       Canvas.normalFont.drawString(var1, T.ao + GameMidlet.avatar.strMoney, PaintPopup.gI().w / 2, PaintPopup.hTab + 115, 2);
    }
 
-   public final void j() {
+   public final void initResourceFive() {
       if (Canvas.isPointerClick) {
          if (Canvas.b(PaintPopup.gI().x + PaintPopup.gI().w / 2 - 20, PaintPopup.gI().y + PaintPopup.hTab + AvMain.hBlack / 2, 40, 40)) {
             RegisterScr.gI().setKeyUpDown(0);
@@ -684,8 +684,8 @@ public final class MediumPaint implements IPaint {
       }
    }
 
-   public final void b(Graphics var1, Command var2, Command var3, Command var4) {
-      int var5 = Canvas.hCan - Canvas.hTab / 2 - AvMain.ag / 2;
+   public final void paintCommandAlt(Graphics var1, Command var2, Command var3, Command var4) {
+      int var5 = Canvas.hCan - Canvas.hTab / 2 - AvMain.hBorder / 2;
       if (var2 != null && var2.caption != "") {
          Canvas.borderFont.drawString(var1, var2.caption, 4, var5, 0);
       }
@@ -700,7 +700,7 @@ public final class MediumPaint implements IPaint {
 
    }
 
-   public final void e(Graphics var1, int var2, int var3, int var4, int var5) {
+   public final void drawContainer(Graphics var1, int var2, int var3, int var4, int var5) {
       boolean var9 = true;
       var5 = var5;
       var4 = var4;
@@ -745,7 +745,7 @@ public final class MediumPaint implements IPaint {
       var1.fillRect(var2 + 10, var3 + 10, var4 - 20, var5 - 20);
    }
 
-   public final void f(Graphics var1, int var2, int var3, int var4, int var5) {
+   public final void drawPanel(Graphics var1, int var2, int var3, int var4, int var5) {
       if (AvMain.hd == 1) {
          var1.setColor(colorBold);
          var1.fillRect(0, var3 + 1, var4, var5 - var3 + 1);
@@ -755,12 +755,12 @@ public final class MediumPaint implements IPaint {
       }
    }
 
-   public final void g(Graphics var1, int var2, int var3, int var4, int var5) {
+   public final void drawFrame(Graphics var1, int var2, int var3, int var4, int var5) {
       var1.setColor(colorSelect);
       var1.fillRect(2, var3, var4, var5);
    }
 
-   public final void c(Graphics var1) {
+   public final void paintBackground(Graphics var1) {
       var1.setColor(colorBold);
       var1.fillRect(0, Canvas.hCan - Canvas.hTab + 1, Canvas.w, Canvas.hTab);
       var1.setColor(colorLight);
@@ -781,11 +781,11 @@ public final class MediumPaint implements IPaint {
       }
    }
 
-   public final void a(Graphics var1, Vector var2, int var3, int var4) {
+   public final void drawVectorElements(Graphics var1, Vector var2, int var3, int var4) {
       Canvas.resetTrans(var1);
       var1.translate(0, Canvas.cameraList.y);
       var1.translate(0, -CameraList.cmtoY);
-      int var6 = (var3 - AvMain.ag) / 2;
+      int var6 = (var3 - AvMain.hBorder) / 2;
       int var7;
       if ((var7 = CameraList.cmtoY / var3 - 2) < 0) {
          var7 = 0;
@@ -801,12 +801,12 @@ public final class MediumPaint implements IPaint {
       for(var7 = var7; var7 < var8; ++var7) {
          RoomInfo var9 = (RoomInfo)var2.elementAt(var7);
          if (var7 == var4 && var9.id != -1) {
-            Canvas.paint.g(var1, 2, var5, Canvas.w - 4, var3);
+            Canvas.paint.drawFrame(var1, 2, var5, Canvas.w - 4, var3);
          }
 
          if (var9.id == -1) {
             Canvas.borderFont.drawString(var1, T.ex[var9.lv], 15, var5 + 8 + (Canvas.stypeInt == 0 ? -4 : 0), 0);
-            Canvas.paint.f(var1, 0, var5 + 25, Canvas.w, var5 + 25);
+            Canvas.paint.drawPanel(var1, 0, var5 + 25, Canvas.w, var5 + 25);
          } else {
             k.drawFrame(0, 22, var5 + var3 / 2 + 1, 0, 3, var1);
             Canvas.M.drawString(var1, T.V + var9.id, 50, var5 + var6, 0);
@@ -820,7 +820,7 @@ public final class MediumPaint implements IPaint {
 
    }
 
-   public final void h(Graphics var1, int var2, int var3, int var4, int var5) {
+   public final void drawBox(Graphics var1, int var2, int var3, int var4, int var5) {
       l.drawFrame(0, var2, var3, 0, var1);
       l.drawFrame(1, var2 + var4 - 10, var3, 0, var1);
       l.drawFrame(2, var2, var3 + var5 - 10, 0, var1);

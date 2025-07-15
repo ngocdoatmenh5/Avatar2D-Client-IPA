@@ -641,7 +641,7 @@ public final class LoadMap {
                FarmScr.doMenuFarmFriend();
                break;
             case 54:
-               return FishingScr.b().b(var1, var2);
+               return FishingScr.gI().doSat(var1, var2);
             case 55:
                Canvas.startWaitDlg();
                GlobalService var14;
@@ -696,7 +696,7 @@ public final class LoadMap {
                            Vector var19;
                            (var19 = new Vector()).addElement(new Command(avt.T.z, new IActionAd(var13, var5)));
                            var19.addElement(new Command(avt.T.d, new class_hv(var13)));
-                           Canvas.a(var5.text, var19);
+                           Canvas.setInfoC(var5.text, var19);
                            return true;
                         }
                      }

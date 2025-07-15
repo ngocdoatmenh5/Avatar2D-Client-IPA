@@ -5,105 +5,105 @@ import javax.microedition.lcdui.Image;
 import main.Canvas;
 
 public final class FlyTextInfo {
-   private String a = "";
-   private int b;
-   private int c;
-   private int d;
-   private int e;
-   private boolean f = false;
-   private Image g;
-   private byte h;
-   private byte i = -1;
-   private short j = -1;
-   private short k = -1;
+   private String text = "";
+   private int x;
+   private int y;
+   private int state;
+   private int delay;
+   private boolean isSmall = false;
+   private Image img;
+   private byte dir;
+   private byte normal = -1;
+   private short imgID = -1;
+   private short imgID_2 = -1;
 
    public FlyTextInfo(int var1, int var2, int var3, int var4, Image var5, int var6, int var7, int var8) {
-      this.e = var6;
-      this.h = (byte)var4;
-      this.b = var1;
-      this.c = var2;
+      this.delay = var6;
+      this.dir = (byte)var4;
+      this.x = var1;
+      this.y = var2;
       if (var3 > 0) {
-         this.a = "+";
+         this.text = "+";
       }
 
-      this.a = this.a + var3;
+      this.text = this.text + var3;
       if (var3 == 0) {
-         this.a = "";
+         this.text = "";
       }
 
-      this.g = var5;
-      this.f = false;
-      this.i = -1;
-      this.j = (short)var7;
-      this.k = (short)var8;
+      this.img = var5;
+      this.isSmall = false;
+      this.normal = -1;
+      this.imgID = (short)var7;
+      this.imgID_2 = (short)var8;
    }
 
    public FlyTextInfo(int var1, int var2, String var3, int var4, int var5, int var6) {
-      this.e = var6;
-      this.h = (byte)var4;
-      this.b = var1;
-      this.c = var2;
-      this.a = var3;
-      this.d = 0;
-      this.f = true;
-      this.i = (byte)var5;
-      this.j = -1;
-      this.k = -1;
+      this.delay = var6;
+      this.dir = (byte)var4;
+      this.x = var1;
+      this.y = var2;
+      this.text = var3;
+      this.state = 0;
+      this.isSmall = true;
+      this.normal = (byte)var5;
+      this.imgID = -1;
+      this.imgID_2 = -1;
    }
 
-   public final void a() {
-      if (this.e > 0) {
-         --this.e;
+   public final void update() {
+      if (this.delay > 0) {
+         --this.delay;
       } else {
-         ++this.d;
-         if (this.d > 40) {
-            this.g = null;
+         ++this.state;
+         if (this.state > 40) {
+            this.img = null;
             Canvas.flyTexts.removeElement(this);
          }
 
-         if (this.d < 3) {
-            this.c += -2 * this.h;
+         if (this.state < 3) {
+            this.y += -2 * this.dir;
          } else {
-            this.c += this.h;
+            this.y += this.dir;
          }
       }
    }
 
-   public final void a(Graphics var1) {
+   public final void paint(Graphics var1) {
       if (Canvas.currentMyScreen == RaceScr.me) {
          Canvas.resetTrans(var1);
       }
 
-      if (this.e <= 0) {
+      if (this.delay <= 0) {
          int var2 = AvMain.hd;
          if (Canvas.currentMyScreen == BoardScr.me && (BoardScr.isStartGame || BoardScr.disableReady) || Canvas.currentMyScreen == RaceScr.me) {
             var2 = 1;
          }
 
          FontX var3 = Canvas.O;
-         if (this.f) {
-            if (this.i == 0) {
+         if (this.isSmall) {
+            if (this.normal == 0) {
                var3 = Canvas.smallFontRed;
             } else {
-               byte var10000 = this.i;
+               byte var10000 = this.normal;
                boolean var10001 = true;
                var3 = Canvas.borderFont;
             }
          }
 
-         var3.drawString(var1, this.a, this.b * var2, this.c * var2, 2);
-         if (this.g == null) {
-            if (this.j != -1) {
-               FarmData.paintImg(var1, this.j, this.b * var2, (this.c - 5) * var2, 33);
+         var3.drawString(var1, this.text, this.x * var2, this.y * var2, 2);
+         if (this.img == null) {
+            if (this.imgID != -1) {
+               FarmData.paintImg(var1, this.imgID, this.x * var2, (this.y - 5) * var2, 33);
                return;
             }
 
-            if (this.k != -1) {
-               AvatarData.paintImg(var1, this.k, this.b * var2, (this.c - 5) * var2, 33);
+            if (this.imgID_2 != -1) {
+               AvatarData.paintImg(var1, this.imgID_2, this.x * var2, (this.y - 5) * var2, 33);
                return;
             }
-         } else if (!this.f) {
-            var1.drawImage(this.g, this.b * var2, this.c * var2, 33);
+         } else if (!this.isSmall) {
+            var1.drawImage(this.img, this.x * var2, this.y * var2, 33);
          }
 
       }

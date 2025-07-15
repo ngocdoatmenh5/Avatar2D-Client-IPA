@@ -50,7 +50,7 @@ public final class SplashScr extends MyScreen {
                MapScr.gI().switchToMe();
                imgLogoo = null;
                OnScreen.c = 0;
-               Canvas.paint.g();
+               Canvas.paint.initResourceTwo();
             }
          } else if (splashScrStat == 52) {
             LoginScr.gI().loadLogin();
@@ -74,7 +74,7 @@ public final class SplashScr extends MyScreen {
          MapScr.gI().switchToMe();
          imgLogoo = null;
          OnScreen.c = 0;
-         Canvas.paint.g();
+         Canvas.paint.initResourceTwo();
       }
 
       ++splashScrStat;

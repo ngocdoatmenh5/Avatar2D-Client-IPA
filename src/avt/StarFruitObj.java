@@ -57,13 +57,13 @@ public final class StarFruitObj extends SubObject {
             }
          }
 
-         var2 = FarmData.getImgIcon(this.productID).h + AvMain.ag;
+         var2 = FarmData.getImgIcon(this.productID).h + AvMain.hBorder;
          if (this.timeFinish > 0) {
             var2 += AvMain.hSmall;
          }
 
          FarmData.paintImg(var1, this.fruitID, (super.x - 8) * MyObject.hd, super.y * MyObject.hd - var2, 3);
-         Canvas.borderFont.drawString(var1, "Lv" + this.lv, super.x * MyObject.hd, super.y * MyObject.hd - var2 - AvMain.ag / 2, 0);
+         Canvas.borderFont.drawString(var1, "Lv" + this.lv, super.x * MyObject.hd, super.y * MyObject.hd - var2 - AvMain.hBorder / 2, 0);
          if (this.timeFinish > 0) {
             int var3 = this.timeFinish / 3600;
             int var4 = (this.timeFinish - var3 * 3600) / 60;

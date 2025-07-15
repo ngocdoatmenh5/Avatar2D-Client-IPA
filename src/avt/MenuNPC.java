@@ -282,7 +282,7 @@ public final class MenuNPC extends MenuMain {
       }
 
       Avatar var9 = LoadMap.getAvatar(this.idUser);
-      Canvas.normalFont.drawString(var1, this.nameNPC, this.xList / 2, this.yList + this.hList / 2 - AvMain.ah - 20 * AvMain.hd, 2);
+      Canvas.normalFont.drawString(var1, this.nameNPC, this.xList / 2, this.yList + this.hList / 2 - AvMain.hNormal - 20 * AvMain.hd, 2);
       var9.paintIcon(var1, this.xList / 2, this.yList + this.hList / 2 + var9.height, true);
       var2 = 4441283;
       FrameImage var7 = imgDc;
@@ -325,7 +325,7 @@ public final class MenuNPC extends MenuMain {
             var1.fillRect(4 * AvMain.hd, 10 * AvMain.hd + var2 * this.hItem, this.wList - 8 * AvMain.hd, this.hItem);
          }
 
-         Canvas.normalFont.drawString(var1, var11.caption, 10 * AvMain.hd, 10 * AvMain.hd + var2 * this.hItem + this.hItem / 2 - AvMain.ah / 2, 0);
+         Canvas.normalFont.drawString(var1, var11.caption, 10 * AvMain.hd, 10 * AvMain.hd + var2 * this.hItem + this.hItem / 2 - AvMain.hNormal / 2, 0);
       }
 
       super.paint(var1);

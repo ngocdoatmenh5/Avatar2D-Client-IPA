@@ -46,7 +46,7 @@ public abstract class MyScreen extends AvMain {
          Canvas.M.drawString(var1, Session_ME.gI().k, Canvas.af.x, Canvas.af.y, Canvas.af.anchor);
       }
 
-      Canvas.paint.a(var1);
+      Canvas.paint.paintMSG(var1);
    }
 
    public void paintMain(Graphics var1) {

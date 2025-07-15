@@ -81,7 +81,7 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
                      var16.action = 0;
                      var16.setMoneyNew(var16.getMoneyNew() + var3);
                      if (var3 != 0) {
-                        Canvas.a(var3, var16.x, var16.y, -1, 30);
+                        Canvas.addFlyText(var3, var16.x, var16.y, -1, 30);
                         String var19 = var16.name + ": ";
                         if (var3 > 0) {
                            DiamondScr.gI().idWin = var16.IDDB;

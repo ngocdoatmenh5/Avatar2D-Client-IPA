@@ -1,9 +1,9 @@
 package avt;
 
 public final class ItemEffectInfo {
-   public short a;
-   public short b;
-   public String c;
-   public int d;
-   public byte e;
+   public short IDAction;
+   public short IDIcon;
+   public String name;
+   public int money;
+   public byte typeMoney;
 }

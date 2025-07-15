@@ -111,7 +111,7 @@ public final class Welcome extends AvMain {
                   var4 = Canvas.M;
                }
 
-               var4.drawString(var1, T.w, Canvas.ae[1].x + MyScreen.wTab / 2, Canvas.ae[1].y + Canvas.hTab / 2 - AvMain.ag / 2, 2);
+               var4.drawString(var1, T.w, Canvas.ae[1].x + MyScreen.wTab / 2, Canvas.ae[1].y + Canvas.hTab / 2 - AvMain.hBorder / 2, 2);
             }
          }
       }

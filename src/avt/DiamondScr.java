@@ -1150,26 +1150,26 @@ public final class DiamondScr extends BoardScr {
       }
 
       var4.list = var1;
-      var4.c = var4.list.size() * AvMain.hBlack + (AvMain.hDuBox << 1) + 10 + PaintPopup.hTab;
-      var4.e = 0;
+      var4.h = var4.list.size() * AvMain.hBlack + (AvMain.hDuBox << 1) + 10 + PaintPopup.hTab;
+      var4.w = 0;
 
       for(int var5 = 0; var5 < var4.list.size(); ++var5) {
          var3 = (String)var4.list.elementAt(var5);
-         if (Canvas.normalFont.getWidth(var3) + 20 > var4.e) {
-            var4.e = Canvas.normalFont.getWidth(var3) + 20;
+         if (Canvas.normalFont.getWidth(var3) + 20 > var4.w) {
+            var4.w = Canvas.normalFont.getWidth(var3) + 20;
          }
       }
 
-      if (var4.e < 176) {
-         var4.e = 176;
+      if (var4.w < 176) {
+         var4.w = 176;
       }
 
-      if (Canvas.w >= 240 && var4.e < 240 * AvMain.hd) {
-         var4.e = 240 * AvMain.hd;
+      if (Canvas.w >= 240 && var4.w < 240 * AvMain.hd) {
+         var4.w = 240 * AvMain.hd;
       }
 
-      var4.d = (Canvas.w - var4.e) / 2;
-      var4.b = Canvas.h - Canvas.hTab - var4.c - 10;
+      var4.x = (Canvas.w - var4.w) / 2;
+      var4.y = Canvas.h - Canvas.hTab - var4.h - 10;
       ReportDlg.gI().center = new Command(avt.T.z, -1, this);
       super.center = BoardScr.cmdBack;
       super.right = null;

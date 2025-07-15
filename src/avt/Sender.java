@@ -2,7 +2,7 @@ package avt;
 
 import java.util.Vector;
 
-final class Sender implements Runnable {
+final class    Sender implements Runnable {
    private final Vector sendingMessage;
    private Session_ME instance;
 
