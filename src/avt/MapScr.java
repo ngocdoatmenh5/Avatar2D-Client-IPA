@@ -1473,7 +1473,7 @@ public final class MapScr extends MyScreen implements IChatable {
             Vector var2 = new Vector();
             byte[] var3 = new byte[884];
             int var4 = 0;
-            InputStream var5 = CRes.getResourceAsStream(T.a() + "/citiMap");
+            InputStream var5 = CRes.getResourceAsStream(T.getPath() + "/citiMap");
 
             try {
                for(int var6 = 0; var6 < 26; ++var6) {

@@ -16,7 +16,7 @@ public final class mFont implements FontX {
 
    public mFont(int var1) {
       try {
-         DataInputStream var2 = new DataInputStream(CRes.getResourceAsStream(T.a() + "/font/" + e[var1]));
+         DataInputStream var2 = new DataInputStream(CRes.getResourceAsStream(T.getPath() + "/font/" + e[var1]));
          this.b = var2.readUTF();
          this.c = new byte[this.b.length()];
 

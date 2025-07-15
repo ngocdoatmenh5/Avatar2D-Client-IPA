@@ -12,7 +12,7 @@ public final class class_jv extends MyScreen {
 
    static {
       try {
-         c = Image.createImage(T.a() + "/lg.png");
+         c = Image.createImage(T.getPath() + "/lg.png");
       } catch (IOException var1) {
          var1.printStackTrace();
       }

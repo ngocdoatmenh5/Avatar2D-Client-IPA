@@ -293,7 +293,7 @@ public final class T {
    public static String[] eB;
    public static String[] eC;
    public static String[] eD;
-   private static String[] eR = new String[]{"/normal", "/medium", "/hd"};
+   private static String[] hd = new String[]{"/normal", "/medium", "/hd"};
    public static String[] eE;
    public static String[][] eF;
    public static String[][] eG;
@@ -607,23 +607,23 @@ public final class T {
       eQ = "Sức khỏe";
    }
 
-   public static String a() {
-      return eR[Canvas.stypeInt];
+   public static String getPath() {
+      return hd[Canvas.stypeInt];
    }
 
-   public static String[][] b() {
-      return new String[][]{{"Chào mừng bạn đến với avt.Avatar - Thành phố diệu kỳ", "Chúng ta sẽ dạo một vòng qua thành phố này nhé!", "Thành phố có rất nhiều khu, chúng ta sẽ đến từng khu để tìm hiểu", "Khu Giải Trí là nơi nào nhiệt nhất thành phố. Mời bạn chọn vào nào!"}, {"Nông Trại là nơi trồng trọt và chăn nuôi, bạn có thể tăng thêm thu nhập", "Bạn hãy chọn vào mục Nông Trại nào"}, {"Tiếp theo là khu Mua Sắm, nơi mà bạn có thể lựa chọn cho mình những bộ trang phục đẹp mắt.", "Chọn vào tham quan khu Mua Sắm ngay bạn nhé!"}, {"Tiếp theo là khu Sinh Thái, nơi mà bạn có thể thư giãn với việc câu cá", "Mời bạn chọn vào Khu Sinh Thái"}, {"Khu vực Công Viên là nơi bạn có thể gặp gỡ và trò chuyện với bạn bè", "Bạn có thể vào thử Công Viên. Sau khi dạo một vòng hãy đến Trạm Xe Buýt để trở lại nơi này nhé!"}, {"Thành phố diệu kỳ còn rất nhiều khu khác để bạn khám phá. Hãy ghé qua khu sân bay thường xuyên để cập nhật các địa điểm mới", "Giờ bạn có thể vào nông trại, vào hội cờ, đi mua sắm,đi câu cá, hoặc làm bất kỳ điều gì bạn thích. Cám ơn bạn đã xem hướng dẫn!"}};
+   public static String[][] getTextMiniMap() {
+      return new String[][]{{"Chào mừng bạn đến với Avatar - Thành phố diệu kỳ", "Chúng ta sẽ dạo một vòng qua thành phố này nhé!", "Thành phố có rất nhiều khu, chúng ta sẽ đến từng khu để tìm hiểu", "Khu Giải Trí là nơi nào nhiệt nhất thành phố. Mời bạn chọn vào nào!"}, {"Nông Trại là nơi trồng trọt và chăn nuôi, bạn có thể tăng thêm thu nhập", "Bạn hãy chọn vào mục Nông Trại nào"}, {"Tiếp theo là khu Mua Sắm, nơi mà bạn có thể lựa chọn cho mình những bộ trang phục đẹp mắt.", "Chọn vào tham quan khu Mua Sắm ngay bạn nhé!"}, {"Tiếp theo là khu Sinh Thái, nơi mà bạn có thể thư giãn với việc câu cá", "Mời bạn chọn vào Khu Sinh Thái"}, {"Khu vực Công Viên là nơi bạn có thể gặp gỡ và trò chuyện với bạn bè", "Bạn có thể vào thử Công Viên. Sau khi dạo một vòng hãy đến Trạm Xe Buýt để trở lại nơi này nhé!"}, {"Thành phố diệu kỳ còn rất nhiều khu khác để bạn khám phá. Hãy ghé qua khu sân bay thường xuyên để cập nhật các địa điểm mới", "Giờ bạn có thể vào nông trại, vào hội cờ, đi mua sắm,đi câu cá, hoặc làm bất kỳ điều gì bạn thích. Cám ơn bạn đã xem hướng dẫn!"}};
    }
 
    public static String[][] getTextMapScr() {
       return new String[][]{{"Chào mừng bạn đến khu giải trí.", "Nơi đây gồm hội quán cờ, Tòa thị chính, Trường đua pet sôi động và các gian hàng quay số may mắn cùng với đấu giá ngược."}, {"Đây là tòa thị chính, nơi bạn có thể nhận những nhiệm vụ trong game và xin gia nhập vào các hội nhóm.", "Hãy di chuyển nhân vật đến tham quan tòa thị chính đi nào!"}, {"Đây là trường đua thú sôi động. Bạn có thể vào xem những trận đua thú vô cùng hấp dẫn.", "Hãy tham quan trường đua trước khi chúng ta di chuyển sang khu vực khác nhé!"}};
    }
 
-   public static String[][] d() {
+   public static String[][] getTextMuaSam() {
       return new String[][]{{"Chào mừng bạn đến khu mua sắm, tại đây bạn có thể thỏa thích lựa chọn cho mình những bộ thời trang đẹp mắt và cá tính.", "Đầu tiên mời bạn vào Shop tham quan. Hãy di chuyển nhân vật đến shop nào."}, {"Đây là nhà bán thú nuôi, nơi bạn có thể lựa chọn cho mình những chú pet thật xinh xắn.", "Hãy vào xem một chút nhé!"}, {"Bạn có thể vào thay đổi kiểu tóc và mắt của mình tại Thẩm Mỹ Viện.", "Hãy vào tham quan thử nhé!"}};
    }
 
-   public static String[][] e() {
+   public static String[][] getTextToaThiChinh() {
       return new String[][]{{"Hãy gặp thị trưởng để nhận nhiệm vụ và gặp NPC Hội Nhóm để xin gia nhập vào các hội nhóm."}};
    }
 
@@ -631,7 +631,7 @@ public final class T {
       return new String[][]{{"Khu vực nông trại có 4 nơi bạn có thể vào: Cửa hàng, ATM, Nông trại của mình, và Nông trại của bạn bè.", "Cửa hàng là nơi bạn mua hạt giống, vật nuôi và các vật phẩm khác", "Tại sao bạn lại không thử mua một ít hạt giống nhỉ?"}, {"Hiện tại trong người của bạn có sẵn vài hạt giống. Nhưng bạn vẫn có thể mua thêm hạt giống khác nếu thích.", "Hãy chọn mua thử nào!"}, {"Hãy chọn số lượng muốn mua", "Sau khi mua xong, bạn hãy chọn Đóng để rời khỏi cửa hàng"}, {"Chúng ta đã có một số hạt giống rồi!", "Hãy bước vào khu vực nông trại của bạn để bắt đầu gieo hạt!"}};
    }
 
-   public static String[][] g() {
+   public static String[][] getTextFarm() {
       return new String[][]{{"Đây là nông trại của bạn", "Chúng ta sẽ bắt đầu trải nghiệm làm một người nông dân chăm chỉ nhé!", "Bạn có thấy những ô đất không?", "Đây là khu vực bạn có thể trồng cây.", "Bắt đầu thôi nào! Bạn hãy di chuyển đến đó và chọn một ô đất", "Hãy chọn mục Làm Đất để xới đất nào!"}, {"Chúc mừng! Bạn đã hoàn thành xong việc làm đất", "Tiếp theo bạn hãy chọn hạt giống."}, {"Bạn đã gieo hạt. Trên mỗi ô đất có hiển thị thời gian bạn có thể thu hoạch được", "Bạn hãy thường xuyên vào tưới nước, bón phân cho cây cho đến khi thu hoạch nhé!"}, {"Đây là khu chăn nuôi gia súc.", "Bạn cần mua gia súc ngoài cửa hàng và thả nó vào đây", "hãy chăm sóc nó, cho ăn và tiêm thuốc bổ đều đặn, đến khi lớn bạn có thể thu hoạch sữa và trứng"}, {"Đây là nhà bếp, nơi bạn có thể nấu những món ăn từ nông sản bạn thu hoạch được."}, {"Đây là cây khế, cây khế sẽ cho thu hoạch trong thời gian nhất định.", "Hãy nâng cấp cây khế lên càng cao, sản lượng thu hoạch sẽ càng nhiều bạn nhé!"}, {"Bạn có thể nuôi cá trong ao này bằng cách mua cá từ cửa hàng bên ngoài", "Sau khi thu hoạch cây, vật nuôi, bạn sẽ có một khoản tiền nhỏ trong tài khoản nông trại", "Bạn có thể ra ATM để chuyển sang tài khoản chính để có thể dùng nhé!"}};
    }
 
@@ -639,19 +639,19 @@ public final class T {
       return new String[][]{{"Chào mừng bạn đến với cửa hàng quần áo.", "Hãy bước đến gặp người bán hàng để thử quần áo, bạn nhớ chú ý giá cả nhé!"}, {"Sử dụng các mũi tên để chọn các bộ quần áo khác nhau", "Nếu bạn có đủ tiền, hãy chọn mua một bộ quần áo mới"}};
    }
 
-   public static String[][] i() {
+   public static String[][] getTextFish() {
       return new String[][]{{"Chào mừng bạn đến với khu câu cá.", "Có 3 khu câu cá khác nhau, với 3 cấp độ khác nhau"}, {"Khu câu cá rô dành cho người mới tập câu"}, {"Khu câu cá lóc dành cho các bạn đã biết câu"}, {"Khu câu cá mập dành cho các bạn đã là cao thủ câu cá"}, {"Để có thể câu cá bạn phải mua cần câu, mồi câu, vé câu"}, {"Để có thể mua bạn có thể chat chữ cauca cửa hàng sẽ tự động hiện lên"}, {"Hoặc chat chữ banca nếu bạn muốn bán cá"}, {"Giờ chúng ta sẽ rời nơi này. Bạn có thể đến đây bất cứ khi nào bạn muốn!"}};
    }
 
-   public static String[] j() {
+   public static String[] getTextOut() {
       return new String[]{"Bạn có thể ra khỏi nơi này bằng cách đi đến nơi mũi tên chỉ"};
    }
 
-   public static String k() {
+   public static String getMoney() {
       return MapScr.isNewVersion ? "xeng" : C;
    }
 
-   public static String l() {
+   public static String getMoneyH() {
       return MapScr.isNewVersion ? "xèng" : C;
    }
 }

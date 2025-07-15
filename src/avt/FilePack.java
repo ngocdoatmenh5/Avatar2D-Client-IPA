@@ -70,7 +70,7 @@ public final class FilePack {
    }
 
    public static void b(String var0) {
-      instance = new FilePack(T.a() + var0);
+      instance = new FilePack(T.getPath() + var0);
    }
 
    private void encode(byte[] var1) {

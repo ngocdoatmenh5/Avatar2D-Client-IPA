@@ -911,7 +911,7 @@ public final class DiamondScr extends BoardScr {
             var7 = this.hhFill - 7;
             var8 = this.hhFill - 16 * AvMain.hd;
             if (Canvas.w > 160) {
-               Canvas.smallFontYellow.drawString(var1, var12.getMoneyNew() + " " + avt.T.k(), var13 + this.hhFill, var12.y, 1);
+               Canvas.smallFontYellow.drawString(var1, var12.getMoneyNew() + " " + avt.T.getMoney(), var13 + this.hhFill, var12.y, 1);
             }
          } else {
             var13 = this.xPlayer2 + 10 + 10 * AvMain.hd;
@@ -924,7 +924,7 @@ public final class DiamondScr extends BoardScr {
             var5 = 0;
             var8 = 16 * AvMain.hd;
             if (Canvas.w > 160) {
-               Canvas.smallFontYellow.drawString(var1, var12.getMoneyNew() + " " + avt.T.k(), var13, var12.y, 0);
+               Canvas.smallFontYellow.drawString(var1, var12.getMoneyNew() + " " + avt.T.getMoney(), var13, var12.y, 0);
             }
          }
 

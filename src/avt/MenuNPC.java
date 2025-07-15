@@ -42,7 +42,7 @@ public final class MenuNPC extends MenuMain {
 
    static {
       try {
-         imgDc = new FrameImage(Image.createImage(T.a() + "/race/popup/tile0.png"), 20 * AvMain.hd, 20 * AvMain.hd);
+         imgDc = new FrameImage(Image.createImage(T.getPath() + "/race/popup/tile0.png"), 20 * AvMain.hd, 20 * AvMain.hd);
       } catch (IOException var1) {
          var1.printStackTrace();
       }

@@ -25,7 +25,7 @@ public final class TransMoneyDlg extends Dialog {
       TransMoneyDlg var1 = this;
       if (this.imgButton == null) {
          try {
-            var1.imgButton = new FrameImage(Image.createImage(T.a() + "/button.png"), AvMain.hd == 2 ? 112 : 52, 16 * AvMain.hd);
+            var1.imgButton = new FrameImage(Image.createImage(T.getPath() + "/button.png"), AvMain.hd == 2 ? 112 : 52, 16 * AvMain.hd);
          } catch (IOException var3) {
             var3.printStackTrace();
          }

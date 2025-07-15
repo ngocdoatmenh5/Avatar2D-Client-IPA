@@ -42,7 +42,7 @@ public final class MediumPaint implements IPaint {
 
    public MediumPaint() {
       try {
-         Canvas.imagePlug = Image.createImage(T.a() + "/12Plus.png");
+         Canvas.imagePlug = Image.createImage(T.getPath() + "/12Plus.png");
       } catch (IOException var3) {
          var3.printStackTrace();
       }
@@ -73,8 +73,8 @@ public final class MediumPaint implements IPaint {
       FilePack.reset();
 
       try {
-         MyScreen.ao = Image.createImage(T.a() + "/on/msg0.on");
-         RoomListOnScr.imgRoomStat = new FrameImage(Image.createImage(T.a() + "/on/stat.on"), 11, 11);
+         MyScreen.ao = Image.createImage(T.getPath() + "/on/msg0.on");
+         RoomListOnScr.imgRoomStat = new FrameImage(Image.createImage(T.getPath() + "/on/stat.on"), 11, 11);
       } catch (IOException var2) {
          var2.printStackTrace();
       }
@@ -225,7 +225,7 @@ public final class MediumPaint implements IPaint {
 
             int var1;
             for(var1 = 0; var1 < 14; ++var1) {
-               f[var1] = Image.createImage(T.a() + "/card/c" + var1 + ".png");
+               f[var1] = Image.createImage(T.getPath() + "/card/c" + var1 + ".png");
             }
 
             var1 = f[12].getWidth();
@@ -240,11 +240,11 @@ public final class MediumPaint implements IPaint {
             var4.drawRegion(f[12], 0, 0, var1, var2, 3, var1, var2, 0);
             var3 = CRes.createRGBImage(var3, -65315);
             f[12] = var3;
-            g[0] = new FrameImage(Image.createImage(T.a() + "/card/f.png"), 8, 9);
-            g[1] = new FrameImage(Image.createImage(T.a() + "/card/g.png"), 8, 9);
-            b = Image.createImage(T.a() + "/card/cb.png");
-            c = Image.createImage(T.a() + "/card/cb1.png");
-            d = Image.createImage(T.a() + "/card/cb2.png");
+            g[0] = new FrameImage(Image.createImage(T.getPath() + "/card/f.png"), 8, 9);
+            g[1] = new FrameImage(Image.createImage(T.getPath() + "/card/g.png"), 8, 9);
+            b = Image.createImage(T.getPath() + "/card/cb.png");
+            c = Image.createImage(T.getPath() + "/card/cb1.png");
+            d = Image.createImage(T.getPath() + "/card/cb2.png");
          } catch (Exception var5) {
             var5.printStackTrace();
          }
@@ -570,11 +570,11 @@ public final class MediumPaint implements IPaint {
    public final void b(int var1) {
       try {
          if (var1 == 0) {
-            BoardListOnScr.f = new FrameImage(Image.createImage(T.a() + "/on/imgBan2.on"), 60, 46);
+            BoardListOnScr.f = new FrameImage(Image.createImage(T.getPath() + "/on/imgBan2.on"), 60, 46);
          } else if (var1 == 1) {
-            BoardListOnScr.f = new FrameImage(Image.createImage(T.a() + "/on/imgBan4.on"), 60, 46);
+            BoardListOnScr.f = new FrameImage(Image.createImage(T.getPath() + "/on/imgBan4.on"), 60, 46);
          } else {
-            BoardListOnScr.f = new FrameImage(Image.createImage(T.a() + "/on/imgBan5.on"), 60, 46);
+            BoardListOnScr.f = new FrameImage(Image.createImage(T.getPath() + "/on/imgBan5.on"), 60, 46);
          }
       } catch (IOException var2) {
          var2.printStackTrace();
@@ -584,15 +584,15 @@ public final class MediumPaint implements IPaint {
    public final void f() {
       try {
          PaintPopup.color = new int[]{21080, 12313816, 8703190, 2713971, 5107863, 4559225};
-         a = new FrameImage(Image.createImage(T.a() + "/on/round.on"), 8, 8);
-         e = Image.createImage(T.a() + "/on/bg.on");
+         a = new FrameImage(Image.createImage(T.getPath() + "/on/round.on"), 8, 8);
+         e = Image.createImage(T.getPath() + "/on/bg.on");
          j = new Image[8];
 
          for(int var1 = 0; var1 < 8; ++var1) {
-            j[var1] = Image.createImage(T.a() + "/on/imgPopup" + var1 + ".on");
+            j[var1] = Image.createImage(T.getPath() + "/on/imgPopup" + var1 + ".on");
          }
 
-         l = new FrameImage(Image.createImage(T.a() + "/barMoney.png"), 10, 10);
+         l = new FrameImage(Image.createImage(T.getPath() + "/barMoney.png"), 10, 10);
       } catch (IOException var2) {
          var2.printStackTrace();
       }
@@ -615,9 +615,9 @@ public final class MediumPaint implements IPaint {
 
    public final void h() {
       try {
-         k = new FrameImage(Image.createImage(T.a() + "/on/imgDoor.on"), 45, 44);
-         new FrameImage(Image.createImage(T.a() + "/on/trangthai.on"), 11, 4);
-         BoardListOnScr.i = Image.createImage(T.a() + "/on/imgSelectban.on");
+         k = new FrameImage(Image.createImage(T.getPath() + "/on/imgDoor.on"), 45, 44);
+         new FrameImage(Image.createImage(T.getPath() + "/on/trangthai.on"), 11, 4);
+         BoardListOnScr.i = Image.createImage(T.getPath() + "/on/imgSelectban.on");
       } catch (IOException var2) {
          var2.printStackTrace();
       }

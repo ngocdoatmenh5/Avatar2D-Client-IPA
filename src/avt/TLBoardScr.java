@@ -553,7 +553,7 @@ public final class TLBoardScr extends BoardScr {
                }
 
                if (Canvas.w > 160) {
-                  Canvas.smallFontYellow.drawString(var3, var12.getMoneyNew() + " " + avt.T.k(), BoardScr.posAvatar[BoardScr.indexPlayer[var11]].x + var14, BoardScr.posAvatar[BoardScr.indexPlayer[var11]].y + 5 + var13, BoardScr.posAvatar[BoardScr.indexPlayer[var11]].anchor);
+                  Canvas.smallFontYellow.drawString(var3, var12.getMoneyNew() + " " + avt.T.getMoney(), BoardScr.posAvatar[BoardScr.indexPlayer[var11]].x + var14, BoardScr.posAvatar[BoardScr.indexPlayer[var11]].y + 5 + var13, BoardScr.posAvatar[BoardScr.indexPlayer[var11]].anchor);
                }
 
                if (var12.IDDB == var2.currentPlayer && var2.center != BoardScr.cmdBack) {

@@ -41,7 +41,7 @@ final class CommandOpenShop extends Command {
 
             PopupShop.addStr(T.ao + GameMidlet.avatar.strMoney);
             if (MapScr.isNewVersion) {
-               PopupShop.addStr(T.dE + GameMidlet.avatar.money[3] + " " + T.k());
+               PopupShop.addStr(T.dE + GameMidlet.avatar.money[3] + " " + T.getMoney());
             }
          }
       }

@@ -86,7 +86,7 @@ public final class LoginScr extends MyScreen {
          if (GameMidlet.f == 6) {
             MyScreen.am = Image.createImage("/lgyeah.png");
          } else {
-            MyScreen.am = Image.createImage(T.a() + "/l.png");
+            MyScreen.am = Image.createImage(T.getPath() + "/l.png");
          }
       } catch (IOException var2) {
          var2.printStackTrace();

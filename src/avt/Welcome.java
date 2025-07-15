@@ -124,7 +124,7 @@ public final class Welcome extends AvMain {
          Canvas.isInitChar = false;
       } else {
          if (this.textMiniMap == null) {
-            this.textMiniMap = T.b();
+            this.textMiniMap = T.getTextMiniMap();
          }
 
          lastScr = MiniMap.me;
@@ -181,7 +181,7 @@ public final class Welcome extends AvMain {
 
    public final void initKhuMuaSam() {
       if (this.textKhuMuaSam == null) {
-         this.textKhuMuaSam = T.d();
+         this.textKhuMuaSam = T.getTextMuaSam();
       }
 
       lastScr = MapScr.instance;
@@ -266,7 +266,7 @@ public final class Welcome extends AvMain {
 
    public final void initTash() {
       if (this.textTask == null) {
-         this.textTask = T.e();
+         this.textTask = T.getTextToaThiChinh();
       }
 
       Canvas.welcome.setText(this.textTask[indexTask]);
@@ -275,7 +275,7 @@ public final class Welcome extends AvMain {
 
    private void initFarm() {
       if (this.textFarm == null) {
-         this.textFarm = T.g();
+         this.textFarm = T.getTextFarm();
       }
 
       lastScr = FarmScr.instance;
@@ -338,7 +338,7 @@ public final class Welcome extends AvMain {
 
    public final void initFish() {
       if (this.textFish == null) {
-         this.textFish = T.i();
+         this.textFish = T.getTextFish();
       }
 
       lastScr = MapScr.instance;
@@ -387,7 +387,7 @@ public final class Welcome extends AvMain {
       LoadMap.orderVector(LoadMap.treeLists);
       AvCamera.gI().setToPos(var1 * AvMain.hd, var2 * AvMain.hd);
       AvCamera.isFollow = true;
-      String[] var4 = T.j();
+      String[] var4 = T.getTextOut();
       Canvas.welcome.setText(var4);
    }
 

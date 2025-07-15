@@ -116,22 +116,22 @@ public final class RaceScr extends MyScreen implements IChatable {
       int var5;
       if (imgWater == null) {
          try {
-            this.imgInfo = new FrameImage(Image.createImage(avt.T.a() + "/race/popup/tile1.png"), 20 * AvMain.hd, 20 * AvMain.hd);
-            this.imgBackpet = new FrameImage(Image.createImage(avt.T.a() + "/race/popup/bt1.png"), 31 * AvMain.hd, 31 * AvMain.hd);
-            this.imgBackMoney = new FrameImage(Image.createImage(avt.T.a() + "/race/popup/bt0.png"), 60 * AvMain.hd, 24 * AvMain.hd);
-            this.imgTime = new FrameImage(Image.createImage(avt.T.a() + "/race/popup/time.png"), 14 * AvMain.hd, 14 * AvMain.hd);
-            imgWater = Image.createImage(avt.T.a() + "/race/28.png");
-            imgFire = Image.createImage(avt.T.a() + "/race/29.png");
+            this.imgInfo = new FrameImage(Image.createImage(avt.T.getPath() + "/race/popup/tile1.png"), 20 * AvMain.hd, 20 * AvMain.hd);
+            this.imgBackpet = new FrameImage(Image.createImage(avt.T.getPath() + "/race/popup/bt1.png"), 31 * AvMain.hd, 31 * AvMain.hd);
+            this.imgBackMoney = new FrameImage(Image.createImage(avt.T.getPath() + "/race/popup/bt0.png"), 60 * AvMain.hd, 24 * AvMain.hd);
+            this.imgTime = new FrameImage(Image.createImage(avt.T.getPath() + "/race/popup/time.png"), 14 * AvMain.hd, 14 * AvMain.hd);
+            imgWater = Image.createImage(avt.T.getPath() + "/race/28.png");
+            imgFire = Image.createImage(avt.T.getPath() + "/race/29.png");
             imgBui = new Image[5];
 
             for(var5 = 0; var5 < 5; ++var5) {
-               imgBui[var5] = Image.createImage(avt.T.a() + "/race/bui/d0" + var5 + ".png");
+               imgBui[var5] = Image.createImage(avt.T.getPath() + "/race/bui/d0" + var5 + ".png");
             }
 
             imgTe = new Image[3];
 
             for(var5 = 0; var5 < 3; ++var5) {
-               imgTe[var5] = Image.createImage(avt.T.a() + "/race/bui/w" + var5 + ".png");
+               imgTe[var5] = Image.createImage(avt.T.getPath() + "/race/bui/w" + var5 + ".png");
             }
          } catch (Exception var7) {
             var7.printStackTrace();

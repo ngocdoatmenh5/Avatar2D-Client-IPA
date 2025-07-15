@@ -43,10 +43,10 @@ public final class BoardListOnScr extends MyScreen {
       Canvas.paint.b(type);
       if (k == null) {
          try {
-            k = Image.createImage(T.a() + "/on/imgkhungsoban.on");
-            l = Image.createImage(T.a() + "/on/imgNumPlayer.on");
-            m = Image.createImage(T.a() + "/on/imgPlay.on");
-            n = Image.createImage(T.a() + "/on/imgLock.on");
+            k = Image.createImage(T.getPath() + "/on/imgkhungsoban.on");
+            l = Image.createImage(T.getPath() + "/on/imgNumPlayer.on");
+            m = Image.createImage(T.getPath() + "/on/imgPlay.on");
+            n = Image.createImage(T.getPath() + "/on/imgLock.on");
          } catch (IOException var2) {
             var2.printStackTrace();
          }

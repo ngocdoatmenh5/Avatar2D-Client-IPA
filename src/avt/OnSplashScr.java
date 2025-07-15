@@ -23,7 +23,7 @@ public final class OnSplashScr extends MyScreen {
       OnScreen.isOngame = true;
 
       try {
-         imgBg = Image.createImage(T.a() + "/on/logo.on");
+         imgBg = Image.createImage(T.getPath() + "/on/logo.on");
       } catch (IOException var2) {
          var2.printStackTrace();
       }

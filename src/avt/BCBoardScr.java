@@ -75,7 +75,7 @@ public final class BCBoardScr extends BoardScr {
 
    public BCBoardScr() {
       try {
-         this.pointer = Image.createImage(avt.T.a() + "/on/p.on");
+         this.pointer = Image.createImage(avt.T.getPath() + "/on/p.on");
       } catch (IOException var2) {
          var2.printStackTrace();
       }
@@ -410,7 +410,7 @@ public final class BCBoardScr extends BoardScr {
             Avatar var10;
             if ((var10 = (Avatar)BoardScr.avatarInfos.elementAt(var5)).IDDB == BoardScr.ownerID || var10.IDDB != -1) {
                if (var3.currentPlayer != var10.IDDB || Canvas.gameTick % 10 >= 5) {
-                  Canvas.smallFontYellow.drawString(var4, var10.getMoneyNew() + avt.T.k(), var10.x, var10.y + 5, 2);
+                  Canvas.smallFontYellow.drawString(var4, var10.getMoneyNew() + avt.T.getMoney(), var10.x, var10.y + 5, 2);
                }
 
                if ((var7 = getSeatATmapSeat(var3.mapSeat, BoardScr.getIndexByID(var10.IDDB))) != -1 && AvatarData.getImgIcon((short)871).count != -1) {

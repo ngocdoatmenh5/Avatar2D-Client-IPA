@@ -150,7 +150,7 @@ public final class PBoardScr extends BoardScr {
       this.getC = new AvPosition(Canvas.hw, Canvas.hh, 3);
       if (BoardScr.imgBan == null) {
          try {
-            BoardScr.imgBan = Image.createImage(avt.T.a() + "/on/star.on");
+            BoardScr.imgBan = Image.createImage(avt.T.getPath() + "/on/star.on");
             return;
          } catch (IOException var2) {
             var2.printStackTrace();
@@ -1128,7 +1128,7 @@ public final class PBoardScr extends BoardScr {
          if ((var3 = (Avatar)BoardScr.avatarInfos.elementAt(var2)).IDDB != -1 && (Canvas.w >= 160 || var3.IDDB == super.currentPlayer)) {
             int var4 = BoardScr.getIndexByID(super.currentPlayer);
             if (var2 != var4 || Canvas.gameTick % 20 > 5 && var2 == var4 || this.finish) {
-               Canvas.smallFontYellow.drawString(var1, var3.getMoneyNew() + " " + avt.T.k(), b[BoardScr.indexPlayer[var2]].x, b[BoardScr.indexPlayer[var2]].y, b[BoardScr.indexPlayer[var2]].anchor);
+               Canvas.smallFontYellow.drawString(var1, var3.getMoneyNew() + " " + avt.T.getMoney(), b[BoardScr.indexPlayer[var2]].x, b[BoardScr.indexPlayer[var2]].y, b[BoardScr.indexPlayer[var2]].anchor);
             }
          }
       }

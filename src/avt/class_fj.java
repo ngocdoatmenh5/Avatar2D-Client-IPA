@@ -67,7 +67,7 @@ final class class_fj extends Command {
 
       Canvas.fontChatB.drawString(var1, this.h.str, 0 - var4, var2 += var3, 0);
       if (MapScr.isNewVersion) {
-         Canvas.fontChatB.drawString(var1, T.dE + this.f.money[3] + T.l(), 0, var2 + var3, 0);
+         Canvas.fontChatB.drawString(var1, T.dE + this.f.money[3] + T.getMoneyH(), 0, var2 + var3, 0);
       }
 
    }

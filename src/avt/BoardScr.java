@@ -391,7 +391,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
             if (Canvas.w > 150) {
                Canvas.fontChatB.drawString(var1, RoomListOnScr.title, AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - AvMain.hBlack - AvMain.hBlack / 2 - 5, 2);
                Canvas.fontChatB.drawString(var1, "P: " + roomID + " - B: " + boardID, AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - AvMain.hBlack / 2 - 5, 2);
-               Canvas.smallFontYellow.drawString(var1, money + T.k(), AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - 5 + AvMain.hBlack / 2, 2);
+               Canvas.smallFontYellow.drawString(var1, money + T.getMoney(), AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - 5 + AvMain.hBlack / 2, 2);
                paintChat(var1);
             }
 
@@ -405,7 +405,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
       Canvas.paint.paintDefaultBg(var0);
       if (!isStartGame) {
          Canvas.normalFont.drawString(var0, "P: " + roomID + " - B: " + boardID, Canvas.hw, Canvas.h / 2 - 10 * AvMain.hd, 2);
-         Canvas.smallFontYellow.drawString(var0, money + T.k(), Canvas.hw, Canvas.h / 2 + 10 * AvMain.hd, 2);
+         Canvas.smallFontYellow.drawString(var0, money + T.getMoney(), Canvas.hw, Canvas.h / 2 + 10 * AvMain.hd, 2);
       } else {
          if (Canvas.currentMyScreen == DiamondScr.me_) {
             DiamondScr.me_.paintCaro(var0);
@@ -601,8 +601,8 @@ public abstract class BoardScr extends MyScreen implements IChatable {
          imgReady = new Image[2];
 
          try {
-            imgReady[0] = Image.createImage(T.a() + "/on/ready.on");
-            imgReady[1] = Image.createImage(T.a() + "/on/owner.on");
+            imgReady[0] = Image.createImage(T.getPath() + "/on/ready.on");
+            imgReady[1] = Image.createImage(T.getPath() + "/on/owner.on");
          } catch (IOException var7) {
             var7.printStackTrace();
          }

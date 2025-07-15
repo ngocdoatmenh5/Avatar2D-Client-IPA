@@ -1068,15 +1068,15 @@ public final class LoadMap {
          if (var1 - 1 == 19) {
             try {
                rememMap = -1;
-               imgMap = new FrameImage(Image.createImage(avt.T.a() + "/wedding.png"), w * AvMain.hd, w * AvMain.hd);
+               imgMap = new FrameImage(Image.createImage(avt.T.getPath() + "/wedding.png"), w * AvMain.hd, w * AvMain.hd);
             } catch (IOException var7) {
                var7.printStackTrace();
             }
          } else if (var1 - 1 != 107) {
             w = 24;
             rememMap = status;
-            InputStream var11 = CRes.getResourceAsStream(avt.T.a() + "/data/h" + status);
-            InputStream var15 = CRes.getResourceAsStream(avt.T.a() + "/data/data");
+            InputStream var11 = CRes.getResourceAsStream(avt.T.getPath() + "/data/h" + status);
+            InputStream var15 = CRes.getResourceAsStream(avt.T.getPath() + "/data/data");
 
             try {
                byte[] var16 = new byte[var11.available()];
@@ -1091,7 +1091,7 @@ public final class LoadMap {
             try {
                w = 12;
                rememMap = -1;
-               imgMap = new FrameImage(Image.createImage(avt.T.a() + "/tileDuaXe.png"), w * AvMain.hd, w * AvMain.hd);
+               imgMap = new FrameImage(Image.createImage(avt.T.getPath() + "/tileDuaXe.png"), w * AvMain.hd, w * AvMain.hd);
             } catch (IOException var5) {
                var5.printStackTrace();
             }

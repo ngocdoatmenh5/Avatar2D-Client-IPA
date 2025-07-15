@@ -68,10 +68,10 @@ public final class OnScreen extends MyScreen {
                var1 = 40;
             }
 
-            l = new FrameImage(Image.createImage(T.a() + "/on/iconGame0.on"), var1, var1);
-            s = Image.createImage(T.a() + "/on/select.on");
+            l = new FrameImage(Image.createImage(T.getPath() + "/on/iconGame0.on"), var1, var1);
+            s = Image.createImage(T.getPath() + "/on/select.on");
             if (OnSplashScr.imgBg == null) {
-               OnSplashScr.imgBg = Image.createImage(T.a() + "/on/logo.on");
+               OnSplashScr.imgBg = Image.createImage(T.getPath() + "/on/logo.on");
             }
          } catch (IOException var2) {
             var2.printStackTrace();

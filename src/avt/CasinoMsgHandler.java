@@ -54,7 +54,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                   var20.isPass = (var22 & 1) != 0;
                   var20.isPlaying = (var22 & 2) != 0;
                   var20.money = var1.reader().readInt();
-                  var20.strMoney = Canvas.getMoneys(var20.money) + T.k();
+                  var20.strMoney = Canvas.getMoneys(var20.money) + T.getMoney();
                   var18.addElement(var20);
                }
 
