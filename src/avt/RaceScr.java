@@ -271,7 +271,7 @@ public final class RaceScr extends MyScreen implements IChatable {
 
    }
 
-   public final void commandTab(int var1) {
+   public final void commandActionPointer(int var1) {
       switch (var1) {
          case 0:
             GlobalService var4;
@@ -289,7 +289,7 @@ public final class RaceScr extends MyScreen implements IChatable {
             }
             break;
          case 2:
-            class_fl var3 = new class_fl(this);
+            IACctionOut var3 = new IACctionOut(this);
             if (this.isStart) {
                Canvas.startOKDlg(avt.T.eP, (IAction)var3);
                return;
@@ -319,7 +319,7 @@ public final class RaceScr extends MyScreen implements IChatable {
             return;
          case 6:
             GlobalService.gI().doDatCuoc(this.listPet[this.indexMoney].IDDB, this.iMoney[this.indexDC]);
-            this.commandTab(8);
+            this.commandActionPointer(8);
             return;
          case 7:
             Vector var2;
@@ -559,7 +559,7 @@ public final class RaceScr extends MyScreen implements IChatable {
          this.indexDC = -1;
          this.indexMoney = -1;
          this.isDC = false;
-         this.commandTab(8);
+         this.commandActionPointer(8);
       } else if (this.countCloseDC > 0) {
          this.countCloseDC = 0;
          this.isDC = false;

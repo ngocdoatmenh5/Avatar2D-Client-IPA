@@ -39,8 +39,8 @@ public final class Welcome extends AvMain {
       isPaintArrow = true;
       this.x = 10;
       this.next = 0;
-      super.center = new Command("", new class_dk(this));
-      super.left = new Command(T.dA, new class_dj(this));
+      super.center = new Command("", new IActionClick(this));
+      super.left = new Command(T.dA, new IActionLeft(this));
    }
 
    public final void update() {

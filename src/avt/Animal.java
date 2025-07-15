@@ -46,7 +46,7 @@ public class Animal extends Base {
    }
 
    public void paint(Graphics var1) {
-      if (super.x * MyObject.hd + 30 >= AvCamera.gI().xCam && super.x * MyObject.hd - 30 <= AvCamera.gI().xCam + Canvas.w && Canvas.currentMyScreen != MenuCenter.gI()) {
+      if (super.x * MyObject.hd + 30 >= AvCamera.gI().xCam && super.x * MyObject.hd - 30 <= AvCamera.gI().xCam + Canvas.w && Canvas.currentMyScreen != MainMenu.gI()) {
          AnimalInfo var2;
          ImageIcon var3;
          if ((var3 = AvatarData.getImgIcon((var2 = FarmData.getAnimalByID(this.species)).idImg[this.period])).count != -1) {

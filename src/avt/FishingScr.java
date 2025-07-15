@@ -325,7 +325,7 @@ public final class FishingScr extends MyScreen
       Canvas.startOK(s, 0, this);
    }
 
-   public final void commandTab(final int n) {
+   public final void commandActionPointer(final int n) {
       switch (n) {
          case 0: {
             this.e();

@@ -66,7 +66,7 @@ public final class MenuNPC extends MenuMain {
       super.right = new Command(T.d, 1, this);
    }
 
-   public final void commandTab(int var1) {
+   public final void commandActionPointer(int var1) {
       switch (var1) {
          case 0:
             this.click();

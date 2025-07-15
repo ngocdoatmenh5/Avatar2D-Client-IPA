@@ -8,6 +8,6 @@ final class IActionVatPham1 implements IAction {
    }
 
    public final void perform() {
-      FarmScr.a(this.a, (byte)1, FarmScr.idItemUsing);
+      FarmScr.setAction(this.a, (byte)1, FarmScr.idItemUsing);
    }
 }

@@ -40,7 +40,7 @@ public final class ListScr extends MyScreen {
       this.k = new Command(T.d, 1);
       super.right = this.k;
       this.backMyScreen = null;
-      if (Canvas.currentMyScreen != MenuCenter.gI() && Canvas.currentMyScreen != PopupShop.gI() && Canvas.currentMyScreen != gI()) {
+      if (Canvas.currentMyScreen != MainMenu.gI() && Canvas.currentMyScreen != PopupShop.gI() && Canvas.currentMyScreen != gI()) {
          this.backMyScreen = Canvas.currentMyScreen;
       }
 

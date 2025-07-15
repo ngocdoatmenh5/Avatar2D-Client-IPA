@@ -549,9 +549,9 @@ public final class MiniMap extends MyScreen {
    public final void onRegisterByEmail(byte var1, String var2, String var3, String var4) {
       System.out.println("onRegisterByEmail: " + var3 + "   " + var4);
       if (var1 == 0) {
-         actionReg = new class_ct(this, var2);
+         actionReg = new IActionRequestReg(this, var2);
       } else if (var1 == 1) {
-         actionReg = new class_ay(this, var2);
+         actionReg = new IActionRequestOK(this, var2);
       } else {
          if (var1 == 2) {
             LoginScr.gI().tfUser.setText(var3);

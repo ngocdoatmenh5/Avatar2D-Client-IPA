@@ -198,7 +198,7 @@ public final class HouseScr extends MyScreen implements IChatable {
          if (var4.buy != 0 && var5 != -1 && (this.typeHome != 4 && (var4.buy == 1 || var4.buy == 2) || this.typeHome == 4)) {
             String var8 = var4.name.substring(var4.name.indexOf(":") + 1);
             String var6 = Canvas.getPriceMoney(var4.priceXu, var4.priceLuong, true);
-            var2.addElement(new class_gk(this, "", new class_gi(this, var3, var1), var4, 90, var6, var8));
+            var2.addElement(new CommandItem(this, "", new IActionItem(this, var3, var1), var4, 90, var6, var8));
          }
       }
 
@@ -1018,7 +1018,7 @@ public final class HouseScr extends MyScreen implements IChatable {
             return;
          case 13:
             if (var3 != -1 && var5.typeID != this.IDHoa) {
-               Canvas.startOKDlg(T.da, (IAction)(new class_fw(this, var5)));
+               Canvas.startOKDlg(T.da, (IAction)(new IActionSellItem(this, var5)));
                return;
             }
 
@@ -1037,7 +1037,7 @@ public final class HouseScr extends MyScreen implements IChatable {
             }
 
             var7[0].setFocus(true);
-            Command var8 = new Command(T.cy, new class_gg(this, var7));
+            Command var8 = new Command(T.cy, new IActionFinish(this, var7));
             PopupShop.gI().close();
             InputFace.gI().setIputType(var7, T.cx, T.eF, var8);
             Canvas.currentFace = InputFace.gI();
@@ -1097,11 +1097,11 @@ public final class HouseScr extends MyScreen implements IChatable {
       this.levelChest = var4;
       Vector var7 = MapScr.gI().getListCmdDoUsing(var1, GameMidlet.avatar.IDDB, 3);
       var2 = MapScr.gI().getListCmdDoUsing(var2, GameMidlet.avatar.IDDB, 2);
-      if (Canvas.currentMyScreen != MenuCenter.me) {
+      if (Canvas.currentMyScreen != MainMenu.me) {
          PopupShop.gI().isFull = true;
          PopupShop.gI().addElement(new String[]{T.by, T.co}, new Vector[]{var7, var2}, (Vector)null);
          Command var5 = MapScr.gI().cmdDellPart(var1, 1, 1, false);
-         Command var6 = new Command(T.c, new class_dd(this));
+         Command var6 = new Command(T.c, new IHouse1(this));
          PopupShop.gI().setCmdLeft(var5, 0);
          PopupShop.gI().setCmdLeft(var6, 1);
          if (Canvas.currentMyScreen != PopupShop.gI()) {
@@ -1159,7 +1159,7 @@ public final class HouseScr extends MyScreen implements IChatable {
       Vector var10 = new Vector();
 
       for(int var11 = 0; var11 < var3.length; ++var11) {
-         var10.addElement(new CommandShop1(this, T.O, new class_cg(this, var1, var5[var11], var7[var11]), var11, var3[var11], var4[var11], var5[var11], var6[var11], var8 == null ? -1 : var8[var11], var7[var11], var9[var11]));
+         var10.addElement(new CommandShop1(this, T.O, new IActionShop1(this, var1, var5[var11], var7[var11]), var11, var3[var11], var4[var11], var5[var11], var6[var11], var8 == null ? -1 : var8[var11], var7[var11], var9[var11]));
       }
 
       if (var10.size() > 0) {
@@ -1213,7 +1213,7 @@ public final class HouseScr extends MyScreen implements IChatable {
    static void a(HouseScr var0, int var1, String var2) {
       MapItemType var3 = (MapItemType)AvatarData.listMapItemType.elementAt(var1);
       if (!var0.isDisable(var3)) {
-         Canvas.getTypeMoney(var3.priceXu, var3.priceLuong, new class_cr(var0, var3, var2), new class_co(var0, var3, var2), new class_de(var0));
+         Canvas.getTypeMoney(var3.priceXu, var3.priceLuong, new IActionBuyItem(var0, var3, var2), new IActionBuyItem1(var0, var3, var2), new IActionBuyItemClose1(var0));
       }
 
    }

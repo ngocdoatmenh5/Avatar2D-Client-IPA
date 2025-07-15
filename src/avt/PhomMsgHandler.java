@@ -8,7 +8,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
 
    public static void onHandler() {
       BoardScr.numPlayer = 4;
-      BoardListOnScr.type = BoardListOnScr.c;
+      BoardListOnScr.type = BoardListOnScr.STYLE_4PLAYER;
       RoomListOnScr.setName(1, PBoardScr.gI());
       CasinoMsgHandler.me.miniGameMessageHandler = instance;
    }

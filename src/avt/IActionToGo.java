@@ -16,6 +16,6 @@ final class IActionToGo implements IAction {
          return;
       }
 
-      this.a.e();
+      this.a.doAskForPass();
    }
 }

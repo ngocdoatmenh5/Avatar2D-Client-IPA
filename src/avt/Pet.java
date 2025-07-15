@@ -164,7 +164,7 @@ public final class Pet extends Animal {
    }
 
    public final void paint(Graphics var1) {
-      if ((super.x + 15) * MyObject.hd >= AvCamera.gI().xCam && (super.x - 15) * MyObject.hd <= AvCamera.gI().xCam + Canvas.w && !this.follow.ableShow && (Canvas.stypeInt <= 0 || Canvas.currentMyScreen != MenuCenter.gI())) {
+      if ((super.x + 15) * MyObject.hd >= AvCamera.gI().xCam && (super.x - 15) * MyObject.hd <= AvCamera.gI().xCam + Canvas.w && !this.follow.ableShow && (Canvas.stypeInt <= 0 || Canvas.currentMyScreen != MainMenu.gI())) {
          APartInfo var2;
          if ((var2 = (APartInfo)AvatarData.getPart(this.follow.idPet)).IDPart != -1) {
             if (var2.IDPart >= 2000) {

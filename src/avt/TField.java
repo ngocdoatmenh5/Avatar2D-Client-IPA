@@ -38,7 +38,7 @@ public final class TField {
    private Command K;
    public String q = "";
    public static FrameImage tfframe;
-   private static javax.microedition.lcdui.Canvas L;
+   private static javax.microedition.lcdui.Canvas canvas;
    public static int s;
    public static IAction t;
    public static boolean u = false;
@@ -99,8 +99,8 @@ public final class TField {
       this.text = "";
       f = AvMain.hBlack + 1;
       this.K = new Command(T.bb, new class_jw(this));
-      if (L == null) {
-         L = Canvas.instance;
+      if (canvas == null) {
+         canvas = Canvas.instance;
       }
 
       this.setFocus(false);

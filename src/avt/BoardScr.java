@@ -432,11 +432,11 @@ public abstract class BoardScr extends MyScreen implements IChatable {
       if (isStartGame && !disableReady && !isGameEnd) {
          Canvas.startOKDlg(T.cv, 0, this);
       } else {
-         this.commandTab(0);
+         this.commandActionPointer(0);
       }
    }
 
-   public final void commandTab(int var1) {
+   public final void commandActionPointer(int var1) {
       switch (var1) {
          case 0:
             Canvas.load = 0;

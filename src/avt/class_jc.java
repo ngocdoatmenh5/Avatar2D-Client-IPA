@@ -1,7 +1,7 @@
 package avt;
 
 final class class_jc implements IAction {
-   class_jc(MenuCenter var1) {
+   class_jc(MainMenu var1) {
    }
 
    public final void perform() {

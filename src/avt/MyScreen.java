@@ -6,7 +6,7 @@ import main.Canvas;
 
 public abstract class MyScreen extends AvMain {
    public static int ITEM_HEIGHT = 20;
-   public static Image am;
+   public static Image imgLogo;
    public static Image an;
    public static Image ao;
    public static Image ap;

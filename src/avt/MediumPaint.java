@@ -570,11 +570,11 @@ public final class MediumPaint implements IPaint {
    public final void b(int var1) {
       try {
          if (var1 == 0) {
-            BoardListOnScr.f = new FrameImage(Image.createImage(T.getPath() + "/on/imgBan2.on"), 60, 46);
+            BoardListOnScr.imgBoard = new FrameImage(Image.createImage(T.getPath() + "/on/imgBan2.on"), 60, 46);
          } else if (var1 == 1) {
-            BoardListOnScr.f = new FrameImage(Image.createImage(T.getPath() + "/on/imgBan4.on"), 60, 46);
+            BoardListOnScr.imgBoard = new FrameImage(Image.createImage(T.getPath() + "/on/imgBan4.on"), 60, 46);
          } else {
-            BoardListOnScr.f = new FrameImage(Image.createImage(T.getPath() + "/on/imgBan5.on"), 60, 46);
+            BoardListOnScr.imgBoard = new FrameImage(Image.createImage(T.getPath() + "/on/imgBan5.on"), 60, 46);
          }
       } catch (IOException var2) {
          var2.printStackTrace();
@@ -617,7 +617,7 @@ public final class MediumPaint implements IPaint {
       try {
          k = new FrameImage(Image.createImage(T.getPath() + "/on/imgDoor.on"), 45, 44);
          new FrameImage(Image.createImage(T.getPath() + "/on/trangthai.on"), 11, 4);
-         BoardListOnScr.i = Image.createImage(T.getPath() + "/on/imgSelectban.on");
+         BoardListOnScr.imgSelectBoard = Image.createImage(T.getPath() + "/on/imgSelectban.on");
       } catch (IOException var2) {
          var2.printStackTrace();
       }

@@ -111,7 +111,7 @@ public final class Avatar extends Base {
    }
 
    public final void paint(Graphics var1) {
-      if ((super.x + 15) * MyObject.hd >= AvCamera.gI().xCam && (super.x - 15) * MyObject.hd <= AvCamera.gI().xCam + Canvas.w && !super.ableShow && (Canvas.stypeInt <= 0 || Canvas.currentMyScreen != MenuCenter.gI())) {
+      if ((super.x + 15) * MyObject.hd >= AvCamera.gI().xCam && (super.x - 15) * MyObject.hd <= AvCamera.gI().xCam + Canvas.w && !super.ableShow && (Canvas.stypeInt <= 0 || Canvas.currentMyScreen != MainMenu.gI())) {
          if (super.action != 14) {
             var1.drawImage(LoadMap.imgShadow, (super.x + (super.direct == Base.LEFT ? 2 : -2)) * MyObject.hd, (super.y - 1) * MyObject.hd, 3);
          }

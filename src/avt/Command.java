@@ -36,7 +36,7 @@ public class Command {
       if (this.action != null) {
          this.action.perform();
       } else if (this.pointer != null) {
-         this.pointer.commandTab(this.indexMenu);
+         this.pointer.commandActionPointer(this.indexMenu);
       } else if (ChatTextField.isShow) {
          ChatTextField.gI().commandTab(this.indexMenu, this.subIndex);
       } else {

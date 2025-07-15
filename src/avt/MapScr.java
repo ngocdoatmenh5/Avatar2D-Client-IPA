@@ -68,7 +68,7 @@ public final class MapScr extends MyScreen implements IChatable {
    public final void initCmd() {
       this.cmdMenu = new Command(T.c, 0, this);
       super.left = this.cmdMenu;
-      this.f = MenuCenter.gI().a(T.bR, new class_ig(this), 15);
+      this.f = MainMenu.gI().setCommandMenu(T.bR, new class_ig(this), 15);
       this.e = new Command(Canvas.isKeyBoard ? (Canvas.stypeInt == 0 ? T.O : T.c) : "", 1, this);
       if (Canvas.stypeInt > 0 && Canvas.welcome == null) {
          super.left = this.e;
@@ -78,14 +78,14 @@ public final class MapScr extends MyScreen implements IChatable {
       this.J = new Command(T.bZ, 2);
    }
 
-   public final void commandTab(int var1) {
+   public final void commandActionPointer(int var1) {
       switch (var1) {
          case 0:
             this.onInviteToMyHome();
             return;
          case 1:
             if (!isWedding) {
-               MenuCenter.gI().f();
+               MainMenu.gI().perform();
                return;
             }
             break;
@@ -212,12 +212,12 @@ public final class MapScr extends MyScreen implements IChatable {
       Vector var1 = new Vector();
 
       for(int var2 = 0; var2 < 4; ++var2) {
-         Command var3 = MenuCenter.gI().a(T.ey[var2], new IActionSelectAction(this, var2), var2 + 7);
+         Command var3 = MainMenu.gI().setCommandMenu(T.ey[var2], new IActionSelectAction(this, var2), var2 + 7);
          var1.addElement(var3);
       }
 
-      MenuCenter.gI().b = null;
-      MenuCenter.gI().setInfo(var1);
+      MainMenu.gI().b = null;
+      MainMenu.gI().setInfo(var1);
    }
 
    public final void update() {
@@ -506,7 +506,7 @@ public final class MapScr extends MyScreen implements IChatable {
                gI().switchToMe();
             } else {
                OnScreen.c = 2;
-               class_jv.b().switchToMe();
+               SplashScr.gI().switchToMe();
             }
          }
 
@@ -911,9 +911,9 @@ public final class MapScr extends MyScreen implements IChatable {
 
    public final void onContainer(Vector var1) {
       GameMidlet.listContainer = var1;
-      if (MenuCenter.gI().c) {
-         MenuCenter.gI();
-         MenuCenter.g();
+      if (MainMenu.gI().isWearing) {
+         MainMenu.gI();
+         MainMenu.doWearing();
       } else {
          this.doStore();
       }
@@ -963,7 +963,7 @@ public final class MapScr extends MyScreen implements IChatable {
 
    protected final void doStore() {
       Avatar var1 = GameMidlet.avatar;
-      if (Canvas.currentMyScreen != MenuCenter.me) {
+      if (Canvas.currentMyScreen != MainMenu.me) {
          PopupShop.gI().isFull = true;
          PopupShop.gI().addElement(new String[]{T.co, T.l}, new Vector[]{this.getListCmdDoUsing(GameMidlet.listContainer, var1.IDDB, 1), this.getListYourPart((Avatar)var1, 0)}, (Vector)null);
          PopupShop.gI().setCmdLeft(this.cmdDellPart(var1.seriPart, 0, 0, false), 1);
@@ -1016,7 +1016,7 @@ public final class MapScr extends MyScreen implements IChatable {
             }
          }
 
-         CommandUsingPart var6 = new CommandUsingPart(this, var9, new class_gf(this, var7, var2, var3, var5), var7, var5, var3);
+         CommandUsingPart var6 = new CommandUsingPart(this, var9, new CommandUsingPart1(this, var7, var2, var3, var5), var7, var5, var3);
          var4.addElement(var6);
       }
 
@@ -1110,7 +1110,7 @@ public final class MapScr extends MyScreen implements IChatable {
          var13.addElement(var15);
          if (var22 != null) {
             var22.idWedding = var19.idWedding;
-            var20 = new class_fm(this, "", (IAction)null, var23, var19, var22, var6, var7, var24, var25);
+            var20 = new CMDUnkMapScr1(this, "", (IAction)null, var23, var19, var22, var6, var7, var24, var25);
             var13.addElement(var20);
          }
 
@@ -1118,7 +1118,7 @@ public final class MapScr extends MyScreen implements IChatable {
             var13.addElement(this.b(var21));
          }
 
-         if (Canvas.currentMyScreen != MenuCenter.me) {
+         if (Canvas.currentMyScreen != MainMenu.me) {
             PopupShop.gI().isFull = true;
             if (GameMidlet.avatar.IDDB == ((Base)var20).IDDB) {
                if (var22 != null) {
@@ -1381,7 +1381,7 @@ public final class MapScr extends MyScreen implements IChatable {
             var2.addElement(new CommandMenuRotate(this, var4.str, new IActionExchange(this, var4), var4));
          }
 
-         MenuCenter.gI().setInfo(var2);
+         MainMenu.gI().setInfo(var2);
       }
    }
 
@@ -1597,7 +1597,7 @@ public final class MapScr extends MyScreen implements IChatable {
       LoadMap.w = 24;
       Session_ME.gI().close();
       LoginScr.gI().switchToMe();
-      LoginScr.gI().e();
+      LoginScr.gI().initImg();
       OnScreen.isOngame = false;
       OnScreen.c = 0;
       ListScr.friendL = null;

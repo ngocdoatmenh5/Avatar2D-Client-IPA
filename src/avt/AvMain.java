@@ -36,7 +36,7 @@ public class AvMain {
    public void commandActionPointer(int var1, int var2) {
    }
 
-   public void commandTab(int var1) {
+   public void commandActionPointer(int var1) {
    }
 
    public void commandTab(int var1, int var2) {
@@ -157,7 +157,7 @@ public class AvMain {
          }
 
          if (var1.pointer != null) {
-            var1.pointer.commandTab(var1.indexMenu);
+            var1.pointer.commandActionPointer(var1.indexMenu);
             return;
          }
 

@@ -17,7 +17,7 @@ final class IActionSetAnimal implements IAction {
 
    public final void perform() {
       if (this.b.action == 4) {
-         FarmScr.a(this.a, (byte)4, this.c);
+         FarmScr.setAction(this.a, (byte)4, this.c);
          LoadMap.focusObj = this.d;
          this.a.aniDoing = (Animal)LoadMap.focusObj;
          this.a.aniDoing.isStand = true;

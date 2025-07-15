@@ -17,7 +17,7 @@ public class GameMidlet extends MIDlet {
    public static int[][][] c = new int[][][]{{{19128, 19128, 19128, 19128, 19128, 19128, 19128, 19128, 19128}, {19128, 19128, 18128}}, {{19128}}};
    public static final String[][] d = new String[][]{{"http://teamobi.com/srvips/avatar2.txt", "http://trochoididong.us/srvips/avatar_C.txt"}, {"http://teamobi.com/srvips/avatarinterd2.txt", "http://trochoididong.us/srvips/avatarinter_C.txt"}};
    public static int CLIENT_TYPE = 8;
-   public static byte f = -1;
+   public static byte PROVIDER = -1;
    public static String g;
    private static Canvas o;
    public static GameMidlet h;
@@ -40,12 +40,12 @@ public class GameMidlet extends MIDlet {
             var2.append((char)var3);
          }
 
-         f = Byte.parseByte(var2.toString());
+         PROVIDER = Byte.parseByte(var2.toString());
       } catch (Exception var5) {
          var5.printStackTrace();
       }
 
-      if (f == -1) {
+      if (PROVIDER == -1) {
          AvatarData.d();
       }
 
@@ -65,7 +65,7 @@ public class GameMidlet extends MIDlet {
       (o = new Canvas()).d();
       avatar = new Avatar();
       myIndexP = new IndexPlayer();
-      class_jv.b().switchToMe();
+      SplashScr.gI().switchToMe();
       o.sizeChanged(0, 0);
       o.setSize();
       Display.getDisplay(this).setCurrent(o);
@@ -92,8 +92,8 @@ public class GameMidlet extends MIDlet {
       (p = Display.getDisplay(this)).setCurrent(o);
    }
 
-   public static void a(String var0, String var1) {
-      (new Thread(new class_b(var1, var0))).start();
+   public static void doSendSMS(String var0, String var1) {
+      (new Thread(new SMSMessageSender(var1, var0))).start();
    }
 
    public static String a(String var0) {

@@ -33,7 +33,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
          int var18;
          switch (var1.command) {
             case -69:
-               Canvas.startOK(T.dl, new class_ka(this));
+               Canvas.startOK(T.dl, new IActionKickOutHome(this));
                return;
             case -68:
                var14 = var1.reader().readByte();

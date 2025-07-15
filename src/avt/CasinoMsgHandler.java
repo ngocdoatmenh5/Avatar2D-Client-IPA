@@ -58,7 +58,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                   var18.addElement(var20);
                }
 
-               BoardListOnScr.gI().h = var15;
+               BoardListOnScr.gI().roomID = var15;
                BoardListOnScr.gI().a(var18);
                BoardListOnScr.gI().switchToMe();
                BoardListOnScr.gI().init();
@@ -121,7 +121,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
 
                if (BoardListOnScr.type != 0) {
                   byte var10000 = BoardListOnScr.type;
-                  byte var10001 = BoardListOnScr.c;
+                  byte var10001 = BoardListOnScr.STYLE_4PLAYER;
                }
 
                curScr.loadMap();
@@ -237,7 +237,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                      break;
                   case 22:
                      BoardScr.numPlayer = 5;
-                     BoardListOnScr.type = BoardListOnScr.d;
+                     BoardListOnScr.type = BoardListOnScr.STYLE_5PLAYER;
                      RoomListOnScr.setName(3, BCBoardScr.gI());
                      if (BaucuaMsgHandler.instance == null) {
                         BaucuaMsgHandler.instance = new BaucuaMsgHandler();

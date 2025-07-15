@@ -77,7 +77,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    public static Image imgTabInfo;
    public static byte ab = 0;
    private long ar = 0L;
-   public static Vector ac = new Vector();
+   public static Vector flyTexts = new Vector();
    private int as;
    private int at;
    private static Vector au;
@@ -517,8 +517,8 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                isPointerClick = false;
                isPointerRelease = false;
 
-               for(var3 = 0; var3 < ac.size(); ++var3) {
-                  ((class_cp)ac.elementAt(var3)).a();
+               for(var3 = 0; var3 < flyTexts.size(); ++var3) {
+                  ((FlyTextInfo) flyTexts.elementAt(var3)).a();
                }
 
                if (E || ak) {
@@ -863,19 +863,19 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    }
 
    public static void a(int var0, int var1, int var2, int var3, int var4) {
-      ac.addElement(new class_cp(var1, var2, var0, -1, (Image)null, var4, -1, -1));
+      flyTexts.addElement(new FlyTextInfo(var1, var2, var0, -1, (Image)null, var4, -1, -1));
    }
 
    public static void addFlyText(int var0, int var1, int var2, int var3, int var4, int var5, int var6) {
-      ac.addElement(new class_cp(var1, var2, var0, -1, (Image)null, 0, var5, -1));
+      flyTexts.addElement(new FlyTextInfo(var1, var2, var0, -1, (Image)null, 0, var5, -1));
    }
 
    public static void a(int var0, int var1, int var2, int var3, Image var4, int var5) {
-      ac.addElement(new class_cp(var1, var2, var0, -1, var4, var5, -1, -1));
+      flyTexts.addElement(new FlyTextInfo(var1, var2, var0, -1, var4, var5, -1, -1));
    }
 
    public static void addFlyTextSmall(String var0, int var1, int var2, int var3, int var4, int var5) {
-      ac.addElement(new class_cp(var1, var2, var0, -1, var4, var5));
+      flyTexts.addElement(new FlyTextInfo(var1, var2, var0, -1, var4, var5));
    }
 
    public static void paintPlus(Graphics var0) {
@@ -922,8 +922,8 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
          var1.translate(-AvCamera.gI().xCam, -AvCamera.gI().yCam);
 
          int var3;
-         for(var3 = 0; var3 < ac.size(); ++var3) {
-            ((class_cp)ac.elementAt(var3)).a(var6);
+         for(var3 = 0; var3 < flyTexts.size(); ++var3) {
+            ((FlyTextInfo) flyTexts.elementAt(var3)).a(var6);
          }
 
          if (ab > 0) {
@@ -1111,7 +1111,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    public final void commandAction(javax.microedition.lcdui.Command var1, Displayable var2) {
       if (var1 != null && var1 != List.SELECT_COMMAND) {
          if (var1 == null) {
-            if (currentMyScreen == class_jv.a) {
+            if (currentMyScreen == SplashScr.me) {
                OnScreen.gI().switchToMe();
             } else {
                MapScr.gI().switchToMe();
@@ -1192,6 +1192,6 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    }
 
    public static boolean isPaintIconVir() {
-      return currentDialog == null && menuMain == null && currentMyScreen != MessageScr.me && currentMyScreen != PopupShop.gI() && currentMyScreen != ListScr.instance && currentMyScreen != RoomListOnScr.me && currentMyScreen != BoardListOnScr.me && currentMyScreen != MenuCenter.me && currentMyScreen != OnScreen.instance && currentMyScreen != MiniMap.me && currentMyScreen != MoneyScr.instance && !HouseScr.isChange && !HouseScr.isSelectObj && currentMyScreen != ParkListSrc.instance && (currentMyScreen != DiamondScr.me_ || !BoardScr.isStartGame);
+      return currentDialog == null && menuMain == null && currentMyScreen != MessageScr.me && currentMyScreen != PopupShop.gI() && currentMyScreen != ListScr.instance && currentMyScreen != RoomListOnScr.me && currentMyScreen != BoardListOnScr.me && currentMyScreen != MainMenu.me && currentMyScreen != OnScreen.instance && currentMyScreen != MiniMap.me && currentMyScreen != MoneyScr.instance && !HouseScr.isChange && !HouseScr.isSelectObj && currentMyScreen != ParkListSrc.instance && (currentMyScreen != DiamondScr.me_ || !BoardScr.isStartGame);
    }
 }

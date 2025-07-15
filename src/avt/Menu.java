@@ -205,7 +205,7 @@ public final class Menu extends MenuMain {
       Canvas.menuMain = null;
       Command var1;
       if ((var1 = (Command)this.list.elementAt(this.selected)).pointer != null) {
-         var1.pointer.commandTab(var1.indexMenu);
+         var1.pointer.commandActionPointer(var1.indexMenu);
       } else if (var1.action != null) {
          var1.action.perform();
       } else {

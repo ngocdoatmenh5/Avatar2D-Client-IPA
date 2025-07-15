@@ -9,27 +9,27 @@ import main.GameMidlet;
 
 public final class BoardListOnScr extends MyScreen {
    public static BoardListOnScr me;
-   public static byte b = 0;
-   public static byte c = 1;
-   public static byte d = 2;
+   public static byte STYLE_2PLAYER = 0;
+   public static byte STYLE_4PLAYER = 1;
+   public static byte STYLE_5PLAYER = 2;
    public static byte type;
-   public static FrameImage f;
-   private static Image k;
-   private static Image l;
-   private static Image m;
-   private static Image n;
-   private int o;
-   Vector g;
+   public static FrameImage imgBoard;
+   private static Image imgTitleBoard;
+   private static Image imgNumPlayer;
+   private static Image imgPlay;
+   private static Image imgLock;
+   private int nBoardPerLine;
+   Vector boardList;
    private int p;
    private int q;
-   public byte h;
-   private short r;
-   private Command s;
-   public static Image i;
+   public byte roomID;
+   private short wSmall;
+   private Command cmdSellect;
+   public static Image imgSelectBoard;
    int j;
 
    static {
-      type = c;
+      type = STYLE_4PLAYER;
    }
 
    public static BoardListOnScr gI() {
@@ -41,12 +41,12 @@ public final class BoardListOnScr extends MyScreen {
       MyScreen.repaint();
       super.selected_ = 0;
       Canvas.paint.b(type);
-      if (k == null) {
+      if (imgTitleBoard == null) {
          try {
-            k = Image.createImage(T.getPath() + "/on/imgkhungsoban.on");
-            l = Image.createImage(T.getPath() + "/on/imgNumPlayer.on");
-            m = Image.createImage(T.getPath() + "/on/imgPlay.on");
-            n = Image.createImage(T.getPath() + "/on/imgLock.on");
+            imgTitleBoard = Image.createImage(T.getPath() + "/on/imgkhungsoban.on");
+            imgNumPlayer = Image.createImage(T.getPath() + "/on/imgNumPlayer.on");
+            imgPlay = Image.createImage(T.getPath() + "/on/imgPlay.on");
+            imgLock = Image.createImage(T.getPath() + "/on/imgLock.on");
          } catch (IOException var2) {
             var2.printStackTrace();
          }
@@ -59,72 +59,72 @@ public final class BoardListOnScr extends MyScreen {
    }
 
    public BoardListOnScr() {
-      this.s = new Command(T.O, 1);
+      this.cmdSellect = new Command(T.O, 1);
       super.right = new Command(T.d, 2);
       if (Canvas.stypeInt != 0) {
          super.center = new Command(T.i, 5);
       } else {
-         super.center = this.s;
+         super.center = this.cmdSellect;
       }
 
       super.left = new Command(T.c, 6);
-      this.r = (short)(110 * AvMain.hd);
+      this.wSmall = (short)(110 * AvMain.hd);
       if (Canvas.stypeInt == 1) {
-         this.r = 95;
+         this.wSmall = 95;
       } else if (Canvas.stypeInt == 0) {
-         this.r = (short)(Canvas.w / 4);
-         if (this.r < 70) {
-            this.r = (short)(Canvas.w / 3);
+         this.wSmall = (short)(Canvas.w / 4);
+         if (this.wSmall < 70) {
+            this.wSmall = (short)(Canvas.w / 3);
          }
 
          if (Canvas.w < 180) {
-            this.r = (short)(Canvas.w / 2);
+            this.wSmall = (short)(Canvas.w / 2);
          }
       }
 
-      this.o = Canvas.w / this.r + 1;
-      if (this.o * this.r > Canvas.w - this.r / 2) {
-         --this.o;
+      this.nBoardPerLine = Canvas.w / this.wSmall + 1;
+      if (this.nBoardPerLine * this.wSmall > Canvas.w - this.wSmall / 2) {
+         --this.nBoardPerLine;
       }
 
-      this.p = this.r / 2;
-      this.q = this.r / 2;
+      this.p = this.wSmall / 2;
+      this.q = this.wSmall / 2;
       this.q += 10;
-      if (Canvas.w > this.o * this.r) {
-         this.p = (Canvas.w - this.o * this.r) / 2 + this.r / 2;
+      if (Canvas.w > this.nBoardPerLine * this.wSmall) {
+         this.p = (Canvas.w - this.nBoardPerLine * this.wSmall) / 2 + this.wSmall / 2;
       }
 
    }
 
    public final void close() {
       Canvas.startWaitDlg();
-      i();
+      doExitBoardList();
    }
 
    public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 1:
-            BoardInfo var4 = (BoardInfo)this.g.elementAt(super.selected_);
+            BoardInfo var4 = (BoardInfo)this.boardList.elementAt(super.selected_);
             if (MapScr.isNewVersion && var4.money > GameMidlet.avatar.money[3]) {
                gI().setXeng();
             } else {
                if (!var4.isPass) {
-                  CasinoService.gI().joinBoard(this.h, var4.boardID, "");
+                  CasinoService.gI().joinBoard(this.roomID, var4.boardID, "");
                   Canvas.startWaitDlg();
                   return;
                }
 
-               Canvas.inputDlg.setImg(T.X, new class_cn(this), 2);
+               Canvas.inputDlg.setImg(T.X, new IActionJoinBoard(this), 2);
             }
             break;
          case 2:
-            i();
+            doExitBoardList();
             return;
          case 3:
             this.commandActionPointer(1, -1);
             return;
          case 4:
-            this.h();
+            this.doAskForBoardToGo();
             return;
          case 5:
             Canvas.startWaitDlg();
@@ -145,21 +145,21 @@ public final class BoardListOnScr extends MyScreen {
       switch (var1) {
          case 1:
             Canvas.startWaitDlg(T.b);
-            CasinoService.gI().requestBoardList(this.h);
+            CasinoService.gI().requestBoardList(this.roomID);
             return;
          case 3:
             Canvas.startWaitDlg();
             GlobalService.gI().requestInfoOf(GameMidlet.avatar.IDDB);
             return;
          case 4:
-            i();
+            doExitBoardList();
             return;
          case 5:
             Canvas.startWaitDlg();
             CasinoService.gI().joinAnyBoard();
             return;
          case 6:
-            this.h();
+            this.doAskForBoardToGo();
             return;
          case 7:
             Canvas.startWaitDlg();
@@ -169,19 +169,19 @@ public final class BoardListOnScr extends MyScreen {
       }
    }
 
-   private void h() {
+   private void doAskForBoardToGo() {
       Canvas.inputDlg.setImg(T.an, new IActionToGo(this), 3);
    }
 
-   protected final void e() {
-      Canvas.inputDlg.setImg(T.ap, new class_cj(this), 0);
+   protected final void doAskForPass() {
+      Canvas.inputDlg.setImg(T.ap, new IActionPass(this), 0);
    }
 
    public final void setXeng() {
       Canvas.startOKDlg("Hiện tại bạn không đủ Xèng để tham gia màn chơi, bạn có muốn nạp thêm Xèng không?", (IAction)(new IActionXeng(this)));
    }
 
-   private static void i() {
+   private static void doExitBoardList() {
       Canvas.cameraList.isShow = false;
       CasinoService.gI().requestRoomList();
       Canvas.startWaitDlg();
@@ -189,53 +189,53 @@ public final class BoardListOnScr extends MyScreen {
 
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      RoomListOnScr.paintRoomList(var1, "Phòng " + RoomListOnScr.title + " " + this.h);
-      this.c(var1);
+      RoomListOnScr.paintRoomList(var1, "Phòng " + RoomListOnScr.title + " " + this.roomID);
+      this.paintBoardList(var1);
       OnScreen.paintTitle(var1, super.left, super.center, super.right);
       Canvas.paintPlus2(var1);
    }
 
-   private void c(Graphics var1) {
+   private void paintBoardList(Graphics var1) {
       var1.translate(this.p, this.q);
       var1.translate(0, -CameraList.cmtoY);
       int var2;
-      if ((var2 = CameraList.cmtoY / this.r * this.o - this.o) < 0) {
+      if ((var2 = CameraList.cmtoY / this.wSmall * this.nBoardPerLine - this.nBoardPerLine) < 0) {
          var2 = 0;
       }
 
       int var3;
-      if ((var3 = var2 + Canvas.h / this.r * this.o + (this.o << 1) + this.o) > this.g.size()) {
-         var3 = this.g.size();
+      if ((var3 = var2 + Canvas.h / this.wSmall * this.nBoardPerLine + (this.nBoardPerLine << 1) + this.nBoardPerLine) > this.boardList.size()) {
+         var3 = this.boardList.size();
       }
 
       for(var2 = var2; var2 < var3; ++var2) {
-         int var4 = var2 % this.o * this.r;
-         int var5 = var2 / this.o * this.r;
-         BoardInfo var6 = (BoardInfo)this.g.elementAt(var2);
+         int var4 = var2 % this.nBoardPerLine * this.wSmall;
+         int var5 = var2 / this.nBoardPerLine * this.wSmall;
+         BoardInfo var6 = (BoardInfo)this.boardList.elementAt(var2);
          if ((!Canvas.isKeyBoard || !super.isHide_) && var2 == super.selected_) {
-            var1.drawImage(i, var4, var5, 3);
+            var1.drawImage(imgSelectBoard, var4, var5, 3);
          }
 
-         f.drawFrame(var6.nPlayer, var4, var5, 0, 3, var1);
-         var1.drawImage(k, var4 - this.r / 4, var5 - 30 * AvMain.hd, 3);
-         Canvas.smallFontYellow.drawString(var1, "" + var6.boardID, var4 - this.r / 4, var5 - 30 * AvMain.hd - AvMain.hSmall / 2, 2);
+         imgBoard.drawFrame(var6.nPlayer, var4, var5, 0, 3, var1);
+         var1.drawImage(imgTitleBoard, var4 - this.wSmall / 4, var5 - 30 * AvMain.hd, 3);
+         Canvas.smallFontYellow.drawString(var1, "" + var6.boardID, var4 - this.wSmall / 4, var5 - 30 * AvMain.hd - AvMain.hSmall / 2, 2);
          if (var6.money > 0) {
             Canvas.smallFontYellow.drawString(var1, var6.strMoney, var4, var5 - 30 * AvMain.hd - AvMain.hSmall / 2, 2);
          }
 
-         if (type == c && var6.maxPlayer < 4) {
-            var1.drawImage(l, var4 + this.r / 4, var5 - 30 * AvMain.hd, 3);
-            Canvas.smallFontRed.drawString(var1, "" + var6.maxPlayer, var4 + this.r / 4, var5 - 30 * AvMain.hd - AvMain.hSmall / 2, 2);
+         if (type == STYLE_4PLAYER && var6.maxPlayer < 4) {
+            var1.drawImage(imgNumPlayer, var4 + this.wSmall / 4, var5 - 30 * AvMain.hd, 3);
+            Canvas.smallFontRed.drawString(var1, "" + var6.maxPlayer, var4 + this.wSmall / 4, var5 - 30 * AvMain.hd - AvMain.hSmall / 2, 2);
          }
 
          if (var6.isPlaying) {
-            var1.drawImage(l, var4 - this.r / 4, var5 + this.r / 3, 3);
-            var1.drawImage(m, var4 - this.r / 4, var5 + this.r / 3, 3);
+            var1.drawImage(imgNumPlayer, var4 - this.wSmall / 4, var5 + this.wSmall / 3, 3);
+            var1.drawImage(imgPlay, var4 - this.wSmall / 4, var5 + this.wSmall / 3, 3);
          }
 
          if (var6.isPass) {
-            var1.drawImage(l, var4 + this.r / 4, var5 + this.r / 3, 3);
-            var1.drawImage(n, var4 + this.r / 4, var5 + this.r / 3, 3);
+            var1.drawImage(imgNumPlayer, var4 + this.wSmall / 4, var5 + this.wSmall / 3, 3);
+            var1.drawImage(imgLock, var4 + this.wSmall / 4, var5 + this.wSmall / 3, 3);
          }
       }
 
@@ -250,12 +250,12 @@ public final class BoardListOnScr extends MyScreen {
    }
 
    public final void a(Vector var1) {
-      this.g = var1;
+      this.boardList = var1;
    }
 
    public final void init() {
-      int var1 = this.g.size() / this.o;
-      if (this.g.size() % this.o != 0) {
+      int var1 = this.boardList.size() / this.nBoardPerLine;
+      if (this.boardList.size() % this.nBoardPerLine != 0) {
          ++var1;
       }
 
@@ -264,15 +264,15 @@ public final class BoardListOnScr extends MyScreen {
          this.q = 50;
       }
 
-      Canvas.cameraList.setInfo(this.p - this.r / 2, this.q - this.r / 2, this.r, this.r, this.o * this.r, var1 * this.r + 10, this.o * this.r, Canvas.h - (this.q - this.r / 2) - 4, this.g.size());
+      Canvas.cameraList.setInfo(this.p - this.wSmall / 2, this.q - this.wSmall / 2, this.wSmall, this.wSmall, this.nBoardPerLine * this.wSmall, var1 * this.wSmall + 10, this.nBoardPerLine * this.wSmall, Canvas.h - (this.q - this.wSmall / 2) - 4, this.boardList.size());
    }
 
    public final void setSelected(int var1, boolean var2) {
-      if (var2 && super.selected_ == var1 && this.s != null) {
-         this.s.perform();
+      if (var2 && super.selected_ == var1 && this.cmdSellect != null) {
+         this.cmdSellect.perform();
       }
 
-      if (var1 >= 0 && var1 < this.g.size()) {
+      if (var1 >= 0 && var1 < this.boardList.size()) {
          super.setSelected(var1, var2);
       }
 

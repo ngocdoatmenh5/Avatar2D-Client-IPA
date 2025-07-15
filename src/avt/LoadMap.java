@@ -67,7 +67,7 @@ public final class LoadMap {
    public static int yDichChuyen = -1;
 
    public LoadMap() {
-      cmdNext = new Command(avt.T.bz, new class_hr(this));
+      cmdNext = new Command(avt.T.bz, new IActionNextFocus(this));
       star = CRes.rnd(3);
       w = 24;
       FilePack.b(avt.T.av);
@@ -132,7 +132,7 @@ public final class LoadMap {
    public final void update() {
       try {
          AvCamera.gI().update();
-         if ((Canvas.stypeInt == 0 || Canvas.currentMyScreen != MenuCenter.gI()) && playerLists.size() > 0) {
+         if ((Canvas.stypeInt == 0 || Canvas.currentMyScreen != MainMenu.gI()) && playerLists.size() > 0) {
             for (int var1 = 0; var1 < playerLists.size(); var1++) {
                ((MyObject) playerLists.elementAt(var1)).update();
             }
@@ -172,7 +172,7 @@ public final class LoadMap {
                  && !FarmScr.isAutoVatNuoi
                  && RaceScr.me != Canvas.currentMyScreen
                  && TYPEMAP != -1
-                 && Canvas.currentMyScreen != MenuCenter.me
+                 && Canvas.currentMyScreen != MainMenu.me
                  && Canvas.menuMain == null) {
             if (focusObj == null) {
                int var13 = 0;
@@ -694,7 +694,7 @@ public final class LoadMap {
                         AvPosition var7;
                         if ((var7 = (AvPosition)var5.listPoint.elementAt(var6)).x == var2 && var7.y == var3 && TYPEMAP + 1 == var7.anchor) {
                            Vector var19;
-                           (var19 = new Vector()).addElement(new Command(avt.T.z, new class_hu(var13, var5)));
+                           (var19 = new Vector()).addElement(new Command(avt.T.z, new IActionAd(var13, var5)));
                            var19.addElement(new Command(avt.T.d, new class_hv(var13)));
                            Canvas.a(var5.text, var19);
                            return true;
@@ -2091,7 +2091,7 @@ public final class LoadMap {
 
    private static void addPopup(String var0, int var1, int var2) {
       if (Session_ME.gI().connected) {
-         treeLists.addElement(new class_hz(var0, var1, var2));
+         treeLists.addElement(new PopupName(var0, var1, var2));
       }
    }
 

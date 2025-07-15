@@ -78,15 +78,15 @@ public final class LoginScr extends MyScreen {
       }
    }
 
-   public final void e() {
+   public final void initImg() {
       this.timeOut = System.currentTimeMillis();
       FilePack.b(T.aw);
 
       try {
-         if (GameMidlet.f == 6) {
-            MyScreen.am = Image.createImage("/lgyeah.png");
+         if (GameMidlet.PROVIDER == 6) {
+            MyScreen.imgLogo = Image.createImage("/lgyeah.png");
          } else {
-            MyScreen.am = Image.createImage(T.getPath() + "/l.png");
+            MyScreen.imgLogo = Image.createImage(T.getPath() + "/l.png");
          }
       } catch (IOException var2) {
          var2.printStackTrace();
@@ -181,10 +181,10 @@ public final class LoginScr extends MyScreen {
             OptionScr.gI().switchToMe();
             return;
          case 6:
-            GameMidlet.flatForm("http://wap.teamobi.com/faqs.php?provider=" + GameMidlet.f);
+            GameMidlet.flatForm("http://wap.teamobi.com/faqs.php?provider=" + GameMidlet.PROVIDER);
             return;
          case 7:
-            GameMidlet.flatForm("http://wap.teamobi.com?info=checkupdate&game=8&version=2.5.8&provider=" + GameMidlet.f + "&agent=" + GameMidlet.g);
+            GameMidlet.flatForm("http://wap.teamobi.com?info=checkupdate&game=8&version=2.5.8&provider=" + GameMidlet.PROVIDER + "&agent=" + GameMidlet.g);
             return;
          case 8:
             if (!this.numSupport.equals("")) {
@@ -434,7 +434,7 @@ public final class LoginScr extends MyScreen {
       }
 
       Canvas.resetTrans(var1);
-      var1.drawImage(MyScreen.am, Canvas.hw, this.yL, 3);
+      var1.drawImage(MyScreen.imgLogo, Canvas.hw, this.yL, 3);
    }
 
    public final void updateKey() {

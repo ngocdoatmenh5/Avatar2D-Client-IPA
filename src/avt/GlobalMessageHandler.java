@@ -185,9 +185,9 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   }
 
                   if (LoadMap.focusObj != null) {
-                     MenuCenter.gI().e();
+                     MainMenu.gI().doExchange();
                   } else {
-                     MenuCenter.gI().f();
+                     MainMenu.gI().perform();
                   }
                   break;
                } else {
@@ -664,7 +664,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   var1.reader().read(var76);
                }
 
-               Canvas.inputDlg.setImg(var74, new class_bo(this, var72, var73), var75);
+               Canvas.inputDlg.setImg(var74, new IdoTextBox(this, var72, var73), var75);
                if (var76 != null) {
                   Canvas.inputDlg.setImg(Image.createImage(var76, 0, var76.length));
                }
@@ -741,7 +741,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                var190 = var1.reader().readUTF();
                var194 = var1.reader().readUTF();
                Canvas.endDlg();
-               Canvas.startOKDlg(var188, (IAction)(new class_bm(this, var190, var194)));
+               Canvas.startOKDlg(var188, (IAction)(new IActionOnSMS(this, var190, var194)));
                break;
             case -52:
                var188 = var1.reader().readUTF();
@@ -967,7 +967,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                MapScr.onAddFriend(var191, var190);
                return;
             case -17:
-               GameMidlet.f = var1.reader().readByte();
+               GameMidlet.PROVIDER = var1.reader().readByte();
                GameMidlet.g = var1.reader().readUTF();
                AvatarData.c();
                break;

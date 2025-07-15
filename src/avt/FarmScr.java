@@ -253,13 +253,13 @@ public final class FarmScr extends MyScreen {
       }
    }
 
-   private boolean h(int var1, int var2) {
+   private boolean setBonPhan(int var1, int var2) {
       boolean var3 = false;
 
       for(int var4 = 0; var4 < listItemFarm.size(); ++var4) {
          FarmItem var5;
          if ((var5 = getFarmItem(((Item) listItemFarm.elementAt(var4)).ID)).type == 0 && var5.action == var2) {
-            this.setAction((IAction)(new class_bs(this, var5, var1)));
+            this.setAction((IAction)(new IActionBonPhan(this, var5, var1)));
             var3 = true;
             break;
          }
@@ -304,20 +304,20 @@ public final class FarmScr extends MyScreen {
 
       if (var1.idTree != -1 && var1.statusTree < 6 && var2 < cell.size() && listItemFarm.size() > 0) {
          if (var1.isWorm) {
-            this.h(var2, 7);
+            this.setBonPhan(var2, 7);
          } else if (var1.isGrass) {
-            this.h(var2, 3);
+            this.setBonPhan(var2, 3);
             } else if (var1.vitalityPer < 80) {
-            this.h(var2, 2);
+            this.setBonPhan(var2, 2);
          }
       }
 
       if (action == -1) {
          Vector var9 = new Vector();
-         class_em var6 = new class_em(this, avt.T.bd, 1);
+         CommandVatPham22 var6 = new CommandVatPham22(this, avt.T.bd, 1);
          var9.addElement(var6);
          if (idFarm == GameMidlet.avatar.IDDB) {
-            var9.addElement(new class_et(this, avt.T.be, new class_en(this, var1)));
+            var9.addElement(new CommandVatPham222(this, avt.T.be, new IActionVatPham22(this, var1)));
          }
 
          if (var5 != null) {
@@ -347,7 +347,7 @@ public final class FarmScr extends MyScreen {
       Menu.gI().startMenuFarm(var0, Canvas.hw, var1, var1);
    }
 
-   public final void commandTab(int var1) {
+   public final void commandActionPointer(int var1) {
       FarmService var2;
       switch (var1) {
          case 0:
@@ -395,7 +395,7 @@ public final class FarmScr extends MyScreen {
             FarmService.gI().nauNhanh(1);
             return;
          case 12:
-            Canvas.startOKDlg(avt.T.dH, (IAction)(new class_eu(this)));
+            Canvas.startOKDlg(avt.T.dH, (IAction)(new IUpdateShop(this)));
             return;
          case 13:
             FarmService.gI().doUpdateStore(1, 1);
@@ -542,7 +542,7 @@ public final class FarmScr extends MyScreen {
                   LoadMap.focusObj = var7;
                   AvCamera.gI().setToPos(var7.x * AvMain.hd, var7.y * AvMain.hd);
                   AvCamera.isFollow = true;
-                  super.center = new Command(avt.T.dX, new class_ab(this, var7));
+                  super.center = new Command(avt.T.dX, new IActionTriBenh3(this, var7));
                   super.left = aS;
                   super.right = aT;
                   var10000 = true;
@@ -1073,7 +1073,7 @@ public final class FarmScr extends MyScreen {
                         } else {
                            boolean var5 = false;
                            if (var4.idTree != -1 && var4.statusTree < 6 && var4.status == 36) {
-                              this.setAction((IAction)(new class_fp(this, var4)));
+                              this.setAction((IAction)(new IActionSet11(this, var4)));
                               var5 = true;
                            }
 
@@ -1082,11 +1082,11 @@ public final class FarmScr extends MyScreen {
                                  break label244;
                               }
 
-                              if (var4.isWorm && this.h(var3.anchor, 7)) {
+                              if (var4.isWorm && this.setBonPhan(var3.anchor, 7)) {
                                  var5 = true;
                               }
 
-                              if (var4.isGrass && this.h(var3.anchor, 3)) {
+                              if (var4.isGrass && this.setBonPhan(var3.anchor, 3)) {
                                  var5 = true;
                               }
 
@@ -1116,8 +1116,8 @@ public final class FarmScr extends MyScreen {
                         this.doHarvest();
                         this.setGieoHat();
                      } else {
-                        this.setAction((IAction)(new class_fq(this, var4)));
-                        this.setAction((IAction)(new class_gc(this, var3)));
+                        this.setAction((IAction)(new IActionSet1(this, var4)));
+                        this.setAction((IAction)(new IActionVatPham12(this, var3)));
                      }
 
                      this.listSelectedCell.removeElement(var3);
@@ -1933,7 +1933,7 @@ public final class FarmScr extends MyScreen {
             }
          }
 
-         Canvas.getTypeMoney(var4 * var3, var5 * var3, new class_u(this, var1, var3, var4), new class_r(this, var1, var3, var5), (IAction)null);
+         Canvas.getTypeMoney(var4 * var3, var5 * var3, new IActionXuTree(this, var1, var3, var4), new IActionEnd(this, var1, var3, var5), (IAction)null);
       }
 
    }
@@ -1967,18 +1967,18 @@ public final class FarmScr extends MyScreen {
                      var8 -= listFood[0].size();
                   }
 
-                  var11.addElement(new class_ff(var10, var7.des + "(" + var8 + ")", new class_er(var10, var6, var4), var7));
+                  var11.addElement(new CommandItem55(var10, var7.des + "(" + var8 + ")", new IActionItem55(var10, var6, var4), var7));
                }
             }
 
             for(var5 = 0; var5 < listItemFarm.size(); ++var5) {
                if ((var7 = getFarmItem((var6 = (Item) listItemFarm.elementAt(var5)).ID)).action != 5 && var7.type != 0 && (var7.type == var4.area || var7.type == 101 || var7.type == 100 && var4.area != 4) && (var7.action != 4 || var3.disease[0] || var3.disease[1]) && (var7.action != 6 || var3.health < 100)) {
-                  var11.addElement(new class_fb(var10, var7.des + "(" + var6.number + ")", new class_fi(var10, var7, var6), var7));
+                  var11.addElement(new CommandItem5(var10, var7.des + "(" + var6.number + ")", new IActionItem5(var10, var7, var6), var7));
                }
             }
 
             if (idFarm == GameMidlet.avatar.IDDB) {
-               var11.addElement(new class_fd(var10, avt.T.bg, 2));
+               var11.addElement(new CommandSellAnimal(var10, avt.T.bg, 2));
             }
 
             startMenuFarm(var11);
@@ -2277,7 +2277,7 @@ public final class FarmScr extends MyScreen {
       ListScr.gI().setFriendList(true);
    }
 
-   static void a(FarmScr var0, byte var1, int var2) {
+   static void setAction(FarmScr var0, byte var1, int var2) {
       var0.setAction(var1, var2);
    }
 

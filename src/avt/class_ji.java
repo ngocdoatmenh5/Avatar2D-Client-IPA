@@ -5,7 +5,7 @@ import javax.microedition.lcdui.Graphics;
 final class class_ji extends Command {
    private final StringObj f;
 
-   class_ji(MenuCenter var1, String var2, int var3, int var4, StringObj var5) {
+   class_ji(MainMenu var1, String var2, int var3, int var4, StringObj var5) {
       super(var2, 16, var4);
       this.f = var5;
    }

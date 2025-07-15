@@ -35,7 +35,7 @@ public class Base extends MyObject {
    }
 
    public void paint(Graphics var1) {
-      if (this.chat != null && Canvas.currentMyScreen != MenuCenter.gI()) {
+      if (this.chat != null && Canvas.currentMyScreen != MainMenu.gI()) {
          this.chat.paintAnimal(var1);
       }
 

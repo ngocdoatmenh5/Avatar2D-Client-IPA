@@ -307,12 +307,12 @@ public final class AvatarData {
             var13.idIcon = var10.readShort();
             var11.addElement(var13);
          } else if (var7 != -1) {
-            class_lb var12;
-            (var12 = new class_lb()).IDPart = (short)var4;
+            PartFollow var12;
+            (var12 = new PartFollow()).IDPart = (short)var4;
             var12.price[0] = var5;
             var12.price[1] = var6;
             var12.follow = var7;
-            var12.a = var10.readShort();
+            var12.color = var10.readShort();
             var11.addElement(var12);
          } else {
             APartInfo var8;
@@ -609,7 +609,7 @@ public final class AvatarData {
 
             for(int var5 = 0; var5 < var4.imgID.length; ++var5) {
                ImageInfo var6 = listImgInfo[var4.imgID[var5]];
-               if (((class_lb) listPart[var3]).a == var0.id) {
+               if (((PartFollow) listPart[var3]).color == var0.id) {
                   int var10002 = var6.x0 * AvMain.hd;
                   int var10003 = var6.y0 * AvMain.hd;
                   int var10004 = var6.w * AvMain.hd;
@@ -658,7 +658,7 @@ public final class AvatarData {
       DataOutputStream var1 = new DataOutputStream(var0);
 
       try {
-         var1.writeByte(GameMidlet.f);
+         var1.writeByte(GameMidlet.PROVIDER);
          var1.writeUTF(GameMidlet.g);
          CRes.saveRMS("avatarSV", var0.toByteArray());
          var1.close();
@@ -671,7 +671,7 @@ public final class AvatarData {
       DataInputStream var0;
       if ((var0 = loadRMS("avatarSV")) != null) {
          try {
-            GameMidlet.f = var0.readByte();
+            GameMidlet.PROVIDER = var0.readByte();
             GameMidlet.g = var0.readUTF();
             var0.close();
          } catch (Exception var1) {

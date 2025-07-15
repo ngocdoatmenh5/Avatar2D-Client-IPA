@@ -44,10 +44,10 @@ public final class TransMoneyDlg extends Dialog {
       Canvas.currentDialog = this;
    }
 
-   public final void commandTab(int var1) {
+   public final void commandActionPointer(int var1) {
       switch (var1) {
          case 0:
-            Canvas.startOKDlg("Bạn có chắc muốn chuyển tiền không ?", (IAction)(new class_jm(this)));
+            Canvas.startOKDlg("Bạn có chắc muốn chuyển tiền không ?", (IAction)(new IActionTransXeng(this)));
             return;
          case 1:
             Canvas.currentDialog = null;

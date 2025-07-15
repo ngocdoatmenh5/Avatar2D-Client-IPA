@@ -23,7 +23,7 @@ public final class ReportDlg extends Dialog {
       return instance;
    }
 
-   public final void commandTab(int var1) {
+   public final void commandActionPointer(int var1) {
       switch (var1) {
          case 0:
             Canvas.endDlg();

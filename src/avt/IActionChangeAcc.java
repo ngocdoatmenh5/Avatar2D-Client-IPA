@@ -9,7 +9,7 @@ final class IActionChangeAcc implements IAction {
 
    public final void perform() {
       LoginScr.isNewGame = false;
-      this.a.left = new Command("Đóng", new class_bq(this.a));
+      this.a.left = new Command("Đóng", new IActionChangeAcc2(this.a));
       this.a.center = this.a.cmdLogin;
    }
 }

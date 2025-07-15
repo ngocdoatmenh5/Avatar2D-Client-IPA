@@ -88,7 +88,7 @@ public final class ServerListScr extends MyScreen {
             super.center = new Command(T.O, 0);
          }
 
-         if (GameMidlet.f == 0) {
+         if (GameMidlet.PROVIDER == 0) {
             super.left = new Command(T.f, 1);
          }
 

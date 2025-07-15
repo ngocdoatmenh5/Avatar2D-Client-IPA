@@ -40,7 +40,7 @@ public final class GlobalService extends IService {
       this.createMessage((byte)-17);
 
       try {
-         super.m.writer().writeByte(GameMidlet.f);
+         super.m.writer().writeByte(GameMidlet.PROVIDER);
          Runtime var1 = Runtime.getRuntime();
          super.m.writer().writeInt((int)(var1.totalMemory() / 1024L));
          String var4;

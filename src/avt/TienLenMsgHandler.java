@@ -8,7 +8,7 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
 
    public static void onHandler() {
       BoardScr.numPlayer = 4;
-      BoardListOnScr.type = BoardListOnScr.c;
+      BoardListOnScr.type = BoardListOnScr.STYLE_4PLAYER;
       RoomListOnScr.setName(0, TLBoardScr.gI());
       CasinoMsgHandler.me.miniGameMessageHandler = instance;
    }

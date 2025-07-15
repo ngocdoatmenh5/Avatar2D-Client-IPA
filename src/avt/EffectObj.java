@@ -30,7 +30,7 @@ public final class EffectObj extends Base {
    }
 
    public final void paint(Graphics var1) {
-      if (Canvas.stypeInt <= 0 || Canvas.currentMyScreen != MenuCenter.gI()) {
+      if (Canvas.stypeInt <= 0 || Canvas.currentMyScreen != MainMenu.gI()) {
          EffectData var2;
          if ((var2 = AvatarData.getEffect(this.ID)) != null) {
             if (this.style == 0) {

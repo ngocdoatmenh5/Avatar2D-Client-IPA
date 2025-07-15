@@ -26,10 +26,10 @@ public final class GlobalLogicHandler {
    }
 
    public final void onVersion(String var1, String var2) {
-      class_dv var4 = new class_dv(this, var2);
+      IActionVersionDown var4 = new IActionVersionDown(this, var2);
       Vector var3;
       (var3 = new Vector()).addElement(new Command(T.z, var4));
-      var3.addElement(new Command(T.d, new class_dw(this)));
+      var3.addElement(new Command(T.d, new IActionVersionDown2(this)));
       Canvas.msgdlg.setIsWaiting(false);
       Canvas.a(var1, var3);
       isNewVersion = true;
@@ -37,7 +37,7 @@ public final class GlobalLogicHandler {
 
    public final void onSetMoneyError(String var1, boolean var2) {
       if (var2) {
-         Canvas.startOK(var1, new class_dq(this));
+         Canvas.startOK(var1, new IActionDisconnect(this));
       } else {
          Canvas.startOKDlg(var1);
       }
@@ -163,7 +163,7 @@ public final class GlobalLogicHandler {
       Vector var7 = new Vector();
 
       for(int var8 = 0; var8 < var3.length; ++var8) {
-         var7.addElement(new Command(var3[var8], new class_hh(this, var8, var1, var2)));
+         var7.addElement(new Command(var3[var8], new IActionMenuOption(this, var8, var1, var2)));
       }
 
       if (var4 != null) {

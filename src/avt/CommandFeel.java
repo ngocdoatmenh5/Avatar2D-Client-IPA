@@ -6,7 +6,7 @@ final class CommandFeel extends Command {
    private final byte[] f;
    private final int g;
 
-   CommandFeel(MenuCenter var1, String var2, int var3, int var4, byte[] var5, int var6) {
+   CommandFeel(MainMenu var1, String var2, int var3, int var4, byte[] var5, int var6) {
       super(var2, 19, var4);
       this.f = var5;
       this.g = var6;
