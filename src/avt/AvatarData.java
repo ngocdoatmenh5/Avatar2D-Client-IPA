@@ -447,7 +447,7 @@ public final class AvatarData {
    }
 
    public static void b() {
-      CRes.a(PaintPopup.k, GameMidlet.n + FarmScr.l);
+      CRes.a(PaintPopup.name, GameMidlet.n + FarmScr.l);
       CRes.a(GameMidlet.m, CRes.b + MapScr.j);
       CRes.a(CRes.b, GameMidlet.l + MiniMap.i);
    }
@@ -685,17 +685,17 @@ public final class AvatarData {
       DataOutputStream var1 = new DataOutputStream(var0);
 
       try {
-         var1.writeByte(OptionScr.gI().b[4]);
-         var1.writeByte(GameMidlet.b[OptionScr.gI().b[4]].length);
+         var1.writeByte(OptionScr.gI().mapFocus[4]);
+         var1.writeByte(GameMidlet.ipSV[OptionScr.gI().mapFocus[4]].length);
 
-         for(int var2 = 0; var2 < GameMidlet.b[OptionScr.gI().b[4]].length; ++var2) {
-            var1.writeByte(GameMidlet.b[OptionScr.gI().b[4]][var2].length);
-            var1.writeUTF(GameMidlet.a[OptionScr.gI().b[4]][var2][0]);
+         for(int var2 = 0; var2 < GameMidlet.ipSV[OptionScr.gI().mapFocus[4]].length; ++var2) {
+            var1.writeByte(GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2].length);
+            var1.writeUTF(GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2][0]);
 
-            for(int var3 = 0; var3 < GameMidlet.b[OptionScr.gI().b[4]][var2].length; ++var3) {
-               var1.writeUTF(GameMidlet.a[OptionScr.gI().b[4]][var2][var3 + 1]);
-               var1.writeUTF(GameMidlet.b[OptionScr.gI().b[4]][var2][var3]);
-               var1.writeInt(GameMidlet.c[OptionScr.gI().b[4]][var2][var3]);
+            for(int var3 = 0; var3 < GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2].length; ++var3) {
+               var1.writeUTF(GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2][var3 + 1]);
+               var1.writeUTF(GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2][var3]);
+               var1.writeInt(GameMidlet.c[OptionScr.gI().mapFocus[4]][var2][var3]);
             }
          }
 
@@ -710,26 +710,26 @@ public final class AvatarData {
       DataInputStream var0;
       if ((var0 = loadRMS("avatarSV")) != null) {
          try {
-            if (var0.readByte() == OptionScr.gI().b[4]) {
+            if (var0.readByte() == OptionScr.gI().mapFocus[4]) {
                byte var1;
                if ((var1 = var0.readByte()) == 0) {
                   delErrorRms("avatarSV");
                } else {
-                  GameMidlet.a = new String[2][var1][];
-                  GameMidlet.b = new String[2][var1][];
+                  GameMidlet.nameSV = new String[2][var1][];
+                  GameMidlet.ipSV = new String[2][var1][];
                   GameMidlet.c = new int[2][var1][];
 
                   for(int var2 = 0; var2 < var1; ++var2) {
                      byte var3 = var0.readByte();
-                     GameMidlet.a[OptionScr.gI().b[4]][var2] = new String[var3 + 1];
-                     GameMidlet.a[OptionScr.gI().b[4]][var2][0] = var0.readUTF();
-                     GameMidlet.b[OptionScr.gI().b[4]][var2] = new String[var3];
-                     GameMidlet.c[OptionScr.gI().b[4]][var2] = new int[var3];
+                     GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2] = new String[var3 + 1];
+                     GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2][0] = var0.readUTF();
+                     GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2] = new String[var3];
+                     GameMidlet.c[OptionScr.gI().mapFocus[4]][var2] = new int[var3];
 
                      for(int var4 = 0; var4 < var3; ++var4) {
-                        GameMidlet.a[OptionScr.gI().b[4]][var2][var4 + 1] = var0.readUTF();
-                        GameMidlet.b[OptionScr.gI().b[4]][var2][var4] = var0.readUTF();
-                        GameMidlet.c[OptionScr.gI().b[4]][var2][var4] = var0.readInt();
+                        GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2][var4 + 1] = var0.readUTF();
+                        GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2][var4] = var0.readUTF();
+                        GameMidlet.c[OptionScr.gI().mapFocus[4]][var2][var4] = var0.readInt();
                      }
                   }
 

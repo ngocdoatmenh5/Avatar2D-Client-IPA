@@ -21,7 +21,7 @@ final class IActionMiniMapKey implements IAction {
             var1 = 7;
          }
 
-         MiniMap.gI().m = true;
+         MiniMap.gI().ableTrans = true;
       } else if (Canvas.a(2)) {
          if (var1 == 4) {
             var1 = 1;
@@ -35,7 +35,7 @@ final class IActionMiniMapKey implements IAction {
             var1 = 0;
          }
 
-         MiniMap.gI().m = true;
+         MiniMap.gI().ableTrans = true;
       } else if (Canvas.a(6)) {
          if (var1 == 0) {
             var1 = 3;
@@ -51,7 +51,7 @@ final class IActionMiniMapKey implements IAction {
             var1 = 3;
          }
 
-         MiniMap.gI().m = true;
+         MiniMap.gI().ableTrans = true;
       } else if (Canvas.a(4)) {
          if (var1 == 1) {
             var1 = 3;
@@ -67,10 +67,10 @@ final class IActionMiniMapKey implements IAction {
             var1 = 3;
          }
 
-         MiniMap.gI().m = true;
+         MiniMap.gI().ableTrans = true;
       }
 
-      if (MiniMap.gI().m) {
+      if (MiniMap.gI().ableTrans) {
          MiniMap.gI().selected = var1;
       }
 

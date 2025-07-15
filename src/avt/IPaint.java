@@ -48,7 +48,7 @@ public interface IPaint {
 
    void setVirtualKeyFish(int var1);
 
-   void e();
+   void initPosPhom();
 
    void a(Graphics var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, String var10, int var11, int var12);
 
@@ -70,7 +70,7 @@ public interface IPaint {
 
    void i();
 
-   void d(Graphics var1, int var2, int var3, int var4, int var5);
+   void paintPlayer(Graphics var1, int var2, int var3, int var4, int var5);
 
    void j();
 

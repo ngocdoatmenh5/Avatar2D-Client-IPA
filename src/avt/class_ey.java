@@ -24,6 +24,6 @@ final class class_ey extends Command {
    }
 
    public final void paint(Graphics var1, int var2, int var3) {
-      AvatarData.paintImg(var1, this.h.b, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
+      AvatarData.paintImg(var1, this.h.b, var2 + PopupShop.h / 2, var3 + PopupShop.h / 2, 3);
    }
 }

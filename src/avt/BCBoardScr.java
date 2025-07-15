@@ -441,8 +441,8 @@ public final class BCBoardScr extends BoardScr {
          if (this.moneyInput.size() > 0) {
             for(var2 = 0; var2 < this.moneyInput.size(); ++var2) {
                MoneyPut var8;
-               if ((var8 = (MoneyPut)this.moneyInput.elementAt(var2)).a > 0) {
-                  var8.a(var1);
+               if ((var8 = (MoneyPut)this.moneyInput.elementAt(var2)).valuea > 0) {
+                  var8.paint(var1);
                }
             }
          }
@@ -450,7 +450,7 @@ public final class BCBoardScr extends BoardScr {
          if (this.vtmoneySV.size() > 0) {
             for(var2 = 0; var2 < this.vtmoneySV.size(); ++var2) {
                MoneySV var9;
-               if ((var9 = (MoneySV)this.vtmoneySV.elementAt(var2)).c > 0 && !(var9 = var9).h) {
+               if ((var9 = (MoneySV)this.vtmoneySV.elementAt(var2)).valuea > 0 && !(var9 = var9).move) {
                   FontX var11 = Canvas.O;
                   if (Canvas.w <= 200) {
                      var11 = Canvas.smallFontYellow;
@@ -460,14 +460,14 @@ public final class BCBoardScr extends BoardScr {
                      var11 = Canvas.normalFont;
                   }
 
-                  int var12 = var9.a + rW / 4 + var9.d % 2 * rW / 2;
-                  var7 = var9.b + hH / 4 + var9.d / 2 * hH / 2;
+                  int var12 = var9.x + rW / 4 + var9.typePaint % 2 * rW / 2;
+                  var7 = var9.y + hH / 4 + var9.typePaint / 2 * hH / 2;
                   if (AvatarData.getImgIcon((short)(Canvas.w > 200 ? 870 : 871)).count != -1) {
-                     var10003 = var9.d * c;
+                     var10003 = var9.typePaint * c;
                      var1.drawRegion(AvatarData.getImgIcon((short)(Canvas.w > 200 ? 870 : 871)).img, 0, var10003, b, c, 0, var12, var7, 3);
                   }
 
-                  var11.drawString(var1, String.valueOf(var9.c), var12, var7 - var11.getHeight() / 2, 2);
+                  var11.drawString(var1, String.valueOf(var9.valuea), var12, var7 - var11.getHeight() / 2, 2);
                }
             }
          }
@@ -587,27 +587,27 @@ public final class BCBoardScr extends BoardScr {
             MoneySV var4;
             for(int var2 = 0; var2 < var1.vtmoneySV.size(); ++var2) {
                MoneySV var3;
-               if ((var4 = var3 = (MoneySV)var1.vtmoneySV.elementAt(var2)).a != var4.f) {
-                  if (var4.f - var4.a >> 1 == 0) {
-                     var4.a = var4.f;
+               if ((var4 = var3 = (MoneySV)var1.vtmoneySV.elementAt(var2)).x != var4.xTo) {
+                  if (var4.xTo - var4.x >> 1 == 0) {
+                     var4.x = var4.xTo;
                   } else {
-                     var4.a += var4.f - var4.a >> 1;
+                     var4.x += var4.xTo - var4.x >> 1;
                   }
                }
 
-               if (var4.b != var4.g) {
-                  if (var4.g - var4.b >> 1 == 0) {
-                     var4.b = var4.g;
+               if (var4.y != var4.yto) {
+                  if (var4.yto - var4.y >> 1 == 0) {
+                     var4.y = var4.yto;
                   } else {
-                     var4.b += var4.g - var4.b >> 1;
+                     var4.y += var4.yto - var4.y >> 1;
                   }
                }
 
-               if (var4.i && var4.a == var4.f && var4.b == var4.g) {
-                  var4.h = true;
+               if (var4.isMoveOK && var4.x == var4.xTo && var4.y == var4.yto) {
+                  var4.move = true;
                }
 
-               if (var3.h) {
+               if (var3.move) {
                   var1.vtmoneySV.removeElement(var3);
                   if (var1.taOK) {
                      PimgBC var10 = (PimgBC)var1.bc.elementAt(var1.addt);
@@ -621,10 +621,10 @@ public final class BCBoardScr extends BoardScr {
             PimgBC var7 = (PimgBC)var1.bc.elementAt(var1.addt);
             if (var1.taOK) {
                for(var11 = 0; var11 < var1.vtmoneySV.size(); ++var11) {
-                  if ((var4 = (MoneySV)var1.vtmoneySV.elementAt(var11)).e == var1.addfr) {
-                     var4.f = var7.x;
-                     var4.g = var7.y;
-                     var4.i = true;
+                  if ((var4 = (MoneySV)var1.vtmoneySV.elementAt(var11)).addFrom == var1.addfr) {
+                     var4.xTo = var7.x;
+                     var4.yto = var7.y;
+                     var4.isMoveOK = true;
                   }
                }
             }

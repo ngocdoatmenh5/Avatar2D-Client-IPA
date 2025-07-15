@@ -16,7 +16,7 @@ final class class_in implements IAction {
          ListScr.removeList();
       }
 
-      ParkService.gI().a(this.a.IDDB, true);
+      ParkService.gI().doAddFriend(this.a.IDDB, true);
       MessageScr.gI().a(var1);
       Canvas.startOKDlg(T.y + T.cb + this.a.name + ".");
    }

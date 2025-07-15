@@ -6,83 +6,83 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class ServerListScr extends MyScreen {
-   public static ServerListScr a;
-   public int b;
-   private Image c;
-   private boolean d = false;
-   private static int e;
-   private static int f;
-   private static int g;
-   private static int h;
-   private static int i;
-   private static int j;
-   private static int k;
-   private static int l;
-   private int m = 0;
-   private long n;
-   private int o;
-   private boolean p;
-   private int q;
-   private long r;
-   private long s;
+   public static ServerListScr me;
+   public int indexSV;
+   private Image img;
+   private boolean isSelected = false;
+   private static int cmtoY;
+   private static int cmy;
+   private static int cmdy;
+   private static int cmvy;
+   private static int cmyLim;
+   private static int hDis;
+   private static int x;
+   private static int y;
+   private int indexUSer = 0;
+   private long timeDelay;
+   private int vY;
+   private boolean transY;
+   private int pa;
+   private long count;
+   private long timePoint;
    private int t;
 
    public static ServerListScr gI() {
-      return a == null ? (a = new ServerListScr()) : a;
+      return me == null ? (me = new ServerListScr()) : me;
    }
 
    public final void switchToMe() {
       super.switchToMe();
       this.e();
-      this.m = 0;
+      this.indexUSer = 0;
       if (super.center == null) {
-         this.doLeftMenu();
+         this.initCmd();
       }
 
-      this.g();
+      this.chans();
    }
 
    public ServerListScr() {
       FilePack.b(T.av);
-      this.c = FilePack.getImage("tp");
+      this.img = FilePack.getImage("tp");
       FilePack.reset();
-      this.doLeftMenu();
+      this.initCmd();
       CRes.b();
    }
 
    public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
-            if (this.d && super.selected_ > 0) {
+            if (this.isSelected && super.selected_ > 0) {
                Canvas.startWaitCancelDlg(T.N);
                LoginScr.gI().timeOut = System.currentTimeMillis();
                LoginScr.gI().login();
                return;
             } else {
-               if (!this.d) {
-                  this.d = true;
+               if (!this.isSelected) {
+                  this.isSelected = true;
                   this.e();
-                  super.selected_ = 1 + CRes.rnd(GameMidlet.a[OptionScr.gI().b[4]][this.b].length - 1);
-                  this.g();
+                  super.selected_ = 1 + CRes.rnd(GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][this.indexSV].length - 1);
+                  this.chans();
                   return;
                }
 
-               this.d = false;
+               this.isSelected = false;
                return;
             }
          case 1:
-            this.f();
+            this.onGetText();
             return;
          case 2:
-            this.d = false;
-            this.b = 0;
+            this.isSelected = false;
+            this.indexSV = 0;
             super.selected_ = 0;
             LoginScr.gI().switchToMe();
          default:
       }
    }
 
-   public final void doLeftMenu() {
+   public final void initCmd() {
       if (T.O != null) {
          if (Canvas.stypeInt == 0) {
             super.center = new Command(T.O, 0);
@@ -96,35 +96,35 @@ public final class ServerListScr extends MyScreen {
       }
    }
 
-   private void f() {
+   private void onGetText() {
       while(true) {
          Canvas.startWaitCancelDlg(T.b);
-         if (this.m >= GameMidlet.d[OptionScr.gI().b[4]].length) {
+         if (this.indexUSer >= GameMidlet.d[OptionScr.gI().mapFocus[4]].length) {
             Canvas.startOKDlg(T.ds);
-            this.m = 0;
+            this.indexUSer = 0;
             return;
          }
 
          String var1;
-         if ((var1 = GameMidlet.a(GameMidlet.d[OptionScr.gI().b[4]][this.m])) != null) {
+         if ((var1 = GameMidlet.a(GameMidlet.d[OptionScr.gI().mapFocus[4]][this.indexUSer])) != null) {
             String[] var6 = Canvas.normalFont.a(var1, "*");
-            GameMidlet.c[OptionScr.gI().b[4]] = new int[var6.length - 1][];
-            GameMidlet.b[OptionScr.gI().b[4]] = new String[var6.length - 1][];
-            GameMidlet.a[OptionScr.gI().b[4]] = new String[var6.length - 1][];
+            GameMidlet.c[OptionScr.gI().mapFocus[4]] = new int[var6.length - 1][];
+            GameMidlet.ipSV[OptionScr.gI().mapFocus[4]] = new String[var6.length - 1][];
+            GameMidlet.nameSV[OptionScr.gI().mapFocus[4]] = new String[var6.length - 1][];
 
             for(int var2 = 1; var2 < var6.length; ++var2) {
                String[] var3 = Canvas.normalFont.a(var6[var2], "\n");
-               GameMidlet.a[OptionScr.gI().b[4]][var2 - 1] = new String[var3.length - 1];
-               GameMidlet.b[OptionScr.gI().b[4]][var2 - 1] = new String[var3.length - 2];
-               GameMidlet.c[OptionScr.gI().b[4]][var2 - 1] = new int[var3.length - 2];
-               GameMidlet.a[OptionScr.gI().b[4]][var2 - 1][0] = var3[0];
+               GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2 - 1] = new String[var3.length - 1];
+               GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2 - 1] = new String[var3.length - 2];
+               GameMidlet.c[OptionScr.gI().mapFocus[4]][var2 - 1] = new int[var3.length - 2];
+               GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2 - 1][0] = var3[0];
 
                for(int var4 = 1; var4 < var3.length - 1; ++var4) {
                   String[] var5 = Canvas.normalFont.a(var3[var4], ":");
-                  GameMidlet.a[OptionScr.gI().b[4]][var2 - 1][var4] = var5[0];
-                  GameMidlet.b[OptionScr.gI().b[4]][var2 - 1][var4 - 1] = var5[1];
+                  GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2 - 1][var4] = var5[0];
+                  GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2 - 1][var4 - 1] = var5[1];
                   var5[2] = var5[2].substring(0, var5[2].length() - 1);
-                  GameMidlet.c[OptionScr.gI().b[4]][var2 - 1][var4 - 1] = Integer.parseInt(var5[2]);
+                  GameMidlet.c[OptionScr.gI().mapFocus[4]][var2 - 1][var4 - 1] = Integer.parseInt(var5[2]);
                }
             }
 
@@ -134,13 +134,13 @@ public final class ServerListScr extends MyScreen {
             return;
          }
 
-         ++this.m;
+         ++this.indexUSer;
       }
    }
 
    public final void e() {
       if (Canvas.stypeInt > 0) {
-         super.aj = true;
+         super.isHide_ = true;
       }
 
       int var1 = 176;
@@ -148,84 +148,84 @@ public final class ServerListScr extends MyScreen {
          var1 = Canvas.w;
       }
 
-      PaintPopup.gI().a(T.bP, var1 * AvMain.hd, MyScreen.av * 6, 1);
-      k = PaintPopup.gI().g + 4;
-      l = PaintPopup.gI().h + PaintPopup.o + AvMain.hDuBox;
-      j = PaintPopup.gI().e - (PaintPopup.o + (AvMain.hDuBox << 1));
-      i = GameMidlet.a[OptionScr.gI().b[4]].length * MyScreen.av + (this.d ? GameMidlet.a[OptionScr.gI().b[4]][this.b].length * MyScreen.av : 0) - j;
-      e = 0;
-      f = 0;
-      if (i < 0) {
-         i = 0;
+      PaintPopup.gI().a(T.bP, var1 * AvMain.hd, MyScreen.hText * 6, 1);
+      x = PaintPopup.gI().x + 4;
+      y = PaintPopup.gI().y + PaintPopup.hTab + AvMain.hDuBox;
+      hDis = PaintPopup.gI().h - (PaintPopup.hTab + (AvMain.hDuBox << 1));
+      cmyLim = GameMidlet.nameSV[OptionScr.gI().mapFocus[4]].length * MyScreen.hText + (this.isSelected ? GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][this.indexSV].length * MyScreen.hText : 0) - hDis;
+      cmtoY = 0;
+      cmy = 0;
+      if (cmyLim < 0) {
+         cmyLim = 0;
       }
 
    }
 
    public final void update() {
-      if (this.o != 0) {
-         if (f < 0 || f > i) {
-            this.o -= this.o / 4;
-            f += this.o / 20;
-            if (this.o / 10 <= 1) {
-               this.o = 0;
+      if (this.vY != 0) {
+         if (cmy < 0 || cmy > cmyLim) {
+            this.vY -= this.vY / 4;
+            cmy += this.vY / 20;
+            if (this.vY / 10 <= 1) {
+               this.vY = 0;
             }
          }
 
-         if (f < 0) {
-            if (f < -j / 2) {
-               f = -j / 2;
-               e = 0;
-               this.o = 0;
+         if (cmy < 0) {
+            if (cmy < -hDis / 2) {
+               cmy = -hDis / 2;
+               cmtoY = 0;
+               this.vY = 0;
             }
-         } else if (f > i) {
-            if (f < i + j / 2) {
-               f = i + j / 2;
-               e = i;
-               this.o = 0;
+         } else if (cmy > cmyLim) {
+            if (cmy < cmyLim + hDis / 2) {
+               cmy = cmyLim + hDis / 2;
+               cmtoY = cmyLim;
+               this.vY = 0;
             }
          } else {
-            f += this.o / 10;
+            cmy += this.vY / 10;
          }
 
-         e = f;
-         this.o -= this.o / 10;
-         if (this.o / 10 == 0) {
-            this.o = 0;
+         cmtoY = cmy;
+         this.vY -= this.vY / 10;
+         if (this.vY / 10 == 0) {
+            this.vY = 0;
          }
-      } else if (f < 0) {
-         e = 0;
-      } else if (f > i) {
-         e = i;
+      } else if (cmy < 0) {
+         cmtoY = 0;
+      } else if (cmy > cmyLim) {
+         cmtoY = cmyLim;
       }
 
-      if (f != e) {
-         h = e - f << 2;
-         g += h;
-         f += g >> 4;
-         g &= 15;
+      if (cmy != cmtoY) {
+         cmvy = cmtoY - cmy << 2;
+         cmdy += cmvy;
+         cmy += cmdy >> 4;
+         cmdy &= 15;
       }
 
       Canvas.loadMap.update();
    }
 
-   private void b(int var1) {
-      this.b = var1;
-      if (this.b >= GameMidlet.a[OptionScr.gI().b[4]].length) {
-         this.b = 0;
+   private void setIndex(int var1) {
+      this.indexSV = var1;
+      if (this.indexSV >= GameMidlet.nameSV[OptionScr.gI().mapFocus[4]].length) {
+         this.indexSV = 0;
       }
 
-      if (this.b < 0) {
-         this.b = GameMidlet.a[OptionScr.gI().b[4]].length - 1;
+      if (this.indexSV < 0) {
+         this.indexSV = GameMidlet.nameSV[OptionScr.gI().mapFocus[4]].length - 1;
       }
 
    }
 
    public final void setSelected(int var1, boolean var2) {
       super.selected_ = var1;
-      if (super.selected_ >= GameMidlet.a[OptionScr.gI().b[4]][this.b].length || super.selected_ <= 0) {
+      if (super.selected_ >= GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][this.indexSV].length || super.selected_ <= 0) {
          super.selected_ = 0;
          if (var2) {
-            this.d = false;
+            this.isSelected = false;
             this.e();
          }
       }
@@ -233,98 +233,98 @@ public final class ServerListScr extends MyScreen {
    }
 
    public final void updateKey() {
-      ++this.r;
+      ++this.count;
       boolean var1 = false;
       if (Canvas.a(8)) {
          var1 = true;
-         if (!this.d) {
-            this.b(this.b + 1);
+         if (!this.isSelected) {
+            this.setIndex(this.indexSV + 1);
          } else {
             this.setSelected(super.selected_ + 1, true);
          }
       } else if (Canvas.a(2)) {
          var1 = true;
-         if (!this.d) {
-            this.b(this.b - 1);
+         if (!this.isSelected) {
+            this.setIndex(this.indexSV - 1);
          } else {
             this.setSelected(super.selected_ - 1, true);
          }
       }
 
-      if (Canvas.isPointerClick && Canvas.b(k, l, PaintPopup.gI().f, j)) {
+      if (Canvas.isPointerClick && Canvas.b(x, y, PaintPopup.gI().w, hDis)) {
          Canvas.isPointerClick = false;
-         this.q = f;
-         this.p = true;
-         this.n = System.currentTimeMillis() / 10L;
+         this.pa = cmy;
+         this.transY = true;
+         this.timeDelay = System.currentTimeMillis() / 10L;
       }
 
-      if (this.p) {
-         long var2 = System.currentTimeMillis() / 10L - this.n;
+      if (this.transY) {
+         long var2 = System.currentTimeMillis() / 10L - this.timeDelay;
          int var4 = Canvas.dy();
          int var5;
          if (Canvas.isPointerDown) {
             if (Canvas.gameTick % 3 == 0) {
                this.t = Canvas.py;
-               this.s = this.r;
+               this.timePoint = this.count;
             }
 
-            this.o = 0;
-            var5 = (e + Canvas.py - l) / MyScreen.av;
-            if (this.d) {
-               super.selected_ = var5 - this.b;
-            } else if (var5 >= 0 && var5 < GameMidlet.a[OptionScr.gI().b[4]].length) {
-               this.b = var5;
+            this.vY = 0;
+            var5 = (cmtoY + Canvas.py - y) / MyScreen.hText;
+            if (this.isSelected) {
+               super.selected_ = var5 - this.indexSV;
+            } else if (var5 >= 0 && var5 < GameMidlet.nameSV[OptionScr.gI().mapFocus[4]].length) {
+               this.indexSV = var5;
             }
 
             if (CRes.abs(var4) >= 20 * AvMain.hd) {
-               super.aj = true;
+               super.isHide_ = true;
             } else if (var2 > 10L && var2 < 20L) {
-               super.aj = false;
+               super.isHide_ = false;
             }
 
-            if ((e = this.q + var4) < 0 || e > i) {
-               e = this.q + var4 / 2;
+            if ((cmtoY = this.pa + var4) < 0 || cmtoY > cmyLim) {
+               cmtoY = this.pa + var4 / 2;
             }
 
-            f = e;
+            cmy = cmtoY;
          }
 
-         if (Canvas.isPointerRelease && Canvas.b(k, l, PaintPopup.gI().f, j)) {
-            var5 = (int)(this.r - this.s);
+         if (Canvas.isPointerRelease && Canvas.b(x, y, PaintPopup.gI().w, hDis)) {
+            var5 = (int)(this.count - this.timePoint);
             int var6;
-            if (CRes.abs(var6 = this.t - Canvas.py) > 40 && var5 < 10 && e > 0 && e < i) {
-               this.o = var6 / var5 * 10;
+            if (CRes.abs(var6 = this.t - Canvas.py) > 40 && var5 < 10 && cmtoY > 0 && cmtoY < cmyLim) {
+               this.vY = var6 / var5 * 10;
             }
 
-            this.s = -1L;
+            this.timePoint = -1L;
             if (Math.abs(var4) < 20 * AvMain.hd) {
                if (var2 <= 10L) {
-                  super.aj = false;
+                  super.isHide_ = false;
                }
 
-               if (!super.aj) {
-                  int var7 = (e + Canvas.py - l) / MyScreen.av;
-                  if (this.d) {
-                     if (var7 - this.b > 0 && var7 - this.b < GameMidlet.a[OptionScr.gI().b[4]][this.b].length) {
-                        super.selected_ = var7 - this.b;
+               if (!super.isHide_) {
+                  int var7 = (cmtoY + Canvas.py - y) / MyScreen.hText;
+                  if (this.isSelected) {
+                     if (var7 - this.indexSV > 0 && var7 - this.indexSV < GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][this.indexSV].length) {
+                        super.selected_ = var7 - this.indexSV;
                         this.commandTab(0, -1);
                      } else {
-                        if (var7 - this.b <= 0) {
-                           this.d = false;
+                        if (var7 - this.indexSV <= 0) {
+                           this.isSelected = false;
                            super.selected_ = 0;
-                           this.b = var7;
+                           this.indexSV = var7;
                            var1 = true;
                         }
 
-                        if (var7 >= GameMidlet.a[OptionScr.gI().b[4]][this.b].length - this.b && var7 < GameMidlet.a[OptionScr.gI().b[4]][this.b].length - 1 + GameMidlet.a[OptionScr.gI().b[4]].length) {
-                           this.d = false;
+                        if (var7 >= GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][this.indexSV].length - this.indexSV && var7 < GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][this.indexSV].length - 1 + GameMidlet.nameSV[OptionScr.gI().mapFocus[4]].length) {
+                           this.isSelected = false;
                            super.selected_ = 0;
-                           this.b = var7 - GameMidlet.a[OptionScr.gI().b[4]][this.b].length + 1;
+                           this.indexSV = var7 - GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][this.indexSV].length + 1;
                            var1 = true;
                         }
                      }
-                  } else if (var7 >= 0 && var7 < GameMidlet.a[OptionScr.gI().b[4]].length) {
-                     this.b = var7;
+                  } else if (var7 >= 0 && var7 < GameMidlet.nameSV[OptionScr.gI().mapFocus[4]].length) {
+                     this.indexSV = var7;
                      this.commandTab(0, -1);
                   }
                }
@@ -333,23 +333,23 @@ public final class ServerListScr extends MyScreen {
       }
 
       if (Canvas.isPointerRelease) {
-         this.p = false;
+         this.transY = false;
       }
 
       if (var1) {
-         this.g();
+         this.chans();
       }
 
       super.updateKey();
    }
 
-   private void g() {
-      if ((e = (this.b + (this.d ? super.selected_ : 0)) * MyScreen.av - j / 2 + MyScreen.av / 2) < 0) {
-         e = 0;
+   private void chans() {
+      if ((cmtoY = (this.indexSV + (this.isSelected ? super.selected_ : 0)) * MyScreen.hText - hDis / 2 + MyScreen.hText / 2) < 0) {
+         cmtoY = 0;
       }
 
-      if (e > i) {
-         e = i;
+      if (cmtoY > cmyLim) {
+         cmtoY = cmyLim;
       }
 
    }
@@ -358,29 +358,29 @@ public final class ServerListScr extends MyScreen {
       Canvas.loadMap.paint(var1);
       Canvas.loadMap.paintBackGround(var1);
       Canvas.resetTrans(var1);
-      PaintPopup.gI().a(var1);
+      PaintPopup.gI().paint(var1);
       if (GameMidlet.avatar != null && !GameMidlet.avatar.name.equals("")) {
-         Canvas.borderFont.drawString(var1, T.dz + ", " + GameMidlet.avatar.name, PaintPopup.gI().g + PaintPopup.gI().f / 2, PaintPopup.gI().h - AvMain.ag, 2);
+         Canvas.borderFont.drawString(var1, T.dz + ", " + GameMidlet.avatar.name, PaintPopup.gI().x + PaintPopup.gI().w / 2, PaintPopup.gI().y - AvMain.ag, 2);
       }
 
-      var1.translate(k, l);
-      var1.setClip(0, 0, PaintPopup.gI().f - 9, PaintPopup.gI().e - (PaintPopup.o + (AvMain.hDuBox << 1)));
-      var1.translate(0, -f);
-      if (!super.aj) {
-         Canvas.paint.c(var1, 2 * AvMain.hd, this.b * MyScreen.av + (this.d ? super.selected_ * MyScreen.av : 0), PaintPopup.gI().f - 8 - 4 * AvMain.hd, MyScreen.av);
+      var1.translate(x, y);
+      var1.setClip(0, 0, PaintPopup.gI().w - 9, PaintPopup.gI().h - (PaintPopup.hTab + (AvMain.hDuBox << 1)));
+      var1.translate(0, -cmy);
+      if (!super.isHide_) {
+         Canvas.paint.c(var1, 2 * AvMain.hd, this.indexSV * MyScreen.hText + (this.isSelected ? super.selected_ * MyScreen.hText : 0), PaintPopup.gI().w - 8 - 4 * AvMain.hd, MyScreen.hText);
       }
 
-      int var2 = (MyScreen.av - AvMain.ah) / 2;
+      int var2 = (MyScreen.hText - AvMain.ah) / 2;
 
-      for(int var3 = 0; var3 < GameMidlet.a[OptionScr.gI().b[4]].length; ++var3) {
-         Canvas.normalFont.drawString(var1, GameMidlet.a[OptionScr.gI().b[4]][var3][0], 24 * AvMain.hd, var2, 0);
+      for(int var3 = 0; var3 < GameMidlet.nameSV[OptionScr.gI().mapFocus[4]].length; ++var3) {
+         Canvas.normalFont.drawString(var1, GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var3][0], 24 * AvMain.hd, var2, 0);
          PaintPopup.a.drawFrame(0, 14 * AvMain.hd, var2 + AvMain.ah / 2, 5, 3, var1);
-         var2 += MyScreen.av;
-         if (this.d && this.b == var3) {
-            for(int var4 = 1; var4 < GameMidlet.a[OptionScr.gI().b[4]][var3].length; ++var4) {
-               Canvas.normalFont.drawString(var1, GameMidlet.a[OptionScr.gI().b[4]][var3][var4], 36 * AvMain.hd, var2, 0);
-               var1.drawImage(this.c, 24 * AvMain.hd, var2 + AvMain.ah / 2, 3);
-               var2 += MyScreen.av;
+         var2 += MyScreen.hText;
+         if (this.isSelected && this.indexSV == var3) {
+            for(int var4 = 1; var4 < GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var3].length; ++var4) {
+               Canvas.normalFont.drawString(var1, GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var3][var4], 36 * AvMain.hd, var2, 0);
+               var1.drawImage(this.img, 24 * AvMain.hd, var2 + AvMain.ah / 2, 3);
+               var2 += MyScreen.hText;
             }
          }
       }

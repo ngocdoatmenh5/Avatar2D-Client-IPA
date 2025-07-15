@@ -17,9 +17,9 @@ final class class_fj extends Command {
    }
 
    public final void paint(Graphics var1, int var2, int var3) {
-      this.f.paintIcon(var1, PopupShop.c / 2, 37 * AvMain.hd, true);
+      this.f.paintIcon(var1, PopupShop.w / 2, 37 * AvMain.hd, true);
       if (this.g != null) {
-         this.g.a(var1, PopupShop.c / 2 + 15 * AvMain.hd, 37 * AvMain.hd, this.f.hungerPet);
+         this.g.paintIcon(var1, PopupShop.w / 2 + 15 * AvMain.hd, 37 * AvMain.hd, this.f.hungerPet);
       }
 
       label50: {

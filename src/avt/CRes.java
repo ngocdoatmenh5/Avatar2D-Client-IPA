@@ -118,7 +118,7 @@ public final class CRes {
    }
 
    public static void b() {
-      GameMidlet.n = b(PaintPopup.k);
+      GameMidlet.n = b(PaintPopup.name);
       PopupShop.i = b(GameMidlet.m);
       MapScr.j = b(b);
    }

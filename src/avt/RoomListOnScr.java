@@ -7,16 +7,16 @@ import main.GameMidlet;
 
 public final class RoomListOnScr extends MyScreen {
    public static RoomListOnScr me;
-   public static FrameImage b;
-   private Vector d;
-   public static String c;
-   private int e;
-   private int f;
-   private Command g;
-   private Command h;
+   public static FrameImage imgRoomStat;
+   private Vector roomList;
+   public static String title;
+   private int _selected;
+   private int hSmall_;
+   private Command cmdMenu;
+   private Command cmdClose;
    private int i = 0;
 
-   public static RoomListOnScr b() {
+   public static RoomListOnScr gI() {
       if (me == null) {
          me = new RoomListOnScr();
       }
@@ -27,23 +27,23 @@ public final class RoomListOnScr extends MyScreen {
    public final void switchToMe() {
       Canvas.paint.h();
       super.switchToMe();
-      super.right = this.h;
+      super.right = this.cmdClose;
       if (Canvas.stypeInt == 0) {
          super.center = new Command(T.O, 3);
       } else {
          super.center = new Command(T.i, 1);
       }
 
-      super.aj = true;
+      super.isHide_ = true;
       this.init();
-      OnScreen.b();
-      this.e = this.i;
-      Canvas.cameraList.setSelect(this.e);
+      OnScreen.addCmd();
+      this._selected = this.i;
+      Canvas.cameraList.setSelect(this._selected);
    }
 
    public RoomListOnScr() {
       this.init();
-      this.doLeftMenu();
+      this.initCmd();
    }
 
    public final void commandActionPointer(int var1, int var2) {
@@ -77,67 +77,67 @@ public final class RoomListOnScr extends MyScreen {
             MenuSub.gI().startAt(var3, 0);
             return;
          case 1:
-            this.f();
+            this.doSelectRoom();
             return;
          case 2:
             GlobalService.gI().getHandler((int)9);
             Canvas.startWaitDlg();
             return;
          case 3:
-            this.f();
+            this.doSelectRoom();
          default:
       }
    }
 
-   public final void doLeftMenu() {
-      this.g = new Command(T.c, 0);
+   public final void initCmd() {
+      this.cmdMenu = new Command(T.c, 0);
       new Command(T.O, 1);
-      this.h = new Command(T.d, 2);
-      super.left = this.g;
-      super.right = this.h;
+      this.cmdClose = new Command(T.d, 2);
+      super.left = this.cmdMenu;
+      super.right = this.cmdClose;
    }
 
    public static void setName(int var0, BoardScr var1) {
       if (!OnScreen.isOngame) {
-         c = T.ek[var0];
+         title = T.nameCasino[var0];
       } else {
-         c = T.eA[var0];
+         title = T.nameMenuOn[var0];
       }
 
-      CasinoMsgHandler.d = var1;
+      CasinoMsgHandler.curScr = var1;
    }
 
    public final void init() {
       if (Canvas.stypeInt == 0) {
-         this.f = 50;
+         this.hSmall_ = 50;
          this.i = 1;
       } else {
          if (Canvas.stypeInt == 1) {
-            this.f = 80;
+            this.hSmall_ = 80;
          } else if (Canvas.stypeInt == 2) {
-            this.f = 150;
+            this.hSmall_ = 150;
          }
 
-         this.i = Canvas.w / this.f;
+         this.i = Canvas.w / this.hSmall_;
       }
 
-      if (this.d != null) {
-         if (this.f != 0) {
+      if (this.roomList != null) {
+         if (this.hSmall_ != 0) {
             if (Canvas.stypeInt == 0) {
-               Canvas.cameraList.a(0, Canvas.w < 200 ? this.f / 2 : 50, Canvas.w, this.f, Canvas.w, this.d.size() * this.f, Canvas.w, Canvas.h - (Canvas.w < 200 ? this.f / 2 : 50) - 4, this.d.size());
+               Canvas.cameraList.setInfo(0, Canvas.w < 200 ? this.hSmall_ / 2 : 50, Canvas.w, this.hSmall_, Canvas.w, this.roomList.size() * this.hSmall_, Canvas.w, Canvas.h - (Canvas.w < 200 ? this.hSmall_ / 2 : 50) - 4, this.roomList.size());
             } else {
-               Canvas.cameraList.a((Canvas.w - this.f * this.i) / 2, 50 * AvMain.hd, this.f, this.f, Canvas.w, (this.d.size() / this.i + 2) * this.f, Canvas.w, Canvas.h - 50 * AvMain.hd - 4, this.d.size());
+               Canvas.cameraList.setInfo((Canvas.w - this.hSmall_ * this.i) / 2, 50 * AvMain.hd, this.hSmall_, this.hSmall_, Canvas.w, (this.roomList.size() / this.i + 2) * this.hSmall_, Canvas.w, Canvas.h - 50 * AvMain.hd - 4, this.roomList.size());
             }
 
-            Canvas.cameraList.setSelect(this.e);
+            Canvas.cameraList.setSelect(this._selected);
          }
 
       }
    }
 
-   private void f() {
+   private void doSelectRoom() {
       byte var1;
-      if ((var1 = ((RoomInfo)this.d.elementAt(this.e)).id) != -1) {
+      if ((var1 = ((RoomInfo)this.roomList.elementAt(this._selected)).id) != -1) {
          CasinoService.gI().requestBoardList(var1);
          Canvas.startWaitDlg();
       }
@@ -145,17 +145,17 @@ public final class RoomListOnScr extends MyScreen {
 
    public final void paint(Graphics var1) {
       this.paintMain(var1);
-      OnScreen.a(var1, super.left, super.center, super.right);
+      OnScreen.paintTitle(var1, super.left, super.center, super.right);
       Canvas.paintPlus2(var1);
    }
 
    public final void paintMain(Graphics var1) {
       Canvas.paint.paintDefaultBg(var1);
-      a(var1, "Phòng " + c);
-      Canvas.paint.a(var1, this.d, this.f, this.e);
+      paintRoomList(var1, "Phòng " + title);
+      Canvas.paint.a(var1, this.roomList, this.hSmall_, this._selected);
    }
 
-   public static void a(Graphics var0, String var1) {
+   public static void paintRoomList(Graphics var0, String var1) {
       Canvas.paint.paintDefaultBg(var0);
       if (Canvas.w > 200) {
          Canvas.paint.e(var0, Canvas.hw - 100 * AvMain.hd, 5 * AvMain.hd - CameraList.cmtoY, 200 * AvMain.hd, 44 * AvMain.hd);
@@ -169,7 +169,7 @@ public final class RoomListOnScr extends MyScreen {
 
    }
 
-   public final void a(Vector var1) {
+   public final void setRoomList(Vector var1) {
       for(int var2 = 0; var2 < var1.size(); ++var2) {
          RoomInfo var3 = (RoomInfo)var1.elementAt(var2);
 
@@ -183,16 +183,16 @@ public final class RoomListOnScr extends MyScreen {
          }
       }
 
-      this.d = new Vector();
+      this.roomList = new Vector();
       byte var6 = -1;
 
       for(int var7 = 0; var7 < var1.size(); ++var7) {
          RoomInfo var8 = (RoomInfo)var1.elementAt(var7);
          if (var6 == -1 || var8.lv != var6) {
-            this.d.addElement(new RoomInfo((byte)-1, (byte)0, (byte)0, var8.lv));
+            this.roomList.addElement(new RoomInfo((byte)-1, (byte)0, (byte)0, var8.lv));
          }
 
-         this.d.addElement(var8);
+         this.roomList.addElement(var8);
          var6 = var8.lv;
       }
 
@@ -200,26 +200,26 @@ public final class RoomListOnScr extends MyScreen {
          this.g();
       }
 
-      this.e = 1;
+      this._selected = 1;
       this.init();
    }
 
    private boolean g() {
-      for(int var1 = 0; var1 < this.d.size(); ++var1) {
+      for(int var1 = 0; var1 < this.roomList.size(); ++var1) {
          RoomInfo var2;
-         if ((var2 = (RoomInfo)this.d.elementAt(var1)).id == -1) {
+         if ((var2 = (RoomInfo)this.roomList.elementAt(var1)).id == -1) {
             int var3;
             int var4;
             if ((var3 = this.i - var1 % this.i) != this.i) {
                for(var4 = 0; var4 < var3; ++var4) {
-                  this.d.insertElementAt(new RoomInfo((byte)-2, (byte)0, (byte)0, var2.lv), var1);
+                  this.roomList.insertElementAt(new RoomInfo((byte)-2, (byte)0, (byte)0, var2.lv), var1);
                }
 
                var1 += var3;
             }
 
             for(var4 = 0; var4 < this.i - 1; ++var4) {
-               this.d.insertElementAt(new RoomInfo((byte)-2, (byte)0, (byte)0, var2.lv), var1 + 1);
+               this.roomList.insertElementAt(new RoomInfo((byte)-2, (byte)0, (byte)0, var2.lv), var1 + 1);
             }
 
             var1 += this.i;
@@ -230,32 +230,32 @@ public final class RoomListOnScr extends MyScreen {
    }
 
    public final void setSelected(int var1, boolean var2) {
-      if (var2 && this.e == var1) {
-         this.f();
+      if (var2 && this._selected == var1) {
+         this.doSelectRoom();
       }
 
       if (Canvas.stypeInt == 0) {
-         if (this.e > 0 && this.e < this.d.size()) {
+         if (this._selected > 0 && this._selected < this.roomList.size()) {
             RoomInfo var3;
-            if ((var3 = (RoomInfo)this.d.elementAt(var1)).id != -1 && var3.id != -1) {
-               if (var1 >= 0 && var1 < this.d.size()) {
-                  this.e = var1;
+            if ((var3 = (RoomInfo)this.roomList.elementAt(var1)).id != -1 && var3.id != -1) {
+               if (var1 >= 0 && var1 < this.roomList.size()) {
+                  this._selected = var1;
                }
-            } else if (var1 > this.e) {
-               this.e = var1 + this.i;
+            } else if (var1 > this._selected) {
+               this._selected = var1 + this.i;
             } else {
-               this.e = var1 - this.i;
+               this._selected = var1 - this.i;
             }
 
-            Canvas.cameraList.setSelect(this.e);
-            if (this.e <= 0) {
-               this.e = this.d.size() - 1;
-               Canvas.cameraList.setSelect(this.e);
+            Canvas.cameraList.setSelect(this._selected);
+            if (this._selected <= 0) {
+               this._selected = this.roomList.size() - 1;
+               Canvas.cameraList.setSelect(this._selected);
                return;
             }
          }
       } else {
-         this.e = var1;
+         this._selected = var1;
       }
 
    }

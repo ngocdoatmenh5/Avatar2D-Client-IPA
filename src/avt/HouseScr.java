@@ -874,7 +874,7 @@ public final class HouseScr extends MyScreen implements IChatable {
 
    public final void onChatFromMe(String var1) {
       if (!var1.trim().equals("")) {
-         ParkService.gI().a(var1);
+         ParkService.gI().chatToBoard(var1);
       }
    }
 
@@ -1098,7 +1098,7 @@ public final class HouseScr extends MyScreen implements IChatable {
       Vector var7 = MapScr.gI().getListCmdDoUsing(var1, GameMidlet.avatar.IDDB, 3);
       var2 = MapScr.gI().getListCmdDoUsing(var2, GameMidlet.avatar.IDDB, 2);
       if (Canvas.currentMyScreen != MenuCenter.me) {
-         PopupShop.gI().isHorizontal = true;
+         PopupShop.gI().isFull = true;
          PopupShop.gI().addElement(new String[]{T.by, T.co}, new Vector[]{var7, var2}, (Vector)null);
          Command var5 = MapScr.gI().cmdDellPart(var1, 1, 1, false);
          Command var6 = new Command(T.c, new class_dd(this));
@@ -1144,7 +1144,7 @@ public final class HouseScr extends MyScreen implements IChatable {
       this.onCustomChest(this.listP_Con, this.listP_Chest, this.moneyOnChest, this.levelChest);
       PopupShop.focusTap = var1;
       PopupShop.gI().setCmyLim();
-      if (var2 >= PopupShop.gI().h[var1].size()) {
+      if (var2 >= PopupShop.gI().listCell[var1].size()) {
          var2 = 0;
       }
 
@@ -1164,7 +1164,7 @@ public final class HouseScr extends MyScreen implements IChatable {
 
       if (var10.size() > 0) {
          PopupShop.gI().switchToMe();
-         PopupShop.o = true;
+         PopupShop.isHorizontal = true;
          PopupShop.gI().addElement(new String[]{var2}, new Vector[]{var10}, (Vector)null);
       }
 

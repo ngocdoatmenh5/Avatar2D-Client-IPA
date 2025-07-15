@@ -36,9 +36,9 @@ public final class ChatTextField extends AvMain {
       this.tfChat.setText("");
       isShow = false;
       this.tfChat.setFocus(true);
-      if (OnScreen.isOngame && OptionScr.d) {
-         OptionScr.d = false;
-         OptionScr.gI().b[4] = 0;
+      if (OnScreen.isOngame && OptionScr.isVirTualKey) {
+         OptionScr.isVirTualKey = false;
+         OptionScr.gI().mapFocus[4] = 0;
          Canvas.instance.setSize();
       }
 
@@ -100,7 +100,7 @@ public final class ChatTextField extends AvMain {
 
    public final void paint(Graphics var1) {
       if (OnScreen.isOngame) {
-         OnScreen.a(var1, super.left, super.center, super.right);
+         OnScreen.paintTitle(var1, super.left, super.center, super.right);
       } else {
          super.paint(var1);
       }

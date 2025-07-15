@@ -12,7 +12,7 @@ final class class_di implements IAction {
       Canvas.welcome = null;
       AvCamera.isFollow = false;
       MiniMap.gI().left = MiniMap.gI().l;
-      MapScr.gI().doLeftMenu();
-      FarmScr.gI().doLeftMenu();
+      MapScr.gI().initCmd();
+      FarmScr.gI().initCmd();
    }
 }

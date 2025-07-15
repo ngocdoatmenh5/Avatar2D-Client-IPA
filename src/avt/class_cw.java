@@ -48,7 +48,7 @@ public final class class_cw {
    }
 
    private void d() {
-      this.i = PaintPopup.gI().e - PaintPopup.o - (AvMain.hDuBox << 1) - 7 - (this.h ? MessageScr.c.height : 0);
+      this.i = PaintPopup.gI().h - PaintPopup.hTab - (AvMain.hDuBox << 1) - 7 - (this.h ? MessageScr.c.height : 0);
    }
 
    public final void a(String var1, String var2) {

@@ -35,7 +35,7 @@ public final class ParkService extends IService {
       this.sendMessage();
    }
 
-   public final void a(int var1, int var2, int var3, int var4) {
+   public final void doMove(int var1, int var2, int var3, int var4) {
       this.createMessage((byte)54);
 
       try {
@@ -49,7 +49,7 @@ public final class ParkService extends IService {
       this.sendMessage();
    }
 
-   public final void a(String var1) {
+   public final void chatToBoard(String var1) {
       if (GameMidlet.CLIENT_TYPE == 10) {
          this.createMessage((byte)77);
       } else {
@@ -66,7 +66,7 @@ public final class ParkService extends IService {
       this.sendMessage();
    }
 
-   public final void a(int var1, boolean var2) {
+   public final void doAddFriend(int var1, boolean var2) {
       this.createMessage((byte)-19);
 
       try {
@@ -111,19 +111,19 @@ public final class ParkService extends IService {
       this.sendMessage();
    }
 
-   public final void a(byte var1) {
+   public final void doRequestBoardList(byte var1) {
       this.createMessage((byte)60);
       this.writeByte(var1);
       this.sendMessage();
    }
 
-   public final void a(short var1) {
+   public final void doBuyItem(short var1) {
       this.createMessage((byte)-38);
       this.writeShort(var1);
       this.sendMessage();
    }
 
-   public final void a(boolean var1, byte[] var2) {
+   public final void doFinishFishing(boolean var1, byte[] var2) {
       this.createMessage((byte)84);
 
       try {
@@ -139,7 +139,7 @@ public final class ParkService extends IService {
       this.sendMessage();
    }
 
-   public final void b() {
+   public final void doCauCaXong() {
       this.createMessage((byte)85);
       this.sendMessage();
    }
@@ -156,7 +156,7 @@ public final class ParkService extends IService {
       this.sendMessage();
    }
 
-   public final void b(int var1, int var2, int var3) {
+   public final void doCustomPopup(int var1, int var2, int var3) {
       this.createMessage((byte)-77);
 
       try {
@@ -169,7 +169,7 @@ public final class ParkService extends IService {
       this.sendMessage();
    }
 
-   public final void c(int var1, int var2, int var3) {
+   public final void doBossShop(int var1, int var2, int var3) {
       this.createMessage((byte)-78);
 
       try {
@@ -182,7 +182,7 @@ public final class ParkService extends IService {
       this.sendMessage();
    }
 
-   public final void c(int var1) {
+   public final void doGetDropPart(int var1) {
       this.createMessage((byte)89);
 
       try {

@@ -16,13 +16,13 @@ public class AvMain {
    public static byte ag;
    public static byte ah;
    public static byte hSmall;
-   public boolean aj;
+   public boolean isHide_;
    public static boolean ak = false;
    private static byte a = 0;
    private static byte b = 0;
    private static byte c = 0;
 
-   public void doLeftMenu() {
+   public void initCmd() {
    }
 
    public void keyPress(int var1) {
@@ -81,7 +81,7 @@ public class AvMain {
          c = 0;
          if (Canvas.isPaintIconVir()) {
             if (Canvas.isPointer(0, 0, 50 * hd, 50 * hd)) {
-               if (!OptionScr.d) {
+               if (!OptionScr.isVirTualKey) {
                   if (TField.m) {
                      ak = true;
                      TField.m = false;
@@ -90,15 +90,15 @@ public class AvMain {
                   TField.m = true;
                }
 
-               OptionScr.d = !OptionScr.d;
+               OptionScr.isVirTualKey = !OptionScr.isVirTualKey;
                Canvas.instance.sizeChanged(0, 0);
                Canvas.isPointerRelease = false;
             }
 
             if (GameMidlet.CLIENT_TYPE == 9 && Canvas.isPointer(50, 0, 50 * hd, 50 * hd)) {
-               if (!OptionScr.d) {
-                  OptionScr.d = true;
-                  OptionScr.gI().b[4] = 1;
+               if (!OptionScr.isVirTualKey) {
+                  OptionScr.isVirTualKey = true;
+                  OptionScr.gI().mapFocus[4] = 1;
                   Canvas.instance.setSize();
                   Canvas.z.isPointerClick = true;
                   if (Canvas.currentMyScreen == MapScr.gI()) {
@@ -106,8 +106,8 @@ public class AvMain {
                      ChatTextField.isShow = true;
                   }
                } else {
-                  OptionScr.d = false;
-                  OptionScr.gI().b[4] = 0;
+                  OptionScr.isVirTualKey = false;
+                  OptionScr.gI().mapFocus[4] = 0;
                   Canvas.instance.setSize();
                   if (Canvas.currentMyScreen == MapScr.gI()) {
                      ChatTextField.isShow = false;

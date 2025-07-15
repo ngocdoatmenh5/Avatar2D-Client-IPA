@@ -21,7 +21,7 @@ final class CommandInfo extends Command {
 
    public final void paint(Graphics var1, int var2, int var3) {
       Canvas.resetTrans(var1);
-      var2 = PaintPopup.o + (AvMain.hDuBox << 1) + 10 * AvMain.hd + 30 * (AvMain.hd - 1) + PopupShop.b;
+      var2 = PaintPopup.hTab + (AvMain.hDuBox << 1) + 10 * AvMain.hd + 30 * (AvMain.hd - 1) + PopupShop.x;
       byte var5 = AvMain.ah;
       this.ava1.paintIcon(var1, Canvas.w / 2, var2, false);
       Canvas.normalFont.drawString(var1, T.aA + this.ava1.name, Canvas.w / 2, var2 + var5, 2);

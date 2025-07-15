@@ -12,8 +12,8 @@ import javax.microedition.midlet.MIDlet;
 import avt.*;
 
 public class GameMidlet extends MIDlet {
-   public static String[][][] a = new String[][][]{{{"Xu So Dieu Ky", "Thanh Pho Hoan My", "Thanh Pho Tam Giao", "Thanh Pho Than Thoai", "Thanh Pho Tri Ky", "Thanh Pho Hoa Binh", "Thanh Pho Dieu Ky", "Thanh Pho Mong Mo"}, {"Xu So Than Tien", "Thanh Pho Bao Binh", "Thanh Pho Nhan Ma", "Thanh Pho Su Tu"}}, {{"International Server", "Aries City"}}};
-   public static String[][][] b = new String[][][]{{{"112.213.85.102", "112.213.85.104", "27.0.14.77", "112.213.85.106", "112.213.85.110", "112.213.85.101", "112.213.85.103"}, {"115.84.183.38", "210.211.109.119", "210.211.109.119"}}, {{"112.78.1.25"}}};
+   public static String[][][] nameSV = new String[][][]{{{"Xu So Dieu Ky", "Thanh Pho Hoan My", "Thanh Pho Tam Giao", "Thanh Pho Than Thoai", "Thanh Pho Tri Ky", "Thanh Pho Hoa Binh", "Thanh Pho Dieu Ky", "Thanh Pho Mong Mo"}, {"Xu So Than Tien", "Thanh Pho Bao Binh", "Thanh Pho Nhan Ma", "Thanh Pho Su Tu"}}, {{"International Server", "Aries City"}}};
+   public static String[][][] ipSV = new String[][][]{{{"112.213.85.102", "112.213.85.104", "27.0.14.77", "112.213.85.106", "112.213.85.110", "112.213.85.101", "112.213.85.103"}, {"115.84.183.38", "210.211.109.119", "210.211.109.119"}}, {{"112.78.1.25"}}};
    public static int[][][] c = new int[][][]{{{19128, 19128, 19128, 19128, 19128, 19128, 19128, 19128, 19128}, {19128, 19128, 18128}}, {{19128}}};
    public static final String[][] d = new String[][]{{"http://teamobi.com/srvips/avatar2.txt", "http://trochoididong.us/srvips/avatar_C.txt"}, {"http://teamobi.com/srvips/avatarinterd2.txt", "http://trochoididong.us/srvips/avatarinter_C.txt"}};
    public static int CLIENT_TYPE = 8;

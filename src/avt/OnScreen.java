@@ -6,7 +6,7 @@ import javax.microedition.lcdui.Image;
 import main.Canvas;
 
 public final class OnScreen extends MyScreen {
-   public static OnScreen a;
+   public static OnScreen instance;
    private Command d;
    private int e = 0;
    private int f;
@@ -39,18 +39,18 @@ public final class OnScreen extends MyScreen {
    private int E = -40;
    private int F = 1;
 
-   public static void b() {
+   public static void addCmd() {
       l = null;
       s = null;
       OnSplashScr.imgBg = null;
    }
 
-   public static OnScreen e() {
-      if (a == null) {
-         a = new OnScreen();
+   public static OnScreen gI() {
+      if (instance == null) {
+         instance = new OnScreen();
       }
 
-      return a;
+      return instance;
    }
 
    public final void switchToMe() {
@@ -107,7 +107,7 @@ public final class OnScreen extends MyScreen {
    }
 
    private static void g() {
-      Canvas.hTab = MyScreen.av;
+      Canvas.hTab = MyScreen.hText;
       if (Canvas.stypeInt == 0) {
          Canvas.hTab = AvMain.ag + 5;
       }
@@ -247,7 +247,7 @@ public final class OnScreen extends MyScreen {
 
       int var1;
       if (Canvas.isPointerClick) {
-         for(var1 = 0; var1 < T.eA.length; ++var1) {
+         for(var1 = 0; var1 < T.nameMenuOn.length; ++var1) {
             if (Canvas.b(this.f + var1 % this.j * this.h - this.k / 2, this.g + var1 / this.j * this.i - this.k / 2, this.k, this.k + AvMain.ah + 10)) {
                this.B = Canvas.pxLast;
                this.y = this.x;
@@ -288,8 +288,8 @@ public final class OnScreen extends MyScreen {
                   this.e = 0;
                }
 
-               if (this.e >= T.eA.length) {
-                  this.e = T.eA.length - 1;
+               if (this.e >= T.nameMenuOn.length) {
+                  this.e = T.nameMenuOn.length - 1;
                }
             }
 
@@ -340,9 +340,9 @@ public final class OnScreen extends MyScreen {
       var1.translate(this.f, this.g);
       var1.translate(-n, 0);
 
-      for(int var2 = 0; var2 < T.eA.length; ++var2) {
+      for(int var2 = 0; var2 < T.nameMenuOn.length; ++var2) {
          l.drawFrame(var2, var2 % this.j * this.h, var2 / this.j * this.i, 0, 3, var1);
-         Canvas.M.drawString(var1, T.eA[var2], var2 % this.j * this.h, var2 / this.j * this.i + l.frameHeight / 2 + 5, 2);
+         Canvas.M.drawString(var1, T.nameMenuOn[var2], var2 % this.j * this.h, var2 / this.j * this.i + l.frameHeight / 2 + 5, 2);
          if (this.e == var2 && (!Canvas.isKeyBoard || !r)) {
             var1.drawImage(s, var2 % this.j * this.h, var2 / this.j * this.i, 3);
          }
@@ -353,12 +353,12 @@ public final class OnScreen extends MyScreen {
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
       this.paintMain(var1);
-      a(var1, super.left, super.center, super.right);
+      paintTitle(var1, super.left, super.center, super.right);
       Canvas.resetTrans(var1);
       Canvas.paintPlus2(var1);
    }
 
-   public static void a(Graphics var0, Command var1, Command var2, Command var3) {
+   public static void paintTitle(Graphics var0, Command var1, Command var2, Command var3) {
       Canvas.resetTrans(var0);
       Canvas.paint.c(var0);
       if (Canvas.menuMain == null && (Canvas.currentDialog == null || Canvas.currentDialog == TransMoneyDlg.me)) {
@@ -368,9 +368,9 @@ public final class OnScreen extends MyScreen {
    }
 
    public static void f() {
-      if (isOngame && OptionScr.d) {
-         OptionScr.d = false;
-         OptionScr.gI().b[4] = 0;
+      if (isOngame && OptionScr.isVirTualKey) {
+         OptionScr.isVirTualKey = false;
+         OptionScr.gI().mapFocus[4] = 0;
          Canvas.instance.setSize();
          g();
       }

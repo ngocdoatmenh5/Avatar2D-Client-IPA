@@ -11,13 +11,13 @@ final class class_hu implements IAction {
    }
 
    public final void perform() {
-      if (this.a.a != -1) {
-         GlobalService.gI().requestShop(this.a.a);
+      if (this.a.id != -1) {
+         GlobalService.gI().requestShop(this.a.id);
          Canvas.startWaitDlg();
-      } else if (this.a.d != null && !this.a.d.equals("")) {
-         GameMidlet.flatForm(this.a.d);
+      } else if (this.a.url != null && !this.a.url.equals("")) {
+         GameMidlet.flatForm(this.a.url);
       } else {
-         GameMidlet.a(this.a.e, this.a.f);
+         GameMidlet.a(this.a.sms, this.a.to);
       }
    }
 }

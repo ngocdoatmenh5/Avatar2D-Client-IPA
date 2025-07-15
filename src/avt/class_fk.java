@@ -11,8 +11,8 @@ final class class_fk extends Command {
    }
 
    public final void paint(Graphics var1, int var2, int var3) {
-      var2 = PopupShop.c / 2 + 7;
-      int var4 = (var3 = (PopupShop.d - MyScreen.at - (AvMain.hDuBox << 1)) / 7) / 2 - MapScr.imgBar.getHeight() / 2;
+      var2 = PopupShop.w / 2 + 7;
+      int var4 = (var3 = (PopupShop.sai - MyScreen.hTab - (AvMain.hDuBox << 1)) / 7) / 2 - MapScr.imgBar.getHeight() / 2;
       MapScr.a(var1, T.eu[0] + this.f.g, var2, var4, this.f.f);
       MapScr.a(var1, T.eu[1], var2, var4 += var3, this.f.a);
       MapScr.a(var1, T.eu[2], var2, var4 += var3, this.f.b);

@@ -13,7 +13,7 @@ public final class MapScr extends MyScreen implements IChatable {
    public static MapScr instance;
    public static byte roomID;
    public static byte boardID;
-   public static Image d;
+   public static Image imgFocusP;
    private Command cmdMenu;
    public Command e;
    public Command f;
@@ -53,7 +53,7 @@ public final class MapScr extends MyScreen implements IChatable {
    public static int idMapOld = -1;
 
    public final void switchToMe() {
-      this.doLeftMenu();
+      this.initCmd();
       super.switchToMe();
    }
 
@@ -65,7 +65,7 @@ public final class MapScr extends MyScreen implements IChatable {
       return instance;
    }
 
-   public final void doLeftMenu() {
+   public final void initCmd() {
       this.cmdMenu = new Command(T.c, 0, this);
       super.left = this.cmdMenu;
       this.f = MenuCenter.gI().a(T.bR, new class_ig(this), 15);
@@ -103,7 +103,7 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    public MapScr() {
-      this.doLeftMenu();
+      this.initCmd();
    }
 
    public final void doExit() {
@@ -618,7 +618,7 @@ public final class MapScr extends MyScreen implements IChatable {
       if ((GameMidlet.CLIENT_TYPE == 9 || GameMidlet.CLIENT_TYPE == 11) && !isWedding) {
          GameMidlet.avatar.xCur = var0;
          GameMidlet.avatar.yCur = var1;
-         ParkService.gI().a(var0, var1, var2, var3);
+         ParkService.gI().doMove(var0, var1, var2, var3);
       }
    }
 
@@ -706,7 +706,7 @@ public final class MapScr extends MyScreen implements IChatable {
             var2 = var2 + ").";
             GlobalService.gI().doServerKick(focusP.IDDB, var2);
          } else {
-            ParkService.gI().a(var1);
+            ParkService.gI().chatToBoard(var1);
          }
       }
    }
@@ -871,7 +871,7 @@ public final class MapScr extends MyScreen implements IChatable {
       var3.a = true;
       var4.b(var3);
       if (Canvas.currentMyScreen != MessageScr.gI()) {
-         ++MyScreen.as;
+         ++MyScreen.nMsg;
       }
 
    }
@@ -964,7 +964,7 @@ public final class MapScr extends MyScreen implements IChatable {
    protected final void doStore() {
       Avatar var1 = GameMidlet.avatar;
       if (Canvas.currentMyScreen != MenuCenter.me) {
-         PopupShop.gI().isHorizontal = true;
+         PopupShop.gI().isFull = true;
          PopupShop.gI().addElement(new String[]{T.co, T.l}, new Vector[]{this.getListCmdDoUsing(GameMidlet.listContainer, var1.IDDB, 1), this.getListYourPart((Avatar)var1, 0)}, (Vector)null);
          PopupShop.gI().setCmdLeft(this.cmdDellPart(var1.seriPart, 0, 0, false), 1);
          PopupShop.gI().setCmdLeft(this.cmdDellPart(GameMidlet.listContainer, 1, 0, true), 0);
@@ -1030,7 +1030,7 @@ public final class MapScr extends MyScreen implements IChatable {
    public final void a(IndexPlayer var1) {
       Vector var2;
       (var2 = new Vector()).addElement(this.b(var1));
-      PopupShop.gI().isHorizontal = true;
+      PopupShop.gI().isFull = true;
       PopupShop.gI().addElement(new String[]{T.by}, new Vector[1], var2);
       if (Canvas.currentMyScreen != PopupShop.gI()) {
          PopupShop.gI().switchToMe();
@@ -1119,7 +1119,7 @@ public final class MapScr extends MyScreen implements IChatable {
          }
 
          if (Canvas.currentMyScreen != MenuCenter.me) {
-            PopupShop.gI().isHorizontal = true;
+            PopupShop.gI().isFull = true;
             if (GameMidlet.avatar.IDDB == ((Base)var20).IDDB) {
                if (var22 != null) {
                   PopupShop.gI().addElement(new String[]{T.by, T.a}, new Vector[2], var13);
@@ -1277,7 +1277,7 @@ public final class MapScr extends MyScreen implements IChatable {
                while(true) {
                   if (var17 >= var14.length) {
                      PopupShop.gI().switchToMe();
-                     PopupShop.o = true;
+                     PopupShop.isHorizontal = true;
                      PopupShop.gI().addElement(var16, var15, (Vector)null);
                      break;
                   }
@@ -1323,7 +1323,7 @@ public final class MapScr extends MyScreen implements IChatable {
 
                if (var13.size() > 0) {
                   PopupShop.gI().switchToMe();
-                  PopupShop.o = true;
+                  PopupShop.isHorizontal = true;
                   PopupShop.gI().addElement(new String[]{var3}, new Vector[]{var13}, (Vector)null);
                }
             }
@@ -1453,11 +1453,11 @@ public final class MapScr extends MyScreen implements IChatable {
    public final void joinCitymap() {
       if (GameMidlet.avatar.gender == 0) {
          if (!GlobalLogicHandler.isNewVersion) {
-            RegisterScr.b().switchToMe();
+            RegisterScr.gI().switchToMe();
             Canvas.endDlg();
          }
       } else {
-         if (Canvas.currentMyScreen != MessageScr.me && Canvas.currentMyScreen != OptionScr.a) {
+         if (Canvas.currentMyScreen != MessageScr.me && Canvas.currentMyScreen != OptionScr.instance) {
             Canvas.load = 0;
          }
 
@@ -1480,9 +1480,9 @@ public final class MapScr extends MyScreen implements IChatable {
                   for(int var7 = 0; var7 < 34; ++var7) {
                      var3[var6 * 34 + var7] = (byte)var5.read();
                      if (var3[var6 * 34 + var7] == 69) {
-                        class_kb var8;
-                        (var8 = new class_kb()).a = (byte)var7;
-                        var8.b = (byte)var6;
+                        PositionMap var8;
+                        (var8 = new PositionMap()).x = (byte)var7;
+                        var8.y = (byte)var6;
                         var8.d = (short)(var4 + 819);
                         var8.c = T.nameRegion[var4];
                         var2.addElement(var8);
@@ -1729,7 +1729,7 @@ public final class MapScr extends MyScreen implements IChatable {
       }
 
       PopupShop.gI().switchToMe();
-      PopupShop.o = true;
+      PopupShop.isHorizontal = true;
       PopupShop.gI().addElement(var7, var6, (Vector)null);
       PopupShop.focusTap = var2;
       PopupShop.gI().setCmyLim();

@@ -100,7 +100,7 @@ public final class TransMoneyDlg extends Dialog {
       }
 
       Canvas.resetTrans(var1);
-      OnScreen.a(var1, super.left, super.center, super.right);
+      OnScreen.paintTitle(var1, super.left, super.center, super.right);
    }
 
    static int[] getMoney(TransMoneyDlg var0) {

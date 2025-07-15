@@ -103,7 +103,7 @@ public final class GlobalLogicHandler {
                      }
                   } else {
                      Canvas.paint.i();
-                     OnScreen.e().switchToMe();
+                     OnScreen.gI().switchToMe();
                      Canvas.endDlg();
                   }
                } else {
@@ -139,11 +139,11 @@ public final class GlobalLogicHandler {
                }
                break;
             case 12:
-               if (class_jz.a == null) {
-                  class_jz.a = new class_jz();
+               if (RaceMsgHandler.instance == null) {
+                  RaceMsgHandler.instance = new RaceMsgHandler();
                }
 
-               GlobalMessageHandler.gI().miniGameMessageHandler = class_jz.a;
+               GlobalMessageHandler.gI().miniGameMessageHandler = RaceMsgHandler.instance;
                GlobalService var1 = GlobalService.gI();
                Canvas.startWaitDlg();
                var1.createMessage((byte)1);

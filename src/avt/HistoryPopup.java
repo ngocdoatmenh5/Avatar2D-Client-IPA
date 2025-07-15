@@ -21,7 +21,7 @@ public final class HistoryPopup extends Dialog {
    private int timePoint;
    private int dyTran;
 
-   public HistoryPopup(class_jz var1, short[] var2, String[] var3) {
+   public HistoryPopup(RaceMsgHandler var1, short[] var2, String[] var3) {
       this.idPet = var2;
       this.time = var3;
       super.center = new Command(T.z, (IAction)null);
@@ -150,7 +150,7 @@ public final class HistoryPopup extends Dialog {
    }
 
    public final void paint(Graphics var1) {
-      Canvas.paint.paintBoxTab(var1, (Canvas.w - this.w) / 2, (Canvas.hCan - this.h) / 2 - (PaintPopup.o + 3 * AvMain.hd), this.h + PaintPopup.o + 3 * AvMain.hd, this.w, 0, 0, PaintPopup.gI().j, PaintPopup.gI().i, PaintPopup.o, 1, 1, PaintPopup.gI().n, PaintPopup.gI().m, "Lịch sử");
+      Canvas.paint.paintBoxTab(var1, (Canvas.w - this.w) / 2, (Canvas.hCan - this.h) / 2 - (PaintPopup.hTab + 3 * AvMain.hd), this.h + PaintPopup.hTab + 3 * AvMain.hd, this.w, 0, 0, PaintPopup.gI().wSub, PaintPopup.gI().wTab, PaintPopup.hTab, 1, 1, PaintPopup.gI().count, PaintPopup.gI().colorTab, "Lịch sử");
       Canvas.resetTrans(var1);
       var1.translate((Canvas.w - this.w) / 2, (Canvas.hCan - this.h) / 2);
       var1.setClip(0, 5 * AvMain.hd, this.w, this.h - 10 * AvMain.hd);

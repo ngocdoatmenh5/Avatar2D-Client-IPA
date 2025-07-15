@@ -1150,7 +1150,7 @@ public final class DiamondScr extends BoardScr {
       }
 
       var4.list = var1;
-      var4.c = var4.list.size() * AvMain.hBlack + (AvMain.hDuBox << 1) + 10 + PaintPopup.o;
+      var4.c = var4.list.size() * AvMain.hBlack + (AvMain.hDuBox << 1) + 10 + PaintPopup.hTab;
       var4.e = 0;
 
       for(int var5 = 0; var5 < var4.list.size(); ++var5) {

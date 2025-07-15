@@ -456,9 +456,9 @@ public final class TField {
             if (!this.isFocus) {
                this.isFocus = true;
             } else {
-               if (!OptionScr.d) {
+               if (!OptionScr.isVirTualKey) {
                   this.isTransTF = true;
-                  OptionScr.d = true;
+                  OptionScr.isVirTualKey = true;
                   Canvas.instance.setSize();
                }
 
@@ -466,7 +466,7 @@ public final class TField {
             }
          } else {
             if (this.isTransTF) {
-               OptionScr.d = false;
+               OptionScr.isVirTualKey = false;
                Canvas.instance.setSize();
                this.isTransTF = false;
             }

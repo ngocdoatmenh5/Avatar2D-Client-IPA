@@ -53,7 +53,7 @@ public final class BoardListOnScr extends MyScreen {
       }
 
       Canvas.load = 1;
-      super.aj = true;
+      super.isHide_ = true;
       GameMidlet.avatar.ableShow = false;
       super.switchToMe();
    }
@@ -189,9 +189,9 @@ public final class BoardListOnScr extends MyScreen {
 
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      RoomListOnScr.a(var1, "Phòng " + RoomListOnScr.c + " " + this.h);
+      RoomListOnScr.paintRoomList(var1, "Phòng " + RoomListOnScr.title + " " + this.h);
       this.c(var1);
-      OnScreen.a(var1, super.left, super.center, super.right);
+      OnScreen.paintTitle(var1, super.left, super.center, super.right);
       Canvas.paintPlus2(var1);
    }
 
@@ -212,7 +212,7 @@ public final class BoardListOnScr extends MyScreen {
          int var4 = var2 % this.o * this.r;
          int var5 = var2 / this.o * this.r;
          class_dl var6 = (class_dl)this.g.elementAt(var2);
-         if ((!Canvas.isKeyBoard || !super.aj) && var2 == super.selected_) {
+         if ((!Canvas.isKeyBoard || !super.isHide_) && var2 == super.selected_) {
             var1.drawImage(i, var4, var5, 3);
          }
 
@@ -264,7 +264,7 @@ public final class BoardListOnScr extends MyScreen {
          this.q = 50;
       }
 
-      Canvas.cameraList.a(this.p - this.r / 2, this.q - this.r / 2, this.r, this.r, this.o * this.r, var1 * this.r + 10, this.o * this.r, Canvas.h - (this.q - this.r / 2) - 4, this.g.size());
+      Canvas.cameraList.setInfo(this.p - this.r / 2, this.q - this.r / 2, this.r, this.r, this.o * this.r, var1 * this.r + 10, this.o * this.r, Canvas.h - (this.q - this.r / 2) - 4, this.g.size());
    }
 
    public final void setSelected(int var1, boolean var2) {

@@ -105,7 +105,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       smallFontYellow = new mFont(6);
       R = new mFont(7);
       paint = new MediumPaint();
-      MyScreen.al = normalFont.getHeight() + 6;
+      MyScreen.ITEM_HEIGHT = normalFont.getHeight() + 6;
       AvMain.hBlack = (byte) fontChatB.getHeight();
       AvMain.ag = (byte) borderFont.getHeight();
       AvMain.ah = (byte) normalFont.getHeight();
@@ -155,7 +155,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       inputDlg = new InputDlg();
       loadMap = new LoadMap();
       cameraList = new CameraList();
-      OptionScr.gI().e();
+      OptionScr.gI().initSize();
       paint.c();
       if (this.hasPointerEvents()) {
          au = new Vector();
@@ -170,9 +170,9 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
    public static void a() {
       ad = new Command(T.p, -1);
-      MenuSub.gI().doLeftMenu();
+      MenuSub.gI().initCmd();
       if (currentMyScreen != null) {
-         currentMyScreen.doLeftMenu();
+         currentMyScreen.initCmd();
       }
 
    }
@@ -190,7 +190,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
          AvMain.aa = 4;
       }
 
-      if (OptionScr.d && isKeyBoard) {
+      if (OptionScr.isVirTualKey && isKeyBoard) {
          z = new GamePad();
       } else {
          G = false;
@@ -221,12 +221,12 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
       if (msgdlg != null) {
          msgdlg.init();
-         msgdlg.setIsWaiting(msgdlg.a);
+         msgdlg.setIsWaiting(msgdlg.isWaiting);
       }
 
       if (currentMyScreen != null) {
-         if (currentMyScreen == RaceScr.a) {
-            RaceScr.b();
+         if (currentMyScreen == RaceScr.me) {
+            RaceScr.gI();
          }
 
          if (BoardScr.me == currentMyScreen) {
@@ -270,20 +270,20 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       }
 
       if (currentMyScreen != null) {
-         if (currentMyScreen == ServerListScr.a) {
+         if (currentMyScreen == ServerListScr.me) {
             ServerListScr.gI().e();
          }
 
-         if (currentMyScreen == OptionScr.a) {
-            OptionScr.gI().e();
+         if (currentMyScreen == OptionScr.instance) {
+            OptionScr.gI().initSize();
          }
 
          if (currentMyScreen == ListScr.gI()) {
             ListScr.gI().f();
          }
 
-         if (currentMyScreen == MoneyScr.b()) {
-            MoneyScr.b().e();
+         if (currentMyScreen == MoneyScr.gI()) {
+            MoneyScr.gI().init();
          }
 
          if (currentFace != null) {
@@ -313,7 +313,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             var0 = 0;
          }
 
-         String var1 = "socket://" + GameMidlet.b[OptionScr.gI().b[4]][ServerListScr.gI().b][var0] + ":" + GameMidlet.c[OptionScr.gI().b[4]][ServerListScr.gI().b][var0];
+         String var1 = "socket://" + GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][ServerListScr.gI().indexSV][var0] + ":" + GameMidlet.c[OptionScr.gI().mapFocus[4]][ServerListScr.gI().indexSV][var0];
          if (E) {
             if (OptionScr.e) {
                var1 = var1 + ";interface=wifi";
@@ -954,7 +954,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
          var1.fillRect(0, 0, w, hh - this.as);
          var1.fillRect(0, hh + this.as, w, hh - this.as + 2 + hTab);
          if (load != 1) {
-            MsgDlg.b.drawFrame(this.at, hw, hh, 0, 3, var1);
+            MsgDlg.imgLoad.drawFrame(this.at, hw, hh, 0, 3, var1);
          }
       }
 
@@ -1112,7 +1112,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       if (var1 != null && var1 != List.SELECT_COMMAND) {
          if (var1 == null) {
             if (currentMyScreen == class_jv.a) {
-               OnScreen.e().switchToMe();
+               OnScreen.gI().switchToMe();
             } else {
                MapScr.gI().switchToMe();
             }
@@ -1125,7 +1125,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
          List list = (List) var2;
          if (list != null && list.getSelectedIndex() != 0) {
             OnScreen.isOngame = true;
-            OnScreen.e().switchToMe();
+            OnScreen.gI().switchToMe();
          }
 
          OnSplashScr.isOpen = false;
@@ -1192,6 +1192,6 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    }
 
    public static boolean isPaintIconVir() {
-      return currentDialog == null && menuMain == null && currentMyScreen != MessageScr.me && currentMyScreen != PopupShop.gI() && currentMyScreen != ListScr.instance && currentMyScreen != RoomListOnScr.me && currentMyScreen != BoardListOnScr.me && currentMyScreen != MenuCenter.me && currentMyScreen != OnScreen.a && currentMyScreen != MiniMap.me && currentMyScreen != MoneyScr.a && !HouseScr.isChange && !HouseScr.isSelectObj && currentMyScreen != ParkListSrc.instance && (currentMyScreen != DiamondScr.me_ || !BoardScr.isStartGame);
+      return currentDialog == null && menuMain == null && currentMyScreen != MessageScr.me && currentMyScreen != PopupShop.gI() && currentMyScreen != ListScr.instance && currentMyScreen != RoomListOnScr.me && currentMyScreen != BoardListOnScr.me && currentMyScreen != MenuCenter.me && currentMyScreen != OnScreen.instance && currentMyScreen != MiniMap.me && currentMyScreen != MoneyScr.instance && !HouseScr.isChange && !HouseScr.isSelectObj && currentMyScreen != ParkListSrc.instance && (currentMyScreen != DiamondScr.me_ || !BoardScr.isStartGame);
    }
 }

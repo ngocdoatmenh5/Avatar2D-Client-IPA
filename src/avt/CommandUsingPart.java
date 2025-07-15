@@ -15,9 +15,9 @@ final class CommandUsingPart extends Command {
    }
 
    public final void paint(Graphics var1, int var2, int var3) {
-      AvatarData.getPart(this.f.idPart).paint(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
-      PaintPopup.fill(var2 + 3, var3 + PopupShop.e - 3 * AvMain.hd, PopupShop.e - 5, 2 * AvMain.hd, 1, var1);
-      PaintPopup.fill(var2 + 3, var3 + PopupShop.e - 3 * AvMain.hd, PopupShop.e - 5 - this.f.time * (PopupShop.e - 5) / 100, 2 * AvMain.hd, 11907085, var1);
+      AvatarData.getPart(this.f.idPart).paint(var1, var2 + PopupShop.h / 2, var3 + PopupShop.h / 2, 3);
+      PaintPopup.fill(var2 + 3, var3 + PopupShop.h - 3 * AvMain.hd, PopupShop.h - 5, 2 * AvMain.hd, 1, var1);
+      PaintPopup.fill(var2 + 3, var3 + PopupShop.h - 3 * AvMain.hd, PopupShop.h - 5 - this.f.time * (PopupShop.h - 5) / 100, 2 * AvMain.hd, 11907085, var1);
    }
 
    public final void update() {

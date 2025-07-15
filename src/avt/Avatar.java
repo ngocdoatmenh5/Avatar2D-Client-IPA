@@ -144,7 +144,7 @@ public final class Avatar extends Base {
             }
          }
 
-         if ((OptionScr.gI().b[0] == 0 || this == LoadMap.focusObj) && LoadMap.TYPEMAP != 24) {
+         if ((OptionScr.gI().mapFocus[0] == 0 || this == LoadMap.focusObj) && LoadMap.TYPEMAP != 24) {
             this.paintName(var1, super.x * MyObject.hd, (super.y + super.direct_) * MyObject.hd - AvMain.hSmall);
          }
 

@@ -48,7 +48,7 @@ public final class ReportDlg extends Dialog {
 
    public final void paint(Graphics var1) {
       Canvas.paint.paintPopupBack(var1, this.d, this.b, this.e, this.c, 0);
-      int var2 = this.b + PaintPopup.o + (5 + AvMain.hDuBox - AvMain.ah / 2);
+      int var2 = this.b + PaintPopup.hTab + (5 + AvMain.hDuBox - AvMain.ah / 2);
 
       for(int var3 = 0; var3 < this.list.size(); ++var3) {
          String var4;

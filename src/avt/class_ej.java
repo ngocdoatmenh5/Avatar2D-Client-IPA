@@ -9,7 +9,7 @@ final class class_ej implements IAction {
 
    public final void perform() {
       class_cw var1 = MessageScr.gI().b(MessageScr.gI().b);
-      ParkService.gI().a(this.a.IDDB, false);
+      ParkService.gI().doAddFriend(this.a.IDDB, false);
       MessageScr.gI().a(var1);
    }
 }

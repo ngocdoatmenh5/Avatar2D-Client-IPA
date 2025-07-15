@@ -145,7 +145,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
             }
 
             if (var0 != 0 && var1 <= 0) {
-               if (me == PBoardScr.a) {
+               if (me == PBoardScr.instance) {
                   me.center = cmdWaiting;
                   me.right = null;
                } else {
@@ -342,7 +342,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
       }
 
       if (OnScreen.isOngame) {
-         OnScreen.a(var1, super.left, super.center, super.right);
+         OnScreen.paintTitle(var1, super.left, super.center, super.right);
       } else {
          super.paint(var1);
       }
@@ -389,7 +389,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
             var1.translate(-AvCamera.gI().xCam, -AvCamera.gI().yCam);
             Canvas.loadMap.paintM(var1);
             if (Canvas.w > 150) {
-               Canvas.fontChatB.drawString(var1, RoomListOnScr.c, AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - AvMain.hBlack - AvMain.hBlack / 2 - 5, 2);
+               Canvas.fontChatB.drawString(var1, RoomListOnScr.title, AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - AvMain.hBlack - AvMain.hBlack / 2 - 5, 2);
                Canvas.fontChatB.drawString(var1, "P: " + roomID + " - B: " + boardID, AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - AvMain.hBlack / 2 - 5, 2);
                Canvas.smallFontYellow.drawString(var1, money + T.k(), AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - 5 + AvMain.hBlack / 2, 2);
                paintChat(var1);

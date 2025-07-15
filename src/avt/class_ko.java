@@ -15,10 +15,10 @@ final class class_ko extends Command {
 
    public final void paint(Graphics var1, int var2, int var3) {
       if (this.g.ID < 50) {
-         FarmData.getTreeByID((int)this.g.ID).a(var1, 7, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
+         FarmData.getTreeByID((int)this.g.ID).a(var1, 7, var2 + PopupShop.h / 2, var3 + PopupShop.h / 2, 3);
       } else {
-         int var10002 = var2 + PopupShop.e / 2;
-         int var10003 = var3 + PopupShop.e / 2;
+         int var10002 = var2 + PopupShop.h / 2;
+         int var10003 = var3 + PopupShop.h / 2;
          AvatarData.paintImg(var1, FarmData.getAnimalByID(this.g.ID).iconProduct, var10002, var10003, 3);
       }
    }

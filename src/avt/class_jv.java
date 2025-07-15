@@ -54,7 +54,7 @@ public final class class_jv extends MyScreen {
             }
          } else if (b == 52) {
             LoginScr.gI().loadLogin();
-            OptionScr.gI().f();
+            OptionScr.gI().load();
             if (!LoginScr.isSelectedLanguage) {
                LoginScr.isSelectedLanguage = true;
                AvatarData.delErrorRms("avatarSV");
@@ -82,8 +82,8 @@ public final class class_jv extends MyScreen {
 
    private static void b(int var0) {
       Canvas.startWaitDlg();
-      OptionScr.gI().b[4] = var0;
-      OptionScr.gI().b(0);
+      OptionScr.gI().mapFocus[4] = var0;
+      OptionScr.gI().save(0);
       LoginScr.gI().e();
       LoginScr.gI().switchToMe();
       c = null;

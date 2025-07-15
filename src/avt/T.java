@@ -273,7 +273,7 @@ public final class T {
    public static String eh;
    public static String ei;
    public static String[] ej;
-   public static String[] ek;
+   public static String[] nameCasino;
    public static String[] el;
    public static String[] em;
    public static String[] en;
@@ -289,7 +289,7 @@ public final class T {
    public static String[] ex;
    public static String[] ey;
    public static String[] nameRegion;
-   public static String[] eA;
+   public static String[] nameMenuOn;
    public static String[] eB;
    public static String[] eC;
    public static String[] eD;
@@ -315,7 +315,7 @@ public final class T {
       e = "Đồng ý";
       f = "Cập nhật";
       i = "Tìm bàn chơi";
-      ek = new String[]{"Tiến lên", "Phỏm", "Caro", "Cờ tướng", "Kim cương", "Bầu cua"};
+      nameCasino = new String[]{"Tiến lên", "Phỏm", "Caro", "Cờ tướng", "Kim cương", "Bầu cua"};
       el = new String[]{"Kim cương", "Bầu cua", "Caro", "Cờ tướng", "Ongame"};
       String[] var10000 = new String[]{"Tiến lên", "Phỏm", "Caro", "Cờ tướng"};
       j = "Sẵn sàng";
@@ -548,7 +548,7 @@ public final class T {
       ds = "Không thể kết nối, xin kiểm tra lại GPRS/3G/Wifi.";
       du = " Để chọn ngôn ngữ vui lòng khởi động lại game.";
       dv = "Quay";
-      eA = new String[]{"Tiến Lên", "Phỏm", "Kim Cương", "Bầu Cua", "Chuyển tiền"};
+      nameMenuOn = new String[]{"Tiến Lên", "Phỏm", "Kim Cương", "Bầu Cua", "Chuyển tiền"};
       dw = "Quay về";
       l = "Đang mặc";
       dx = "C.độ yêu cầu: ";

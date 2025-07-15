@@ -41,7 +41,7 @@ public final class MenuSub extends MenuMain {
    }
 
    public MenuSub() {
-      this.doLeftMenu();
+      this.initCmd();
    }
 
    public final void commandTab(int var1, int var2) {
@@ -59,7 +59,7 @@ public final class MenuSub extends MenuMain {
       }
    }
 
-   public final void doLeftMenu() {
+   public final void initCmd() {
       if (Canvas.stypeInt == 0) {
          super.left = new Command(T.O, 0);
       }
@@ -70,7 +70,7 @@ public final class MenuSub extends MenuMain {
    public final void startMenuFarm(Vector var1, int var2, int var3, int var4) {
       if (var1.size() != 0) {
          if (Canvas.stypeInt > 0) {
-            super.aj = true;
+            super.isHide_ = true;
          }
 
          this.u = var1.size();
@@ -119,10 +119,10 @@ public final class MenuSub extends MenuMain {
    public final void startAt(Vector var1, int var2) {
       if (var1.size() != 0) {
          if (Canvas.stypeInt > 0) {
-            super.aj = true;
+            super.isHide_ = true;
          }
 
-         this.e = MyScreen.av;
+         this.e = MyScreen.hText;
          h = null;
          this.t = Canvas.h;
          this.l = 0;
@@ -158,7 +158,7 @@ public final class MenuSub extends MenuMain {
          }
 
          if (this.u > 5) {
-            this.d = MyScreen.av * 5 + 4;
+            this.d = MyScreen.hText * 5 + 4;
          }
 
          this.b = Canvas.h - this.d - AvMain.hDuBox - Canvas.hTab;
@@ -225,7 +225,7 @@ public final class MenuSub extends MenuMain {
                this.k = 0;
             }
 
-            super.aj = false;
+            super.isHide_ = false;
          }
       } else {
          var2 = true;
@@ -234,7 +234,7 @@ public final class MenuSub extends MenuMain {
             this.k = this.u - 1;
          }
 
-         super.aj = false;
+         super.isHide_ = false;
       }
 
       if (Canvas.isPointerClick && Canvas.b(this.a - 2, this.m - 7, this.c + 4, this.d + 15)) {
@@ -273,9 +273,9 @@ public final class MenuSub extends MenuMain {
             }
 
             if (CRes.abs(var3) >= 20 * AvMain.hd) {
-               super.aj = true;
+               super.isHide_ = true;
             } else if (var4 > 10L && var4 < 20L) {
-               super.aj = false;
+               super.isHide_ = false;
             }
 
             this.o = this.y + var3;
@@ -295,10 +295,10 @@ public final class MenuSub extends MenuMain {
             this.D = -1L;
             if (Math.abs(var3) < 20 * AvMain.hd) {
                if (var4 <= 10L) {
-                  super.aj = false;
+                  super.isHide_ = false;
                }
 
-               if (!super.aj) {
+               if (!super.isHide_) {
                   var3 = this.m;
                   var3 = (this.o + Canvas.py - var3) / this.e;
                   if (this.n) {
@@ -365,8 +365,8 @@ public final class MenuSub extends MenuMain {
             var5 = this.u;
          }
 
-         if (!super.aj) {
-            PaintPopup.a(var1, this.k * this.e, 0, this.e, this.e);
+         if (!super.isHide_) {
+            PaintPopup.paintCell(var1, this.k * this.e, 0, this.e, this.e);
          }
 
          for(var6 = var4; var6 < var5; ++var6) {
@@ -408,7 +408,7 @@ public final class MenuSub extends MenuMain {
 
          for(var8 = 0; var8 < var9.u; ++var8) {
             var10.setColor(0);
-            if (!var9.aj && var8 == var9.k) {
+            if (!var9.isHide_ && var8 == var9.k) {
                if (OnScreen.isOngame) {
                   var10.setColor(35217);
                   var10.fillRect(0, var8 * var9.e, var9.c - 6, var9.e);

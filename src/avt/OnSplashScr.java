@@ -12,7 +12,7 @@ public final class OnSplashScr extends MyScreen {
    public static Image imgBg;
    public static boolean isOpen = false;
 
-   public static OnSplashScr b() {
+   public static OnSplashScr gI() {
       return me == null ? (me = new OnSplashScr()) : me;
    }
 
@@ -35,7 +35,7 @@ public final class OnSplashScr extends MyScreen {
       if (this.splashScrStat > 21) {
          LoadMap.xDichChuyen_ = GameMidlet.avatar.x;
          LoadMap.C = GameMidlet.avatar.y;
-         OnScreen.e().switchToMe();
+         OnScreen.gI().switchToMe();
       } else if (this.splashScrStat == 0) {
          Canvas.paint.f();
       }

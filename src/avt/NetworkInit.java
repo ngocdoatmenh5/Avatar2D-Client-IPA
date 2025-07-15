@@ -5,30 +5,30 @@ import javax.microedition.io.SocketConnection;
 
 final class NetworkInit implements Runnable {
    private final String b;
-   final Session_ME a;
+   final Session_ME session;
 
    NetworkInit(Session_ME var1, String var2) {
-      this.a = var1;
+      this.session = var1;
       this.b = var2;
    }
 
    public final void run() {
       Session_ME.l = false;
       (new Thread(new class_kh(this))).start();
-      this.a.connecting = true;
-      this.a.connected = true;
+      this.session.connecting = true;
+      this.session.connected = true;
 
       try {
          String var2 = this.b;
-         Session_ME.setSc(this.a, (SocketConnection)Connector.open(var2));
-         Session_ME.setDos(this.a, Session_ME.setSc(this.a).openDataOutputStream());
-         this.a.dis = Session_ME.setSc(this.a).openDataInputStream();
-         (new Thread(Session_ME.getSender(this.a))).start();
-         this.a.sendThread = new Thread(new class_gv(this.a));
-         this.a.sendThread.start();
-         this.a.j = System.currentTimeMillis();
-         Session_ME.sendMes(this.a, new Message((byte)-27));
-         this.a.connecting = false;
+         Session_ME.setSc(this.session, (SocketConnection)Connector.open(var2));
+         Session_ME.setDos(this.session, Session_ME.setSc(this.session).openDataOutputStream());
+         this.session.dis = Session_ME.setSc(this.session).openDataInputStream();
+         (new Thread(Session_ME.getSender(this.session))).start();
+         this.session.sendThread = new Thread(new class_gv(this.session));
+         this.session.sendThread.start();
+         this.session.j = System.currentTimeMillis();
+         Session_ME.sendMes(this.session, new Message((byte)-27));
+         this.session.connecting = false;
       } catch (Exception var4) {
          var4.printStackTrace();
 
@@ -38,9 +38,9 @@ final class NetworkInit implements Runnable {
          }
 
          if (!Session_ME.l) {
-            if (this.a.messageHandler != null) {
-               this.a.close();
-               this.a.messageHandler.onConnectionFail();
+            if (this.session.messageHandler != null) {
+               this.session.close();
+               this.session.messageHandler.onConnectionFail();
             }
 
          }

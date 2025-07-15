@@ -35,7 +35,7 @@ public final class MenuCenter extends MyScreen {
          this.m = Canvas.currentMyScreen;
       }
 
-      this.doLeftMenu();
+      this.initCmd();
       super.switchToMe();
    }
 
@@ -57,7 +57,7 @@ public final class MenuCenter extends MyScreen {
       }
    }
 
-   public final void doLeftMenu() {
+   public final void initCmd() {
       if (Canvas.stypeInt == 0) {
          super.right = new Command(T.d, 0);
       } else {
@@ -196,7 +196,7 @@ public final class MenuCenter extends MyScreen {
                return;
             }
 
-            ParkService.gI().c(((Drop_Part)LoadMap.focusObj).ID);
+            ParkService.gI().doGetDropPart(((Drop_Part)LoadMap.focusObj).ID);
             break;
          case 21:
             GlobalService.gI().doRequestContainer(GameMidlet.avatar.IDDB);
@@ -233,7 +233,7 @@ public final class MenuCenter extends MyScreen {
       if (GameMidlet.avatar.task == 0 || GameMidlet.avatar.task == -5) {
          if (!Bus.isRun) {
             if (LoadMap.focusObj != null && LoadMap.focusObj.catagory == 5) {
-               ParkService.gI().c(((Drop_Part)LoadMap.focusObj).ID);
+               ParkService.gI().doGetDropPart(((Drop_Part)LoadMap.focusObj).ID);
             } else if (LoadMap.focusObj != null && LoadMap.focusObj.catagory == 0 && ((Avatar)LoadMap.focusObj).IDDB == -100) {
                Canvas.startOKDlg(T.eb, (IAction)(new class_jc(this)));
             } else {
@@ -287,7 +287,7 @@ public final class MenuCenter extends MyScreen {
    public static void g() {
       Avatar var0 = GameMidlet.avatar;
       if (Canvas.currentMyScreen != me) {
-         PopupShop.gI().isHorizontal = true;
+         PopupShop.gI().isFull = true;
          PopupShop.gI().addElement(new String[]{T.l, T.co}, new Vector[]{MapScr.gI().getListYourPart((Avatar)var0, 0), MapScr.gI().getListCmdDoUsing(GameMidlet.listContainer, var0.IDDB, 1)}, (Vector)null);
          PopupShop.gI().setCmdLeft(MapScr.gI().cmdDellPart(var0.seriPart, 0, 0, false), 0);
          PopupShop.gI().setCmdLeft(MapScr.gI().cmdDellPart(GameMidlet.listContainer, 1, 0, true), 1);

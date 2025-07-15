@@ -1,7 +1,7 @@
 package avt;
 
 public final class MoneyInfo {
-   public String a;
-   public String b;
-   public String c;
+   public String info;
+   public String smsContent;
+   public String smsTo;
 }

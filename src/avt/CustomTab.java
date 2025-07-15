@@ -248,11 +248,11 @@ public final class CustomTab extends Face {
          this.h = this.y0 + 10 + (wStr << 1) + 20;
       }
 
-      if (this.h < 80 * AvMain.hd + MyScreen.at) {
-         this.h = 80 * AvMain.hd + MyScreen.at;
+      if (this.h < 80 * AvMain.hd + MyScreen.hTab) {
+         this.h = 80 * AvMain.hd + MyScreen.hTab;
       }
 
-      if ((cmyLim = this.y0 - (this.h - PaintPopup.o - 2 * AvMain.hDuBox - (wStr << 1))) < 0) {
+      if ((cmyLim = this.y0 - (this.h - PaintPopup.hTab - 2 * AvMain.hDuBox - (wStr << 1))) < 0) {
          cmyLim = 0;
       }
 
@@ -382,9 +382,9 @@ public final class CustomTab extends Face {
 
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      Canvas.paint.paintBoxTab(var1, this.x, this.d, this.h, this.w, 0, 0, PaintPopup.gI().j, this.wTab, PaintPopup.o, 1, 1, PaintPopup.gI().n, PaintPopup.gI().m, this.title);
-      var1.setClip(this.x + 4, this.d + PaintPopup.o + 4 * AvMain.hd, this.w - 8, this.h - PaintPopup.o - 8 * AvMain.hd);
-      var1.translate(this.x + this.c, this.d + PaintPopup.o);
+      Canvas.paint.paintBoxTab(var1, this.x, this.d, this.h, this.w, 0, 0, PaintPopup.gI().wSub, this.wTab, PaintPopup.hTab, 1, 1, PaintPopup.gI().count, PaintPopup.gI().colorTab, this.title);
+      var1.setClip(this.x + 4, this.d + PaintPopup.hTab + 4 * AvMain.hd, this.w - 8, this.h - PaintPopup.hTab - 8 * AvMain.hd);
+      var1.translate(this.x + this.c, this.d + PaintPopup.hTab);
       var1.translate(0, -cmy);
       var1.setColor(0);
 

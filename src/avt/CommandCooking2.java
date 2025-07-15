@@ -11,8 +11,8 @@ final class CommandCooking2 extends Command {
    public final void paint(Graphics var1, int var2, int var3) {
       Food var7;
       FarmItem var9 = FarmScr.getFarmItem((var7 = FarmData.getFoodByID(FarmScr.foodID)).productID);
-      FarmData.paintImg(var1, var9.IDImg, Canvas.cameraList.disX / 2, PopupShop.d / 2 - 30, 3);
-      Canvas.fontChatB.drawString(var1, var7.text, Canvas.cameraList.disX / 2, PopupShop.d / 2 - 30 + 5 + FarmData.getImgIcon(var9.IDImg).h / 2 + AvMain.hSmall + 2, 2);
+      FarmData.paintImg(var1, var9.IDImg, Canvas.cameraList.disX / 2, PopupShop.sai / 2 - 30, 3);
+      Canvas.fontChatB.drawString(var1, var7.text, Canvas.cameraList.disX / 2, PopupShop.sai / 2 - 30 + 5 + FarmData.getImgIcon(var9.IDImg).h / 2 + AvMain.hSmall + 2, 2);
       String var8 = "";
       int var4 = FarmScr.remainTime / 3600;
       FontX var5 = Canvas.M;
@@ -32,6 +32,6 @@ final class CommandCooking2 extends Command {
          var5 = Canvas.fontChatB;
       }
 
-      var5.drawString(var1, var8, Canvas.cameraList.disX / 2, PopupShop.d / 2 - 30 + 5 + FarmData.getImgIcon(var9.IDImg).h / 2, 2);
+      var5.drawString(var1, var8, Canvas.cameraList.disX / 2, PopupShop.sai / 2 - 30 + 5 + FarmData.getImgIcon(var9.IDImg).h / 2, 2);
    }
 }

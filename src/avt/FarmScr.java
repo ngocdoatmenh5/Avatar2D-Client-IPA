@@ -124,7 +124,7 @@ public final class FarmScr extends MyScreen {
       }
    }
 
-   public final void doLeftMenu() {
+   public final void initCmd() {
       aO = new Command(avt.T.O, 0);
       aP = new Command(avt.T.c, 7);
       aQ = new Command((String)null, 2);
@@ -135,7 +135,7 @@ public final class FarmScr extends MyScreen {
    public FarmScr() {
       listFood[0] = new Vector();
       listFood[1] = new Vector();
-      this.doLeftMenu();
+      this.initCmd();
       FilePack.b(avt.T.au);
       imgFocusCel = FilePack.getImage("coin");
       u = FrameImage.init("iB", 9 * AvMain.hd, 13 * AvMain.hd);
@@ -1313,14 +1313,14 @@ public final class FarmScr extends MyScreen {
          }
 
          CellFarm var4 = (CellFarm) cell.elementAt(idSelected);
-         var1.drawImage(MapScr.d, var4.x * AvMain.hd, (var4.y - 24 + this.n / 2) * AvMain.hd, 3);
+         var1.drawImage(MapScr.imgFocusP, var4.x * AvMain.hd, (var4.y - 24 + this.n / 2) * AvMain.hd, 3);
          ++this.n;
       } else if (Canvas.stypeInt == 0 && focusCell != null && focusCell.x != -1 && LoadMap.TYPEMAP != 25) {
          if (this.n >= 8) {
             this.n = 0;
          }
 
-         var1.drawImage(MapScr.d, (focusCell.x * LoadMap.w + LoadMap.w / 2) * AvMain.hd, (focusCell.y * LoadMap.w - 4 + this.n / 2) * AvMain.hd, 3);
+         var1.drawImage(MapScr.imgFocusP, (focusCell.x * LoadMap.w + LoadMap.w / 2) * AvMain.hd, (focusCell.y * LoadMap.w - 4 + this.n / 2) * AvMain.hd, 3);
          ++this.n;
       }
 
@@ -2219,7 +2219,7 @@ public final class FarmScr extends MyScreen {
          }
 
          PopupShop.gI().switchToMe();
-         PopupShop.gI().isHorizontal = true;
+         PopupShop.gI().isFull = true;
          if (foodID > 0) {
             PopupShop.gI().addElement(new String[]{avt.T.m, avt.T.dD}, new Vector[]{var1, null}, var5);
             PopupShop.gI().setCmdLeft(new Command(avt.T.cm, 0, this), 1);

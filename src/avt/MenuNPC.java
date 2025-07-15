@@ -201,12 +201,12 @@ public final class MenuNPC extends MenuMain {
             }
 
             if (CRes.abs(Canvas.dy()) >= 10 * AvMain.hd) {
-               super.aj = true;
+               super.isHide_ = true;
             } else if (var3 > 3L && var3 < 8L) {
                var5 = this.e + this.i + 10 * AvMain.hd;
                var6 = this.l;
                if ((var5 = (this.B + Canvas.py - var5) / var6) >= 0 && var5 < this.n.size() && !this.w) {
-                  super.aj = false;
+                  super.isHide_ = false;
                }
             }
 
@@ -228,9 +228,9 @@ public final class MenuNPC extends MenuMain {
             this.z = -1L;
             if (Math.abs(var2) < 10 * AvMain.hd) {
                if (var3 <= 4L) {
-                  super.aj = false;
+                  super.isHide_ = false;
                   this.t = 5;
-               } else if (!super.aj) {
+               } else if (!super.isHide_) {
                   this.b();
                }
             }
@@ -320,7 +320,7 @@ public final class MenuNPC extends MenuMain {
 
       for(var2 = 0; var2 < this.n.size(); ++var2) {
          Command var11 = (Command)this.n.elementAt(var2);
-         if (var2 == this.m && !super.aj) {
+         if (var2 == this.m && !super.isHide_) {
             var1.setColor(10543802);
             var1.fillRect(4 * AvMain.hd, 10 * AvMain.hd + var2 * this.l, this.j - 8 * AvMain.hd, this.l);
          }

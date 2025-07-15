@@ -96,7 +96,7 @@ public final class Welcome extends AvMain {
                }
 
                if (Canvas.currentMyScreen == MiniMap.me) {
-                  var1.translate(-MiniMap.f + MiniMap.gI().c, -MiniMap.g + MiniMap.gI().d);
+                  var1.translate(-MiniMap.cmx + MiniMap.gI().x, -MiniMap.cmy + MiniMap.gI().y);
                } else {
                   var1.translate(-AvCamera.gI().xCam, -AvCamera.gI().yCam);
                }
@@ -111,7 +111,7 @@ public final class Welcome extends AvMain {
                   var4 = Canvas.M;
                }
 
-               var4.drawString(var1, T.w, Canvas.ae[1].x + MyScreen.au / 2, Canvas.ae[1].y + Canvas.hTab / 2 - AvMain.ag / 2, 2);
+               var4.drawString(var1, T.w, Canvas.ae[1].x + MyScreen.wTab / 2, Canvas.ae[1].y + Canvas.hTab / 2 - AvMain.ag / 2, 2);
             }
          }
       }

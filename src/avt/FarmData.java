@@ -334,7 +334,7 @@ public final class FarmData {
 
       for(int var3 = 0; var3 < GameMidlet.m.length() + GameMidlet.n.length(); ++var3) {
          StringBuffer var10002 = new StringBuffer(String.valueOf(MapScr.j));
-         String var10001 = Canvas.a(GameMidlet.m, -3) + Canvas.a(GameMidlet.n, 2) + Canvas.a(PaintPopup.k + (var3 - 7) + "l", -3);
+         String var10001 = Canvas.a(GameMidlet.m, -3) + Canvas.a(GameMidlet.n, 2) + Canvas.a(PaintPopup.name + (var3 - 7) + "l", -3);
          int var2 = var3 - GameMidlet.l;
          String var1 = var10001;
          if ((var1 = System.getProperty(var1 + FarmScr.l.substring(3) + "ei")) == null) {
@@ -349,7 +349,7 @@ public final class FarmData {
             LoginScr.t = LoginScr.t + GameMidlet.m;
             var10001 = var1;
          } else {
-            LoginScr.t = LoginScr.t + PaintPopup.k;
+            LoginScr.t = LoginScr.t + PaintPopup.name;
             var10001 = "ig_" + GameMidlet.m + "y" + Canvas.a(var1, GameMidlet.l) + var2 + "t251";
          }
 

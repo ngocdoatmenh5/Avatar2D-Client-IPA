@@ -43,7 +43,7 @@ public final class CameraList {
    private int L;
    private int M;
 
-   public final void a(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9) {
+   public final void setInfo(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9) {
       this.isQuaTrang = false;
       this.x = var1;
       this.y = var2;

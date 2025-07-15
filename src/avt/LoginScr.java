@@ -62,7 +62,7 @@ public final class LoginScr extends MyScreen {
    }
 
    public final void switchToMe() {
-      this.doLeftMenu();
+      this.initCmd();
       super.switchToMe();
       Canvas.endDlg();
       if (Canvas.isKeyBoard) {
@@ -103,7 +103,7 @@ public final class LoginScr extends MyScreen {
       this.tfUser.setFocus(true);
    }
 
-   public final void doLeftMenu() {
+   public final void initCmd() {
       this.cmdMenu = new Command(T.c, 0);
       this.D = new Command(T.dt, 3);
       this.cmdLogin = new Command(T.O, 1);
@@ -226,12 +226,12 @@ public final class LoginScr extends MyScreen {
             Command var4 = new Command(T.x, 2);
             var5.addElement(new Command(T.bB, 4));
             var5.addElement(new Command(T.ab, 5));
-            if (OptionScr.gI().b[4] == 0) {
+            if (OptionScr.gI().mapFocus[4] == 0) {
                var5.addElement(new Command(T.bD, 6));
             }
 
             var5.addElement(new Command(T.bE, 7));
-            if (OptionScr.gI().b[4] == 0) {
+            if (OptionScr.gI().mapFocus[4] == 0) {
                var5.addElement(new Command(T.bF, 8));
             }
 
@@ -405,7 +405,7 @@ public final class LoginScr extends MyScreen {
       } else if (Canvas.currentDialog == null && this == Canvas.currentMyScreen) {
          Canvas.paint.paintPopupBack(var1, this.xLogin, this.yLogin, this.wLogin, this.hLogin, 0);
          var1.setClip(this.xLogin + 4, this.yLogin + 4, this.wLogin - 8, this.hLogin - 8);
-         if (!this.numSupport.equals("") && OptionScr.gI().b[4] == 0) {
+         if (!this.numSupport.equals("") && OptionScr.gI().mapFocus[4] == 0) {
             Canvas.paint.drawString(var1, "Hotline: " + this.numSupport, this.xLogin + this.wLogin - 8, this.yLogin + this.hLogin - AvMain.ah - 4, 1);
          }
 
@@ -478,7 +478,7 @@ public final class LoginScr extends MyScreen {
          super.updateKey();
          return;
       }
-      if (Canvas.isPointerRelease && Canvas.isPointer(0, 0, Canvas.w, Canvas.h) && Canvas.isPointer(this.xCheck - 10, this.yCheck, 70, MyScreen.al * AvMain.hd + 10)) {
+      if (Canvas.isPointerRelease && Canvas.isPointer(0, 0, Canvas.w, Canvas.h) && Canvas.isPointer(this.xCheck - 10, this.yCheck, 70, MyScreen.ITEM_HEIGHT * AvMain.hd + 10)) {
          this.doRememberPass();
       }
       if (Canvas.keyPressed[2]) {

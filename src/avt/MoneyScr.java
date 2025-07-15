@@ -7,66 +7,66 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class MoneyScr extends MyScreen {
-   public static MoneyScr a;
-   private Vector b;
-   private int c = 0;
-   private int d = 0;
-   private MyScreen e;
-   private Command f;
-   private Command g;
-   private Command h;
-   private Image i;
-   private int j;
-   private int k;
-   private int l;
-   private int m;
-   private int n;
-   private int o;
-   private int p;
+   public static MoneyScr instance;
+   private Vector avs;
+   private int type = 0;
+   private int focusTap = 0;
+   private MyScreen backScr;
+   private Command cmdTrans;
+   private Command cmdLoad;
+   private Command cmdClose;
+   private Image imgSell;
+   private int x;
+   private int y;
+   private int w;
+   private int h;
+   private int _hSmall__;
+   private int xTrans;
+   private int dir;
 
-   public static MoneyScr b() {
-      if (a == null) {
-         a = new MoneyScr();
+   public static MoneyScr gI() {
+      if (instance == null) {
+         instance = new MoneyScr();
       }
 
-      return a;
+      return instance;
    }
 
    public final void a(MyScreen var1) {
-      this.e();
-      this.d = 0;
+      this.init();
+      this.focusTap = 0;
       super.selected_ = 0;
-      this.e = var1;
-      this.doLeftMenu();
+      this.backScr = var1;
+      this.initCmd();
       super.switchToMe();
    }
 
-   public final void e() {
-      if (this.i == null) {
+   public final void init() {
+      if (this.imgSell == null) {
          FilePack.b(T.au);
-         this.i = FilePack.getImage("coin");
+         this.imgSell = FilePack.getImage("coin");
          FilePack.reset();
       }
 
       String var1;
       if (LoadMap.TYPEMAP == 25) {
-         this.c = 1;
+         this.type = 1;
          var1 = T.ev[1];
          FarmService.gI().doTransMoney(0, 0);
          Canvas.startWaitDlg();
       } else {
          var1 = T.ev[0];
-         this.c = 0;
+         this.type = 0;
       }
 
-      this.g();
-      PaintPopup.gI().a(var1, this.l, this.m, 2);
+      this.initPos();
+      PaintPopup.gI().a(var1, this.w, this.h, 2);
       if (OnScreen.isOngame) {
-         PaintPopup.gI().h = 25 + MyScreen.al + 1;
+         PaintPopup.gI().y = 25 + MyScreen.ITEM_HEIGHT + 1;
       }
 
-      this.k = PaintPopup.gI().h;
-      this.f();
+      this.y = PaintPopup.gI().y;
+      this.setCamera();
    }
 
    public final void setSelected(int var1, boolean var2) {
@@ -85,28 +85,28 @@ public final class MoneyScr extends MyScreen {
       switch (var1) {
          case 0:
             Canvas.cameraList.isShow = false;
-            this.e.switchToMe();
-            this.i = null;
+            this.backScr.switchToMe();
+            this.imgSell = null;
             return;
          case 1:
          case 2:
-            if (this.c != 0) {
+            if (this.type != 0) {
                Canvas.inputDlg.setInfoIkb(T.ay, 100, 1);
                return;
             }
 
             String var3;
             MoneyInfo var8;
-            if ((var8 = (MoneyInfo)this.b.elementAt(super.selected_)).c.indexOf(T.aH) != -1) {
-               var3 = Canvas.normalFont.a(var8.c, T.aI, GameMidlet.avatar.name);
+            if ((var8 = (MoneyInfo)this.avs.elementAt(super.selected_)).smsTo.indexOf(T.aH) != -1) {
+               var3 = Canvas.normalFont.a(var8.smsTo, T.aI, GameMidlet.avatar.name);
                Canvas.startOKDlg(T.cL, (IAction)(new class_ci(this, var3)));
             } else {
                String var9;
-               if (var8.c.indexOf("napthe:") != -1) {
-                  var3 = var8.c.substring(0, var8.c.indexOf("napthe:") + "napthe:".length());
-                  var3 = Canvas.normalFont.a(var8.c, var3, "");
+               if (var8.smsTo.indexOf("napthe:") != -1) {
+                  var3 = var8.smsTo.substring(0, var8.smsTo.indexOf("napthe:") + "napthe:".length());
+                  var3 = Canvas.normalFont.a(var8.smsTo, var3, "");
                   String var10001 = var3;
-                  var3 = var8.a;
+                  var3 = var8.info;
                   var9 = var10001;
                   TField[] var4;
                   (var4 = new TField[2])[0] = new TField();
@@ -116,10 +116,10 @@ public final class MoneyScr extends MyScreen {
                   InputFace.gI().setIputType(var4, var3, T.eH, new Command(T.cy, new class_ch(this, var9, var4)));
                   Canvas.currentFace = InputFace.gI();
                } else {
-                  if (var8.c.indexOf("ServerNap:") == -1) {
+                  if (var8.smsTo.indexOf("ServerNap:") == -1) {
                      Canvas.startWaitDlg();
                      GlobalService var10000 = GlobalService.gI();
-                     var9 = var8.b;
+                     var9 = var8.smsContent;
                      GlobalService var7 = var10000;
                      var10000.createMessage((byte)-91);
                      var7.writeUTF(var9);
@@ -127,8 +127,8 @@ public final class MoneyScr extends MyScreen {
                      return;
                   }
 
-                  var3 = var8.c.substring(0, var8.c.indexOf("ServerNap:") + "ServerNap:".length());
-                  var3 = Canvas.normalFont.a(var8.c, var3, "");
+                  var3 = var8.smsTo.substring(0, var8.smsTo.indexOf("ServerNap:") + "ServerNap:".length());
+                  var3 = Canvas.normalFont.a(var8.smsTo, var3, "");
                   AvatarService var6;
                   (var6 = AvatarService.gI()).createMessage((byte)-76);
                   var6.writeUTF(var3);
@@ -153,19 +153,19 @@ public final class MoneyScr extends MyScreen {
 
    }
 
-   public final void doLeftMenu() {
-      this.f = new Command(T.ev[0], 1);
-      super.left = this.f;
-      this.g = new Command(T.O, 2);
-      super.center = this.g;
-      this.h = new Command(T.d, 0);
-      super.right = this.h;
+   public final void initCmd() {
+      this.cmdTrans = new Command(T.ev[0], 1);
+      super.left = this.cmdTrans;
+      this.cmdLoad = new Command(T.O, 2);
+      super.center = this.cmdLoad;
+      this.cmdClose = new Command(T.d, 0);
+      super.right = this.cmdClose;
    }
 
    public MoneyScr() {
       new AvPosition(0, 1);
-      this.o = 0;
-      this.p = -1;
+      this.xTrans = 0;
+      this.dir = -1;
    }
 
    public final void paint(Graphics var1) {
@@ -173,37 +173,37 @@ public final class MoneyScr extends MyScreen {
       if (OnScreen.isOngame) {
          Canvas.paint.paintDefaultBg(var1);
          Canvas.paint.a(var1, T.cf.toUpperCase(), GameMidlet.avatar.money[0] + T.C, GameMidlet.avatar.money[2] + T.D);
-      } else if (this.e != null) {
-         this.e.paintMain(var1);
+      } else if (this.backScr != null) {
+         this.backScr.paintMain(var1);
       }
 
       if (InputFace.me == null || Canvas.currentFace != InputFace.me) {
          if (!OnScreen.isOngame) {
-            PaintPopup.gI().a(var1);
-            var1.translate(0, this.k + PaintPopup.o + AvMain.hDuBox);
-            var1.setClip(this.j + 5, 0, this.l - 10, PaintPopup.gI().e - PaintPopup.o - 2 * AvMain.hDuBox);
+            PaintPopup.gI().paint(var1);
+            var1.translate(0, this.y + PaintPopup.hTab + AvMain.hDuBox);
+            var1.setClip(this.x + 5, 0, this.w - 10, PaintPopup.gI().h - PaintPopup.hTab - 2 * AvMain.hDuBox);
          } else {
-            var1.translate(0, this.k);
-            var1.setClip(this.j + 5, 0, this.l - 10, this.m);
+            var1.translate(0, this.y);
+            var1.setClip(this.x + 5, 0, this.w - 10, this.h);
          }
 
-         if (this.d == 1) {
-            int var2 = (this.m - PaintPopup.o + (AvMain.hDuBox << 1)) / 6;
-            Canvas.fontChatB.drawString(var1, T.aA + GameMidlet.avatar.name, this.j + this.l / 2, var2 / 2, 2);
+         if (this.focusTap == 1) {
+            int var2 = (this.h - PaintPopup.hTab + (AvMain.hDuBox << 1)) / 6;
+            Canvas.fontChatB.drawString(var1, T.aA + GameMidlet.avatar.name, this.x + this.w / 2, var2 / 2, 2);
             if (!FarmScr.isNew) {
-               Canvas.fontChatB.drawString(var1, T.aJ + ": " + GameMidlet.avatar.strMoney, this.j + this.l / 2, var2 / 2 + var2, 2);
+               Canvas.fontChatB.drawString(var1, T.aJ + ": " + GameMidlet.avatar.strMoney, this.x + this.w / 2, var2 / 2 + var2, 2);
             }
 
-            Canvas.fontChatB.drawString(var1, GameMidlet.avatar.money[2] + T.D, this.j + this.l / 2, var2 / 2 + (var2 << 1), 2);
+            Canvas.fontChatB.drawString(var1, GameMidlet.avatar.money[2] + T.D, this.x + this.w / 2, var2 / 2 + (var2 << 1), 2);
             if (FarmScr.isNew) {
-               Canvas.fontChatB.drawString(var1, MapScr.r(), this.j + this.l / 2, var2 / 2 + var2 * 3, 2);
+               Canvas.fontChatB.drawString(var1, MapScr.r(), this.x + this.w / 2, var2 / 2 + var2 * 3, 2);
             }
          } else {
             var1.translate(0, -CameraList.cmtoY);
-            if (this.c == 0) {
-               this.d(var1);
+            if (this.type == 0) {
+               this.paintRichList(var1);
             } else {
-               this.c(var1);
+               this.paintTransMoney(var1);
             }
          }
 
@@ -215,73 +215,73 @@ public final class MoneyScr extends MyScreen {
       }
    }
 
-   public final void a(Vector var1) {
-      this.g();
-      this.b = var1;
-      this.f();
-      this.o = 0;
+   public final void setAvatarList(Vector var1) {
+      this.initPos();
+      this.avs = var1;
+      this.setCamera();
+      this.xTrans = 0;
    }
 
-   private void f() {
-      if (this.b != null) {
-         this.b.size();
-         int var1 = this.b.size() * this.n;
-         int var2 = this.b.size();
+   private void setCamera() {
+      if (this.avs != null) {
+         this.avs.size();
+         int var1 = this.avs.size() * this._hSmall__;
+         int var2 = this.avs.size();
          if (LoadMap.TYPEMAP == 25) {
-            var1 = this.n << 1;
+            var1 = this._hSmall__ << 1;
             var2 = 2;
          }
 
-         Canvas.cameraList.a(this.j, this.k + (!OnScreen.isOngame ? PaintPopup.o + AvMain.hDuBox : 0), this.l, this.n, this.l, var1, this.l, this.m - (PaintPopup.o + 2 * AvMain.hDuBox) - AvMain.hDuBox, var2);
+         Canvas.cameraList.setInfo(this.x, this.y + (!OnScreen.isOngame ? PaintPopup.hTab + AvMain.hDuBox : 0), this.w, this._hSmall__, this.w, var1, this.w, this.h - (PaintPopup.hTab + 2 * AvMain.hDuBox) - AvMain.hDuBox, var2);
       }
    }
 
-   private void g() {
+   private void initPos() {
       if (OnScreen.isOngame) {
-         this.l = Canvas.w + 8;
-         this.m = Canvas.h - 25 - MyScreen.al + (AvMain.hDuBox << 1);
+         this.w = Canvas.w + 8;
+         this.h = Canvas.h - 25 - MyScreen.ITEM_HEIGHT + (AvMain.hDuBox << 1);
       } else {
-         this.l = LoginScr.gI().wLogin;
-         this.m = LoginScr.gI().hLogin;
+         this.w = LoginScr.gI().wLogin;
+         this.h = LoginScr.gI().hLogin;
       }
 
-      this.n = MyScreen.av;
-      this.j = Canvas.hw - this.l / 2;
+      this._hSmall__ = MyScreen.hText;
+      this.x = Canvas.hw - this.w / 2;
    }
 
-   private void c(Graphics var1) {
+   private void paintTransMoney(Graphics var1) {
       for(int var2 = 0; var2 < 2; ++var2) {
-         if (!super.aj && var2 == super.selected_) {
-            Canvas.paint.c(var1, this.j + 3 * AvMain.hd, var2 * this.n + 5, this.l - 6 * AvMain.hd, this.n);
+         if (!super.isHide_ && var2 == super.selected_) {
+            Canvas.paint.c(var1, this.x + 3 * AvMain.hd, var2 * this._hSmall__ + 5, this.w - 6 * AvMain.hd, this._hSmall__);
          }
 
-         Canvas.normalFont.drawString(var1, T.ew[var2], this.j + 10 + (super.selected_ == var2 ? this.o : 0), var2 * this.n + 5 + this.n / 2 - AvMain.ah / 2, 0);
+         Canvas.normalFont.drawString(var1, T.ew[var2], this.x + 10 + (super.selected_ == var2 ? this.xTrans : 0), var2 * this._hSmall__ + 5 + this._hSmall__ / 2 - AvMain.ah / 2, 0);
       }
 
    }
 
-   private void d(Graphics var1) {
-      int var2 = this.i.getWidth() + 14;
-      int var3 = this.b.size();
+   private void paintRichList(Graphics var1) {
+      int var2 = this.imgSell.getWidth() + 14;
+      int var3 = this.avs.size();
 
       int var4;
       for(var4 = 0; var4 < var3; ++var4) {
-         if (var4 == super.selected_ && !super.aj) {
+         if (var4 == super.selected_ && !super.isHide_) {
             if (OnScreen.isOngame) {
                var1.setColor(14328855);
-               var1.fillRect(this.j, var4 * this.n, this.l - 3 * AvMain.hd, this.n);
+               var1.fillRect(this.x, var4 * this._hSmall__, this.w - 3 * AvMain.hd, this._hSmall__);
             } else {
-               Canvas.paint.c(var1, this.j + 6, var4 * this.n, this.l - 6 * AvMain.hd, this.n);
+               Canvas.paint.c(var1, this.x + 6, var4 * this._hSmall__, this.w - 6 * AvMain.hd, this._hSmall__);
             }
          }
 
-         var1.drawImage(this.i, this.j + var2 / 2, var4 * this.n + this.n / 2, 3);
+         var1.drawImage(this.imgSell, this.x + var2 / 2, var4 * this._hSmall__ + this._hSmall__ / 2, 3);
       }
 
       for(var4 = 0; var4 < var3; ++var4) {
-         MoneyInfo var5 = (MoneyInfo)this.b.elementAt(var4);
-         var1.setClip(this.j + var2 - 3, CameraList.cmtoY, this.l - var2 - 2, this.m - (!OnScreen.isOngame ? PaintPopup.o + 2 * AvMain.hDuBox : 0));
-         Canvas.normalFont.drawString(var1, var5.a, this.j + var2, var4 * this.n + this.n / 2 - AvMain.ah / 2, 0);
+         MoneyInfo var5 = (MoneyInfo)this.avs.elementAt(var4);
+         var1.setClip(this.x + var2 - 3, CameraList.cmtoY, this.w - var2 - 2, this.h - (!OnScreen.isOngame ? PaintPopup.hTab + 2 * AvMain.hDuBox : 0));
+         Canvas.normalFont.drawString(var1, var5.info, this.x + var2, var4 * this._hSmall__ + this._hSmall__ / 2 - AvMain.ah / 2, 0);
       }
 
    }
@@ -290,72 +290,72 @@ public final class MoneyScr extends MyScreen {
       super.updateKey();
       if (!OnScreen.isOngame) {
          if (Canvas.keyPressed[4] || Canvas.keyPressed[6]) {
-            this.h();
+            this.setTab();
          }
 
-         if (Canvas.isPointerClick && Canvas.isPointer(0, PaintPopup.gI().h, Canvas.w, PaintPopup.o)) {
+         if (Canvas.isPointerClick && Canvas.isPointer(0, PaintPopup.gI().y, Canvas.w, PaintPopup.hTab)) {
             Canvas.isPointerClick = false;
-            this.h();
+            this.setTab();
          }
       }
 
    }
 
-   private void h() {
+   private void setTab() {
       String var1;
-      if (this.d == 0) {
-         this.d = 1;
+      if (this.focusTap == 0) {
+         this.focusTap = 1;
          super.left = null;
          var1 = T.ev[2];
       } else {
-         if (this.c == 1) {
+         if (this.type == 1) {
             var1 = T.ev[1];
          } else {
             var1 = T.ev[0];
          }
 
-         this.d = 0;
+         this.focusTap = 0;
       }
 
-      PaintPopup.gI().a(var1, this.d);
+      PaintPopup.gI().setNameAndFocus(var1, this.focusTap);
    }
 
    public final void keyPress(int var1) {
    }
 
    public final void update() {
-      if (this.e != null) {
-         this.e.update();
+      if (this.backScr != null) {
+         this.backScr.update();
       }
 
       int var2;
-      if (this.c == 0) {
-         MoneyInfo var1 = (MoneyInfo)this.b.elementAt(super.selected_);
-         var2 = Canvas.normalFont.getWidth(var1.a);
+      if (this.type == 0) {
+         MoneyInfo var1 = (MoneyInfo)this.avs.elementAt(super.selected_);
+         var2 = Canvas.normalFont.getWidth(var1.info);
       } else {
          var2 = Canvas.normalFont.getWidth(T.ew[super.selected_]);
       }
 
-      if (var2 > this.l - 20) {
-         this.o += this.p;
-         if (this.o <= -(var2 - (this.l - 30))) {
-            this.p = 1;
+      if (var2 > this.w - 20) {
+         this.xTrans += this.dir;
+         if (this.xTrans <= -(var2 - (this.w - 30))) {
+            this.dir = 1;
          }
 
-         if (this.o > 0) {
-            this.p = -1;
+         if (this.xTrans > 0) {
+            this.dir = -1;
          }
       } else {
-         this.o = 0;
+         this.xTrans = 0;
       }
 
-      if (this.d == 0) {
+      if (this.focusTap == 0) {
          if (LoadMap.TYPEMAP != 25) {
-            super.left = this.f;
+            super.left = this.cmdTrans;
             super.center = null;
          } else {
             super.left = null;
-            super.center = this.g;
+            super.center = this.cmdLoad;
          }
       } else {
          super.left = null;

@@ -627,7 +627,7 @@ public final class TLBoardScr extends BoardScr {
          }
 
          if (Canvas.stypeInt == 0) {
-            MiniMap.gI().b.drawFrame(0, var3, var4, 0, 33, var1);
+            MiniMap.gI().imgArrow.drawFrame(0, var3, var4, 0, 33, var1);
          }
       }
 

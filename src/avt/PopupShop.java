@@ -7,38 +7,38 @@ import main.GameMidlet;
 
 public final class PopupShop extends MyScreen {
    public static PopupShop me;
-   private static String[] p;
-   private static int q;
-   public static int b;
-   public static int c;
-   public static int d;
-   public static int e;
-   private static int r = 5;
-   private static int s;
-   public static int f = 5;
+   private static String[] name;
+   private static int numTap;
+   public static int x;
+   public static int w;
+   public static int sai;
+   public static int h;
+   private static int num = 5;
+   private static int hAllCell;
+   public static int numH = 5;
    private static int t;
-   private static int u;
+   private static int hDuHori;
    public static int focusTap;
    private int v;
-   public Vector[] h;
-   private Vector w;
-   private Command[] x;
-   private boolean[] y;
+   public Vector[] listCell;
+   private Vector listCmd;
+   private Command[] listCell_;
+   private boolean[] yy;
    private String[] z;
    public static String i;
    public static int focus = 0;
    public static boolean k = false;
-   private static int A = 0;
-   public static int l = 0;
-   private static Vector B = new Vector();
-   private static MyScreen C;
-   private int D;
-   private int E = 0;
-   public boolean isHorizontal = false;
+   private static int numberPrice = 0;
+   public static int duCam = 0;
+   private static Vector strDes = new Vector();
+   private static MyScreen lastScr;
+   private int xL;
+   private int fliped = 0;
+   public boolean isFull = false;
    public static boolean isTransFocus = false;
-   public static boolean o = false;
-   private static boolean F = false;
-   private static int G = 0;
+   public static boolean isHorizontal = false;
+   private static boolean isSelectedTab = false;
+   private static int wPrice = 0;
    private static int H;
    private static String I = "";
    private int J;
@@ -56,16 +56,16 @@ public final class PopupShop extends MyScreen {
    }
 
    public final void switchToMe() {
-      C = Canvas.currentMyScreen;
-      this.D = Canvas.h + 50;
-      this.E = Canvas.getSecond();
+      lastScr = Canvas.currentMyScreen;
+      this.xL = Canvas.h + 50;
+      this.fliped = Canvas.getSecond();
       isTransFocus = true;
-      G = 86;
+      wPrice = 86;
       if (Canvas.stypeInt != 0) {
-         G = 86 + 40 * Canvas.stypeInt;
+         wPrice = 86 + 40 * Canvas.stypeInt;
       }
 
-      o = false;
+      isHorizontal = false;
       super.switchToMe();
    }
 
@@ -76,8 +76,8 @@ public final class PopupShop extends MyScreen {
             this.close();
             return;
          case 1:
-            if (focus < this.h[focusTap].size()) {
-               ((Command)this.h[focusTap].elementAt(focus)).action.perform();
+            if (focus < this.listCell[focusTap].size()) {
+               ((Command)this.listCell[focusTap].elementAt(focus)).action.perform();
                this.setCaption();
             }
 
@@ -137,7 +137,7 @@ public final class PopupShop extends MyScreen {
    }
 
    public final void commandActionPointer(int var1, int var2) {
-      C.commandActionPointer(var1, var2);
+      lastScr.commandActionPointer(var1, var2);
    }
 
    public final void close() {
@@ -145,8 +145,8 @@ public final class PopupShop extends MyScreen {
          k = false;
       } else {
          Canvas.cameraList.isShow = false;
-         this.isHorizontal = false;
-         C.switchToMe();
+         this.isFull = false;
+         lastScr.switchToMe();
          if (Canvas.isInitChar) {
             if (LoadMap.TYPEMAP == 25 && Welcome.indexFarmPath != 0) {
                Canvas.welcome = new Welcome();
@@ -167,7 +167,7 @@ public final class PopupShop extends MyScreen {
       }
    }
 
-   public final void doLeftMenu() {
+   public final void initCmd() {
       super.right = new Command(T.d, 0);
       super.center = new Command(T.O, 1);
    }
@@ -175,29 +175,29 @@ public final class PopupShop extends MyScreen {
    public PopupShop() {
       this.N = 80 * AvMain.hd;
       t = AvMain.hBlack;
-      e = 30 * AvMain.hd;
+      h = 30 * AvMain.hd;
       if (Canvas.w < 150) {
-         e = 24;
+         h = 24;
       }
 
       if (Canvas.stypeInt == 1) {
-         e = 35;
+         h = 35;
       }
 
       init();
-      this.doLeftMenu();
+      this.initCmd();
       H = 25 * (2 - AvMain.hd) + 40 * (Canvas.stypeInt + 1) + 10 * (AvMain.hd - 1);
    }
 
    public static void init() {
-      c = e * 5 + 11 + AvMain.hDuBox + 2;
-      d = e * 6 + 10 + AvMain.hDuBox;
-      q = Canvas.hw - e * 5 / 2;
-      b = (Canvas.h - MyScreen.at) / 2 - d / 2;
+      w = h * 5 + 11 + AvMain.hDuBox + 2;
+      sai = h * 6 + 10 + AvMain.hDuBox;
+      numTap = Canvas.hw - h * 5 / 2;
+      x = (Canvas.h - MyScreen.hTab) / 2 - sai / 2;
    }
 
    public static int f() {
-      return A;
+      return numberPrice;
    }
 
    public static void g() {
@@ -211,89 +211,89 @@ public final class PopupShop extends MyScreen {
 
    public static void addStr(String var0) {
       if (var0 != null) {
-         B.addElement(new StringObj(var0, Canvas.normalFont.getWidth(var0)));
+         strDes.addElement(new StringObj(var0, Canvas.normalFont.getWidth(var0)));
       }
 
    }
 
    public final void addElement(String[] var1, Vector[] var2, Vector var3) {
       focusTap = 0;
-      this.h = var2;
-      this.x = new Command[var2.length];
-      this.y = new boolean[var2.length];
+      this.listCell = var2;
+      this.listCell_ = new Command[var2.length];
+      this.yy = new boolean[var2.length];
       this.z = new String[var2.length];
-      this.w = var3;
-      p = var1;
-      System.out.println("addElement: " + this.h.length);
-      this.v = this.h.length;
+      this.listCmd = var3;
+      name = var1;
+      System.out.println("addElement: " + this.listCell.length);
+      this.v = this.listCell.length;
       k = false;
-      PaintPopup.gI().a(p[focusTap], c, d, this.v);
+      PaintPopup.gI().a(name[focusTap], w, sai, this.v);
       this.setCmyLim();
    }
 
    public final void setCmyLim() {
       focus = 0;
-      u = 0;
-      if (o || this.y[focusTap]) {
-         u = AvMain.hBlack;
+      hDuHori = 0;
+      if (isHorizontal || this.yy[focusTap]) {
+         hDuHori = AvMain.hBlack;
       }
 
-      if (this.h[focusTap] != null) {
-         if ((s = this.h[focusTap].size() / 5) >= 3 && !this.isHorizontal && !o && !this.y[focusTap]) {
-            f = 5;
+      if (this.listCell[focusTap] != null) {
+         if ((hAllCell = this.listCell[focusTap].size() / 5) >= 3 && !this.isFull && !isHorizontal && !this.yy[focusTap]) {
+            numH = 5;
          } else {
-            f = 2;
+            numH = 2;
          }
 
-         if (this.h[focusTap].size() % 5 != 0) {
-            ++s;
+         if (this.listCell[focusTap].size() % 5 != 0) {
+            ++hAllCell;
          }
 
-         if (s < f) {
-            s = f;
+         if (hAllCell < numH) {
+            hAllCell = numH;
          }
       }
 
       int var1 = 1;
-      if (this.h[focusTap] == null) {
-         r = 1;
+      if (this.listCell[focusTap] == null) {
+         num = 1;
       } else {
-         var1 = this.h[focusTap].size();
-         r = 5;
+         var1 = this.listCell[focusTap].size();
+         num = 5;
       }
 
-      l = -e / 2;
-      if (f > 2 || o || this.y[focusTap]) {
-         l = 0;
+      duCam = -h / 2;
+      if (numH > 2 || isHorizontal || this.yy[focusTap]) {
+         duCam = 0;
       }
 
-      Canvas.cameraList.a(q, PaintPopup.gI().h + PaintPopup.o + AvMain.hDuBox + (!o && !this.y[focusTap] ? 0 : u), e, e, e * r, e * s, e * 5, f * e - l, var1);
+      Canvas.cameraList.setInfo(numTap, PaintPopup.gI().y + PaintPopup.hTab + AvMain.hDuBox + (!isHorizontal && !this.yy[focusTap] ? 0 : hDuHori), h, h, h * num, h * hAllCell, h * 5, numH * h - duCam, var1);
       this.setCaption();
-      PaintPopup.gI().a(p[focusTap], focusTap);
+      PaintPopup.gI().setNameAndFocus(name[focusTap], focusTap);
    }
 
    public final void update() {
-      C.update();
-      if (this.D != 0) {
-         this.D += -this.D >> 1;
+      lastScr.update();
+      if (this.xL != 0) {
+         this.xL += -this.xL >> 1;
       }
 
-      if (this.D == -1) {
-         this.D = 0;
+      if (this.xL == -1) {
+         this.xL = 0;
       }
 
-      if (this.h[focusTap] != null) {
-         int var1 = this.h[focusTap].size();
+      if (this.listCell[focusTap] != null) {
+         int var1 = this.listCell[focusTap].size();
 
          for(int var2 = 0; var2 < var1; ++var2) {
             if (isTransFocus) {
-               ((Command)this.h[focusTap].elementAt(var2)).update();
+               ((Command)this.listCell[focusTap].elementAt(var2)).update();
             }
          }
       }
 
-      if (this.x[focusTap] != null) {
-         super.left = this.x[focusTap];
+      if (this.listCell_[focusTap] != null) {
+         super.left = this.listCell_[focusTap];
       } else {
          super.left = null;
       }
@@ -302,21 +302,21 @@ public final class PopupShop extends MyScreen {
    public static void j() {
       GameMidlet.m = "frp1qr";
       CRes.b = "frp2qr";
-      PaintPopup.k = Canvas.a(GameMidlet.m, -2);
+      PaintPopup.name = Canvas.a(GameMidlet.m, -2);
    }
 
    public final void setCmdLeft(Command var1, int var2) {
-      this.x[var2] = var1;
+      this.listCell_[var2] = var1;
    }
 
    public final void updateKey() {
       int var2;
       if (k) {
          if (Canvas.a(4)) {
-            this.c(-1);
+            this.setNumberPrice(-1);
             this.J = 5;
          } else if (Canvas.a(6)) {
-            this.c(1);
+            this.setNumberPrice(1);
             this.K = 5;
          }
 
@@ -325,25 +325,25 @@ public final class PopupShop extends MyScreen {
          }
 
          if (Canvas.isPointerRelease) {
-            var2 = focus % r * e;
-            int var3 = (focus / r + 1) * e;
-            if (var2 + e / 2 - G / 2 + q + 5 < 0) {
-               var2 = -e / 2 + G / 2 - q - 5;
-            } else if (var2 + e / 2 - G / 2 + G > Canvas.w) {
-               var2 = Canvas.w - G - e / 2 + G / 2;
+            var2 = focus % num * h;
+            int var3 = (focus / num + 1) * h;
+            if (var2 + h / 2 - wPrice / 2 + numTap + 5 < 0) {
+               var2 = -h / 2 + wPrice / 2 - numTap - 5;
+            } else if (var2 + h / 2 - wPrice / 2 + wPrice > Canvas.w) {
+               var2 = Canvas.w - wPrice - h / 2 + wPrice / 2;
             }
 
-            var2 += q;
-            var3 += b + PaintPopup.o + AvMain.hDuBox;
+            var2 += numTap;
+            var3 += x + PaintPopup.hTab + AvMain.hDuBox;
             int var4 = (H - (AvMain.hDuBox << 1)) / 4;
             var3 += AvMain.hDuBox + 8;
-            var2 = var2 + e / 2 - 35 * (Canvas.stypeInt + 1) / 2 - 2 - 10 - 10 * AvMain.hd;
+            var2 = var2 + h / 2 - 35 * (Canvas.stypeInt + 1) / 2 - 2 - 10 - 10 * AvMain.hd;
             var3 = var3 + var4 / 2 + var4 + AvMain.ah / 2;
             if (Canvas.isPointer(var2, var3 - 15 * AvMain.hd - 5, 20 + 20 * AvMain.hd, 30 * AvMain.hd)) {
-               this.c(-1);
+               this.setNumberPrice(-1);
                this.J = 5;
             } else if (Canvas.isPointer(var2 + 35 * (Canvas.stypeInt + 1), var3 - 15 * AvMain.hd - 5, 20 + 20 * AvMain.hd, 30 * AvMain.hd)) {
-               this.c(1);
+               this.setNumberPrice(1);
                this.K = 5;
             } else if (Canvas.isPointer(var2 + 20 + 20 * AvMain.hd, var3 - 15 * AvMain.hd - 5, var2 + 35 * (Canvas.stypeInt + 1) - (var2 + 20 + 20 * AvMain.hd), 30 * AvMain.hd)) {
                super.center.perform();
@@ -360,7 +360,7 @@ public final class PopupShop extends MyScreen {
       } else {
          PopupShop var1 = this;
          if (Canvas.a(6)) {
-            if (focus % r != r - 1 && r != 1 && !F) {
+            if (focus % num != num - 1 && num != 1 && !isSelectedTab) {
                ++focus;
             } else {
                this.setTap(1);
@@ -369,7 +369,7 @@ public final class PopupShop extends MyScreen {
             Canvas.cameraList.setSelect(focus);
             this.setCaption();
          } else if (Canvas.a(4)) {
-            if (focus % r != 0 && r != 1 && !F) {
+            if (focus % num != 0 && num != 1 && !isSelectedTab) {
                --focus;
             } else {
                this.setTap(-1);
@@ -378,40 +378,40 @@ public final class PopupShop extends MyScreen {
             Canvas.cameraList.setSelect(focus);
             this.setCaption();
          } else if (Canvas.a(2)) {
-            if (this.h[focusTap] != null && this.h[focusTap].size() > 0 && !F) {
-               if (focus / r > 0) {
-                  focus -= r;
+            if (this.listCell[focusTap] != null && this.listCell[focusTap].size() > 0 && !isSelectedTab) {
+               if (focus / num > 0) {
+                  focus -= num;
                } else {
-                  for(var2 = 0; var2 < var1.h.length; ++var2) {
+                  for(var2 = 0; var2 < var1.listCell.length; ++var2) {
                      if (var2 != focusTap) {
                         PaintPopup.gI().a(4, var2);
                      }
                   }
 
-                  F = true;
+                  isSelectedTab = true;
                }
             }
 
             Canvas.cameraList.setSelect(focus);
             var1.setCaption();
          } else if (Canvas.a(8)) {
-            if (F) {
-               F = false;
+            if (isSelectedTab) {
+               isSelectedTab = false;
 
-               for(var2 = 0; var2 < var1.h.length; ++var2) {
+               for(var2 = 0; var2 < var1.listCell.length; ++var2) {
                   if (var2 != focusTap) {
                      PaintPopup.gI().a(0, var2);
                   }
                }
-            } else if (r > 1 && focus / r + 1 < s) {
-               focus += r;
+            } else if (num > 1 && focus / num + 1 < hAllCell) {
+               focus += num;
             }
 
             Canvas.cameraList.setSelect(focus);
             var1.setCaption();
          }
 
-         if (Canvas.isPointerClick && (var2 = PaintPopup.gI().d()) != 0) {
+         if (Canvas.isPointerClick && (var2 = PaintPopup.gI().setupdateTab()) != 0) {
             var1.setTap(var2);
             Canvas.isPointerClick = false;
          }
@@ -420,13 +420,13 @@ public final class PopupShop extends MyScreen {
       super.updateKey();
    }
 
-   private void c(int var1) {
-      if ((A += var1) < 0) {
-         A = 99;
+   private void setNumberPrice(int var1) {
+      if ((numberPrice += var1) < 0) {
+         numberPrice = 99;
       }
 
-      if (A > 99) {
-         A = 0;
+      if (numberPrice > 99) {
+         numberPrice = 0;
       }
 
       this.setCaption();
@@ -447,17 +447,17 @@ public final class PopupShop extends MyScreen {
    private static void o() {
       if (focusTap == 1) {
          FarmItem var0;
-         I = Canvas.getPriceMoney((var0 = (FarmItem)FarmData.listItemFarm.elementAt(focus)).priceXu * A, var0.priceLuong * A, true);
+         I = Canvas.getPriceMoney((var0 = (FarmItem)FarmData.listItemFarm.elementAt(focus)).priceXu * numberPrice, var0.priceLuong * numberPrice, true);
       } else {
-         I = Canvas.getPriceMoney(FarmData.treeInfo[focus].priceSeed[0] * A, FarmData.treeInfo[focus].priceSeed[1] * A, true);
+         I = Canvas.getPriceMoney(FarmData.treeInfo[focus].priceSeed[0] * numberPrice, FarmData.treeInfo[focus].priceSeed[1] * numberPrice, true);
       }
 
-      if ((G = Canvas.normalFont.getWidth(I) + 16 + 30 * Canvas.stypeInt) < 86 * AvMain.hd) {
-         G = 86 * AvMain.hd;
+      if ((wPrice = Canvas.normalFont.getWidth(I) + 16 + 30 * Canvas.stypeInt) < 86 * AvMain.hd) {
+         wPrice = 86 * AvMain.hd;
       }
 
       if (Canvas.stypeInt != 0) {
-         G = 86 + 40 * Canvas.stypeInt;
+         wPrice = 86 + 40 * Canvas.stypeInt;
       }
 
    }
@@ -475,11 +475,11 @@ public final class PopupShop extends MyScreen {
    }
 
    public final void setCaption() {
-      if (this.h[focusTap] != null && focus < this.h[focusTap].size()) {
-         super.center = (Command)this.h[focusTap].elementAt(focus);
-      } else if (this.w != null && focusTap < this.w.size()) {
+      if (this.listCell[focusTap] != null && focus < this.listCell[focusTap].size()) {
+         super.center = (Command)this.listCell[focusTap].elementAt(focus);
+      } else if (this.listCmd != null && focusTap < this.listCmd.size()) {
          Command var1;
-         if ((var1 = (Command)this.w.elementAt(focusTap)) != null) {
+         if ((var1 = (Command)this.listCmd.elementAt(focusTap)) != null) {
             super.center = var1;
          }
       } else {
@@ -487,7 +487,7 @@ public final class PopupShop extends MyScreen {
       }
 
       isTransFocus = true;
-      this.E = Canvas.getSecond();
+      this.fliped = Canvas.getSecond();
    }
 
    public final void setHidePointer(boolean var1) {
@@ -495,127 +495,127 @@ public final class PopupShop extends MyScreen {
    }
 
    public final void paint(Graphics var1) {
-      C.paintMain(var1);
+      lastScr.paintMain(var1);
       Canvas.resetTrans(var1);
-      PaintPopup.gI().a(var1);
+      PaintPopup.gI().paint(var1);
       var1.setColor(0);
-      var1.translate(q, PaintPopup.gI().h + PaintPopup.o + AvMain.hDuBox);
+      var1.translate(numTap, PaintPopup.gI().y + PaintPopup.hTab + AvMain.hDuBox);
       int var3;
       int var4;
-      if (o) {
+      if (isHorizontal) {
          String var2 = Canvas.getPriceMoney(GameMidlet.avatar.money[0], GameMidlet.avatar.money[2], GameMidlet.avatar.luongKhoa, true);
          var3 = Canvas.fontChatB.getWidth(var2);
-         if (CRes.abs(var4 = this.M) > var3 + 20 - (c - 20)) {
+         if (CRes.abs(var4 = this.M) > var3 + 20 - (w - 20)) {
             var4 = 0;
          }
 
-         var1.setClip(0, 0, c - 20, 20);
+         var1.setClip(0, 0, w - 20, 20);
          Canvas.fontChatB.drawString(var1, var2, var4, 0, 0);
-         if (var3 > c - 20) {
-            if (CRes.abs(this.M) > var3 + 50 - (c - 20)) {
+         if (var3 > w - 20) {
+            if (CRes.abs(this.M) > var3 + 50 - (w - 20)) {
                this.M = 0;
             }
 
             --this.M;
          }
 
-         var1.translate(0, u);
+         var1.translate(0, hDuHori);
       }
 
-      if (this.h[focusTap] != null) {
-         if (this.y[focusTap]) {
+      if (this.listCell[focusTap] != null) {
+         if (this.yy[focusTap]) {
             Canvas.fontChatB.drawString(var1, this.z[focusTap], 0, 0, 0);
-            var1.translate(0, u);
+            var1.translate(0, hDuHori);
          }
 
-         var1.setClip(0, 0, 5 * e, f * e - l);
+         var1.setClip(0, 0, 5 * h, numH * h - duCam);
          var1.translate(0, -CameraList.cmtoY);
 
          int var9;
-         for(var9 = 0; var9 < s * r; ++var9) {
-            PaintPopup.a(var1, e * (var9 % r), e * (var9 / r), e, e);
+         for(var9 = 0; var9 < hAllCell * num; ++var9) {
+            PaintPopup.paintCell(var1, h * (var9 % num), h * (var9 / num), h, h);
          }
 
-         if (!this.L && !F) {
-            PaintPopup.fill(3 + focus % r * e, focus / r * e + 3, e - 5, e - 5, 2293623, var1);
+         if (!this.L && !isSelectedTab) {
+            PaintPopup.fill(3 + focus % num * h, focus / num * h + 3, h - 5, h - 5, 2293623, var1);
          }
 
-         var9 = this.h[focusTap].size();
-         if ((var3 = CameraList.cmtoY / e * r) < 0) {
+         var9 = this.listCell[focusTap].size();
+         if ((var3 = CameraList.cmtoY / h * num) < 0) {
             var3 = 0;
          }
 
-         if ((var4 = CameraList.cmtoY / e * r + (f + 1) * r) > this.h[focusTap].size()) {
-            var4 = this.h[focusTap].size();
+         if ((var4 = CameraList.cmtoY / h * num + (numH + 1) * num) > this.listCell[focusTap].size()) {
+            var4 = this.listCell[focusTap].size();
          }
 
          for(var3 = var3; var3 < var4 && var3 < var9; ++var3) {
-            ((Command)this.h[focusTap].elementAt(var3)).paint(var1, e * (var3 % r), e * (var3 / r));
+            ((Command)this.listCell[focusTap].elementAt(var3)).paint(var1, h * (var3 % num), h * (var3 / num));
          }
 
-         var1.translate(0, CameraList.cmtoY - l);
-         var1.setClip(0, 0, c - 9, d);
+         var1.translate(0, CameraList.cmtoY - duCam);
+         var1.setClip(0, 0, w - 9, sai);
          int var5;
          int var7;
          Graphics var11;
          StringObj var12;
-         if (f == 2) {
-            if (o && MapScr.avatarShop != null) {
-               var1.translate(0, u);
+         if (numH == 2) {
+            if (isHorizontal && MapScr.avatarShop != null) {
+               var1.translate(0, hDuHori);
                var1.setColor(10674392);
-               var1.fillTriangle(30 * AvMain.hd, f * e - (AvMain.hd == 2 ? 10 : 0), 8 * AvMain.hd, f * e + 40 * AvMain.hd, 30 * AvMain.hd + 22 * AvMain.hd, f * e + 40 * AvMain.hd);
+               var1.fillTriangle(30 * AvMain.hd, numH * h - (AvMain.hd == 2 ? 10 : 0), 8 * AvMain.hd, numH * h + 40 * AvMain.hd, 30 * AvMain.hd + 22 * AvMain.hd, numH * h + 40 * AvMain.hd);
                var1.setColor(13364969);
-               var1.fillArc(8 * AvMain.hd, f * e + 40 * AvMain.hd - 10 * AvMain.hd, 44 * AvMain.hd, 20 * AvMain.hd, 0, 360);
-               MapScr.avatarShop.paintIcon(var1, 30 * AvMain.hd, f * e + 45 * AvMain.hd, false);
+               var1.fillArc(8 * AvMain.hd, numH * h + 40 * AvMain.hd - 10 * AvMain.hd, 44 * AvMain.hd, 20 * AvMain.hd, 0, 360);
+               MapScr.avatarShop.paintIcon(var1, 30 * AvMain.hd, numH * h + 45 * AvMain.hd, false);
                var1.translate(60 * AvMain.hd, 0);
             }
 
             var11 = var1;
-            if (B != null && focus < this.h[focusTap].size()) {
-               var4 = o ? 80 : 0;
-               var1.setClip(0, f * e, c - var4 + 5, d);
+            if (strDes != null && focus < this.listCell[focusTap].size()) {
+               var4 = isHorizontal ? 80 : 0;
+               var1.setClip(0, numH * h, w - var4 + 5, sai);
 
-               for(var5 = 0; var5 < B.size(); ++var5) {
-                  var12 = (StringObj)B.elementAt(var5);
+               for(var5 = 0; var5 < strDes.size(); ++var5) {
+                  var12 = (StringObj) strDes.elementAt(var5);
                   var7 = 0;
-                  if (var12.w2 > c + 5 - var4) {
-                     var12.transTextLimit(c + 5 - var4);
+                  if (var12.w2 > w + 5 - var4) {
+                     var12.transTextLimit(w + 5 - var4);
                      if (var12.dis >= 0) {
                         var7 = var12.dis;
                      }
                   }
 
-                  Canvas.fontChatB.drawString(var11, var12.str, 2 - var7, f * e + var5 * t, 0);
+                  Canvas.fontChatB.drawString(var11, var12.str, 2 - var7, numH * h + var5 * t, 0);
                }
             }
          } else {
             var11 = var1;
             PopupShop var10 = this;
-            if (Canvas.getSecond() - this.E > 0 && !k && B != null && focus < this.h[focusTap].size()) {
-               var4 = focus % r * e - this.N / 2 + e / 2;
-               var5 = (focus / r + 1) * e - CameraList.cmtoY + 5;
-               int var6 = B.size() * AvMain.hBlack + (AvMain.hDuBox << 1) + 8;
-               if (var5 + var6 + b + 12 > Canvas.h) {
-                  var5 -= var6 + e + 10;
+            if (Canvas.getSecond() - this.fliped > 0 && !k && strDes != null && focus < this.listCell[focusTap].size()) {
+               var4 = focus % num * h - this.N / 2 + h / 2;
+               var5 = (focus / num + 1) * h - CameraList.cmtoY + 5;
+               int var6 = strDes.size() * AvMain.hBlack + (AvMain.hDuBox << 1) + 8;
+               if (var5 + var6 + x + 12 > Canvas.h) {
+                  var5 -= var6 + h + 10;
                }
 
-               if (var5 + b < 0) {
-                  var5 = -b;
+               if (var5 + x < 0) {
+                  var5 = -x;
                }
 
-               if (var4 + q + 5 + this.N > Canvas.w) {
-                  var4 = Canvas.w - (q + 5 + this.N);
-               } else if (var4 + q < 0) {
-                  var4 = -q;
+               if (var4 + numTap + 5 + this.N > Canvas.w) {
+                  var4 = Canvas.w - (numTap + 5 + this.N);
+               } else if (var4 + numTap < 0) {
+                  var4 = -numTap;
                }
 
                var1.setClip(var4, var5, this.N, var6 * AvMain.hd);
-               Canvas.paint.a(var1, var4, var5, this.N, var6, PaintPopup.d[2], PaintPopup.d[3], 1);
+               Canvas.paint.a(var1, var4, var5, this.N, var6, PaintPopup.color[2], PaintPopup.color[3], 1);
                var4 += AvMain.hDuBox;
                var5 += AvMain.hDuBox - AvMain.hBlack / 2;
 
-               for(var7 = 0; var7 < B.size(); ++var7) {
-                  var12 = (StringObj)B.elementAt(var7);
+               for(var7 = 0; var7 < strDes.size(); ++var7) {
+                  var12 = (StringObj) strDes.elementAt(var7);
                   int var8 = 0;
                   if (var12.w2 > var10.N + 5) {
                      var12.transTextLimit(var10.N);
@@ -631,12 +631,12 @@ public final class PopupShop extends MyScreen {
 
          if (k) {
             Canvas.resetTrans(var1);
-            var1.translate(q, Canvas.cameraList.y);
-            Canvas.paint.a(var1, focus, r, e, G, q, H, focusTap, A, I, this.J, this.K);
+            var1.translate(numTap, Canvas.cameraList.y);
+            Canvas.paint.a(var1, focus, num, h, wPrice, numTap, H, focusTap, numberPrice, I, this.J, this.K);
          }
       } else {
-         var1.setClip(-5, 0, c - 10, d);
-         ((Command)this.w.elementAt(focusTap)).paint(var1, 0, 0);
+         var1.setClip(-5, 0, w - 10, sai);
+         ((Command)this.listCmd.elementAt(focusTap)).paint(var1, 0, 0);
       }
 
       if (Canvas.welcome == null || Welcome.isOut || !Welcome.isPaintArrow) {
@@ -648,7 +648,7 @@ public final class PopupShop extends MyScreen {
 
    public static void resetIsTrans() {
       isTransFocus = false;
-      B.removeAllElements();
+      strDes.removeAllElements();
       if (k) {
          o();
       }

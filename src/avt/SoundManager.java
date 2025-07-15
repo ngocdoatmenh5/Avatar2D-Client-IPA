@@ -24,7 +24,7 @@ public final class SoundManager {
          } else {
             Vector var3 = new Vector();
             if (MapScr.isWedding) {
-               OptionScr.gI().b(OptionScr.gI().c / 10);
+               OptionScr.gI().save(OptionScr.gI().volume / 10);
                var4.perform();
             } else {
                var3.addElement(new Command(T.ep[1], new class_bj(this, var4)));

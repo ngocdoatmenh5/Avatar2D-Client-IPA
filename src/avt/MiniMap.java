@@ -11,46 +11,46 @@ import main.GameMidlet;
 
 public final class MiniMap extends MyScreen {
    public static MiniMap me;
-   private FrameImage p;
-   public FrameImage b;
-   private byte[] q;
-   private Vector r;
-   private byte s;
-   private byte t;
-   private byte u = 16;
-   public int c;
-   public int d;
-   private static Image v;
-   private static Image w;
+   private FrameImage imgMap;
+   public FrameImage imgArrow;
+   private byte[] map;
+   private Vector listPos;
+   private byte wMini;
+   private byte hMini;
+   private byte wSmall = 16;
+   public int x;
+   public int y;
+   private static Image imgSmallIcon;
+   private static Image imgBackIcon;
    public int selected;
-   private static int x;
-   public static int f;
-   private static int y;
-   private static int z;
-   private static int A;
-   private static int B;
-   public static int g;
-   private static int C;
-   private static int D;
-   private static int E;
+   private static int cmtoX;
+   public static int cmx;
+   private static int cmdx;
+   private static int cmvx;
+   private static int cmxLim;
+   private static int cmtoY;
+   public static int cmy;
+   private static int cmdy;
+   private static int cmvy;
+   private static int cmyLim;
    public IAction cmdUpdateKey;
    public static String i;
-   private boolean F;
+   private boolean trans;
    public static boolean isCityMap = false;
-   public static Image[] k = new Image[2];
-   private static Vector G = new Vector();
-   private static FrameImage H;
+   public static Image[] imgClound = new Image[2];
+   private static Vector listClound = new Vector();
+   private static FrameImage imgPopup;
    public Command l;
-   private Command I;
-   private int J;
-   private int K;
-   private int L;
-   private int M;
-   boolean m = false;
-   private int N;
-   private int O;
-   private long P;
-   private long Q;
+   private Command cmdCenter;
+   private int vY;
+   private int vX;
+   private int pa;
+   private int pb;
+   boolean ableTrans = false;
+   private int dyTran;
+   private int dxTran;
+   private long timePointY;
+   private long count;
    public static IAction actionReg;
    public static byte iRequestReg;
 
@@ -72,7 +72,7 @@ public final class MiniMap extends MyScreen {
       if (Canvas.isInitChar) {
          (Canvas.welcome = new Welcome()).initMiniMap();
          super.left = null;
-      } else if (MyScreen.as > 0 && iRequestReg == 1) {
+      } else if (MyScreen.nMsg > 0 && iRequestReg == 1) {
          MessageScr.gI().switchToMe(Canvas.currentMyScreen);
       }
 
@@ -81,17 +81,17 @@ public final class MiniMap extends MyScreen {
       }
 
       Canvas.currentEffect.removeAllElements();
-      this.g();
+      this.tran();
       MapScr.idMapOld = -1;
    }
 
    public MiniMap() {
       FilePack.b(T.aw);
-      this.b = FrameImage.init("up", 13 * AvMain.hd, 11 * AvMain.hd);
+      this.imgArrow = FrameImage.init("up", 13 * AvMain.hd, 11 * AvMain.hd);
       FilePack.reset();
       FilePack.b(T.av);
-      v = FilePack.getImage("sIc");
-      w = FilePack.getImage("b_p");
+      imgSmallIcon = FilePack.getImage("sIc");
+      imgBackIcon = FilePack.getImage("b_p");
       FilePack.reset();
       this.l = new Command(T.c, 0);
       super.left = this.l;
@@ -125,7 +125,7 @@ public final class MiniMap extends MyScreen {
             return;
          case 1:
             MapScr.gI().switchToMe();
-            H = null;
+            imgPopup = null;
          default:
       }
    }
@@ -168,9 +168,9 @@ public final class MiniMap extends MyScreen {
    }
 
    public final void close() {
-      if (!isCityMap && Canvas.currentMyScreen != ServerListScr.a) {
+      if (!isCityMap && Canvas.currentMyScreen != ServerListScr.me) {
          MapScr.gI().switchToMe();
-         H = null;
+         imgPopup = null;
       } else {
          MapScr.gI().doExitGame();
       }
@@ -179,150 +179,150 @@ public final class MiniMap extends MyScreen {
    public final void setInfo(FrameImage var1, byte[] var2, Vector var3, byte var4, int var5, Command var6) {
       AvatarData.getImgIcon((short)839);
       GameMidlet.avatar.ableShow = false;
-      this.u = (byte)var5;
-      this.p = var1;
-      this.q = var2;
-      this.r = var3;
-      this.s = 34;
-      this.I = var6;
+      this.wSmall = (byte)var5;
+      this.imgMap = var1;
+      this.map = var2;
+      this.listPos = var3;
+      this.wMini = 34;
+      this.cmdCenter = var6;
       if (Canvas.stypeInt == 0) {
          super.center = var6;
       }
 
-      this.t = (byte)(var2.length / this.s);
+      this.hMini = (byte)(var2.length / this.wMini);
       super.right = null;
       this.init();
       this.cmdUpdateKey = null;
-      G.removeAllElements();
+      listClound.removeAllElements();
 
       for(int var7 = 0; var7 < 7; ++var7) {
-         G.addElement(new AvPosition(var7 * this.s * this.u / 10 + 50, CRes.rnd(10) * (this.t * this.u / 10) + 20, CRes.rnd(2)));
+         listClound.addElement(new AvPosition(var7 * this.wMini * this.wSmall / 10 + 50, CRes.rnd(10) * (this.hMini * this.wSmall / 10) + 20, CRes.rnd(2)));
       }
 
-      B = g = f = x = this.selected = 0;
-      this.g();
+      cmtoY = cmy = cmx = cmtoX = this.selected = 0;
+      this.tran();
       if (isCityMap) {
          FilePack.b(T.av);
-         H = new FrameImage(FilePack.getImage("k"), 40 * AvMain.hd, 40 * AvMain.hd);
+         imgPopup = new FrameImage(FilePack.getImage("k"), 40 * AvMain.hd, 40 * AvMain.hd);
          FilePack.reset();
       }
 
    }
 
    public final void init() {
-      this.c = (Canvas.w - this.s * this.u) / 2;
-      this.d = (Canvas.hCan - Canvas.hTab - this.t * this.u) / 2;
-      if (this.c < 0) {
-         this.c = 0;
+      this.x = (Canvas.w - this.wMini * this.wSmall) / 2;
+      this.y = (Canvas.hCan - Canvas.hTab - this.hMini * this.wSmall) / 2;
+      if (this.x < 0) {
+         this.x = 0;
       }
 
-      if (this.d < 0) {
-         this.d = 0;
+      if (this.y < 0) {
+         this.y = 0;
       }
 
-      A = this.s * this.u - Canvas.w;
-      E = this.t * this.u - Canvas.hCan;
-      if (A < 0) {
-         f = 0;
-         A = 0;
+      cmxLim = this.wMini * this.wSmall - Canvas.w;
+      cmyLim = this.hMini * this.wSmall - Canvas.hCan;
+      if (cmxLim < 0) {
+         cmx = 0;
+         cmxLim = 0;
       }
 
-      if (E < 0) {
-         g = 0;
-         E = 0;
+      if (cmyLim < 0) {
+         cmy = 0;
+         cmyLim = 0;
       }
 
    }
 
    public final void update() {
-      if (this.J != 0) {
-         if (g < 0 || g > E) {
-            this.J -= this.J / 4;
-            g += this.J / 20;
-            if (this.J / 10 <= 1) {
-               this.J = 0;
+      if (this.vY != 0) {
+         if (cmy < 0 || cmy > cmyLim) {
+            this.vY -= this.vY / 4;
+            cmy += this.vY / 20;
+            if (this.vY / 10 <= 1) {
+               this.vY = 0;
             }
          }
 
-         B = g += this.J / 10;
-         this.J -= this.J / 10;
-         if (this.J / 10 == 0) {
-            this.J = 0;
+         cmtoY = cmy += this.vY / 10;
+         this.vY -= this.vY / 10;
+         if (this.vY / 10 == 0) {
+            this.vY = 0;
          }
       }
 
-      if (g < 0) {
-         B = 0;
-         this.J = 0;
-      } else if (g > E) {
-         B = E;
-         this.J = 0;
+      if (cmy < 0) {
+         cmtoY = 0;
+         this.vY = 0;
+      } else if (cmy > cmyLim) {
+         cmtoY = cmyLim;
+         this.vY = 0;
       }
 
-      if (this.K != 0) {
-         if (f < 0 || f > A) {
-            this.K -= this.K / 4;
-            f += this.K / 20;
-            if (this.K / 10 <= 1) {
-               this.K = 0;
+      if (this.vX != 0) {
+         if (cmx < 0 || cmx > cmxLim) {
+            this.vX -= this.vX / 4;
+            cmx += this.vX / 20;
+            if (this.vX / 10 <= 1) {
+               this.vX = 0;
             }
          }
 
-         f += this.K / 10;
-         this.K -= this.K / 10;
-         x = f;
-         if (this.K / 10 == 0) {
-            this.K = 0;
+         cmx += this.vX / 10;
+         this.vX -= this.vX / 10;
+         cmtoX = cmx;
+         if (this.vX / 10 == 0) {
+            this.vX = 0;
          }
       }
 
-      if (f < 0) {
-         x = 0;
-         this.K = 0;
-      } else if (f > A) {
-         x = A;
-         this.K = 0;
+      if (cmx < 0) {
+         cmtoX = 0;
+         this.vX = 0;
+      } else if (cmx > cmxLim) {
+         cmtoX = cmxLim;
+         this.vX = 0;
       }
 
-      if (g != B) {
-         D = B - g << 2;
-         C += D;
-         g += C >> 4;
-         C &= 15;
+      if (cmy != cmtoY) {
+         cmvy = cmtoY - cmy << 2;
+         cmdy += cmvy;
+         cmy += cmdy >> 4;
+         cmdy &= 15;
       }
 
-      if (f != x) {
-         z = x - f << 2;
-         y += z;
-         f += y >> 4;
-         y &= 15;
+      if (cmx != cmtoX) {
+         cmvx = cmtoX - cmx << 2;
+         cmdx += cmvx;
+         cmx += cmdx >> 4;
+         cmdx &= 15;
       }
 
-      if (B < 0 || g < 0) {
-         g = 0;
-         B = 0;
+      if (cmtoY < 0 || cmy < 0) {
+         cmy = 0;
+         cmtoY = 0;
       }
 
-      if (B > E || g > E) {
-         B = g = E;
+      if (cmtoY > cmyLim || cmy > cmyLim) {
+         cmtoY = cmy = cmyLim;
       }
 
-      if (x < 0 || f < 0) {
-         f = 0;
-         x = 0;
+      if (cmtoX < 0 || cmx < 0) {
+         cmx = 0;
+         cmtoX = 0;
       }
 
-      if (x > A || f > A) {
-         x = f = A;
+      if (cmtoX > cmxLim || cmx > cmxLim) {
+         cmtoX = cmx = cmxLim;
       }
 
-      for(int var1 = 0; var1 < G.size(); ++var1) {
+      for(int var1 = 0; var1 < listClound.size(); ++var1) {
          AvPosition var2;
-         AvPosition var10000 = var2 = (AvPosition)G.elementAt(var1);
+         AvPosition var10000 = var2 = (AvPosition) listClound.elementAt(var1);
          var10000.x -= var2.anchor + (Canvas.gameTick % 5 == 1 ? 1 : 0);
-         if (var2.x < -this.c - 50) {
-            var2.x = this.c + CRes.rnd(4) * 50 + this.s * this.u;
-            var2.y = CRes.rnd(10) * (this.t * this.u / 10) + 10;
+         if (var2.x < -this.x - 50) {
+            var2.x = this.x + CRes.rnd(4) * 50 + this.wMini * this.wSmall;
+            var2.y = CRes.rnd(10) * (this.hMini * this.wSmall / 10) + 10;
             var2.anchor = CRes.rnd(2);
          }
       }
@@ -337,23 +337,23 @@ public final class MiniMap extends MyScreen {
    }
 
    public final void updateKey() {
-      ++this.Q;
+      ++this.count;
       if (Canvas.welcome == null || !Welcome.isPaintArrow) {
          super.updateKey();
       }
 
-      this.m = false;
+      this.ableTrans = false;
       if (Canvas.isPointer(0, 0, Canvas.w, Canvas.h)) {
          int var1 = Canvas.dx();
          int var2 = Canvas.dy();
          int var3;
-         class_kb var4;
+         PositionMap var4;
          if (Canvas.welcome == null && Canvas.isPointerClick) {
             Canvas.isPointerClick = false;
 
-            for(var3 = 0; var3 < this.r.size(); ++var3) {
-               var4 = (class_kb)this.r.elementAt(var3);
-               if (Canvas.isPointer(this.c + var4.a * this.u + this.u / 2 - 24 * AvMain.hd - f, this.d + var4.b * this.u - 56 * AvMain.hd - g, 48 * AvMain.hd, 56 * AvMain.hd)) {
+            for(var3 = 0; var3 < this.listPos.size(); ++var3) {
+               var4 = (PositionMap)this.listPos.elementAt(var3);
+               if (Canvas.isPointer(this.x + var4.x * this.wSmall + this.wSmall / 2 - 24 * AvMain.hd - cmx, this.y + var4.y * this.wSmall - 56 * AvMain.hd - cmy, 48 * AvMain.hd, 56 * AvMain.hd)) {
                   this.selected = var3;
                   return;
                }
@@ -362,52 +362,52 @@ public final class MiniMap extends MyScreen {
 
          if (Canvas.isPointerDown) {
             if (Canvas.gameTick % 3 == 0) {
-               this.N = Canvas.py;
-               this.O = Canvas.px;
-               this.P = this.Q;
+               this.dyTran = Canvas.py;
+               this.dxTran = Canvas.px;
+               this.timePointY = this.count;
             }
 
-            this.J = 0;
-            this.K = 0;
-            if (!this.F) {
-               this.F = true;
-               this.L = f;
-               this.M = g;
+            this.vY = 0;
+            this.vX = 0;
+            if (!this.trans) {
+               this.trans = true;
+               this.pa = cmx;
+               this.pb = cmy;
             }
 
-            B = this.M + var2;
-            x = this.L + var1;
-            h();
-            g = B;
-            f = x;
+            cmtoY = this.pb + var2;
+            cmtoX = this.pa + var1;
+            setLimit();
+            cmy = cmtoY;
+            cmx = cmtoX;
          }
 
          if (Canvas.isPointerRelease) {
-            var3 = (int)(this.Q - this.P);
-            int var5 = this.N - Canvas.py;
+            var3 = (int)(this.count - this.timePointY);
+            int var5 = this.dyTran - Canvas.py;
             if (var3 < 10) {
-               if (B >= 0 && B < E) {
-                  this.J = var5 / var3 * 10;
+               if (cmtoY >= 0 && cmtoY < cmyLim) {
+                  this.vY = var5 / var3 * 10;
                }
 
-               var5 = this.O - Canvas.px;
-               if (x >= 0 && x < A) {
-                  this.K = var5 / var3 * 10;
+               var5 = this.dxTran - Canvas.px;
+               if (cmtoX >= 0 && cmtoX < cmxLim) {
+                  this.vX = var5 / var3 * 10;
                }
             }
 
-            this.P = -1L;
-            this.F = false;
+            this.timePointY = -1L;
+            this.trans = false;
             if (CRes.abs(var1) < 10 && CRes.abs(var2) < 10) {
-               var4 = (class_kb)this.r.elementAt(this.selected);
-               if (Canvas.isPointer(this.c + var4.a * this.u + this.u / 2 - 24 * AvMain.hd - f, this.d + var4.b * this.u - 56 * AvMain.hd - g, 48 * AvMain.hd, 56 * AvMain.hd)) {
-                  this.I.perform();
+               var4 = (PositionMap)this.listPos.elementAt(this.selected);
+               if (Canvas.isPointer(this.x + var4.x * this.wSmall + this.wSmall / 2 - 24 * AvMain.hd - cmx, this.y + var4.y * this.wSmall - 56 * AvMain.hd - cmy, 48 * AvMain.hd, 56 * AvMain.hd)) {
+                  this.cmdCenter.perform();
                   return;
                }
 
-               x = Canvas.px + f - Canvas.hw;
-               B = Canvas.py + g - Canvas.hh;
-               h();
+               cmtoX = Canvas.px + cmx - Canvas.hw;
+               cmtoY = Canvas.py + cmy - Canvas.hh;
+               setLimit();
             }
          }
       }
@@ -416,52 +416,52 @@ public final class MiniMap extends MyScreen {
          if (!Canvas.a(2) && !Canvas.a(4)) {
             if (Canvas.a(8) || Canvas.a(6)) {
                ++this.selected;
-               if (this.selected >= this.r.size()) {
+               if (this.selected >= this.listPos.size()) {
                   this.selected = 0;
                }
 
-               this.m = true;
+               this.ableTrans = true;
             }
          } else {
             --this.selected;
             if (this.selected < 0) {
-               this.selected = this.r.size() - 1;
+               this.selected = this.listPos.size() - 1;
             }
 
-            this.m = true;
+            this.ableTrans = true;
          }
       } else if (Canvas.welcome == null) {
          this.cmdUpdateKey.perform();
       }
 
-      if (this.m) {
-         this.g();
+      if (this.ableTrans) {
+         this.tran();
       }
 
    }
 
-   private void g() {
-      class_kb var1;
-      x = (var1 = (class_kb)this.r.elementAt(this.selected)).a * this.u - Canvas.w / 2;
-      B = var1.b * this.u - Canvas.hCan / 2;
-      h();
+   private void tran() {
+      PositionMap var1;
+      cmtoX = (var1 = (PositionMap)this.listPos.elementAt(this.selected)).x * this.wSmall - Canvas.w / 2;
+      cmtoY = var1.y * this.wSmall - Canvas.hCan / 2;
+      setLimit();
    }
 
-   private static void h() {
-      if (B < 0) {
-         B = 0;
+   private static void setLimit() {
+      if (cmtoY < 0) {
+         cmtoY = 0;
       }
 
-      if (B > E) {
-         B = E;
+      if (cmtoY > cmyLim) {
+         cmtoY = cmyLim;
       }
 
-      if (x < 0) {
-         x = 0;
+      if (cmtoX < 0) {
+         cmtoX = 0;
       }
 
-      if (x > A) {
-         x = A;
+      if (cmtoX > cmxLim) {
+         cmtoX = cmxLim;
       }
 
    }
@@ -479,28 +479,28 @@ public final class MiniMap extends MyScreen {
       Canvas.resetTrans(var1);
       var1.setColor(0);
       var1.fillRect(0, 0, Canvas.w, Canvas.hCan);
-      var1.translate(this.c, this.d);
-      var1.translate(-f, -g);
+      var1.translate(this.x, this.y);
+      var1.translate(-cmx, -cmy);
 
       int var2;
       int var4;
-      for(var2 = 0; var2 < this.q.length; ++var2) {
+      for(var2 = 0; var2 < this.map.length; ++var2) {
          byte var3;
-         var4 = (var3 = this.q[var2]) / this.p.nFrame;
-         this.p.drawFrameXY(var4, var3 % this.p.nFrame, var2 % this.s * this.u, var2 / this.s * this.u, var1);
+         var4 = (var3 = this.map[var2]) / this.imgMap.nFrame;
+         this.imgMap.drawFrameXY(var4, var3 % this.imgMap.nFrame, var2 % this.wMini * this.wSmall, var2 / this.wMini * this.wSmall, var1);
       }
 
-      for(var2 = 0; var2 < this.r.size(); ++var2) {
-         class_kb var9 = (class_kb)this.r.elementAt(var2);
+      for(var2 = 0; var2 < this.listPos.size(); ++var2) {
+         PositionMap var9 = (PositionMap)this.listPos.elementAt(var2);
          if (var2 == this.selected) {
-            var1.drawImage(w, var9.a * this.u + this.u / 2, var9.b * this.u, 33);
+            var1.drawImage(imgBackIcon, var9.x * this.wSmall + this.wSmall / 2, var9.y * this.wSmall, 33);
             if (isCityMap) {
-               H.drawFrame(var2, var9.a * this.u + this.u / 2, var9.b * this.u - 12 * AvMain.hd, 0, 33, var1);
+               imgPopup.drawFrame(var2, var9.x * this.wSmall + this.wSmall / 2, var9.y * this.wSmall - 12 * AvMain.hd, 0, 33, var1);
             } else {
-               AvatarData.paintImg(var1, var9.d, var9.a * this.u + this.u / 2, var9.b * this.u - 12 * AvMain.hd, 33);
+               AvatarData.paintImg(var1, var9.d, var9.x * this.wSmall + this.wSmall / 2, var9.y * this.wSmall - 12 * AvMain.hd, 33);
             }
          } else {
-            var1.drawImage(v, var9.a * this.u + this.u / 2, var9.b * this.u - var9.e / 3, 33);
+            var1.drawImage(imgSmallIcon, var9.x * this.wSmall + this.wSmall / 2, var9.y * this.wSmall - var9.e / 3, 33);
             ++var9.e;
             if (var9.e >= 9) {
                var9.e = 0;
@@ -511,24 +511,24 @@ public final class MiniMap extends MyScreen {
       Graphics var10 = var1;
       MiniMap var8 = this;
 
-      for(var4 = 0; var4 < var8.r.size(); ++var4) {
-         class_kb var5;
-         int var6 = (var5 = (class_kb)var8.r.elementAt(var4)).a * var8.u;
+      for(var4 = 0; var4 < var8.listPos.size(); ++var4) {
+         PositionMap var5;
+         int var6 = (var5 = (PositionMap)var8.listPos.elementAt(var4)).x * var8.wSmall;
          int var7;
-         if ((var7 = var5.b * var8.u) < g + 50) {
-            var7 = g + 50;
+         if ((var7 = var5.y * var8.wSmall) < cmy + 50) {
+            var7 = cmy + 50;
          }
 
-         if (var7 > g + Canvas.hCan - 20) {
-            var7 = g + Canvas.hCan - 20;
+         if (var7 > cmy + Canvas.hCan - 20) {
+            var7 = cmy + Canvas.hCan - 20;
          }
 
-         if (var6 < f + 20) {
-            var6 = f + 20;
+         if (var6 < cmx + 20) {
+            var6 = cmx + 20;
          }
 
-         if (var6 > f + Canvas.w - 47) {
-            var6 = f + Canvas.w - 47;
+         if (var6 > cmx + Canvas.w - 47) {
+            var6 = cmx + Canvas.w - 47;
          }
 
          Canvas.borderFont.drawString(var10, var5.c, var6 + 10, var7 - (var4 == var8.selected ? 70 * AvMain.hd : 35 * AvMain.hd) - var5.e / 3, 2);
@@ -536,17 +536,17 @@ public final class MiniMap extends MyScreen {
 
       Graphics var11 = var1;
 
-      for(var4 = 0; var4 < G.size(); ++var4) {
+      for(var4 = 0; var4 < listClound.size(); ++var4) {
          AvPosition var12;
-         if ((var12 = (AvPosition)G.elementAt(var4)).x > f - 30 && var12.x < f + 30 + Canvas.w && var12.y > g - 20 && var12.y < g + 20 + Canvas.h) {
-            var11.drawImage(k[var12.anchor], var12.x, var12.y, 3);
+         if ((var12 = (AvPosition) listClound.elementAt(var4)).x > cmx - 30 && var12.x < cmx + 30 + Canvas.w && var12.y > cmy - 20 && var12.y < cmy + 20 + Canvas.h) {
+            var11.drawImage(imgClound[var12.anchor], var12.x, var12.y, 3);
          }
       }
 
       Canvas.resetTrans(var1);
    }
 
-   public final void a(byte var1, String var2, String var3, String var4) {
+   public final void onRegisterByEmail(byte var1, String var2, String var3, String var4) {
       System.out.println("onRegisterByEmail: " + var3 + "   " + var4);
       if (var1 == 0) {
          actionReg = new class_ct(this, var2);

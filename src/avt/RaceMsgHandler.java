@@ -2,8 +2,8 @@ package avt;
 
 import main.Canvas;
 
-public final class class_jz implements IMiniGameMsgHandler {
-   public static class_jz a;
+public final class RaceMsgHandler implements IMiniGameMsgHandler {
+   public static RaceMsgHandler instance;
 
    public final void onMessage(Message var1) {
       try {
@@ -19,56 +19,56 @@ public final class class_jz implements IMiniGameMsgHandler {
 
                   for(var12 = 0; var12 < 6; ++var12) {
                      var13[var12] = new PetRace(this);
-                     var13[var12].g = 0;
+                     var13[var12].money = 0;
                      var13[var12].IDDB = var1.reader().readByte();
-                     var13[var12].a = var1.reader().readByte();
-                     var13[var12].c = var1.reader().readShort();
-                     var13[var12].d = var1.reader().readShort();
+                     var13[var12].rate = var1.reader().readByte();
+                     var13[var12].idImg = var1.reader().readShort();
+                     var13[var12].idIcon = var1.reader().readShort();
                   }
 
                   var14 = var1.reader().readShort();
-                  RaceScr.b().a(var13, var14, false, true);
+                  RaceScr.gI().doOpenRace(var13, var14, false, true);
                   return;
                } else if (!var1.reader().readBoolean()) {
                   PetRace[] var17 = new PetRace[6];
 
                   for(var15 = 0; var15 < 6; ++var15) {
                      var17[var15] = new PetRace(this);
-                     var17[var15].g = 0;
+                     var17[var15].money = 0;
                      var17[var15].IDDB = var1.reader().readByte();
-                     var17[var15].c = var1.reader().readShort();
+                     var17[var15].idImg = var1.reader().readShort();
                      byte var19 = var1.reader().readByte();
-                     var17[var15].e = new short[var19];
-                     var17[var15].f = new short[var19];
+                     var17[var15].numTick = new short[var19];
+                     var17[var15].vTick = new short[var19];
 
                      for(var6 = 0; var6 < var19; ++var6) {
-                        var17[var15].e[var6] = var1.reader().readShort();
-                        var17[var15].f[var6] = var1.reader().readShort();
+                        var17[var15].numTick[var6] = var1.reader().readShort();
+                        var17[var15].vTick[var6] = var1.reader().readShort();
                      }
                   }
 
                   short var18 = var1.reader().readShort();
-                  RaceScr.b().n = var1.reader().readShort();
-                  RaceScr.b().o = System.currentTimeMillis();
-                  RaceScr.b().a(var17, var18, false, false);
+                  RaceScr.gI().timeStart = var1.reader().readShort();
+                  RaceScr.gI().curTimeStart = System.currentTimeMillis();
+                  RaceScr.gI().doOpenRace(var17, var18, false, false);
                   return;
                } else {
                   for(var12 = 0; var12 < 6; ++var12) {
                      var15 = var1.reader().readByte();
-                     RaceScr.b().c[var12].e = new short[var15];
-                     RaceScr.b().c[var12].f = new short[var15];
+                     RaceScr.gI().listPet[var12].numTick = new short[var15];
+                     RaceScr.gI().listPet[var12].vTick = new short[var15];
 
                      for(var2 = 0; var2 < var15; ++var2) {
-                        RaceScr.b().c[var12].e[var2] = var1.reader().readShort();
-                        RaceScr.b().c[var12].f[var2] = var1.reader().readShort();
-                        RaceScr.b();
+                        RaceScr.gI().listPet[var12].numTick[var2] = var1.reader().readShort();
+                        RaceScr.gI().listPet[var12].vTick[var2] = var1.reader().readShort();
+                        RaceScr.gI();
                      }
                   }
 
                   var14 = var1.reader().readShort();
-                  RaceScr.b().n = var1.reader().readShort();
-                  RaceScr.b().o = System.currentTimeMillis();
-                  RaceScr.b().a((PetRace[])null, var14, true, false);
+                  RaceScr.gI().timeStart = var1.reader().readShort();
+                  RaceScr.gI().curTimeStart = System.currentTimeMillis();
+                  RaceScr.gI().doOpenRace((PetRace[])null, var14, true, false);
                   return;
                }
             case 2:
@@ -78,16 +78,16 @@ public final class class_jz implements IMiniGameMsgHandler {
                var14 = var1.reader().readByte();
                var15 = var1.reader().readByte();
                byte var9 = var1.reader().readByte();
-               RaceScr.b().a(var16, var10, (short)var6, (byte)var14, (byte)var15, var9);
+               RaceScr.gI().onPetInfo(var16, var10, (short)var6, (byte)var14, (byte)var15, var9);
                return;
             case 5:
                var2 = var1.reader().readByte();
                int var8 = var1.reader().readInt();
 
-               for(var12 = 0; var12 < RaceScr.b().c.length; ++var12) {
-                  if (var2 == RaceScr.b().c[var12].IDDB) {
-                     RaceScr.b().c[var12].g = var8;
-                     RaceScr.b().g = (byte)var12;
+               for(var12 = 0; var12 < RaceScr.gI().listPet.length; ++var12) {
+                  if (var2 == RaceScr.gI().listPet[var12].IDDB) {
+                     RaceScr.gI().listPet[var12].money = var8;
+                     RaceScr.gI().indexFocus = (byte)var12;
                      break;
                   }
                }
@@ -112,18 +112,18 @@ public final class class_jz implements IMiniGameMsgHandler {
                return;
             case 9:
                String var3 = var1.reader().readUTF();
-               RaceScr.b().b(var3);
+               RaceScr.gI().onChat(var3);
                return;
             case 10:
-               RaceScr.b().l = new dialogWin();
-               RaceScr.b().l.b = var1.reader().readByte();
-               RaceScr.b().l.name = var1.reader().readUTF();
-               RaceScr.b();
+               RaceScr.gI().diaWin = new dialogWin();
+               RaceScr.gI().diaWin.b = var1.reader().readByte();
+               RaceScr.gI().diaWin.name = var1.reader().readUTF();
+               RaceScr.gI();
                var1.reader().readByte();
-               RaceScr.b().l.tienCuoc = var1.reader().readInt();
-               RaceScr.b().l.tienAn = var1.reader().readInt();
-               RaceScr.b().l.tienThue = var1.reader().readInt();
-               RaceScr.b().l.tienNhanDuoc = var1.reader().readInt();
+               RaceScr.gI().diaWin.tienCuoc = var1.reader().readInt();
+               RaceScr.gI().diaWin.tienAn = var1.reader().readInt();
+               RaceScr.gI().diaWin.tienThue = var1.reader().readInt();
+               RaceScr.gI().diaWin.tienNhanDuoc = var1.reader().readInt();
             case 3:
             case 4:
             case 6:

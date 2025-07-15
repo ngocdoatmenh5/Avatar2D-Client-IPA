@@ -55,7 +55,7 @@ final class class_jx extends Command {
       }
 
       if (var4.IDPart != -1) {
-         var4.paint(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
+         var4.paint(var1, var2 + PopupShop.h / 2, var3 + PopupShop.h / 2, 3);
       }
 
    }

@@ -70,13 +70,13 @@ public final class class_cp {
    }
 
    public final void a(Graphics var1) {
-      if (Canvas.currentMyScreen == RaceScr.a) {
+      if (Canvas.currentMyScreen == RaceScr.me) {
          Canvas.resetTrans(var1);
       }
 
       if (this.e <= 0) {
          int var2 = AvMain.hd;
-         if (Canvas.currentMyScreen == BoardScr.me && (BoardScr.isStartGame || BoardScr.disableReady) || Canvas.currentMyScreen == RaceScr.a) {
+         if (Canvas.currentMyScreen == BoardScr.me && (BoardScr.isStartGame || BoardScr.disableReady) || Canvas.currentMyScreen == RaceScr.me) {
             var2 = 1;
          }
 

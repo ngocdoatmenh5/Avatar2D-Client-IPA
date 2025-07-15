@@ -27,14 +27,14 @@ public final class MessageScr extends MyScreen {
 
    public final void switchToMe(MyScreen var1) {
       this.h = var1;
-      MyScreen.as = 0;
+      MyScreen.nMsg = 0;
       gI().b = gI().g.size() - 1;
       this.f();
-      PaintPopup.gI().l = this.b;
+      PaintPopup.gI().countCloseTab = this.b;
       gI().g();
       this.j = this.b(this.b).h;
       this.init();
-      PaintPopup.gI().a(this.b(this.b).b, this.b);
+      PaintPopup.gI().setNameAndFocus(this.b(this.b).b, this.b);
       super.switchToMe();
    }
 
@@ -50,7 +50,7 @@ public final class MessageScr extends MyScreen {
          var10002 = Canvas.w - (e << 1);
          int var10003 = Canvas.h - Canvas.ab - Canvas.hTab - 10;
          var10000.a(this.b(this.b).b, var10002, var10003 + (OnScreen.isOngame && this.h != BoardScr.me ? -20 : 0), this.g.size());
-         i = PaintPopup.gI().h = 10 + Canvas.ab;
+         i = PaintPopup.gI().y = 10 + Canvas.ab;
       }
    }
 
@@ -69,7 +69,7 @@ public final class MessageScr extends MyScreen {
    public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 1:
-            ParkService.gI().a(c.getText());
+            ParkService.gI().chatToBoard(c.getText());
             c.setText("");
             return;
          case 2:
@@ -125,7 +125,7 @@ public final class MessageScr extends MyScreen {
 
    }
 
-   public final void doLeftMenu() {
+   public final void initCmd() {
       if (Canvas.stypeInt == 0) {
          if (OnScreen.isOngame) {
             super.left = new Command(T.d, 4);
@@ -154,7 +154,7 @@ public final class MessageScr extends MyScreen {
       this.init();
       c.setFocus(true);
       c.setMaxTextLenght(40);
-      this.doLeftMenu();
+      this.initCmd();
       class_cw var10000 = this.a;
       var10000.i += 20;
       this.g.addElement(this.a);
@@ -168,8 +168,8 @@ public final class MessageScr extends MyScreen {
          this.b(this.b).c();
       }
 
-      c.y = PaintPopup.gI().h + PaintPopup.gI().e - c.height - 6;
-      c.width = Canvas.w - (PaintPopup.gI().g << 1) - 10;
+      c.y = PaintPopup.gI().y + PaintPopup.gI().h - c.height - 6;
+      c.width = Canvas.w - (PaintPopup.gI().x << 1) - 10;
    }
 
    private void g() {
@@ -183,7 +183,7 @@ public final class MessageScr extends MyScreen {
       this.j = this.b(this.b).h;
       this.b(this.b).c();
       if (Canvas.currentMyScreen == this) {
-         PaintPopup.gI().a(this.b(this.b).b, this.b);
+         PaintPopup.gI().setNameAndFocus(this.b(this.b).b, this.b);
       }
 
    }
@@ -220,8 +220,8 @@ public final class MessageScr extends MyScreen {
    public final void paint(Graphics var1) {
       this.h.paintMain(var1);
       Canvas.resetTrans(var1);
-      PaintPopup.gI().a(var1);
-      var1.translate(e, i + PaintPopup.o + AvMain.hDuBox);
+      PaintPopup.gI().paint(var1);
+      var1.translate(e, i + PaintPopup.hTab + AvMain.hDuBox);
       this.b(this.b).a(var1);
       if (this.j) {
          var1.translate(-var1.getTranslateX(), -var1.getTranslateY());
@@ -229,7 +229,7 @@ public final class MessageScr extends MyScreen {
       }
 
       if (OnScreen.isOngame) {
-         OnScreen.a(var1, super.left, super.center, super.right);
+         OnScreen.paintTitle(var1, super.left, super.center, super.right);
       } else {
          super.paint(var1);
       }
@@ -275,7 +275,7 @@ public final class MessageScr extends MyScreen {
       }
 
       int var1;
-      if (Canvas.isPointerClick && (var1 = PaintPopup.gI().d()) != 0) {
+      if (Canvas.isPointerClick && (var1 = PaintPopup.gI().setupdateTab()) != 0) {
          this.e(var1);
          Canvas.isPointerClick = false;
       }
@@ -300,8 +300,8 @@ public final class MessageScr extends MyScreen {
          this.b = this.g.size() - 1;
       }
 
-      PaintPopup.gI().l = this.b;
-      PaintPopup.gI().a(this.g.size());
+      PaintPopup.gI().countCloseTab = this.b;
+      PaintPopup.gI().setNumTab(this.g.size());
       this.h();
       this.g();
    }
@@ -326,7 +326,7 @@ public final class MessageScr extends MyScreen {
    public final void b(class_cw var1) {
       this.g.addElement(var1);
       if (Canvas.currentMyScreen == this) {
-         PaintPopup.gI().a(this.g.size());
+         PaintPopup.gI().setNumTab(this.g.size());
          this.h();
       }
 

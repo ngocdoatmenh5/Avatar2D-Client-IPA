@@ -7,7 +7,7 @@ import main.GameMidlet;
 public final class CasinoMsgHandler extends IService implements IMiniGameMsgHandler {
    public static CasinoMsgHandler me = new CasinoMsgHandler();
    public IMiniGameMsgHandler miniGameMessageHandler;
-   public static BoardScr d;
+   public static BoardScr curScr;
 
    public static void gI() {
       GlobalMessageHandler.gI().miniGameMessageHandler = me;
@@ -36,8 +36,8 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                   var21.addElement(var19);
                }
 
-               RoomListOnScr.b().a(var21);
-               RoomListOnScr.b().switchToMe();
+               RoomListOnScr.gI().setRoomList(var21);
+               RoomListOnScr.gI().switchToMe();
                Canvas.endDlg();
                return;
             case 7:
@@ -103,7 +103,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                   }
                }
 
-               d.setPlayers(var15, var16, var17, var5, var6);
+               curScr.setPlayers(var15, var16, var17, var5, var6);
                TLBoardScr.gI().isFirstMatch = true;
                BoardScr.disableReady = false;
                int var23 = var6.size();
@@ -124,8 +124,8 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                   byte var10001 = BoardListOnScr.c;
                }
 
-               d.loadMap();
-               d.switchToMe();
+               curScr.loadMap();
+               curScr.switchToMe();
                TLBoardScr.gI();
                TLBoardScr.setMode(false);
                Canvas.endDlg();
@@ -174,13 +174,13 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                var8.isReady = false;
                TLBoardScr.gI().isFirstMatch = true;
                var8.isReady = false;
-               d.setAt(var9, var8);
+               curScr.setAt(var9, var8);
                return;
             case 14:
                var2 = var1.reader().readInt();
                var13 = var1.reader().readInt();
                if (BoardScr.isStartGame && BoardScr.numPlayer == 2) {
-                  d.closeBoard(T.J);
+                  curScr.closeBoard(T.J);
                }
 
                TLBoardScr.gI().isFirstMatch = true;
@@ -201,7 +201,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                var16 = var1.reader().readByte();
                var13 = var1.reader().readInt();
                if (BoardScr.setR_B(var15, var16)) {
-                  d.setMoney(var13);
+                  curScr.setMoney(var13);
                   return;
                }
                break;

@@ -9,7 +9,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
    public static void onHandler() {
       BoardScr.numPlayer = 4;
       BoardListOnScr.type = BoardListOnScr.c;
-      RoomListOnScr.setName(1, PBoardScr.b());
+      RoomListOnScr.setName(1, PBoardScr.gI());
       CasinoMsgHandler.me.miniGameMessageHandler = instance;
    }
 
@@ -39,7 +39,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
                   var20 = var1.reader().readInt();
                   Canvas.endDlg();
                   BoardScr.resetReady();
-                  PBoardScr.b().a(var15, var23, var4, var20);
+                  PBoardScr.gI().start(var15, var23, var4, var20);
                   return;
                case 21:
                   var2 = var1.reader().readInt();
@@ -51,12 +51,12 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
                   }
 
                   Canvas.endDlg();
-                  PBoardScr.b().a(var2, var3, var19, var27);
+                  PBoardScr.gI().onFire(var2, var3, var19, var27);
                   return;
                case 49:
                   var2 = var1.reader().readInt();
                   var14 = var1.reader().readInt();
-                  PBoardScr.b().b(var2, var14);
+                  PBoardScr.gI().onSkipPlayer(var2, var14);
                   return;
                case 51:
                   int[] var29 = new int[4];
@@ -99,7 +99,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
                   }
 
                   Canvas.endDlg();
-                  PBoardScr.b().a(var21, var22);
+                  PBoardScr.gI().onFinish(var21, var22);
                   return;
                case 62:
                   var19 = var1.reader().readByte();
@@ -144,13 +144,13 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
                         }
                      }
 
-                     PBoardScr.b().a(var19, var2, var3, var25, var28, var20);
+                     PBoardScr.gI().onPlaying(var19, var2, var3, var25, var28, var20);
                      return;
                   }
                case 63:
                   var14 = var1.reader().readByte();
                   Canvas.endDlg();
-                  PBoardScr.b().c(var14);
+                  PBoardScr.gI().onGetCard(var14);
                   return;
                case 64:
                   var2 = var1.reader().readInt();
@@ -162,7 +162,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
 
                   var14 = var1.reader().readByte();
                   Canvas.endDlg();
-                  PBoardScr.b().a(var17, var19, var2, (byte)var14);
+                  PBoardScr.gI().onEatCard(var17, var19, var2, (byte)var14);
                   return;
                case 65:
                   var2 = var1.reader().readInt();
@@ -186,7 +186,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
                   }
 
                   Canvas.endDlg();
-                  PBoardScr.b().a(var17, var24, var18, var2);
+                  PBoardScr.gI().onHaPhom(var17, var24, var18, var2);
                   return;
                case 67:
                   boolean var6 = var1.reader().readBoolean();
@@ -196,12 +196,12 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
                   }
 
                   Canvas.endDlg();
-                  PBoardScr.b().a(var6, var15);
+                  PBoardScr.gI().onAddCardToPhom(var6, var15);
                   return;
                case 68:
                   var14 = var1.reader().readByte();
                   Canvas.endDlg();
-                  PBoardScr.b().a((byte)var14);
+                  PBoardScr.gI().onResetPhomEat((byte)var14);
                   return;
                case 69:
                   var2 = var1.reader().readInt();
@@ -211,11 +211,11 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
                      var16[var4] = var1.reader().readInt();
                   }
 
-                  PBoardScr.b().b(var2);
+                  PBoardScr.gI().onDenBai(var2);
                   return;
                case 70:
                   var1.reader().readInt();
-                  PBoardScr.b().m();
+                  PBoardScr.gI().onOnceWin();
                default:
             }
          }

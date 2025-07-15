@@ -40,13 +40,13 @@ public final class InputFace extends Face {
       this.title = var2;
       this.list = var1;
       this.nameChangePass = var3;
-      this.h = MyScreen.at + AvMain.hDuBox + AvMain.ah + (var1[0].height << 1) * var1.length + Canvas.stypeInt * 12;
+      this.h = MyScreen.hTab + AvMain.hDuBox + AvMain.ah + (var1[0].height << 1) * var1.length + Canvas.stypeInt * 12;
       this.y = (Canvas.h - Canvas.hTab - this.h) / 2;
 
       for(int var5 = 0; var5 < var1.length; ++var5) {
          var1[var5].width = this.w - 50 * (Canvas.stypeInt + 1) - Canvas.normalFont.getWidth(var3[0][0]);
          var1[var5].x = this.x + this.w - var1[var5].width - 10 * (Canvas.stypeInt + 1);
-         var1[var5].y = this.y + PaintPopup.o + AvMain.hDuBox + AvMain.ah + (var1[0].height * var5 << 1);
+         var1[var5].y = this.y + PaintPopup.hTab + AvMain.hDuBox + AvMain.ah + (var1[0].height * var5 << 1);
       }
 
       this.wTab = Canvas.normalFont.getWidth(var2) + 20 * AvMain.hd;
@@ -107,7 +107,7 @@ public final class InputFace extends Face {
 
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      Canvas.paint.paintBoxTab(var1, this.x, this.y, this.h, this.w, 0, 0, PaintPopup.gI().j, this.wTab, PaintPopup.o, 1, 1, PaintPopup.gI().n, PaintPopup.gI().m, this.title);
+      Canvas.paint.paintBoxTab(var1, this.x, this.y, this.h, this.w, 0, 0, PaintPopup.gI().wSub, this.wTab, PaintPopup.hTab, 1, 1, PaintPopup.gI().count, PaintPopup.gI().colorTab, this.title);
 
       for(int var2 = 0; var2 < this.list.length; ++var2) {
          var1.setClip(this.x + 4 * AvMain.hd, this.y, this.w - 8 * AvMain.hd, this.h);

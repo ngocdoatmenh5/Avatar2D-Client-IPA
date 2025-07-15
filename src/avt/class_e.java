@@ -16,7 +16,7 @@ final class class_e extends Command {
    }
 
    public final void paint(Graphics var1, int var2, int var3) {
-      this.g.paintIcon(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 0, 3);
+      this.g.paintIcon(var1, var2 + PopupShop.h / 2, var3 + PopupShop.h / 2, 0, 3);
    }
 
    public final void update() {

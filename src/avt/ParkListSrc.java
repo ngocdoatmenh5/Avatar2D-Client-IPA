@@ -7,9 +7,9 @@ public final class ParkListSrc extends MyScreen {
    public static ParkListSrc instance;
    private int[] listBoard;
    private MyScreen lastScr;
-   private int d = 5;
-   private int e;
-   private int f = 7;
+   private int maxW = 5;
+   private int w;
+   private int maxH = 7;
 
    public static ParkListSrc gI() {
       if (instance == null) {
@@ -42,17 +42,17 @@ public final class ParkListSrc extends MyScreen {
    public ParkListSrc() {
       super.right = new Command(T.d, 0);
       super.center = new Command(T.O, 1);
-      this.e = 20;
+      this.w = 20;
       if (Canvas.stypeInt > 0) {
-         this.e = Canvas.stypeInt * 30;
+         this.w = Canvas.stypeInt * 30;
       }
 
       if (Canvas.w < 176) {
-         this.e = 15;
+         this.w = 15;
       }
 
-      if (this.f * this.e > Canvas.h - Canvas.hTab) {
-         this.f = (Canvas.h - Canvas.hTab) / this.e;
+      if (this.maxH * this.w > Canvas.h - Canvas.hTab) {
+         this.maxH = (Canvas.h - Canvas.hTab) / this.w;
       }
 
    }
@@ -67,7 +67,7 @@ public final class ParkListSrc extends MyScreen {
 
    public final void setList(int[] var1) {
       this.listBoard = var1;
-      Canvas.cameraList.a(Canvas.hw - (this.e * this.d + 10) / 2 + 4, Canvas.hh - this.e * this.f / 2, this.e, this.e, this.d * this.e, this.listBoard.length / this.d * this.e, this.e * this.d, this.e * this.f - (Canvas.stypeInt == 0 ? 30 : 0), var1.length);
+      Canvas.cameraList.setInfo(Canvas.hw - (this.w * this.maxW + 10) / 2 + 4, Canvas.hh - this.w * this.maxH / 2, this.w, this.w, this.maxW * this.w, this.listBoard.length / this.maxW * this.w, this.w * this.maxW, this.w * this.maxH - (Canvas.stypeInt == 0 ? 30 : 0), var1.length);
    }
 
    public final void updateKey() {
@@ -82,8 +82,8 @@ public final class ParkListSrc extends MyScreen {
       var1.translate(0, 0);
       var1.setClip(0, 0, Canvas.w, Canvas.h);
       this.lastScr.paintMain(var1);
-      Canvas.paint.a(var1, Canvas.hw - (this.e * this.d + 10) / 2, Canvas.hh - this.e * this.f / 2, this.e * this.d + 10, this.e * this.f);
-      Canvas.paint.a(var1, this.e, this.d, this.f, super.aj, super.selected_, this.listBoard);
+      Canvas.paint.a(var1, Canvas.hw - (this.w * this.maxW + 10) / 2, Canvas.hh - this.w * this.maxH / 2, this.w * this.maxW + 10, this.w * this.maxH);
+      Canvas.paint.a(var1, this.w, this.maxW, this.maxH, super.isHide_, super.selected_, this.listBoard);
       super.paint(var1);
    }
 }

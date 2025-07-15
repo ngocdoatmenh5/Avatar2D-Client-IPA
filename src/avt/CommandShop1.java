@@ -62,6 +62,6 @@ final class CommandShop1 extends Command {
          var4 = AvatarData.getPart(this.idPartGirl);
       }
 
-      var4.paintIcon(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 0, 3);
+      var4.paintIcon(var1, var2 + PopupShop.h / 2, var3 + PopupShop.h / 2, 0, 3);
    }
 }

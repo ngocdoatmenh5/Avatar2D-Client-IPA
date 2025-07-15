@@ -47,13 +47,13 @@ public final class FishingScr extends MyScreen
             return;
          }
          case 1: {
-            ParkService.gI().b();
+            ParkService.gI().doCauCaXong();
             Canvas.startWaitDlg();
             return;
          }
          case 2: {
             this.e();
-            ParkService.gI().b();
+            ParkService.gI().doCauCaXong();
             break;
          }
       }
@@ -181,7 +181,7 @@ public final class FishingScr extends MyScreen
       if (this.l >= this.m.length) {
          this.g.setPosDay(0);
          this.g.isSuccess = true;
-         ParkService.gI().a(true, this.m);
+         ParkService.gI().doFinishFishing(true, this.m);
          Canvas.startWaitDlg();
       }
    }

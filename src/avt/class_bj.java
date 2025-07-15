@@ -8,7 +8,7 @@ final class class_bj implements IAction {
    }
 
    public final void perform() {
-      OptionScr.gI().b(50);
+      OptionScr.gI().save(50);
       this.a.perform();
    }
 }

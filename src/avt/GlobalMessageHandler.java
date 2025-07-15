@@ -270,8 +270,8 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
             case -96:
                Canvas.endDlg();
                MapScr.gI().move();
-               OnSplashScr.b().switchToMe();
-               OnSplashScr.b().splashScrStat = 0;
+               OnSplashScr.gI().switchToMe();
+               OnSplashScr.gI().splashScrStat = 0;
                return;
             case -94:
                byte var142 = var1.reader().readByte();
@@ -331,12 +331,12 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                Vector var129 = new Vector();
 
                for(int var130 = 0; var130 < var252; ++var130) {
-                  class_kb var131 = new class_kb();
+                  PositionMap var131 = new PositionMap();
                   var1.reader().readByte();
                   var131.d = var1.reader().readShort();
                   var131.c = var1.reader().readUTF();
-                  var131.a = var1.reader().readByte();
-                  var131.b = var1.reader().readByte();
+                  var131.x = var1.reader().readByte();
+                  var131.y = var1.reader().readByte();
                   var129.addElement(var131);
                }
 
@@ -800,12 +800,12 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                for(var3 = 0; var3 < var201; ++var3) {
                   ObjAd var205 = new ObjAd(this);
                   var1.reader().readShort();
-                  var205.b = var1.reader().readUTF();
-                  var205.c = var1.reader().readUTF();
-                  var205.d = var1.reader().readUTF();
-                  var205.e = var1.reader().readUTF();
-                  var205.f = var1.reader().readUTF();
-                  var205.g = new Vector();
+                  var205.title = var1.reader().readUTF();
+                  var205.text = var1.reader().readUTF();
+                  var205.url = var1.reader().readUTF();
+                  var205.sms = var1.reader().readUTF();
+                  var205.to = var1.reader().readUTF();
+                  var205.listPoint = new Vector();
                   var200 = var1.reader().readByte();
 
                   for(var7 = 0; var7 < var200; ++var7) {
@@ -813,14 +813,14 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                      (var213 = new AvPosition()).anchor = var1.reader().readByte();
                      var213.x = var1.reader().readByte();
                      var213.y = var1.reader().readByte();
-                     var205.g.addElement(var213);
+                     var205.listPoint.addElement(var213);
                   }
 
                   var6.addElement(var205);
                }
 
                for(var3 = 0; var3 < var201; ++var3) {
-                  ((ObjAd)var6.elementAt(var3)).a = var1.reader().readByte();
+                  ((ObjAd)var6.elementAt(var3)).id = var1.reader().readByte();
                }
 
                AvatarData.onMapAd(var6);
@@ -847,8 +847,8 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                return;
             case -35:
                var191 = var1.reader().readBoolean();
-               RegisterScr.b();
-               RegisterScr.b(var191);
+               RegisterScr.gI();
+               RegisterScr.onCreaCharacter(var191);
                return;
             case -33:
                var3 = var1.reader().readInt();
@@ -875,7 +875,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   var188 = var1.reader().readUTF();
                }
 
-               MiniMap.gI().a((byte)var199, var188, var190, var202);
+               MiniMap.gI().onRegisterByEmail((byte)var199, var188, var190, var202);
                break;
             case -24:
                if ((var110 = var1.reader().readShort()) != -1) {
@@ -895,15 +895,15 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
 
                while(var1.reader().available() > 0) {
                   MoneyInfo var198;
-                  (var198 = new MoneyInfo()).a = var1.reader().readUTF();
-                  var198.c = var1.reader().readUTF();
+                  (var198 = new MoneyInfo()).info = var1.reader().readUTF();
+                  var198.smsTo = var1.reader().readUTF();
                   var1.reader().readUTF();
-                  var198.b = var1.reader().readUTF();
+                  var198.smsContent = var1.reader().readUTF();
                   var193.addElement(var198);
                }
 
-               MoneyScr.b().a(var193);
-               MoneyScr.b().a(Canvas.currentMyScreen);
+               MoneyScr.gI().setAvatarList(var193);
+               MoneyScr.gI().a(Canvas.currentMyScreen);
                Canvas.endDlg();
                return;
             case -22:
@@ -999,7 +999,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                var190 = var1.reader().readUTF();
                var194 = var1.reader().readUTF();
                if (Canvas.currentMyScreen != MessageScr.gI()) {
-                  ++MyScreen.as;
+                  ++MyScreen.nMsg;
                }
 
                MessageScr.gI().a(var2, var190, var194);
@@ -1165,7 +1165,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
 
                   GameMidlet.avatar.lvMain = GameMidlet.myIndexP.g = var1.reader().readShort();
                   if (Canvas.W == 1 || Canvas.W == 2) {
-                     T.ek = T.el;
+                     T.nameCasino = T.el;
                   }
 
                   GameMidlet.avatar.idWedding = var1.reader().readShort();

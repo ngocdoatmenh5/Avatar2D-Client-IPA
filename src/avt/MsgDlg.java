@@ -5,30 +5,30 @@ import javax.microedition.lcdui.Graphics;
 import main.Canvas;
 
 public final class MsgDlg extends Dialog {
-   private Vector c;
-   private String d = "";
-   private Vector e = new Vector();
-   private int f = 0;
-   private int g;
+   private Vector info;
+   private String str = "";
+   private Vector list = new Vector();
+   private int index = 0;
+   private int w;
    private int h;
-   private int i;
-   private int j;
-   public boolean a = false;
-   private int k = 0;
-   private int l = 0;
-   private int m;
-   private int n;
-   private int o = 0;
-   private int p = 0;
-   private int q;
-   public static FrameImage b;
-   private long r = -1L;
-   private long s;
-   private long t;
+   private int x;
+   private int y;
+   public boolean isWaiting = false;
+   private int num = 0;
+   private int size = 0;
+   private int hText;
+   private int hDu;
+   private int indexLeft = 0;
+   private int indexRight = 0;
+   private int hCell;
+   public static FrameImage imgLoad;
+   private long timeDelay = -1L;
+   private long limitTime;
+   private long timeEnd;
    private int u = 0;
 
    public MsgDlg() {
-      this.m = AvMain.hBlack;
+      this.hText = AvMain.hBlack;
    }
 
    public final void setInfoC(String var1, Command var2, Vector var3) {
@@ -36,14 +36,14 @@ public final class MsgDlg extends Dialog {
          ChatTextField.gI().a();
       }
 
-      this.q = MyScreen.av;
-      this.a = false;
-      this.d = var1;
+      this.hCell = MyScreen.hText;
+      this.isWaiting = false;
+      this.str = var1;
       super.center = var2;
-      this.f = 0;
-      this.e = var3;
+      this.index = 0;
+      this.list = var3;
       if (var3 != null) {
-         Command var4 = (Command)var3.elementAt(this.f);
+         Command var4 = (Command)var3.elementAt(this.index);
          super.center = var4;
          if (var4 != null) {
             super.center.action = var4.action;
@@ -56,94 +56,94 @@ public final class MsgDlg extends Dialog {
          for(int var5 = 0; var5 < var3.size(); ++var5) {
             var2 = (Command)var3.elementAt(var5);
             if (Canvas.normalFont.getWidth(var2.caption) > this.u) {
-               this.u = Canvas.normalFont.getWidth(var2.caption) + (Canvas.isKeyBoard ? this.g / 3 : 0);
+               this.u = Canvas.normalFont.getWidth(var2.caption) + (Canvas.isKeyBoard ? this.w / 3 : 0);
             }
          }
       } else {
-         this.t = System.currentTimeMillis() / 100L;
+         this.timeEnd = System.currentTimeMillis() / 100L;
       }
 
-      this.l = 0;
-      if (this.e != null) {
-         this.l = this.e.size();
+      this.size = 0;
+      if (this.list != null) {
+         this.size = this.list.size();
       }
 
-      this.k = 0;
-      this.r = -1L;
+         this.num = 0;
+      this.timeDelay = -1L;
       this.init();
       Canvas.currentDialog = Canvas.msgdlg;
    }
 
    public final void init() {
-      this.g = Canvas.w - 80;
+      this.w = Canvas.w - 80;
       if (Canvas.w < 200) {
-         this.g = Canvas.w - 40;
+         this.w = Canvas.w - 40;
          if (Canvas.w <= 128) {
-            this.g = Canvas.w - 10;
+            this.w = Canvas.w - 10;
          }
       }
 
-      if (this.d.equals(T.b)) {
-         this.g = Canvas.hw;
+      if (this.str.equals(T.b)) {
+         this.w = Canvas.hw;
       }
 
-      this.c = Canvas.M.splitFontBStrInLineV(this.d, this.g - 16);
-      this.h = this.c.size() * this.m + 20;
-      this.n = 0;
+      this.info = Canvas.M.splitFontBStrInLineV(this.str, this.w - 16);
+      this.h = this.info.size() * this.hText + 20;
+      this.hDu = 0;
       if (super.center != null) {
-         this.h += this.q + 15 * AvMain.hd;
-         this.n += this.q + 15 * AvMain.hd;
+         this.h += this.hCell + 15 * AvMain.hd;
+         this.hDu += this.hCell + 15 * AvMain.hd;
       }
 
-      if (this.h < this.q * 3 + (AvMain.hd - 1) * 15) {
-         this.h = this.q * 3 + (AvMain.hd - 1) * 15;
+      if (this.h < this.hCell * 3 + (AvMain.hd - 1) * 15) {
+         this.h = this.hCell * 3 + (AvMain.hd - 1) * 15;
       }
 
-      this.i = Canvas.hw - this.g / 2;
-      this.j = Canvas.hCan - Canvas.hTab - this.h - 10;
+      this.x = Canvas.hw - this.w / 2;
+      this.y = Canvas.hCan - Canvas.hTab - this.h - 10;
    }
 
    public final void setIsWaiting(boolean var1) {
-      this.a = var1;
-      this.h = this.c.size() * this.m + 20;
-      if (this.a) {
+      this.isWaiting = var1;
+      this.h = this.info.size() * this.hText + 20;
+      if (this.isWaiting) {
          this.h += 25 * AvMain.hd + 4;
-         this.n += 25 * AvMain.hd + 4;
+         this.hDu += 25 * AvMain.hd + 4;
       }
 
-      int var2 = this.q * 3 + (AvMain.hd - 1) * 15;
+      int var2 = this.hCell * 3 + (AvMain.hd - 1) * 15;
       if (this.h < var2) {
          this.h = var2;
       }
 
-      this.j = Canvas.hCan - Canvas.hTab - this.h - 10;
-      this.s = (long) Canvas.getSecond();
+      this.y = Canvas.hCan - Canvas.hTab - this.h - 10;
+      this.limitTime = (long) Canvas.getSecond();
    }
 
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      if (System.currentTimeMillis() / 100L - this.t >= 5L) {
-         Canvas.paint.a(var1, this.i, this.j, this.g, this.h, PaintPopup.d[0], PaintPopup.d[1], 0);
+      if (System.currentTimeMillis() / 100L - this.timeEnd >= 5L) {
+         Canvas.paint.a(var1, this.x, this.y, this.w, this.h, PaintPopup.color[0], PaintPopup.color[1], 0);
          if (super.center != null) {
-            PaintPopup.fill(this.i + 1, this.j + this.h - (this.q + 15 * AvMain.hd - 4), this.g - 2, this.q, 15530985, var1);
+            PaintPopup.fill(this.x + 1, this.y + this.h - (this.hCell + 15 * AvMain.hd - 4), this.w - 2, this.hCell, 15530985, var1);
          }
 
-         if (this.a) {
-            b.drawFrame(this.k, this.i + this.g / 2, this.j + 4 + (this.h - this.n) / 2 + this.c.size() * AvMain.hBlack / 2 + (this.h - (4 + (this.h - this.n) / 2 + this.c.size() * AvMain.hBlack / 2)) / 2, 0, 3, var1);
+         if (this.isWaiting) {
+            imgLoad.drawFrame(this.num, this.x + this.w / 2, this.y + 4 + (this.h - this.hDu) / 2 + this.info.size() * AvMain.hBlack / 2 + (this.h - (4 + (this.h - this.hDu) / 2 + this.info.size() * AvMain.hBlack / 2)) / 2, 0, 3, var1);
          }
 
-         if (this.l > 0) {
-            Command var2 = (Command)this.e.elementAt(this.f);
-            Canvas.normalFont.drawString(var1, var2.caption, Canvas.hw, this.j + this.h - (this.q + 15 * AvMain.hd - 4) + this.q / 2 - AvMain.ah / 2, 2);
-            if (this.l > 1) {
-               Canvas.paint.b(var1, Canvas.hw - this.u / 2 - 11, (Canvas.stypeInt != 2 ? AvMain.ah / 2 : 0) + this.j + this.h - (this.q + 15 * AvMain.hd - 4) + MyScreen.av / 2 + 1 + (Canvas.stypeInt == 1 ? -7 : 0) + (Canvas.stypeInt == 0 ? -3 : 0), 17 + this.u, this.o / 3, this.p / 3);
+         if (this.size > 0) {
+            Command var2 = (Command)this.list.elementAt(this.index);
+            Canvas.normalFont.drawString(var1, var2.caption, Canvas.hw, this.y + this.h - (this.hCell + 15 * AvMain.hd - 4) + this.hCell / 2 - AvMain.ah / 2, 2);
+            if (this.size > 1) {
+               Canvas.paint.b(var1, Canvas.hw - this.u / 2 - 11, (Canvas.stypeInt != 2 ? AvMain.ah / 2 : 0) + this.y + this.h - (this.hCell + 15 * AvMain.hd - 4) + MyScreen.hText / 2 + 1 + (Canvas.stypeInt == 1 ? -7 : 0) + (Canvas.stypeInt == 0 ? -3 : 0), 17 + this.u, this.indexLeft / 3, this.indexRight / 3);
             }
          } else if (super.center != null) {
-            Canvas.normalFont.drawString(var1, super.center.caption, Canvas.hw, this.j + this.h - (this.q + 15 * AvMain.hd - 4) + this.q / 2 - AvMain.ah / 2, 2);
+            Canvas.normalFont.drawString(var1, super.center.caption, Canvas.hw, this.y + this.h - (this.hCell + 15 * AvMain.hd - 4) + this.hCell / 2 - AvMain.ah / 2, 2);
          }
 
-         for(int var3 = 0; var3 < this.c.size(); ++var3) {
-            Canvas.M.drawString(var1, (String)this.c.elementAt(var3), Canvas.hw, this.j + 4 + (this.h - this.n) / 2 - this.c.size() * AvMain.hBlack / 2 + var3 * AvMain.hBlack, 2);
+         for(int var3 = 0; var3 < this.info.size(); ++var3) {
+            Canvas.M.drawString(var1, (String)this.info.elementAt(var3), Canvas.hw, this.y + 4 + (this.h - this.hDu) / 2 - this.info.size() * AvMain.hBlack / 2 + var3 * AvMain.hBlack, 2);
          }
 
       }
@@ -155,7 +155,7 @@ public final class MsgDlg extends Dialog {
             MapScr.gI().doExitGame();
             return;
          case -1:
-            this.a = false;
+            this.isWaiting = false;
             Canvas.currentDialog = null;
             return;
          default:
@@ -163,18 +163,18 @@ public final class MsgDlg extends Dialog {
       }
    }
 
-   private void b(int var1) {
-      if (this.l > 0) {
-         this.f += var1;
-         if (this.f < 0) {
-            this.f = this.l - 1;
+   private void setIndex(int var1) {
+      if (this.size > 0) {
+         this.index += var1;
+         if (this.index < 0) {
+            this.index = this.size - 1;
          }
 
-         if (this.f >= this.l) {
-            this.f = 0;
+         if (this.index >= this.size) {
+            this.index = 0;
          }
 
-         Command var2 = (Command)this.e.elementAt(this.f);
+         Command var2 = (Command)this.list.elementAt(this.index);
          super.center = var2;
       }
 
@@ -182,68 +182,68 @@ public final class MsgDlg extends Dialog {
 
    public final void updateKey() {
       int var2;
-      if (this.a) {
-         ++this.k;
-         if (this.k >= 8) {
-            this.k = 0;
+      if (this.isWaiting) {
+         ++this.num;
+         if (this.num >= 8) {
+            this.num = 0;
          }
 
-         if ((long) Canvas.getSecond() - this.s > 30L) {
+         if ((long) Canvas.getSecond() - this.limitTime > 30L) {
             String var1 = "";
 
-            for(var2 = 0; var2 < this.c.size(); ++var2) {
-               var1 = var1 + (String)this.c.elementAt(var2) + " ";
+            for(var2 = 0; var2 < this.info.size(); ++var2) {
+               var1 = var1 + (String)this.info.elementAt(var2) + " ";
             }
 
             Canvas.startOK(var1, -2, (AvMain)null);
          }
       }
 
-      if (this.r != -1L && System.currentTimeMillis() / 100L - this.r > 0L) {
+      if (this.timeDelay != -1L && System.currentTimeMillis() / 100L - this.timeDelay > 0L) {
          Canvas.keyPressed[5] = true;
       }
 
-      if (this.o > 0) {
-         --this.o;
+      if (this.indexLeft > 0) {
+         --this.indexLeft;
       }
 
-      if (this.p > 0) {
-         --this.p;
+      if (this.indexRight > 0) {
+         --this.indexRight;
       }
 
       if (Canvas.a(4)) {
-         this.b(-1);
-         this.o = 5;
+         this.setIndex(-1);
+         this.indexLeft = 5;
       } else if (Canvas.a(6)) {
-         this.b(1);
-         this.p = 5;
+         this.setIndex(1);
+         this.indexRight = 5;
       }
 
       if (Canvas.isPointerRelease) {
          label84: {
             int var3 = 0;
-            if (this.e != null && this.e.size() > 0) {
-               Command var4 = (Command)this.e.elementAt(this.f);
+            if (this.list != null && this.list.size() > 0) {
+               Command var4 = (Command)this.list.elementAt(this.index);
                var3 = Canvas.normalFont.getWidth(var4.caption) + 20;
             } else if (super.center != null) {
                var3 = Canvas.normalFont.getWidth(super.center.caption) + 20;
             }
 
             var3 *= AvMain.hd;
-            if (super.center != null && Canvas.isPointer(Canvas.hw - var3 / 2, this.j + this.h - (this.q + 18 * AvMain.hd - 4), var3, this.q)) {
+            if (super.center != null && Canvas.isPointer(Canvas.hw - var3 / 2, this.y + this.h - (this.hCell + 18 * AvMain.hd - 4), var3, this.hCell)) {
                Canvas.endDlg();
                this.perform(super.center);
             } else {
-               if (!Canvas.isPointer(this.i + 1, this.j + this.h - (this.q + 18 * AvMain.hd - 4), this.g - 2, this.q)) {
+               if (!Canvas.isPointer(this.x + 1, this.y + this.h - (this.hCell + 18 * AvMain.hd - 4), this.w - 2, this.hCell)) {
                   break label84;
                }
 
                if ((var2 = Canvas.hw - Canvas.px) > var3 / 2) {
-                  this.b(-1);
-                  this.o = 5;
+                  this.setIndex(-1);
+                  this.indexLeft = 5;
                } else if (var2 < -var3 / 2) {
-                  this.b(1);
-                  this.p = 5;
+                  this.setIndex(1);
+                  this.indexRight = 5;
                }
             }
 

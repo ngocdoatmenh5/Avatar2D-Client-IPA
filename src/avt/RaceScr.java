@@ -7,131 +7,131 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class RaceScr extends MyScreen implements IChatable {
-   public static RaceScr a;
-   private Command q;
+   public static RaceScr me;
+   private Command cmdChangeFocus;
    private Command r;
    public Command b;
    private Command s;
    private Command t;
    private Command u;
-   public PetRace[] c;
-   private short v;
-   private boolean w;
-   public boolean d;
-   private boolean x;
-   private long y;
-   public byte e = 0;
-   public byte f = 1;
-   public byte g;
-   public static Image h;
-   public static Image i;
-   public static Image[] j;
-   public static Image[] k;
-   private ChatPopup z;
-   public dialogWin l;
-   public static byte[][] m;
-   private int A;
-   private int B;
-   private int C;
-   private int D;
-   private int E;
-   private int F;
-   private int G;
-   private int H;
-   private int I;
-   private int J;
-   private int K;
-   private int L;
-   private int M;
-   private int N;
-   private int O;
-   private int P;
-   private FrameImage Q;
-   private FrameImage R;
-   private FrameImage S;
-   private FrameImage T;
-   private boolean U = false;
-   private byte V = 0;
+   public PetRace[] listPet;
+   private short timeRemain;
+   private boolean isRace;
+   public boolean isStart;
+   private boolean isEnd;
+   private long curTime;
+   public byte countStart = 0;
+   public byte nWin = 1;
+   public byte indexFocus;
+   public static Image imgWater;
+   public static Image imgFire;
+   public static Image[] imgBui;
+   public static Image[] imgTe;
+   private ChatPopup myChat;
+   public dialogWin diaWin;
+   public static byte[][] FRAME;
+   private int wPopup;
+   private int hPopup;
+   private int xPopup;
+   private int yPopup;
+   private int xInfo;
+   private int yInfo;
+   private int wInfo;
+   private int Hinfo;
+   private int xDC;
+   private int yDC;
+   private int wDC;
+   private int hDC;
+   private int xSelectDC;
+   private int ySelectDC;
+   private int wSelectDC;
+   private int hSelectDC;
+   private FrameImage imgInfo;
+   private FrameImage imgBackpet;
+   private FrameImage imgTime;
+   private FrameImage imgBackMoney;
+   private boolean isDC = false;
+   private byte countCloseDC = 0;
    private byte W;
-   public short n = 0;
-   public long o;
+   public short timeStart = 0;
+   public long curTimeStart;
    public Vector p = new Vector();
-   private int X;
-   private int ay;
-   private int az = -1;
-   private int aA = 0;
-   private int aB = 0;
-   private byte aC;
-   private boolean aD = false;
-   private long aE;
-   private long aF;
-   private int[] aG = new int[]{100, 500, 1000, 2000, 5000, 10000, 20000, 30000, 50000};
-   private boolean aH = false;
-   private short aI;
-   private short aJ;
-   private String aK;
-   private byte aL;
-   private byte aM;
-   private byte aN;
+   private int idPet;
+   private int countChangePetInfo;
+   private int indexPet = -1;
+   private int indexMoney = 0;
+   private int indexDC = 0;
+   private byte timeOpen;
+   private boolean isTran = false;
+   private long count;
+   private long timeDelay;
+   private int[] iMoney = new int[]{100, 500, 1000, 2000, 5000, 10000, 20000, 30000, 50000};
+   private boolean isPetInfo = false;
+   private short idImgPeInfo;
+   private short numWin;
+   private String namePetInfo;
+   private byte ratePetInfo;
+   private byte phongDoPetInfo;
+   private byte sucKhoePetInfo;
 
-   public static RaceScr b() {
-      return a == null ? (a = new RaceScr()) : a;
+   public static RaceScr gI() {
+      return me == null ? (me = new RaceScr()) : me;
    }
 
    public RaceScr() {
-      (m = new byte[3][])[0] = new byte[]{0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1};
-      m[1] = new byte[]{2, 2, 2, 3, 3, 3, 2, 2, 2, 3, 3, 3};
-      m[2] = new byte[]{4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4};
-      this.q = new Command(avt.T.bz, 3, this);
+      (FRAME = new byte[3][])[0] = new byte[]{0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1};
+      FRAME[1] = new byte[]{2, 2, 2, 3, 3, 3, 2, 2, 2, 3, 3, 3};
+      FRAME[2] = new byte[]{4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4};
+      this.cmdChangeFocus = new Command(avt.T.bz, 3, this);
       this.s = new Command(avt.T.ec, 1, this);
       this.r = new Command(avt.T.c, 7, this);
       this.t = new Command(avt.T.z, 6, this);
       this.u = new Command(avt.T.d, 8, this);
       this.b = new Command(avt.T.x, 2, this);
-      this.A = 220 * AvMain.hd;
-      this.B = 240 * AvMain.hd;
-      this.E = 8 * AvMain.hd;
-      this.F = this.J = 23 * AvMain.hd;
-      this.G = 105 * AvMain.hd;
-      this.H = this.L = 211 * AvMain.hd;
-      this.K = 95 * AvMain.hd;
-      this.I = this.A - this.K - 8 * AvMain.hd;
-      this.O = 180 * AvMain.hd + 10 * AvMain.hd + 10 * AvMain.hd;
-      this.P = 110 * AvMain.hd;
-      this.M = (Canvas.w - this.O) / 2;
-      this.N = (Canvas.h - this.P) / 2;
+      this.wPopup = 220 * AvMain.hd;
+      this.hPopup = 240 * AvMain.hd;
+      this.xInfo = 8 * AvMain.hd;
+      this.yInfo = this.yDC = 23 * AvMain.hd;
+      this.wInfo = 105 * AvMain.hd;
+      this.Hinfo = this.hDC = 211 * AvMain.hd;
+      this.wDC = 95 * AvMain.hd;
+      this.xDC = this.wPopup - this.wDC - 8 * AvMain.hd;
+      this.wSelectDC = 180 * AvMain.hd + 10 * AvMain.hd + 10 * AvMain.hd;
+      this.hSelectDC = 110 * AvMain.hd;
+      this.xSelectDC = (Canvas.w - this.wSelectDC) / 2;
+      this.ySelectDC = (Canvas.h - this.hSelectDC) / 2;
    }
 
    public final void switchToMe() {
       super.switchToMe();
    }
 
-   public final void a(PetRace[] var1, short var2, boolean var3, boolean var4) {
-      this.x = false;
-      this.f = 1;
-      this.X = -1;
+   public final void doOpenRace(PetRace[] var1, short var2, boolean var3, boolean var4) {
+      this.isEnd = false;
+      this.nWin = 1;
+      this.idPet = -1;
       Canvas.currentDialog = null;
       Canvas.currentFace = null;
-      this.U = false;
+      this.isDC = false;
       int var5;
-      if (h == null) {
+      if (imgWater == null) {
          try {
-            this.Q = new FrameImage(Image.createImage(avt.T.a() + "/race/popup/tile1.png"), 20 * AvMain.hd, 20 * AvMain.hd);
-            this.R = new FrameImage(Image.createImage(avt.T.a() + "/race/popup/bt1.png"), 31 * AvMain.hd, 31 * AvMain.hd);
-            this.T = new FrameImage(Image.createImage(avt.T.a() + "/race/popup/bt0.png"), 60 * AvMain.hd, 24 * AvMain.hd);
-            this.S = new FrameImage(Image.createImage(avt.T.a() + "/race/popup/time.png"), 14 * AvMain.hd, 14 * AvMain.hd);
-            h = Image.createImage(avt.T.a() + "/race/28.png");
-            i = Image.createImage(avt.T.a() + "/race/29.png");
-            j = new Image[5];
+            this.imgInfo = new FrameImage(Image.createImage(avt.T.a() + "/race/popup/tile1.png"), 20 * AvMain.hd, 20 * AvMain.hd);
+            this.imgBackpet = new FrameImage(Image.createImage(avt.T.a() + "/race/popup/bt1.png"), 31 * AvMain.hd, 31 * AvMain.hd);
+            this.imgBackMoney = new FrameImage(Image.createImage(avt.T.a() + "/race/popup/bt0.png"), 60 * AvMain.hd, 24 * AvMain.hd);
+            this.imgTime = new FrameImage(Image.createImage(avt.T.a() + "/race/popup/time.png"), 14 * AvMain.hd, 14 * AvMain.hd);
+            imgWater = Image.createImage(avt.T.a() + "/race/28.png");
+            imgFire = Image.createImage(avt.T.a() + "/race/29.png");
+            imgBui = new Image[5];
 
             for(var5 = 0; var5 < 5; ++var5) {
-               j[var5] = Image.createImage(avt.T.a() + "/race/bui/d0" + var5 + ".png");
+               imgBui[var5] = Image.createImage(avt.T.a() + "/race/bui/d0" + var5 + ".png");
             }
 
-            k = new Image[3];
+            imgTe = new Image[3];
 
             for(var5 = 0; var5 < 3; ++var5) {
-               k[var5] = Image.createImage(avt.T.a() + "/race/bui/w" + var5 + ".png");
+               imgTe[var5] = Image.createImage(avt.T.a() + "/race/bui/w" + var5 + ".png");
             }
          } catch (Exception var7) {
             var7.printStackTrace();
@@ -148,84 +148,84 @@ public final class RaceScr extends MyScreen implements IChatable {
             }
          }
 
-         if (a != Canvas.currentMyScreen) {
+         if (me != Canvas.currentMyScreen) {
             LoadMap.orderVector(LoadMap.playerLists);
-            b().switchToMe();
+            gI().switchToMe();
             LoadMap.rememMap = -1;
-            this.b(1);
-            this.b(2);
+            this.randomPlayer(1);
+            this.randomPlayer(2);
             Canvas.loadMap.load(108);
             LoadMap.removePlayer(GameMidlet.avatar);
-            RaceScr var10 = b();
+            RaceScr var10 = gI();
             AvCamera.gI().init(LoadMap.TYPEMAP);
-            var10.C = (Canvas.w - var10.A) / 2;
-            var10.D = (Canvas.h - var10.B) / 2;
+            var10.xPopup = (Canvas.w - var10.wPopup) / 2;
+            var10.yPopup = (Canvas.h - var10.hPopup) / 2;
             var10.W = (byte)(35 * AvMain.hd);
             if (Canvas.instance.getHeight() <= 240) {
                var10.W = 30;
-               var10.B = 215;
-               var10.H = var10.L = 185;
+               var10.hPopup = 215;
+               var10.Hinfo = var10.hDC = 185;
             }
 
             AvCamera.isFollow = false;
          }
 
-         this.c = null;
-         this.c = var1;
+         this.listPet = null;
+         this.listPet = var1;
          if (var1 != null) {
             for(var5 = 0; var5 < 6; ++var5) {
-               this.c[var5].x = 20;
-               this.c[var5].y = 80 + var5 * 12;
-               LoadMap.playerLists.addElement(this.c[var5]);
+               this.listPet[var5].x = 20;
+               this.listPet[var5].y = 80 + var5 * 12;
+               LoadMap.playerLists.addElement(this.listPet[var5]);
             }
 
-            AvCamera.gI().followPlayer = this.c[2];
-            this.g = 3;
+            AvCamera.gI().followPlayer = this.listPet[2];
+            this.indexFocus = 3;
          }
 
          GameMidlet.avatar.x = GameMidlet.avatar.xCur = 0;
       }
 
       GameMidlet.avatar.y = GameMidlet.avatar.yCur = 96 * AvMain.hd;
-      this.d = var3;
-      this.w = var4;
-      this.v = var2;
-      this.y = System.currentTimeMillis();
+      this.isStart = var3;
+      this.isRace = var4;
+      this.timeRemain = var2;
+      this.curTime = System.currentTimeMillis();
       if (var3) {
-         this.e = 48;
+         this.countStart = 48;
          super.center = null;
-         super.right = this.q;
+         super.right = this.cmdChangeFocus;
          super.left = this.r;
       } else {
          super.left = this.r;
          super.right = null;
          super.center = null;
          if (!var4) {
-            super.right = this.q;
+            super.right = this.cmdChangeFocus;
 
             for(var5 = 0; var5 < 6; ++var5) {
                int var9 = 0;
 
-               for(int var8 = 0; var8 < this.c[var5].e.length; ++var8) {
-                  var9 += this.c[var5].e[var8];
-                  PetRace var10000 = this.c[var5];
-                  var10000.x += this.c[var5].f[var8] * this.c[var5].e[var8];
-                  ++this.c[var5].b;
+               for(int var8 = 0; var8 < this.listPet[var5].numTick.length; ++var8) {
+                  var9 += this.listPet[var5].numTick[var8];
+                  PetRace var10000 = this.listPet[var5];
+                  var10000.x += this.listPet[var5].vTick[var8] * this.listPet[var5].numTick[var8];
+                  ++this.listPet[var5].count;
                   if (var9 >= (var2 - 4) * 20) {
                      break;
                   }
                }
             }
          } else {
-            GlobalService.gI().doPetInfo(this.c[0].IDDB);
+            GlobalService.gI().doPetInfo(this.listPet[0].IDDB);
             super.center = this.s;
          }
       }
 
-      this.z = new ChatPopup();
+      this.myChat = new ChatPopup();
    }
 
-   private void b(int var1) {
+   private void randomPlayer(int var1) {
       Vector var2 = new Vector();
       Vector var3 = new Vector();
       Vector var4 = new Vector();
@@ -280,8 +280,8 @@ public final class RaceScr extends MyScreen implements IChatable {
             Canvas.startWaitDlg();
             return;
          case 1:
-            if (this.aA >= 0) {
-               this.U = true;
+            if (this.indexMoney >= 0) {
+               this.isDC = true;
                super.center = this.t;
                super.left = null;
                super.right = this.u;
@@ -290,7 +290,7 @@ public final class RaceScr extends MyScreen implements IChatable {
             break;
          case 2:
             class_fl var3 = new class_fl(this);
-            if (this.d) {
+            if (this.isStart) {
                Canvas.startOKDlg(avt.T.eP, (IAction)var3);
                return;
             }
@@ -299,26 +299,26 @@ public final class RaceScr extends MyScreen implements IChatable {
             return;
          case 3:
             AvCamera var10000 = AvCamera.gI();
-            PetRace[] var10001 = this.c;
-            byte var10004 = this.g;
-            this.g = (byte)(var10004 + 1);
+            PetRace[] var10001 = this.listPet;
+            byte var10004 = this.indexFocus;
+            this.indexFocus = (byte)(var10004 + 1);
             var10000.followPlayer = var10001[var10004];
-            if (this.g >= 6) {
-               this.g = 0;
+            if (this.indexFocus >= 6) {
+               this.indexFocus = 0;
                return;
             }
          case 4:
          default:
             break;
          case 5:
-            if (this.d || !this.w) {
-               super.left = this.q;
+            if (this.isStart || !this.isRace) {
+               super.left = this.cmdChangeFocus;
             }
 
             super.right = null;
             return;
          case 6:
-            GlobalService.gI().doDatCuoc(this.c[this.aA].IDDB, this.aG[this.aB]);
+            GlobalService.gI().doDatCuoc(this.listPet[this.indexMoney].IDDB, this.iMoney[this.indexDC]);
             this.commandTab(8);
             return;
          case 7:
@@ -331,84 +331,84 @@ public final class RaceScr extends MyScreen implements IChatable {
             super.center = this.s;
             super.left = this.r;
             super.right = null;
-            this.U = false;
+            this.isDC = false;
       }
 
    }
 
    public final void update() {
-      if (this.aC >= 0) {
-         --this.aC;
-         if (this.aC == 0) {
-            this.e();
+      if (this.timeOpen >= 0) {
+         --this.timeOpen;
+         if (this.timeOpen == 0) {
+            this.click();
          }
       }
 
-      if ((this.d || !this.w) && System.currentTimeMillis() - this.o >= 1000L) {
-         this.o = System.currentTimeMillis();
-         --this.n;
-         if (this.n < 0) {
-            this.n = 0;
+      if ((this.isStart || !this.isRace) && System.currentTimeMillis() - this.curTimeStart >= 1000L) {
+         this.curTimeStart = System.currentTimeMillis();
+         --this.timeStart;
+         if (this.timeStart < 0) {
+            this.timeStart = 0;
          }
       }
 
       GameMidlet.avatar.setPos(AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.h - 40 * AvMain.hd);
-      if (System.currentTimeMillis() - this.y >= 1000L) {
-         this.y = System.currentTimeMillis();
-         --this.v;
-         if (this.v < 0) {
-            this.v = 0;
+      if (System.currentTimeMillis() - this.curTime >= 1000L) {
+         this.curTime = System.currentTimeMillis();
+         --this.timeRemain;
+         if (this.timeRemain < 0) {
+            this.timeRemain = 0;
          } else {
-            ++this.ay;
-            if (this.w && !this.d && this.ay > 0) {
-               this.ay = 0;
-               if (this.aA >= 0 && this.c != null && this.aA < 6 && this.c[this.aA] != null && this.c[this.aA].IDDB != this.X) {
-                  this.X = this.c[this.aA].IDDB;
-                  GlobalService.gI().doPetInfo(this.X);
+            ++this.countChangePetInfo;
+            if (this.isRace && !this.isStart && this.countChangePetInfo > 0) {
+               this.countChangePetInfo = 0;
+               if (this.indexMoney >= 0 && this.listPet != null && this.indexMoney < 6 && this.listPet[this.indexMoney] != null && this.listPet[this.indexMoney].IDDB != this.idPet) {
+                  this.idPet = this.listPet[this.indexMoney].IDDB;
+                  GlobalService.gI().doPetInfo(this.idPet);
                }
             }
          }
       }
 
       int var1;
-      if (this.c != null) {
+      if (this.listPet != null) {
          var1 = 0;
 
          int var2;
          for(var2 = 0; var2 < 6; ++var2) {
-            if ((this.d || !this.w) && this.c[var2].b >= this.c[var2].f.length) {
+            if ((this.isStart || !this.isRace) && this.listPet[var2].count >= this.listPet[var2].vTick.length) {
                ++var1;
             }
          }
 
-         if (!this.x && var1 == 6) {
-            this.x = true;
+         if (!this.isEnd && var1 == 6) {
+            this.isEnd = true;
 
             for(var2 = 0; var2 < 6; ++var2) {
-               LoadMap.removePlayer((MyObject)this.c[var2]);
+               LoadMap.removePlayer((MyObject)this.listPet[var2]);
             }
          }
 
-         if (this.x && this.l != null) {
-            this.x = false;
-            Canvas.currentFace = this.l;
+         if (this.isEnd && this.diaWin != null) {
+            this.isEnd = false;
+            Canvas.currentFace = this.diaWin;
             int[] var10000 = GameMidlet.avatar.money;
-            var10000[0] += this.l.tienNhanDuoc;
-            Canvas.a(this.l.tienNhanDuoc, Canvas.hw, Canvas.h - 30 * AvMain.hd, -1, -1);
-            this.l = null;
+            var10000[0] += this.diaWin.tienNhanDuoc;
+            Canvas.a(this.diaWin.tienNhanDuoc, Canvas.hw, Canvas.h - 30 * AvMain.hd, -1, -1);
+            this.diaWin = null;
          }
       }
 
       Canvas.loadMap.update();
-      if (this.d && this.e > 0) {
-         --this.e;
+      if (this.isStart && this.countStart > 0) {
+         --this.countStart;
       }
 
-      if (this.z != null && this.z.setOut()) {
-         this.z.chats = null;
+      if (this.myChat != null && this.myChat.setOut()) {
+         this.myChat.chats = null;
       }
 
-      if (this.d || !this.w) {
+      if (this.isStart || !this.isRace) {
          for(var1 = 0; var1 < LoadMap.playerLists.size(); ++var1) {
             Base var4;
             if ((var4 = (Base)LoadMap.playerLists.elementAt(var1)).catagory == 9) {
@@ -441,135 +441,135 @@ public final class RaceScr extends MyScreen implements IChatable {
 
    public final void updateKey() {
       super.updateKey();
-      ++this.aE;
+      ++this.count;
       if (Canvas.welcome == null || !Welcome.isPaintArrow) {
          super.updateKey();
       }
 
       if (Canvas.a(2)) {
-         if (this.U) {
-            if (this.aB / 3 > 0) {
-               this.aB -= 3;
+         if (this.isDC) {
+            if (this.indexDC / 3 > 0) {
+               this.indexDC -= 3;
             }
          } else {
-            --this.aA;
-            if (this.aA < 0) {
-               this.aA = 0;
+            --this.indexMoney;
+            if (this.indexMoney < 0) {
+               this.indexMoney = 0;
             }
          }
       } else if (Canvas.a(8)) {
-         if (this.U) {
-            if (this.aB / 3 < 2) {
-               this.aB += 3;
+         if (this.isDC) {
+            if (this.indexDC / 3 < 2) {
+               this.indexDC += 3;
             }
          } else {
-            ++this.aA;
-            if (this.aA > 5) {
-               this.aA = 5;
+            ++this.indexMoney;
+            if (this.indexMoney > 5) {
+               this.indexMoney = 5;
             }
          }
       } else if (Canvas.a(4)) {
-         if (this.U && this.aB % 3 > 0) {
-            --this.aB;
+         if (this.isDC && this.indexDC % 3 > 0) {
+            --this.indexDC;
          }
-      } else if (Canvas.a(6) && this.U && this.aB % 3 < 2) {
-         ++this.aB;
+      } else if (Canvas.a(6) && this.isDC && this.indexDC % 3 < 2) {
+         ++this.indexDC;
       }
 
-      if (Canvas.isPointerClick && this.c != null && !this.d && this.w) {
+      if (Canvas.isPointerClick && this.listPet != null && !this.isStart && this.isRace) {
          int var1;
-         if (this.U) {
-            if (Canvas.b(this.M + this.O - 30 * AvMain.hd, this.N, 30 * AvMain.hd, 30 * AvMain.hd)) {
+         if (this.isDC) {
+            if (Canvas.b(this.xSelectDC + this.wSelectDC - 30 * AvMain.hd, this.ySelectDC, 30 * AvMain.hd, 30 * AvMain.hd)) {
                Canvas.isPointerClick = false;
-               this.V = 5;
-               this.aD = true;
-               this.aF = this.aE;
+               this.countCloseDC = 5;
+               this.isTran = true;
+               this.timeDelay = this.count;
             } else {
                for(var1 = 0; var1 < 9; ++var1) {
-                  if (Canvas.b(this.M + 5 * AvMain.hd + var1 % 3 * (5 * AvMain.hd + this.T.frameWidth), this.N + (this.P - 29 * AvMain.hd * 3) + var1 / 3 * 29 * AvMain.hd - 1 * AvMain.hd, 60 * AvMain.hd, 26 * AvMain.hd)) {
-                     this.aB = var1;
+                  if (Canvas.b(this.xSelectDC + 5 * AvMain.hd + var1 % 3 * (5 * AvMain.hd + this.imgBackMoney.frameWidth), this.ySelectDC + (this.hSelectDC - 29 * AvMain.hd * 3) + var1 / 3 * 29 * AvMain.hd - 1 * AvMain.hd, 60 * AvMain.hd, 26 * AvMain.hd)) {
+                     this.indexDC = var1;
                      Canvas.isPointerClick = false;
-                     this.aD = true;
-                     this.aF = this.aE;
+                     this.isTran = true;
+                     this.timeDelay = this.count;
                      break;
                   }
                }
             }
          } else {
             for(var1 = 0; var1 < 6; ++var1) {
-               if (Canvas.b(this.C + this.I + 32 * AvMain.hd / 2 - 15 * AvMain.hd, this.D + this.J + 3 * AvMain.hd + 35 * AvMain.hd * var1 + 31 * AvMain.hd / 2 - 15 * AvMain.hd, 31 * AvMain.hd, 31 * AvMain.hd)) {
-                  this.az = var1;
-                  this.aD = true;
+               if (Canvas.b(this.xPopup + this.xDC + 32 * AvMain.hd / 2 - 15 * AvMain.hd, this.yPopup + this.yDC + 3 * AvMain.hd + 35 * AvMain.hd * var1 + 31 * AvMain.hd / 2 - 15 * AvMain.hd, 31 * AvMain.hd, 31 * AvMain.hd)) {
+                  this.indexPet = var1;
+                  this.isTran = true;
                   Canvas.isPointerClick = false;
-                  this.aF = this.aE;
+                  this.timeDelay = this.count;
                   break;
                }
 
-               if (Canvas.b(this.C + this.I + this.K - 1 * AvMain.hd - this.T.frameWidth, this.D + this.J + 3 * AvMain.hd + 35 * AvMain.hd * var1 + 31 * AvMain.hd / 2 - 15 * AvMain.hd, 60 * AvMain.hd, 31 * AvMain.hd)) {
-                  this.aA = var1;
-                  this.aD = true;
+               if (Canvas.b(this.xPopup + this.xDC + this.wDC - 1 * AvMain.hd - this.imgBackMoney.frameWidth, this.yPopup + this.yDC + 3 * AvMain.hd + 35 * AvMain.hd * var1 + 31 * AvMain.hd / 2 - 15 * AvMain.hd, 60 * AvMain.hd, 31 * AvMain.hd)) {
+                  this.indexMoney = var1;
+                  this.isTran = true;
                   Canvas.isPointerClick = false;
-                  this.aF = this.aE;
+                  this.timeDelay = this.count;
                   break;
                }
             }
          }
       }
 
-      if (this.aD) {
+      if (this.isTran) {
          if (Canvas.isPointerDown) {
-            if (this.aB != -1) {
-               if (!Canvas.b(this.M + 5 * AvMain.hd + this.aB % 3 * (5 * AvMain.hd + this.T.frameWidth), this.N + (this.P - 29 * AvMain.hd * 3) + this.aB / 3 * 29 * AvMain.hd - 1 * AvMain.hd, 60 * AvMain.hd, 26 * AvMain.hd)) {
-                  this.aB = -1;
+            if (this.indexDC != -1) {
+               if (!Canvas.b(this.xSelectDC + 5 * AvMain.hd + this.indexDC % 3 * (5 * AvMain.hd + this.imgBackMoney.frameWidth), this.ySelectDC + (this.hSelectDC - 29 * AvMain.hd * 3) + this.indexDC / 3 * 29 * AvMain.hd - 1 * AvMain.hd, 60 * AvMain.hd, 26 * AvMain.hd)) {
+                  this.indexDC = -1;
                }
-            } else if (this.V != 0) {
-               if (!Canvas.b(this.M + this.O - 30 * AvMain.hd, this.N, 30 * AvMain.hd, 30 * AvMain.hd)) {
-                  this.V = 0;
+            } else if (this.countCloseDC != 0) {
+               if (!Canvas.b(this.xSelectDC + this.wSelectDC - 30 * AvMain.hd, this.ySelectDC, 30 * AvMain.hd, 30 * AvMain.hd)) {
+                  this.countCloseDC = 0;
                }
-            } else if (this.az != -1) {
-               if (!Canvas.b(this.C + this.I + 32 * AvMain.hd / 2 - 15 * AvMain.hd, this.D + this.J + 3 * AvMain.hd + 35 * AvMain.hd * this.az + 31 * AvMain.hd / 2 - 15 * AvMain.hd, 31 * AvMain.hd, 31 * AvMain.hd)) {
-                  this.az = -1;
+            } else if (this.indexPet != -1) {
+               if (!Canvas.b(this.xPopup + this.xDC + 32 * AvMain.hd / 2 - 15 * AvMain.hd, this.yPopup + this.yDC + 3 * AvMain.hd + 35 * AvMain.hd * this.indexPet + 31 * AvMain.hd / 2 - 15 * AvMain.hd, 31 * AvMain.hd, 31 * AvMain.hd)) {
+                  this.indexPet = -1;
                }
-            } else if (this.aA != -1 && !this.U && !Canvas.b(this.C + this.I + this.K - 1 * AvMain.hd - this.T.frameWidth, this.D + this.J + 3 * AvMain.hd + 35 * AvMain.hd * this.aA + 31 * AvMain.hd / 2 - 15 * AvMain.hd, 60 * AvMain.hd, 31 * AvMain.hd)) {
-               this.aA = -1;
+            } else if (this.indexMoney != -1 && !this.isDC && !Canvas.b(this.xPopup + this.xDC + this.wDC - 1 * AvMain.hd - this.imgBackMoney.frameWidth, this.yPopup + this.yDC + 3 * AvMain.hd + 35 * AvMain.hd * this.indexMoney + 31 * AvMain.hd / 2 - 15 * AvMain.hd, 60 * AvMain.hd, 31 * AvMain.hd)) {
+               this.indexMoney = -1;
             }
          }
 
          if (Canvas.isPointerRelease) {
-            if (this.aE - this.aF <= 4L) {
-               this.aC = 5;
+            if (this.count - this.timeDelay <= 4L) {
+               this.timeOpen = 5;
             } else {
-               this.e();
+               this.click();
             }
 
-            this.aD = false;
+            this.isTran = false;
             Canvas.isPointerRelease = false;
          }
       }
 
-      if (this.d || !this.w) {
+      if (this.isStart || !this.isRace) {
          Canvas.loadMap.updateKey();
       }
 
    }
 
-   private void e() {
-      if (this.aB != -1) {
-         GlobalService.gI().doDatCuoc(this.c[this.aA].IDDB, this.aG[this.aB]);
-         this.aB = -1;
-         this.aA = -1;
-         this.U = false;
+   private void click() {
+      if (this.indexDC != -1) {
+         GlobalService.gI().doDatCuoc(this.listPet[this.indexMoney].IDDB, this.iMoney[this.indexDC]);
+         this.indexDC = -1;
+         this.indexMoney = -1;
+         this.isDC = false;
          this.commandTab(8);
-      } else if (this.V > 0) {
-         this.V = 0;
-         this.U = false;
-         this.aA = -1;
-      } else if (this.az != -1) {
-         GlobalService.gI().doPetInfo(this.c[this.az].IDDB);
-         this.az = -1;
+      } else if (this.countCloseDC > 0) {
+         this.countCloseDC = 0;
+         this.isDC = false;
+         this.indexMoney = -1;
+      } else if (this.indexPet != -1) {
+         GlobalService.gI().doPetInfo(this.listPet[this.indexPet].IDDB);
+         this.indexPet = -1;
       } else {
-         if (this.aA != -1) {
-            this.U = true;
+         if (this.indexMoney != -1) {
+            this.isDC = true;
             super.center = this.t;
             super.left = null;
             super.right = this.u;
@@ -578,7 +578,7 @@ public final class RaceScr extends MyScreen implements IChatable {
       }
    }
 
-   private static void a(Graphics var0, int var1, int var2, int var3, int var4, FrameImage var5, int var6) {
+   private static void paint(Graphics var0, int var1, int var2, int var3, int var4, FrameImage var5, int var6) {
       var5.drawFrame(0, var1, var2, 0, var0);
       var5.drawFrame(2, var1 + var3 - var5.frameWidth, var2, 0, var0);
       var5.drawFrame(5, var1, var2 + var4 - var5.frameHeight, 0, var0);
@@ -610,82 +610,82 @@ public final class RaceScr extends MyScreen implements IChatable {
    public final void paint(Graphics var1) {
       this.paintMain(var1);
       Canvas.resetTrans(var1);
-      if (this.w) {
-         Canvas.paint.a(var1, this.C, this.D, this.A, this.B, PaintPopup.d[2], PaintPopup.d[3], 1);
-         var1.translate(this.C, this.D);
-         Canvas.normalFont.drawString(var1, avt.T.ec, this.A / 2, 6 * AvMain.hd, 2);
-         a(var1, this.E, this.F, this.G, this.H, this.Q, -1);
-         a(var1, this.I, this.J, this.K, this.L, MenuNPC.a, -12335933);
+      if (this.isRace) {
+         Canvas.paint.a(var1, this.xPopup, this.yPopup, this.wPopup, this.hPopup, PaintPopup.color[2], PaintPopup.color[3], 1);
+         var1.translate(this.xPopup, this.yPopup);
+         Canvas.normalFont.drawString(var1, avt.T.ec, this.wPopup / 2, 6 * AvMain.hd, 2);
+         paint(var1, this.xInfo, this.yInfo, this.wInfo, this.Hinfo, this.imgInfo, -1);
+         paint(var1, this.xDC, this.yDC, this.wDC, this.hDC, MenuNPC.a, -12335933);
 
          for(int var2 = 0; var2 < 6; ++var2) {
-            this.R.drawFrame(this.az == var2 ? 1 : 0, this.I + 32 * AvMain.hd / 2, this.J + 3 * AvMain.hd + this.W * var2 + 31 * AvMain.hd / 2, 0, 3, var1);
-            AvatarData.paintImg(var1, this.c[var2].d, this.I + 32 * AvMain.hd / 2, this.J + 3 * AvMain.hd + this.W * var2 + 31 * AvMain.hd / 2, 3);
-            Canvas.M.drawString(var1, "x" + this.c[var2].a, this.I + 32 * AvMain.hd / 2 + this.R.frameWidth / 2 - 5 * AvMain.hd, this.J + 3 * AvMain.hd + this.W * var2 + 31 * AvMain.hd / 2 + this.R.frameHeight / 2 - AvMain.hBlack, 2);
-            this.T.drawFrame(this.aA == var2 ? 1 : 0, this.I + this.K - 1 * AvMain.hd - this.T.frameWidth, this.J + 7 * AvMain.hd + this.W * var2, 0, var1);
-            if (this.c[var2].g > 0) {
-               Canvas.normalFont.drawString(var1, "" + this.c[var2].g, this.I + this.K - 1 * AvMain.hd - this.T.frameWidth / 2, this.J + 7 * AvMain.hd + this.W * var2 + this.T.frameHeight / 2 - AvMain.ah / 2 - AvMain.hd - 1, 2);
+            this.imgBackpet.drawFrame(this.indexPet == var2 ? 1 : 0, this.xDC + 32 * AvMain.hd / 2, this.yDC + 3 * AvMain.hd + this.W * var2 + 31 * AvMain.hd / 2, 0, 3, var1);
+            AvatarData.paintImg(var1, this.listPet[var2].idIcon, this.xDC + 32 * AvMain.hd / 2, this.yDC + 3 * AvMain.hd + this.W * var2 + 31 * AvMain.hd / 2, 3);
+            Canvas.M.drawString(var1, "x" + this.listPet[var2].rate, this.xDC + 32 * AvMain.hd / 2 + this.imgBackpet.frameWidth / 2 - 5 * AvMain.hd, this.yDC + 3 * AvMain.hd + this.W * var2 + 31 * AvMain.hd / 2 + this.imgBackpet.frameHeight / 2 - AvMain.hBlack, 2);
+            this.imgBackMoney.drawFrame(this.indexMoney == var2 ? 1 : 0, this.xDC + this.wDC - 1 * AvMain.hd - this.imgBackMoney.frameWidth, this.yDC + 7 * AvMain.hd + this.W * var2, 0, var1);
+            if (this.listPet[var2].money > 0) {
+               Canvas.normalFont.drawString(var1, "" + this.listPet[var2].money, this.xDC + this.wDC - 1 * AvMain.hd - this.imgBackMoney.frameWidth / 2, this.yDC + 7 * AvMain.hd + this.W * var2 + this.imgBackMoney.frameHeight / 2 - AvMain.ah / 2 - AvMain.hd - 1, 2);
             } else {
-               Canvas.normalFont.drawString(var1, avt.T.ec, this.I + this.K - 1 * AvMain.hd - this.T.frameWidth / 2, this.J + 7 * AvMain.hd + this.W * var2 + this.T.frameHeight / 2 - AvMain.ah / 2 - AvMain.hd - 1, 2);
+               Canvas.normalFont.drawString(var1, avt.T.ec, this.xDC + this.wDC - 1 * AvMain.hd - this.imgBackMoney.frameWidth / 2, this.yDC + 7 * AvMain.hd + this.W * var2 + this.imgBackMoney.frameHeight / 2 - AvMain.ah / 2 - AvMain.hd - 1, 2);
             }
          }
 
-         if (this.aH && this.c != null) {
-            Canvas.normalFont.drawString(var1, this.aK, this.E + this.G / 2, this.F + 6 * AvMain.hd, 2);
-            AvatarData.paintImg(var1, this.aI, this.E + this.G / 2, this.F + 40 * AvMain.hd, 3);
-            int var4 = this.F + 70 * AvMain.hd;
-            Canvas.normalFont.drawString(var1, avt.T.aP, this.E + 5 * AvMain.hd, var4, 0);
-            Canvas.fontChatB.drawString(var1, this.aJ + "%", this.E + this.G - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.hBlack / 2, 1);
+         if (this.isPetInfo && this.listPet != null) {
+            Canvas.normalFont.drawString(var1, this.namePetInfo, this.xInfo + this.wInfo / 2, this.yInfo + 6 * AvMain.hd, 2);
+            AvatarData.paintImg(var1, this.idImgPeInfo, this.xInfo + this.wInfo / 2, this.yInfo + 40 * AvMain.hd, 3);
+            int var4 = this.yInfo + 70 * AvMain.hd;
+            Canvas.normalFont.drawString(var1, avt.T.aP, this.xInfo + 5 * AvMain.hd, var4, 0);
+            Canvas.fontChatB.drawString(var1, this.numWin + "%", this.xInfo + this.wInfo - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.hBlack / 2, 1);
             var4 += AvMain.ah;
-            Canvas.normalFont.drawString(var1, avt.T.eg, this.E + 5 * AvMain.hd, var4, 0);
-            Canvas.fontChatB.drawString(var1, "X" + this.aL, this.E + this.G - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.hBlack / 2, 1);
+            Canvas.normalFont.drawString(var1, avt.T.eg, this.xInfo + 5 * AvMain.hd, var4, 0);
+            Canvas.fontChatB.drawString(var1, "X" + this.ratePetInfo, this.xInfo + this.wInfo - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.hBlack / 2, 1);
             var4 += AvMain.ah;
-            Canvas.normalFont.drawString(var1, avt.T.eh, this.E + 5 * AvMain.hd, var4, 0);
-            Canvas.fontChatB.drawString(var1, avt.T.eD[this.aM], this.E + this.G - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.hBlack / 2, 1);
+            Canvas.normalFont.drawString(var1, avt.T.eh, this.xInfo + 5 * AvMain.hd, var4, 0);
+            Canvas.fontChatB.drawString(var1, avt.T.eD[this.phongDoPetInfo], this.xInfo + this.wInfo - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.hBlack / 2, 1);
             var4 += AvMain.ah;
-            Canvas.normalFont.drawString(var1, avt.T.eQ, this.E + 5 * AvMain.hd, var4, 0);
-            Canvas.fontChatB.drawString(var1, avt.T.eD[this.aN], this.E + this.G - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.hBlack / 2, 1);
-            this.S.drawFrame(0, this.E + this.S.frameWidth / 2 + 8 * AvMain.hd, this.F + this.H - AvMain.ag - this.S.frameHeight - 8 * AvMain.hd, 0, 3, var1);
-            Canvas.normalFont.drawString(var1, String.valueOf(this.v), this.E + 8 * AvMain.hd + this.S.frameWidth + 2 * AvMain.hd, this.F + this.H - AvMain.ag - this.S.frameHeight - 8 * AvMain.hd - Canvas.normalFont.getHeight() / 2, 0);
-            this.S.drawFrame(1, this.E + this.S.frameWidth / 2 + 8 * AvMain.hd, this.F + this.H - AvMain.ag - AvMain.hd, 0, 3, var1);
-            Canvas.normalFont.drawString(var1, String.valueOf(GameMidlet.avatar.money[0]), this.E + 8 * AvMain.hd + this.S.frameWidth + 2 * AvMain.hd, this.F + this.H - AvMain.ag - AvMain.hd - AvMain.ah / 2, 0);
+            Canvas.normalFont.drawString(var1, avt.T.eQ, this.xInfo + 5 * AvMain.hd, var4, 0);
+            Canvas.fontChatB.drawString(var1, avt.T.eD[this.sucKhoePetInfo], this.xInfo + this.wInfo - 8 * AvMain.hd, var4 + AvMain.ah / 2 - AvMain.hBlack / 2, 1);
+            this.imgTime.drawFrame(0, this.xInfo + this.imgTime.frameWidth / 2 + 8 * AvMain.hd, this.yInfo + this.Hinfo - AvMain.ag - this.imgTime.frameHeight - 8 * AvMain.hd, 0, 3, var1);
+            Canvas.normalFont.drawString(var1, String.valueOf(this.timeRemain), this.xInfo + 8 * AvMain.hd + this.imgTime.frameWidth + 2 * AvMain.hd, this.yInfo + this.Hinfo - AvMain.ag - this.imgTime.frameHeight - 8 * AvMain.hd - Canvas.normalFont.getHeight() / 2, 0);
+            this.imgTime.drawFrame(1, this.xInfo + this.imgTime.frameWidth / 2 + 8 * AvMain.hd, this.yInfo + this.Hinfo - AvMain.ag - AvMain.hd, 0, 3, var1);
+            Canvas.normalFont.drawString(var1, String.valueOf(GameMidlet.avatar.money[0]), this.xInfo + 8 * AvMain.hd + this.imgTime.frameWidth + 2 * AvMain.hd, this.yInfo + this.Hinfo - AvMain.ag - AvMain.hd - AvMain.ah / 2, 0);
          }
 
-         if (this.U) {
-            this.c(var1);
+         if (this.isDC) {
+            this.paintDC(var1);
          }
       } else {
          ImageIcon var5;
-         if (this.d && this.e > 0 && (var5 = AvatarData.getImgIcon((short)1065)).count != -1) {
+         if (this.isStart && this.countStart > 0 && (var5 = AvatarData.getImgIcon((short)1065)).count != -1) {
             int var3 = var5.h / 4;
-            var1.drawRegion(var5.img, 0, (3 - this.e / 12) * var3, var5.w, var3, 0, Canvas.w / 2, Canvas.h / 2, 3);
+            var1.drawRegion(var5.img, 0, (3 - this.countStart / 12) * var3, var5.w, var3, 0, Canvas.w / 2, Canvas.h / 2, 3);
          }
       }
 
       Canvas.resetTrans(var1);
-      if (this.z != null && this.z.chats != null) {
-         this.z.paintAnimal(var1);
+      if (this.myChat != null && this.myChat.chats != null) {
+         this.myChat.paintAnimal(var1);
       }
 
       if (Canvas.welcome == null || !Welcome.isPaintArrow) {
          super.paint(var1);
       }
 
-      if ((this.d || !this.w) && Canvas.currentDialog == null && this.x) {
-         Canvas.borderFont.drawString(var1, String.valueOf(this.n), Canvas.hw, 5, 2);
+      if ((this.isStart || !this.isRace) && Canvas.currentDialog == null && this.isEnd) {
+         Canvas.borderFont.drawString(var1, String.valueOf(this.timeStart), Canvas.hw, 5, 2);
       }
 
       Canvas.paintPlus(var1);
    }
 
-   private void c(Graphics var1) {
+   private void paintDC(Graphics var1) {
       Canvas.resetTrans(var1);
-      Canvas.paint.a(var1, this.M, this.N, this.O, this.P, PaintPopup.d[2], PaintPopup.d[3], 1);
-      var1.translate(this.M, this.N);
-      Canvas.normalFont.drawString(var1, avt.T.ef, this.O / 2, 10 * AvMain.hd, 2);
+      Canvas.paint.a(var1, this.xSelectDC, this.ySelectDC, this.wSelectDC, this.hSelectDC, PaintPopup.color[2], PaintPopup.color[3], 1);
+      var1.translate(this.xSelectDC, this.ySelectDC);
+      Canvas.normalFont.drawString(var1, avt.T.ef, this.wSelectDC / 2, 10 * AvMain.hd, 2);
 
       for(int var2 = 0; var2 < 9; ++var2) {
-         this.T.drawFrame(this.aB == var2 ? 1 : 0, 5 * AvMain.hd + var2 % 3 * (5 * AvMain.hd + this.T.frameWidth), this.P - 29 * AvMain.hd * 3 + var2 / 3 * 29 * AvMain.hd, 0, var1);
-         Canvas.smallFontYellow.drawString(var1, String.valueOf(this.aG[var2]), 5 * AvMain.hd + var2 % 3 * (5 * AvMain.hd + this.T.frameWidth) + this.T.frameWidth / 2, this.P - 29 * AvMain.hd * 3 + var2 / 3 * 29 * AvMain.hd + this.T.frameHeight / 2 - AvMain.hSmall / 2, 2);
+         this.imgBackMoney.drawFrame(this.indexDC == var2 ? 1 : 0, 5 * AvMain.hd + var2 % 3 * (5 * AvMain.hd + this.imgBackMoney.frameWidth), this.hSelectDC - 29 * AvMain.hd * 3 + var2 / 3 * 29 * AvMain.hd, 0, var1);
+         Canvas.smallFontYellow.drawString(var1, String.valueOf(this.iMoney[var2]), 5 * AvMain.hd + var2 % 3 * (5 * AvMain.hd + this.imgBackMoney.frameWidth) + this.imgBackMoney.frameWidth / 2, this.hSelectDC - 29 * AvMain.hd * 3 + var2 / 3 * 29 * AvMain.hd + this.imgBackMoney.frameHeight / 2 - AvMain.hSmall / 2, 2);
       }
 
    }
@@ -710,9 +710,9 @@ public final class RaceScr extends MyScreen implements IChatable {
 
    public final void onChatFromMe(String var1) {
       if (!var1.equals("")) {
-         this.z = new ChatPopup(50, var1, (byte)0);
-         this.z.xc = Canvas.hw;
-         this.z.yc = Canvas.h - this.z.h - MyScreen.at - ChatTextField.gI().tfChat.height;
+         this.myChat = new ChatPopup(50, var1, (byte)0);
+         this.myChat.xc = Canvas.hw;
+         this.myChat.yc = Canvas.h - this.myChat.h - MyScreen.hTab - ChatTextField.gI().tfChat.height;
          GlobalService var10000 = GlobalService.gI();
          String var2 = var1;
          GlobalService var3 = var10000;
@@ -722,20 +722,20 @@ public final class RaceScr extends MyScreen implements IChatable {
       }
    }
 
-   public final void a(short var1, String var2, short var3, byte var4, byte var5, byte var6) {
-      this.aH = true;
-      this.aI = var1;
-      this.aK = var2;
-      this.aJ = var3;
-      this.aL = var4;
-      this.aM = var5;
-      this.aN = var6;
+   public final void onPetInfo(short var1, String var2, short var3, byte var4, byte var5, byte var6) {
+      this.isPetInfo = true;
+      this.idImgPeInfo = var1;
+      this.namePetInfo = var2;
+      this.numWin = var3;
+      this.ratePetInfo = var4;
+      this.phongDoPetInfo = var5;
+      this.sucKhoePetInfo = var6;
    }
 
-   public final void b(String var1) {
+   public final void onChat(String var1) {
       Vector var2 = new Vector();
       int var3 = AvCamera.gI().xTo;
-      if (this.d || !this.w) {
+      if (this.isStart || !this.isRace) {
          var3 += Canvas.w / 3;
       }
 

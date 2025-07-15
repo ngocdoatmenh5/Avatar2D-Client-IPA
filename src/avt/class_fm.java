@@ -25,22 +25,22 @@ final class class_fm extends Command {
 
    public final void paint(Graphics var1, int var2, int var3) {
       var2 = 15 * AvMain.hd;
-      Canvas.normalFont.drawString(var1, this.f, PopupShop.c / 2 - 7, var2, 2);
+      Canvas.normalFont.drawString(var1, this.f, PopupShop.w / 2 - 7, var2, 2);
       var2 += this.g.height + Canvas.normalFont.getHeight() + 15 * AvMain.hd;
-      this.g.paintIcon(var1, PopupShop.c / 4 - 7, var2, true);
-      this.h.paintIcon(var1, PopupShop.c / 4 * 3 - 7, var2, true);
+      this.g.paintIcon(var1, PopupShop.w / 4 - 7, var2, true);
+      this.h.paintIcon(var1, PopupShop.w / 4 * 3 - 7, var2, true);
       ImageIcon var4;
       if ((var4 = AvatarData.getImgIcon(this.i)).count != -1) {
-         var1.drawImage(var4.img, PopupShop.c / 2 - 7, var2 - this.g.height / 2, 3);
+         var1.drawImage(var4.img, PopupShop.w / 2 - 7, var2 - this.g.height / 2, 3);
          if (this.j > 0) {
-            Canvas.fontChatB.drawString(var1, "lv" + this.j + "+" + this.k + "%", PopupShop.c / 2 - 7, var2, 2);
+            Canvas.fontChatB.drawString(var1, "lv" + this.j + "+" + this.k + "%", PopupShop.w / 2 - 7, var2, 2);
             var2 += Canvas.fontChatB.getHeight();
-            MapScr.a(var1, "", PopupShop.c / 2 - 8, var2, this.k);
+            MapScr.a(var1, "", PopupShop.w / 2 - 8, var2, this.k);
          }
       }
 
       var2 += Canvas.fontChatB.getHeight() << 1;
-      Canvas.normalFont.drawString(var1, this.l, PopupShop.c / 2 - 7, var2 - 5, 2);
+      Canvas.normalFont.drawString(var1, this.l, PopupShop.w / 2 - 7, var2 - 5, 2);
    }
 
    public final void update() {

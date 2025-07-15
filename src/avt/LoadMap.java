@@ -170,7 +170,7 @@ public final class LoadMap {
                  && (TYPEMAP != 24 || Canvas.stypeInt == 0)
                  && FarmScr.action == -1
                  && !FarmScr.isAutoVatNuoi
-                 && RaceScr.a != Canvas.currentMyScreen
+                 && RaceScr.me != Canvas.currentMyScreen
                  && TYPEMAP != -1
                  && Canvas.currentMyScreen != MenuCenter.me
                  && Canvas.menuMain == null) {
@@ -631,7 +631,7 @@ public final class LoadMap {
                break;
             case 29:
                Canvas.startWaitDlg();
-               ParkService.gI().a(MapScr.roomID);
+               ParkService.gI().doRequestBoardList(MapScr.roomID);
                break;
             case 52:
                FarmScr.gI().doOpenCuaHang();
@@ -690,13 +690,13 @@ public final class LoadMap {
                   for (int var4 = 0; var4 < AvatarData.listAd.size(); var4++) {
                      ObjAd var5 = (ObjAd)AvatarData.listAd.elementAt(var4);
 
-                     for (int var6 = 0; var6 < var5.g.size(); var6++) {
+                     for (int var6 = 0; var6 < var5.listPoint.size(); var6++) {
                         AvPosition var7;
-                        if ((var7 = (AvPosition)var5.g.elementAt(var6)).x == var2 && var7.y == var3 && TYPEMAP + 1 == var7.anchor) {
+                        if ((var7 = (AvPosition)var5.listPoint.elementAt(var6)).x == var2 && var7.y == var3 && TYPEMAP + 1 == var7.anchor) {
                            Vector var19;
                            (var19 = new Vector()).addElement(new Command(avt.T.z, new class_hu(var13, var5)));
                            var19.addElement(new Command(avt.T.d, new class_hv(var13)));
-                           Canvas.a(var5.c, var19);
+                           Canvas.a(var5.text, var19);
                            return true;
                         }
                      }
@@ -874,7 +874,7 @@ public final class LoadMap {
 
          if (this.clound != null) {
             for (int var19 = 0; var19 < var2.clound.length; var19++) {
-               var3.drawImage(MiniMap.k[0], var2.clound[var19].x, var2.clound[var19].y, 0);
+               var3.drawImage(MiniMap.imgClound[0], var2.clound[var19].x, var2.clound[var19].y, 0);
             }
          }
 
@@ -966,7 +966,7 @@ public final class LoadMap {
       }
 
       if (Canvas.stypeInt == 0 && focusObj != null) {
-         var1.drawImage(MapScr.d, focusObj.x * AvMain.hd, (focusObj.y - (focusObj.catagory == 7 ? 10 : focusObj.height)) * AvMain.hd - ab / 2, 3);
+         var1.drawImage(MapScr.imgFocusP, focusObj.x * AvMain.hd, (focusObj.y - (focusObj.catagory == 7 ? 10 : focusObj.height)) * AvMain.hd - ab / 2, 3);
       }
 
       if (Bus.isRun) {
@@ -1280,7 +1280,7 @@ public final class LoadMap {
                   MyObject n27;
                   if (map[avatar] == 61 && CRes.rnd(2) == 1) {
                      Avatar var62 = new Avatar();
-                     Avatar var53 = (Avatar)RaceScr.b().p.elementAt(CRes.rnd(RaceScr.b().p.size()));
+                     Avatar var53 = (Avatar)RaceScr.gI().p.elementAt(CRes.rnd(RaceScr.gI().p.size()));
                      var62.seriPart = var53.seriPart;
                      var62.x = var62.xCur = x(avatar) + 12;
                      var62.y = var62.yCur = y(avatar) + 12;
@@ -2137,14 +2137,14 @@ public final class LoadMap {
          for (int var5 = 0; var5 < AvatarData.listAd.size(); var5++) {
             ObjAd var6 = (ObjAd)AvatarData.listAd.elementAt(var5);
 
-            for (int var7 = 0; var7 < var6.g.size(); var7++) {
+            for (int var7 = 0; var7 < var6.listPoint.size(); var7++) {
                AvPosition var4;
-               if ((var4 = (AvPosition)var6.g.elementAt(var7)).anchor == var0) {
+               if ((var4 = (AvPosition)var6.listPoint.elementAt(var7)).anchor == var0) {
                   if (var4.y * wMap + var4.x >= 0 && var4.y * wMap + var4.x < type.length) {
                      type[var4.y * wMap + var4.x] = 83;
                   }
 
-                  addPopup(var6.b, var4.x * w + w / 2, var4.y * w + w / 2);
+                  addPopup(var6.title, var4.x * w + w / 2, var4.y * w + w / 2);
                }
             }
          }
@@ -2247,7 +2247,7 @@ public final class LoadMap {
    public static Pet getPet(int var0) {
       for (int var1 = 0; var1 < playerLists.size(); var1++) {
          MyObject var2;
-         if ((var2 = (MyObject) playerLists.elementAt(var1)).catagory == 4 && ((Pet)var2).r.IDDB == var0) {
+         if ((var2 = (MyObject) playerLists.elementAt(var1)).catagory == 4 && ((Pet)var2).follow.IDDB == var0) {
             return (Pet)var2;
          }
       }
