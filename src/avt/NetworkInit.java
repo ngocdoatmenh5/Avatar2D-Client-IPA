@@ -24,7 +24,7 @@ final class NetworkInit implements Runnable {
          Session_ME.setDos(this.session, Session_ME.setSc(this.session).openDataOutputStream());
          this.session.dis = Session_ME.setSc(this.session).openDataInputStream();
          (new Thread(Session_ME.getSender(this.session))).start();
-         this.session.sendThread = new Thread(new class_gv(this.session));
+         this.session.sendThread = new Thread(new MessageCollector(this.session));
          this.session.sendThread.start();
          this.session.j = System.currentTimeMillis();
          Session_ME.sendMes(this.session, new Message((byte)-27));

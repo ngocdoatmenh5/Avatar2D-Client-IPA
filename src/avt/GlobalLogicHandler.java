@@ -169,7 +169,7 @@ public final class GlobalLogicHandler {
       if (var4 != null) {
          MenuNPC.gI().setInfo(var7, var1, var4, var5, var6);
       } else {
-         MenuSub.gI().startAt(var7, 0);
+         Menu.gI().startAt(var7, 0);
       }
    }
 

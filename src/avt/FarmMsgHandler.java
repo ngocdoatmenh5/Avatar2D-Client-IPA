@@ -28,7 +28,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
          Item var89;
          int var94;
          int var112;
-         switch (var1.a) {
+         switch (var1.command) {
             case 51:
                byte var107;
                short[] var96 = new short[var107 = var1.reader().readByte()];

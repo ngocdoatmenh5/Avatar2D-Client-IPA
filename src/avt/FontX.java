@@ -12,9 +12,9 @@ public interface FontX {
 
    Vector splitFontBStrInLineV(String var1, int var2);
 
-   String a(String var1, String var2, String var3);
+   String replace(String var1, String var2, String var3);
 
-   String[] a(String var1, String var2);
+   String[] split(String var1, String var2);
 
    int getHeight();
 }

@@ -31,7 +31,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
          short var16;
          String var17;
          int var18;
-         switch (var1.a) {
+         switch (var1.command) {
             case -69:
                Canvas.startOK(T.dl, new class_ka(this));
                return;

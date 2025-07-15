@@ -17,10 +17,10 @@ public final class HomeMsgHandler extends IService implements IMiniGameMsgHandle
          short var17;
          Vector var18;
          short var19;
-         switch (var1.a) {
+         switch (var1.command) {
             case -75:
                int var12 = var1.reader().readInt();
-               Canvas.inputDlg.a(T.t, new class_a(this, var12), 0);
+               Canvas.inputDlg.setImg(T.t, new IActionSetPass(this, var12), 0);
             default:
                return;
             case -73:

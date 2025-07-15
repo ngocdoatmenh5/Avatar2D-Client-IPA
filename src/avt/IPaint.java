@@ -16,7 +16,7 @@ public interface IPaint {
 
    void init();
 
-   void b();
+   void initImgCard();
 
    void paintHalf(Graphics var1, Card var2);
 

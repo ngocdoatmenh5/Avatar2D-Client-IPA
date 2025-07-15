@@ -8,7 +8,7 @@ public final class Drop_Part extends Base {
    public int x0;
    public int y0;
    public int ID;
-   private byte g;
+   private byte g_;
    private byte dir;
    private byte i;
    private byte j = 1;
@@ -39,16 +39,16 @@ public final class Drop_Part extends Base {
          case 1:
             super.x += (short)(this.x0 - super.x >> 2);
             super.y += (short)(this.y0 - super.y >> 2);
-            if (this.g >= -6) {
-               this.deltaH = (short)(this.deltaH + this.g);
-               --this.g;
+            if (this.g_ >= -6) {
+               this.deltaH = (short)(this.deltaH + this.g_);
+               --this.g_;
             }
 
             if ((CRes.abs(super.x - this.x0) < 4 || CRes.abs(super.y - this.y0) < 4) && this.deltaH <= 1) {
                super.x = this.x0;
                super.y = this.y0;
                this.deltaH = 0;
-               this.g = 0;
+               this.g_ = 0;
                if (this.state == 1) {
                   LoadMap.removePlayer((MyObject)this);
                }
@@ -68,8 +68,8 @@ public final class Drop_Part extends Base {
             break;
          case 4:
             if (this.deltaH > 0) {
-               this.deltaH = (short)(this.deltaH - this.g);
-               ++this.g;
+               this.deltaH = (short)(this.deltaH - this.g_);
+               ++this.g_;
                return;
             }
 
@@ -107,7 +107,7 @@ public final class Drop_Part extends Base {
          this.state = 3;
       }
 
-      this.g = 6;
+      this.g_ = 6;
    }
 
    public final void startDropFrom(int var1, short var2, short var3) {
@@ -121,14 +121,14 @@ public final class Drop_Part extends Base {
             super.x = var4.x;
             super.y = var4.y;
             this.state = 0;
-            this.g = 6;
+            this.g_ = 6;
             this.deltaH = 0;
          } else {
             this.state = 4;
             super.x = var2;
             super.y = var3;
             this.deltaH = 100;
-            this.g = 0;
+            this.g_ = 0;
          }
       }
 

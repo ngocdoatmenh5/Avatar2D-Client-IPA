@@ -5,7 +5,7 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class PaintPopup {
-   public static FrameImage a;
+   public static FrameImage imgArrowUp;
    public static FrameImage b;
    public static PaintPopup me;
    public static int[] color;

@@ -34,7 +34,7 @@ public final class Dog extends Animal {
    public final void setPos() {
       AvPosition var2;
       if (super.isEat) {
-         super.G = 2;
+         super.v = 2;
          var2 = posDosTr;
          super.posNext = var2;
       } else {

@@ -3,7 +3,7 @@ package avt;
 import java.util.Vector;
 
 final class class_eg implements IAction {
-   private class_eh a;
+   private IActionDellPart a;
    private final Part b;
    private final int c;
    private final Vector d;
@@ -11,7 +11,7 @@ final class class_eg implements IAction {
    private final SeriPart f;
    private final int g;
 
-   class_eg(class_eh var1, Part var2, int var3, Vector var4, Vector var5, SeriPart var6, int var7) {
+   class_eg(IActionDellPart var1, Part var2, int var3, Vector var4, Vector var5, SeriPart var6, int var7) {
       this.a = var1;
       this.b = var2;
       this.c = var3;

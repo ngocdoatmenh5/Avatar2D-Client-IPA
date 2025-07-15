@@ -325,7 +325,7 @@ public final class RaceScr extends MyScreen implements IChatable {
             Vector var2;
             (var2 = new Vector()).addElement(new Command(avt.T.ed, 0, this));
             var2.addElement(new Command(avt.T.x, 2, this));
-            MenuSub.gI().startAt(var2, 0);
+            Menu.gI().startAt(var2, 0);
             return;
          case 8:
             super.center = this.s;
@@ -615,7 +615,7 @@ public final class RaceScr extends MyScreen implements IChatable {
          var1.translate(this.xPopup, this.yPopup);
          Canvas.normalFont.drawString(var1, avt.T.ec, this.wPopup / 2, 6 * AvMain.hd, 2);
          paint(var1, this.xInfo, this.yInfo, this.wInfo, this.Hinfo, this.imgInfo, -1);
-         paint(var1, this.xDC, this.yDC, this.wDC, this.hDC, MenuNPC.a, -12335933);
+         paint(var1, this.xDC, this.yDC, this.wDC, this.hDC, MenuNPC.imgDc, -12335933);
 
          for(int var2 = 0; var2 < 6; ++var2) {
             this.imgBackpet.drawFrame(this.indexPet == var2 ? 1 : 0, this.xDC + 32 * AvMain.hd / 2, this.yDC + 3 * AvMain.hd + this.W * var2 + 31 * AvMain.hd / 2, 0, 3, var1);

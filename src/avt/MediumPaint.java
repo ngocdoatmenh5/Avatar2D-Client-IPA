@@ -20,24 +20,24 @@ public final class MediumPaint implements IPaint {
    private static Image[] j;
    private static FrameImage k;
    private static FrameImage l;
-   private static byte[][] m = new byte[][]{{4, 6, 17, 0, 27, 14, 0, 27, 36}, {4, 6, 17, 0, 17, 13, 0, 37, 13}, {4, 6, 17, 0, 17, 13, 0, 37, 13, 0, 27, 36}, {4, 6, 17, 0, 17, 13, 0, 37, 13, 0, 17, 36, 0, 37, 36}, {4, 6, 17, 0, 17, 13, 0, 37, 13, 0, 17, 36, 0, 37, 36, 0, 27, 30}, {4, 6, 17, 0, 17, 13, 0, 37, 13, 0, 17, 28, 0, 37, 28}, {4, 6, 17, 0, 17, 13, 0, 37, 13, 0, 17, 28, 0, 37, 28, 0, 27, 36}, {4, 6, 17, 0, 17, 13, 0, 37, 13, 0, 17, 28, 0, 37, 28, 0, 27, 20}, {4, 6, 17, 8, 27, 36}, {4, 6, 17, 9, 27, 36}, {4, 6, 17, 10, 27, 36}, {4, 6, 17, 0, 27, 36}, {4, 6, 17, 0, 27, 14}};
+   private static byte[][] cardIconInfo = new byte[][]{{4, 6, 17, 0, 27, 14, 0, 27, 36}, {4, 6, 17, 0, 17, 13, 0, 37, 13}, {4, 6, 17, 0, 17, 13, 0, 37, 13, 0, 27, 36}, {4, 6, 17, 0, 17, 13, 0, 37, 13, 0, 17, 36, 0, 37, 36}, {4, 6, 17, 0, 17, 13, 0, 37, 13, 0, 17, 36, 0, 37, 36, 0, 27, 30}, {4, 6, 17, 0, 17, 13, 0, 37, 13, 0, 17, 28, 0, 37, 28}, {4, 6, 17, 0, 17, 13, 0, 37, 13, 0, 17, 28, 0, 37, 28, 0, 27, 36}, {4, 6, 17, 0, 17, 13, 0, 37, 13, 0, 17, 28, 0, 37, 28, 0, 27, 20}, {4, 6, 17, 8, 27, 36}, {4, 6, 17, 9, 27, 36}, {4, 6, 17, 10, 27, 36}, {4, 6, 17, 0, 27, 36}, {4, 6, 17, 0, 27, 14}};
    private static int n;
    private byte o;
    private byte p;
    private byte q;
-   private static int r;
-   private static int s;
-   private static int t;
-   private static int u;
+   private static int colorSelect;
+   private static int colorBold;
+   private static int colorNormal;
+   private static int colorLight;
 
    static {
       TField.s = 0;
       PaintPopup.color = new int[]{6201499, 2378578, 8705740, 2716523, 16701696, 7042560};
       n = 0;
-      r = 35217;
-      s = 32382;
-      t = 23135;
-      u = 14414578;
+      colorSelect = 35217;
+      colorBold = 32382;
+      colorNormal = 23135;
+      colorLight = 14414578;
    }
 
    public MediumPaint() {
@@ -50,18 +50,18 @@ public final class MediumPaint implements IPaint {
       FilePack.b(T.av);
       Avatar.imgHit = FrameImage.init("5", 50, 48);
       Avatar.imgKiss = FrameImage.init("2", 11, 10);
-      Canvas.aa = FilePack.getImage("transtab");
+      Canvas.imgTabInfo = FilePack.getImage("transtab");
       Pet.imgShadow[0] = FilePack.getImage("s1");
       Pet.imgShadow[1] = FilePack.getImage("s2");
-      PaintPopup.a = FrameImage.init("arrowup", 9, 6);
+      PaintPopup.imgArrowUp = FrameImage.init("arrowup", 9, 6);
       MsgDlg.imgLoad = FrameImage.init("busy", 16, 16);
-      MenuSub.f = FrameImage.init("cmd", 24, 24);
+      Menu.imgCmd = FrameImage.init("cmd", 24, 24);
       MapScr.imgBar = FilePack.getImage("bar");
       MapScr.imgFocusP = FilePack.getImage("arF");
       FrameImage.init("icon", 17, 19);
       Avatar.imgBlog = new FrameImage(FilePack.getImage("dauhoathi"), 9, 9);
       h = FrameImage.init("check", 12, 12);
-      TField.r = FrameImage.init("tb", 4, 19);
+      TField.tfframe = FrameImage.init("tb", 4, 19);
       a = FrameImage.init("round", 8, 8);
       PaintPopup.b = FrameImage.init("ar2", 4, 6);
       i = new FrameImage(FilePack.getImage("arW"), 6, 11);
@@ -82,16 +82,16 @@ public final class MediumPaint implements IPaint {
 
    public final void paintTextBox(Graphics var1, int var2, int var3, int var4, int var5, TField var6, boolean var7) {
       if (var7) {
-         TField.r.drawFrame(2, var2 + 1, var3 + 1, 0, var1);
-         TField.r.drawFrame(3, var2 + var4 - 5, var3 + 1, 0, var1);
+         TField.tfframe.drawFrame(2, var2 + 1, var3 + 1, 0, var1);
+         TField.tfframe.drawFrame(3, var2 + var4 - 5, var3 + 1, 0, var1);
          PaintPopup.fill(var2 + 4, var3 + 1, var4 - 8, 2, 2716523, var1);
          var1.fillRect(var2 + 4, var3 + 18, var4 - 8, 2);
          PaintPopup.fill(var2 + 4, var3 + 3, var4 - 8, 1, 2704964, var1);
          PaintPopup.fill(var2 + 4, var3 + 4, var4 - 8, 1, 5014141, var1);
          PaintPopup.fill(var2 + 4, var3 + 5, var4 - 8, 13, 6201499, var1);
       } else {
-         TField.r.drawFrame(0, var2 + 1, var3 + 1, 0, var1);
-         TField.r.drawFrame(1, var2 + var4 - 5, var3 + 1, 0, var1);
+         TField.tfframe.drawFrame(0, var2 + 1, var3 + 1, 0, var1);
+         TField.tfframe.drawFrame(1, var2 + var4 - 5, var3 + 1, 0, var1);
          PaintPopup.fill(var2 + 4, var3 + 2, var4 - 9, 1, 11074288, var1);
          var1.fillRect(var2 + 4, var3 + 18, var4 - 9, 1);
          PaintPopup.fill(var2 + 4, var3 + 3, var4 - 9, 1, 2704964, var1);
@@ -217,7 +217,7 @@ public final class MediumPaint implements IPaint {
       this.paintPopupBack(var1, var2, var3, var4, var5, 0);
    }
 
-   public final void b() {
+   public final void initImgCard() {
       if (b == null) {
          try {
             f = new Image[14];
@@ -274,7 +274,7 @@ public final class MediumPaint implements IPaint {
 
       while(var2 < 2) {
          int var3;
-         if ((var3 = m[var1.cardMapping[var1.cardValue]][var2++]) == 0 || var3 == 4) {
+         if ((var3 = cardIconInfo[var1.cardMapping[var1.cardValue]][var2++]) == 0 || var3 == 4) {
             var3 += var1.cardType;
          }
 
@@ -282,8 +282,8 @@ public final class MediumPaint implements IPaint {
             var3 = 11;
          }
 
-         byte var4 = m[var1.cardMapping[var1.cardValue]][var2++];
-         byte var5 = m[var1.cardMapping[var1.cardValue]][var2++];
+         byte var4 = cardIconInfo[var1.cardMapping[var1.cardValue]][var2++];
+         byte var5 = cardIconInfo[var1.cardMapping[var1.cardValue]][var2++];
          var0.drawImage(f[var3], var1.x - 27 + var4, var1.y - 36 + var5, 3);
       }
 
@@ -297,9 +297,9 @@ public final class MediumPaint implements IPaint {
          var1.drawImage(b, var2.x - 27, var2.y - 36, 0);
          int var3 = 0;
 
-         while(var3 < m[var2.cardMapping[var2.cardValue]].length) {
+         while(var3 < cardIconInfo[var2.cardMapping[var2.cardValue]].length) {
             int var4;
-            if ((var4 = m[var2.cardMapping[var2.cardValue]][var3++]) == 0 || var4 == 4) {
+            if ((var4 = cardIconInfo[var2.cardMapping[var2.cardValue]][var3++]) == 0 || var4 == 4) {
                var4 += var2.cardType;
             }
 
@@ -307,8 +307,8 @@ public final class MediumPaint implements IPaint {
                var4 = 11;
             }
 
-            byte var5 = m[var2.cardMapping[var2.cardValue]][var3++];
-            byte var6 = m[var2.cardMapping[var2.cardValue]][var3++];
+            byte var5 = cardIconInfo[var2.cardMapping[var2.cardValue]][var3++];
+            byte var6 = cardIconInfo[var2.cardMapping[var2.cardValue]][var3++];
             var1.drawImage(f[var4], var2.x - 27 + var5, var2.y - 36 + var6, 3);
             if (var6 < 30) {
                var1.drawRegion(f[var4], 0, 0, f[var4].getWidth(), f[var4].getHeight(), 1, var2.x + 27 - var5, var2.y + 36 - var6, 3);
@@ -642,8 +642,8 @@ public final class MediumPaint implements IPaint {
 
       var1.fillRect(4, PaintPopup.hTab + 20 + AvMain.hBlack / 2 + var6 - var7 / 2, PaintPopup.gI().w - 8, var7);
       Canvas.normalFont.drawString(var1, var3 == 1 ? T.et[0] : T.et[1], PaintPopup.gI().w / 2, PaintPopup.hTab + 20, 2);
-      PaintPopup.a.drawFrame(0, PaintPopup.gI().w / 2 - 35 - var4 / 2, PaintPopup.hTab + 20 + AvMain.hBlack / 2 + var6, 4, 3, var1);
-      PaintPopup.a.drawFrame(0, PaintPopup.gI().w / 2 + 35 + var5 / 2, PaintPopup.hTab + 20 + AvMain.hBlack / 2 + var6, 7, 3, var1);
+      PaintPopup.imgArrowUp.drawFrame(0, PaintPopup.gI().w / 2 - 35 - var4 / 2, PaintPopup.hTab + 20 + AvMain.hBlack / 2 + var6, 4, 3, var1);
+      PaintPopup.imgArrowUp.drawFrame(0, PaintPopup.gI().w / 2 + 35 + var5 / 2, PaintPopup.hTab + 20 + AvMain.hBlack / 2 + var6, 7, 3, var1);
       GameMidlet.avatar.paintIcon(var1, PaintPopup.gI().w / 2 + 1, PaintPopup.hTab + 87, false);
       Canvas.normalFont.drawString(var1, T.aA + GameMidlet.avatar.name, PaintPopup.gI().w / 2, PaintPopup.hTab + 100, 2);
       Canvas.normalFont.drawString(var1, T.ao + GameMidlet.avatar.strMoney, PaintPopup.gI().w / 2, PaintPopup.hTab + 115, 2);
@@ -741,29 +741,29 @@ public final class MediumPaint implements IPaint {
 
       var1.drawImage(j[6], var2 + var4 - (var6 << 1), var3 + var5 - var7, 0);
       var1.drawImage(j[7], var2 + var4 - var6, var3 + var5 - var7, 0);
-      var1.setColor(t);
+      var1.setColor(colorNormal);
       var1.fillRect(var2 + 10, var3 + 10, var4 - 20, var5 - 20);
    }
 
    public final void f(Graphics var1, int var2, int var3, int var4, int var5) {
       if (AvMain.hd == 1) {
-         var1.setColor(s);
+         var1.setColor(colorBold);
          var1.fillRect(0, var3 + 1, var4, var5 - var3 + 1);
       } else {
-         var1.setColor(s);
+         var1.setColor(colorBold);
          var1.fillRect(0, var3 + 1, var4, var5 - var3 + 2);
       }
    }
 
    public final void g(Graphics var1, int var2, int var3, int var4, int var5) {
-      var1.setColor(r);
+      var1.setColor(colorSelect);
       var1.fillRect(2, var3, var4, var5);
    }
 
    public final void c(Graphics var1) {
-      var1.setColor(s);
+      var1.setColor(colorBold);
       var1.fillRect(0, Canvas.hCan - Canvas.hTab + 1, Canvas.w, Canvas.hTab);
-      var1.setColor(u);
+      var1.setColor(colorLight);
       var1.fillRect(0, Canvas.hCan - Canvas.hTab, Canvas.w, 1);
    }
 

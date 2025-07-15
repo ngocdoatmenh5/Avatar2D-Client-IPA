@@ -10,6 +10,6 @@ final class class_dd implements IAction {
       Vector var1;
       (var1 = new Vector()).addElement(new Command(T.dk, 14));
       var1.addElement(new Command(T.t, 15));
-      MenuSub.gI().startAt(var1, 0);
+      Menu.gI().startAt(var1, 0);
    }
 }

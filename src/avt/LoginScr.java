@@ -237,7 +237,7 @@ public final class LoginScr extends MyScreen {
 
             var5.addElement(new Command(T.bG, 9));
             var5.addElement(var4);
-            MenuSub.gI().startAt(var5, 0);
+            Menu.gI().startAt(var5, 0);
             return;
          case 1:
             isNewGame = true;
@@ -262,7 +262,7 @@ public final class LoginScr extends MyScreen {
                Canvas.endDlg();
                this.timeOut = System.currentTimeMillis();
                if (this.tfEmail.getText().equals("")) {
-                  n();
+                  doSendRegisterInfo();
                   return;
                }
 
@@ -295,13 +295,13 @@ public final class LoginScr extends MyScreen {
                return;
             }
 
-            (new class_n(this, var3)).perform();
+            (new IActionForgetPass(this, var3)).perform();
             return;
          case 101:
             this.regRequest();
             return;
          case 102:
-            n();
+            doSendRegisterInfo   ();
             return;
          case 103:
             return;
@@ -320,7 +320,7 @@ public final class LoginScr extends MyScreen {
       Canvas.paint.initPosLogin(this);
    }
 
-   private static void n() {
+   private static void doSendRegisterInfo() {
       Vector var0;
       (var0 = new Vector()).addElement(new Command(T.e, 51));
       var0.addElement(new Command(T.bK, 52));

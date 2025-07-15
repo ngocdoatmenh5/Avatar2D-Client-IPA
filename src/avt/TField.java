@@ -37,7 +37,7 @@ public final class TField {
    private static int changeDau;
    private Command K;
    public String q = "";
-   public static FrameImage r;
+   public static FrameImage tfframe;
    private static javax.microedition.lcdui.Canvas L;
    public static int s;
    public static IAction t;
@@ -104,7 +104,7 @@ public final class TField {
       }
 
       this.setFocus(false);
-      this.height = r.frameHeight;
+      this.height = tfframe.frameHeight;
    }
 
    public final void clear() {

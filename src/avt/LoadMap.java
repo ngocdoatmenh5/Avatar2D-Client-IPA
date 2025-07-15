@@ -679,7 +679,7 @@ public final class LoadMap {
                GlobalService.gI().requestCityMap((byte)-1);
                break;
             case 78:
-               MapScr.gI().a(avt.T.cN, 5);
+               MapScr.gI().doOpenIceDream(avt.T.cN, 5);
                break;
             case 83:
                int var10001 = var1 / w;
@@ -733,7 +733,7 @@ public final class LoadMap {
                Canvas.startWaitDlg();
                break;
             case 93:
-               MapScr.gI().a(avt.T.cN, 4);
+               MapScr.gI().doOpenIceDream(avt.T.cN, 4);
                break;
             case 94:
                GlobalService.gI().doCommunicate(4);
@@ -858,7 +858,7 @@ public final class LoadMap {
          if (listImgAD != null) {
             for (int var8 = 0; var8 < listImgAD.size(); var8++) {
                AvPosition var9 = (AvPosition) listImgAD.elementAt(var8);
-               int var15 = AvCamera.gI().xCam * (30 + var9.d * 3) / 210;
+               int var15 = AvCamera.gI().xCam * (30 + var9.depth * 3) / 210;
                AvatarData.paintImg(var3, var9.anchor, var9.x + var15, var9.y, 33);
             }
          }

@@ -119,7 +119,7 @@ public final class MiniMap extends MyScreen {
                var3.addElement(new Command(T.cF, 4));
                var3.addElement(new Command(T.cJ, 5));
                var3.addElement(new Command(T.x, 6));
-               MenuSub.gI().startAt(var3, 0);
+               Menu.gI().startAt(var3, 0);
             }
 
             return;

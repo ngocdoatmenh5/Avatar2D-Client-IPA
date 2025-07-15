@@ -52,15 +52,15 @@ public final class Session_ME implements ISession {
    }
 
    private synchronized void doSendMessage(Message var1) {
-      byte[] var2 = var1.a();
+      byte[] var2 = var1.getData();
 
       try {
          int var5;
          if (this.getKeyComplete) {
-            var5 = this.writeKey(var1.a);
+            var5 = this.writeKey(var1.command);
             this.dos.writeByte(var5);
          } else {
-            this.dos.writeByte(var1.a);
+            this.dos.writeByte(var1.command);
          }
 
          if (var2 != null) {

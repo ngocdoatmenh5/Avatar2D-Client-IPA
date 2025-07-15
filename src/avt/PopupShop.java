@@ -96,7 +96,7 @@ public final class PopupShop extends MyScreen {
          case 8:
             if (var2 < FarmData.listAnimalInfo.size()) {
                AnimalInfo var6 = (AnimalInfo)FarmData.listAnimalInfo.elementAt(var2);
-               FarmScr.gI().a(var6);
+               FarmScr.gI().doBuyAnimal(var6);
                return;
             }
             break;

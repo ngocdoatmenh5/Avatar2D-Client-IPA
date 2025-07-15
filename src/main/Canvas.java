@@ -74,7 +74,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    public static int stypeInt = 1;
    private int ap;
    private static boolean aq = false;
-   public static Image aa;
+   public static Image imgTabInfo;
    public static byte ab = 0;
    private long ar = 0L;
    public static Vector ac = new Vector();
@@ -149,7 +149,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
       TField.b(instance.getGameAction(48) == 0 && instance.getGameAction(49) == 0 && instance.getGameAction(50) == 0 && instance.getGameAction(51) == 0 && instance.getGameAction(52) == 0 && instance.getGameAction(53) == 0 && instance.getGameAction(54) == 0 && instance.getGameAction(55) == 0 && instance.getGameAction(56) == 0 && instance.getGameAction(57) == 0);
       CRes.init();
-      menuMain = new MenuSub();
+      menuMain = new Menu();
       msgdlg = new MsgDlg();
       avataData = new AvatarData();
       inputDlg = new InputDlg();
@@ -170,7 +170,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
    public static void a() {
       ad = new Command(T.p, -1);
-      MenuSub.gI().initCmd();
+      Menu.gI().initCmd();
       if (currentMyScreen != null) {
          currentMyScreen.initCmd();
       }
@@ -933,7 +933,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             var1.setColor(0);
 
             for(var3 = 0; var3 < w / 30 + 1; ++var3) {
-               var6.drawImage(aa, var3 * 30, ab - 30, 0);
+               var6.drawImage(imgTabInfo, var3 * 30, ab - 30, 0);
             }
 
             var6.fillRect(0, ab, w, 1);

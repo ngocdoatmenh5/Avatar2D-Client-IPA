@@ -21,12 +21,12 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
             return;
          }
 
-         System.out.println("tienlen: " + var1.a);
+         System.out.println("tienlen: " + var1.command);
          int var5;
          byte var13;
          byte var14;
          int var15;
-         switch (var1.a) {
+         switch (var1.command) {
             case 20:
                var14 = var1.reader().readByte();
                Vector var17 = new Vector();

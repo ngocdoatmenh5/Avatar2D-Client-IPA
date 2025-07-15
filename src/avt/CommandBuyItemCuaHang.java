@@ -27,7 +27,7 @@ final class CommandBuyItemCuaHang extends Command {
          }
 
          PopupShop.addStr(T.dQ + ": " + Canvas.getMoneys(FarmData.treeInfo[this.f].numProduct));
-         PopupShop.addStr(MapScr.r());
+         PopupShop.addStr(MapScr.strTkFarm());
       }
 
    }

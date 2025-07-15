@@ -14,7 +14,7 @@ public final class AvatarMsgHandler extends IService implements IMiniGameMsgHand
          int var3;
          BigImgInfo var10;
          byte[] var13;
-         switch (var1.a) {
+         switch (var1.command) {
             case -41:
                var13 = new byte[var1.reader().available()];
                var1.reader().read(var13);

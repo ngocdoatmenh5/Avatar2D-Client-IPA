@@ -23,7 +23,7 @@ final class CommandBuyAnimalCuaHang extends Command {
          PopupShop.addStr(this.f.name + "(" + this.f.harvestTime + T.bq + ")");
          PopupShop.addStr(T.az + Canvas.getPriceMoney(this.f.price[0], this.f.price[1], false));
          PopupShop.addStr(this.f.des);
-         PopupShop.addStr(MapScr.r());
+         PopupShop.addStr(MapScr.strTkFarm());
       }
 
    }

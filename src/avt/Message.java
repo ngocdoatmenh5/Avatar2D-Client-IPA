@@ -7,47 +7,47 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public final class Message {
-   public byte a;
+   public byte command;
    private ByteArrayOutputStream b = null;
-   private DataOutputStream c = null;
+   private DataOutputStream dos = null;
    private ByteArrayInputStream d = null;
-   private DataInputStream e = null;
+   private DataInputStream dis = null;
 
    public Message() {
    }
 
    public Message(byte var1) {
-      this.a = var1;
+      this.command = var1;
       this.b = new ByteArrayOutputStream();
-      this.c = new DataOutputStream(this.b);
+      this.dos = new DataOutputStream(this.b);
    }
 
    public Message(byte var1, byte[] var2) {
-      this.a = var1;
+      this.command = var1;
       this.d = new ByteArrayInputStream(var2);
-      this.e = new DataInputStream(this.d);
+      this.dis = new DataInputStream(this.d);
    }
 
-   public final byte[] a() {
+   public final byte[] getData() {
       return this.b.toByteArray();
    }
 
    public final DataInputStream reader() {
-      return this.e;
+      return this.dis;
    }
 
    public final DataOutputStream writer() {
-      return this.c;
+      return this.dos;
    }
 
    public final void cleanup() {
       try {
-         if (this.e != null) {
-            this.e.close();
+         if (this.dis != null) {
+            this.dis.close();
          }
 
-         if (this.c != null) {
-            this.c.close();
+         if (this.dos != null) {
+            this.dos.close();
             return;
          }
       } catch (IOException var1) {

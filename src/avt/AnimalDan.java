@@ -37,7 +37,7 @@ public class AnimalDan extends Animal {
             if ((var5 = this.getPosEat()) != null) {
                var1.x = var5.x;
                var1.y = var5.y;
-               super.G = 2;
+               super.v = 2;
                super.posNext = var1;
             } else {
                this.setPos();
@@ -75,7 +75,7 @@ public class AnimalDan extends Animal {
                LoadMap.dynamicLists.removeElement(var3);
                super.hunger = false;
                super.isEat = false;
-               super.G = 1;
+               super.v = 1;
                FarmScr.gI();
                FarmScr.doEat(var3.itemID, super.IDDB);
                break;

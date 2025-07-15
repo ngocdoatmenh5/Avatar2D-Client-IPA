@@ -74,7 +74,7 @@ public final class RoomListOnScr extends MyScreen {
             }
 
             var3.addElement(new Command(T.am, 3));
-            MenuSub.gI().startAt(var3, 0);
+            Menu.gI().startAt(var3, 0);
             return;
          case 1:
             this.doSelectRoom();

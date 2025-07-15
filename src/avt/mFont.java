@@ -149,7 +149,7 @@ public final class mFont implements FontX {
       }
    }
 
-   public final String a(String var1, String var2, String var3) {
+   public final String replace(String var1, String var2, String var3) {
       StringBuffer var4 = new StringBuffer();
       int var5 = var1.indexOf(var2);
       int var6 = 0;
@@ -163,7 +163,7 @@ public final class mFont implements FontX {
       return var4.toString();
    }
 
-   public final String[] a(String var1, String var2) {
+   public final String[] split(String var1, String var2) {
       int var3 = 0;
       int var5 = var2.length();
 

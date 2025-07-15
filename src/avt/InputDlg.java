@@ -71,7 +71,7 @@ public final class InputDlg extends Dialog {
       Canvas.currentDialog = this;
    }
 
-   public final void a(String var1, IAction var2, int var3) {
+   public final void setImg(String var1, IAction var2, int var3) {
       this.initInfo(var1, var3);
       this.okAction = var2;
       super.center = new Command(T.z, this.okAction);

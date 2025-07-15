@@ -175,7 +175,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
             }
 
             var6.addElement(var4);
-            MenuSub.gI().startAt(var6, 0);
+            Menu.gI().startAt(var6, 0);
             return;
          case 2:
             doKick();
@@ -480,7 +480,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
 
             var8.addElement(new Command(T.q, 4));
             var8.addElement(new Command(T.u, 5));
-            MenuSub.gI().startAt(var8, 0);
+            Menu.gI().startAt(var8, 0);
             return;
          case 1:
             me.doCloseBoard();
@@ -537,7 +537,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
          var0.addElement(new Command(T.ej[var1], 15, var1));
       }
 
-      MenuSub.gI().startAt(var0, 0);
+      Menu.gI().startAt(var0, 0);
    }
 
    private static void doKick() {
@@ -550,7 +550,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
          }
       }
 
-      MenuSub.gI().startAt(var0, 0);
+      Menu.gI().startAt(var0, 0);
    }
 
    private static void doAddFriend() {
@@ -567,7 +567,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
          ((Command)var0.elementAt(0)).perform();
       }
 
-      MenuSub.gI().startAt(var0, 0);
+      Menu.gI().startAt(var0, 0);
    }
 
    public final void playerLeave(int var1) {
@@ -631,7 +631,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
 
       this.onStartGame();
       if (numPlayer > 2) {
-         Canvas.paint.b();
+         Canvas.paint.initImgCard();
       }
 
    }

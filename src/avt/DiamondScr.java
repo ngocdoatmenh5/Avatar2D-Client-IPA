@@ -1036,7 +1036,7 @@ public final class DiamondScr extends BoardScr {
 
       for(var6 = 0; var6 < var2.length; ++var6) {
          var7 = var2[var6].anchor;
-         this.array[var7 / 8][var7 % 8].itemID = var2[var6].d;
+         this.array[var7 / 8][var7 % 8].itemID = var2[var6].depth;
       }
 
       if (var3 > 1) {

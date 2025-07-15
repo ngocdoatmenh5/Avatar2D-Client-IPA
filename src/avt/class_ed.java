@@ -3,7 +3,7 @@ package avt;
 import main.Canvas;
 
 final class class_ed implements IAction {
-   class_ed(class_ee var1) {
+   class_ed(IActionDellPart1 var1) {
    }
 
    public final void perform() {

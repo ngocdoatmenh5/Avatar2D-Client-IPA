@@ -4,7 +4,7 @@ public final class AvPosition {
    public int x;
    public int y;
    public int anchor;
-   public short d = 0;
+   public short depth = 0;
    public short index = -1;
 
    public AvPosition() {

@@ -25,7 +25,7 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
             byte var19;
             int var20;
             byte var27;
-            switch (var1.a) {
+            switch (var1.command) {
                case 20:
                   var15 = var1.reader().readByte();
                   Vector var23 = new Vector();

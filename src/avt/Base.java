@@ -8,14 +8,14 @@ public class Base extends MyObject {
    public int IDDB;
    public String name = "";
    public int frame;
-   public byte z = 7;
+   public byte g = 7;
    public byte vhy;
    public byte vh;
    public int xCur;
    public int yCur;
    public int vx = 0;
    public int vy = 0;
-   public int G = 4;
+   public int v = 4;
    public byte action = 0;
    public static byte RIGHT = 0;
    public static byte LEFT = 2;
@@ -87,17 +87,17 @@ public class Base extends MyObject {
             if (LoadMap.isTrans(var3 + var1, var4 + var2)) {
                if (var1 != 0) {
                   if (var1 > 0) {
-                     this.vx = this.G;
+                     this.vx = this.v;
                   } else {
-                     this.vx = -this.G;
+                     this.vx = -this.v;
                   }
                }
 
                if (var2 != 0) {
                   if (var2 > 0) {
-                     this.vy = this.G;
+                     this.vy = this.v;
                   } else {
-                     this.vy = -this.G;
+                     this.vy = -this.v;
                   }
                }
 
@@ -132,7 +132,7 @@ public class Base extends MyObject {
             var4 = LoadMap.getTypeMap(var3 + var1, super.y - 24);
             var5 = LoadMap.getTypeMap(var3, super.y - 24);
             if (var4 == 80 && var5 == 80) {
-               this.vy = -this.G;
+               this.vy = -this.v;
                this.xCur = var3;
                MapScr.gI().move();
                return true;
@@ -141,7 +141,7 @@ public class Base extends MyObject {
             var1 = LoadMap.getTypeMap(var3 + var1, super.y + 24);
             var2 = LoadMap.getTypeMap(var3, super.y + 24);
             if (var1 == 80 && var2 == 80) {
-               this.vy = this.G;
+               this.vy = this.v;
                this.xCur = var3;
                MapScr.gI().move();
                return true;
@@ -150,7 +150,7 @@ public class Base extends MyObject {
             var4 = LoadMap.getTypeMap(var3 - 24, super.y + var2);
             var5 = LoadMap.getTypeMap(var3 - 24, super.y);
             if (var4 == 80 && var5 == 80) {
-               this.vx = -this.G;
+               this.vx = -this.v;
                this.yCur = super.y;
                MapScr.gI().move();
                return true;
@@ -159,7 +159,7 @@ public class Base extends MyObject {
             var1 = LoadMap.getTypeMap(var3 + 24, super.y + var2);
             var2 = LoadMap.getTypeMap(var3 + 24, super.y);
             if (var1 == 80 && var2 == 80) {
-               this.vx = this.G;
+               this.vx = this.v;
                this.yCur = super.y;
                MapScr.gI().move();
                return true;

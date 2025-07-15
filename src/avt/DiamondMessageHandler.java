@@ -22,7 +22,7 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
             byte var11;
             byte var12;
             int var18;
-            switch (var1.a) {
+            switch (var1.command) {
                case 20:
                   var12 = var1.reader().readByte();
                   var3 = var1.reader().readInt();
@@ -41,7 +41,7 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
                      var20.hp = var20.maxHP = var1.reader().readShort();
                      var20.mp = var1.reader().readShort();
                      var20.maxMP = var1.reader().readShort();
-                     var20.G <<= 1;
+                     var20.v <<= 1;
                      var20.setFeel(4);
                   }
 
@@ -77,7 +77,7 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
                      var3 = var1.reader().readInt();
                      Avatar var16;
                      Avatar var10000 = var16 = BoardScr.getAvatarByID(var2);
-                     var10000.G /= 2;
+                     var10000.v /= 2;
                      var16.action = 0;
                      var16.setMoneyNew(var16.getMoneyNew() + var3);
                      if (var3 != 0) {
@@ -105,7 +105,7 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
                      var7[var2] = new AvPosition();
                      var6[var2] = var1.reader().readByte();
                      var7[var2].anchor = var1.reader().readByte();
-                     var7[var2].d = var1.reader().readByte();
+                     var7[var2].depth = var1.reader().readByte();
                   }
 
                   var12 = var1.reader().readByte();

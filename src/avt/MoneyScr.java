@@ -98,13 +98,13 @@ public final class MoneyScr extends MyScreen {
             String var3;
             MoneyInfo var8;
             if ((var8 = (MoneyInfo)this.avs.elementAt(super.selected_)).smsTo.indexOf(T.aH) != -1) {
-               var3 = Canvas.normalFont.a(var8.smsTo, T.aI, GameMidlet.avatar.name);
-               Canvas.startOKDlg(T.cL, (IAction)(new class_ci(this, var3)));
+               var3 = Canvas.normalFont.replace(var8.smsTo, T.aI, GameMidlet.avatar.name);
+               Canvas.startOKDlg(T.cL, (IAction)(new IActionDoBuy1(this, var3)));
             } else {
                String var9;
                if (var8.smsTo.indexOf("napthe:") != -1) {
                   var3 = var8.smsTo.substring(0, var8.smsTo.indexOf("napthe:") + "napthe:".length());
-                  var3 = Canvas.normalFont.a(var8.smsTo, var3, "");
+                  var3 = Canvas.normalFont.replace(var8.smsTo, var3, "");
                   String var10001 = var3;
                   var3 = var8.info;
                   var9 = var10001;
@@ -113,7 +113,7 @@ public final class MoneyScr extends MyScreen {
                   var4[1] = new TField();
                   var4[0].setIputType(0);
                   var4[1].setIputType(1);
-                  InputFace.gI().setIputType(var4, var3, T.eH, new Command(T.cy, new class_ch(this, var9, var4)));
+                  InputFace.gI().setIputType(var4, var3, T.eH, new Command(T.cy, new IActionLoad(this, var9, var4)));
                   Canvas.currentFace = InputFace.gI();
                } else {
                   if (var8.smsTo.indexOf("ServerNap:") == -1) {
@@ -128,7 +128,7 @@ public final class MoneyScr extends MyScreen {
                   }
 
                   var3 = var8.smsTo.substring(0, var8.smsTo.indexOf("ServerNap:") + "ServerNap:".length());
-                  var3 = Canvas.normalFont.a(var8.smsTo, var3, "");
+                  var3 = Canvas.normalFont.replace(var8.smsTo, var3, "");
                   AvatarService var6;
                   (var6 = AvatarService.gI()).createMessage((byte)-76);
                   var6.writeUTF(var3);
@@ -196,7 +196,7 @@ public final class MoneyScr extends MyScreen {
 
             Canvas.fontChatB.drawString(var1, GameMidlet.avatar.money[2] + T.D, this.x + this.w / 2, var2 / 2 + (var2 << 1), 2);
             if (FarmScr.isNew) {
-               Canvas.fontChatB.drawString(var1, MapScr.r(), this.x + this.w / 2, var2 / 2 + var2 * 3, 2);
+               Canvas.fontChatB.drawString(var1, MapScr.strTkFarm(), this.x + this.w / 2, var2 / 2 + var2 * 3, 2);
             }
          } else {
             var1.translate(0, -CameraList.cmtoY);

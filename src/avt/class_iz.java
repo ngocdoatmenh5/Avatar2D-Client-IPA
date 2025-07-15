@@ -11,6 +11,6 @@ final class class_iz extends Command {
    }
 
    public final void paint(Graphics var1, int var2, int var3) {
-      MenuSub.f.drawFrameXY(this.f / MenuSub.f.nFrame, this.f % MenuSub.f.nFrame, var2, var3, 3, var1);
+      Menu.imgCmd.drawFrameXY(this.f / Menu.imgCmd.nFrame, this.f % Menu.imgCmd.nFrame, var2, var3, 3, var1);
    }
 }

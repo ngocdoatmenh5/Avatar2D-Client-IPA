@@ -29,6 +29,6 @@ final class IActionListMenu implements IAction {
          var1.addElement(new Command(this.c[var2], new class_ib(this, this.d, this.e, this.f, var2)));
       }
 
-      MenuSub.gI().startAt(var1, 0);
+      Menu.gI().startAt(var1, 0);
    }
 }

@@ -402,7 +402,7 @@ public final class Avatar extends Base {
       }
 
       if ((this != GameMidlet.avatar || this.task != 0 || Canvas.currentMyScreen == BoardScr.me) && super.action != 10) {
-         if (CRes.distance(super.x, super.y + super.direct_, super.xCur, super.yCur) <= super.G) {
+         if (CRes.distance(super.x, super.y + super.direct_, super.xCur, super.yCur) <= super.v) {
             if (super.M && this.aJ == 0) {
                this.aJ = 0;
                super.M = false;
@@ -450,9 +450,9 @@ public final class Avatar extends Base {
                   super.direct = this.dirLast;
                } else {
                   AvPosition var2 = (AvPosition)this.moveList.elementAt(0);
-                  this.doAction(var2.x, var2.y + var2.d);
-                  this.aJ = var2.d;
-                  if (var2.d != 0) {
+                  this.doAction(var2.x, var2.y + var2.depth);
+                  this.aJ = var2.depth;
+                  if (var2.depth != 0) {
                      super.M = true;
                   }
 
@@ -569,8 +569,8 @@ public final class Avatar extends Base {
             }
          } else {
             this.angle = CRes.tan(super.xCur - super.x, -(super.yCur - (super.y + super.direct_)));
-            int var5 = super.G * CRes.cos(this.angle) >> 10;
-            var3 = -(super.G * CRes.sin(this.angle)) >> 10;
+            int var5 = super.v * CRes.cos(this.angle) >> 10;
+            var3 = -(super.v * CRes.sin(this.angle)) >> 10;
             if (this.isSetAction && this.task == -5 && GameMidlet.avatar.setLayPLayer(super.x + var5, super.y + super.direct_ + var3)) {
                this.p();
                super.vx = super.vy = 0;
@@ -610,7 +610,7 @@ public final class Avatar extends Base {
          ++super.vhy;
       }
 
-      if (Math.abs(super.vhy) >= super.z || Math.abs(super.vh) > 28) {
+      if (Math.abs(super.vhy) >= super.g || Math.abs(super.vh) > 28) {
          super.action = 0;
          super.vhy = 0;
          super.vh = 0;
@@ -680,10 +680,10 @@ public final class Avatar extends Base {
                this.isJumps = -1;
                this.o();
                if (super.M) {
-                  super.vy = -super.G;
-               } else if (this.detectCollisionMap(super.vx, -(super.G - 1))) {
-                  if (!this.doJoin(super.vx, -(super.G - 1))) {
-                     this.setLayPLayer(super.x + super.vx, super.y - (super.G - 1));
+                  super.vy = -super.v;
+               } else if (this.detectCollisionMap(super.vx, -(super.v - 1))) {
+                  if (!this.doJoin(super.vx, -(super.v - 1))) {
+                     this.setLayPLayer(super.x + super.vx, super.y - (super.v - 1));
                   } else {
                      super.vx = 0;
                      super.vy = 0;
@@ -695,8 +695,8 @@ public final class Avatar extends Base {
                this.resetTypeChair();
                this.resetNam_nghi(0, 1);
                if (super.M) {
-                  super.vy = super.G;
-                  if (super.direct_ + super.G >= 0) {
+                  super.vy = super.v;
+                  if (super.direct_ + super.v >= 0) {
                      super.direct_ = 0;
                      if (LoadMap.getTypeMap(super.x, super.y + LoadMap.w / 2) == 80) {
                         super.M = false;
@@ -704,8 +704,8 @@ public final class Avatar extends Base {
                         super.vy = 0;
                      }
                   }
-               } else if (!this.doJoin(super.vx, super.G - 1)) {
-                  this.detectCollisionMap(super.vx, super.G - 1);
+               } else if (!this.doJoin(super.vx, super.v - 1)) {
+                  this.detectCollisionMap(super.vx, super.v - 1);
                } else {
                   super.vx = 0;
                   super.vy = 0;
@@ -722,9 +722,9 @@ public final class Avatar extends Base {
                super.direct = Base.LEFT;
                if (this.numSleep > 2) {
                   if (super.M) {
-                     super.vx = -super.G;
-                  } else if (!this.doJoin(-(super.G + 8), super.vy)) {
-                     this.detectCollisionMap(-(super.G + 8), super.vy);
+                     super.vx = -super.v;
+                  } else if (!this.doJoin(-(super.v + 8), super.vy)) {
+                     this.detectCollisionMap(-(super.v + 8), super.vy);
                      this.resetNam_nghi(-1, 0);
                   } else {
                      super.vx = 0;
@@ -743,9 +743,9 @@ public final class Avatar extends Base {
                super.direct = 0;
                if (this.numSleep > 2) {
                   if (super.M) {
-                     super.vx = super.G;
-                  } else if (!this.doJoin(super.G + 6, super.vy)) {
-                     this.detectCollisionMap(super.G + 6, super.vy);
+                     super.vx = super.v;
+                  } else if (!this.doJoin(super.v + 6, super.vy)) {
+                     this.detectCollisionMap(super.v + 6, super.vy);
                      this.resetNam_nghi(1, 0);
                   } else {
                      super.vx = 0;
@@ -975,7 +975,7 @@ public final class Avatar extends Base {
             this.isJumps = 0;
          }
 
-         super.vhy = (byte)(-super.z);
+         super.vhy = (byte)(-super.g);
       }
 
    }

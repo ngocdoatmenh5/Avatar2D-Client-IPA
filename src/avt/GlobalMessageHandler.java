@@ -30,7 +30,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
       Canvas.endDlg();
       GameMidlet.CLIENT_TYPE = 8;
       if (Canvas.currentMyScreen != LoginScr.me) {
-         Canvas.startOK(T.aO, new class_du());
+         Canvas.startOK(T.aO, new IExitGame());
       } else {
          Canvas.startOKDlg(T.aO);
       }
@@ -79,7 +79,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
          byte var234;
          byte var262;
          label823:
-         switch (var1.a) {
+         switch (var1.command) {
             case -107:
                byte var265 = var1.reader().readByte();
                String var266 = null;
@@ -139,7 +139,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                for(int var171 = 0; var171 < var169; ++var171) {
                   short var172 = var1.reader().readShort();
                   String var173 = var1.reader().readUTF();
-                  CommandFlower var175 = new CommandFlower(this, var173, new class_br(this, var171), var172);
+                  CommandFlower var175 = new CommandFlower(this, var173, new IActionFlower(this, var171), var172);
                   var170.addElement(var175);
                }
 
@@ -350,7 +350,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
             case -53:
                var206 = var1.reader().readByte();
                var190 = var1.reader().readUTF();
-               this.c.onUpdateCHest((byte)(var1.a == -53 ? 0 : 1), var206, var190);
+               this.c.onUpdateCHest((byte)(var1.command == -53 ? 0 : 1), var206, var190);
                return;
             case -89:
                HouseScr.gI().onTransChestPart(var1.reader().readBoolean(), var1.reader().readUTF());
@@ -664,7 +664,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   var1.reader().read(var76);
                }
 
-               Canvas.inputDlg.a(var74, new class_bo(this, var72, var73), var75);
+               Canvas.inputDlg.setImg(var74, new class_bo(this, var72, var73), var75);
                if (var76 != null) {
                   Canvas.inputDlg.setImg(Image.createImage(var76, 0, var76.length));
                }
@@ -837,7 +837,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                int var154 = var1.reader().readInt();
                GameMidlet.avatar.updateMoney(var152, var153, var154);
                MapScr.gI();
-               MapScr.a(var150, var151);
+               MapScr.onBuyIceDream(var150, var151);
                return;
             case -36:
                var2 = var1.reader().readInt();
@@ -1097,8 +1097,8 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
          this.miniGameMessageHandler.onMessage(var1);
       } else {
          try {
-            System.out.println("cmd: " + var1.a);
-            switch (var1.a) {
+            System.out.println("cmd: " + var1.command);
+            switch (var1.command) {
                case -5:
                   GlobalLogicHandler.onServerMessage(var1.reader().readUTF());
                   return;
@@ -1181,8 +1181,8 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   var206 = var1.reader().readByte();
 
                   for(var3 = 0; var3 < var206; ++var3) {
-                     class_km var214;
-                     (var214 = new class_km()).a = var1.reader().readShort();
+                     ItemEffectInfo var214;
+                     (var214 = new ItemEffectInfo()).a = var1.reader().readShort();
                      var214.c = var1.reader().readUTF();
                      var214.b = var1.reader().readShort();
                      var214.d = var1.reader().readInt();
@@ -1269,7 +1269,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                (var13 = new AvPosition()).anchor = var0.reader().readShort();
                var13.x = var0.reader().readShort();
                var13.y = var0.reader().readShort();
-               var13.d = var0.reader().readByte();
+               var13.depth = var0.reader().readByte();
                LoadMap.listImgAD.addElement(var13);
             }
          }

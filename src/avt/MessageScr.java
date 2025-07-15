@@ -8,7 +8,7 @@ import main.GameMidlet;
 public final class MessageScr extends MyScreen {
    private Vector g = new Vector();
    private MyScreen h;
-   public class_cw a;
+   public IActionAddFriend3 a;
    public int b;
    public static TField c;
    public static MessageScr me;
@@ -78,7 +78,7 @@ public final class MessageScr extends MyScreen {
             return;
          case 3:
             if (!c.getText().equals("")) {
-               class_cw var6 = this.b(this.b);
+               IActionAddFriend3 var6 = this.b(this.b);
                String var7;
                if ((var7 = c.getText()).indexOf("hack") != -1) {
                   var6.a(GameMidlet.avatar.name + ": " + var7);
@@ -111,7 +111,7 @@ public final class MessageScr extends MyScreen {
             }
 
             var5.addElement(new Command(T.d, 2));
-            MenuSub.gI().startAt(var5, 0);
+            Menu.gI().startAt(var5, 0);
             return;
          case 6:
          case 7:
@@ -138,7 +138,7 @@ public final class MessageScr extends MyScreen {
          super.left = new Command(T.ch, 10);
       }
 
-      this.a = new class_cw(T.cg, -1, (Command)null, (Command)null, false);
+      this.a = new IActionAddFriend3(T.cg, -1, (Command)null, (Command)null, false);
    }
 
    public MessageScr() {
@@ -155,7 +155,7 @@ public final class MessageScr extends MyScreen {
       c.setFocus(true);
       c.setMaxTextLenght(40);
       this.initCmd();
-      class_cw var10000 = this.a;
+      IActionAddFriend3 var10000 = this.a;
       var10000.i += 20;
       this.g.addElement(this.a);
       this.b = 0;
@@ -189,9 +189,9 @@ public final class MessageScr extends MyScreen {
    }
 
    public final void a(int var1, String var2, String var3) {
-      class_cw var4;
+      IActionAddFriend3 var4;
       if ((var4 = this.c(var1)) == null) {
-         var4 = new class_cw(var2, var1, !var2.equals("admin") ? new Command(T.ba, 3) : null, !var2.equals("admin") ? c.a() : null, !var2.equals("admin"));
+         var4 = new IActionAddFriend3(var2, var1, !var2.equals("admin") ? new Command(T.ba, 3) : null, !var2.equals("admin") ? c.a() : null, !var2.equals("admin"));
          this.b(var4);
       } else {
          var4.a = true;
@@ -203,18 +203,18 @@ public final class MessageScr extends MyScreen {
       var4.a(var2, var3);
    }
 
-   private class_cw c(int var1) {
+   private IActionAddFriend3 c(int var1) {
       for(int var2 = 0; var2 < this.g.size(); ++var2) {
-         if (((class_cw)this.g.elementAt(var2)).g == var1) {
-            return (class_cw)this.g.elementAt(var2);
+         if (((IActionAddFriend3)this.g.elementAt(var2)).g == var1) {
+            return (IActionAddFriend3)this.g.elementAt(var2);
          }
       }
 
       return null;
    }
 
-   public final class_cw b(int var1) {
-      return var1 < this.g.size() ? (class_cw)this.g.elementAt(var1) : null;
+   public final IActionAddFriend3 b(int var1) {
+      return var1 < this.g.size() ? (IActionAddFriend3)this.g.elementAt(var1) : null;
    }
 
    public final void paint(Graphics var1) {
@@ -248,7 +248,7 @@ public final class MessageScr extends MyScreen {
 
       this.g();
       this.b(this.b).a();
-      class_cw.j = class_cw.k;
+      IActionAddFriend3.j = IActionAddFriend3.k;
    }
 
    public final void keyPress(int var1) {
@@ -294,7 +294,7 @@ public final class MessageScr extends MyScreen {
 
    }
 
-   public final void a(class_cw var1) {
+   public final void a(IActionAddFriend3 var1) {
       this.g.removeElement(var1);
       if (this.b >= this.g.size()) {
          this.b = this.g.size() - 1;
@@ -307,9 +307,9 @@ public final class MessageScr extends MyScreen {
    }
 
    public final void doAction(int var1, String var2) {
-      class_cw var3;
+      IActionAddFriend3 var3;
       if ((var3 = this.c(var1)) == null) {
-         var3 = new class_cw(var2, var1, new Command(T.ba, 3), c.a(), true);
+         var3 = new IActionAddFriend3(var2, var1, new Command(T.ba, 3), c.a(), true);
          this.b(var3);
          var3.a(T.ci + var2);
       }
@@ -323,7 +323,7 @@ public final class MessageScr extends MyScreen {
       this.g();
    }
 
-   public final void b(class_cw var1) {
+   public final void b(IActionAddFriend3 var1) {
       this.g.addElement(var1);
       if (Canvas.currentMyScreen == this) {
          PaintPopup.gI().setNumTab(this.g.size());

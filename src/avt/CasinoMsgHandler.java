@@ -23,7 +23,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
          byte var15;
          byte var16;
          int var17;
-         switch (var1.a) {
+         switch (var1.command) {
             case 6:
                Vector var21 = new Vector();
 
@@ -45,16 +45,16 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                var15 = var1.reader().readByte();
 
                while(var1.reader().available() > 0) {
-                  class_dl var20;
-                  (var20 = new class_dl()).a = var1.reader().readByte();
+                  BoardInfo var20;
+                  (var20 = new BoardInfo()).boardID = var1.reader().readByte();
                   var5 = var1.reader().readUnsignedByte();
-                  var20.b = (byte)(var5 % 16);
-                  var20.c = (byte)(var5 / 16);
+                  var20.nPlayer = (byte)(var5 % 16);
+                  var20.maxPlayer = (byte)(var5 / 16);
                   int var22 = var1.reader().readUnsignedByte();
-                  var20.d = (var22 & 1) != 0;
-                  var20.e = (var22 & 2) != 0;
-                  var20.f = var1.reader().readInt();
-                  var20.g = Canvas.getMoneys(var20.f) + T.k();
+                  var20.isPass = (var22 & 1) != 0;
+                  var20.isPlaying = (var22 & 2) != 0;
+                  var20.money = var1.reader().readInt();
+                  var20.strMoney = Canvas.getMoneys(var20.money) + T.k();
                   var18.addElement(var20);
                }
 
@@ -148,7 +148,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                Canvas.currentDialog = null;
                if (BoardScr.setR_B(var15, var16)) {
                   if (var13 == GameMidlet.avatar.IDDB) {
-                     Canvas.startOK(T.H, new class_cu(this));
+                     Canvas.startOK(T.H, new IActionKick(this));
                      return;
                   }
 
@@ -239,11 +239,11 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                      BoardScr.numPlayer = 5;
                      BoardListOnScr.type = BoardListOnScr.d;
                      RoomListOnScr.setName(3, BCBoardScr.gI());
-                     if (class_da.a == null) {
-                        class_da.a = new class_da();
+                     if (BaucuaMsgHandler.instance == null) {
+                        BaucuaMsgHandler.instance = new BaucuaMsgHandler();
                      }
 
-                     me.miniGameMessageHandler = class_da.a;
+                     me.miniGameMessageHandler = BaucuaMsgHandler.instance;
                      break;
                   default:
                      return;

@@ -119,7 +119,7 @@ public final class HouseScr extends MyScreen implements IChatable {
          }
       }
 
-      MenuSub.gI().startAt(var0, 0);
+      Menu.gI().startAt(var0, 0);
    }
 
    private void doSelectMap() {
@@ -145,7 +145,7 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
 
       if (var4.size() > 0) {
-         MenuSub.gI().startMenuFarm(var4, Canvas.hw, 27 * AvMain.hd, 27 * AvMain.hd);
+         Menu.gI().startMenuFarm(var4, Canvas.hw, 27 * AvMain.hd, 27 * AvMain.hd);
       }
 
    }
@@ -185,7 +185,7 @@ public final class HouseScr extends MyScreen implements IChatable {
          }
       }
 
-      MenuSub.gI().startAt(var1, 2);
+      Menu.gI().startAt(var1, 2);
    }
 
    private void doSelectedItem(String var1) {
@@ -203,8 +203,8 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
 
       if (var2.size() > 0) {
-         MenuSub.gI().startMenuFarm(var2, Canvas.hw, 90, 90);
-         MenuSub.iNo = new IActionNo(this);
+         Menu.gI().startMenuFarm(var2, Canvas.hw, 90, 90);
+         Menu.iNo = new IActionNo(this);
       }
 
    }
@@ -664,26 +664,26 @@ public final class HouseScr extends MyScreen implements IChatable {
             }
 
             var7.addElement(new Command(T.x, 5));
-            MenuSub.gI().startAt(var7, 0);
+            Menu.gI().startAt(var7, 0);
             return;
          case 3:
             (var7 = new Vector()).addElement(new Command(T.cY, 11));
             var7.addElement(new Command(T.cZ, 12));
             var7.addElement(new Command(T.bg, 13));
-            MenuSub.gI().startAt(var7, 2);
-            MenuSub var10000 = MenuSub.gI();
-            int var10001 = this.x * 24 * AvMain.hd - AvCamera.gI().xCam - MenuSub.gI().c / 2 + 12;
-            int var4 = this.y * 24 * AvMain.hd - AvCamera.gI().yCam - MenuSub.gI().d - 12;
+            Menu.gI().startAt(var7, 2);
+            Menu var10000 = Menu.gI();
+            int var10001 = this.x * 24 * AvMain.hd - AvCamera.gI().xCam - Menu.gI().menuW / 2 + 12;
+            int var4 = this.y * 24 * AvMain.hd - AvCamera.gI().yCam - Menu.gI().menuH - 12;
             var3 = var10001;
-            MenuSub var5 = var10000;
-            var10000.a = var3;
-            var5.b = var4;
-            if (var5.a < 0) {
-               var5.a = 0;
+            Menu var5 = var10000;
+            var10000.menuX = var3;
+            var5.menuY = var4;
+            if (var5.menuX < 0) {
+               var5.menuX = 0;
             }
 
-            if (var5.b < 0) {
-               var5.b = 0;
+            if (var5.menuY < 0) {
+               var5.menuY = 0;
             }
 
             return;
@@ -944,7 +944,7 @@ public final class HouseScr extends MyScreen implements IChatable {
                var10.addElement(new Command(T.cW, 8));
             }
 
-            MenuSub.gI().startAt(var10, 2);
+            Menu.gI().startAt(var10, 2);
             return;
          case 3:
             doKick();

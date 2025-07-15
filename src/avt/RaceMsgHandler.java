@@ -12,7 +12,7 @@ public final class RaceMsgHandler implements IMiniGameMsgHandler {
          int var12;
          short var14;
          int var15;
-         switch (var1.a) {
+         switch (var1.command) {
             case 1:
                if (var1.reader().readByte() == 0) {
                   PetRace[] var13 = new PetRace[6];

@@ -91,17 +91,17 @@ public final class FishFarm extends AnimalDan {
          if (!LoadMap.isTrans(var3 + var1, var4 + var2)) {
             if (var1 != 0) {
                if (var1 > 0) {
-                  super.vx = super.G;
+                  super.vx = super.v;
                } else {
-                  super.vx = -super.G;
+                  super.vx = -super.v;
                }
             }
 
             if (var2 != 0) {
                if (var2 > 0) {
-                  super.vy = super.G;
+                  super.vy = super.v;
                } else {
-                  super.vy = -super.G;
+                  super.vy = -super.v;
                }
             }
 

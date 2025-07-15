@@ -123,7 +123,7 @@ public final class Pet extends Animal {
             if (CRes.distance(super.x, super.y, this.follow.x, this.follow.y) > 35) {
                super.reset();
                super.cycle = 0;
-               super.G = 4;
+               super.v = 4;
             }
 
          } else {
@@ -157,9 +157,9 @@ public final class Pet extends Animal {
          super.action = 1;
          super.cycle = 0;
          super.disTrans = 1;
-         super.G = 2 + this.quich;
+         super.v = 2 + this.quich;
       } else {
-         super.G = 1 + CRes.rnd(this.quich);
+         super.v = 1 + CRes.rnd(this.quich);
       }
    }
 
@@ -229,9 +229,9 @@ public final class Pet extends Animal {
    }
 
    public final void move() {
-      int var1 = super.G * this.follow.hungerPet / 100;
+      int var1 = super.v * this.follow.hungerPet / 100;
       if (this.follow.hungerPet >= 70) {
-         var1 = super.G;
+         var1 = super.v;
       }
 
       if (var1 <= 0) {

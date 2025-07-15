@@ -5,7 +5,7 @@ import javax.microedition.lcdui.Image;
 import main.Canvas;
 
 public final class ChatPopup {
-   private int e;
+   private int timeOut;
    public int xc;
    public int yc;
    public int h;
@@ -40,11 +40,11 @@ public final class ChatPopup {
    }
 
    public final boolean setOut() {
-      if (this.e > 0) {
-         --this.e;
+      if (this.timeOut > 0) {
+         --this.timeOut;
       }
 
-      if (this.e == 0) {
+      if (this.timeOut == 0) {
          return true;
       } else {
          if (Canvas.currentMyScreen == BoardScr.me) {
@@ -81,7 +81,7 @@ public final class ChatPopup {
          this.w = 30 * AvMain.hd;
       }
 
-      this.e = var1;
+      this.timeOut = var1;
    }
 
    public final void paintAnimal(Graphics var1) {

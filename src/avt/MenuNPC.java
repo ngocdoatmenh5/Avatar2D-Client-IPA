@@ -7,61 +7,61 @@ import javax.microedition.lcdui.Image;
 import main.Canvas;
 
 public final class MenuNPC extends MenuMain {
-   private static MenuNPC b;
-   private int c;
-   private int d;
-   private int e;
-   private int f;
-   private int g;
+   private static MenuNPC me;
+   private int idUser;
+   private int x;
+   private int y;
+   private int w;
    private int h;
-   private int i;
-   private int j;
-   private int k;
-   private int l;
-   private int m;
-   public static FrameImage a;
-   private Vector n = new Vector();
-   private String o;
-   private String[] p;
-   private boolean[] q;
-   private int r = 0;
-   private int s;
-   private int t;
-   private int u;
-   private boolean v = false;
-   private boolean w = false;
-   private long x;
-   private long y;
-   private long z;
-   private int A;
-   private int B;
-   private int C;
-   private int D;
-   private int E;
-   private int F;
+   private int xList;
+   private int yList;
+   private int wList;
+   private int hList;
+   private int hItem;
+   private int focus;
+   public static FrameImage imgDc;
+   private Vector list = new Vector();
+   private String nameNPC;
+   private String[] textChat;
+   private boolean[] isMenu;
+   private int pa = 0;
+   private int dyTran;
+   private int timeOpen;
+   private int pyLast;
+   private boolean trans = false;
+   private boolean isG = false;
+   private long timeDelay;
+   private long count;
+   private long timePoint;
+   private int vY;
+   private int cmtoY;
+   private int cmy;
+   private int cmdy;
+   private int cmvy;
+   private int cmyLim;
 
    static {
       try {
-         a = new FrameImage(Image.createImage(T.a() + "/race/popup/tile0.png"), 20 * AvMain.hd, 20 * AvMain.hd);
+         imgDc = new FrameImage(Image.createImage(T.a() + "/race/popup/tile0.png"), 20 * AvMain.hd, 20 * AvMain.hd);
       } catch (IOException var1) {
          var1.printStackTrace();
       }
    }
 
    public static MenuNPC gI() {
-      return b == null ? (b = new MenuNPC()) : b;
+      return me == null ? (me = new MenuNPC()) : me;
    }
 
    public MenuNPC() {
-      this.f = 200 * AvMain.hd;
-      this.g = 190 * AvMain.hd;
-      this.d = (Canvas.w - this.f) / 2;
-      this.e = (Canvas.h - this.g) / 2;
-      this.i = 70 * AvMain.hd;
-      this.j = 120 * AvMain.hd;
-      this.h = this.f - this.j - 12 * AvMain.hd;
-      this.l = 30 * AvMain.hd;
-      this.k = this.l * 3 + 20 * AvMain.hd;
+      this.w = 200 * AvMain.hd;
+      this.h = 190 * AvMain.hd;
+      this.x = (Canvas.w - this.w) / 2;
+      this.y = (Canvas.h - this.h) / 2;
+      this.yList = 70 * AvMain.hd;
+      this.wList = 120 * AvMain.hd;
+      this.xList = this.w - this.wList - 12 * AvMain.hd;
+      this.hItem = 30 * AvMain.hd;
+      this.hList = this.hItem * 3 + 20 * AvMain.hd;
       super.center = new Command(T.O, 0, this);
       super.right = new Command(T.d, 1, this);
    }
@@ -69,7 +69,7 @@ public final class MenuNPC extends MenuMain {
    public final void commandTab(int var1) {
       switch (var1) {
          case 0:
-            this.b();
+            this.click();
             return;
          case 1:
             Canvas.menuMain = null;
@@ -78,218 +78,218 @@ public final class MenuNPC extends MenuMain {
    }
 
    public final void setInfo(Vector var1, int var2, String var3, String var4, boolean[] var5) {
-      this.n = var1;
-      this.q = var5;
-      this.c = var2;
-      this.F = var1.size() * this.l - (this.k - 20 * AvMain.hd);
-      if (this.F < 0) {
-         this.F = 0;
+      this.list = var1;
+      this.isMenu = var5;
+      this.idUser = var2;
+      this.cmyLim = var1.size() * this.hItem - (this.hList - 20 * AvMain.hd);
+      if (this.cmyLim < 0) {
+         this.cmyLim = 0;
       }
 
-      this.o = var3;
-      this.p = Canvas.M.splitFontBStrInLine(var4, this.f - 50 * AvMain.hd);
+      this.nameNPC = var3;
+      this.textChat = Canvas.M.splitFontBStrInLine(var4, this.w - 50 * AvMain.hd);
       Canvas.menuMain = this;
    }
 
    public final void update() {
-      if (this.t > 0) {
-         --this.t;
-         if (this.t == 0) {
-            this.b();
+      if (this.timeOpen > 0) {
+         --this.timeOpen;
+         if (this.timeOpen == 0) {
+            this.click();
          }
       }
 
-      if (this.A != 0) {
-         if (this.C < 0 || this.C > this.F) {
-            this.A -= this.A / 4;
-            this.C += this.A / 20;
-            if (this.A / 10 <= 1) {
-               this.A = 0;
+      if (this.vY != 0) {
+         if (this.cmy < 0 || this.cmy > this.cmyLim) {
+            this.vY -= this.vY / 4;
+            this.cmy += this.vY / 20;
+            if (this.vY / 10 <= 1) {
+               this.vY = 0;
             }
          }
 
-         if (this.C < 0) {
-            if (this.C < -this.k / 2) {
-               this.C = -this.k / 2;
-               this.B = 0;
-               this.A = 0;
+         if (this.cmy < 0) {
+            if (this.cmy < -this.hList / 2) {
+               this.cmy = -this.hList / 2;
+               this.cmtoY = 0;
+               this.vY = 0;
             }
-         } else if (this.C > this.F) {
-            if (this.C < this.F + this.k / 2) {
-               this.C = this.F + this.k / 2;
-               this.B = this.F;
-               this.A = 0;
+         } else if (this.cmy > this.cmyLim) {
+            if (this.cmy < this.cmyLim + this.hList / 2) {
+               this.cmy = this.cmyLim + this.hList / 2;
+               this.cmtoY = this.cmyLim;
+               this.vY = 0;
             }
          } else {
-            this.C += this.A / 10;
+            this.cmy += this.vY / 10;
          }
 
-         this.B = this.C;
-         this.A -= this.A / 10;
-         if (this.A / 10 == 0) {
-            this.A = 0;
+         this.cmtoY = this.cmy;
+         this.vY -= this.vY / 10;
+         if (this.vY / 10 == 0) {
+            this.vY = 0;
          }
-      } else if (this.C < 0) {
-         this.B = 0;
-      } else if (this.C > this.F) {
-         this.B = this.F;
+      } else if (this.cmy < 0) {
+         this.cmtoY = 0;
+      } else if (this.cmy > this.cmyLim) {
+         this.cmtoY = this.cmyLim;
       }
 
-      if (this.C != this.B) {
-         this.E = this.B - this.C << 2;
-         this.D += this.E;
-         this.C += this.D >> 4;
-         this.D &= 15;
+      if (this.cmy != this.cmtoY) {
+         this.cmvy = this.cmtoY - this.cmy << 2;
+         this.cmdy += this.cmvy;
+         this.cmy += this.cmdy >> 4;
+         this.cmdy &= 15;
       }
 
    }
 
    public final void updateKey() {
       super.updateKey();
-      ++this.y;
+      ++this.count;
       boolean var1 = false;
       if (Canvas.a(2)) {
-         --this.m;
-         if (this.m < 0) {
-            this.m = this.n.size() - 1;
+         --this.focus;
+         if (this.focus < 0) {
+            this.focus = this.list.size() - 1;
          }
 
          var1 = true;
       } else if (Canvas.a(8)) {
-         ++this.m;
-         if (this.m >= this.n.size()) {
-            this.m = 0;
+         ++this.focus;
+         if (this.focus >= this.list.size()) {
+            this.focus = 0;
          }
 
          var1 = true;
       }
 
       if (Canvas.isPointerClick) {
-         this.u = Canvas.pyLast;
-         this.w = false;
-         if (Canvas.b(this.d + this.h, this.e + this.i, this.j, this.k)) {
-            if (this.A != 0) {
-               this.w = true;
+         this.pyLast = Canvas.pyLast;
+         this.isG = false;
+         if (Canvas.b(this.x + this.xList, this.y + this.yList, this.wList, this.hList)) {
+            if (this.vY != 0) {
+               this.isG = true;
             }
 
             Canvas.isPointerClick = false;
-            this.r = this.B;
-            this.x = this.y;
-            this.v = true;
+            this.pa = this.cmtoY;
+            this.timeDelay = this.count;
+            this.trans = true;
          }
       }
 
-      if (this.v) {
-         int var2 = this.u - Canvas.py;
-         this.u = Canvas.py;
-         long var3 = this.y - this.x;
+      if (this.trans) {
+         int var2 = this.pyLast - Canvas.py;
+         this.pyLast = Canvas.py;
+         long var3 = this.count - this.timeDelay;
          int var5;
          int var6;
          if (Canvas.isPointerDown) {
-            if (this.y % 2L == 0L) {
-               this.s = Canvas.py;
-               this.z = this.y;
+            if (this.count % 2L == 0L) {
+               this.dyTran = Canvas.py;
+               this.timePoint = this.count;
             }
 
-            this.A = 0;
+            this.vY = 0;
             if (Math.abs(var2) < 10 * AvMain.hd) {
-               var5 = this.e + this.i + 10 * AvMain.hd;
-               var6 = this.l;
-               if ((var5 = (this.B + Canvas.py - var5) / var6) >= 0 && var5 < this.n.size()) {
-                  this.m = var5;
+               var5 = this.y + this.yList + 10 * AvMain.hd;
+               var6 = this.hItem;
+               if ((var5 = (this.cmtoY + Canvas.py - var5) / var6) >= 0 && var5 < this.list.size()) {
+                  this.focus = var5;
                }
             }
 
             if (CRes.abs(Canvas.dy()) >= 10 * AvMain.hd) {
                super.isHide_ = true;
             } else if (var3 > 3L && var3 < 8L) {
-               var5 = this.e + this.i + 10 * AvMain.hd;
-               var6 = this.l;
-               if ((var5 = (this.B + Canvas.py - var5) / var6) >= 0 && var5 < this.n.size() && !this.w) {
+               var5 = this.y + this.yList + 10 * AvMain.hd;
+               var6 = this.hItem;
+               if ((var5 = (this.cmtoY + Canvas.py - var5) / var6) >= 0 && var5 < this.list.size() && !this.isG) {
                   super.isHide_ = false;
                }
             }
 
-            if (this.B < 0 || this.B > this.F) {
-               this.B = this.r + var2 / 2;
-               this.r = this.B;
+            if (this.cmtoY < 0 || this.cmtoY > this.cmyLim) {
+               this.cmtoY = this.pa + var2 / 2;
+               this.pa = this.cmtoY;
             }
 
-            this.C = this.B;
+            this.cmy = this.cmtoY;
          }
 
-         if (Canvas.isPointerRelease && Canvas.b(this.d, this.e, this.f, this.g)) {
-            this.w = false;
-            var5 = (int)(this.y - this.z);
-            if (CRes.abs(var6 = this.s - Canvas.py) > 40 && var5 < 10 && this.B > 0 && this.B < this.F) {
-               this.A = var6 / var5 * 10;
+         if (Canvas.isPointerRelease && Canvas.b(this.x, this.y, this.w, this.h)) {
+            this.isG = false;
+            var5 = (int)(this.count - this.timePoint);
+            if (CRes.abs(var6 = this.dyTran - Canvas.py) > 40 && var5 < 10 && this.cmtoY > 0 && this.cmtoY < this.cmyLim) {
+               this.vY = var6 / var5 * 10;
             }
 
-            this.z = -1L;
+            this.timePoint = -1L;
             if (Math.abs(var2) < 10 * AvMain.hd) {
                if (var3 <= 4L) {
                   super.isHide_ = false;
-                  this.t = 5;
+                  this.timeOpen = 5;
                } else if (!super.isHide_) {
-                  this.b();
+                  this.click();
                }
             }
 
-            this.v = false;
+            this.trans = false;
             Canvas.isPointerRelease = false;
          }
-      } else if (Canvas.isPointerRelease && !Canvas.b(this.d, this.e, this.f, this.g)) {
+      } else if (Canvas.isPointerRelease && !Canvas.b(this.x, this.y, this.w, this.h)) {
          Canvas.isPointerRelease = false;
          Canvas.menuMain = null;
       }
 
       if (var1) {
-         this.B = this.m * this.l - this.k / 2 + this.l / 2;
-         if (this.B > this.F) {
-            this.B = this.F;
+         this.cmtoY = this.focus * this.hItem - this.hList / 2 + this.hItem / 2;
+         if (this.cmtoY > this.cmyLim) {
+            this.cmtoY = this.cmyLim;
             return;
          }
 
-         if (this.B < 0) {
-            this.B = 0;
+         if (this.cmtoY < 0) {
+            this.cmtoY = 0;
          }
       }
 
    }
 
-   private void b() {
-      if (!this.q[this.m]) {
+   private void click() {
+      if (!this.isMenu[this.focus]) {
          Canvas.menuMain = null;
       } else {
          Canvas.startWaitDlg();
       }
 
-      ((Command)this.n.elementAt(this.m)).perform();
+      ((Command)this.list.elementAt(this.focus)).perform();
    }
 
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      Canvas.paint.paintPopupBack(var1, this.d, this.e, this.f, this.g, 0);
-      var1.translate(this.d, this.e);
+      Canvas.paint.paintPopupBack(var1, this.x, this.y, this.w, this.h, 0);
+      var1.translate(this.x, this.y);
       var1.setColor(695195);
-      var1.fillRect(12 * AvMain.hd, 12 * AvMain.hd, this.f - 24 * AvMain.hd, 50 * AvMain.hd);
+      var1.fillRect(12 * AvMain.hd, 12 * AvMain.hd, this.w - 24 * AvMain.hd, 50 * AvMain.hd);
       var1.setColor(12648440);
-      var1.fillRect(15 * AvMain.hd, 15 * AvMain.hd, this.f - 30 * AvMain.hd, 44 * AvMain.hd);
+      var1.fillRect(15 * AvMain.hd, 15 * AvMain.hd, this.w - 30 * AvMain.hd, 44 * AvMain.hd);
 
       int var2;
-      for(var2 = 0; var2 < this.p.length; ++var2) {
-         Canvas.fontChatB.drawString(var1, this.p[var2], 20 * AvMain.hd, 12 * AvMain.hd + 25 * AvMain.hd - this.p.length * AvMain.hBlack / 2 + var2 * AvMain.hBlack, 0);
+      for(var2 = 0; var2 < this.textChat.length; ++var2) {
+         Canvas.fontChatB.drawString(var1, this.textChat[var2], 20 * AvMain.hd, 12 * AvMain.hd + 25 * AvMain.hd - this.textChat.length * AvMain.hBlack / 2 + var2 * AvMain.hBlack, 0);
       }
 
-      Avatar var9 = LoadMap.getAvatar(this.c);
-      Canvas.normalFont.drawString(var1, this.o, this.h / 2, this.i + this.k / 2 - AvMain.ah - 20 * AvMain.hd, 2);
-      var9.paintIcon(var1, this.h / 2, this.i + this.k / 2 + var9.height, true);
+      Avatar var9 = LoadMap.getAvatar(this.idUser);
+      Canvas.normalFont.drawString(var1, this.nameNPC, this.xList / 2, this.yList + this.hList / 2 - AvMain.ah - 20 * AvMain.hd, 2);
+      var9.paintIcon(var1, this.xList / 2, this.yList + this.hList / 2 + var9.height, true);
       var2 = 4441283;
-      FrameImage var7 = a;
-      int var6 = this.k;
-      int var5 = this.j;
-      int var4 = this.i;
-      int var3 = this.h;
+      FrameImage var7 = imgDc;
+      int var6 = this.hList;
+      int var5 = this.wList;
+      int var4 = this.yList;
+      int var3 = this.xList;
       Graphics var10 = var1;
       var7.drawFrame(0, var3, var4, 0, var1);
       var7.drawFrame(2, var3 + var5 - var7.frameWidth, var4, 0, var1);
@@ -314,18 +314,18 @@ public final class MenuNPC extends MenuMain {
       var7.drawFrame(4, var3 + var5 - var7.frameWidth, var4 + var6 - (var7.frameHeight << 1), 0, var10);
       var10.setColor(4441283);
       var10.fillRect(var3 + var7.frameWidth, var4 + var7.frameHeight, var5 - (var7.frameWidth << 1), var6 - (var7.frameHeight << 1));
-      var1.translate(this.h, this.i);
-      var1.setClip(0, 0, this.j, this.k);
-      var1.translate(0, -this.C);
+      var1.translate(this.xList, this.yList);
+      var1.setClip(0, 0, this.wList, this.hList);
+      var1.translate(0, -this.cmy);
 
-      for(var2 = 0; var2 < this.n.size(); ++var2) {
-         Command var11 = (Command)this.n.elementAt(var2);
-         if (var2 == this.m && !super.isHide_) {
+      for(var2 = 0; var2 < this.list.size(); ++var2) {
+         Command var11 = (Command)this.list.elementAt(var2);
+         if (var2 == this.focus && !super.isHide_) {
             var1.setColor(10543802);
-            var1.fillRect(4 * AvMain.hd, 10 * AvMain.hd + var2 * this.l, this.j - 8 * AvMain.hd, this.l);
+            var1.fillRect(4 * AvMain.hd, 10 * AvMain.hd + var2 * this.hItem, this.wList - 8 * AvMain.hd, this.hItem);
          }
 
-         Canvas.normalFont.drawString(var1, var11.caption, 10 * AvMain.hd, 10 * AvMain.hd + var2 * this.l + this.l / 2 - AvMain.ah / 2, 0);
+         Canvas.normalFont.drawString(var1, var11.caption, 10 * AvMain.hd, 10 * AvMain.hd + var2 * this.hItem + this.hItem / 2 - AvMain.ah / 2, 0);
       }
 
       super.paint(var1);

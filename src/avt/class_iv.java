@@ -11,6 +11,6 @@ final class class_iv extends Command {
    }
 
    public final void paint(Graphics var1, int var2, int var3) {
-      MenuSub.f.drawFrame(this.f, var2, var3, 0, 3, var1);
+      Menu.imgCmd.drawFrame(this.f, var2, var3, 0, 3, var1);
    }
 }

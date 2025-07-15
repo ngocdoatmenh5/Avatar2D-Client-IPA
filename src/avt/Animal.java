@@ -38,9 +38,9 @@ public class Animal extends Base {
       super.action = 0;
       super.IDDB = var3;
       this.period = 0;
-      super.z = 4;
-      super.vy = super.z;
-      super.G = 1;
+      super.g = 4;
+      super.vy = super.g;
+      super.v = 1;
       this.species = var4;
       super.frame = CRes.rnd(12);
    }
@@ -162,8 +162,8 @@ public class Animal extends Base {
    }
 
    public void move() {
-      int var1 = super.G * (this.disTrans * CRes.cos(CRes.fixangle(this.angle)) >> 10);
-      int var2 = -super.G * this.disTrans * CRes.sin(CRes.fixangle(this.angle)) >> 10;
+      int var1 = super.v * (this.disTrans * CRes.cos(CRes.fixangle(this.angle)) >> 10);
+      int var2 = -super.v * this.disTrans * CRes.sin(CRes.fixangle(this.angle)) >> 10;
       if (this.detectCollision(var1, var2)) {
          if (this.setWay(var1, var2)) {
             super.x += super.vx;

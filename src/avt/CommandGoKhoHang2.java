@@ -30,7 +30,7 @@ final class CommandGoKhoHang2 extends Command {
             PopupShop.addStr(T.aK + Canvas.getMoneys(this.item.number * this.fItem.priceXu) + T.T);
          }
 
-         PopupShop.addStr(MapScr.r());
+         PopupShop.addStr(MapScr.strTkFarm());
       }
 
    }

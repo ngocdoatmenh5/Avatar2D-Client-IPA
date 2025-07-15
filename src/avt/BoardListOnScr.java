@@ -104,17 +104,17 @@ public final class BoardListOnScr extends MyScreen {
    public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 1:
-            class_dl var4 = (class_dl)this.g.elementAt(super.selected_);
-            if (MapScr.isNewVersion && var4.f > GameMidlet.avatar.money[3]) {
+            BoardInfo var4 = (BoardInfo)this.g.elementAt(super.selected_);
+            if (MapScr.isNewVersion && var4.money > GameMidlet.avatar.money[3]) {
                gI().setXeng();
             } else {
-               if (!var4.d) {
-                  CasinoService.gI().joinBoard(this.h, var4.a, "");
+               if (!var4.isPass) {
+                  CasinoService.gI().joinBoard(this.h, var4.boardID, "");
                   Canvas.startWaitDlg();
                   return;
                }
 
-               Canvas.inputDlg.a(T.X, new class_cn(this), 2);
+               Canvas.inputDlg.setImg(T.X, new class_cn(this), 2);
             }
             break;
          case 2:
@@ -136,7 +136,7 @@ public final class BoardListOnScr extends MyScreen {
             var3.addElement(new Command("Đến bàn", 6));
             var3.addElement(MapScr.gI().f);
             var3.addElement(new Command(T.am, 7));
-            MenuSub.gI().startAt(var3, 0);
+            Menu.gI().startAt(var3, 0);
       }
 
    }
@@ -170,11 +170,11 @@ public final class BoardListOnScr extends MyScreen {
    }
 
    private void h() {
-      Canvas.inputDlg.a(T.an, new IActionToGo(this), 3);
+      Canvas.inputDlg.setImg(T.an, new IActionToGo(this), 3);
    }
 
    protected final void e() {
-      Canvas.inputDlg.a(T.ap, new class_cj(this), 0);
+      Canvas.inputDlg.setImg(T.ap, new class_cj(this), 0);
    }
 
    public final void setXeng() {
@@ -211,29 +211,29 @@ public final class BoardListOnScr extends MyScreen {
       for(var2 = var2; var2 < var3; ++var2) {
          int var4 = var2 % this.o * this.r;
          int var5 = var2 / this.o * this.r;
-         class_dl var6 = (class_dl)this.g.elementAt(var2);
+         BoardInfo var6 = (BoardInfo)this.g.elementAt(var2);
          if ((!Canvas.isKeyBoard || !super.isHide_) && var2 == super.selected_) {
             var1.drawImage(i, var4, var5, 3);
          }
 
-         f.drawFrame(var6.b, var4, var5, 0, 3, var1);
+         f.drawFrame(var6.nPlayer, var4, var5, 0, 3, var1);
          var1.drawImage(k, var4 - this.r / 4, var5 - 30 * AvMain.hd, 3);
-         Canvas.smallFontYellow.drawString(var1, "" + var6.a, var4 - this.r / 4, var5 - 30 * AvMain.hd - AvMain.hSmall / 2, 2);
-         if (var6.f > 0) {
-            Canvas.smallFontYellow.drawString(var1, var6.g, var4, var5 - 30 * AvMain.hd - AvMain.hSmall / 2, 2);
+         Canvas.smallFontYellow.drawString(var1, "" + var6.boardID, var4 - this.r / 4, var5 - 30 * AvMain.hd - AvMain.hSmall / 2, 2);
+         if (var6.money > 0) {
+            Canvas.smallFontYellow.drawString(var1, var6.strMoney, var4, var5 - 30 * AvMain.hd - AvMain.hSmall / 2, 2);
          }
 
-         if (type == c && var6.c < 4) {
+         if (type == c && var6.maxPlayer < 4) {
             var1.drawImage(l, var4 + this.r / 4, var5 - 30 * AvMain.hd, 3);
-            Canvas.smallFontRed.drawString(var1, "" + var6.c, var4 + this.r / 4, var5 - 30 * AvMain.hd - AvMain.hSmall / 2, 2);
+            Canvas.smallFontRed.drawString(var1, "" + var6.maxPlayer, var4 + this.r / 4, var5 - 30 * AvMain.hd - AvMain.hSmall / 2, 2);
          }
 
-         if (var6.e) {
+         if (var6.isPlaying) {
             var1.drawImage(l, var4 - this.r / 4, var5 + this.r / 3, 3);
             var1.drawImage(m, var4 - this.r / 4, var5 + this.r / 3, 3);
          }
 
-         if (var6.d) {
+         if (var6.isPass) {
             var1.drawImage(l, var4 + this.r / 4, var5 + this.r / 3, 3);
             var1.drawImage(n, var4 + this.r / 4, var5 + this.r / 3, 3);
          }

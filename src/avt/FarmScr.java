@@ -200,7 +200,7 @@ public final class FarmScr extends MyScreen {
             }
 
             if (var8.idTree != -1 || (var8.level != 1 || var8.status != this.typeCell[1]) && (var8.level != 2 || var8.status != this.typeCell1[1])) {
-               this.a(var8);
+               this.doVatPham(var8);
             } else {
                FarmScr var9 = this;
                if (itemSeed.size() != 0) {
@@ -272,7 +272,7 @@ public final class FarmScr extends MyScreen {
       return var3;
    }
 
-   private void a(CellFarm var1) {
+   private void doVatPham(CellFarm var1) {
       int var2 = this.getPosTreeByFocus(focusCell.x, focusCell.y);
       CellFarm var3 = (CellFarm) cell.elementAt(var2);
       CellFarm var4 = null;
@@ -280,20 +280,20 @@ public final class FarmScr extends MyScreen {
          var4 = (CellFarm) cell.elementAt(var2 - 1);
       }
 
-      class_bv var5 = null;
+      Command1 var5 = null;
       if (idFarm == GameMidlet.avatar.IDDB && (var3.level == 1 && var2 == 0 || var2 > 0 && var3.level < var4.level)) {
-         var5 = new class_bv(this, avt.T.g, 11);
+         var5 = new Command1(this, avt.T.g, 11);
       }
 
       if (var1.idTree != -1 && var1.statusTree < 6 && var1.status == 36) {
-         this.setAction((IAction)(new class_bg(this)));
+         this.setAction((IAction)(new IActionVatPham1(this)));
       }
 
       if (var1.idTree == -1 || var1.statusTree >= 6) {
-         class_bi var7 = new class_bi(this, var1);
+         IActionVatPham2 var7 = new IActionVatPham2(this, var1);
          if (var5 != null) {
             Vector var8;
-            (var8 = new Vector()).addElement(new class_bk(this, avt.T.be, var7));
+            (var8 = new Vector()).addElement(new CommandVatPham2(this, avt.T.be, var7));
             var8.addElement(var5);
             startMenuFarm(var8);
             return;
@@ -344,7 +344,7 @@ public final class FarmScr extends MyScreen {
          var1 += var1 / 3;
       }
 
-      MenuSub.gI().startMenuFarm(var0, Canvas.hw, var1, var1);
+      Menu.gI().startMenuFarm(var0, Canvas.hw, var1, var1);
    }
 
    public final void commandTab(int var1) {
@@ -1857,7 +1857,7 @@ public final class FarmScr extends MyScreen {
       for(var3 = 0; var3 < var2; ++var3) {
          Item var4;
          if (FarmData.getTreeByID((int)(var4 = (Item) itemProduct.elementAt(var3)).ID) != null || var4.ID >= 50) {
-            class_ko var5 = new class_ko(this, avt.T.bg, new class_fr(this, var3), var3, var4);
+            CommandGoKhoHang1 var5 = new CommandGoKhoHang1(this, avt.T.bg, new IActionGoKhoHang1(this, var3), var3, var4);
             var1.addElement(var5);
          }
       }
@@ -1882,7 +1882,7 @@ public final class FarmScr extends MyScreen {
          for(var2 = 0; var2 < itemSeed.size(); ++var2) {
             Item var4;
             if (FarmData.getTreeByID((int)(var4 = (Item) itemSeed.elementAt(var2)).ID) != null) {
-               class_d var3 = new class_d(this, "", 12, var2, var4, var2);
+               CommandOpenKhoHang1 var3 = new CommandOpenKhoHang1(this, "", 12, var2, var4, var2);
                var1.addElement(var3);
             }
          }
@@ -1945,7 +1945,7 @@ public final class FarmScr extends MyScreen {
             return;
          case 1:
             if (Canvas.welcome == null || Welcome.isPaintArrow) {
-               MenuSub.gI().startAt(this.K, 0);
+               Menu.gI().startAt(this.K, 0);
                return;
             }
             break;
@@ -2014,7 +2014,7 @@ public final class FarmScr extends MyScreen {
             var9.addElement(new Command(avt.T.dS, 8));
             var9.addElement(new Command(avt.T.dT, 9));
             var9.addElement(new Command(avt.T.x, 20));
-            MenuSub.gI().startAt(var9, 0);
+            Menu.gI().startAt(var9, 0);
             return;
          case 8:
             isAutoVatNuoi = false;
@@ -2048,8 +2048,8 @@ public final class FarmScr extends MyScreen {
 
    }
 
-   public final void a(AnimalInfo var1) {
-      Canvas.getTypeMoney(var1.price[0], var1.price[1], new class_x(this, var1), new class_aj(this, var1), (IAction)null);
+   public final void doBuyAnimal(AnimalInfo var1) {
+      Canvas.getTypeMoney(var1.price[0], var1.price[1], new IActionBuyAnimalXu(this, var1), new IActionBuyAnimalLuong(this, var1), (IAction)null);
    }
 
    public static void onKick() {
@@ -2076,11 +2076,11 @@ public final class FarmScr extends MyScreen {
          Item var4;
          FarmItem var5;
          if (((var5 = getFarmItem((var4 = (Item) listItemFarm.elementAt(var3)).ID)).type == var1 || var5.type == 101) && var5.action == 5) {
-            var6.addElement(new CommandThuoc(this, var5.des + "(" + var4.number + ")", new class_ak(this, var1, var4), var5));
+            var6.addElement(new CommandThuoc(this, var5.des + "(" + var4.number + ")", new IActionCattleFeeding(this, var1, var4), var5));
          }
       }
 
-      MenuSub.gI().startMenuFarm(var6, Canvas.hw, LoadMap.w * AvMain.hd, LoadMap.w * AvMain.hd);
+      Menu.gI().startMenuFarm(var6, Canvas.hw, LoadMap.w * AvMain.hd, LoadMap.w * AvMain.hd);
    }
 
    private static void sendHarvestAnimal(Animal var0) {
@@ -2185,8 +2185,8 @@ public final class FarmScr extends MyScreen {
             var1.addElement(new CommandMenuStarFruit1(this, avt.T.eO + "(" + starFruil.numberFruit + ")", 12));
          }
 
-         var1.addElement(new class_ap(this, starFruil.timeFinish > 0 ? avt.T.eN : avt.T.g, 13));
-         var1.addElement(new class_am(this, avt.T.cw, 14));
+         var1.addElement(new CommandMenuStarFruit2(this, starFruil.timeFinish > 0 ? avt.T.eN : avt.T.g, 13));
+         var1.addElement(new CommandMenuStarFruit3(this, avt.T.cw, 14));
          startMenuFarm(var1);
       }
    }
