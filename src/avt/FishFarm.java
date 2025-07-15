@@ -60,13 +60,13 @@ public final class FishFarm extends AnimalDan {
 
    public final void setInit() {
       super.posNext = new AvPosition();
-      super.x = super.xCur = super.posNext.x = FarmScr.D.x + CRes.rnd(FarmScr.numTilePond - 1) * 24;
-      super.y = super.yCur = super.posNext.y = FarmScr.D.y + 12 + CRes.rnd(2) * 24;
+      super.x = super.xCur = super.posNext.x = FarmScr.posPond.x + CRes.rnd(FarmScr.numTilePond - 1) * 24;
+      super.y = super.yCur = super.posNext.y = FarmScr.posPond.y + 12 + CRes.rnd(2) * 24;
       (new StringBuffer("777777777777777777777: ")).append(super.x).append("   ").append(super.y).toString();
    }
 
    public final void setPos() {
-      AvPosition var2 = new AvPosition(FarmScr.D.x + 30 + CRes.rnd(FarmScr.numTilePond - 2) * 24, FarmScr.D.y + 12 + CRes.rnd(2) * 24);
+      AvPosition var2 = new AvPosition(FarmScr.posPond.x + 30 + CRes.rnd(FarmScr.numTilePond - 2) * 24, FarmScr.posPond.y + 12 + CRes.rnd(2) * 24);
       super.posNext = var2;
    }
 

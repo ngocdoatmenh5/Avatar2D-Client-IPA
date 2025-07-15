@@ -41,7 +41,7 @@ public final class MenuSub extends MenuMain {
    }
 
    public MenuSub() {
-      this.c();
+      this.doLeftMenu();
    }
 
    public final void commandTab(int var1, int var2) {
@@ -59,7 +59,7 @@ public final class MenuSub extends MenuMain {
       }
    }
 
-   public final void c() {
+   public final void doLeftMenu() {
       if (Canvas.stypeInt == 0) {
          super.left = new Command(T.O, 0);
       }
@@ -67,7 +67,7 @@ public final class MenuSub extends MenuMain {
       super.right = new Command(T.d, 1);
    }
 
-   public final void a(Vector var1, int var2, int var3, int var4) {
+   public final void startMenuFarm(Vector var1, int var2, int var3, int var4) {
       if (var1.size() != 0) {
          if (Canvas.stypeInt > 0) {
             super.aj = true;

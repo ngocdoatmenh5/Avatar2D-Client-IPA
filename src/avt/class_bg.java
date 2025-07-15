@@ -8,6 +8,6 @@ final class class_bg implements IAction {
    }
 
    public final void perform() {
-      FarmScr.a(this.a, (byte)1, FarmScr.G);
+      FarmScr.a(this.a, (byte)1, FarmScr.idItemUsing);
    }
 }

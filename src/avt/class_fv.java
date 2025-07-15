@@ -8,7 +8,7 @@ final class class_fv implements IAction {
    }
 
    public final void perform() {
-      GlobalService.gI().b(this.a, -1);
-      PopupShop.b().right.perform();
+      GlobalService.gI().doRequestCmdRotate(this.a, -1);
+      PopupShop.gI().right.perform();
    }
 }

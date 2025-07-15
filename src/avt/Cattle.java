@@ -46,7 +46,7 @@ public final class Cattle extends Animal {
          super.isEat = false;
          super.hunger = false;
          FarmScr.gI();
-         FarmScr.a(itemID, super.IDDB);
+         FarmScr.doEat(itemID, super.IDDB);
       }
 
       super.cycle = 100 + 50 * (super.species - 50);

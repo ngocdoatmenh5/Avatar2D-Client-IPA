@@ -95,6 +95,6 @@ public final class class_jv extends MyScreen {
          var1.drawImage(c, Canvas.w >> 1, Canvas.h >> 1, 3);
       }
 
-      Canvas.a(var1);
+      Canvas.paintPlus(var1);
    }
 }

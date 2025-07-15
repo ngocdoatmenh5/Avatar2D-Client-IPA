@@ -37,7 +37,7 @@ public final class AvCamera {
       if (this.followPlayer != null) {
          label56: {
             isFollow = false;
-            w = LoadMap.i * AvMain.hd;
+            w = LoadMap.w * AvMain.hd;
             distance = Canvas.w / 10;
             if (this.followPlayer.x * AvMain.hd > Canvas.hw) {
                if (this.followPlayer.x * AvMain.hd < LoadMap.wMap * w - Canvas.hw - w) {
@@ -111,8 +111,8 @@ public final class AvCamera {
             this.xCam = 0;
          }
 
-         if (this.xCam > LoadMap.wMap * LoadMap.i * AvMain.hd - Canvas.w) {
-            this.xCam = LoadMap.wMap * LoadMap.i * AvMain.hd - Canvas.w;
+         if (this.xCam > LoadMap.wMap * LoadMap.w * AvMain.hd - Canvas.w) {
+            this.xCam = LoadMap.wMap * LoadMap.w * AvMain.hd - Canvas.w;
          }
       }
 

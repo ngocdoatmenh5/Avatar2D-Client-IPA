@@ -60,7 +60,7 @@ public class Animal extends Base {
 
             var1.drawRegion(var3.img, 0, this.indexFr * super.height, var3.b, super.height, super.direct, super.x * MyObject.hd, super.y * MyObject.hd + this.l - (var2.area == 4 ? super.height / 3 << 1 : 0), var2.area != 4 ? 33 : 17);
             super.paint(var1);
-            this.paintFocus(var1, super.height + 2, super.x * MyObject.hd, super.y * MyObject.hd, LoadMap.p);
+            this.paintFocus(var1, super.height + 2, super.x * MyObject.hd, super.y * MyObject.hd, LoadMap.focusObj);
          }
       }
    }

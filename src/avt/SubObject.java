@@ -60,8 +60,8 @@ public class SubObject extends MyObject {
 
                return;
             case -2:
-               if (FarmScr.E != -1) {
-                  FarmScr.t.drawFrame(FarmScr.F, var2, var3, GameMidlet.avatar.direct == Base.LEFT ? 2 : 0, 3, var1);
+               if (FarmScr.action != -1) {
+                  FarmScr.unk.drawFrame(FarmScr.frame, var2, var3, GameMidlet.avatar.direct == Base.LEFT ? 2 : 0, 3, var1);
                }
 
                return;

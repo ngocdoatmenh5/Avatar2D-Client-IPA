@@ -76,7 +76,7 @@ public final class Avatar extends Base {
    private short[] aQ;
    private short[] aR;
    public int au = 0;
-   public AvPosition av;
+   public AvPosition posFocus;
 
    public Avatar() {
       super.catagory = 0;
@@ -144,7 +144,7 @@ public final class Avatar extends Base {
             }
          }
 
-         if ((OptionScr.gI().b[0] == 0 || this == LoadMap.p) && LoadMap.TYPEMAP != 24) {
+         if ((OptionScr.gI().b[0] == 0 || this == LoadMap.focusObj) && LoadMap.TYPEMAP != 24) {
             this.paintName(var1, super.x * MyObject.hd, (super.y + super.N) * MyObject.hd - AvMain.ai);
          }
 
@@ -300,7 +300,7 @@ public final class Avatar extends Base {
          LoadMap.c(this);
          if (MapScr.h != null && MapScr.h.IDDB == super.IDDB) {
             MapScr.h = null;
-            LoadMap.p = null;
+            LoadMap.focusObj = null;
          }
       }
 
@@ -314,12 +314,12 @@ public final class Avatar extends Base {
                LoadMap.A = -1;
             }
          } else {
-            var2 = (this.aR[this.au] & 255) * LoadMap.i + LoadMap.i / 2;
-            int var3 = (this.aR[this.au] >> 8) * LoadMap.i + LoadMap.i / 2;
+            var2 = (this.aR[this.au] & 255) * LoadMap.w + LoadMap.w / 2;
+            int var3 = (this.aR[this.au] >> 8) * LoadMap.w + LoadMap.w / 2;
             if (this.au == 1) {
                GameMidlet.avatar.isSetAction = true;
-               var2 = this.av.x / AvMain.hd;
-               var3 = this.av.y / AvMain.hd;
+               var2 = this.posFocus.x / AvMain.hd;
+               var3 = this.posFocus.y / AvMain.hd;
                this.au = 0;
             }
 
@@ -460,17 +460,17 @@ public final class Avatar extends Base {
                      super.xCur = super.x;
                      super.yCur = super.y + super.N;
                      if (super.action == 14) {
-                        LoadMap.type[super.y / LoadMap.i * LoadMap.wMap + super.x / LoadMap.i] = 112;
+                        LoadMap.type[super.y / LoadMap.w * LoadMap.wMap + super.x / LoadMap.w] = 112;
                      }
 
                      super.action = (byte)var2.anchor;
                      if (super.action == 14) {
                         super.y = super.yCur;
                         super.x = super.xCur;
-                        LoadMap.type[super.y / LoadMap.i * LoadMap.wMap + super.x / LoadMap.i] = 90;
+                        LoadMap.type[super.y / LoadMap.w * LoadMap.wMap + super.x / LoadMap.w] = 90;
                      }
 
-                     if ((super.action == 2 || super.action == 13 || super.action == 4) && (var3 = (super.y - LoadMap.i) / LoadMap.i * LoadMap.wMap + super.x / LoadMap.i) >= 0 && var3 < LoadMap.type.length) {
+                     if ((super.action == 2 || super.action == 13 || super.action == 4) && (var3 = (super.y - LoadMap.w) / LoadMap.w * LoadMap.wMap + super.x / LoadMap.w) >= 0 && var3 < LoadMap.type.length) {
                         if (super.action == 4 && LoadMap.type[var3] == 67) {
                            this.ySat = -10;
                         }
@@ -698,7 +698,7 @@ public final class Avatar extends Base {
                   super.vy = super.G;
                   if (super.N + super.G >= 0) {
                      super.N = 0;
-                     if (LoadMap.c(super.x, super.y + LoadMap.i / 2) == 80) {
+                     if (LoadMap.c(super.x, super.y + LoadMap.w / 2) == 80) {
                         super.M = false;
                      } else {
                         super.vy = 0;
@@ -806,7 +806,7 @@ public final class Avatar extends Base {
             }
          } else {
             short var2;
-            if ((var2 = LoadMap.type[(super.y - 15) / LoadMap.i * LoadMap.wMap + super.x / LoadMap.i]) != 79 && var2 != 81 && var2 != 54) {
+            if ((var2 = LoadMap.type[(super.y - 15) / LoadMap.w * LoadMap.wMap + super.x / LoadMap.w]) != 79 && var2 != 81 && var2 != 54) {
                if (var2 == 92 || var2 == 67) {
                   this.ySat = -10;
                }
@@ -929,12 +929,12 @@ public final class Avatar extends Base {
    public final boolean setLayPLayer(int var1, int var2) {
       if ((super.action == 0 || super.action == 1) && (this.task == 0 || this.task == -5)) {
          short var3;
-         if ((var3 = LoadMap.type[var2 / LoadMap.i * LoadMap.wMap + var1 / LoadMap.i]) != 79 && var3 != 81 && var3 != 54) {
+         if ((var3 = LoadMap.type[var2 / LoadMap.w * LoadMap.wMap + var1 / LoadMap.w]) != 79 && var3 != 81 && var3 != 54) {
             if (var3 == 92) {
                super.action = 2;
                this.ySat = -10;
-               super.x = var1 / LoadMap.i * LoadMap.i + LoadMap.i / 2;
-               super.y = var2 / LoadMap.i * LoadMap.i + LoadMap.i - 1;
+               super.x = var1 / LoadMap.w * LoadMap.w + LoadMap.w / 2;
+               super.y = var2 / LoadMap.w * LoadMap.w + LoadMap.w - 1;
                MapScr.gI();
                MapScr.doMove(super.x, var2, super.direct, super.N);
                MapScr.gI();
@@ -943,7 +943,7 @@ public final class Avatar extends Base {
             } else if (var3 == 67) {
                super.action = 4;
                this.ySat = -10;
-               super.x = var1 / LoadMap.i * LoadMap.i + LoadMap.i / 2;
+               super.x = var1 / LoadMap.w * LoadMap.w + LoadMap.w / 2;
                MapScr.gI();
                MapScr.doMove(super.x, var2, super.direct, super.N);
                MapScr.gI();
@@ -955,8 +955,8 @@ public final class Avatar extends Base {
          } else {
             super.action = 2;
             this.ySat = -6;
-            super.x = var1 / LoadMap.i * LoadMap.i + LoadMap.i / 2;
-            super.y = var2 / LoadMap.i * LoadMap.i + LoadMap.i - 1;
+            super.x = var1 / LoadMap.w * LoadMap.w + LoadMap.w / 2;
+            super.y = var2 / LoadMap.w * LoadMap.w + LoadMap.w - 1;
             MapScr.gI();
             MapScr.doMove(super.x, super.y, super.direct, super.N);
             MapScr.gI();
@@ -1076,7 +1076,7 @@ public final class Avatar extends Base {
       if (this == GameMidlet.avatar) {
          LoadMap.A = -1;
       } else {
-         this.av = null;
+         this.posFocus = null;
          this.aP = null;
          this.aQ = null;
          this.aR = null;
@@ -1086,24 +1086,24 @@ public final class Avatar extends Base {
 
    public final void l() {
       if (this.at == null) {
-         this.n();
+         this.createAvatarArrays();
       }
 
       short var1 = 88;
-      int var2 = LoadMap.i * AvMain.hd;
-      if (this.av.y / var2 * LoadMap.wMap + this.av.x / var2 > 0 && this.av.y / var2 * LoadMap.wMap + this.av.x / var2 < LoadMap.type.length) {
-         var1 = LoadMap.type[this.av.y / var2 * LoadMap.wMap + this.av.x / var2];
+      int var2 = LoadMap.w * AvMain.hd;
+      if (this.posFocus.y / var2 * LoadMap.wMap + this.posFocus.x / var2 > 0 && this.posFocus.y / var2 * LoadMap.wMap + this.posFocus.x / var2 < LoadMap.type.length) {
+         var1 = LoadMap.type[this.posFocus.y / var2 * LoadMap.wMap + this.posFocus.x / var2];
       }
 
       if (this != GameMidlet.avatar || var1 == 80 || LoadMap.TYPEMAP == 24 || LoadMap.a((int)var1) || LoadMap.b(var1)) {
-         this.av.anchor = 0;
+         this.posFocus.anchor = 0;
          if (this.task == 0 || this.task == -5) {
             this.task = -5;
             this.isJumps = -1;
             super.xCur = super.x;
             super.yCur = super.y;
             if (this == GameMidlet.avatar) {
-               if (super.x > this.av.x / AvMain.hd) {
+               if (super.x > this.posFocus.x / AvMain.hd) {
                   LoadMap.A = Base.LEFT;
                } else {
                   LoadMap.A = 0;
@@ -1117,14 +1117,14 @@ public final class Avatar extends Base {
    }
 
    public final void findPath() {
-      int var1 = LoadMap.i * AvMain.hd;
-      if (super.x / LoadMap.i == this.av.x / var1 && super.y / LoadMap.i == this.av.y / var1) {
-         this.doAction(this.av.x / var1 * LoadMap.i + this.av.x % var1 / 2, this.av.y / var1 * LoadMap.i + this.av.y % var1 / 2);
+      int var1 = LoadMap.w * AvMain.hd;
+      if (super.x / LoadMap.w == this.posFocus.x / var1 && super.y / LoadMap.w == this.posFocus.y / var1) {
+         this.doAction(this.posFocus.x / var1 * LoadMap.w + this.posFocus.x % var1 / 2, this.posFocus.y / var1 * LoadMap.w + this.posFocus.y % var1 / 2);
       } else {
-         int var10001 = super.x / LoadMap.i;
-         int var10002 = super.y / LoadMap.i;
-         int var10003 = this.av.x / var1;
-         int var5 = this.av.y / var1;
+         int var10001 = super.x / LoadMap.w;
+         int var10002 = super.y / LoadMap.w;
+         int var10003 = this.posFocus.x / var1;
+         int var5 = this.posFocus.y / var1;
          int var4 = var10003;
          int var3 = var10002;
          int var2 = var10001;
@@ -1147,7 +1147,7 @@ public final class Avatar extends Base {
             }
          }
 
-         if (LoadMap.b(LoadMap.c(var4 * LoadMap.i, var5 * LoadMap.i))) {
+         if (LoadMap.b(LoadMap.c(var4 * LoadMap.w, var5 * LoadMap.w))) {
             var14.at[var4][var5] = false;
          }
 
@@ -1210,7 +1210,7 @@ public final class Avatar extends Base {
       }
    }
 
-   public final void n() {
+   public final void createAvatarArrays() {
       short var1 = LoadMap.wMap;
       short var2 = LoadMap.Hmap;
       this.at = new boolean[var1][var2];
@@ -1222,17 +1222,17 @@ public final class Avatar extends Base {
    public final void updateMoney(int var1, int var2, int var3) {
       System.out.println("updateMoney: " + var1 + "    " + var2 + "   " + var3);
       if (this.money[0] != var1) {
-         Canvas.a(var1 - this.money[0] + "xu", super.x, super.y - CRes.rnd(20), -1, 0, -1);
+         Canvas.addFlyTextSmall(var1 - this.money[0] + "xu", super.x, super.y - CRes.rnd(20), -1, 0, -1);
          this.money[0] = var1;
       }
 
       if (this.money[2] != var2) {
-         Canvas.a(var2 - this.money[2] + "luong", super.x, super.y - CRes.rnd(20), -1, 0, -1);
+         Canvas.addFlyTextSmall(var2 - this.money[2] + "luong", super.x, super.y - CRes.rnd(20), -1, 0, -1);
          this.money[2] = var2;
       }
 
       if (this.luongKhoa != var3) {
-         Canvas.a(var3 - this.luongKhoa + "luong", super.x, super.y - CRes.rnd(20), -1, 0, -1);
+         Canvas.addFlyTextSmall(var3 - this.luongKhoa + "luong", super.x, super.y - CRes.rnd(20), -1, 0, -1);
          this.luongKhoa = var3;
       }
 

@@ -145,7 +145,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
 
                Canvas.endDlg();
                FarmScr.gI();
-               FarmScr.a(var170);
+               FarmScr.startMenuFarm(var170);
                break;
             case -103:
                Avatar var164 = LoadMap.g(var1.reader().readInt());
@@ -180,11 +180,11 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   var163.d = var1.reader().readShort();
                   var163.type = var1.reader().readByte();
                   MapScr.o.addElement(var163);
-                  if (Canvas.currentMyScreen == PopupShop.b()) {
-                     PopupShop.b().close();
+                  if (Canvas.currentMyScreen == PopupShop.gI()) {
+                     PopupShop.gI().close();
                   }
 
-                  if (LoadMap.p != null) {
+                  if (LoadMap.focusObj != null) {
                      MenuCenter.gI().e();
                   } else {
                      MenuCenter.gI().f();
@@ -543,13 +543,13 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                byte[] var230 = new byte[var1.reader().available()];
                var1.reader().read(var230);
                if (var88 != 2 && !var87.equals(ListScr.h)) {
-                  ListScr.b().a(var230, var87);
+                  ListScr.gI().a(var230, var87);
                   Canvas.endDlg();
                   return;
                }
 
                ListScr.i.put(var87, var230);
-               ListScr.b().a(var87);
+               ListScr.gI().a(var87);
                return;
             case -80:
                var84 = var1.reader().readShort();
@@ -855,7 +855,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                var199 = var1.reader().readByte();
                if (var3 != 0 && var199 != 1 && var199 == 2 && var199 == 5) {
                   GameMidlet.avatar.setMoneyNew(GameMidlet.avatar.money[3] + var3);
-                  Canvas.a(var3 + "xeng", GameMidlet.avatar.x, GameMidlet.avatar.y, -1, 0, -1);
+                  Canvas.addFlyTextSmall(var3 + "xeng", GameMidlet.avatar.x, GameMidlet.avatar.y, -1, 0, -1);
                }
 
                var5 = var1.reader().readInt();
@@ -1024,7 +1024,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
 
                return;
             case 50:
-               if (this.miniGameMessageHandler == FarmMsgHandler.instance || this.miniGameMessageHandler == ParkMsgHandler.a || this.miniGameMessageHandler == HomeMsgHandler.a) {
+               if (this.miniGameMessageHandler == FarmMsgHandler.instance || this.miniGameMessageHandler == ParkMsgHandler.a || this.miniGameMessageHandler == HomeMsgHandler.instance) {
                   var2 = var1.reader().readByte();
                   var3 = var1.reader().readByte();
                   var4 = 0;
@@ -1053,7 +1053,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   MapScr.gI().a((byte)var2, (byte)var3, (short)var4, (short)var5, var6, var65, var66);
                   if (LoadMap.TYPEMAP == 21) {
                      Canvas.load = 0;
-                     HomeMsgHandler.a();
+                     HomeMsgHandler.onHandler();
                      AvatarService.gI().getTypeHouse((int)0);
                      Canvas.startWaitDlg();
                   }

@@ -9,7 +9,7 @@ final class IActionExitToCity implements IAction {
    public final void perform() {
       Canvas.startWaitDlg();
       if (LoadMap.TYPEMAP == 108) {
-         ParkService.a().a(9, -1);
+         ParkService.gI().doJoinPark(9, -1);
       } else {
          Canvas.startWaitDlg();
          GlobalService.gI().getHandler((int)9);

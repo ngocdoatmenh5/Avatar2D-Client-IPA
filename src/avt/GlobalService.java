@@ -6,17 +6,17 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class GlobalService extends IService {
-   private static GlobalService a;
+   private static GlobalService instance;
 
    public static GlobalService gI() {
-      if (a == null) {
-         a = new GlobalService();
+      if (instance == null) {
+         instance = new GlobalService();
       }
 
-      return a;
+      return instance;
    }
 
-   public final void a(byte var1, String var2) {
+   public final void requestService(byte var1, String var2) {
       if (var2 == null) {
          var2 = "";
       }
@@ -33,7 +33,7 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void b() {
+   public final void setProviderAndClientType() {
       this.createMessage((byte)-1);
       this.writeByte(GameMidlet.CLIENT_TYPE);
       this.sendMessage();
@@ -100,13 +100,13 @@ public final class GlobalService extends IService {
       return (int)var0;
    }
 
-   public final void a(int var1) {
+   public final void requestInfoOf(int var1) {
       this.createMessage((byte)34);
       this.writeInt(var1);
       this.sendMessage();
    }
 
-   public final void a(String var1, String var2, String var3) {
+   public final void login(String var1, String var2, String var3) {
       this.createMessage((byte)-2);
 
       try {
@@ -120,13 +120,13 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void b(int var1) {
+   public final void setGameType(int var1) {
       this.createMessage((byte)61);
       this.writeByte(var1);
       this.sendMessage();
    }
 
-   public final void a(int var1, String var2) {
+   public final void chatTo(int var1, String var2) {
       this.createMessage((byte)-6);
 
       try {
@@ -138,7 +138,7 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void c() {
+   public final void doRequestCreCharacter() {
       this.createMessage((byte)-35);
 
       try {
@@ -156,7 +156,7 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void a(int var1, int var2) {
+   public final void doRemoveItem(int var1, int var2) {
       this.createMessage((byte)-36);
 
       try {
@@ -168,13 +168,13 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void c(int var1) {
+   public final void doRequestContainer(int var1) {
       this.createMessage((byte)-47);
       this.writeInt(var1);
       this.sendMessage();
    }
 
-   public final void a(short var1, byte var2) {
+   public final void doUsingItem(short var1, byte var2) {
       this.createMessage((byte)-48);
       super.m = new Message((byte)-48);
 
@@ -193,32 +193,32 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void a(byte var1) {
+   public final void doRequestSoundData(byte var1) {
       this.createMessage((byte)-51);
       this.writeByte(var1);
       this.sendMessage();
    }
 
-   public final void e(int var1) {
+   public final void requestShop(int var1) {
       this.createMessage((byte)-49);
       System.out.println("requestShop: " + var1);
       this.writeByte(var1);
       this.sendMessage();
    }
 
-   public final void f(int var1) {
+   public final void doRequestNumSupport(int var1) {
       this.createMessage((byte)-52);
       this.writeInt(var1);
       this.sendMessage();
    }
 
-   public final void g(int var1) {
+   public final void doUpdateContainer(int var1) {
       this.createMessage((byte)-53);
       this.writeByte(var1);
       this.sendMessage();
    }
 
-   public final void a(int var1, byte var2, int var3) {
+   public final void doMenuOption(int var1, byte var2, int var3) {
       this.createMessage((byte)-59);
 
       try {
@@ -231,7 +231,7 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void a(int var1, byte var2, String var3) {
+   public final void doTextBox(int var1, byte var2, String var3) {
       this.createMessage((byte)-60);
 
       try {
@@ -244,7 +244,7 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void h(int var1) {
+   public final void doCommunicate(int var1) {
       System.out.println("doCommunicate: " + var1);
       this.createMessage((byte)-61);
       this.writeInt(var1);
@@ -264,7 +264,7 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void a(String var1, String var2) {
+   public final void doChangePass(String var1, String var2) {
       this.createMessage((byte)-62);
 
       try {
@@ -276,7 +276,7 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void a(short var1, int var2) {
+   public final void doDialLucky(short var1, int var2) {
       this.createMessage((byte)-64);
 
       try {
@@ -288,7 +288,7 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void b(int var1, String var2) {
+   public final void doServerKick(int var1, String var2) {
       this.createMessage((byte)-72);
 
       try {
@@ -300,7 +300,7 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void a(int var1, byte var2, int var3, byte var4) {
+   public final void doListCustom(int var1, byte var2, int var3, byte var4) {
       this.createMessage((byte)-81);
 
       try {
@@ -314,7 +314,7 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void b(int var1, int var2) {
+   public final void doRequestCmdRotate(int var1, int var2) {
       System.out.println("doRequestCmdRotate: " + var1);
       this.createMessage((byte)-83);
 
@@ -327,13 +327,13 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void b(byte var1) {
+   public final void doCustomTab(byte var1) {
       this.createMessage((byte)-58);
       this.writeByte(var1);
       this.sendMessage();
    }
 
-   public final void a(String var1, byte var2) {
+   public final void doEnterPass(String var1, byte var2) {
       this.createMessage((byte)-88);
 
       try {
@@ -345,7 +345,7 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void b(String var1, String var2) {
+   public final void doChangeChestPass(String var1, String var2) {
       this.createMessage((byte)-88);
 
       try {
@@ -358,13 +358,13 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void i(int var1) {
+   public final void doUpdateChest(int var1) {
       this.createMessage((byte)-90);
       this.writeByte(var1);
       this.sendMessage();
    }
 
-   public final void a(int var1, int var2, short var3) {
+   public final void doTransChestPart(int var1, int var2, short var3) {
       this.createMessage((byte)-89);
 
       try {
@@ -377,7 +377,7 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void c(byte var1) {
+   public final void requestCityMap(byte var1) {
       this.createMessage((byte)-92);
       if (var1 != -1) {
          this.writeByte(var1);
@@ -386,13 +386,13 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void d(byte var1) {
+   public final void requestTileMap(byte var1) {
       this.createMessage((byte)-94);
       this.writeByte(var1);
       this.sendMessage();
    }
 
-   public final void a(short var1) {
+   public final void requestJoinAny(short var1) {
       this.createMessage((byte)-95);
 
       try {
@@ -405,26 +405,26 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void b(short var1) {
+   public final void requestPartDynaMic(short var1) {
       this.createMessage((byte)-97);
       this.writeShort(var1);
       this.sendMessage();
    }
 
-   public final void c(short var1) {
+   public final void requestImagePart(short var1) {
       this.createMessage((byte)-98);
       this.writeShort(var1);
       this.sendMessage();
    }
 
-   public final void j(int var1) {
+   public final void doJoinOfflineMap(int var1) {
       Canvas.startWaitDlg();
       this.createMessage((byte)-99);
       this.writeByte(var1);
       this.sendMessage();
    }
 
-   public final void c(int var1, int var2) {
+   public final void doDatCuoc(int var1, int var2) {
       Canvas.startWaitDlg();
       this.createMessage((byte)5);
       this.writeByte(var1);
@@ -432,25 +432,25 @@ public final class GlobalService extends IService {
       this.sendMessage();
    }
 
-   public final void k(int var1) {
+   public final void doPetInfo(int var1) {
       this.createMessage((byte)2);
       this.writeByte(var1);
       this.sendMessage();
    }
 
-   public final void l(int var1) {
+   public final void transXeng(int var1) {
       this.createMessage((byte)-102);
       this.writeInt(var1);
       this.sendMessage();
    }
 
-   public final void m(int var1) {
+   public final void doFlowerLoveSelected(int var1) {
       this.createMessage((byte)-106);
       this.writeByte(var1);
       this.sendMessage();
    }
 
-   public final void a(byte var1, short var2) {
+   public final void doSendOpenShopHouse(byte var1, short var2) {
       this.createMessage((byte)-107);
 
       try {
@@ -462,7 +462,7 @@ public final class GlobalService extends IService {
       }
    }
 
-   public final void c(String var1, String var2, String var3) {
+   public final void doRegisterByEmail(String var1, String var2, String var3) {
       System.out.println("doRegisterByEmail: " + var1 + "   " + var2 + "   " + var3);
       this.createMessage((byte)-25);
 

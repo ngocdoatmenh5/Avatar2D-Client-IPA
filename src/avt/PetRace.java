@@ -41,7 +41,7 @@ public final class PetRace extends Base {
          super.frame = 0;
       }
 
-      if (super.x < (LoadMap.wMap + 1) * LoadMap.i) {
+      if (super.x < (LoadMap.wMap + 1) * LoadMap.w) {
          if (this.e != null && this.b < this.e.length && RaceScr.b().e <= 0) {
             super.x += this.f[this.b];
             if (this.f[this.b] == 0) {

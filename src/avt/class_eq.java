@@ -12,6 +12,6 @@ final class class_eq implements IAction {
    }
 
    public final void perform() {
-      ParkService.a().c(this.a, this.b, this.c);
+      ParkService.gI().c(this.a, this.b, this.c);
    }
 }

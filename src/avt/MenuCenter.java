@@ -35,7 +35,7 @@ public final class MenuCenter extends MyScreen {
          this.m = Canvas.currentMyScreen;
       }
 
-      this.c();
+      this.doLeftMenu();
       super.switchToMe();
    }
 
@@ -57,7 +57,7 @@ public final class MenuCenter extends MyScreen {
       }
    }
 
-   public final void c() {
+   public final void doLeftMenu() {
       if (Canvas.stypeInt == 0) {
          super.right = new Command(T.d, 0);
       } else {
@@ -106,21 +106,21 @@ public final class MenuCenter extends MyScreen {
             return;
          case 4:
             MapScr.x = true;
-            ParkService.a().b(GameMidlet.avatar.IDDB);
+            ParkService.gI().b(GameMidlet.avatar.IDDB);
             return;
          case 5:
-            ListScr.b().b(false);
+            ListScr.gI().setFriendList(false);
             return;
          case 6:
             this.c = false;
-            GlobalService.gI().c(GameMidlet.avatar.IDDB);
+            GlobalService.gI().doRequestContainer(GameMidlet.avatar.IDDB);
             return;
          case 7:
             MapScr.gI();
             MapScr.c(MapScr.h);
             return;
          case 8:
-            GlobalService.gI().e(26);
+            GlobalService.gI().requestShop(26);
             Canvas.startWaitDlg();
             return;
          case 9:
@@ -150,16 +150,16 @@ public final class MenuCenter extends MyScreen {
             return;
          case 16:
             if ((var8 = (StringObj)MapScr.o.elementAt(var2)).type == 1) {
-               GlobalService.gI().b(var8.e, MapScr.h != null ? MapScr.h.IDDB : -1);
+               GlobalService.gI().doRequestCmdRotate(var8.e, MapScr.h != null ? MapScr.h.IDDB : -1);
                return;
             }
             break;
          case 17:
-            GlobalService.gI().h(var2);
+            GlobalService.gI().doCommunicate(var2);
             return;
          case 18:
             if ((var8 = (StringObj)MapScr.o.elementAt(var2)).type == 0) {
-               GlobalService.gI().b(var8.e, MapScr.h != null ? MapScr.h.IDDB : -1);
+               GlobalService.gI().doRequestCmdRotate(var8.e, MapScr.h != null ? MapScr.h.IDDB : -1);
                return;
             }
             break;
@@ -179,7 +179,7 @@ public final class MenuCenter extends MyScreen {
                return;
             }
 
-            if (LoadMap.p == null || LoadMap.p.catagory != 5) {
+            if (LoadMap.focusObj == null || LoadMap.focusObj.catagory != 5) {
                Vector var9 = new Vector();
                Command var3 = this.a(T.cw, 4, 17);
                Command var4 = this.a(T.dr, 6, 14);
@@ -189,17 +189,17 @@ public final class MenuCenter extends MyScreen {
                var9.addElement(var6);
                var9.addElement(var5);
                var9.addElement(var4);
-               if (Canvas.currentMyScreen != PopupShop.b()) {
+               if (Canvas.currentMyScreen != PopupShop.gI()) {
                   gI().a(var9);
                }
 
                return;
             }
 
-            ParkService.a().c(((Drop_Part)LoadMap.p).ID);
+            ParkService.gI().c(((Drop_Part)LoadMap.focusObj).ID);
             break;
          case 21:
-            GlobalService.gI().c(GameMidlet.avatar.IDDB);
+            GlobalService.gI().doRequestContainer(GameMidlet.avatar.IDDB);
             this.c = true;
       }
 
@@ -232,9 +232,9 @@ public final class MenuCenter extends MyScreen {
    public final void f() {
       if (GameMidlet.avatar.task == 0 || GameMidlet.avatar.task == -5) {
          if (!Bus.isRun) {
-            if (LoadMap.p != null && LoadMap.p.catagory == 5) {
-               ParkService.a().c(((Drop_Part)LoadMap.p).ID);
-            } else if (LoadMap.p != null && LoadMap.p.catagory == 0 && ((Avatar)LoadMap.p).IDDB == -100) {
+            if (LoadMap.focusObj != null && LoadMap.focusObj.catagory == 5) {
+               ParkService.gI().c(((Drop_Part)LoadMap.focusObj).ID);
+            } else if (LoadMap.focusObj != null && LoadMap.focusObj.catagory == 0 && ((Avatar)LoadMap.focusObj).IDDB == -100) {
                Canvas.startOKDlg(T.eb, (IAction)(new class_jc(this)));
             } else {
                Vector var1 = new Vector();
@@ -275,7 +275,7 @@ public final class MenuCenter extends MyScreen {
                   }
                }
 
-               if (Canvas.currentMyScreen != PopupShop.b()) {
+               if (Canvas.currentMyScreen != PopupShop.gI()) {
                   this.b = null;
                   gI().a(var1);
                }
@@ -287,12 +287,12 @@ public final class MenuCenter extends MyScreen {
    public static void g() {
       Avatar var0 = GameMidlet.avatar;
       if (Canvas.currentMyScreen != a) {
-         PopupShop.b().m = true;
-         PopupShop.b().a(new String[]{T.l, T.co}, new Vector[]{MapScr.gI().a((Avatar)var0, 0), MapScr.gI().a(GameMidlet.k, var0.IDDB, 1)}, (Vector)null);
-         PopupShop.b().a(MapScr.gI().a(var0.seriPart, 0, 0, false), 0);
-         PopupShop.b().a(MapScr.gI().a(GameMidlet.k, 1, 0, true), 1);
-         if (Canvas.currentMyScreen != PopupShop.b()) {
-            PopupShop.b().switchToMe();
+         PopupShop.gI().isHorizontal = true;
+         PopupShop.gI().a(new String[]{T.l, T.co}, new Vector[]{MapScr.gI().a((Avatar)var0, 0), MapScr.gI().a(GameMidlet.k, var0.IDDB, 1)}, (Vector)null);
+         PopupShop.gI().setCmdLeft(MapScr.gI().a(var0.seriPart, 0, 0, false), 0);
+         PopupShop.gI().setCmdLeft(MapScr.gI().a(GameMidlet.k, 1, 0, true), 1);
+         if (Canvas.currentMyScreen != PopupShop.gI()) {
+            PopupShop.gI().switchToMe();
          }
 
       }

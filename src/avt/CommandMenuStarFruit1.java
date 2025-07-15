@@ -2,8 +2,8 @@ package avt;
 
 import javax.microedition.lcdui.Graphics;
 
-final class class_ao extends Command {
-   class_ao(FarmScr var1, String var2, int var3) {
+final class CommandMenuStarFruit1 extends Command {
+   CommandMenuStarFruit1(FarmScr var1, String var2, int var3) {
       super(var2, 12);
    }
 

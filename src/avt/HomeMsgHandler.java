@@ -4,10 +4,10 @@ import java.util.Vector;
 import main.Canvas;
 
 public final class HomeMsgHandler extends IService implements IMiniGameMsgHandler {
-   public static HomeMsgHandler a = new HomeMsgHandler();
+   public static HomeMsgHandler instance = new HomeMsgHandler();
 
-   public static void a() {
-      GlobalMessageHandler.gI().miniGameMessageHandler = a;
+   public static void onHandler() {
+      GlobalMessageHandler.gI().miniGameMessageHandler = instance;
    }
 
    public final void onMessage(Message var1) {
@@ -91,10 +91,10 @@ public final class HomeMsgHandler extends IService implements IMiniGameMsgHandle
                HouseScr.b().a(var9, var11);
                return;
             case -43:
-               class_he[] var3 = new class_he[var2 = var1.reader().readShort()];
+               Tile[] var3 = new Tile[var2 = var1.reader().readShort()];
 
                for(int var4 = 0; var4 < var2; ++var4) {
-                  var3[var4] = new class_he();
+                  var3[var4] = new Tile();
                   var3[var4].a = var1.reader().readUTF();
                   var3[var4].b = var1.reader().readInt();
                   var3[var4].c = var1.reader().readInt();

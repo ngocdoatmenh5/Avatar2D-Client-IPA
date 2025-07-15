@@ -43,7 +43,7 @@ public final class RoomListOnScr extends MyScreen {
 
    public RoomListOnScr() {
       this.init();
-      this.c();
+      this.doLeftMenu();
    }
 
    public final void commandActionPointer(int var1, int var2) {
@@ -58,7 +58,7 @@ public final class RoomListOnScr extends MyScreen {
             return;
          case 3:
             Canvas.startWaitDlg();
-            GlobalService.gI().a(GameMidlet.avatar.IDDB);
+            GlobalService.gI().requestInfoOf(GameMidlet.avatar.IDDB);
          default:
       }
    }
@@ -89,7 +89,7 @@ public final class RoomListOnScr extends MyScreen {
       }
    }
 
-   public final void c() {
+   public final void doLeftMenu() {
       this.g = new Command(T.c, 0);
       new Command(T.O, 1);
       this.h = new Command(T.d, 2);

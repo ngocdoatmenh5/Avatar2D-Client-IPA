@@ -7,10 +7,10 @@ public final class Item {
    public short idIcon;
    public byte shopType;
    public int[] price = new int[2];
-   public int e;
+   public int number;
    public String name = "";
 
-   public static Item a(Vector var0, int var1) {
+   public static Item getItemByList(Vector var0, int var1) {
       int var2 = var0.size();
 
       for(int var3 = 0; var3 < var2; ++var3) {

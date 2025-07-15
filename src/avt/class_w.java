@@ -16,7 +16,7 @@ final class class_w implements IAction {
 
       for(int var2 = 0; var2 < FarmScr.listItemFarm.size(); ++var2) {
          Item var3;
-         if (FarmScr.b((var3 = (Item)FarmScr.listItemFarm.elementAt(var2)).ID).action == 6) {
+         if (FarmScr.getFarmItem((var3 = (Item)FarmScr.listItemFarm.elementAt(var2)).ID).action == 6) {
             FarmService.gI().doUsingItem(FarmScr.idFarm, this.b.IDDB, var3.ID);
             var1 = true;
             this.a.commandActionPointer(10, -1);

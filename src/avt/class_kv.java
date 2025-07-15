@@ -40,20 +40,20 @@ public final class class_kv extends MyScreen
                MapScr.gI().switchToMe();
             }
             final ParkService a;
-            (a = ParkService.a()).createMessage((byte)82);
+            (a = ParkService.gI()).createMessage((byte)82);
             a.sendMessage();
             Canvas.startWaitDlg();
             super.center = null;
             return;
          }
          case 1: {
-            ParkService.a().b();
+            ParkService.gI().b();
             Canvas.startWaitDlg();
             return;
          }
          case 2: {
             this.e();
-            ParkService.a().b();
+            ParkService.gI().b();
             break;
          }
       }
@@ -110,7 +110,7 @@ public final class class_kv extends MyScreen
       }
       GameMidlet.avatar.setLayPLayer(n, n2);
       final ParkService a;
-      (a = ParkService.a()).createMessage((byte)86);
+      (a = ParkService.gI()).createMessage((byte)86);
       a.sendMessage();
       Canvas.startWaitDlg();
       super.right = this.e;
@@ -181,7 +181,7 @@ public final class class_kv extends MyScreen
       if (this.l >= this.m.length) {
          this.g.setPosDay(0);
          this.g.isSuccess = true;
-         ParkService.a().a(true, this.m);
+         ParkService.gI().a(true, this.m);
          Canvas.startWaitDlg();
       }
    }
@@ -245,7 +245,7 @@ public final class class_kv extends MyScreen
          c.ava.action = 2;
          c.idFish = h;
          if (o != -1) {
-            Canvas.a(T.cA, c.ava.x, c.ava.y - 60, -1, 1, -1);
+            Canvas.addFlyTextSmall(T.cA, c.ava.x, c.ava.y - 60, -1, 1, -1);
          }
          if (i == GameMidlet.avatar.IDDB) {
             this.n = System.currentTimeMillis();
@@ -274,7 +274,7 @@ public final class class_kv extends MyScreen
             return;
          }
          if (h < 0) {
-            Canvas.a(T.cB, c.ava.x, c.ava.y - 60, -1, 1, -1);
+            Canvas.addFlyTextSmall(T.cB, c.ava.x, c.ava.y - 60, -1, 1, -1);
          }
          c.idFish = h;
          c.isSuccess = true;
@@ -375,8 +375,8 @@ public final class class_kv extends MyScreen
       if ((avatar2 = g) != null) {
          final Vector vector;
          (vector = new Vector()).addElement(new CommandInfo(this, null, 0, avatar2, b, b2, n2, n3));
-         PopupShop.b().a(new String[] { T.cw }, new Vector[1], vector);
-         PopupShop.b().switchToMe();
+         PopupShop.gI().a(new String[] { T.cw }, new Vector[1], vector);
+         PopupShop.gI().switchToMe();
       }
       Canvas.endDlg();
    }

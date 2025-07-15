@@ -20,7 +20,7 @@ final class class_d extends Command {
       if (this.g == PopupShop.focus) {
          PopupShop.resetIsTrans();
          PopupShop.addStr(this.f.name);
-         PopupShop.addStr(T.ay + this.f.e);
+         PopupShop.addStr(T.ay + this.f.number);
       }
 
    }

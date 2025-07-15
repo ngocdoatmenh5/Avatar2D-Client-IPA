@@ -16,6 +16,6 @@ final class class_ku implements IAction {
          MapScr.f(this.b);
       }
 
-      PopupShop.b().close();
+      PopupShop.gI().close();
    }
 }

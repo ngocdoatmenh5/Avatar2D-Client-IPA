@@ -107,9 +107,9 @@ public final class RegisterScr extends MyScreen {
    }
 
    private static void f() {
-      Canvas.isDoubleImage = true;
+      Canvas.isInitChar = true;
       Canvas.startWaitDlg(T.ck + "...");
-      GlobalService.gI().c();
+      GlobalService.gI().doRequestCreCharacter();
    }
 
    public final void update() {

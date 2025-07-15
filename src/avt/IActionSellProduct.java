@@ -2,10 +2,10 @@ package avt;
 
 import main.Canvas;
 
-final class class_ge implements IAction {
+final class IActionSellProduct implements IAction {
    private final int a;
 
-   class_ge(FarmScr var1, int var2) {
+   IActionSellProduct(FarmScr var1, int var2) {
       this.a = var2;
    }
 

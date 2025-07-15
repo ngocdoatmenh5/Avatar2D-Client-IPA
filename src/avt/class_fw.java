@@ -10,7 +10,7 @@ final class class_fw implements IAction {
    }
 
    public final void perform() {
-      HomeMsgHandler.a();
+      HomeMsgHandler.onHandler();
       AvatarService.gI().dodelItem(this.a);
       Canvas.startWaitDlg();
    }

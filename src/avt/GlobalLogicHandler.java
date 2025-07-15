@@ -65,11 +65,11 @@ public final class GlobalLogicHandler {
                MapScr.gI().y = true;
                AvatarMsgHandler.onHandler();
                if (MapScr.D != -1) {
-                  GlobalService.gI().j(MapScr.D);
+                  GlobalService.gI().doJoinOfflineMap(MapScr.D);
                   MapScr.D = -1;
                } else if (MapScr.g != -1) {
                   Canvas.loadMap.e(57 + MapScr.g);
-                  if (Canvas.isDoubleImage && LoadMap.TYPEMAP == 57) {
+                  if (Canvas.isInitChar && LoadMap.TYPEMAP == 57) {
                      (Canvas.welcome = new Welcome()).b(MapScr.a);
                   }
 
@@ -85,18 +85,18 @@ public final class GlobalLogicHandler {
                if (LoadMap.H == -1) {
                   if (!OnScreen.b) {
                      if (GameMidlet.CLIENT_TYPE == 12) {
-                        LoadMap.i = 24;
+                        LoadMap.w = 24;
                         LoadMap.t = -1;
-                        ParkService.a().a(MapScr.m, -1);
+                        ParkService.gI().doJoinPark(MapScr.m, -1);
                      } else if (GameMidlet.CLIENT_TYPE == 3) {
                         Canvas.paint.i();
-                        ParkService.a().a(MapScr.m, -1);
+                        ParkService.gI().doJoinPark(MapScr.m, -1);
                      } else if (MapScr.g != -1) {
                         MapScr.gI();
                         MapScr.x();
                      } else if (MapScr.G != -1) {
                         Canvas.startWaitDlg();
-                        ParkService.a().a(MapScr.G, -1);
+                        ParkService.gI().doJoinPark(MapScr.G, -1);
                         MapScr.G = -1;
                      } else {
                         MapScr.gI().s();
@@ -124,15 +124,15 @@ public final class GlobalLogicHandler {
                } else if (FarmScr.itemProduct == null) {
                   FarmService.gI().getInventory();
                } else {
-                  ParkService.a().a(25, 0);
-                  FarmScr.init();
-                  FarmScr.gI().b(GameMidlet.avatar.IDDB, false);
+                  ParkService.gI().doJoinPark(25, 0);
+                  FarmScr.initImg();
+                  FarmScr.gI().doJoinFarm(GameMidlet.avatar.IDDB, false);
                }
                break;
             case 11:
-               HomeMsgHandler.a();
+               HomeMsgHandler.onHandler();
                LoadMap.TYPEMAP = -1;
-               ParkService.a().a(21, 0);
+               ParkService.gI().doJoinPark(21, 0);
                if (MapScr.v != -1) {
                   Canvas.startWaitDlg();
                   AvatarService.gI().getTypeHouse((int)0);

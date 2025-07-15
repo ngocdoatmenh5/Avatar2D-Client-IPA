@@ -147,7 +147,7 @@ public final class OnScreen extends MyScreen {
             Canvas.startWaitDlg();
             return;
          case 2:
-            GlobalService.gI().h(1);
+            GlobalService.gI().doCommunicate(1);
             Canvas.startWaitDlg();
             return;
          case 3:

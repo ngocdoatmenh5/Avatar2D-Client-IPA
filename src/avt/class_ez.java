@@ -36,7 +36,7 @@ public final class class_ez extends MyScreen {
       this.e();
       this.m = 0;
       if (super.center == null) {
-         this.c();
+         this.doLeftMenu();
       }
 
       this.g();
@@ -46,7 +46,7 @@ public final class class_ez extends MyScreen {
       FilePack.b(T.av);
       this.c = FilePack.getImage("tp");
       FilePack.reset();
-      this.c();
+      this.doLeftMenu();
       CRes.b();
    }
 
@@ -82,7 +82,7 @@ public final class class_ez extends MyScreen {
       }
    }
 
-   public final void c() {
+   public final void doLeftMenu() {
       if (T.O != null) {
          if (Canvas.stypeInt == 0) {
             super.center = new Command(T.O, 0);
@@ -205,7 +205,7 @@ public final class class_ez extends MyScreen {
          g &= 15;
       }
 
-      Canvas.loadMap.b();
+      Canvas.loadMap.update();
    }
 
    private void b(int var1) {
@@ -386,6 +386,6 @@ public final class class_ez extends MyScreen {
       }
 
       super.paint(var1);
-      Canvas.a(var1);
+      Canvas.paintPlus(var1);
    }
 }

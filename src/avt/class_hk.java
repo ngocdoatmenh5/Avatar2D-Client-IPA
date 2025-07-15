@@ -34,7 +34,7 @@ public final class class_hk extends MyScreen {
          case 1:
             Canvas.cameraList.isShow = false;
             this.c.switchToMe();
-            ParkService.a().a(MapScr.b, super.ar);
+            ParkService.gI().doJoinPark(MapScr.b, super.ar);
          default:
       }
    }

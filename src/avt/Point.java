@@ -3,13 +3,13 @@ package avt;
 import javax.microedition.lcdui.Graphics;
 
 public final class Point extends MyObject {
-   public class_jt a;
+   public class_jt layer;
    public int b;
    public int c;
-   public int d;
+   public int w;
    public int e;
    public int color = 0;
-   public int g;
+   public int limitY;
    public int h;
    public byte dis = 0;
    public short itemID;
@@ -36,10 +36,10 @@ public final class Point extends MyObject {
    }
 
    public final void update() {
-      this.a.a();
+      this.layer.a();
    }
 
    public final void paint(Graphics var1) {
-      this.a.a(var1);
+      this.layer.a(var1);
    }
 }

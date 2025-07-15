@@ -826,7 +826,7 @@ public final class AvatarData {
          if ((var1 = (Part) listPartDynamic.get("" + var0)) == null) {
             ((Part)(var1 = new APartInfo())).IDPart = -1;
             listPartDynamic.put("" + var0, var1);
-            GlobalService.gI().b(var0);
+            GlobalService.gI().requestPartDynaMic(var0);
          }
 
          return (Part)var1;
@@ -851,7 +851,7 @@ public final class AvatarData {
       if ((var1 = (ImageIcon) listImgPart.get("" + var0)) == null) {
          var1 = new ImageIcon();
          listImgPart.put("" + var0, var1);
-         GlobalService.gI().c(var0);
+         GlobalService.gI().requestImagePart(var0);
       } else if (var1.count >= 0) {
          var1.count = (int)(System.currentTimeMillis() / 1000L);
       }

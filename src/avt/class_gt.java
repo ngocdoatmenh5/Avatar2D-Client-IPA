@@ -27,7 +27,7 @@ final class class_gt implements IAction {
       } else if (this.e == 26) {
          Canvas.endDlg();
          MapScr.gI().e(this.b);
-         PopupShop.b().close();
+         PopupShop.gI().close();
       } else {
          Part var1 = this.a;
          if (this.a.IDPart == -1) {

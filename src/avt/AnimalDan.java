@@ -72,12 +72,12 @@ public class AnimalDan extends Animal {
             Point var3;
             if (CRes.abs((var3 = (Point)FarmScr.listFood[this.indexFood].elementAt(var2)).x - super.x) <= 2 && CRes.abs(var3.y - super.y) <= 2) {
                FarmScr.listFood[this.indexFood].removeElement(var3);
-               LoadMap.n.removeElement(var3);
+               LoadMap.dynamicLists.removeElement(var3);
                super.hunger = false;
                super.isEat = false;
                super.G = 1;
                FarmScr.gI();
-               FarmScr.a(var3.itemID, super.IDDB);
+               FarmScr.doEat(var3.itemID, super.IDDB);
                break;
             }
          }

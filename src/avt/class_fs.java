@@ -22,7 +22,7 @@ final class class_fs implements CommandListener {
             return;
          }
 
-         GlobalService.gI().a((byte)2, this.b.getString());
+         GlobalService.gI().requestService((byte)2, this.b.getString());
       }
 
       Canvas.instance.setFullScreenMode(true);

@@ -12,6 +12,6 @@ final class class_ac implements IAction {
    }
 
    public final void perform() {
-      ParkService.a().b(this.a, this.b, this.c);
+      ParkService.gI().b(this.a, this.b, this.c);
    }
 }

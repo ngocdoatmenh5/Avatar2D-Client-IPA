@@ -149,7 +149,7 @@ public final class RaceScr extends MyScreen implements IChatable {
          }
 
          if (a != Canvas.currentMyScreen) {
-            LoadMap.a(LoadMap.playerLists);
+            LoadMap.orderVector(LoadMap.playerLists);
             b().switchToMe();
             LoadMap.t = -1;
             this.b(1);
@@ -217,7 +217,7 @@ public final class RaceScr extends MyScreen implements IChatable {
                }
             }
          } else {
-            GlobalService.gI().k(this.c[0].IDDB);
+            GlobalService.gI().doPetInfo(this.c[0].IDDB);
             super.center = this.s;
          }
       }
@@ -318,7 +318,7 @@ public final class RaceScr extends MyScreen implements IChatable {
             super.right = null;
             return;
          case 6:
-            GlobalService.gI().c(this.c[this.aA].IDDB, this.aG[this.aB]);
+            GlobalService.gI().doDatCuoc(this.c[this.aA].IDDB, this.aG[this.aB]);
             this.commandTab(8);
             return;
          case 7:
@@ -364,7 +364,7 @@ public final class RaceScr extends MyScreen implements IChatable {
                this.ay = 0;
                if (this.aA >= 0 && this.c != null && this.aA < 6 && this.c[this.aA] != null && this.c[this.aA].IDDB != this.X) {
                   this.X = this.c[this.aA].IDDB;
-                  GlobalService.gI().k(this.X);
+                  GlobalService.gI().doPetInfo(this.X);
                }
             }
          }
@@ -399,7 +399,7 @@ public final class RaceScr extends MyScreen implements IChatable {
          }
       }
 
-      Canvas.loadMap.b();
+      Canvas.loadMap.update();
       if (this.d && this.e > 0) {
          --this.e;
       }
@@ -442,7 +442,7 @@ public final class RaceScr extends MyScreen implements IChatable {
    public final void updateKey() {
       super.updateKey();
       ++this.aE;
-      if (Canvas.welcome == null || !Welcome.d) {
+      if (Canvas.welcome == null || !Welcome.isPaintArrow) {
          super.updateKey();
       }
 
@@ -555,7 +555,7 @@ public final class RaceScr extends MyScreen implements IChatable {
 
    private void e() {
       if (this.aB != -1) {
-         GlobalService.gI().c(this.c[this.aA].IDDB, this.aG[this.aB]);
+         GlobalService.gI().doDatCuoc(this.c[this.aA].IDDB, this.aG[this.aB]);
          this.aB = -1;
          this.aA = -1;
          this.U = false;
@@ -565,7 +565,7 @@ public final class RaceScr extends MyScreen implements IChatable {
          this.U = false;
          this.aA = -1;
       } else if (this.az != -1) {
-         GlobalService.gI().k(this.c[this.az].IDDB);
+         GlobalService.gI().doPetInfo(this.c[this.az].IDDB);
          this.az = -1;
       } else {
          if (this.aA != -1) {
@@ -666,7 +666,7 @@ public final class RaceScr extends MyScreen implements IChatable {
          this.z.paintAnimal(var1);
       }
 
-      if (Canvas.welcome == null || !Welcome.d) {
+      if (Canvas.welcome == null || !Welcome.isPaintArrow) {
          super.paint(var1);
       }
 
@@ -674,7 +674,7 @@ public final class RaceScr extends MyScreen implements IChatable {
          Canvas.borderFont.drawString(var1, String.valueOf(this.n), Canvas.hw, 5, 2);
       }
 
-      Canvas.a(var1);
+      Canvas.paintPlus(var1);
    }
 
    private void c(Graphics var1) {
@@ -695,12 +695,12 @@ public final class RaceScr extends MyScreen implements IChatable {
       Canvas.loadMap.b(var1);
 
       for(int var2 = 0; var2 < 6; ++var2) {
-         if (AvCamera.gI().xCam <= 4 * LoadMap.i * AvMain.hd) {
-            LoadMap.c.drawFrameXY(0, var2 % 2 == 0 ? 2 : 3, 3 * LoadMap.i * AvMain.hd, (var2 + 6) * LoadMap.i * AvMain.hd, 0, var1);
+         if (AvCamera.gI().xCam <= 4 * LoadMap.w * AvMain.hd) {
+            LoadMap.c.drawFrameXY(0, var2 % 2 == 0 ? 2 : 3, 3 * LoadMap.w * AvMain.hd, (var2 + 6) * LoadMap.w * AvMain.hd, 0, var1);
          }
 
-         if (AvCamera.gI().xCam + Canvas.w >= (LoadMap.wMap - 3) * LoadMap.i * AvMain.hd) {
-            LoadMap.c.drawFrameXY(0, var2 % 2 == 0 ? 2 : 3, (LoadMap.wMap - 3) * LoadMap.i * AvMain.hd, (var2 + 6) * LoadMap.i * AvMain.hd, 0, var1);
+         if (AvCamera.gI().xCam + Canvas.w >= (LoadMap.wMap - 3) * LoadMap.w * AvMain.hd) {
+            LoadMap.c.drawFrameXY(0, var2 % 2 == 0 ? 2 : 3, (LoadMap.wMap - 3) * LoadMap.w * AvMain.hd, (var2 + 6) * LoadMap.w * AvMain.hd, 0, var1);
          }
       }
 

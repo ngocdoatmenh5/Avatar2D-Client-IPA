@@ -50,7 +50,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    public static boolean F;
    public static boolean G;
    public static boolean isKeyBoard = false;
-   public static boolean isDoubleImage = false;
+   public static boolean isInitChar = false;
    public static int load = -1;
    private static javax.microedition.lcdui.Command al;
    private static javax.microedition.lcdui.Command am;
@@ -170,9 +170,9 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
    public static void a() {
       ad = new Command(T.p, -1);
-      MenuSub.gI().c();
+      MenuSub.gI().doLeftMenu();
       if (currentMyScreen != null) {
-         currentMyScreen.c();
+         currentMyScreen.doLeftMenu();
       }
 
    }
@@ -278,8 +278,8 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             OptionScr.gI().e();
          }
 
-         if (currentMyScreen == ListScr.b()) {
-            ListScr.b().f();
+         if (currentMyScreen == ListScr.gI()) {
+            ListScr.gI().f();
          }
 
          if (currentMyScreen == MoneyScr.b()) {
@@ -323,7 +323,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
          }
 
          Session_ME.a().a(var1);
-         GlobalService.gI().b();
+         GlobalService.gI().setProviderAndClientType();
       }
 
    }
@@ -866,7 +866,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       ac.addElement(new class_cp(var1, var2, var0, -1, (Image)null, var4, -1, -1));
    }
 
-   public static void a(int var0, int var1, int var2, int var3, int var4, int var5, int var6) {
+   public static void addFlyText(int var0, int var1, int var2, int var3, int var4, int var5, int var6) {
       ac.addElement(new class_cp(var1, var2, var0, -1, (Image)null, 0, var5, -1));
    }
 
@@ -874,11 +874,11 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       ac.addElement(new class_cp(var1, var2, var0, -1, var4, var5, -1, -1));
    }
 
-   public static void a(String var0, int var1, int var2, int var3, int var4, int var5) {
+   public static void addFlyTextSmall(String var0, int var1, int var2, int var3, int var4, int var5) {
       ac.addElement(new class_cp(var1, var2, var0, -1, var4, var5));
    }
 
-   public static void a(Graphics var0) {
+   public static void paintPlus(Graphics var0) {
       var0.drawImage(imagePlug, 0, 1, 0);
    }
 
@@ -1192,6 +1192,6 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    }
 
    public static boolean isPaintIconVir() {
-      return currentDialog == null && menuMain == null && currentMyScreen != MessageScr.me && currentMyScreen != PopupShop.b() && currentMyScreen != ListScr.a && currentMyScreen != RoomListOnScr.me && currentMyScreen != BoardListOnScr.me && currentMyScreen != MenuCenter.a && currentMyScreen != OnScreen.a && currentMyScreen != MiniMap.a && currentMyScreen != MoneyScr.a && !HouseScr.e && !HouseScr.b && currentMyScreen != class_hk.a && (currentMyScreen != DiamondScr.me_ || !BoardScr.isStartGame);
+      return currentDialog == null && menuMain == null && currentMyScreen != MessageScr.me && currentMyScreen != PopupShop.gI() && currentMyScreen != ListScr.a && currentMyScreen != RoomListOnScr.me && currentMyScreen != BoardListOnScr.me && currentMyScreen != MenuCenter.a && currentMyScreen != OnScreen.a && currentMyScreen != MiniMap.a && currentMyScreen != MoneyScr.a && !HouseScr.e && !HouseScr.b && currentMyScreen != class_hk.a && (currentMyScreen != DiamondScr.me_ || !BoardScr.isStartGame);
    }
 }

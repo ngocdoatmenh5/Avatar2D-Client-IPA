@@ -8,6 +8,6 @@ final class class_gm implements IAction {
    }
 
    public final void perform() {
-      GlobalService.gI().a(this.a.b, this.a.a);
+      GlobalService.gI().doSendOpenShopHouse(this.a.b, this.a.a);
    }
 }

@@ -16,6 +16,6 @@ final class class_ib implements IAction {
    }
 
    public final void perform() {
-      GlobalService.gI().a(this.b, this.c, this.a.a.g, this.d[this.e]);
+      GlobalService.gI().doListCustom(this.b, this.c, this.a.a.g, this.d[this.e]);
    }
 }

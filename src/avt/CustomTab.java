@@ -53,7 +53,7 @@ public final class CustomTab extends Face {
             me = null;
             return;
          case 1:
-            GlobalService.gI().b(this.idAction);
+            GlobalService.gI().doCustomTab(this.idAction);
          default:
       }
    }

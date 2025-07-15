@@ -124,7 +124,7 @@ public final class DialLuckyScr extends MyScreen {
          }
 
          if (!var5.equals("")) {
-            Canvas.a(var5, var1.x, var1.y - 50, -1, 1, var2);
+            Canvas.addFlyTextSmall(var5, var1.x, var1.y - 50, -1, 1, var2);
          }
       }
 
@@ -266,7 +266,7 @@ public final class DialLuckyScr extends MyScreen {
          if (Canvas.keyReleased[5]) {
             if (this.degreeKim > 90 && !this.isTurn && this.isable) {
                this.selectedNumber = this.degreeKim;
-               GlobalService.gI().a(this.idPart, this.selectedNumber - 90);
+               GlobalService.gI().doDialLucky(this.idPart, this.selectedNumber - 90);
                Canvas.startWaitDlg();
             }
 

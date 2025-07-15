@@ -49,6 +49,6 @@ public final class OnSplashScr extends MyScreen {
          var1.drawImage(c, Canvas.hw, Canvas.hCan / 2, 3);
       }
 
-      Canvas.a(var1);
+      Canvas.paintPlus(var1);
    }
 }

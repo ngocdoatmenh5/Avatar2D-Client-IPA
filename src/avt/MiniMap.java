@@ -69,7 +69,7 @@ public final class MiniMap extends MyScreen {
       }
 
       super.left = this.l;
-      if (Canvas.isDoubleImage) {
+      if (Canvas.isInitChar) {
          (Canvas.welcome = new Welcome()).a();
          super.left = null;
       } else if (MyScreen.as > 0 && o == 1) {
@@ -100,7 +100,7 @@ public final class MiniMap extends MyScreen {
    public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
-            if (Canvas.welcome == null || !Welcome.d) {
+            if (Canvas.welcome == null || !Welcome.isPaintArrow) {
                Vector var3 = new Vector();
                if (n != null) {
                   var3.addElement(new Command("Đăng ký", n));
@@ -136,7 +136,7 @@ public final class MiniMap extends MyScreen {
             OptionScr.gI().switchToMe();
             return;
          case 2:
-            GlobalService.gI().a((byte)6, "");
+            GlobalService.gI().requestService((byte)6, "");
             return;
          case 3:
             MapScr.gI().u();
@@ -154,7 +154,7 @@ public final class MiniMap extends MyScreen {
             Display.getDisplay(GameMidlet.h).setCurrent(var5);
             return;
          case 5:
-            GlobalService.gI().a((byte)3, (String)null);
+            GlobalService.gI().requestService((byte)3, (String)null);
             return;
          case 6:
             MapScr.gI().v();
@@ -338,7 +338,7 @@ public final class MiniMap extends MyScreen {
 
    public final void updateKey() {
       ++this.Q;
-      if (Canvas.welcome == null || !Welcome.d) {
+      if (Canvas.welcome == null || !Welcome.isPaintArrow) {
          super.updateKey();
       }
 
@@ -468,11 +468,11 @@ public final class MiniMap extends MyScreen {
 
    public final void paint(Graphics var1) {
       this.paintMain(var1);
-      if (Canvas.welcome == null || !Welcome.d) {
+      if (Canvas.welcome == null || !Welcome.isPaintArrow) {
          super.paint(var1);
       }
 
-      Canvas.a(var1);
+      Canvas.paintPlus(var1);
    }
 
    public final void paintMain(Graphics var1) {

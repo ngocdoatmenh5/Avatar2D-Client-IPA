@@ -7,7 +7,7 @@ final class class_ec implements IAction {
    }
 
    public final void perform() {
-      GlobalService.gI().g(0);
+      GlobalService.gI().doUpdateContainer(0);
       Canvas.startWaitDlg();
    }
 }

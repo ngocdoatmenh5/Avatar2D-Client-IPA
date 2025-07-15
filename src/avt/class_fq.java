@@ -13,8 +13,8 @@ final class class_fq implements IAction {
 
    public final void perform() {
       GameMidlet.avatar.action = 0;
-      FarmScr.A.x = this.b.x / LoadMap.i;
-      FarmScr.A.y = this.b.y / LoadMap.i;
+      FarmScr.focusCell.x = this.b.x / LoadMap.w;
+      FarmScr.focusCell.y = this.b.y / LoadMap.w;
       FarmScr.a(this.a, this.b);
    }
 }

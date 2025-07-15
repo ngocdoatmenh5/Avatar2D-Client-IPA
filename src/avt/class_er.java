@@ -12,8 +12,8 @@ final class class_er implements IAction {
    }
 
    public final void perform() {
-      if (LoadMap.p != null) {
-         this.a.a(this.b, this.c.area == 1 ? 0 : 1);
+      if (LoadMap.focusObj != null) {
+         this.a.doUsingVatPhamAnimal(this.b, this.c.area == 1 ? 0 : 1);
       }
 
    }

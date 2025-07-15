@@ -3,11 +3,11 @@ package avt;
 import javax.microedition.lcdui.Graphics;
 import main.Canvas;
 
-final class class_fy extends Command {
+final class CommandBuyAnimalCuaHang extends Command {
    private final AnimalInfo f;
    private final int g;
 
-   class_fy(FarmScr var1, String var2, int var3, int var4, AnimalInfo var5, int var6) {
+   CommandBuyAnimalCuaHang(FarmScr var1, String var2, int var3, int var4, AnimalInfo var5, int var6) {
       super(var2, 8, var4);
       this.f = var5;
       this.g = var6;

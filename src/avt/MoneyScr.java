@@ -37,7 +37,7 @@ public final class MoneyScr extends MyScreen {
       this.d = 0;
       super.ar = 0;
       this.e = var1;
-      this.c();
+      this.doLeftMenu();
       super.switchToMe();
    }
 
@@ -153,7 +153,7 @@ public final class MoneyScr extends MyScreen {
 
    }
 
-   public final void c() {
+   public final void doLeftMenu() {
       this.f = new Command(T.ev[0], 1);
       super.left = this.f;
       this.g = new Command(T.O, 2);
@@ -190,12 +190,12 @@ public final class MoneyScr extends MyScreen {
          if (this.d == 1) {
             int var2 = (this.m - PaintPopup.o + (AvMain.Z << 1)) / 6;
             Canvas.fontChatB.drawString(var1, T.aA + GameMidlet.avatar.name, this.j + this.l / 2, var2 / 2, 2);
-            if (!FarmScr.z) {
+            if (!FarmScr.isNew) {
                Canvas.fontChatB.drawString(var1, T.aJ + ": " + GameMidlet.avatar.strMoney, this.j + this.l / 2, var2 / 2 + var2, 2);
             }
 
             Canvas.fontChatB.drawString(var1, GameMidlet.avatar.money[2] + T.D, this.j + this.l / 2, var2 / 2 + (var2 << 1), 2);
-            if (FarmScr.z) {
+            if (FarmScr.isNew) {
                Canvas.fontChatB.drawString(var1, MapScr.r(), this.j + this.l / 2, var2 / 2 + var2 * 3, 2);
             }
          } else {
@@ -207,11 +207,11 @@ public final class MoneyScr extends MyScreen {
             }
          }
 
-         if (Canvas.welcome == null || !Welcome.d) {
+         if (Canvas.welcome == null || !Welcome.isPaintArrow) {
             super.paint(var1);
          }
 
-         Canvas.a(var1);
+         Canvas.paintPlus(var1);
       }
    }
 

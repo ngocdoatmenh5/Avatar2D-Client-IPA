@@ -18,7 +18,7 @@ public final class PopupShop extends MyScreen {
    public static int f = 5;
    private static int t;
    private static int u;
-   public static int g;
+   public static int focusTap;
    private int v;
    public Vector[] h;
    private Vector w;
@@ -34,7 +34,7 @@ public final class PopupShop extends MyScreen {
    private static MyScreen C;
    private int D;
    private int E = 0;
-   public boolean m = false;
+   public boolean isHorizontal = false;
    public static boolean isTransFocus = false;
    public static boolean o = false;
    private static boolean F = false;
@@ -47,7 +47,7 @@ public final class PopupShop extends MyScreen {
    private int M = 0;
    private int N;
 
-   public static PopupShop b() {
+   public static PopupShop gI() {
       if (me == null) {
          me = new PopupShop();
       }
@@ -76,9 +76,9 @@ public final class PopupShop extends MyScreen {
             this.close();
             return;
          case 1:
-            if (focus < this.h[g].size()) {
-               ((Command)this.h[g].elementAt(focus)).action.perform();
-               this.m();
+            if (focus < this.h[focusTap].size()) {
+               ((Command)this.h[focusTap].elementAt(focus)).action.perform();
+               this.setCaption();
             }
 
             return;
@@ -110,14 +110,14 @@ public final class PopupShop extends MyScreen {
          case 10:
             if (var2 < FarmScr.itemProduct.size()) {
                Item var5 = (Item)FarmScr.itemProduct.elementAt(var2);
-               FarmScr.gI().a((int)var5.ID, var5.name);
+               FarmScr.gI().doSellProduct((int)var5.ID, var5.name);
                return;
             }
             break;
          case 11:
             if (var2 < FarmScr.listFarmProduct.size()) {
-               var4 = FarmScr.b(((Item)FarmScr.listFarmProduct.elementAt(var2)).ID);
-               FarmScr.gI().a((int)var4.ID, var4.des);
+               var4 = FarmScr.getFarmItem(((Item)FarmScr.listFarmProduct.elementAt(var2)).ID);
+               FarmScr.gI().doSellProduct((int)var4.ID, var4.des);
                return;
             }
             break;
@@ -131,7 +131,7 @@ public final class PopupShop extends MyScreen {
                MapScr.f(var3[var2]);
             }
 
-            b().close();
+            gI().close();
       }
 
    }
@@ -145,9 +145,9 @@ public final class PopupShop extends MyScreen {
          k = false;
       } else {
          Canvas.cameraList.isShow = false;
-         this.m = false;
+         this.isHorizontal = false;
          C.switchToMe();
-         if (Canvas.isDoubleImage) {
+         if (Canvas.isInitChar) {
             if (LoadMap.TYPEMAP == 25 && Welcome.f != 0) {
                Canvas.welcome = new Welcome();
                if (Welcome.f == 2) {
@@ -167,7 +167,7 @@ public final class PopupShop extends MyScreen {
       }
    }
 
-   public final void c() {
+   public final void doLeftMenu() {
       super.right = new Command(T.d, 0);
       super.center = new Command(T.O, 1);
    }
@@ -185,7 +185,7 @@ public final class PopupShop extends MyScreen {
       }
 
       init();
-      this.c();
+      this.doLeftMenu();
       H = 25 * (2 - AvMain.hd) + 40 * (Canvas.stypeInt + 1) + 10 * (AvMain.hd - 1);
    }
 
@@ -217,7 +217,7 @@ public final class PopupShop extends MyScreen {
    }
 
    public final void a(String[] var1, Vector[] var2, Vector var3) {
-      g = 0;
+      focusTap = 0;
       this.h = var2;
       this.x = new Command[var2.length];
       this.y = new boolean[var2.length];
@@ -227,25 +227,25 @@ public final class PopupShop extends MyScreen {
       System.out.println("addElement: " + this.h.length);
       this.v = this.h.length;
       k = false;
-      PaintPopup.gI().a(p[g], c, d, this.v);
-      this.i();
+      PaintPopup.gI().a(p[focusTap], c, d, this.v);
+      this.setCmyLim();
    }
 
-   public final void i() {
+   public final void setCmyLim() {
       focus = 0;
       u = 0;
-      if (o || this.y[g]) {
+      if (o || this.y[focusTap]) {
          u = AvMain.af;
       }
 
-      if (this.h[g] != null) {
-         if ((s = this.h[g].size() / 5) >= 3 && !this.m && !o && !this.y[g]) {
+      if (this.h[focusTap] != null) {
+         if ((s = this.h[focusTap].size() / 5) >= 3 && !this.isHorizontal && !o && !this.y[focusTap]) {
             f = 5;
          } else {
             f = 2;
          }
 
-         if (this.h[g].size() % 5 != 0) {
+         if (this.h[focusTap].size() % 5 != 0) {
             ++s;
          }
 
@@ -255,21 +255,21 @@ public final class PopupShop extends MyScreen {
       }
 
       int var1 = 1;
-      if (this.h[g] == null) {
+      if (this.h[focusTap] == null) {
          r = 1;
       } else {
-         var1 = this.h[g].size();
+         var1 = this.h[focusTap].size();
          r = 5;
       }
 
       l = -e / 2;
-      if (f > 2 || o || this.y[g]) {
+      if (f > 2 || o || this.y[focusTap]) {
          l = 0;
       }
 
-      Canvas.cameraList.a(q, PaintPopup.gI().h + PaintPopup.o + AvMain.Z + (!o && !this.y[g] ? 0 : u), e, e, e * r, e * s, e * 5, f * e - l, var1);
-      this.m();
-      PaintPopup.gI().a(p[g], g);
+      Canvas.cameraList.a(q, PaintPopup.gI().h + PaintPopup.o + AvMain.Z + (!o && !this.y[focusTap] ? 0 : u), e, e, e * r, e * s, e * 5, f * e - l, var1);
+      this.setCaption();
+      PaintPopup.gI().a(p[focusTap], focusTap);
    }
 
    public final void update() {
@@ -282,18 +282,18 @@ public final class PopupShop extends MyScreen {
          this.D = 0;
       }
 
-      if (this.h[g] != null) {
-         int var1 = this.h[g].size();
+      if (this.h[focusTap] != null) {
+         int var1 = this.h[focusTap].size();
 
          for(int var2 = 0; var2 < var1; ++var2) {
             if (isTransFocus) {
-               ((Command)this.h[g].elementAt(var2)).update();
+               ((Command)this.h[focusTap].elementAt(var2)).update();
             }
          }
       }
 
-      if (this.x[g] != null) {
-         super.left = this.x[g];
+      if (this.x[focusTap] != null) {
+         super.left = this.x[focusTap];
       } else {
          super.left = null;
       }
@@ -305,7 +305,7 @@ public final class PopupShop extends MyScreen {
       PaintPopup.k = Canvas.a(GameMidlet.m, -2);
    }
 
-   public final void a(Command var1, int var2) {
+   public final void setCmdLeft(Command var1, int var2) {
       this.x[var2] = var1;
    }
 
@@ -363,27 +363,27 @@ public final class PopupShop extends MyScreen {
             if (focus % r != r - 1 && r != 1 && !F) {
                ++focus;
             } else {
-               this.b(1);
+               this.setTap(1);
             }
 
             Canvas.cameraList.setSelect(focus);
-            this.m();
+            this.setCaption();
          } else if (Canvas.a(4)) {
             if (focus % r != 0 && r != 1 && !F) {
                --focus;
             } else {
-               this.b(-1);
+               this.setTap(-1);
             }
 
             Canvas.cameraList.setSelect(focus);
-            this.m();
+            this.setCaption();
          } else if (Canvas.a(2)) {
-            if (this.h[g] != null && this.h[g].size() > 0 && !F) {
+            if (this.h[focusTap] != null && this.h[focusTap].size() > 0 && !F) {
                if (focus / r > 0) {
                   focus -= r;
                } else {
                   for(var2 = 0; var2 < var1.h.length; ++var2) {
-                     if (var2 != g) {
+                     if (var2 != focusTap) {
                         PaintPopup.gI().a(4, var2);
                      }
                   }
@@ -393,13 +393,13 @@ public final class PopupShop extends MyScreen {
             }
 
             Canvas.cameraList.setSelect(focus);
-            var1.m();
+            var1.setCaption();
          } else if (Canvas.a(8)) {
             if (F) {
                F = false;
 
                for(var2 = 0; var2 < var1.h.length; ++var2) {
-                  if (var2 != g) {
+                  if (var2 != focusTap) {
                      PaintPopup.gI().a(0, var2);
                   }
                }
@@ -408,11 +408,11 @@ public final class PopupShop extends MyScreen {
             }
 
             Canvas.cameraList.setSelect(focus);
-            var1.m();
+            var1.setCaption();
          }
 
          if (Canvas.isPointerClick && (var2 = PaintPopup.gI().d()) != 0) {
-            var1.b(var2);
+            var1.setTap(var2);
             Canvas.isPointerClick = false;
          }
       }
@@ -429,7 +429,7 @@ public final class PopupShop extends MyScreen {
          A = 0;
       }
 
-      this.m();
+      this.setCaption();
       o();
    }
 
@@ -440,12 +440,12 @@ public final class PopupShop extends MyScreen {
          }
 
          focus = var1;
-         this.m();
+         this.setCaption();
       }
    }
 
    private static void o() {
-      if (g == 1) {
+      if (focusTap == 1) {
          FarmItem var0;
          I = Canvas.getPriceMoney((var0 = (FarmItem)FarmData.listItemFarm.elementAt(focus)).priceXu * A, var0.priceLuong * A, true);
       } else {
@@ -462,24 +462,24 @@ public final class PopupShop extends MyScreen {
 
    }
 
-   public final void b(int var1) {
-      if ((g += var1) == this.v) {
-         g = 0;
+   public final void setTap(int var1) {
+      if ((focusTap += var1) == this.v) {
+         focusTap = 0;
       }
 
-      if (g < 0) {
-         g = this.v - 1;
+      if (focusTap < 0) {
+         focusTap = this.v - 1;
       }
 
-      this.i();
+      this.setCmyLim();
    }
 
-   public final void m() {
-      if (this.h[g] != null && focus < this.h[g].size()) {
-         super.center = (Command)this.h[g].elementAt(focus);
-      } else if (this.w != null && g < this.w.size()) {
+   public final void setCaption() {
+      if (this.h[focusTap] != null && focus < this.h[focusTap].size()) {
+         super.center = (Command)this.h[focusTap].elementAt(focus);
+      } else if (this.w != null && focusTap < this.w.size()) {
          Command var1;
-         if ((var1 = (Command)this.w.elementAt(g)) != null) {
+         if ((var1 = (Command)this.w.elementAt(focusTap)) != null) {
             super.center = var1;
          }
       } else {
@@ -522,9 +522,9 @@ public final class PopupShop extends MyScreen {
          var1.translate(0, u);
       }
 
-      if (this.h[g] != null) {
-         if (this.y[g]) {
-            Canvas.fontChatB.drawString(var1, this.z[g], 0, 0, 0);
+      if (this.h[focusTap] != null) {
+         if (this.y[focusTap]) {
+            Canvas.fontChatB.drawString(var1, this.z[focusTap], 0, 0, 0);
             var1.translate(0, u);
          }
 
@@ -540,17 +540,17 @@ public final class PopupShop extends MyScreen {
             PaintPopup.a(3 + focus % r * e, focus / r * e + 3, e - 5, e - 5, 2293623, var1);
          }
 
-         var9 = this.h[g].size();
+         var9 = this.h[focusTap].size();
          if ((var3 = CameraList.cmtoY / e * r) < 0) {
             var3 = 0;
          }
 
-         if ((var4 = CameraList.cmtoY / e * r + (f + 1) * r) > this.h[g].size()) {
-            var4 = this.h[g].size();
+         if ((var4 = CameraList.cmtoY / e * r + (f + 1) * r) > this.h[focusTap].size()) {
+            var4 = this.h[focusTap].size();
          }
 
          for(var3 = var3; var3 < var4 && var3 < var9; ++var3) {
-            ((Command)this.h[g].elementAt(var3)).paint(var1, e * (var3 % r), e * (var3 / r));
+            ((Command)this.h[focusTap].elementAt(var3)).paint(var1, e * (var3 % r), e * (var3 / r));
          }
 
          var1.translate(0, CameraList.cmtoY - l);
@@ -571,7 +571,7 @@ public final class PopupShop extends MyScreen {
             }
 
             var11 = var1;
-            if (B != null && focus < this.h[g].size()) {
+            if (B != null && focus < this.h[focusTap].size()) {
                var4 = o ? 80 : 0;
                var1.setClip(0, f * e, c - var4 + 5, d);
 
@@ -591,7 +591,7 @@ public final class PopupShop extends MyScreen {
          } else {
             var11 = var1;
             PopupShop var10 = this;
-            if (Canvas.getSecond() - this.E > 0 && !k && B != null && focus < this.h[g].size()) {
+            if (Canvas.getSecond() - this.E > 0 && !k && B != null && focus < this.h[focusTap].size()) {
                var4 = focus % r * e - this.N / 2 + e / 2;
                var5 = (focus / r + 1) * e - CameraList.cmtoY + 5;
                int var6 = B.size() * AvMain.af + (AvMain.Z << 1) + 8;
@@ -632,18 +632,18 @@ public final class PopupShop extends MyScreen {
          if (k) {
             Canvas.resetTrans(var1);
             var1.translate(q, Canvas.cameraList.y);
-            Canvas.paint.a(var1, focus, r, e, G, q, H, g, A, I, this.J, this.K);
+            Canvas.paint.a(var1, focus, r, e, G, q, H, focusTap, A, I, this.J, this.K);
          }
       } else {
          var1.setClip(-5, 0, c - 10, d);
-         ((Command)this.w.elementAt(g)).paint(var1, 0, 0);
+         ((Command)this.w.elementAt(focusTap)).paint(var1, 0, 0);
       }
 
-      if (Canvas.welcome == null || Welcome.g || !Welcome.d) {
+      if (Canvas.welcome == null || Welcome.g || !Welcome.isPaintArrow) {
          super.paint(var1);
       }
 
-      Canvas.a(var1);
+      Canvas.paintPlus(var1);
    }
 
    public static void resetIsTrans() {

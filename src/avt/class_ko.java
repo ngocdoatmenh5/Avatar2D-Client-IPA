@@ -29,8 +29,8 @@ final class class_ko extends Command {
          short var10000 = this.g.ID;
          boolean var10001 = true;
          PopupShop.addStr(this.g.name);
-         PopupShop.addStr(T.ay + this.g.e);
-         PopupShop.addStr(T.aK + Canvas.getMoneys(this.g.price[0] * this.g.e) + T.T);
+         PopupShop.addStr(T.ay + this.g.number);
+         PopupShop.addStr(T.aK + Canvas.getMoneys(this.g.price[0] * this.g.number) + T.T);
          PopupShop.addStr(MapScr.r());
       }
 

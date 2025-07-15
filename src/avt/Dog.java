@@ -53,7 +53,7 @@ public final class Dog extends Animal {
          super.hunger = false;
          super.cycle = 200;
          FarmScr.gI();
-         FarmScr.a(itemID, super.IDDB);
+         FarmScr.doEat(itemID, super.IDDB);
       }
 
       super.reset();

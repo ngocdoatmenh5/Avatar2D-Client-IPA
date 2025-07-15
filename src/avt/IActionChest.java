@@ -11,9 +11,9 @@ final class IActionChest implements IAction {
 
    public final void perform() {
       if (this.a == 0) {
-         GlobalService.gI().g(1);
+         GlobalService.gI().doUpdateContainer(1);
       } else {
-         GlobalService.gI().i(1);
+         GlobalService.gI().doUpdateChest(1);
       }
 
       Canvas.startWaitDlg();

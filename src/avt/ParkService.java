@@ -7,7 +7,7 @@ import main.GameMidlet;
 public final class ParkService extends IService {
    private static ParkService a;
 
-   public static ParkService a() {
+   public static ParkService gI() {
       if (a == null) {
          a = new ParkService();
       }
@@ -15,7 +15,7 @@ public final class ParkService extends IService {
       return a;
    }
 
-   public final void a(int var1, int var2) {
+   public final void doJoinPark(int var1, int var2) {
       System.out.println("doJoinPark: " + var1 + "   " + var2);
       if (OnScreen.c == 0) {
          Canvas.startWaitDlg();

@@ -149,7 +149,7 @@ public final class BoardListOnScr extends MyScreen {
             return;
          case 3:
             Canvas.startWaitDlg();
-            GlobalService.gI().a(GameMidlet.avatar.IDDB);
+            GlobalService.gI().requestInfoOf(GameMidlet.avatar.IDDB);
             return;
          case 4:
             i();
@@ -163,7 +163,7 @@ public final class BoardListOnScr extends MyScreen {
             return;
          case 7:
             Canvas.startWaitDlg();
-            GlobalService.gI().a(GameMidlet.avatar.IDDB);
+            GlobalService.gI().requestInfoOf(GameMidlet.avatar.IDDB);
          case 2:
          default:
       }

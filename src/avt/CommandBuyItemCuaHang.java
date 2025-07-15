@@ -3,10 +3,10 @@ package avt;
 import javax.microedition.lcdui.Graphics;
 import main.Canvas;
 
-final class class_fu extends Command {
+final class CommandBuyItemCuaHang extends Command {
    private final int f;
 
-   class_fu(FarmScr var1, String var2, int var3, int var4, int var5) {
+   CommandBuyItemCuaHang(FarmScr var1, String var2, int var3, int var4, int var5) {
       super(var2, 7, var4);
       this.f = var5;
    }
@@ -22,7 +22,7 @@ final class class_fu extends Command {
          PopupShop.addStr(T.az + Canvas.getPriceMoney(FarmData.treeInfo[this.f].priceSeed[0], FarmData.treeInfo[this.f].priceSeed[1], false));
          PopupShop.addStr(T.em[2] + ": " + FarmData.treeInfo[this.f].m);
          if (FarmData.treeInfo[this.f].l) {
-            FarmItem var1 = FarmScr.b(FarmData.treeInfo[this.f].j);
+            FarmItem var1 = FarmScr.getFarmItem(FarmData.treeInfo[this.f].j);
             PopupShop.addStr(T.dP + ": " + var1.des);
          }
 

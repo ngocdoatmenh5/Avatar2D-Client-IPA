@@ -22,7 +22,7 @@ public class AvMain {
    private static byte b = 0;
    private static byte c = 0;
 
-   public void c() {
+   public void doLeftMenu() {
    }
 
    public void keyPress(int var1) {

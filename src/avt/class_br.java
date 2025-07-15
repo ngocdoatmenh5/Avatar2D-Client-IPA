@@ -8,6 +8,6 @@ final class class_br implements IAction {
    }
 
    public final void perform() {
-      GlobalService.gI().m(this.a);
+      GlobalService.gI().doFlowerLoveSelected(this.a);
    }
 }

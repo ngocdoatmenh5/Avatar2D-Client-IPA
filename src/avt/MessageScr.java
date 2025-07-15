@@ -69,7 +69,7 @@ public final class MessageScr extends MyScreen {
    public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 1:
-            ParkService.a().a(c.f());
+            ParkService.gI().a(c.f());
             c.a("");
             return;
          case 2:
@@ -89,12 +89,12 @@ public final class MessageScr extends MyScreen {
                      var7 = var7 + var4;
                   }
 
-                  GlobalService.gI().b(var6.g, var7);
+                  GlobalService.gI().doServerKick(var6.g, var7);
                   c.a("");
                   break;
                }
 
-               GlobalService.gI().a(var6.g, var7);
+               GlobalService.gI().chatTo(var6.g, var7);
                c.a("");
                var6.a(GameMidlet.avatar.name + ": " + var7);
             }
@@ -125,7 +125,7 @@ public final class MessageScr extends MyScreen {
 
    }
 
-   public final void c() {
+   public final void doLeftMenu() {
       if (Canvas.stypeInt == 0) {
          if (OnScreen.b) {
             super.left = new Command(T.d, 4);
@@ -154,7 +154,7 @@ public final class MessageScr extends MyScreen {
       this.init();
       c.a(true);
       c.c(40);
-      this.c();
+      this.doLeftMenu();
       class_cw var10000 = this.a;
       var10000.i += 20;
       this.g.addElement(this.a);

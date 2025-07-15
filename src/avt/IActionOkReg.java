@@ -17,7 +17,7 @@ final class IActionOkReg implements IAction {
             Canvas.startOKDlg("Hai mật khẩu không giống nhau");
          } else {
             Canvas.currentFace = null;
-            GlobalService.gI().c(this.a[0].f().toLowerCase(), this.a[1].f().toLowerCase(), this.a[3].f());
+            GlobalService.gI().doRegisterByEmail(this.a[0].f().toLowerCase(), this.a[1].f().toLowerCase(), this.a[3].f());
          }
       } else {
          Canvas.startOKDlg("Bạn chưa nhập mật khẩu");

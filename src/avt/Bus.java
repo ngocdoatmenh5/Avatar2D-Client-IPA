@@ -29,7 +29,7 @@ public final class Bus {
             AvCamera.gI().xCam = AvCamera.gI().xTo = posBusStop.x * AvMain.hd - Canvas.hw - 300;
          }
 
-         this.y = LoadMap.Hmap * LoadMap.i + (Canvas.stypeInt != 0 ? Canvas.hTab : 0) / AvMain.hd + 20 * AvMain.hd;
+         this.y = LoadMap.Hmap * LoadMap.w + (Canvas.stypeInt != 0 ? Canvas.hTab : 0) / AvMain.hd + 20 * AvMain.hd;
          this.x = posBusStop.x + 300;
          this.v = this.g = 15;
          this.count = 0;
@@ -64,7 +64,7 @@ public final class Bus {
             GameMidlet.avatar.setAction((byte)0);
             AvCamera.disable = false;
             GameMidlet.avatar.ableShow = false;
-            if (Canvas.isDoubleImage && Session_ME.a().b()) {
+            if (Canvas.isInitChar && Session_ME.a().b()) {
                if (LoadMap.TYPEMAP == 9) {
                   (Canvas.welcome = new Welcome()).b();
                } else if (direct == 1 && LoadMap.TYPEMAP == 25) {

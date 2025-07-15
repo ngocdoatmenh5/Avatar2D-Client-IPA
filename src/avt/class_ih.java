@@ -10,7 +10,7 @@ final class class_ih implements IAction {
    }
 
    public final void perform() {
-      ParkService.a().c(1, this.a);
+      ParkService.gI().c(1, this.a);
       Canvas.startWaitDlg();
    }
 }

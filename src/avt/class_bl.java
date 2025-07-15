@@ -12,7 +12,7 @@ final class class_bl implements IAction {
    public final void perform() {
       int var1;
       if ((var1 = SoundManager.a.a("" + this.b)) == -1) {
-         GlobalService.gI().a(this.b);
+         GlobalService.gI().doRequestSoundData(this.b);
       } else {
          SoundManager.a.a((byte[])SoundManager.a(this.a).elementAt(var1));
       }

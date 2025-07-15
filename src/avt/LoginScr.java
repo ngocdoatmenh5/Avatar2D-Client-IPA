@@ -62,7 +62,7 @@ public final class LoginScr extends MyScreen {
    }
 
    public final void switchToMe() {
-      this.c();
+      this.doLeftMenu();
       super.switchToMe();
       Canvas.endDlg();
       if (Canvas.isKeyBoard) {
@@ -103,7 +103,7 @@ public final class LoginScr extends MyScreen {
       this.b.a(true);
    }
 
-   public final void c() {
+   public final void doLeftMenu() {
       this.h = new Command(T.c, 0);
       this.D = new Command(T.dt, 3);
       this.f = new Command(T.O, 1);
@@ -199,7 +199,7 @@ public final class LoginScr extends MyScreen {
                Canvas.startWaitDlg();
             }
 
-            GlobalService.gI().a((byte)5, (String)null);
+            GlobalService.gI().requestService((byte)5, (String)null);
             return;
          case 9:
             Canvas.startOKDlg(T.bH + T.bG);
@@ -314,7 +314,7 @@ public final class LoginScr extends MyScreen {
    private void m() {
       Canvas.startWaitDlg();
       Canvas.mSocket();
-      GlobalService.gI().c(this.b.f().toLowerCase(), this.c.f().toLowerCase(), this.e.f());
+      GlobalService.gI().doRegisterByEmail(this.b.f().toLowerCase(), this.c.f().toLowerCase(), this.e.f());
       this.i = false;
       super.center = this.f;
       Canvas.paint.a(this);
@@ -362,7 +362,7 @@ public final class LoginScr extends MyScreen {
          super.right = this.C;
       }
 
-      Canvas.loadMap.b();
+      Canvas.loadMap.update();
    }
 
    public final void keyPress(int var1) {
@@ -382,7 +382,7 @@ public final class LoginScr extends MyScreen {
    public final void paint(Graphics var1) {
       this.paintMain(var1);
       super.paint(var1);
-      Canvas.a(var1);
+      Canvas.paintPlus(var1);
    }
 
    public final void paintMain(Graphics var1) {
@@ -638,17 +638,17 @@ public final class LoginScr extends MyScreen {
 
    public final void i() {
       Canvas.mSocket();
-      GlobalService.gI().f(gI().F.hashCode());
+      GlobalService.gI().doRequestNumSupport(gI().F.hashCode());
       System.out.println("login: " + v + "    " + this.H);
       if (!v || (this.H != 0 || this.G.length != 2) && (this.H != 1 || this.G.length != 3)) {
          if (this.b.f().equals("")) {
-            GlobalService.gI().a(this.I, this.J, "2.5.8");
+            GlobalService.gI().login(this.I, this.J, "2.5.8");
             w = true;
          } else {
             w = false;
             this.I = "";
             this.J = "";
-            GlobalService.gI().a(this.b.f().toLowerCase(), this.c.f(), "2.5.8");
+            GlobalService.gI().login(this.b.f().toLowerCase(), this.c.f(), "2.5.8");
          }
       } else {
          GlobalService var1 = GlobalService.gI();

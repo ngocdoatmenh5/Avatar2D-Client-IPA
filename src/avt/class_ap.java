@@ -8,6 +8,6 @@ final class class_ap extends Command {
    }
 
    public final void paint(Graphics var1, int var2, int var3) {
-      FarmData.paintImg(var1, FarmScr.starFruil.e > 0 ? 64 : 63, var2, var3, 3);
+      FarmData.paintImg(var1, FarmScr.starFruil.timeFinish > 0 ? 64 : 63, var2, var3, 3);
    }
 }

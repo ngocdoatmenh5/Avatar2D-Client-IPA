@@ -5,6 +5,6 @@ final class class_ka implements IAction {
    }
 
    public final void perform() {
-      ParkService.a().a(21, 0);
+      ParkService.gI().doJoinPark(21, 0);
    }
 }

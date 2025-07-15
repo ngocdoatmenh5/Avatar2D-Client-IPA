@@ -10,8 +10,8 @@ final class class_fp implements IAction {
    }
 
    public final void perform() {
-      FarmScr.A.x = this.b.x / LoadMap.i;
-      FarmScr.A.y = this.b.y / LoadMap.i;
-      FarmScr.a(this.a, (byte)1, FarmScr.G);
+      FarmScr.focusCell.x = this.b.x / LoadMap.w;
+      FarmScr.focusCell.y = this.b.y / LoadMap.w;
+      FarmScr.a(this.a, (byte)1, FarmScr.idItemUsing);
    }
 }

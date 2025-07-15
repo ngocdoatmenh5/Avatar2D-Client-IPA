@@ -234,8 +234,8 @@ public abstract class BoardScr extends MyScreen implements IChatable {
    }
 
    private static void setPosCam() {
-      AvCamera.gI().yCam = AvCamera.gI().yTo = (LoadMap.Hmap * LoadMap.i * AvMain.hd - Canvas.h) / 2;
-      AvCamera.gI().xCam = AvCamera.gI().xTo = (LoadMap.wMap * LoadMap.i * AvMain.hd - Canvas.w) / 2;
+      AvCamera.gI().yCam = AvCamera.gI().yTo = (LoadMap.Hmap * LoadMap.w * AvMain.hd - Canvas.h) / 2;
+      AvCamera.gI().xCam = AvCamera.gI().xTo = (LoadMap.wMap * LoadMap.w * AvMain.hd - Canvas.w) / 2;
    }
 
    public final void loadMap() {
@@ -347,7 +347,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
          super.paint(var1);
       }
 
-      LoadMap.a(var1);
+      LoadMap.paintEffectCamera(var1);
       Canvas.paintPlus2(var1);
    }
 

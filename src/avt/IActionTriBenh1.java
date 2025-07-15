@@ -16,7 +16,7 @@ final class IActionTriBenh1 implements IAction {
 
       for(int var2 = 0; var2 < FarmScr.listItemFarm.size(); ++var2) {
          Item var3;
-         FarmItem var4 = FarmScr.b((var3 = (Item)FarmScr.listItemFarm.elementAt(var2)).ID);
+         FarmItem var4 = FarmScr.getFarmItem((var3 = (Item)FarmScr.listItemFarm.elementAt(var2)).ID);
          if (var3.ID == 120) {
             FarmScr.a(this.a, var4, var3.ID, this.b);
             var1 = true;

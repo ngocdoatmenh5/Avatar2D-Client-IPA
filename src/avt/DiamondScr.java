@@ -325,9 +325,9 @@ public final class DiamondScr extends BoardScr {
 
          Point var7;
          for(var3 = 0; var3 < this.listFireWork.size(); ++var3) {
-            if ((var7 = (Point)this.listFireWork.elementAt(var3)).g > 0) {
-               ++var7.g;
-               if (var7.g == 3) {
+            if ((var7 = (Point)this.listFireWork.elementAt(var3)).limitY > 0) {
+               ++var7.limitY;
+               if (var7.limitY == 3) {
                   this.listFireWork.removeElement(var7);
                   continue;
                }
@@ -467,8 +467,8 @@ public final class DiamondScr extends BoardScr {
          }
 
          for(var3 = 0; var3 < this.aE.size(); ++var3) {
-            --(var7 = (Point)this.aE.elementAt(var3)).g;
-            if (var7.g <= 0) {
+            --(var7 = (Point)this.aE.elementAt(var3)).limitY;
+            if (var7.limitY <= 0) {
                this.aE.removeElement(var7);
             }
          }
@@ -539,7 +539,7 @@ public final class DiamondScr extends BoardScr {
             }
 
             Point var10;
-            (var10 = new Point(var1 + this.x, var2 + this.y)).g = 1;
+            (var10 = new Point(var1 + this.x, var2 + this.y)).limitY = 1;
             this.listFireWork.addElement(var10);
 
             for(int var11 = 0; var11 < (var3 != 1 ? 3 : 1); ++var11) {
@@ -569,7 +569,7 @@ public final class DiamondScr extends BoardScr {
    private void c(int var1, int var2, int var3) {
       if (var3 != -1) {
          Point var4;
-         (var4 = new Point(var1, var2)).g = 1;
+         (var4 = new Point(var1, var2)).limitY = 1;
          this.listFireWork.addElement(var4);
 
          for(int var7 = 0; var7 < 3; ++var7) {
@@ -581,7 +581,7 @@ public final class DiamondScr extends BoardScr {
             var6.e = -CRes.rnd(100) / 10;
             var6.dis = (byte)var3;
             var6.catagory = 1;
-            var6.g = 0;
+            var6.limitY = 0;
             this.listFireWork.addElement(var6);
          }
 
@@ -980,7 +980,7 @@ public final class DiamondScr extends BoardScr {
    private void f(Graphics var1) {
       for(int var2 = 0; var2 < this.listFireWork.size(); ++var2) {
          Point var3;
-         if ((var3 = (Point)this.listFireWork.elementAt(var2)).g > 0) {
+         if ((var3 = (Point)this.listFireWork.elementAt(var2)).limitY > 0) {
             AvatarData.paintImg(var1, 877, var3.x, var3.y, 3);
          } else if (var3.k) {
             this.imgFireWork.drawFrame(var3.color / 5, var3.x, var3.y, 0, 3, var1);
@@ -1002,7 +1002,7 @@ public final class DiamondScr extends BoardScr {
             for(var7 = 0; var7 < this.aE.size(); ++var7) {
                Point var8;
                if ((var8 = (Point)this.aE.elementAt(var7)).itemID == this.array[var1[var6] / 8][var1[var6] % 8].itemID) {
-                  var8.g += 20;
+                  var8.limitY += 20;
                   var5 = true;
                   ++var8.dis;
                   break;
@@ -1012,7 +1012,7 @@ public final class DiamondScr extends BoardScr {
             if (!var5) {
                Point var11;
                (var11 = new Point()).itemID = this.array[var1[var6] / 8][var1[var6] % 8].itemID;
-               var11.g = 40;
+               var11.limitY = 40;
                var11.dis = 1;
                var11.color = super.turn;
                this.aE.addElement(var11);
@@ -1040,12 +1040,12 @@ public final class DiamondScr extends BoardScr {
       }
 
       if (var3 > 1) {
-         Canvas.a("Combo x" + var3, Canvas.hw, Canvas.hh, -1, 1, 20);
+         Canvas.addFlyTextSmall("Combo x" + var3, Canvas.hw, Canvas.hh, -1, 1, 20);
       }
 
       if (var4.size() > 0) {
          for(var6 = 0; var6 < var4.size(); ++var6) {
-            Canvas.a((String)var4.elementAt(var6), Canvas.hw, Canvas.hh + 40, -1, 1, var6 * 30);
+            Canvas.addFlyTextSmall((String)var4.elementAt(var6), Canvas.hw, Canvas.hh + 40, -1, 1, var6 * 30);
          }
       }
 

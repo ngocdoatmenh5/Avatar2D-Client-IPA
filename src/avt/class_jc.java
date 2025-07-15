@@ -5,6 +5,6 @@ final class class_jc implements IAction {
    }
 
    public final void perform() {
-      ParkService.a().d(MapScr.b, MapScr.c);
+      ParkService.gI().d(MapScr.b, MapScr.c);
    }
 }

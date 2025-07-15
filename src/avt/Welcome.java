@@ -15,7 +15,7 @@ public final class Welcome extends AvMain {
    private String[][] m;
    private static int n = 0;
    private String[][] o;
-   public static boolean d = false;
+   public static boolean isPaintArrow = false;
    private static int p = 0;
    private String[][] q;
    public static int e = 0;
@@ -36,7 +36,7 @@ public final class Welcome extends AvMain {
 
    public Welcome() {
       g = false;
-      d = true;
+      isPaintArrow = true;
       this.h = 10;
       this.k = 0;
       super.center = new Command("", new class_dk(this));
@@ -47,16 +47,16 @@ public final class Welcome extends AvMain {
    }
 
    public final void updateKey() {
-      if (d) {
+      if (isPaintArrow) {
          super.updateKey();
       }
 
-      if (d && b == Canvas.currentMyScreen && Canvas.menuMain == null && Canvas.currentDialog == null) {
+      if (isPaintArrow && b == Canvas.currentMyScreen && Canvas.menuMain == null && Canvas.currentDialog == null) {
          if (this.l != null) {
             Canvas.keyHold[2] = Canvas.keyHold[4] = Canvas.keyHold[6] = Canvas.keyHold[8] = false;
          }
 
-         if (this.l != null && this.k < this.l.length - 1 && Canvas.currentMyScreen != PopupShop.b()) {
+         if (this.l != null && this.k < this.l.length - 1 && Canvas.currentMyScreen != PopupShop.gI()) {
             Canvas.isPointerRelease = false;
             Canvas.isPointerDown = false;
             Canvas.isPointerClick = false;
@@ -78,7 +78,7 @@ public final class Welcome extends AvMain {
       if (b == Canvas.currentMyScreen && Canvas.menuMain == null && Canvas.currentDialog == null) {
          Canvas.resetTrans(var1);
          var1.translate(0, Canvas.ab);
-         if (d || Canvas.gameTick % 20 > 2) {
+         if (isPaintArrow || Canvas.gameTick % 20 > 2) {
             ChatPopup.paintRoundRect(var1, this.h, this.i, Canvas.w - (this.h << 1), this.j, 16777215, 1, (byte)0);
             if (this.l != null && this.l[this.k] != null) {
                byte var2 = 0;
@@ -103,7 +103,7 @@ public final class Welcome extends AvMain {
             }
          }
 
-         if (d) {
+         if (isPaintArrow) {
             super.paint(var1);
             if (Canvas.gameTick % 10 > 5 || Canvas.stypeInt > 0) {
                FontX var4 = Canvas.borderFont;
@@ -121,14 +121,14 @@ public final class Welcome extends AvMain {
    public final void a() {
       if (p == C.length + 1) {
          Canvas.welcome = null;
-         Canvas.isDoubleImage = false;
+         Canvas.isInitChar = false;
       } else {
          if (this.q == null) {
             this.q = T.b();
          }
 
          b = MiniMap.a;
-         d = true;
+         isPaintArrow = true;
          if (p < C.length) {
             MiniMap.gI().e = C[p];
          }
@@ -146,7 +146,7 @@ public final class Welcome extends AvMain {
       }
 
       this.i();
-      d = true;
+      isPaintArrow = true;
    }
 
    public final void b() {
@@ -172,7 +172,7 @@ public final class Welcome extends AvMain {
       if (e != 0) {
          SubObject var1 = new SubObject(-9, r[e], 50, 20);
          LoadMap.treeLists.addElement(var1);
-         LoadMap.a(LoadMap.treeLists);
+         LoadMap.orderVector(LoadMap.treeLists);
       }
 
       Canvas.welcome.a(this.t[e]);
@@ -199,7 +199,7 @@ public final class Welcome extends AvMain {
          AvCamera.isFollow = true;
          SubObject var1 = new SubObject(-9, r[v], 50, 20);
          LoadMap.treeLists.addElement(var1);
-         LoadMap.a(LoadMap.treeLists);
+         LoadMap.orderVector(LoadMap.treeLists);
       }
 
       Canvas.welcome.a(this.u[v]);
@@ -257,7 +257,7 @@ public final class Welcome extends AvMain {
 
       SubObject var2 = new SubObject(-9, r[f], s[f], 20);
       LoadMap.treeLists.addElement(var2);
-      LoadMap.a(LoadMap.treeLists);
+      LoadMap.orderVector(LoadMap.treeLists);
       AvCamera.gI().setToPos(r[f] * AvMain.hd, 20 * AvMain.hd);
       AvCamera.isFollow = true;
       Canvas.welcome.a(this.x[f]);
@@ -280,8 +280,8 @@ public final class Welcome extends AvMain {
 
       b = FarmScr.instance;
       if (A == 0) {
-         r = new short[]{(short)(FarmScr.gI().posTree[0].x * LoadMap.i + 12), (short)(FarmScr.posBarn.x + 12), (short)FarmScr.W, (short)FarmScr.starFruil.x, (short)(FarmScr.D.x + 12)};
-         s = new short[]{36, 36, (short)(FarmScr.X + 15), 36, 36};
+         r = new short[]{(short)(FarmScr.gI().posTree[0].x * LoadMap.w + 12), (short)(FarmScr.posBarn.x + 12), (short)FarmScr.xPosCook, (short)FarmScr.starFruil.x, (short)(FarmScr.posPond.x + 12)};
+         s = new short[]{36, 36, (short)(FarmScr.yPosCook + 15), 36, 36};
       }
 
       int var1;
@@ -300,7 +300,7 @@ public final class Welcome extends AvMain {
       if (A < 3 || A == 4 || A == 5) {
          SubObject var2 = new SubObject(-9, r[var1], s[var1], 20);
          LoadMap.treeLists.addElement(var2);
-         LoadMap.a(LoadMap.treeLists);
+         LoadMap.orderVector(LoadMap.treeLists);
       }
 
       AvCamera.gI().setToPos(r[var1] * AvMain.hd, 36 * AvMain.hd);
@@ -321,7 +321,7 @@ public final class Welcome extends AvMain {
          z = new byte[]{56};
          SubObject var2 = new SubObject(-9, r[n] + 12, 135, 20);
          LoadMap.treeLists.addElement(var2);
-         LoadMap.a(LoadMap.treeLists);
+         LoadMap.orderVector(LoadMap.treeLists);
          AvCamera.gI().setToPos(r[n] + 12, 130 * AvMain.hd);
       } else {
          if (n == this.o.length) {
@@ -357,7 +357,7 @@ public final class Welcome extends AvMain {
             AvCamera.isFollow = true;
             SubObject var1 = new SubObject(-9, r[c - 1], s[c - 1], 20);
             LoadMap.treeLists.addElement(var1);
-            LoadMap.a(LoadMap.treeLists);
+            LoadMap.orderVector(LoadMap.treeLists);
          } else {
             AvCamera.isFollow = false;
          }
@@ -384,14 +384,14 @@ public final class Welcome extends AvMain {
       m();
       SubObject var3 = new SubObject(-9, var1, var2, 20);
       LoadMap.treeLists.addElement(var3);
-      LoadMap.a(LoadMap.treeLists);
+      LoadMap.orderVector(LoadMap.treeLists);
       AvCamera.gI().setToPos(var1 * AvMain.hd, var2 * AvMain.hd);
       AvCamera.isFollow = true;
       String[] var4 = T.j();
       Canvas.welcome.a(var4);
    }
 
-   public static void g() {
+   public static void goFarm() {
       int var0;
       if ((var0 = A) < 3) {
          var0 = 0;
@@ -408,7 +408,7 @@ public final class Welcome extends AvMain {
    }
 
    public static void h() {
-      Canvas.isDoubleImage = true;
+      Canvas.isInitChar = true;
       A = 0;
       f = 0;
       c = 0;
@@ -416,13 +416,13 @@ public final class Welcome extends AvMain {
       p = 0;
       n = 0;
       g = false;
-      d = false;
+      isPaintArrow = false;
    }
 
    static void a(Welcome var0) {
       if (var0.k < var0.l.length - 1) {
          ++var0.k;
-         d = true;
+         isPaintArrow = true;
          var0.i();
          if (LoadMap.TYPEMAP == 23) {
             if (v == 1 && var0.k == var0.l.length - 1) {
@@ -430,7 +430,7 @@ public final class Welcome extends AvMain {
                AvCamera.isFollow = true;
                SubObject var1 = new SubObject(-9, r[v - 1], 50, 20);
                LoadMap.treeLists.addElement(var1);
-               LoadMap.a(LoadMap.treeLists);
+               LoadMap.orderVector(LoadMap.treeLists);
                return;
             }
          } else if (LoadMap.TYPEMAP == 9 && e == 1 && var0.k == var0.l.length - 1) {
@@ -453,11 +453,11 @@ public final class Welcome extends AvMain {
             if (A == 3 || A == 4 || A == 5 || A == 6) {
                m();
                (Canvas.welcome = new Welcome()).j();
-               d = true;
+               isPaintArrow = true;
                return;
             }
 
-            if (A == 7 && d && !g) {
+            if (A == 7 && isPaintArrow && !g) {
                var0.close(470, 168);
                return;
             }
@@ -474,7 +474,7 @@ public final class Welcome extends AvMain {
          }
 
          var0.i = 5;
-         d = false;
+         isPaintArrow = false;
       }
 
    }

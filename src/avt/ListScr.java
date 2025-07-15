@@ -27,7 +27,7 @@ public final class ListScr extends MyScreen {
    private int p = -20;
    private Command q;
 
-   public static ListScr b() {
+   public static ListScr gI() {
       if (a == null) {
          a = new ListScr();
       }
@@ -40,7 +40,7 @@ public final class ListScr extends MyScreen {
       this.k = new Command(T.d, 1);
       super.right = this.k;
       this.b = null;
-      if (Canvas.currentMyScreen != MenuCenter.gI() && Canvas.currentMyScreen != PopupShop.b() && Canvas.currentMyScreen != b()) {
+      if (Canvas.currentMyScreen != MenuCenter.gI() && Canvas.currentMyScreen != PopupShop.gI() && Canvas.currentMyScreen != gI()) {
          this.b = Canvas.currentMyScreen;
       }
 
@@ -237,7 +237,7 @@ public final class ListScr extends MyScreen {
    }
 
    private void a(int var1, Vector var2, MyScreen var3) {
-      if (Canvas.currentMyScreen != b()) {
+      if (Canvas.currentMyScreen != gI()) {
          this.b = var3;
       }
 
@@ -278,7 +278,7 @@ public final class ListScr extends MyScreen {
       this.e();
    }
 
-   public final void b(boolean var1) {
+   public final void setFriendList(boolean var1) {
       this.j = 0;
       if (d == null) {
          Canvas.startWaitDlg();
@@ -301,7 +301,7 @@ public final class ListScr extends MyScreen {
 
    }
 
-   public static Avatar b(int var0) {
+   public static Avatar getAvatar(int var0) {
       int var1 = d.size();
 
       for(int var2 = 0; var2 < var1; ++var2) {
@@ -390,7 +390,7 @@ public final class ListScr extends MyScreen {
             this.j = 0;
          }
 
-         b().a(this.j, var10, Canvas.currentMyScreen);
+         gI().a(this.j, var10, Canvas.currentMyScreen);
          this.n = var5;
          this.f();
          if (Canvas.currentMyScreen != this) {
@@ -448,13 +448,13 @@ public final class ListScr extends MyScreen {
          case 2:
             return;
          case 3:
-            Avatar var3 = (Avatar)c.elementAt(b().g);
+            Avatar var3 = (Avatar)c.elementAt(gI().g);
             AvatarService.gI().doJoinHouse(var3.IDDB);
             Canvas.startWaitDlg();
             return;
          case 4:
             Canvas.startWaitDlg();
-            FarmScr.gI().b(((Avatar)d.elementAt(this.g)).IDDB, true);
+            FarmScr.gI().doJoinFarm(((Avatar)d.elementAt(this.g)).IDDB, true);
       }
 
    }

@@ -18,18 +18,18 @@ public final class LoadMap {
    public static short Hmap;
    public static short[] type;
    public static byte[] h = new byte[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 3, 3, 3, 3, 3, 2, -1, -1, -1, 0, 0, 0, 2, 2};
-   public static int i = 24;
+   public static int w = 24;
    public static byte j = 0;
    public static byte k = -1;
    public static Vector treeLists = new Vector();
    public static Vector playerLists = new Vector();
-   public static Vector n = new Vector();
+   public static Vector dynamicLists = new Vector();
    public static Vector o;
    private static int J = 0;
    private AvPosition[] K;
    private static Vector L = new Vector();
    private static int[] M = new int[]{15853390, 15006199, 8183509, 12254198};
-   public static MyObject p;
+   public static MyObject focusObj;
    public static Command q;
    public static Image r;
    private static FrameImage N;
@@ -37,7 +37,7 @@ public final class LoadMap {
    public static int s;
    public static int t = -1;
    private static int P = -1;
-   public static AvPosition u;
+   public static AvPosition posFocus;
    public static Vector effBgList;
    public static Vector effCameraList;
    public static Vector x;
@@ -69,7 +69,7 @@ public final class LoadMap {
    public LoadMap() {
       q = new Command(avt.T.bz, new class_hr(this));
       J = CRes.rnd(3);
-      i = 24;
+      w = 24;
       FilePack.b(avt.T.av);
       FilePack.getImage("den");
       r = FilePack.getImage("s0");
@@ -80,14 +80,14 @@ public final class LoadMap {
             N = new FrameImage(FilePack.getImage("focus"), 32 * AvMain.hd, 11 * AvMain.hd);
          }
 
-         u = new AvPosition();
+         posFocus = new AvPosition();
       }
 
       FilePack.reset();
    }
 
    public final void a() {
-      if (PopupShop.b() != Canvas.currentMyScreen && Canvas.isKeyBoard) {
+      if (PopupShop.gI() != Canvas.currentMyScreen && Canvas.isKeyBoard) {
          if (Canvas.currentDialog != null || Canvas.currentFace != null || Canvas.menuMain != null) {
             return;
          }
@@ -114,13 +114,13 @@ public final class LoadMap {
                   Canvas.isPointerRelease = false;
                   this.R = false;
                   if (CRes.abs(var2) < 10 && CRes.abs(var3) < 10 && !MapScr.t) {
-                     u.x = Canvas.px + AvCamera.gI().xCam;
-                     u.y = Canvas.py + AvCamera.gI().yCam;
-                     if (u.y < 0) {
-                        u.y = 0;
+                     posFocus.x = Canvas.px + AvCamera.gI().xCam;
+                     posFocus.y = Canvas.py + AvCamera.gI().yCam;
+                     if (posFocus.y < 0) {
+                        posFocus.y = 0;
                      }
 
-                     GameMidlet.avatar.av = u;
+                     GameMidlet.avatar.posFocus = posFocus;
                      GameMidlet.avatar.l();
                   }
                }
@@ -129,7 +129,7 @@ public final class LoadMap {
       }
    }
 
-   public final void b() {
+   public final void update() {
       try {
          AvCamera.gI().update();
          if ((Canvas.stypeInt == 0 || Canvas.currentMyScreen != MenuCenter.gI()) && playerLists.size() > 0) {
@@ -137,14 +137,14 @@ public final class LoadMap {
                ((MyObject) playerLists.elementAt(var1)).update();
             }
 
-            a(playerLists);
+            orderVector(playerLists);
          }
 
-         if (n.size() > 0) {
-            a(n);
+         if (dynamicLists.size() > 0) {
+            orderVector(dynamicLists);
 
-            for (int var8 = 0; var8 < n.size(); var8++) {
-               ((MyObject)n.elementAt(var8)).update();
+            for (int var8 = 0; var8 < dynamicLists.size(); var8++) {
+               ((MyObject) dynamicLists.elementAt(var8)).update();
             }
          }
 
@@ -166,22 +166,22 @@ public final class LoadMap {
          }
 
          if (Canvas.gameTick % 4 == 2
-                 && !FarmScr.N
+                 && !FarmScr.isSelected
                  && (TYPEMAP != 24 || Canvas.stypeInt == 0)
-                 && FarmScr.E == -1
-                 && !FarmScr.y
+                 && FarmScr.action == -1
+                 && !FarmScr.isAutoVatNuoi
                  && RaceScr.a != Canvas.currentMyScreen
                  && TYPEMAP != -1
                  && Canvas.currentMyScreen != MenuCenter.a
                  && Canvas.menuMain == null) {
-            if (p == null) {
+            if (focusObj == null) {
                int var13 = 0;
 
                while (var13 < playerLists.size() && !i(var13)) {
                   var13++;
                }
-            } else if (CRes.abs(p.x - GameMidlet.avatar.x) / i >= (p.catagory == 7 ? U << 1 : U) || CRes.abs(p.y - GameMidlet.avatar.y) / i >= (p.catagory == 7 ? U << 1 : U)) {
-               p = null;
+            } else if (CRes.abs(focusObj.x - GameMidlet.avatar.x) / w >= (focusObj.catagory == 7 ? U << 1 : U) || CRes.abs(focusObj.y - GameMidlet.avatar.y) / w >= (focusObj.catagory == 7 ? U << 1 : U)) {
+               focusObj = null;
                MapScr.h = null;
             }
          }
@@ -251,11 +251,11 @@ public final class LoadMap {
                      switch (var14.style) {
                         case 0:
                            playerLists.addElement(var16);
-                           playerLists = a(playerLists);
+                           playerLists = orderVector(playerLists);
                            break;
                         case 1:
                            treeLists.addElement(var16);
-                           treeLists = a(treeLists);
+                           treeLists = orderVector(treeLists);
                            break;
                         case 2:
                            if (effBgList == null) {
@@ -291,9 +291,9 @@ public final class LoadMap {
          }
 
          if (N != null && A != -1 && GameMidlet.avatar.au > 0) {
-            u.anchor++;
-            if (u.anchor >= 10) {
-               u.anchor = 0;
+            posFocus.anchor++;
+            if (posFocus.anchor >= 10) {
+               posFocus.anchor = 0;
             }
          }
 
@@ -306,27 +306,27 @@ public final class LoadMap {
    }
 
    public static void c() {
-      if (p != null) {
+      if (focusObj != null) {
          z = false;
          int var0 = 0;
          int var1 = playerLists.size();
 
          for (int var2 = 0; var2 < var1; var2++) {
             MyObject var3;
-            if ((var3 = (MyObject) playerLists.elementAt(var2)).catagory != 4 && var3 == p) {
+            if ((var3 = (MyObject) playerLists.elementAt(var2)).catagory != 4 && var3 == focusObj) {
                var0 = var2;
                break;
             }
          }
 
-         p = null;
+         focusObj = null;
          int var4 = var0 + 1;
 
          while (var4 < var1 && !i(var4)) {
             var4++;
          }
 
-         if (p == null) {
+         if (focusObj == null) {
             var4 = 0;
 
             while (var4 <= var0 && !i(var4)) {
@@ -341,10 +341,10 @@ public final class LoadMap {
       if ((var1 = (MyObject) playerLists.elementAt(var0)).catagory != 4
               && var1 != GameMidlet.avatar
               && var1.catagory != 6
-              && Math.abs(var1.x - GameMidlet.avatar.x) / i < (var1.catagory == 7 ? U << 1 : U)
-              && Math.abs(var1.y - GameMidlet.avatar.y) / i < (var1.catagory == 7 ? U << 1 : U)) {
+              && Math.abs(var1.x - GameMidlet.avatar.x) / w < (var1.catagory == 7 ? U << 1 : U)
+              && Math.abs(var1.y - GameMidlet.avatar.y) / w < (var1.catagory == 7 ? U << 1 : U)) {
          if (var1.catagory != 0 || !((Avatar)var1).ableShow) {
-            p = var1;
+            focusObj = var1;
          }
 
          if (var1.catagory == 0 && !((Avatar)var1).ableShow) {
@@ -506,7 +506,7 @@ public final class LoadMap {
             case 16:
             case 18:
                MapScr.gI().n();
-               ParkService.a().a(var3, -1);
+               ParkService.gI().doJoinPark(var3, -1);
                break;
             case 9:
                this.f();
@@ -515,7 +515,7 @@ public final class LoadMap {
                Canvas.startWaitDlg();
                MapScr.gI().n();
                t = -1;
-               ParkService.a().a(10, -1);
+               ParkService.gI().doJoinPark(10, -1);
                break;
             case 12:
                this.f();
@@ -527,10 +527,10 @@ public final class LoadMap {
                Canvas.startWaitDlg();
                MapScr.gI().n();
                t = -1;
-               ParkService.a().a(19, -1);
+               ParkService.gI().doJoinPark(19, -1);
                break;
             case 20:
-               GlobalService.gI().a((short)0);
+               GlobalService.gI().requestJoinAny((short)0);
                Canvas.startWaitDlg();
                break;
             case 21:
@@ -587,15 +587,15 @@ public final class LoadMap {
                if (var3 >= -125 && var3 < 0) {
                   Canvas.startWaitDlg();
                   E = var3;
-                  GlobalService.gI().a((short)(var3 - -125));
+                  GlobalService.gI().requestJoinAny((short)(var3 - -125));
                   break;
                }
 
-               if (!GameMidlet.avatar.M && var2 / i == 0 && var3 == 88) {
+               if (!GameMidlet.avatar.M && var2 / w == 0 && var3 == 88) {
                   if (MapScr.s) {
                      GameMidlet.avatar.M = true;
                   } else {
-                     ParkService var15 = ParkService.a();
+                     ParkService var15 = ParkService.gI();
                      if (!MapScr.r) {
                         MapScr.r = true;
                         var15.createMessage((byte)92);
@@ -611,14 +611,14 @@ public final class LoadMap {
                break;
             case 24:
                if (FarmScr.cell != null && FarmScr.idFarm == GameMidlet.avatar.IDDB) {
-                  FarmScr.gI().onJoin(FarmScr.idFarm, FarmScr.cell, FarmScr.animalLists, FarmScr.P, FarmScr.Q, FarmScr.V, FarmScr.U);
+                  FarmScr.gI().onJoin(FarmScr.idFarm, FarmScr.cell, FarmScr.animalLists, FarmScr.numBarn, FarmScr.numPond, FarmScr.foodID, FarmScr.remainTime);
                } else {
                   Canvas.startWaitDlg();
-                  FarmScr.gI().b(GameMidlet.avatar.IDDB, true);
+                  FarmScr.gI().doJoinFarm(GameMidlet.avatar.IDDB, true);
                }
                break;
             case 25:
-               FarmScr.gI().j();
+               FarmScr.gI().doGoFarmWay();
                break;
             case 27:
             case 56:
@@ -627,18 +627,18 @@ public final class LoadMap {
                }
                break;
             case 28:
-               FarmScr.gI().h();
+               FarmScr.gI().doOpenKhoHang();
                break;
             case 29:
                Canvas.startWaitDlg();
-               ParkService.a().a(MapScr.b);
+               ParkService.gI().a(MapScr.b);
                break;
             case 52:
-               FarmScr.gI().g();
+               FarmScr.gI().doOpenCuaHang();
                break;
             case 53:
                FarmScr.gI();
-               FarmScr.o();
+               FarmScr.doMenuFarmFriend();
                break;
             case 54:
                return class_kv.b().b(var1, var2);
@@ -676,14 +676,14 @@ public final class LoadMap {
                break;
             case 71:
                Canvas.startWaitDlg();
-               GlobalService.gI().c((byte)-1);
+               GlobalService.gI().requestCityMap((byte)-1);
                break;
             case 78:
                MapScr.gI().a(avt.T.cN, 5);
                break;
             case 83:
-               int var10001 = var1 / i;
-               var3 = var2 / i;
+               int var10001 = var1 / w;
+               var3 = var2 / w;
                var2 = var10001;
                LoadMap var13 = Canvas.loadMap;
                if (AvatarData.listAd != null) {
@@ -704,20 +704,20 @@ public final class LoadMap {
                }
                break;
             case 84:
-               FarmScr.gI().a((byte)2, (byte)5);
+               FarmScr.gI().doCattleFeeding((byte)2, (byte)5);
                break;
             case 85:
-               FarmScr.gI().a((byte)3, (byte)5);
+               FarmScr.gI().doCattleFeeding((byte)3, (byte)5);
                break;
             case 86:
                var1 = getposMap(var1, var2);
                var2 = getposMap(Cattle.posBucket.x, Cattle.posBucket.y);
-               FarmScr.gI().a(2, var1 - var2, FarmScr.listBucket);
+               FarmScr.gI().doHarvestAnimal(2, var1 - var2, FarmScr.listBucket);
                break;
             case 87:
                var1 = getposMap(var1, var2);
                var2 = getposMap(Chicken.s.x, Chicken.s.y);
-               FarmScr.gI().a(1, var1 - var2, FarmScr.listNest);
+               FarmScr.gI().doHarvestAnimal(1, var1 - var2, FarmScr.listNest);
                break;
             case 89:
                byte var10;
@@ -729,33 +729,33 @@ public final class LoadMap {
                   var10 = 3;
                }
 
-               GlobalService.gI().h(var10);
+               GlobalService.gI().doCommunicate(var10);
                Canvas.startWaitDlg();
                break;
             case 93:
                MapScr.gI().a(avt.T.cN, 4);
                break;
             case 94:
-               GlobalService.gI().h(4);
+               GlobalService.gI().doCommunicate(4);
                Canvas.startWaitDlg();
                break;
             case 95:
                Canvas.startWaitDlg();
-               FarmScr.S = GameMidlet.avatar.x;
-               FarmScr.T = GameMidlet.avatar.y;
+               FarmScr.xRemember = GameMidlet.avatar.x;
+               FarmScr.yRemember = GameMidlet.avatar.y;
                FarmService.gI().doUpdateFarm(0, 0);
                break;
             case 96:
                Canvas.startWaitDlg();
-               FarmScr.S = GameMidlet.avatar.x;
-               FarmScr.T = GameMidlet.avatar.y;
+               FarmScr.xRemember = GameMidlet.avatar.x;
+               FarmScr.yRemember = GameMidlet.avatar.y;
                FarmService.gI().doUpdateFish(0, 0);
                break;
             case 97:
-               FarmScr.gI().m();
+               FarmScr.gI().doMenuStarFruit();
                break;
             case 98:
-               FarmScr.gI().n();
+               FarmScr.gI().doOpenCooking();
                break;
             case 100:
                MapScr.gI();
@@ -785,7 +785,7 @@ public final class LoadMap {
                Canvas.startWaitDlg();
                MapScr.A = 1;
                MapScr.z = 0;
-               GlobalService.gI().a((short)4);
+               GlobalService.gI().requestJoinAny((short)4);
                break;
             case 110:
                Canvas.startWaitDlg();
@@ -800,13 +800,13 @@ public final class LoadMap {
             case 112:
                if (GameMidlet.avatar.action != 14) {
                   HouseScr.b().g = GameMidlet.avatar.y;
-                  if ((var1 = var1 / i * i + i / 2 + 1) < GameMidlet.avatar.x) {
-                     HouseScr.b().f = var1 + i;
+                  if ((var1 = var1 / w * w + w / 2 + 1) < GameMidlet.avatar.x) {
+                     HouseScr.b().f = var1 + w;
                   } else {
-                     HouseScr.b().f = var1 - i;
+                     HouseScr.b().f = var1 - w;
                   }
 
-                  GameMidlet.avatar.setPos(var1, var2 / i * i + 5);
+                  GameMidlet.avatar.setPos(var1, var2 / w * w + 5);
                   MapScr.gI();
                   MapScr.doMove(GameMidlet.avatar.x, GameMidlet.avatar.y, GameMidlet.avatar.direct, GameMidlet.avatar.timeTask);
                   GameMidlet.avatar.doAction((byte)14);
@@ -820,7 +820,7 @@ public final class LoadMap {
       }
    }
 
-   public static void a(Graphics var0) {
+   public static void paintEffectCamera(Graphics var0) {
       if (effCameraList != null) {
          for (int var1 = 0; var1 < effCameraList.size(); var1++) {
             ((EffectObj) effCameraList.elementAt(var1)).paint(var0);
@@ -846,7 +846,7 @@ public final class LoadMap {
          var1.fillRect(AvCamera.gI().xCam, AvCamera.gI().yCam, Canvas.w, Canvas.h);
          int var4 = AvCamera.gI().xCam * 30 / 210;
          int var5 = (AvCamera.gI().xCam - var4) / (96 * AvMain.hd);
-         int var6 = -(94 - i + i / 2) * AvMain.hd;
+         int var6 = -(94 - w + w / 2) * AvMain.hd;
          if (TYPEMAP == 107) {
             var6 += 41 * AvMain.hd;
          }
@@ -890,26 +890,26 @@ public final class LoadMap {
             }
          }
 
-         if (Canvas.w > wMap * i) {
+         if (Canvas.w > wMap * w) {
             var3.setColor(0);
             var3.fillRect(AvCamera.gI().xCam, AvCamera.gI().yCam, -AvCamera.gI().xCam, Canvas.h);
-            var3.fillRect(wMap * i * AvMain.hd, AvCamera.gI().yCam, -AvCamera.gI().xCam, Canvas.h);
+            var3.fillRect(wMap * w * AvMain.hd, AvCamera.gI().yCam, -AvCamera.gI().xCam, Canvas.h);
          }
       }
 
       Graphics var10 = var1;
       int var12;
-      if ((var12 = (AvCamera.gI().xCam + Canvas.w) / i + 1) > wMap) {
+      if ((var12 = (AvCamera.gI().xCam + Canvas.w) / w + 1) > wMap) {
          var12 = wMap;
       }
 
       int var13;
-      if ((var13 = (AvCamera.gI().yCam + Canvas.h) / i + 1) > Hmap) {
+      if ((var13 = (AvCamera.gI().yCam + Canvas.h) / w + 1) > Hmap) {
          var13 = Hmap;
       }
 
       int var14;
-      if ((var14 = AvCamera.gI().xCam / (i * AvMain.hd)) < 0) {
+      if ((var14 = AvCamera.gI().xCam / (w * AvMain.hd)) < 0) {
          var14 = 0;
       }
 
@@ -918,13 +918,13 @@ public final class LoadMap {
             short var17;
             if ((var17 = map[var24 * wMap + var11]) != -1) {
                int var22 = var17 / c.nFrame;
-               c.drawFrameXY(var22, var17 % c.nFrame, var11 * i * AvMain.hd, var24 * i * AvMain.hd, var10);
+               c.drawFrameXY(var22, var17 % c.nFrame, var11 * w * AvMain.hd, var24 * w * AvMain.hd, var10);
             }
          }
       }
 
       if (N != null && A != -1 && GameMidlet.avatar.au > 0) {
-         N.drawFrame(u.anchor / 2, u.x, u.y, A, 3, var1);
+         N.drawFrame(posFocus.anchor / 2, posFocus.x, posFocus.y, A, 3, var1);
       }
    }
 
@@ -935,7 +935,7 @@ public final class LoadMap {
       this.Z = 0;
       this.aa = 0;
 
-      while (var2.Y < playerLists.size() || var2.Z < treeLists.size() || var2.aa < n.size()) {
+      while (var2.Y < playerLists.size() || var2.Z < treeLists.size() || var2.aa < dynamicLists.size()) {
          var2.V = var2.W = var2.X = null;
          if (var2.Y < playerLists.size()) {
             var2.V = (MyObject) playerLists.elementAt(var2.Y);
@@ -945,8 +945,8 @@ public final class LoadMap {
             var2.W = (MyObject) treeLists.elementAt(var2.Z);
          }
 
-         if (var2.aa < n.size()) {
-            var2.X = (Point)n.elementAt(var2.aa);
+         if (var2.aa < dynamicLists.size()) {
+            var2.X = (Point) dynamicLists.elementAt(var2.aa);
          }
 
          if (var2.V == null || var2.W != null && var2.V.y >= var2.W.y || var2.X != null && var2.V.y >= var2.X.y) {
@@ -965,8 +965,8 @@ public final class LoadMap {
          }
       }
 
-      if (Canvas.stypeInt == 0 && p != null) {
-         var1.drawImage(MapScr.d, p.x * AvMain.hd, (p.y - (p.catagory == 7 ? 10 : p.height)) * AvMain.hd - ab / 2, 3);
+      if (Canvas.stypeInt == 0 && focusObj != null) {
+         var1.drawImage(MapScr.d, focusObj.x * AvMain.hd, (focusObj.y - (focusObj.catagory == 7 ? 10 : focusObj.height)) * AvMain.hd - ab / 2, 3);
       }
 
       if (Bus.isRun) {
@@ -981,13 +981,13 @@ public final class LoadMap {
             int var2 = CRes.rnd(Canvas.w / 10);
 
             for (int var3 = 0; var3 < var2; var3++) {
-               L.addElement(new AvPosition(CRes.rnd(wMap * i), -(38 + CRes.rnd(Canvas.hh)), CRes.rnd(4)));
+               L.addElement(new AvPosition(CRes.rnd(wMap * w), -(38 + CRes.rnd(Canvas.hh)), CRes.rnd(4)));
             }
          } else {
             int var0 = CRes.rnd(Canvas.w / 10);
 
             for (int var1 = 0; var1 < var0; var1++) {
-               L.addElement(new AvPosition(CRes.rnd(wMap * i), -(98 + CRes.rnd(Canvas.hh)), CRes.rnd(4)));
+               L.addElement(new AvPosition(CRes.rnd(wMap * w), -(98 + CRes.rnd(Canvas.hh)), CRes.rnd(4)));
             }
          }
       }
@@ -1030,7 +1030,7 @@ public final class LoadMap {
       GameMidlet.avatar.setAction((byte)0);
       i();
       MapScr.l.removeAllElements();
-      p = null;
+      focusObj = null;
       MapScr.h = null;
       int var2;
       if ((var2 = Calendar.getInstance().get(11)) < 18 && var2 >= 6) {
@@ -1068,12 +1068,12 @@ public final class LoadMap {
          if (var1 - 1 == 19) {
             try {
                t = -1;
-               c = new FrameImage(Image.createImage(avt.T.a() + "/wedding.png"), i * AvMain.hd, i * AvMain.hd);
+               c = new FrameImage(Image.createImage(avt.T.a() + "/wedding.png"), w * AvMain.hd, w * AvMain.hd);
             } catch (IOException var7) {
                var7.printStackTrace();
             }
          } else if (var1 - 1 != 107) {
-            i = 24;
+            w = 24;
             t = j;
             InputStream var11 = CRes.getResourceAsStream(avt.T.a() + "/data/h" + j);
             InputStream var15 = CRes.getResourceAsStream(avt.T.a() + "/data/data");
@@ -1083,15 +1083,15 @@ public final class LoadMap {
                var11.read(var16);
                byte[] var12 = new byte[var15.available()];
                var15.read(var12);
-               c = new FrameImage(CRes.createImage(var16, var12), i * AvMain.hd, i * AvMain.hd);
+               c = new FrameImage(CRes.createImage(var16, var12), w * AvMain.hd, w * AvMain.hd);
             } catch (IOException var6) {
                var6.printStackTrace();
             }
          } else {
             try {
-               i = 12;
+               w = 12;
                t = -1;
-               c = new FrameImage(Image.createImage(avt.T.a() + "/tileDuaXe.png"), i * AvMain.hd, i * AvMain.hd);
+               c = new FrameImage(Image.createImage(avt.T.a() + "/tileDuaXe.png"), w * AvMain.hd, w * AvMain.hd);
             } catch (IOException var5) {
                var5.printStackTrace();
             }
@@ -1250,9 +1250,9 @@ public final class LoadMap {
                      LoadMap.map[avatar] = 1;
                      if (avatar == 1) {
                         LoadMap.map[avatar] = 16;
-                        GameMidlet.avatar.x = GameMidlet.avatar.xCur = LoadMap.k(avatar) + i;
+                        GameMidlet.avatar.x = GameMidlet.avatar.xCur = LoadMap.k(avatar) + w;
                         GameMidlet.avatar.y = GameMidlet.avatar.yCur = LoadMap.l(avatar) + 12;
-                        LoadMap.a(avt.T.aq, LoadMap.k(avatar) + i / 2, LoadMap.l(avatar) + 12);
+                        LoadMap.a(avt.T.aq, LoadMap.k(avatar) + w / 2, LoadMap.l(avatar) + 12);
                      }
                      avatar = (byte)(avatar + 1);
                   } else if (map[avatar] == 27) {
@@ -1265,8 +1265,8 @@ public final class LoadMap {
                   ++avatar;
                }
                Avatar exception2 = new Avatar();
-               new Avatar().x = exception2.xCur = 26 * i;
-               exception2.y = exception2.yCur = 8 * i + i / 2;
+               new Avatar().x = exception2.xCur = 26 * w;
+               exception2.y = exception2.yCur = 8 * w + w / 2;
                exception2.name = "chu hon";
                exception2.IDDB = -100;
                exception2.addSeri(new SeriPart((short) 2480));
@@ -1289,10 +1289,10 @@ public final class LoadMap {
                      playerLists.addElement(var62);
                   }
                   if (map[avatar] == 59) {
-                     n27 = new ImageObj(1084, LoadMap.k(avatar) + i, LoadMap.l(avatar), 0);
+                     n27 = new ImageObj(1084, LoadMap.k(avatar) + w, LoadMap.l(avatar), 0);
                      treeLists.addElement(n27);
                   } else if (map[avatar] == 60) {
-                     n27 = new ImageObj(1085, LoadMap.k(avatar) + i, LoadMap.l(avatar), 0);
+                     n27 = new ImageObj(1085, LoadMap.k(avatar) + w, LoadMap.l(avatar), 0);
                      treeLists.addElement(n27);
                   }
                   ++avatar;
@@ -1345,12 +1345,12 @@ public final class LoadMap {
                            LoadMap.map[avatar] = 4;
                            break;
                         }
-                        LoadMap.a(0, LoadMap.k(avatar) + i / 2, LoadMap.l(avatar) + i - 2);
+                        LoadMap.a(0, LoadMap.k(avatar) + w / 2, LoadMap.l(avatar) + w - 2);
                         break;
                      }
                      case 127: {
                         if (by15 == 0) {
-                           LoadMap.a(830, LoadMap.k(avatar) + 36, LoadMap.l(avatar) + i - 2);
+                           LoadMap.a(830, LoadMap.k(avatar) + 36, LoadMap.l(avatar) + w - 2);
                            byte by18 = by15;
                            by15 = (byte)(by18 + 1);
                            LoadMap.b(avatar, by18, 2);
@@ -1416,7 +1416,7 @@ public final class LoadMap {
                         by13 = (byte)(by23 + 1);
                         LoadMap.b(avatar, by23, 0);
                         if (TYPEMAP == -1 && n != 21 && b != null) {
-                           Bus.posBusStop = new AvPosition(LoadMap.k(avatar) + i / 2, LoadMap.l(avatar) - i / 2);
+                           Bus.posBusStop = new AvPosition(LoadMap.k(avatar) + w / 2, LoadMap.l(avatar) - w / 2);
                            Q.setBus((byte)1);
                         }
                         LoadMap.a(avatar, map);
@@ -1500,9 +1500,9 @@ public final class LoadMap {
                      case 162: {
                         if (by6 == 0) {
                            if (n == 18) {
-                              LoadMap.a(836, LoadMap.k(avatar) + 24, LoadMap.l(avatar) + i - 2);
+                              LoadMap.a(836, LoadMap.k(avatar) + 24, LoadMap.l(avatar) + w - 2);
                            } else {
-                              LoadMap.a(833, LoadMap.k(avatar) + 48, LoadMap.l(avatar) + i - 2);
+                              LoadMap.a(833, LoadMap.k(avatar) + 48, LoadMap.l(avatar) + w - 2);
                            }
                            byte by30 = by6;
                            by6 = (byte)(by30 + 1);
@@ -1553,27 +1553,27 @@ public final class LoadMap {
                         LoadMap.a(avatar, (byte)80, 55);
                         if (Cattle.numPig <= 0) break;
                         LoadMap.a(avatar, (byte)84, 112);
-                        LoadMap.a(-5, LoadMap.k(avatar) + i / 2, LoadMap.l(avatar) + i / 2);
-                        Cattle.posPigTr = new AvPosition(LoadMap.k(avatar) + i / 2, LoadMap.l(avatar) + i / 2);
+                        LoadMap.a(-5, LoadMap.k(avatar) + w / 2, LoadMap.l(avatar) + w / 2);
+                        Cattle.posPigTr = new AvPosition(LoadMap.k(avatar) + w / 2, LoadMap.l(avatar) + w / 2);
                         break;
                      }
                      case 156: {
                         LoadMap.a(avatar, (byte)80, 5);
                         if (Dog.numBer <= 0) break;
                         LoadMap.a(avatar, (byte)85, 5);
-                        LoadMap.a(-6, LoadMap.k(avatar) + i / 2, LoadMap.l(avatar) + i / 2);
-                        Dog.posDosTr = new AvPosition(LoadMap.k(avatar) + i / 2, LoadMap.l(avatar) + i / 2);
+                        LoadMap.a(-6, LoadMap.k(avatar) + w / 2, LoadMap.l(avatar) + w / 2);
+                        Dog.posDosTr = new AvPosition(LoadMap.k(avatar) + w / 2, LoadMap.l(avatar) + w / 2);
                         break;
                      }
                      case 157: {
                         LoadMap.a(avatar, (byte)80, 111);
-                        Cattle.posBucket = new AvPosition(LoadMap.k(avatar) + i / 2, LoadMap.l(avatar) + i / 2);
+                        Cattle.posBucket = new AvPosition(LoadMap.k(avatar) + w / 2, LoadMap.l(avatar) + w / 2);
                         break;
                      }
                      case 158: {
                         LoadMap.a(avatar, (byte)80, 5);
                         if (Chicken.numChicken <= 0) break;
-                        Chicken.s = new AvPosition(LoadMap.k(avatar) + i / 2, LoadMap.l(avatar) + i / 2);
+                        Chicken.s = new AvPosition(LoadMap.k(avatar) + w / 2, LoadMap.l(avatar) + w / 2);
                         break;
                      }
                      case 159: {
@@ -1623,7 +1623,7 @@ public final class LoadMap {
                      case 172: {
                         LoadMap.a(avatar, (byte)88, 96);
                         if (n14 % 3 == 0) {
-                           LoadMap.a(836, LoadMap.k(avatar) + 37, LoadMap.l(avatar) + i);
+                           LoadMap.a(836, LoadMap.k(avatar) + 37, LoadMap.l(avatar) + w);
                         }
                         n14 = (byte)(n14 + 1);
                         break;
@@ -1631,7 +1631,7 @@ public final class LoadMap {
                      case 173: {
                         LoadMap.a(avatar, (byte)88, 96);
                         if (n15 % 4 == 0) {
-                           LoadMap.a(837, LoadMap.k(avatar) + 48, LoadMap.l(avatar) + i);
+                           LoadMap.a(837, LoadMap.k(avatar) + 48, LoadMap.l(avatar) + w);
                         }
                         n15 = (byte)(n15 + 1);
                         break;
@@ -1639,7 +1639,7 @@ public final class LoadMap {
                      case 174: {
                         LoadMap.a(avatar, (byte)88, 96);
                         if (n16 % 4 == 0) {
-                           LoadMap.a(838, LoadMap.k(avatar) + 48, LoadMap.l(avatar) + i);
+                           LoadMap.a(838, LoadMap.k(avatar) + 48, LoadMap.l(avatar) + w);
                         }
                         n16 = (byte)(n16 + 1);
                         break;
@@ -1667,7 +1667,7 @@ public final class LoadMap {
                      }
                      case 178: {
                         if (by15 == 0) {
-                           LoadMap.a(830, LoadMap.k(avatar) + i, LoadMap.l(avatar) + i - 2);
+                           LoadMap.a(830, LoadMap.k(avatar) + w, LoadMap.l(avatar) + w - 2);
                            byte by35 = by15;
                            by15 = (byte)(by35 + 1);
                            LoadMap.b(avatar, by35, 2);
@@ -1697,7 +1697,7 @@ public final class LoadMap {
                      case 181: {
                         if (n - 1 == 101 || n - 1 == 104 || n - 1 == 103 || n - 1 == 100 || n - 1 == 101) break;
                         if (by16 == 0) {
-                           LoadMap.a(avt.T.aq, LoadMap.k(avatar) + i / 2, LoadMap.l(avatar) + i / 2);
+                           LoadMap.a(avt.T.aq, LoadMap.k(avatar) + w / 2, LoadMap.l(avatar) + w / 2);
                         }
                         by16 = (byte)(by16 + 1);
                         LoadMap.a(avatar, (byte)56, 46);
@@ -1709,7 +1709,7 @@ public final class LoadMap {
                         break;
                      }
                      case 183: {
-                        FarmScr.D = new AvPosition(LoadMap.k(avatar) + 24, LoadMap.l(avatar) + 24);
+                        FarmScr.posPond = new AvPosition(LoadMap.k(avatar) + 24, LoadMap.l(avatar) + 24);
                         LoadMap.a(avatar, (byte)88, 13);
                         break;
                      }
@@ -1776,8 +1776,8 @@ public final class LoadMap {
                         LoadMap.map[avatar] = 4;
                         if (n21 == 0) {
                            LoadMap.a(1029, LoadMap.k(avatar) + 36, LoadMap.l(avatar) + 20);
-                           FarmScr.W = LoadMap.k(avatar) + 26;
-                           FarmScr.X = LoadMap.l(avatar) + 10;
+                           FarmScr.xPosCook = LoadMap.k(avatar) + 26;
+                           FarmScr.yPosCook = LoadMap.l(avatar) + 10;
                            if (FarmScr.idFarm == GameMidlet.avatar.IDDB) {
                               LoadMap.a(avt.T.aq, LoadMap.k(avatar) + 36, LoadMap.l(avatar) + 24);
                            }
@@ -1897,7 +1897,7 @@ public final class LoadMap {
                      case 202: {
                         LoadMap.a(avatar, (byte)88, 96);
                         if (n24 % 4 == 0) {
-                           LoadMap.a(4, LoadMap.k(avatar) + (i << 1), LoadMap.l(avatar) + i);
+                           LoadMap.a(4, LoadMap.k(avatar) + (w << 1), LoadMap.l(avatar) + w);
                         }
                         n24 = (byte)(n24 + 1);
                         break;
@@ -1949,8 +1949,8 @@ public final class LoadMap {
                      }
                      case 102: {
                         LoadMap.type[avatar] = 92;
-                        BoardScr.listPosAvatar.addElement(new AvPosition(LoadMap.k(avatar) + i / 2, LoadMap.l(avatar) + i));
-                        AvPosition avPosition = new AvPosition(-20, LoadMap.l(avatar) + i);
+                        BoardScr.listPosAvatar.addElement(new AvPosition(LoadMap.k(avatar) + w / 2, LoadMap.l(avatar) + w));
+                        AvPosition avPosition = new AvPosition(-20, LoadMap.l(avatar) + w);
                         if (n13 % 2 == (n == 66 ? 0 : 1)) {
                            avPosition.x = (Canvas.w + 20) / AvMain.hd;
                         }
@@ -1959,7 +1959,7 @@ public final class LoadMap {
                         break;
                      }
                      case 110: {
-                        FarmScr.B = new AvPosition(LoadMap.k(avatar) - i + 8, LoadMap.l(avatar) - 2);
+                        FarmScr.posName = new AvPosition(LoadMap.k(avatar) - w + 8, LoadMap.l(avatar) - 2);
                         LoadMap.a(847, LoadMap.k(avatar) + 11, LoadMap.l(avatar));
                         break;
                      }
@@ -1978,7 +1978,7 @@ public final class LoadMap {
          }
       }
       LoadMap.m(n);
-      LoadMap.a(treeLists);
+      LoadMap.orderVector(treeLists);
       if (TYPEMAP == 24 && FarmScr.idFarm != GameMidlet.avatar.IDDB) {
          TYPEMAP = 53;
       }
@@ -2003,7 +2003,7 @@ public final class LoadMap {
       }
       if (n == 60) {
          GameMidlet.avatar.x = 150;
-         GameMidlet.avatar.y = Hmap * i - i;
+         GameMidlet.avatar.y = Hmap * w - w;
       }
       if (E != -1) {
          D = E;
@@ -2011,7 +2011,7 @@ public final class LoadMap {
       AvCamera.gI().followPlayer = GameMidlet.avatar;
       AvCamera.gI().init(n);
       if (Canvas.isKeyBoard) {
-         GameMidlet.avatar.n();
+         GameMidlet.avatar.createAvatarArrays();
       }
    }
 
@@ -2019,23 +2019,23 @@ public final class LoadMap {
       if (var0 + 1 < type.length && type[var0] == type[var0 + 1]) {
          for (int var3 = var0; var3 < type.length; var3++) {
             if (type[var3] != type[var3 + 1]) {
-               int var4 = i;
+               int var4 = w;
                if (var0 / wMap == Hmap - 1) {
-                  var4 = -i;
+                  var4 = -w;
                }
 
-               return new AvPosition(k(var0) + (var3 - var0 + 1) * i / 2, l(var0) + i / 2 + var4);
+               return new AvPosition(k(var0) + (var3 - var0 + 1) * w / 2, l(var0) + w / 2 + var4);
             }
          }
       } else if (var0 + wMap < type.length && type[var0] == type[var0 + wMap]) {
          for (int var1 = var0; var1 < type.length; var1 += wMap) {
             if (type[var1] != type[var1 + wMap]) {
-               int var2 = -i;
+               int var2 = -w;
                if (var0 % wMap == 0) {
-                  var2 = i;
+                  var2 = w;
                }
 
-               return new AvPosition(k(var0) + i / 2 + var2, l(var0) + ((var1 - var0) / wMap + 1) * i / 2);
+               return new AvPosition(k(var0) + w / 2 + var2, l(var0) + ((var1 - var0) / wMap + 1) * w / 2);
             }
          }
       }
@@ -2058,17 +2058,17 @@ public final class LoadMap {
 
    private static void e(int var0, int var1) {
       if (y == -1) {
-         ImageObj var2 = new ImageObj(var0, k(var1) + b(var1, map), l(var1) + i - 4, 0);
+         ImageObj var2 = new ImageObj(var0, k(var1) + b(var1, map), l(var1) + w - 4, 0);
          treeLists.addElement(var2);
       }
    }
 
    private static int k(int var0) {
-      return var0 % wMap * i;
+      return var0 % wMap * w;
    }
 
    private static int l(int var0) {
-      return var0 / wMap * i;
+      return var0 / wMap * w;
    }
 
    private static void a(int var0, byte var1, int var2) {
@@ -2085,7 +2085,7 @@ public final class LoadMap {
       }
    }
 
-   public static void a(int var0, int var1, byte var2) {
+   public static void setType(int var0, int var1, byte var2) {
       type[var1 * wMap + var0] = 51;
    }
 
@@ -2115,11 +2115,11 @@ public final class LoadMap {
             MapItemType var2 = f((var1 = (MapItem)G.elementAt(var0)).typeID);
             a(var1, var2);
             MapItem var3;
-            (var3 = new MapItem(var1.type, var1.x * i, var1.y * i, var1.ID, var1.typeID)).d = var1.d;
+            (var3 = new MapItem(var1.type, var1.x * w, var1.y * w, var1.ID, var1.typeID)).d = var1.d;
             treeLists.addElement(var3);
          }
 
-         a(treeLists);
+         orderVector(treeLists);
       }
    }
 
@@ -2129,7 +2129,7 @@ public final class LoadMap {
          if ((var2 = (MapItem)AvatarData.listMapItem.elementAt(var1)).type == var0) {
             MapItemType var3 = AvatarData.getMapItemTypeByID((int) var2.typeID);
             a(var2, var3);
-            treeLists.addElement(new MapItem(var2.type, var2.x * i, var2.y * i, var2.ID, var2.typeID));
+            treeLists.addElement(new MapItem(var2.type, var2.x * w, var2.y * w, var2.ID, var2.typeID));
          }
       }
 
@@ -2144,7 +2144,7 @@ public final class LoadMap {
                      type[var4.y * wMap + var4.x] = 83;
                   }
 
-                  a(var6.b, var4.x * i + i / 2, var4.y * i + i / 2);
+                  a(var6.b, var4.x * w + w / 2, var4.y * w + w / 2);
                }
             }
          }
@@ -2166,7 +2166,7 @@ public final class LoadMap {
       }
    }
 
-   public static Vector a(Vector var0) {
+   public static Vector orderVector(Vector var0) {
       try {
          int var1 = var0.size();
 
@@ -2192,7 +2192,7 @@ public final class LoadMap {
       Canvas.currentEffect.removeAllElements();
       treeLists.removeAllElements();
       playerLists.removeAllElements();
-      n.removeAllElements();
+      dynamicLists.removeAllElements();
       effBgList = null;
       effCameraList = null;
       x = null;
@@ -2206,11 +2206,11 @@ public final class LoadMap {
 
    public static int c(int var0, int var1) {
       short var2;
-      return var0 >= 0 && var0 <= wMap * i && var1 / i * wMap + var0 / i >= 0 && var1 / i * wMap + var0 / i < type.length ? (var2 = type[var1 / i * wMap + var0 / i]) : -2;
+      return var0 >= 0 && var0 <= wMap * w && var1 / w * wMap + var0 / w >= 0 && var1 / w * wMap + var0 / w < type.length ? (var2 = type[var1 / w * wMap + var0 / w]) : -2;
    }
 
    public static int getposMap(int var0, int var1) {
-      return var0 >= 0 && var0 <= wMap * i && var1 / i * wMap + var0 / i < type.length ? var1 / i * wMap + var0 / i : -1;
+      return var0 >= 0 && var0 <= wMap * w && var1 / w * wMap + var0 / w < type.length ? var1 / w * wMap + var0 / w : -1;
    }
 
    public static Avatar g(int var0) {
@@ -2269,8 +2269,8 @@ public final class LoadMap {
    }
 
    public static void a(MyObject var0) {
-      if (p == var0) {
-         p = null;
+      if (focusObj == var0) {
+         focusObj = null;
       }
 
       playerLists.removeElement(var0);
@@ -2278,7 +2278,7 @@ public final class LoadMap {
 
    public final void a(byte var1, byte[] var2) {
       y = var1;
-      c = new FrameImage(CRes.createImage(var2), i * AvMain.hd, AvMain.hd * i);
+      c = new FrameImage(CRes.createImage(var2), w * AvMain.hd, AvMain.hd * w);
       this.e();
       Canvas.load = 0;
    }
@@ -2314,7 +2314,7 @@ public final class LoadMap {
             switch (var5 = map[var7] - (c.nFrame << 1)) {
                case 0:
                   map[var7] = 98;
-                  ImageObj var6 = new ImageObj(846, k(var7) + i / 2, l(var7) + i / 2, 0);
+                  ImageObj var6 = new ImageObj(846, k(var7) + w / 2, l(var7) + w / 2, 0);
                   treeLists.addElement(var6);
                   break;
                case 1:
@@ -2355,7 +2355,7 @@ public final class LoadMap {
             }
 
             if (var5 > 0 && var2[var5] == 0 && var5 - 1 < MapScr.B.length && MapScr.B[var5 - 1] != -1) {
-               ImageObj var8 = new ImageObj(MapScr.B[var5 - 1], k(var7) + b(var7, var1), l(var7) + i - 4, 0);
+               ImageObj var8 = new ImageObj(MapScr.B[var5 - 1], k(var7) + b(var7, var1), l(var7) + w - 4, 0);
                treeLists.addElement(var8);
             }
 
@@ -2377,13 +2377,13 @@ public final class LoadMap {
       P = -1;
       t = -1;
       d();
-      ParkService.a().a(MapScr.b, -1);
+      ParkService.gI().doJoinPark(MapScr.b, -1);
    }
 
    private static int b(int var0, short[] var1) {
       for (int var2 = var0; var2 < var1.length; var2++) {
          if (var1[var2] != var1[var2 + 1]) {
-            return (var2 - var0 + 1) * i / 2;
+            return (var2 - var0 + 1) * w / 2;
          }
       }
 
@@ -2395,7 +2395,7 @@ public final class LoadMap {
          if (var0 + 1 < map.length && map[var0] == map[var0 + 1]) {
             for (int var4 = var0; var4 < map.length; var4++) {
                if (map[var4] != map[var4 + 1]) {
-                  a(var2 != 1 ? avt.T.aq : "thoat", k(var0) + (var4 - var0 + 1) * i / 2, l(var0) + (y == -1 ? i / 2 : i) + (var2 == 2 ? i / 2 : 0));
+                  a(var2 != 1 ? avt.T.aq : "thoat", k(var0) + (var4 - var0 + 1) * w / 2, l(var0) + (y == -1 ? w / 2 : w) + (var2 == 2 ? w / 2 : 0));
                   return;
                }
             }
@@ -2403,7 +2403,7 @@ public final class LoadMap {
             if (var0 + wMap < map.length && map[var0] == map[var0 + wMap]) {
                for (int var3 = var0; var3 < map.length; var3 += wMap) {
                   if (map[var3] != map[var3 + wMap]) {
-                     a(var2 != 1 ? avt.T.aq : "thoat", k(var0) + 3, l(var0) + ((var3 - var0) / wMap + 1) * i / 2);
+                     a(var2 != 1 ? avt.T.aq : "thoat", k(var0) + 3, l(var0) + ((var3 - var0) / wMap + 1) * w / 2);
                      return;
                   }
                }
@@ -2435,6 +2435,6 @@ public final class LoadMap {
          GlobalService.gI().getHandler(9);
       }
 
-      ParkService.a().a(var0, var1);
+      ParkService.gI().doJoinPark(var0, var1);
    }
 }
