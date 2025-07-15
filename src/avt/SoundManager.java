@@ -23,7 +23,7 @@ public final class SoundManager {
             var4.perform();
          } else {
             Vector var3 = new Vector();
-            if (MapScr.t) {
+            if (MapScr.isWedding) {
                OptionScr.gI().b(OptionScr.gI().c / 10);
                var4.perform();
             } else {

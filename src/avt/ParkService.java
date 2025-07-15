@@ -5,14 +5,14 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class ParkService extends IService {
-   private static ParkService a;
+   private static ParkService instance;
 
    public static ParkService gI() {
-      if (a == null) {
-         a = new ParkService();
+      if (instance == null) {
+         instance = new ParkService();
       }
 
-      return a;
+      return instance;
    }
 
    public final void doJoinPark(int var1, int var2) {
@@ -26,7 +26,7 @@ public final class ParkService extends IService {
       try {
          super.m.writer().writeByte(var1);
          super.m.writer().writeByte(var2);
-         super.m.writer().writeShort(LoadMap.B);
+         super.m.writer().writeShort(LoadMap.xDichChuyen_);
          super.m.writer().writeShort(LoadMap.C);
       } catch (IOException var3) {
          var3.printStackTrace();
@@ -60,7 +60,7 @@ public final class ParkService extends IService {
       this.sendMessage();
    }
 
-   public final void a(int var1) {
+   public final void doRequestAddFriend(int var1) {
       this.createMessage((byte)-21);
       this.writeInt(var1);
       this.sendMessage();
@@ -78,7 +78,7 @@ public final class ParkService extends IService {
       this.sendMessage();
    }
 
-   public final void a(int var1, int var2, int var3) {
+   public final void doGiftGiving(int var1, int var2, int var3) {
       System.out.println("doGiftGiving: " + var1 + "    " + GameMidlet.avatar.IDDB);
       this.createMessage((byte)58);
 
@@ -92,7 +92,7 @@ public final class ParkService extends IService {
       this.sendMessage();
    }
 
-   public final void b(int var1, int var2) {
+   public final void doGivingDeferrent(int var1, int var2) {
       this.createMessage((byte)59);
 
       try {
@@ -104,7 +104,7 @@ public final class ParkService extends IService {
       this.sendMessage();
    }
 
-   public final void b(int var1) {
+   public final void doRequestYourInfo(int var1) {
       System.out.println("doRequestYourInfo: " + var1);
       this.createMessage((byte)-22);
       this.writeInt(var1);
@@ -144,7 +144,7 @@ public final class ParkService extends IService {
       this.sendMessage();
    }
 
-   public final void c(int var1, int var2) {
+   public final void doInviteToMyHome(int var1, int var2) {
       this.createMessage((byte)-68);
 
       try {
@@ -194,7 +194,7 @@ public final class ParkService extends IService {
       this.sendMessage();
    }
 
-   public final void d(int var1, int var2) {
+   public final void doRequestWedding(int var1, int var2) {
       System.out.println("doRequestWedding");
       this.createMessage((byte)93);
 

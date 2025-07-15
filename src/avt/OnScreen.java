@@ -21,7 +21,7 @@ public final class OnScreen extends MyScreen {
    private static int o;
    private static int p;
    private static int q;
-   public static boolean b = true;
+   public static boolean isOngame = true;
    private static boolean r;
    private static Image s;
    public static int c = 0;
@@ -42,7 +42,7 @@ public final class OnScreen extends MyScreen {
    public static void b() {
       l = null;
       s = null;
-      OnSplashScr.c = null;
+      OnSplashScr.imgBg = null;
    }
 
    public static OnScreen e() {
@@ -54,7 +54,7 @@ public final class OnScreen extends MyScreen {
    }
 
    public final void switchToMe() {
-      super.ar = 2;
+      super.selected_ = 2;
       Canvas.menuMain = null;
       Canvas.endDlg();
       if (l == null) {
@@ -70,8 +70,8 @@ public final class OnScreen extends MyScreen {
 
             l = new FrameImage(Image.createImage(T.a() + "/on/iconGame0.on"), var1, var1);
             s = Image.createImage(T.a() + "/on/select.on");
-            if (OnSplashScr.c == null) {
-               OnSplashScr.c = Image.createImage(T.a() + "/on/logo.on");
+            if (OnSplashScr.imgBg == null) {
+               OnSplashScr.imgBg = Image.createImage(T.a() + "/on/logo.on");
             }
          } catch (IOException var2) {
             var2.printStackTrace();
@@ -103,7 +103,7 @@ public final class OnScreen extends MyScreen {
       }
 
       r = true;
-      b = true;
+      isOngame = true;
    }
 
    private static void g() {
@@ -131,10 +131,10 @@ public final class OnScreen extends MyScreen {
                   var1 = this.e;
                   Canvas.startWaitDlg();
                   GlobalService.gI().getHandler((int)3);
-                  MapScr.i = (byte)var1;
+                  MapScr.typeCasino = (byte)var1;
                   return;
                case 4:
-                  TransMoneyDlg.a().b();
+                  TransMoneyDlg.gI().init();
                default:
                   return;
             }
@@ -325,7 +325,7 @@ public final class OnScreen extends MyScreen {
       }
 
       if (Canvas.stypeInt != 0) {
-         Canvas.paint.a(super.left, super.center, super.right);
+         Canvas.paint.updateKeyOn(super.left, super.center, super.right);
       } else {
          super.updateKey();
       }
@@ -361,17 +361,17 @@ public final class OnScreen extends MyScreen {
    public static void a(Graphics var0, Command var1, Command var2, Command var3) {
       Canvas.resetTrans(var0);
       Canvas.paint.c(var0);
-      if (Canvas.menuMain == null && (Canvas.currentDialog == null || Canvas.currentDialog == TransMoneyDlg.a)) {
+      if (Canvas.menuMain == null && (Canvas.currentDialog == null || Canvas.currentDialog == TransMoneyDlg.me)) {
          Canvas.paint.b(var0, var1, var2, var3);
       }
 
    }
 
    public static void f() {
-      if (b && OptionScr.d) {
+      if (isOngame && OptionScr.d) {
          OptionScr.d = false;
          OptionScr.gI().b[4] = 0;
-         Canvas.instance.b();
+         Canvas.instance.setSize();
          g();
       }
 

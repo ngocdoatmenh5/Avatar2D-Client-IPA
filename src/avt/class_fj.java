@@ -31,13 +31,13 @@ final class class_fj extends Command {
          StringBuffer var10002;
          String var10003;
          if (this.f.IDDB == GameMidlet.avatar.IDDB) {
-            if (GameMidlet.j.g <= 0 && GameMidlet.j.f <= 0) {
+            if (GameMidlet.myIndexP.g <= 0 && GameMidlet.myIndexP.f <= 0) {
                break label50;
             }
 
             var10000 = Canvas.fontChatB;
             var10001 = var1;
-            var10002 = (new StringBuffer(String.valueOf(T.em[0]))).append(GameMidlet.j.g).append(" + ").append(GameMidlet.j.f);
+            var10002 = (new StringBuffer(String.valueOf(T.em[0]))).append(GameMidlet.myIndexP.g).append(" + ").append(GameMidlet.myIndexP.f);
             var10003 = "%";
          } else {
             if (this.f.lvMain <= 0 && this.f.perLvFarm <= 0) {
@@ -58,14 +58,14 @@ final class class_fj extends Command {
       }
 
       int var4 = 0;
-      if (this.h.c > 125 * AvMain.hd) {
-         this.h.a(100 * AvMain.hd);
-         if (this.h.d >= 0) {
-            var4 = this.h.d;
+      if (this.h.w2 > 125 * AvMain.hd) {
+         this.h.transTextLimit(100 * AvMain.hd);
+         if (this.h.dis >= 0) {
+            var4 = this.h.dis;
          }
       }
 
-      Canvas.fontChatB.drawString(var1, this.h.a, 0 - var4, var2 += var3, 0);
+      Canvas.fontChatB.drawString(var1, this.h.str, 0 - var4, var2 += var3, 0);
       if (MapScr.isNewVersion) {
          Canvas.fontChatB.drawString(var1, T.dE + this.f.money[3] + T.l(), 0, var2 + var3, 0);
       }

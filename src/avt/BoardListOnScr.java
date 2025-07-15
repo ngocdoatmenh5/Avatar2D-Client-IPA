@@ -39,7 +39,7 @@ public final class BoardListOnScr extends MyScreen {
    public final void switchToMe() {
       OnScreen.f();
       MyScreen.repaint();
-      super.ar = 0;
+      super.selected_ = 0;
       Canvas.paint.b(type);
       if (k == null) {
          try {
@@ -104,7 +104,7 @@ public final class BoardListOnScr extends MyScreen {
    public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 1:
-            class_dl var4 = (class_dl)this.g.elementAt(super.ar);
+            class_dl var4 = (class_dl)this.g.elementAt(super.selected_);
             if (MapScr.isNewVersion && var4.f > GameMidlet.avatar.money[3]) {
                gI().setXeng();
             } else {
@@ -212,20 +212,20 @@ public final class BoardListOnScr extends MyScreen {
          int var4 = var2 % this.o * this.r;
          int var5 = var2 / this.o * this.r;
          class_dl var6 = (class_dl)this.g.elementAt(var2);
-         if ((!Canvas.isKeyBoard || !super.aj) && var2 == super.ar) {
+         if ((!Canvas.isKeyBoard || !super.aj) && var2 == super.selected_) {
             var1.drawImage(i, var4, var5, 3);
          }
 
          f.drawFrame(var6.b, var4, var5, 0, 3, var1);
          var1.drawImage(k, var4 - this.r / 4, var5 - 30 * AvMain.hd, 3);
-         Canvas.smallFontYellow.drawString(var1, "" + var6.a, var4 - this.r / 4, var5 - 30 * AvMain.hd - AvMain.ai / 2, 2);
+         Canvas.smallFontYellow.drawString(var1, "" + var6.a, var4 - this.r / 4, var5 - 30 * AvMain.hd - AvMain.hSmall / 2, 2);
          if (var6.f > 0) {
-            Canvas.smallFontYellow.drawString(var1, var6.g, var4, var5 - 30 * AvMain.hd - AvMain.ai / 2, 2);
+            Canvas.smallFontYellow.drawString(var1, var6.g, var4, var5 - 30 * AvMain.hd - AvMain.hSmall / 2, 2);
          }
 
          if (type == c && var6.c < 4) {
             var1.drawImage(l, var4 + this.r / 4, var5 - 30 * AvMain.hd, 3);
-            Canvas.smallFontRed.drawString(var1, "" + var6.c, var4 + this.r / 4, var5 - 30 * AvMain.hd - AvMain.ai / 2, 2);
+            Canvas.smallFontRed.drawString(var1, "" + var6.c, var4 + this.r / 4, var5 - 30 * AvMain.hd - AvMain.hSmall / 2, 2);
          }
 
          if (var6.e) {
@@ -242,8 +242,8 @@ public final class BoardListOnScr extends MyScreen {
    }
 
    public final void updateKey() {
-      if (OnScreen.b && Canvas.stypeInt != 0) {
-         Canvas.paint.a(super.left, super.center, super.right);
+      if (OnScreen.isOngame && Canvas.stypeInt != 0) {
+         Canvas.paint.updateKeyOn(super.left, super.center, super.right);
       } else {
          super.updateKey();
       }
@@ -267,13 +267,13 @@ public final class BoardListOnScr extends MyScreen {
       Canvas.cameraList.a(this.p - this.r / 2, this.q - this.r / 2, this.r, this.r, this.o * this.r, var1 * this.r + 10, this.o * this.r, Canvas.h - (this.q - this.r / 2) - 4, this.g.size());
    }
 
-   public final void a(int var1, boolean var2) {
-      if (var2 && super.ar == var1 && this.s != null) {
+   public final void setSelected(int var1, boolean var2) {
+      if (var2 && super.selected_ == var1 && this.s != null) {
          this.s.perform();
       }
 
       if (var1 >= 0 && var1 < this.g.size()) {
-         super.a(var1, var2);
+         super.setSelected(var1, var2);
       }
 
    }

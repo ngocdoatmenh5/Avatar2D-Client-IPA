@@ -12,8 +12,8 @@ final class class_ku implements IAction {
    }
 
    public final void perform() {
-      if (this.a != 0 || LoadMap.k == -1) {
-         MapScr.f(this.b);
+      if (this.a != 0 || LoadMap.weather == -1) {
+         MapScr.doGivingDefferent(this.b);
       }
 
       PopupShop.gI().close();

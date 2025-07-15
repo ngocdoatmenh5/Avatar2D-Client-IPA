@@ -12,6 +12,6 @@ final class IActionReadList implements IAction {
    }
 
    public final void perform() {
-      GlobalService.gI().doListCustom(this.b, this.c, this.a.g, (byte)-1);
+      GlobalService.gI().doListCustom(this.b, this.c, this.a.selected, (byte)-1);
    }
 }

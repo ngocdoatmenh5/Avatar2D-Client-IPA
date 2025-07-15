@@ -212,7 +212,7 @@ public final class CRes {
          LoginScr.s += var1.caption.hashCode();
       }
 
-      LoginScr.gI().g();
+      LoginScr.gI().saveLogin();
    }
 
    public static Image createImage(byte[] var0, byte[] var1) {

@@ -8,10 +8,10 @@ final class IActionExchange implements IAction {
    }
 
    public final void perform() {
-      if (MapScr.h != null) {
-         GlobalService.gI().doRequestCmdRotate(this.a.e, MapScr.h.IDDB);
+      if (MapScr.focusP != null) {
+         GlobalService.gI().doRequestCmdRotate(this.a.anthor, MapScr.focusP.IDDB);
       } else {
-         GlobalService.gI().doRequestCmdRotate(this.a.e, -1);
+         GlobalService.gI().doRequestCmdRotate(this.a.anthor, -1);
       }
    }
 }

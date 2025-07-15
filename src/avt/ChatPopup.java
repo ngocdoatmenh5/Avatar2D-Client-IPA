@@ -68,7 +68,7 @@ public final class ChatPopup {
    public final void prepareData(int var1, String var2) {
       this.w = 80 * AvMain.hd;
       this.chats = Canvas.fontChatB.splitFontBStrInLine(var2, this.w - 25);
-      this.h = AvMain.af * this.chats.length + 4 + 4;
+      this.h = AvMain.hBlack * this.chats.length + 4 + 4;
       if (this.h < hText << 1) {
          this.h = hText << 1;
       }
@@ -92,7 +92,7 @@ public final class ChatPopup {
 
       paintRoundRect(var1, this.xc * var2 - this.w / 2, this.yc * var2 - this.h, this.w, this.h, this.iNPC == 1 ? 16773580 : 16777215, this.iNPC == 1 ? 14957056 : 1, this.iNPC);
       var1.drawImage(imgArrow[this.iNPC], this.xc * var2, this.yc * var2 - 1, 17);
-      byte var3 = AvMain.af;
+      byte var3 = AvMain.hBlack;
 
       for(int var4 = 0; var4 < this.chats.length; ++var4) {
          Canvas.fontChatB.drawString(var1, this.chats[var4], this.xc * var2 - this.w / 2 + this.w / 2, this.yc * var2 - this.h / 2 + var4 * var3 - this.chats.length * var3 / 2, 2);

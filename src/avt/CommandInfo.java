@@ -10,7 +10,7 @@ final class CommandInfo extends Command {
    private final int numFish;
    private final short idPart;
 
-   CommandInfo(class_kv var1, String var2, int var3, Avatar var4, byte var5, byte var6, int var7, short var8) {
+   CommandInfo(FishingScr var1, String var2, int var3, Avatar var4, byte var5, byte var6, int var7, short var8) {
       super((String)null, 0);
       this.ava1 = var4;
       this.perLv = var5;
@@ -21,7 +21,7 @@ final class CommandInfo extends Command {
 
    public final void paint(Graphics var1, int var2, int var3) {
       Canvas.resetTrans(var1);
-      var2 = PaintPopup.o + (AvMain.Z << 1) + 10 * AvMain.hd + 30 * (AvMain.hd - 1) + PopupShop.b;
+      var2 = PaintPopup.o + (AvMain.hDuBox << 1) + 10 * AvMain.hd + 30 * (AvMain.hd - 1) + PopupShop.b;
       byte var5 = AvMain.ah;
       this.ava1.paintIcon(var1, Canvas.w / 2, var2, false);
       Canvas.normalFont.drawString(var1, T.aA + this.ava1.name, Canvas.w / 2, var2 + var5, 2);
@@ -29,7 +29,7 @@ final class CommandInfo extends Command {
       Canvas.normalFont.drawString(var1, T.cC + this.numFish, Canvas.w / 2, var2 + var5 * 3, 2);
       Canvas.normalFont.drawString(var1, T.cD + ": ", Canvas.w / 2, var2 + (var5 << 2), 2);
       if (this.idPart != -1) {
-         ((PartSmall)AvatarData.getPart(this.idPart)).a(var1, Canvas.w / 2, var2 + var5 * 6, 3);
+         ((PartSmall)AvatarData.getPart(this.idPart)).paint(var1, Canvas.w / 2, var2 + var5 * 6, 3);
       }
 
    }

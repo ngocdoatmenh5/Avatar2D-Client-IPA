@@ -3,7 +3,7 @@ package avt;
 import java.io.IOException;
 
 public class IService {
-   private ISession sender = Session_ME.a();
+   private ISession sender = Session_ME.gI();
    protected Message m;
 
    protected final void writeInt(int var1) {

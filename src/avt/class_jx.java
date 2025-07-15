@@ -28,11 +28,11 @@ final class class_jx extends Command {
          }
 
          if (var1.IDPart != -1) {
-            MapScr.a(var1);
+            MapScr.setAvatarShop(var1);
             PopupShop.resetIsTrans();
             PopupShop.addStr(var1.name);
             if (this.i == -1) {
-               PopupShop.addStr(Canvas.getPriceMoney(var1.i[0], var1.i[1], false));
+               PopupShop.addStr(Canvas.getPriceMoney(var1.price[0], var1.price[1], false));
             }
 
             if (var1.follow == -1) {
@@ -55,7 +55,7 @@ final class class_jx extends Command {
       }
 
       if (var4.IDPart != -1) {
-         var4.a(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
+         var4.paint(var1, var2 + PopupShop.e / 2, var3 + PopupShop.e / 2, 3);
       }
 
    }

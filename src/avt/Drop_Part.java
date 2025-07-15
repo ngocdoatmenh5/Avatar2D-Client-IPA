@@ -26,8 +26,8 @@ public final class Drop_Part extends Base {
       this.idDrop = var2;
       this.dir = 0;
       Part var4;
-      if ((var4 = AvatarData.getPart(this.idDrop)).h < AvatarData.listImgInfo.length) {
-         super.height = AvatarData.listImgInfo[var4.h].h;
+      if ((var4 = AvatarData.getPart(this.idDrop)).idIcon < AvatarData.listImgInfo.length) {
+         super.height = AvatarData.listImgInfo[var4.idIcon].h;
       }
 
       this.i = (byte)CRes.rnd(10);
@@ -50,7 +50,7 @@ public final class Drop_Part extends Base {
                this.deltaH = 0;
                this.g = 0;
                if (this.state == 1) {
-                  LoadMap.a((MyObject)this);
+                  LoadMap.removePlayer((MyObject)this);
                }
 
                this.state = 2;
@@ -62,7 +62,7 @@ public final class Drop_Part extends Base {
          case 3:
             this.deltaH = (short)(this.deltaH + 3);
             if (this.deltaH > 50) {
-               LoadMap.a((MyObject)this);
+               LoadMap.removePlayer((MyObject)this);
                return;
             }
             break;
@@ -80,11 +80,11 @@ public final class Drop_Part extends Base {
    }
 
    public final void paint(Graphics var1) {
-      var1.drawImage(LoadMap.r, super.x, super.y + 1, 33);
+      var1.drawImage(LoadMap.imgShadow, super.x, super.y + 1, 33);
       if (this.type == 0) {
          AvatarData.getPart(this.idDrop).paintIcon(var1, super.x, super.y + this.i / 10 - this.deltaH, 0, 33);
       } else {
-         super.height = (short)(AvatarData.getImgIcon(this.idDrop).c + 10);
+         super.height = (short)(AvatarData.getImgIcon(this.idDrop).h + 10);
          AvatarData.paintImg(var1, this.idDrop, super.x, super.y + this.i / 10 - this.deltaH, 33);
       }
 
@@ -97,7 +97,7 @@ public final class Drop_Part extends Base {
 
    public final void startFlyTo(int var1) {
       Avatar var2;
-      if ((var2 = LoadMap.g(var1)) != null) {
+      if ((var2 = LoadMap.getAvatar(var1)) != null) {
          this.x0 = var2.x;
          this.y0 = var2.y;
          this.state = 1;
@@ -117,7 +117,7 @@ public final class Drop_Part extends Base {
          this.state = 2;
       } else {
          Avatar var4;
-         if ((var4 = LoadMap.g(var1)) != null) {
+         if ((var4 = LoadMap.getAvatar(var1)) != null) {
             super.x = var4.x;
             super.y = var4.y;
             this.state = 0;

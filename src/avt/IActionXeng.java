@@ -5,6 +5,6 @@ final class IActionXeng implements IAction {
    }
 
    public final void perform() {
-      TransMoneyDlg.a().b();
+      TransMoneyDlg.gI().init();
    }
 }

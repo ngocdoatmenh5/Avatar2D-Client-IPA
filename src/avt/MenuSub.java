@@ -25,7 +25,7 @@ public final class MenuSub extends MenuMain {
    private int t;
    private int u = 0;
    private static Command v;
-   public static IAction g;
+   public static IAction iNo;
    public static short[] h;
    private int w;
    private int x;
@@ -52,8 +52,8 @@ public final class MenuSub extends MenuMain {
          case 1:
             this.n = false;
             Canvas.menuMain = null;
-            if (g != null) {
-               g.perform();
+            if (iNo != null) {
+               iNo.perform();
             }
          default:
       }
@@ -76,30 +76,30 @@ public final class MenuSub extends MenuMain {
          this.u = var1.size();
          this.t = Canvas.h;
          this.n = true;
-         this.c = this.u * var3 + (AvMain.Z << 1) + 4;
+         this.c = this.u * var3 + (AvMain.hDuBox << 1) + 4;
          if (this.c > Canvas.w) {
             this.c = Canvas.w;
          }
 
          this.a = var2 - this.c / 2;
-         this.d = var4 + (AvMain.Z << 1) + 4;
+         this.d = var4 + (AvMain.hDuBox << 1) + 4;
          if (this.a < 0) {
             this.a = 0;
          }
 
-         this.b = Canvas.hCan - Canvas.hTab - this.d - (AvMain.Z << 1);
+         this.b = Canvas.hCan - Canvas.hTab - this.d - (AvMain.hDuBox << 1);
          this.m = this.b;
          this.e = var4;
          this.j = var1;
          this.b();
-         this.s = this.u * this.e - (this.c - (AvMain.Z << 1) - 4);
+         this.s = this.u * this.e - (this.c - (AvMain.hDuBox << 1) - 4);
          if (this.s < 0) {
             this.s = 0;
          }
 
          this.x = this.c;
          v = null;
-         g = null;
+         iNo = null;
          h = null;
          Canvas.menuMain = this;
       }
@@ -161,8 +161,8 @@ public final class MenuSub extends MenuMain {
             this.d = MyScreen.av * 5 + 4;
          }
 
-         this.b = Canvas.h - this.d - AvMain.Z - Canvas.hTab;
-         if (OnScreen.b) {
+         this.b = Canvas.h - this.d - AvMain.hDuBox - Canvas.hTab;
+         if (OnScreen.isOngame) {
             this.b = Canvas.hCan - Canvas.hTab - this.d - 5;
          }
 
@@ -172,7 +172,7 @@ public final class MenuSub extends MenuMain {
 
          this.m = Canvas.h - this.e;
          if (Canvas.stypeInt > 0) {
-            this.b = Canvas.hCan - this.d - AvMain.Z - 3;
+            this.b = Canvas.hCan - this.d - AvMain.hDuBox - 3;
             if (Canvas.stypeInt == 1) {
                this.b -= 7;
             }
@@ -191,10 +191,10 @@ public final class MenuSub extends MenuMain {
          this.p = 0;
          v = null;
          if (Canvas.E) {
-            Canvas.g();
+            Canvas.clearKeyReleased();
          }
 
-         g = null;
+         iNo = null;
          this.x = this.d;
          Canvas.menuMain = this;
       }
@@ -320,8 +320,8 @@ public final class MenuSub extends MenuMain {
          if (!this.A) {
             this.n = false;
             Canvas.menuMain = null;
-            if (g != null) {
-               g.perform();
+            if (iNo != null) {
+               iNo.perform();
             }
          }
 
@@ -352,8 +352,8 @@ public final class MenuSub extends MenuMain {
          MenuSub var2 = this;
          Canvas.resetTrans(var1);
          Canvas.paint.a(var1, this.a, this.b, this.c, this.d);
-         var1.translate(this.a + AvMain.Z + 2, this.b + AvMain.Z + 2);
-         var1.setClip(0, 0, this.c - (AvMain.Z << 1) - 4, this.e);
+         var1.translate(this.a + AvMain.hDuBox + 2, this.b + AvMain.hDuBox + 2);
+         var1.setClip(0, 0, this.c - (AvMain.hDuBox << 1) - 4, this.e);
          var1.translate(-this.p, 0);
          int var4;
          if ((var4 = this.p / this.e) < 0) {
@@ -377,7 +377,7 @@ public final class MenuSub extends MenuMain {
             Command var11 = (Command)var2.j.elementAt(var2.k);
             var3.setClip(var2.p - 50, -100, var2.p + Canvas.w + 100, var2.d + 200);
             int var7 = var2.k * var2.e + var2.e / 2;
-            if (var2.u * var2.e + (AvMain.Z << 1) + 10 > Canvas.w) {
+            if (var2.u * var2.e + (AvMain.hDuBox << 1) + 10 > Canvas.w) {
                var8 = Canvas.borderFont.getWidth(var11.caption) / 2;
                if (var7 - var8 < var2.p) {
                   var7 = var2.p + var8;
@@ -386,7 +386,7 @@ public final class MenuSub extends MenuMain {
                }
             }
 
-            Canvas.borderFont.drawString(var3, var11.caption, var7, -AvMain.ag - AvMain.Z - 6 - (AvMain.hd == 2 ? 15 : 0), 2);
+            Canvas.borderFont.drawString(var3, var11.caption, var7, -AvMain.ag - AvMain.hDuBox - 6 - (AvMain.hd == 2 ? 15 : 0), 2);
          }
 
          Canvas.resetTrans(var3);
@@ -395,7 +395,7 @@ public final class MenuSub extends MenuMain {
          Graphics var10 = var1;
          MenuSub var9 = this;
          Canvas.resetTrans(var1);
-         if (OnScreen.b) {
+         if (OnScreen.isOngame) {
             Canvas.paint.e(var1, this.a - 2, this.m - 7, this.c + 4, this.d + 15);
          } else {
             Canvas.paint.a(var1, this.a - 2, this.m - 7, this.c + 4, this.d + 15);
@@ -409,7 +409,7 @@ public final class MenuSub extends MenuMain {
          for(var8 = 0; var8 < var9.u; ++var8) {
             var10.setColor(0);
             if (!var9.aj && var8 == var9.k) {
-               if (OnScreen.b) {
+               if (OnScreen.isOngame) {
                   var10.setColor(35217);
                   var10.fillRect(0, var8 * var9.e, var9.c - 6, var9.e);
                } else {
@@ -419,14 +419,14 @@ public final class MenuSub extends MenuMain {
 
             short var12 = 0;
             if (h != null && var8 < h.length && h[var8] != -1 && AvatarData.getImgIcon(h[var8]) != null) {
-               var12 = AvatarData.getImgIcon(h[var8]).b;
+               var12 = AvatarData.getImgIcon(h[var8]).w;
                AvatarData.paintImg(var10, h[var8], 3, var8 * var9.e + var6 + 1, 0);
             }
 
-            if (OnScreen.b) {
+            if (OnScreen.isOngame) {
                Canvas.borderFont.drawString(var10, ((Command)var9.j.elementAt(var8)).caption, var12 + 5, var8 * var9.e + var6, 0);
             } else {
-               Canvas.paint.a(var10, ((Command)var9.j.elementAt(var8)).caption, var12 + 5, var8 * var9.e + var6, 0);
+               Canvas.paint.drawString(var10, ((Command)var9.j.elementAt(var8)).caption, var12 + 5, var8 * var9.e + var6, 0);
             }
          }
       }

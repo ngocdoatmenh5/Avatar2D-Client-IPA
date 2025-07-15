@@ -22,8 +22,8 @@ public class GameMidlet extends MIDlet {
    private static Canvas o;
    public static GameMidlet h;
    public static Avatar avatar;
-   public static class_kp j;
-   public static Vector k;
+   public static IndexPlayer myIndexP;
+   public static Vector listContainer;
    private static Display p;
    public static int l;
    public static String m;
@@ -64,12 +64,12 @@ public class GameMidlet extends MIDlet {
 
       (o = new Canvas()).d();
       avatar = new Avatar();
-      j = new class_kp();
+      myIndexP = new IndexPlayer();
       class_jv.b().switchToMe();
       o.sizeChanged(0, 0);
-      o.b();
+      o.setSize();
       Display.getDisplay(this).setCurrent(o);
-      Session_ME.a().a((IMessageHandler)GlobalMessageHandler.gI());
+      Session_ME.gI().setHandler((IMessageHandler)GlobalMessageHandler.gI());
       String var8;
       if ((var8 = CRes.b("avatar")) == null || !var8.equals("2.5.8")) {
          AvatarData.delRMS();
@@ -121,7 +121,7 @@ public class GameMidlet extends MIDlet {
       }
    }
 
-   public static void b(String var0) {
+   public static void flatForm(String var0) {
       try {
          h.platformRequest(var0);
          h.notifyDestroyed();

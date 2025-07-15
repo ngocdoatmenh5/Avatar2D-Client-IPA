@@ -10,7 +10,7 @@ final class class_cj implements IAction {
    }
 
    public final void perform() {
-      CasinoService.gI().joinBoard(this.a.h, (byte)this.a.j, Canvas.inputDlg.a());
+      CasinoService.gI().joinBoard(this.a.h, (byte)this.a.j, Canvas.inputDlg.getText());
       Canvas.endDlg();
    }
 }

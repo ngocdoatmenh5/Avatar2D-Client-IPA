@@ -7,7 +7,7 @@ public final class MapItem extends SubObject {
    public short ID;
    public short typeID;
    public byte dir;
-   public boolean d = false;
+   public boolean isGetImg = false;
 
    public MapItem() {
    }
@@ -22,8 +22,8 @@ public final class MapItem extends SubObject {
 
    public final void paint(Graphics var1) {
       MapItemType var2;
-      if (this.d) {
-         var2 = LoadMap.f(this.typeID);
+      if (this.isGetImg) {
+         var2 = LoadMap.getMapItemTypeByID(this.typeID);
       } else {
          var2 = AvatarData.getMapItemTypeByID((int)this.typeID);
       }
@@ -35,7 +35,7 @@ public final class MapItem extends SubObject {
       Graphics var10001;
       int var10003;
       int var10004;
-      if (!this.d && LoadMap.TYPEMAP != 68 && LoadMap.TYPEMAP != 69 && LoadMap.TYPEMAP != 70 && LoadMap.TYPEMAP != 110) {
+      if (!this.isGetImg && LoadMap.TYPEMAP != 68 && LoadMap.TYPEMAP != 69 && LoadMap.TYPEMAP != 70 && LoadMap.TYPEMAP != 110) {
          ImageInfo var10 = AvatarData.listImgInfo[var2.imgID];
          if ((super.x + var2.dx + var10.w) * MyObject.hd >= AvCamera.gI().xCam && (super.x + var2.dx - var10.w) * MyObject.hd <= AvCamera.gI().xCam + Canvas.w && (super.y + var10.h) * MyObject.hd >= AvCamera.gI().yCam && (super.y + var2.dy - var10.h) * MyObject.hd <= AvCamera.gI().yCam + Canvas.h) {
             ImageInfo var10000 = var10;
@@ -64,9 +64,9 @@ public final class MapItem extends SubObject {
          var3 = var2.imgID;
          var8 = var10001;
          ImageIcon var9 = AvatarData.getImgIcon((short)var3);
-         if (var4 + var9.b >= AvCamera.gI().xCam && var4 <= AvCamera.gI().xCam + Canvas.w && var5 + var9.c >= AvCamera.gI().yCam && var5 <= AvCamera.gI().yCam + Canvas.h) {
+         if (var4 + var9.w >= AvCamera.gI().xCam && var4 <= AvCamera.gI().xCam + Canvas.w && var5 + var9.h >= AvCamera.gI().yCam && var5 <= AvCamera.gI().yCam + Canvas.h) {
             if (var9.count != -1) {
-               var8.drawRegion(var9.img, 0, 0, var9.b, var9.c, this.dir, var4, var5, 0);
+               var8.drawRegion(var9.img, 0, 0, var9.w, var9.h, this.dir, var4, var5, 0);
             }
 
          }

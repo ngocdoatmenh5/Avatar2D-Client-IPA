@@ -7,23 +7,23 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class OnSplashScr extends MyScreen {
-   public static OnSplashScr a;
-   public int b = 0;
-   public static Image c;
-   public static boolean d = false;
+   public static OnSplashScr me;
+   public int splashScrStat = 0;
+   public static Image imgBg;
+   public static boolean isOpen = false;
 
    public static OnSplashScr b() {
-      return a == null ? (a = new OnSplashScr()) : a;
+      return me == null ? (me = new OnSplashScr()) : me;
    }
 
    public final void switchToMe() {
       Canvas.listInfoSV.removeAllElements();
       Canvas.transTab = 0;
-      Canvas.instance.b();
-      OnScreen.b = true;
+      Canvas.instance.setSize();
+      OnScreen.isOngame = true;
 
       try {
-         c = Image.createImage(T.a() + "/on/logo.on");
+         imgBg = Image.createImage(T.a() + "/on/logo.on");
       } catch (IOException var2) {
          var2.printStackTrace();
       }
@@ -32,21 +32,21 @@ public final class OnSplashScr extends MyScreen {
    }
 
    public final void update() {
-      if (this.b > 21) {
-         LoadMap.B = GameMidlet.avatar.x;
+      if (this.splashScrStat > 21) {
+         LoadMap.xDichChuyen_ = GameMidlet.avatar.x;
          LoadMap.C = GameMidlet.avatar.y;
          OnScreen.e().switchToMe();
-      } else if (this.b == 0) {
+      } else if (this.splashScrStat == 0) {
          Canvas.paint.f();
       }
 
-      ++this.b;
+      ++this.splashScrStat;
    }
 
    public final void paint(Graphics var1) {
       Canvas.paint.paintDefaultBg(var1);
-      if (this.b > 1) {
-         var1.drawImage(c, Canvas.hw, Canvas.hCan / 2, 3);
+      if (this.splashScrStat > 1) {
+         var1.drawImage(imgBg, Canvas.hw, Canvas.hCan / 2, 3);
       }
 
       Canvas.paintPlus(var1);

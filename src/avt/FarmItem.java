@@ -15,7 +15,7 @@ public final class FarmItem {
    public final void paint(Graphics var1, int var2, int var3, int var4, int var5) {
       ImageIcon var6;
       if ((var6 = FarmData.getImgIcon(this.IDImg)).count != -1) {
-         var1.drawRegion(var6.img, 0, 0, var6.b, var6.c, 0, var2, var3, 3);
+         var1.drawRegion(var6.img, 0, 0, var6.w, var6.h, 0, var2, var3, 3);
       }
 
    }

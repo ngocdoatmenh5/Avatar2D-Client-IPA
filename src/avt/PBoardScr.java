@@ -574,7 +574,7 @@ public final class PBoardScr extends BoardScr {
          if (BoardScr.isStartGame && BoardScr.isStartGame && this.O != null) {
             for(int var1 = this.O.length - 1; var1 >= 0; --var1) {
                if (this.O[var1].translate() == -1) {
-                  this.O[var1].g = false;
+                  this.O[var1].isShow = false;
                }
             }
          }
@@ -1050,7 +1050,7 @@ public final class PBoardScr extends BoardScr {
       this.paintNamePlayers(var1);
       long var5;
       if (BoardScr.isStartGame && !BoardScr.isGameEnd && (var5 = (long)BoardScr.interval - BoardScr.dieTime) > 0L && b != null && b[0] != null) {
-         Canvas.O.drawString(var1, String.valueOf(var5), Canvas.hw, b[0].y + AvMain.ai + 10, 2);
+         Canvas.O.drawString(var1, String.valueOf(var5), Canvas.hw, b[0].y + AvMain.hSmall + 10, 2);
       }
 
       if (BoardScr.isStartGame) {
@@ -1382,7 +1382,7 @@ public final class PBoardScr extends BoardScr {
             var4.be = new Card((byte)-1, true);
             var4.be.x = var4.O[var6].x;
             var4.be.y = var4.O[var6].y;
-            if (!var4.O[var6].g) {
+            if (!var4.O[var6].isShow) {
                var4.be = var4.O[var6];
             }
 
@@ -1599,7 +1599,7 @@ public final class PBoardScr extends BoardScr {
          this.O[var3] = new Card(var5.cardID, true);
          this.O[var3].x = Canvas.hw;
          this.O[var3].y = Canvas.hh;
-         this.O[var3].g = true;
+         this.O[var3].isShow = true;
       }
 
       b(this.O);

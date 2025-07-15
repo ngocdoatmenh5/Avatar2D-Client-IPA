@@ -269,7 +269,7 @@ public final class MenuNPC extends MenuMain {
 
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      Canvas.paint.a(var1, this.d, this.e, this.f, this.g, 0);
+      Canvas.paint.paintPopupBack(var1, this.d, this.e, this.f, this.g, 0);
       var1.translate(this.d, this.e);
       var1.setColor(695195);
       var1.fillRect(12 * AvMain.hd, 12 * AvMain.hd, this.f - 24 * AvMain.hd, 50 * AvMain.hd);
@@ -278,10 +278,10 @@ public final class MenuNPC extends MenuMain {
 
       int var2;
       for(var2 = 0; var2 < this.p.length; ++var2) {
-         Canvas.fontChatB.drawString(var1, this.p[var2], 20 * AvMain.hd, 12 * AvMain.hd + 25 * AvMain.hd - this.p.length * AvMain.af / 2 + var2 * AvMain.af, 0);
+         Canvas.fontChatB.drawString(var1, this.p[var2], 20 * AvMain.hd, 12 * AvMain.hd + 25 * AvMain.hd - this.p.length * AvMain.hBlack / 2 + var2 * AvMain.hBlack, 0);
       }
 
-      Avatar var9 = LoadMap.g(this.c);
+      Avatar var9 = LoadMap.getAvatar(this.c);
       Canvas.normalFont.drawString(var1, this.o, this.h / 2, this.i + this.k / 2 - AvMain.ah - 20 * AvMain.hd, 2);
       var9.paintIcon(var1, this.h / 2, this.i + this.k / 2 + var9.height, true);
       var2 = 4441283;

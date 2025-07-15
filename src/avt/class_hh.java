@@ -12,7 +12,7 @@ final class class_hh implements IAction {
    }
 
    public final void perform() {
-      if (!ListScr.gI().a(this.a + "-" + this.b + "-" + this.c)) {
+      if (!ListScr.gI().setList(this.a + "-" + this.b + "-" + this.c)) {
          GlobalService.gI().doMenuOption(this.a, this.b, this.c);
       }
 

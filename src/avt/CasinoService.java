@@ -248,8 +248,8 @@ public final class CasinoService extends IService {
 
          for(int var2 = 0; var2 < 8; ++var2) {
             for(int var3 = 0; var3 < 8; ++var3) {
-               if (var1[var2][var3].l) {
-                  var1[var2][var3].l = false;
+               if (var1[var2][var3].isRemove) {
+                  var1[var2][var3].isRemove = false;
                   super.m.writer().writeByte((var2 << 3) + var3);
                }
             }

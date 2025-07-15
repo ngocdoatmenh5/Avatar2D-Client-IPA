@@ -25,7 +25,7 @@ public final class GamePad {
    private String[] t;
    private byte[] u;
    private int v = -1;
-   public boolean a = false;
+   public boolean isPointerClick = false;
    private boolean w = false;
    private long x;
    private String[] y = new String[]{"Top", "Down", "Left", "Right"};
@@ -113,15 +113,15 @@ public final class GamePad {
    public final void a() {
       int var2;
       int var3;
-      if (!this.a) {
+      if (!this.isPointerClick) {
          if (this.w && Canvas.isPointerRelease) {
             this.w = false;
             if (System.currentTimeMillis() / 10L - this.x > 40L) {
-               TField.c();
+               TField.keyPressedAscii();
                this.c();
             } else {
                this.v = -1;
-               this.a = true;
+               this.isPointerClick = true;
             }
          }
 
@@ -175,7 +175,7 @@ public final class GamePad {
                         break;
                      case 7:
                      case 9:
-                        this.a = false;
+                        this.isPointerClick = false;
                         break;
                      case 10:
                         Canvas.instance.keyPressed(48);
@@ -202,7 +202,7 @@ public final class GamePad {
    }
 
    private void c() {
-      switch (TField.n) {
+      switch (TField.mode) {
          case 0:
          case 1:
             this.t = this.q;
@@ -223,11 +223,11 @@ public final class GamePad {
       Graphics var3;
       int var4;
       int var5;
-      if (this.a) {
+      if (this.isPointerClick) {
          var3 = var1;
          var2 = this;
          var1.setClip(this.b, this.c, this.d, this.e);
-         PaintPopup.a(this.h, this.i, this.d, this.e, 8705740, var1);
+         PaintPopup.fill(this.h, this.i, this.d, this.e, 8705740, var1);
          var1.setColor(1);
          var1.drawRect(this.h, this.i, this.d - 1, this.e - 1);
 
@@ -253,7 +253,7 @@ public final class GamePad {
          var3 = var1;
          var2 = this;
          var1.setClip(this.b - 4, this.c - 4, this.d + 4, this.e + 4);
-         PaintPopup.a(this.b, this.c, this.d, this.e, 8705740, var1);
+         PaintPopup.fill(this.b, this.c, this.d, this.e, 8705740, var1);
          var1.setColor(0);
          var1.drawRect(this.b, this.c, this.d - 1, this.e - 1);
 
@@ -274,7 +274,7 @@ public final class GamePad {
             var5 = var2.b + var4 % var2.l * var2.f + var2.f / 2;
             int var6 = var2.c + var4 / var2.l * var2.g + var2.g / 2;
             if (var2.p[var4].equals("ABC")) {
-               Canvas.normalFont.drawString(var3, TField.p[TField.n], var5, var6 - 5, 2);
+               Canvas.normalFont.drawString(var3, TField.p[TField.mode], var5, var6 - 5, 2);
             } else {
                for(int var7 = 0; var7 < 4; ++var7) {
                   if (var2.p[var4].equals(var2.y[var7])) {

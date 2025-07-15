@@ -52,7 +52,7 @@ public final class FishFarm extends AnimalDan {
    public final void paint(Graphics var1) {
       super.paint(var1);
       if (this.waves.anchor < 16) {
-         var1.setColor(Fish.l[LoadMap.j]);
+         var1.setColor(Fish.l[LoadMap.status]);
          var1.drawRoundRect((this.waves.x - this.waves.anchor / 2) * MyObject.hd, (this.waves.y - this.waves.anchor / 4) * MyObject.hd, this.waves.anchor * MyObject.hd, this.waves.anchor / 2 * MyObject.hd, this.waves.anchor * MyObject.hd, this.waves.anchor * MyObject.hd);
       }
 
@@ -116,6 +116,6 @@ public final class FishFarm extends AnimalDan {
 
    public final Point getPosEat() {
       Point var1;
-      return !LoadMap.isTrans((var1 = (Point)FarmScr.listFood[super.indexFood].elementAt(CRes.rnd(FarmScr.listFood[super.indexFood].size()))).x, var1.y) && var1.b == 0 ? var1 : null;
+      return !LoadMap.isTrans((var1 = (Point)FarmScr.listFood[super.indexFood].elementAt(CRes.rnd(FarmScr.listFood[super.indexFood].size()))).x, var1.y) && var1.g == 0 ? var1 : null;
    }
 }

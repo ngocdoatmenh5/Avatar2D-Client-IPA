@@ -61,7 +61,7 @@ public final class CustomTab extends Face {
    public CustomTab() {
       this.setSize();
       super.right = new Command(T.d, 0);
-      wStr = AvMain.af;
+      wStr = AvMain.hBlack;
    }
 
    private void setSize() {
@@ -137,7 +137,7 @@ public final class CustomTab extends Face {
          }
 
          StringObj var8;
-         (var8 = new StringObj(this.x0, this.y0 += wStr, var2 + var5[var6])).e = var3;
+         (var8 = new StringObj(this.x0, this.y0 += wStr, var2 + var5[var6])).anthor = var3;
          this.listLabel.addElement(var8);
       }
 
@@ -252,7 +252,7 @@ public final class CustomTab extends Face {
          this.h = 80 * AvMain.hd + MyScreen.at;
       }
 
-      if ((cmyLim = this.y0 - (this.h - PaintPopup.o - 2 * AvMain.Z - (wStr << 1))) < 0) {
+      if ((cmyLim = this.y0 - (this.h - PaintPopup.o - 2 * AvMain.hDuBox - (wStr << 1))) < 0) {
          cmyLim = 0;
       }
 
@@ -382,7 +382,7 @@ public final class CustomTab extends Face {
 
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      Canvas.paint.a(var1, this.x, this.d, this.h, this.w, 0, 0, PaintPopup.gI().j, this.wTab, PaintPopup.o, 1, 1, PaintPopup.gI().n, PaintPopup.gI().m, this.title);
+      Canvas.paint.paintBoxTab(var1, this.x, this.d, this.h, this.w, 0, 0, PaintPopup.gI().j, this.wTab, PaintPopup.o, 1, 1, PaintPopup.gI().n, PaintPopup.gI().m, this.title);
       var1.setClip(this.x + 4, this.d + PaintPopup.o + 4 * AvMain.hd, this.w - 8, this.h - PaintPopup.o - 8 * AvMain.hd);
       var1.translate(this.x + this.c, this.d + PaintPopup.o);
       var1.translate(0, -cmy);
@@ -393,26 +393,26 @@ public final class CustomTab extends Face {
          StringObj var3;
          if ((var3 = (StringObj)this.listLabel.elementAt(var2)).y > cmy - 10 && var3.y < cmy + this.h) {
             int var4;
-            if (var3.a.length() > 2 && var3.a.substring(0, 1).equals("¶")) {
-               var4 = Integer.parseInt(var3.a.substring(1, var3.a.length()), 16);
-               PaintPopup.a(var3.x, var3.y, Canvas.w - (var3.x << 1), 1, var4, var1);
+            if (var3.str.length() > 2 && var3.str.substring(0, 1).equals("¶")) {
+               var4 = Integer.parseInt(var3.str.substring(1, var3.str.length()), 16);
+               PaintPopup.fill(var3.x, var3.y, Canvas.w - (var3.x << 1), 1, var4, var1);
             } else {
                var4 = var3.x;
-               if (var3.e == 2) {
+               if (var3.anthor == 2) {
                   var4 += (this.w - 30) / 2 + 4;
-               } else if (var3.e == 1) {
+               } else if (var3.anthor == 1) {
                   var4 += this.w - 30 + 10;
                }
 
-               if (var3.a.length() > 2 && var3.a.substring(0, 1).equals("Ę")) {
-                  Canvas.fontChatB.drawString(var1, var3.a.substring(1, var3.a.length()), var4, var3.y, var3.e);
-               } else if (var3.a.length() > 1 && var3.a.substring(0, 1).equals("0")) {
+               if (var3.str.length() > 2 && var3.str.substring(0, 1).equals("Ę")) {
+                  Canvas.fontChatB.drawString(var1, var3.str.substring(1, var3.str.length()), var4, var3.y, var3.anthor);
+               } else if (var3.str.length() > 1 && var3.str.substring(0, 1).equals("0")) {
                   var1.setColor(8654855);
-                  int var5 = Canvas.M.getWidth(var3.a.substring(1) + "") + 20;
-                  var1.fillRect(var4 - var5 / 2, var3.y + AvMain.ah / 2 - AvMain.ai / 2 - 1, var5, Canvas.M.getHeight());
-                  Canvas.M.drawString(var1, var3.a.substring(1) + "", var4, var3.y + AvMain.ah / 2 - AvMain.af / 2, var3.e);
+                  int var5 = Canvas.M.getWidth(var3.str.substring(1) + "") + 20;
+                  var1.fillRect(var4 - var5 / 2, var3.y + AvMain.ah / 2 - AvMain.hSmall / 2 - 1, var5, Canvas.M.getHeight());
+                  Canvas.M.drawString(var1, var3.str.substring(1) + "", var4, var3.y + AvMain.ah / 2 - AvMain.hBlack / 2, var3.anthor);
                } else {
-                  Canvas.normalFont.drawString(var1, var3.a, var4, var3.y, var3.e);
+                  Canvas.normalFont.drawString(var1, var3.str, var4, var3.y, var3.anthor);
                }
             }
          }

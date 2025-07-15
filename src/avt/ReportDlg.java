@@ -5,8 +5,8 @@ import javax.microedition.lcdui.Graphics;
 import main.Canvas;
 
 public final class ReportDlg extends Dialog {
-   public Vector a;
-   private static ReportDlg h;
+   public Vector list;
+   private static ReportDlg instance;
    public int b = 0;
    public int c;
    public int d;
@@ -15,19 +15,19 @@ public final class ReportDlg extends Dialog {
    private boolean i = false;
    public String g = "";
 
-   public static ReportDlg a() {
-      if (h == null) {
-         h = new ReportDlg();
+   public static ReportDlg gI() {
+      if (instance == null) {
+         instance = new ReportDlg();
       }
 
-      return h;
+      return instance;
    }
 
    public final void commandTab(int var1) {
       switch (var1) {
          case 0:
             Canvas.endDlg();
-            h = null;
+            instance = null;
          default:
       }
    }
@@ -39,21 +39,21 @@ public final class ReportDlg extends Dialog {
    public final void update() {
    }
 
-   public final void b() {
-      if (this.a != null && this.a.size() > 0) {
+   public final void show() {
+      if (this.list != null && this.list.size() > 0) {
          Canvas.currentDialog = this;
       }
 
    }
 
    public final void paint(Graphics var1) {
-      Canvas.paint.a(var1, this.d, this.b, this.e, this.c, 0);
-      int var2 = this.b + PaintPopup.o + (5 + AvMain.Z - AvMain.ah / 2);
+      Canvas.paint.paintPopupBack(var1, this.d, this.b, this.e, this.c, 0);
+      int var2 = this.b + PaintPopup.o + (5 + AvMain.hDuBox - AvMain.ah / 2);
 
-      for(int var3 = 0; var3 < this.a.size(); ++var3) {
+      for(int var3 = 0; var3 < this.list.size(); ++var3) {
          String var4;
-         if ((var4 = (String)this.a.elementAt(var3)).substring(0, 1).equals("0")) {
-            Canvas.smallFontYellow.drawString(var1, var4.substring(1), this.d + this.e / 2, var2 + 3 + AvMain.ah / 2 - AvMain.ai / 2, 2);
+         if ((var4 = (String)this.list.elementAt(var3)).substring(0, 1).equals("0")) {
+            Canvas.smallFontYellow.drawString(var1, var4.substring(1), this.d + this.e / 2, var2 + 3 + AvMain.ah / 2 - AvMain.hSmall / 2, 2);
          } else {
             Canvas.normalFont.drawString(var1, var4, this.d + 15, var2 + 3, 0);
          }

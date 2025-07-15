@@ -12,8 +12,8 @@ final class class_co implements IAction {
    }
 
    public final void perform() {
-      MapItem var1 = new MapItem(2, HouseScr.d(this.a) * 24, HouseScr.e(this.a) * 24, 1, this.b.idType);
+      MapItem var1 = new MapItem(2, HouseScr.getX(this.a) * 24, HouseScr.getY(this.a) * 24, 1, this.b.idType);
       AvatarService.gI().doBuyItemHouse(var1);
-      HouseScr.a(this.a, this.c);
+      HouseScr.doSelectedItem(this.a, this.c);
    }
 }

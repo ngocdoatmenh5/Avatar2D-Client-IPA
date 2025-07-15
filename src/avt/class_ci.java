@@ -10,6 +10,6 @@ final class class_ci implements IAction {
    }
 
    public final void perform() {
-      GameMidlet.b(this.a);
+      GameMidlet.flatForm(this.a);
    }
 }

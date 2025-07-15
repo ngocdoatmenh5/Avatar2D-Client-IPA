@@ -2,8 +2,8 @@ package avt;
 
 public final class SeriPart {
    public short idPart;
-   public byte b;
-   public String c;
+   public byte time;
+   public String expireString;
 
    public SeriPart() {
    }

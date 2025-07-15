@@ -141,10 +141,10 @@ public final class DiamondScr extends BoardScr {
          Avatar var4;
          if ((var4 = (Avatar)BoardScr.avatarInfos.elementAt(var3)).IDDB != -1) {
             if (var4.IDDB != GameMidlet.avatar.IDDB) {
-               LoadMap.b(var4);
+               LoadMap.addPlayer(var4);
             }
 
-            var4.yCur = var4.y = Canvas.hCan - Canvas.hTab - AvMain.ai / 2;
+            var4.yCur = var4.y = Canvas.hCan - Canvas.hTab - AvMain.hSmall / 2;
             if (var4.y < this.wCell << 3 && (var1 = this.x - this.hhFill - 15 * AvMain.hd) < 0) {
                var1 = 0;
             }
@@ -185,9 +185,9 @@ public final class DiamondScr extends BoardScr {
          for(int var4 = 7; var4 >= 0; --var4) {
             this.array[var3][var4] = new Point(var4 * this.wCell, var3 * this.wCell, var1[var3][var4]);
             this.array[var3][var4].color = this.array[var3][var4].y;
-            this.array[var3][var4].e = -var5;
+            this.array[var3][var4].h = -var5;
             --var5;
-            this.array[var3][var4].k = true;
+            this.array[var3][var4].isFire = true;
             this.array[var3][var4].y = -(var4 * this.wCell + 24);
          }
       }
@@ -229,7 +229,7 @@ public final class DiamondScr extends BoardScr {
                      var4.y += (var4.yTo - var4.y) / 2;
                   }
 
-                  var10000 = CRes.distance(var4.x, var4.y, var4.xTo, var4.yTo) <= var4.o / 5 ? 2 : 1;
+                  var10000 = CRes.distance(var4.x, var4.y, var4.xTo, var4.yTo) <= var4.distant / 5 ? 2 : 1;
                }
 
                if (var10000 == -1) {
@@ -262,21 +262,21 @@ public final class DiamondScr extends BoardScr {
             boolean var9 = false;
 
             for(var5 = 63; var5 >= 0; --var5) {
-               if (this.array[var5 / 8][var5 % 8] != null && this.array[var5 / 8][var5 % 8].k) {
+               if (this.array[var5 / 8][var5 % 8] != null && this.array[var5 / 8][var5 % 8].isFire) {
                   Point var13 = this.array[var5 / 8][var5 % 8];
-                  var13.x += this.array[var5 / 8][var5 % 8].b;
-                  if (this.array[var5 / 8][var5 % 8].b > 1 || this.array[var5 / 8][var5 % 8].b < -1) {
+                  var13.x += this.array[var5 / 8][var5 % 8].g;
+                  if (this.array[var5 / 8][var5 % 8].g > 1 || this.array[var5 / 8][var5 % 8].g < -1) {
                      var13 = this.array[var5 / 8][var5 % 8];
-                     var13.b -= this.array[var5 / 8][var5 % 8].b / CRes.abs(this.array[var5 / 8][var5 % 8].b);
+                     var13.g -= this.array[var5 / 8][var5 % 8].g / CRes.abs(this.array[var5 / 8][var5 % 8].g);
                   }
 
                   var13 = this.array[var5 / 8][var5 % 8];
-                  var13.y += this.array[var5 / 8][var5 % 8].e;
+                  var13.y += this.array[var5 / 8][var5 % 8].h;
                   var13 = this.array[var5 / 8][var5 % 8];
-                  var13.e += 2;
+                  var13.h += 2;
                   if (this.array[var5 / 8][var5 % 8].y >= this.array[var5 / 8][var5 % 8].color) {
                      this.array[var5 / 8][var5 % 8].y = this.array[var5 / 8][var5 % 8].color;
-                     this.array[var5 / 8][var5 % 8].k = false;
+                     this.array[var5 / 8][var5 % 8].isFire = false;
                   } else {
                      var9 = true;
                   }
@@ -333,12 +333,12 @@ public final class DiamondScr extends BoardScr {
                }
             }
 
-            if (!var7.k) {
-               if (CRes.abs((var6 = CRes.tan(var7.xTo - var7.x, -(var7.yTo - var7.y))) - var7.e) > 10) {
-                  var7.e -= var7.height * var7.catagory;
-                  var7.e = CRes.fixangle(var7.e);
+            if (!var7.isFire) {
+               if (CRes.abs((var6 = CRes.tan(var7.xTo - var7.x, -(var7.yTo - var7.y))) - var7.h) > 10) {
+                  var7.h -= var7.height * var7.catagory;
+                  var7.h = CRes.fixangle(var7.h);
                } else {
-                  var7.e = var6;
+                  var7.h = var6;
                   var7.dis = (byte)(var7.dis + 2);
                }
 
@@ -347,8 +347,8 @@ public final class DiamondScr extends BoardScr {
                }
 
                ++var7.color;
-               int var11 = var7.dis * CRes.cos(var7.e) >> 10;
-               var6 = -(var7.dis * CRes.sin(var7.e)) >> 10;
+               int var11 = var7.dis * CRes.cos(var7.h) >> 10;
+               var6 = -(var7.dis * CRes.sin(var7.h)) >> 10;
                if (CRes.distance(var7.x, var7.y, var7.xTo, var7.yTo) >= var7.dis) {
                   var7.x += var11;
                   var7.y += var6;
@@ -356,13 +356,13 @@ public final class DiamondScr extends BoardScr {
                   this.listFireWork.removeElement(var7);
                }
             } else {
-               var7.x += var7.b;
-               if (var7.b > 1 || var7.b < -1) {
-                  var7.b -= var7.b / CRes.abs(var7.b);
+               var7.x += var7.g;
+               if (var7.g > 1 || var7.g < -1) {
+                  var7.g -= var7.g / CRes.abs(var7.g);
                }
 
-               var7.y += var7.e;
-               ++var7.e;
+               var7.y += var7.h;
+               ++var7.h;
                if (var7.catagory == 1 && var7.color < 19) {
                   ++var7.color;
                }
@@ -544,14 +544,14 @@ public final class DiamondScr extends BoardScr {
 
             for(int var11 = 0; var11 < (var3 != 1 ? 3 : 1); ++var11) {
                Point var7;
-               (var7 = new Point(var1 + this.x, var2 + this.y)).o = (short)var3;
+               (var7 = new Point(var1 + this.x, var2 + this.y)).distant = (short)var3;
                var7.color = CRes.rnd(3);
                int var8 = CRes.tan(var5 - var1, -(var6 - var2));
-               var7.b = var8;
+               var7.g = var8;
                var7.catagory = (byte)CRes.rnd(-1, 1);
-               var7.e = CRes.fixangle(var7.b + var7.catagory * 90);
-               var8 = 10 * CRes.cos(var7.e) >> 10;
-               int var9 = -(10 * CRes.sin(var7.e)) >> 10;
+               var7.h = CRes.fixangle(var7.g + var7.catagory * 90);
+               var8 = 10 * CRes.cos(var7.h) >> 10;
+               int var9 = -(10 * CRes.sin(var7.h)) >> 10;
                var7.xTo = (short)var5;
                var7.yTo = (short)var6;
                var7.x += var8;
@@ -575,10 +575,10 @@ public final class DiamondScr extends BoardScr {
          for(int var7 = 0; var7 < 3; ++var7) {
             int var5 = CRes.rnd(-1, 1);
             Point var6;
-            (var6 = new Point(var1, var2)).k = true;
+            (var6 = new Point(var1, var2)).isFire = true;
             var6.color = CRes.rnd(3);
-            var6.b = var5 * (CRes.rnd(100) / 10);
-            var6.e = -CRes.rnd(100) / 10;
+            var6.g = var5 * (CRes.rnd(100) / 10);
+            var6.h = -CRes.rnd(100) / 10;
             var6.dis = (byte)var3;
             var6.catagory = 1;
             var6.limitY = 0;
@@ -726,7 +726,7 @@ public final class DiamondScr extends BoardScr {
 
             if (var2 > 1) {
                for(var4 = var3; var4 < var3 + var2 + 1; ++var4) {
-                  this.array[var4 / 8][var4 % 8].l = true;
+                  this.array[var4 / 8][var4 % 8].isRemove = true;
                   var1 = true;
                }
             }
@@ -739,7 +739,7 @@ public final class DiamondScr extends BoardScr {
 
             if (var2 > 1) {
                for(var4 = var3; var4 < var3 + (var2 + 1 << 3); var4 += 8) {
-                  this.array[var4 / 8][var4 % 8].l = true;
+                  this.array[var4 / 8][var4 % 8].isRemove = true;
                   var1 = true;
                }
             }
@@ -771,10 +771,10 @@ public final class DiamondScr extends BoardScr {
                for(int var6 = var4; var6 / 8 > 0; var6 -= 8) {
                   var7.array[var6 / 8][var6 % 8].itemID = var7.array[(var6 - 8) / 8][(var6 - 8) % 8].itemID;
                   var7.array[var6 / 8][var6 % 8].color = var6 / 8 * var7.wCell;
-                  if (!var7.array[var6 / 8][var6 % 8].k) {
-                     var7.array[var6 / 8][var6 % 8].e = -var5;
+                  if (!var7.array[var6 / 8][var6 % 8].isFire) {
+                     var7.array[var6 / 8][var6 % 8].h = -var5;
                      ++var5;
-                     var7.array[var6 / 8][var6 % 8].k = true;
+                     var7.array[var6 / 8][var6 % 8].isFire = true;
                   }
 
                   var7.array[var6 / 8][var6 % 8].y = var7.array[(var6 - 8) / 8][(var6 - 8) % 8].y;
@@ -782,10 +782,10 @@ public final class DiamondScr extends BoardScr {
 
                var7.array[0][var4 % 8].itemID = -2;
                var7.array[0][var4 % 8].color = 0;
-               if (!var7.array[0][var4 % 8].k) {
-                  var7.array[0][var4 % 8].e = -var5;
+               if (!var7.array[0][var4 % 8].isFire) {
+                  var7.array[0][var4 % 8].h = -var5;
                   ++var5;
-                  var7.array[0][var4 % 8].k = true;
+                  var7.array[0][var4 % 8].isFire = true;
                   var7.array[0][var4 % 8].y = 0;
                }
 
@@ -824,7 +824,7 @@ public final class DiamondScr extends BoardScr {
                int var10003 = var6.itemID << 4;
                int var10008 = (var2.wCell << 3) + var2.wCell;
                var3.drawRegion(AvatarData.getImgIcon((short)876).img, 0, var10003, 16, 16, 0, var4, var10008, 3);
-               Canvas.smallFontYellow.drawString(var3, String.valueOf(var6.dis), var4, (var2.wCell << 3) + var2.wCell - AvMain.ai / 2, 2);
+               Canvas.smallFontYellow.drawString(var3, String.valueOf(var6.dis), var4, (var2.wCell << 3) + var2.wCell - AvMain.hSmall / 2, 2);
             }
          }
 
@@ -928,11 +928,11 @@ public final class DiamondScr extends BoardScr {
             }
          }
 
-         Canvas.smallFontYellow.drawString(var1, String.valueOf(var12.hp), var13 + var6, var12.y - (AvMain.ai << 1) + 3 * AvMain.hd - AvMain.ai / 2, var5);
-         Canvas.smallFontYellow.drawString(var1, String.valueOf(var12.mp), var13 + var6, var12.y - AvMain.ai + 3 * AvMain.hd - AvMain.ai / 2, var5);
+         Canvas.smallFontYellow.drawString(var1, String.valueOf(var12.hp), var13 + var6, var12.y - (AvMain.hSmall << 1) + 3 * AvMain.hd - AvMain.hSmall / 2, var5);
+         Canvas.smallFontYellow.drawString(var1, String.valueOf(var12.mp), var13 + var6, var12.y - AvMain.hSmall + 3 * AvMain.hd - AvMain.hSmall / 2, var5);
          if (var12.an > 0 && var12.countDefent <= 0 || var12.countDefent > 0 && Canvas.gameTick % 6 < 3) {
-            AvatarData.paintImg(var1, 880, var13 + var7, var12.y - AvMain.ai * 3, 3);
-            Canvas.smallFontYellow.drawString(var1, String.valueOf(var12.an), var13 + var8, var12.y - AvMain.ai * 3 - AvMain.ai / 2, var5);
+            AvatarData.paintImg(var1, 880, var13 + var7, var12.y - AvMain.hSmall * 3, 3);
+            Canvas.smallFontYellow.drawString(var1, String.valueOf(var12.an), var13 + var8, var12.y - AvMain.hSmall * 3 - AvMain.hSmall / 2, var5);
             if (var12.countDefent > 0) {
                --var12.countDefent;
             }
@@ -944,8 +944,8 @@ public final class DiamondScr extends BoardScr {
             var1.setColor(0);
          }
 
-         var1.fillRect(var13, var12.y - (AvMain.ai << 1), this.hhFill, 6 * AvMain.hd);
-         var1.fillRect(var13, var12.y - AvMain.ai, this.hhFill, 6 * AvMain.hd);
+         var1.fillRect(var13, var12.y - (AvMain.hSmall << 1), this.hhFill, 6 * AvMain.hd);
+         var1.fillRect(var13, var12.y - AvMain.hSmall, this.hhFill, 6 * AvMain.hd);
          if (var12.plusHP > 0) {
             var1.setColor(16583178);
             var1.fillRect(var13 + var10, var12.y - 4 - 10 * AvMain.hd, (var12.hp + var12.plusHP) * this.hhFill / var12.maxHP, 6 * AvMain.hd);
@@ -957,13 +957,13 @@ public final class DiamondScr extends BoardScr {
             var1.setColor(16711680);
          }
 
-         var1.fillRect(var13 + var3, var12.y - (AvMain.ai << 1), var12.hp * this.hhFill / var12.maxHP, 6 * AvMain.hd);
+         var1.fillRect(var13 + var3, var12.y - (AvMain.hSmall << 1), var12.hp * this.hhFill / var12.maxHP, 6 * AvMain.hd);
          var1.setColor(14137273);
-         var1.drawRect(var13, var12.y - (AvMain.ai << 1), this.hhFill, 6 * AvMain.hd);
-         var1.drawRect(var13, var12.y - AvMain.ai, this.hhFill, 6 * AvMain.hd);
+         var1.drawRect(var13, var12.y - (AvMain.hSmall << 1), this.hhFill, 6 * AvMain.hd);
+         var1.drawRect(var13, var12.y - AvMain.hSmall, this.hhFill, 6 * AvMain.hd);
          if (var12.plusMP > 0) {
             var1.setColor(3771903);
-            var1.fillRect(var13 + var9, var12.y - AvMain.ai + 1, (var12.mp + var12.plusMP) * this.hhFill / var12.maxMP, 6 * AvMain.hd - 1);
+            var1.fillRect(var13 + var9, var12.y - AvMain.hSmall + 1, (var12.mp + var12.plusMP) * this.hhFill / var12.maxMP, 6 * AvMain.hd - 1);
          }
 
          if ((var12.plusMP != 0 || var12.isNo) && Canvas.gameTick % 6 >= 3) {
@@ -972,7 +972,7 @@ public final class DiamondScr extends BoardScr {
             var1.setColor(299247);
          }
 
-         var1.fillRect(var13 + var4, var12.y - AvMain.ai + 1, var12.mp * this.hhFill / var12.maxMP, 6 * AvMain.hd - 1);
+         var1.fillRect(var13 + var4, var12.y - AvMain.hSmall + 1, var12.mp * this.hhFill / var12.maxMP, 6 * AvMain.hd - 1);
       }
 
    }
@@ -982,7 +982,7 @@ public final class DiamondScr extends BoardScr {
          Point var3;
          if ((var3 = (Point)this.listFireWork.elementAt(var2)).limitY > 0) {
             AvatarData.paintImg(var1, 877, var3.x, var3.y, 3);
-         } else if (var3.k) {
+         } else if (var3.isFire) {
             this.imgFireWork.drawFrame(var3.color / 5, var3.x, var3.y, 0, 3, var1);
          } else if (var3.dis >= 0) {
             this.imgFireWork.drawFrame(var3.color / 2 + 1, var3.x, var3.y, 0, 3, var1);
@@ -995,7 +995,7 @@ public final class DiamondScr extends BoardScr {
       int var6;
       int var7;
       for(var6 = 0; var6 < var1.length; ++var6) {
-         this.array[var1[var6] / 8][var1[var6] % 8].l = true;
+         this.array[var1[var6] / 8][var1[var6] % 8].isRemove = true;
          if (Canvas.h > 300) {
             boolean var5 = false;
 
@@ -1024,8 +1024,8 @@ public final class DiamondScr extends BoardScr {
 
       for(int var10 = 0; var10 < 8; ++var10) {
          for(var6 = 0; var6 < 8; ++var6) {
-            if (var9.array[var10][var6].l) {
-               var9.array[var10][var6].l = false;
+            if (var9.array[var10][var6].isRemove) {
+               var9.array[var10][var6].isRemove = false;
                var9.addFire(var9.array[var10][var6].x + 12, var9.array[var10][var6].y + 12, var9.array[var10][var6].itemID);
                var9.array[var10][var6].itemID = -1;
             }
@@ -1128,7 +1128,7 @@ public final class DiamondScr extends BoardScr {
       super.doContinue();
       BoardScr.isStartGame = false;
       this.isEnd = false;
-      ReportDlg.a().b();
+      ReportDlg.gI().show();
       this.idWin = -1;
 
       for(int var1 = 0; var1 < BoardScr.avatarInfos.size(); ++var1) {
@@ -1140,7 +1140,7 @@ public final class DiamondScr extends BoardScr {
    }
 
    public final void onFinish(Vector var1) {
-      ReportDlg var10000 = ReportDlg.a();
+      ReportDlg var10000 = ReportDlg.gI();
       String var3 = "";
       ReportDlg var4 = var10000;
       var10000.g = var3;
@@ -1149,12 +1149,12 @@ public final class DiamondScr extends BoardScr {
          var4.f = 50 + 20 * AvMain.hd;
       }
 
-      var4.a = var1;
-      var4.c = var4.a.size() * AvMain.af + (AvMain.Z << 1) + 10 + PaintPopup.o;
+      var4.list = var1;
+      var4.c = var4.list.size() * AvMain.hBlack + (AvMain.hDuBox << 1) + 10 + PaintPopup.o;
       var4.e = 0;
 
-      for(int var5 = 0; var5 < var4.a.size(); ++var5) {
-         var3 = (String)var4.a.elementAt(var5);
+      for(int var5 = 0; var5 < var4.list.size(); ++var5) {
+         var3 = (String)var4.list.elementAt(var5);
          if (Canvas.normalFont.getWidth(var3) + 20 > var4.e) {
             var4.e = Canvas.normalFont.getWidth(var3) + 20;
          }
@@ -1170,7 +1170,7 @@ public final class DiamondScr extends BoardScr {
 
       var4.d = (Canvas.w - var4.e) / 2;
       var4.b = Canvas.h - Canvas.hTab - var4.c - 10;
-      ReportDlg.a().center = new Command(avt.T.z, -1, this);
+      ReportDlg.gI().center = new Command(avt.T.z, -1, this);
       super.center = BoardScr.cmdBack;
       super.right = null;
       super.turn = -1;

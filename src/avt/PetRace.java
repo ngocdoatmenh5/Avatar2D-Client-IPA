@@ -91,14 +91,14 @@ public final class PetRace extends Base {
    public final void paint(Graphics var1) {
       ImageIcon var2;
       if ((var2 = AvatarData.getImgIcon(this.c)).count != -1) {
-         int var3 = var2.c / 5;
-         var1.drawRegion(var2.img, 0, RaceScr.m[super.action][super.frame] * var3, var2.b, var3, 0, super.x * MyObject.hd, super.y * MyObject.hd, 33);
+         int var3 = var2.h / 5;
+         var1.drawRegion(var2.img, 0, RaceScr.m[super.action][super.frame] * var3, var2.w, var3, 0, super.x * MyObject.hd, super.y * MyObject.hd, 33);
          if (RaceScr.b().d && this.g > 0) {
-            Canvas.M.drawString(var1, "" + this.g, super.x * MyObject.hd - var2.b / 2 - 8 * MyObject.hd, super.y * MyObject.hd - AvMain.af / 2 - 3 * MyObject.hd, 1);
+            Canvas.M.drawString(var1, "" + this.g, super.x * MyObject.hd - var2.w / 2 - 8 * MyObject.hd, super.y * MyObject.hd - AvMain.hBlack / 2 - 3 * MyObject.hd, 1);
          }
 
          if (this.i >= 0) {
-            var1.drawImage(RaceScr.h, super.x * MyObject.hd + var2.b / 2, super.y * MyObject.hd - var3, 33);
+            var1.drawImage(RaceScr.h, super.x * MyObject.hd + var2.w / 2, super.y * MyObject.hd - var3, 33);
          }
 
          if (this.l < 9) {
@@ -106,8 +106,8 @@ public final class PetRace extends Base {
          }
 
          if (this.j >= 0) {
-            var1.drawImage(RaceScr.i, super.x * MyObject.hd + var2.b / 2, super.y * MyObject.hd - var3, 33);
-            var1.drawImage(RaceScr.j[this.k / 2], super.x * MyObject.hd - var2.b / 2, super.y * MyObject.hd, 3);
+            var1.drawImage(RaceScr.i, super.x * MyObject.hd + var2.w / 2, super.y * MyObject.hd - var3, 33);
+            var1.drawImage(RaceScr.j[this.k / 2], super.x * MyObject.hd - var2.w / 2, super.y * MyObject.hd, 3);
          }
 
          if (super.IDDB == AvCamera.gI().followPlayer.IDDB) {

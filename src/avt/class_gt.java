@@ -26,7 +26,7 @@ final class class_gt implements IAction {
          Canvas.startOKDlg(T.cP, (IAction)(new class_kw(this.g, this.b)));
       } else if (this.e == 26) {
          Canvas.endDlg();
-         MapScr.gI().e(this.b);
+         MapScr.gI().doGiving(this.b);
          PopupShop.gI().close();
       } else {
          Part var1 = this.a;
@@ -37,7 +37,7 @@ final class class_gt implements IAction {
          if (this.c != -1 && this.e != 17 && this.e != 18) {
             Canvas.startOKDlg(this.d, (IAction)(new class_eq(this.g, this.c, this.e, this.f)));
          } else {
-            MapScr.b(var1);
+            MapScr.doSelectMoneyBuyItem(var1);
          }
       }
    }

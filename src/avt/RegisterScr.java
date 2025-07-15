@@ -198,8 +198,8 @@ public final class RegisterScr extends MyScreen {
    }
 
    public final void paint(Graphics var1) {
-      Canvas.loadMap.b(var1);
-      Canvas.loadMap.d(var1);
+      Canvas.loadMap.paint(var1);
+      Canvas.loadMap.paintBackGround(var1);
       Canvas.resetTrans(var1);
       PaintPopup.gI().a(var1);
       var1.translate(PaintPopup.gI().g, PaintPopup.gI().h);

@@ -25,7 +25,7 @@ public final class MessageScr extends MyScreen {
       return me;
    }
 
-   public final void a(MyScreen var1) {
+   public final void switchToMe(MyScreen var1) {
       this.h = var1;
       MyScreen.as = 0;
       gI().b = gI().g.size() - 1;
@@ -41,7 +41,7 @@ public final class MessageScr extends MyScreen {
    private void f() {
       PaintPopup var10000;
       int var10002;
-      if (OnScreen.b && Canvas.stypeInt == 0) {
+      if (OnScreen.isOngame && Canvas.stypeInt == 0) {
          var10000 = PaintPopup.gI();
          var10002 = Canvas.w - (e << 1);
          var10000.a(this.b(this.b).b, var10002, Canvas.hCan - Canvas.hTab - (e << 1), this.g.size());
@@ -49,7 +49,7 @@ public final class MessageScr extends MyScreen {
          var10000 = PaintPopup.gI();
          var10002 = Canvas.w - (e << 1);
          int var10003 = Canvas.h - Canvas.ab - Canvas.hTab - 10;
-         var10000.a(this.b(this.b).b, var10002, var10003 + (OnScreen.b && this.h != BoardScr.me ? -20 : 0), this.g.size());
+         var10000.a(this.b(this.b).b, var10002, var10003 + (OnScreen.isOngame && this.h != BoardScr.me ? -20 : 0), this.g.size());
          i = PaintPopup.gI().h = 10 + Canvas.ab;
       }
    }
@@ -69,18 +69,18 @@ public final class MessageScr extends MyScreen {
    public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 1:
-            ParkService.gI().a(c.f());
-            c.a("");
+            ParkService.gI().a(c.getText());
+            c.setText("");
             return;
          case 2:
             this.h.switchToMe();
             this.h = null;
             return;
          case 3:
-            if (!c.f().equals("")) {
+            if (!c.getText().equals("")) {
                class_cw var6 = this.b(this.b);
                String var7;
-               if ((var7 = c.f()).indexOf("hack") != -1) {
+               if ((var7 = c.getText()).indexOf("hack") != -1) {
                   var6.a(GameMidlet.avatar.name + ": " + var7);
                   var7 = var7 + " ";
 
@@ -90,12 +90,12 @@ public final class MessageScr extends MyScreen {
                   }
 
                   GlobalService.gI().doServerKick(var6.g, var7);
-                  c.a("");
+                  c.setText("");
                   break;
                }
 
                GlobalService.gI().chatTo(var6.g, var7);
-               c.a("");
+               c.setText("");
                var6.a(GameMidlet.avatar.name + ": " + var7);
             }
 
@@ -127,7 +127,7 @@ public final class MessageScr extends MyScreen {
 
    public final void doLeftMenu() {
       if (Canvas.stypeInt == 0) {
-         if (OnScreen.b) {
+         if (OnScreen.isOngame) {
             super.left = new Command(T.d, 4);
          } else {
             super.left = new Command(T.c, 5);
@@ -150,10 +150,10 @@ public final class MessageScr extends MyScreen {
          e = i = AvMain.aa;
       }
 
-      (c = new TField()).a = e + 5;
+      (c = new TField()).x = e + 5;
       this.init();
-      c.a(true);
-      c.c(40);
+      c.setFocus(true);
+      c.setMaxTextLenght(40);
       this.doLeftMenu();
       class_cw var10000 = this.a;
       var10000.i += 20;
@@ -168,8 +168,8 @@ public final class MessageScr extends MyScreen {
          this.b(this.b).c();
       }
 
-      c.b = PaintPopup.gI().h + PaintPopup.gI().e - c.d - 6;
-      c.c = Canvas.w - (PaintPopup.gI().g << 1) - 10;
+      c.y = PaintPopup.gI().h + PaintPopup.gI().e - c.height - 6;
+      c.width = Canvas.w - (PaintPopup.gI().g << 1) - 10;
    }
 
    private void g() {
@@ -177,7 +177,7 @@ public final class MessageScr extends MyScreen {
       super.center = this.b(this.b).c;
       super.right = this.b(this.b).d;
       if (super.center != null) {
-         c.a(this.b(this.b).f);
+         c.setText(this.b(this.b).f);
       }
 
       this.j = this.b(this.b).h;
@@ -221,14 +221,14 @@ public final class MessageScr extends MyScreen {
       this.h.paintMain(var1);
       Canvas.resetTrans(var1);
       PaintPopup.gI().a(var1);
-      var1.translate(e, i + PaintPopup.o + AvMain.Z);
+      var1.translate(e, i + PaintPopup.o + AvMain.hDuBox);
       this.b(this.b).a(var1);
       if (this.j) {
          var1.translate(-var1.getTranslateX(), -var1.getTranslateY());
          c.paint(var1);
       }
 
-      if (OnScreen.b) {
+      if (OnScreen.isOngame) {
          OnScreen.a(var1, super.left, super.center, super.right);
       } else {
          super.paint(var1);
@@ -236,7 +236,7 @@ public final class MessageScr extends MyScreen {
    }
 
    private void e(int var1) {
-      this.b(this.b).f = c.f();
+      this.b(this.b).f = c.getText();
       this.b += var1;
       if (this.b < 0) {
          this.b = this.g.size() - 1;
@@ -261,15 +261,15 @@ public final class MessageScr extends MyScreen {
       }
 
       if (this.j) {
-         c.b(var1);
+         c.keyPressed(var1);
       }
 
       super.keyPress(var1);
    }
 
    public final void updateKey() {
-      if (OnScreen.b && Canvas.stypeInt != 0) {
-         Canvas.paint.a(super.left, super.center, super.right);
+      if (OnScreen.isOngame && Canvas.stypeInt != 0) {
+         Canvas.paint.updateKeyOn(super.left, super.center, super.right);
       } else {
          super.updateKey();
       }
@@ -285,7 +285,7 @@ public final class MessageScr extends MyScreen {
 
    public final void update() {
       if (this.j) {
-         c.e();
+         c.update();
       }
 
       if (this.h != null) {
@@ -306,7 +306,7 @@ public final class MessageScr extends MyScreen {
       this.g();
    }
 
-   public final void a(int var1, String var2) {
+   public final void doAction(int var1, String var2) {
       class_cw var3;
       if ((var3 = this.c(var1)) == null) {
          var3 = new class_cw(var2, var1, new Command(T.ba, 3), c.a(), true);

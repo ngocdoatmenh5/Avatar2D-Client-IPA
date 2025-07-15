@@ -5,6 +5,6 @@ final class class_l implements IAction {
    }
 
    public final void perform() {
-      MapScr.w();
+      MapScr.exitGame();
    }
 }

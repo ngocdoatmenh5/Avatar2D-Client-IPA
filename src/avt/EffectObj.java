@@ -35,7 +35,7 @@ public final class EffectObj extends Base {
          if ((var2 = AvatarData.getEffect(this.ID)) != null) {
             if (this.style == 0) {
                Avatar var3;
-               if ((var3 = LoadMap.g(this.idPlayer)) == null) {
+               if ((var3 = LoadMap.getAvatar(this.idPlayer)) == null) {
                   this.removee();
                   return;
                }

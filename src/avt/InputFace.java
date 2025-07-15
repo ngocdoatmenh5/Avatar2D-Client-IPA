@@ -4,19 +4,19 @@ import javax.microedition.lcdui.Graphics;
 import main.Canvas;
 
 public final class InputFace extends Face {
-   public static InputFace a;
-   private TField[] b;
-   private String c;
-   private int d;
-   private int e;
-   private int f;
-   private int g;
+   public static InputFace me;
+   private TField[] list;
+   private String title;
+   private int x;
+   private int y;
+   private int w;
    private int h;
-   private int i;
-   private String[][] j;
+   private int focus;
+   private int wTab;
+   private String[][] nameChangePass;
 
-   public static InputFace b() {
-      return a == null ? (a = new InputFace()) : a;
+   public static InputFace gI() {
+      return me == null ? (me = new InputFace()) : me;
    }
 
    public final void commandTab(int var1, int var2) {
@@ -30,75 +30,75 @@ public final class InputFace extends Face {
    }
 
    public InputFace() {
-      this.f = 200 + Canvas.stypeInt * 88;
-      this.d = (Canvas.w - this.f) / 2;
+      this.w = 200 + Canvas.stypeInt * 88;
+      this.x = (Canvas.w - this.w) / 2;
    }
 
-   public final void a(TField[] var1, String var2, String[][] var3, Command var4) {
+   public final void setIputType(TField[] var1, String var2, String[][] var3, Command var4) {
       super.left = new Command(T.d, 0);
       super.center = var4;
-      this.c = var2;
-      this.b = var1;
-      this.j = var3;
-      this.g = MyScreen.at + AvMain.Z + AvMain.ah + (var1[0].d << 1) * var1.length + Canvas.stypeInt * 12;
-      this.e = (Canvas.h - Canvas.hTab - this.g) / 2;
+      this.title = var2;
+      this.list = var1;
+      this.nameChangePass = var3;
+      this.h = MyScreen.at + AvMain.hDuBox + AvMain.ah + (var1[0].height << 1) * var1.length + Canvas.stypeInt * 12;
+      this.y = (Canvas.h - Canvas.hTab - this.h) / 2;
 
       for(int var5 = 0; var5 < var1.length; ++var5) {
-         var1[var5].c = this.f - 50 * (Canvas.stypeInt + 1) - Canvas.normalFont.getWidth(var3[0][0]);
-         var1[var5].a = this.d + this.f - var1[var5].c - 10 * (Canvas.stypeInt + 1);
-         var1[var5].b = this.e + PaintPopup.o + AvMain.Z + AvMain.ah + (var1[0].d * var5 << 1);
+         var1[var5].width = this.w - 50 * (Canvas.stypeInt + 1) - Canvas.normalFont.getWidth(var3[0][0]);
+         var1[var5].x = this.x + this.w - var1[var5].width - 10 * (Canvas.stypeInt + 1);
+         var1[var5].y = this.y + PaintPopup.o + AvMain.hDuBox + AvMain.ah + (var1[0].height * var5 << 1);
       }
 
-      this.i = Canvas.normalFont.getWidth(var2) + 20 * AvMain.hd;
-      if (this.i < 50 + 20 * AvMain.hd) {
-         this.i = 50 + 20 * AvMain.hd;
+      this.wTab = Canvas.normalFont.getWidth(var2) + 20 * AvMain.hd;
+      if (this.wTab < 50 + 20 * AvMain.hd) {
+         this.wTab = 50 + 20 * AvMain.hd;
       }
 
-      this.d();
+      this.setFocus();
    }
 
    public final void updateKey() {
-      for(int var1 = 0; var1 < this.b.length; ++var1) {
-         this.b[var1].e();
+      for(int var1 = 0; var1 < this.list.length; ++var1) {
+         this.list[var1].update();
       }
 
       boolean var2 = false;
       if (Canvas.a(2)) {
-         --this.h;
-         if (this.h < 0) {
-            this.h = this.b.length - 1;
+         --this.focus;
+         if (this.focus < 0) {
+            this.focus = this.list.length - 1;
          }
 
          var2 = true;
       } else if (Canvas.a(8)) {
-         ++this.h;
-         if (this.h > this.b.length - 1) {
-            this.h = 0;
+         ++this.focus;
+         if (this.focus > this.list.length - 1) {
+            this.focus = 0;
          }
 
          var2 = true;
       }
 
       if (var2) {
-         this.d();
+         this.setFocus();
       }
 
       super.updateKey();
    }
 
-   private void d() {
-      for(int var1 = 0; var1 < this.b.length; ++var1) {
-         this.b[var1].a(false);
+   private void setFocus() {
+      for(int var1 = 0; var1 < this.list.length; ++var1) {
+         this.list[var1].setFocus(false);
       }
 
-      this.b[this.h].a(true);
-      super.right = this.b[this.h].a();
+      this.list[this.focus].setFocus(true);
+      super.right = this.list[this.focus].a();
    }
 
    public final void keyPress(int var1) {
-      for(int var2 = 0; var2 < this.b.length; ++var2) {
-         if (this.b[var2].d()) {
-            this.b[var2].b(var1);
+      for(int var2 = 0; var2 < this.list.length; ++var2) {
+         if (this.list[var2].isFocused()) {
+            this.list[var2].keyPressed(var1);
          }
       }
 
@@ -107,25 +107,25 @@ public final class InputFace extends Face {
 
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      Canvas.paint.a(var1, this.d, this.e, this.g, this.f, 0, 0, PaintPopup.gI().j, this.i, PaintPopup.o, 1, 1, PaintPopup.gI().n, PaintPopup.gI().m, this.c);
+      Canvas.paint.paintBoxTab(var1, this.x, this.y, this.h, this.w, 0, 0, PaintPopup.gI().j, this.wTab, PaintPopup.o, 1, 1, PaintPopup.gI().n, PaintPopup.gI().m, this.title);
 
-      for(int var2 = 0; var2 < this.b.length; ++var2) {
-         var1.setClip(this.d + 4 * AvMain.hd, this.e, this.f - 8 * AvMain.hd, this.g);
+      for(int var2 = 0; var2 < this.list.length; ++var2) {
+         var1.setClip(this.x + 4 * AvMain.hd, this.y, this.w - 8 * AvMain.hd, this.h);
          int var3;
-         if ((var3 = this.b[var2].a - Canvas.normalFont.getWidth(this.j[var2][0]) - 5) > this.d + 4 * AvMain.hd + 5) {
-            var3 = this.d + 4 * AvMain.hd + 5;
+         if ((var3 = this.list[var2].x - Canvas.normalFont.getWidth(this.nameChangePass[var2][0]) - 5) > this.x + 4 * AvMain.hd + 5) {
+            var3 = this.x + 4 * AvMain.hd + 5;
          }
 
          byte var4 = 2;
-         if (this.j[var2][1].equals("")) {
+         if (this.nameChangePass[var2][1].equals("")) {
             var4 = 1;
          }
 
          for(int var5 = 0; var5 < var4; ++var5) {
-            Canvas.normalFont.drawString(var1, this.j[var2][var5], var3, this.b[var2].b + this.b[var2].d / 2 - AvMain.ah * var4 / 2 + AvMain.ah * var5, 0);
+            Canvas.normalFont.drawString(var1, this.nameChangePass[var2][var5], var3, this.list[var2].y + this.list[var2].height / 2 - AvMain.ah * var4 / 2 + AvMain.ah * var5, 0);
          }
 
-         this.b[var2].paint(var1);
+         this.list[var2].paint(var1);
       }
 
       super.paint(var1);

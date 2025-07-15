@@ -9,53 +9,53 @@ import javax.microedition.lcdui.Graphics;
 import main.Canvas;
 
 public final class ListScr extends MyScreen {
-   public static ListScr a;
-   public MyScreen b;
-   private int j = 0;
-   public static Vector c = new Vector();
+   public static ListScr instance;
+   public MyScreen backMyScreen;
+   private int focus = 0;
+   public static Vector tempList = new Vector();
    private Command k;
-   public static Vector d;
-   private int l;
-   public static byte e = 0;
-   public static boolean f = false;
-   public int g;
-   public static String h = "friendlist";
-   public static Hashtable i = new Hashtable();
-   private boolean m = false;
+   public static Vector friendL;
+   private int wSmall;
+   public static byte typeListFriend = 0;
+   public static boolean isGetTypeHouse = false;
+   public int selected;
+   public static String idFriendList = "friendlist";
+   public static Hashtable hList = new Hashtable();
+   private boolean isAction = false;
    private String n;
-   private boolean o = false;
-   private int p = -20;
-   private Command q;
+   private boolean isHide = false;
+   private int xCus = -20;
+   private Command cmdSelected;
 
    public static ListScr gI() {
-      if (a == null) {
-         a = new ListScr();
+      if (instance == null) {
+         instance = new ListScr();
       }
 
-      return a;
+      return instance;
    }
 
    public final void switchToMe() {
-      this.g = 0;
+      this.selected = 0;
       this.k = new Command(T.d, 1);
       super.right = this.k;
-      this.b = null;
+      this.backMyScreen = null;
       if (Canvas.currentMyScreen != MenuCenter.gI() && Canvas.currentMyScreen != PopupShop.gI() && Canvas.currentMyScreen != gI()) {
-         this.b = Canvas.currentMyScreen;
+         this.backMyScreen = Canvas.currentMyScreen;
       }
 
       this.f();
       super.switchToMe();
       if (Canvas.stypeInt > 0) {
-         this.o = true;
+         this.isHide = true;
       }
 
    }
 
-   public final void e() {
-      Canvas.cameraList.a(20, PaintPopup.gI().h + PaintPopup.o + AvMain.Z, Canvas.w - 40, this.l, Canvas.w - 40, c.size() * this.l, Canvas.w - 40, PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.Z), c.size());
-      if (c.size() > 0) {
-         class_il.a().a(c.size() * this.l, PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
+   public final void setCam() {
+      Canvas.cameraList.a(20, PaintPopup.gI().h + PaintPopup.o + AvMain.hDuBox, Canvas.w - 40, this.wSmall, Canvas.w - 40, tempList.size() * this.wSmall, Canvas.w - 40, PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.hDuBox), tempList.size());
+      if (tempList.size() > 0) {
+         Scroll.gI().init(tempList.size() * this.wSmall, PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.hDuBox));
       }
 
    }
@@ -64,55 +64,55 @@ public final class ListScr extends MyScreen {
       if (Canvas.stypeInt == 0) {
          PaintPopup.gI().a(this.n, Canvas.w - 20, Canvas.hCan - Canvas.hTab - 20, 1);
       } else {
-         PaintPopup.gI().a(this.n, Canvas.w - 20 * AvMain.hd, Canvas.h - Canvas.ab - Canvas.hTab - 10 + (OnScreen.b ? 7 * AvMain.hd : 0), 1);
+         PaintPopup.gI().a(this.n, Canvas.w - 20 * AvMain.hd, Canvas.h - Canvas.ab - Canvas.hTab - 10 + (OnScreen.isOngame ? 7 * AvMain.hd : 0), 1);
       }
 
       PaintPopup.gI().h = 10 + Canvas.ab;
-      if (c != null) {
-         this.e();
+      if (tempList != null) {
+         this.setCam();
       }
 
    }
 
    public ListScr() {
-      this.l = 40 * AvMain.hd;
+      this.wSmall = 40 * AvMain.hd;
    }
 
-   public final void a(int var1, boolean var2) {
-      if (var2 && var1 == this.g) {
-         this.perform(this.q);
+   public final void setSelected(int var1, boolean var2) {
+      if (var2 && var1 == this.selected) {
+         this.perform(this.cmdSelected);
       }
 
-      this.p = -20;
-      if (var1 >= 0 && var1 < c.size()) {
-         this.g = var1;
+      this.xCus = -20;
+      if (var1 >= 0 && var1 < tempList.size()) {
+         this.selected = var1;
       }
 
    }
 
-   public final void a(boolean var1) {
-      this.o = var1;
+   public final void setHidePointer(boolean var1) {
+      this.isHide = var1;
    }
 
    public final void paint(Graphics var1) {
       var1.setClip(0, 0, Canvas.w, Canvas.h);
-      if (this.b != null) {
-         this.b.paintMain(var1);
+      if (this.backMyScreen != null) {
+         this.backMyScreen.paintMain(var1);
       } else {
          MapScr.gI().paintMain(var1);
       }
 
       PaintPopup.gI().a(var1);
-      var1.translate(0, PaintPopup.gI().h + PaintPopup.o + AvMain.Z);
+      var1.translate(0, PaintPopup.gI().h + PaintPopup.o + AvMain.hDuBox);
       var1.setClip(0, 0, Canvas.w, Canvas.h);
       int var2;
-      if ((var2 = CameraList.cmtoY / this.l) < 0) {
+      if ((var2 = CameraList.cmtoY / this.wSmall) < 0) {
          var2 = 0;
       }
 
       int var3;
-      if ((var3 = var2 + (Canvas.h - 40) / this.l + 1) > c.size()) {
-         var3 = c.size();
+      if ((var3 = var2 + (Canvas.h - 40) / this.wSmall + 1) > tempList.size()) {
+         var3 = tempList.size();
       }
 
       int var5;
@@ -121,99 +121,99 @@ public final class ListScr extends MyScreen {
       int var9;
       ListScr var11;
       Graphics var12;
-      if (this.j == 5) {
+      if (this.focus == 5) {
          var5 = var3;
          var12 = var1;
          var11 = this;
-         var6 = 0 + this.l * var2;
+         var6 = 0 + this.wSmall * var2;
 
          for(var7 = var2; var7 < var5; ++var7) {
-            var12.setClip(10 * AvMain.hd + 4 + AvMain.hd, 0, PaintPopup.gI().f - 8 - (AvMain.hd << 1), PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
+            var12.setClip(10 * AvMain.hd + 4 + AvMain.hd, 0, PaintPopup.gI().f - 8 - (AvMain.hd << 1), PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.hDuBox));
             var12.translate(0, -CameraList.cmtoY);
-            StringObj var13 = (StringObj)c.elementAt(var7);
+            StringObj var13 = (StringObj) tempList.elementAt(var7);
             int var8 = 0;
-            if (!var11.o && var7 == var11.g) {
-               Canvas.paint.c(var12, 10 * AvMain.hd + 3 + 2 * AvMain.hd, var6 + 2, Canvas.w - 20 * AvMain.hd - 6 - 4 * AvMain.hd, var11.l - 4);
-               if (var13.c > PaintPopup.gI().f - 40) {
-                  var11.p += 2;
-                  if (var11.p > var13.c - (PaintPopup.gI().f - 40)) {
-                     var11.p = -20;
+            if (!var11.isHide && var7 == var11.selected) {
+               Canvas.paint.c(var12, 10 * AvMain.hd + 3 + 2 * AvMain.hd, var6 + 2, Canvas.w - 20 * AvMain.hd - 6 - 4 * AvMain.hd, var11.wSmall - 4);
+               if (var13.w2 > PaintPopup.gI().f - 40) {
+                  var11.xCus += 2;
+                  if (var11.xCus > var13.w2 - (PaintPopup.gI().f - 40)) {
+                     var11.xCus = -20;
                   }
                }
 
-               var8 = var11.p;
-               if (var11.p < 0) {
+               var8 = var11.xCus;
+               if (var11.xCus < 0) {
                   var8 = 0;
                }
             }
 
-            var9 = AvatarData.getImgIcon((short)var13.d).c + 4;
-            AvatarData.paintImg(var12, var13.d, 10 * AvMain.hd + 10 + var9 / 2, var6 + var11.l / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
-            Canvas.normalFont.drawString(var12, var13.a, 10 * AvMain.hd + 10 + var9, var6 + var11.l / 2 - 12 * AvMain.hd, 0);
-            Canvas.fontChatB.drawString(var12, var13.b, 10 * AvMain.hd + 10 - var8, var6 + var11.l / 2 + 3 * AvMain.hd, 0);
-            var6 += var11.l;
+            var9 = AvatarData.getImgIcon((short)var13.dis).h + 4;
+            AvatarData.paintImg(var12, var13.dis, 10 * AvMain.hd + 10 + var9 / 2, var6 + var11.wSmall / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
+            Canvas.normalFont.drawString(var12, var13.str, 10 * AvMain.hd + 10 + var9, var6 + var11.wSmall / 2 - 12 * AvMain.hd, 0);
+            Canvas.fontChatB.drawString(var12, var13.str2, 10 * AvMain.hd + 10 - var8, var6 + var11.wSmall / 2 + 3 * AvMain.hd, 0);
+            var6 += var11.wSmall;
             var12.translate(0, CameraList.cmtoY);
          }
-      } else if (this.j == 6 || this.j == 0) {
+      } else if (this.focus == 6 || this.focus == 0) {
          var5 = var3;
          var12 = var1;
          var11 = this;
          var7 = 0;
-         var6 = 0 + this.l * var2;
+         var6 = 0 + this.wSmall * var2;
 
          for(int var4 = var2; var4 < var5; ++var4) {
-            var12.setClip(10 * AvMain.hd + 4, 0, PaintPopup.gI().f - 8, PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
+            var12.setClip(10 * AvMain.hd + 4, 0, PaintPopup.gI().f - 8, PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.hDuBox));
             var12.translate(0, -CameraList.cmtoY);
-            Avatar var14 = (Avatar)c.elementAt(var4);
+            Avatar var14 = (Avatar) tempList.elementAt(var4);
             var9 = 0;
             int var10;
-            if (!var11.o && var4 == var11.g) {
-               Canvas.paint.c(var12, 10 * AvMain.hd + 3 + 2 * AvMain.hd, var6 + 2, Canvas.w - 20 * AvMain.hd - 6 - 4 * AvMain.hd, var11.l - 4);
+            if (!var11.isHide && var4 == var11.selected) {
+               Canvas.paint.c(var12, 10 * AvMain.hd + 3 + 2 * AvMain.hd, var6 + 2, Canvas.w - 20 * AvMain.hd - 6 - 4 * AvMain.hd, var11.wSmall - 4);
                int var10000 = var10 = Canvas.fontChatB.getWidth(var14.text2);
                int var10003 = AvMain.hd - 1;
                if (var10000 > PaintPopup.gI().f - (57 + var10003 * 30)) {
-                  var11.p += 2;
+                  var11.xCus += 2;
                   int var10004 = AvMain.hd - 1;
-                  if (var11.p > var10 - (PaintPopup.gI().f - (57 + var10004 * 30))) {
-                     var11.p = -20;
+                  if (var11.xCus > var10 - (PaintPopup.gI().f - (57 + var10004 * 30))) {
+                     var11.xCus = -20;
                   }
                }
 
-               var9 = var11.p;
-               if (var11.p < 0) {
+               var9 = var11.xCus;
+               if (var11.xCus < 0) {
                   var9 = 0;
                }
             }
 
-            var14.paintIcon(var12, 10 * AvMain.hd + 25 + (AvMain.hd - 1) * 20, var6 + var11.l - 5 * AvMain.hd, false);
+            var14.paintIcon(var12, 10 * AvMain.hd + 25 + (AvMain.hd - 1) * 20, var6 + var11.wSmall - 5 * AvMain.hd, false);
             var10 = 0;
             if (var14.idImg != -1) {
                var10 = 6 * AvMain.hd;
-               AvatarData.paintImg(var12, var14.idImg, 60 + (AvMain.hd - 1) * 30 + var10, var6 + var11.l / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
+               AvatarData.paintImg(var12, var14.idImg, 60 + (AvMain.hd - 1) * 30 + var10, var6 + var11.wSmall / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
             }
 
             int var10001 = 60 + (AvMain.hd - 1) * 30;
             int var10005 = AvMain.hd - 1;
-            var12.setClip(var10001, CameraList.cmtoY, PaintPopup.gI().f - (47 + var10005 * 30), PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.Z));
-            Canvas.normalFont.drawString(var12, var14.name, 60 + (var10 << 1) + (AvMain.hd - 1) * 30, var6 + var11.l / 2 - 12 * AvMain.hd, 0);
+            var12.setClip(var10001, CameraList.cmtoY, PaintPopup.gI().f - (47 + var10005 * 30), PaintPopup.gI().e - 5 - (PaintPopup.o + 2 * AvMain.hDuBox));
+            Canvas.normalFont.drawString(var12, var14.name, 60 + (var10 << 1) + (AvMain.hd - 1) * 30, var6 + var11.wSmall / 2 - 12 * AvMain.hd, 0);
             if (var14.idWedding != -1) {
-               AvatarData.paintImg(var12, var14.idWedding, 60 + 6 * AvMain.hd + (var10 << 1) + (AvMain.hd - 1) * 30 + Canvas.normalFont.getWidth(var14.name), var6 + var11.l / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
+               AvatarData.paintImg(var12, var14.idWedding, 60 + 6 * AvMain.hd + (var10 << 1) + (AvMain.hd - 1) * 30 + Canvas.normalFont.getWidth(var14.name), var6 + var11.wSmall / 2 - 12 * AvMain.hd + AvMain.ah / 2, 3);
             }
 
             if (var14.idStatus != -1) {
                var7 = 12 * AvMain.hd;
-               AvatarData.paintImg(var12, var14.idStatus, 60 - var9 + (AvMain.hd - 1) * 30 + 6 * AvMain.hd, var6 + var11.l / 2 + 3 * AvMain.hd + AvMain.af / 2, 3);
+               AvatarData.paintImg(var12, var14.idStatus, 60 - var9 + (AvMain.hd - 1) * 30 + 6 * AvMain.hd, var6 + var11.wSmall / 2 + 3 * AvMain.hd + AvMain.hBlack / 2, 3);
             }
 
-            Canvas.fontChatB.drawString(var12, var14.text2, 60 - var9 + (AvMain.hd - 1) * 30 + var7, var6 + var11.l / 2 + 3 * AvMain.hd, 0);
-            var6 += var11.l;
+            Canvas.fontChatB.drawString(var12, var14.text2, 60 - var9 + (AvMain.hd - 1) * 30 + var7, var6 + var11.wSmall / 2 + 3 * AvMain.hd, 0);
+            var6 += var11.wSmall;
             var12.translate(0, CameraList.cmtoY);
          }
       }
 
-      class_il.a().a(var1, Canvas.w - 10 * AvMain.hd - 9 - AvMain.hd, 0);
+      Scroll.gI().paintScroll(var1, Canvas.w - 10 * AvMain.hd - 9 - AvMain.hd, 0);
       Canvas.resetTrans(var1);
-      if (OnScreen.b) {
+      if (OnScreen.isOngame) {
          OnScreen.a(var1, super.left, super.center, super.right);
       } else {
          super.paint(var1);
@@ -221,92 +221,92 @@ public final class ListScr extends MyScreen {
    }
 
    public final void updateKey() {
-      if (OnScreen.b && Canvas.stypeInt != 0) {
-         Canvas.paint.a(super.left, super.center, super.right);
+      if (OnScreen.isOngame && Canvas.stypeInt != 0) {
+         Canvas.paint.updateKeyOn(super.left, super.center, super.right);
       } else {
          super.updateKey();
       }
    }
 
    public final void update() {
-      if (this.b != null) {
-         this.b.update();
+      if (this.backMyScreen != null) {
+         this.backMyScreen.update();
       }
 
-      class_il.a().b(CameraList.cmtoY, CameraList.cmy);
+      Scroll.gI().updateScroll(CameraList.cmtoY, CameraList.cmy);
    }
 
-   private void a(int var1, Vector var2, MyScreen var3) {
+   private void onList(int var1, Vector var2, MyScreen var3) {
       if (Canvas.currentMyScreen != gI()) {
-         this.b = var3;
+         this.backMyScreen = var3;
       }
 
-      switch (this.j) {
+      switch (this.focus) {
          case 0:
-            f = true;
-            d = var2;
-            if (e == 1) {
+            isGetTypeHouse = true;
+            friendL = var2;
+            if (typeListFriend == 1) {
                MapScr.gI();
-               MapScr.c(MapScr.h);
-            } else if (e == 2) {
-               f = false;
+               MapScr.doRequestAddFriend(MapScr.focusP);
+            } else if (typeListFriend == 2) {
+               isGetTypeHouse = false;
                Canvas.startWaitDlg();
                AvatarService.gI().getTypeHouse((int)1);
             } else if (Canvas.currentMyScreen != this) {
                this.switchToMe();
             }
 
-            e = 0;
+            typeListFriend = 0;
          case 1:
          case 2:
          case 3:
          case 4:
       }
 
-      c = null;
-      c = var2;
-      if (this.j != 5) {
-         for(var1 = 0; var1 < c.size(); ++var1) {
+      tempList = null;
+      tempList = var2;
+      if (this.focus != 5) {
+         for(var1 = 0; var1 < tempList.size(); ++var1) {
             Avatar var4;
-            (var4 = (Avatar)c.elementAt(var1)).initPet();
+            (var4 = (Avatar) tempList.elementAt(var1)).initPet();
             var4.orderSeriesPath();
          }
       }
 
-      this.g = 0;
+      this.selected = 0;
       super.right = this.k;
-      this.e();
+      this.setCam();
    }
 
    public final void setFriendList(boolean var1) {
-      this.j = 0;
-      if (d == null) {
+      this.focus = 0;
+      if (friendL == null) {
          Canvas.startWaitDlg();
          CasinoService.gI().requestFriendList();
       } else {
-         this.b = Canvas.currentMyScreen;
-         this.a(h);
+         this.backMyScreen = Canvas.currentMyScreen;
+         this.setList(idFriendList);
          if (Canvas.currentMyScreen != this) {
             this.switchToMe();
          }
       }
 
       if (var1) {
-         this.m = true;
-         this.q = new Command(T.O, 4);
+         this.isAction = true;
+         this.cmdSelected = new Command(T.O, 4);
          if (Canvas.stypeInt == 0) {
-            super.center = this.q;
+            super.center = this.cmdSelected;
          }
       }
 
    }
 
    public static Avatar getAvatar(int var0) {
-      int var1 = d.size();
+      int var1 = friendL.size();
 
       for(int var2 = 0; var2 < var1; ++var2) {
          Avatar var3;
-         if ((var3 = (Avatar)d.elementAt(var2)).IDDB == var0) {
+         if ((var3 = (Avatar) friendL.elementAt(var2)).IDDB == var0) {
             return var3;
          }
       }
@@ -314,18 +314,18 @@ public final class ListScr extends MyScreen {
       return null;
    }
 
-   public final boolean a(String var1) {
-      byte[] var2 = (byte[])i.get(var1);
+   public final boolean setList(String var1) {
+      byte[] var2 = (byte[]) hList.get(var1);
       Canvas.endDlg();
       if (var2 == null) {
          return false;
       } else {
-         this.a(var2, var1);
+         this.readList(var2, var1);
          return true;
       }
    }
 
-   public final void a(byte[] var1, String var2) {
+   public final void readList(byte[] var1, String var2) {
       String[] var3 = null;
       byte[] var4 = null;
       ByteArrayInputStream var15 = new ByteArrayInputStream(var1);
@@ -339,18 +339,18 @@ public final class ListScr extends MyScreen {
          short var9 = var16.readShort();
          Vector var10 = new Vector();
          if (var7 == 0) {
-            this.j = 5;
+            this.focus = 5;
 
             for(var7 = 0; var7 < var9; ++var7) {
                StringObj var11;
-               (var11 = new StringObj()).d = var16.readShort();
-               var11.a = var16.readUTF();
-               var11.b = var16.readUTF();
-               var11.c = Canvas.fontChatB.getWidth(var11.b);
+               (var11 = new StringObj()).dis = var16.readShort();
+               var11.str = var16.readUTF();
+               var11.str2 = var16.readUTF();
+               var11.w2 = Canvas.fontChatB.getWidth(var11.str2);
                var10.addElement(var11);
             }
          } else {
-            this.j = 6;
+            this.focus = 6;
 
             for(var7 = 0; var7 < var9; ++var7) {
                Avatar var18;
@@ -364,7 +364,7 @@ public final class ListScr extends MyScreen {
 
                var18.IDDB = var16.readInt();
                var18.idImg = var16.readShort();
-               if (var2.equals(h)) {
+               if (var2.equals(idFriendList)) {
                   var18.idWedding = var16.readShort();
                   var18.idStatus = var16.readShort();
                }
@@ -386,11 +386,11 @@ public final class ListScr extends MyScreen {
             }
          }
 
-         if (var2.equals(h)) {
-            this.j = 0;
+         if (var2.equals(idFriendList)) {
+            this.focus = 0;
          }
 
-         gI().a(this.j, var10, Canvas.currentMyScreen);
+         gI().onList(this.focus, var10, Canvas.currentMyScreen);
          this.n = var5;
          this.f();
          if (Canvas.currentMyScreen != this) {
@@ -402,21 +402,21 @@ public final class ListScr extends MyScreen {
             super.left = new Command(T.c, new IActionListMenu(this, var2, var3, var6, var8, var4));
          }
 
-         if (!this.m) {
-            if (var2.equals(h)) {
-               this.q = new Command(T.L, 0);
+         if (!this.isAction) {
+            if (var2.equals(idFriendList)) {
+               this.cmdSelected = new Command(T.L, 0);
                if (Canvas.stypeInt == 0) {
-                  super.center = this.q;
+                  super.center = this.cmdSelected;
                }
-            } else if (!this.m) {
-               this.q = new Command(T.O, new IActionReadList(this, var6, var8));
+            } else if (!this.isAction) {
+               this.cmdSelected = new Command(T.O, new IActionReadList(this, var6, var8));
                if (Canvas.stypeInt == 0) {
-                  super.center = this.q;
+                  super.center = this.cmdSelected;
                }
             }
          }
 
-         this.m = false;
+         this.isAction = false;
       } catch (IOException var14) {
          var14.printStackTrace();
       }
@@ -425,10 +425,10 @@ public final class ListScr extends MyScreen {
    public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
-            if (this.g >= 0 && this.g < c.size()) {
-               Avatar var4 = (Avatar)c.elementAt(this.g);
-               MessageScr.gI().a(var4.IDDB, var4.name);
-               MessageScr.gI().a(this.b);
+            if (this.selected >= 0 && this.selected < tempList.size()) {
+               Avatar var4 = (Avatar) tempList.elementAt(this.selected);
+               MessageScr.gI().doAction(var4.IDDB, var4.name);
+               MessageScr.gI().switchToMe(this.backMyScreen);
                return;
             }
             break;
@@ -436,10 +436,10 @@ public final class ListScr extends MyScreen {
             super.center = null;
             super.right = null;
             super.left = null;
-            c = null;
+            tempList = null;
             Canvas.cameraList.isShow = false;
-            if (this.b != null) {
-               this.b.switchToMe();
+            if (this.backMyScreen != null) {
+               this.backMyScreen.switchToMe();
                return;
             }
 
@@ -448,21 +448,21 @@ public final class ListScr extends MyScreen {
          case 2:
             return;
          case 3:
-            Avatar var3 = (Avatar)c.elementAt(gI().g);
+            Avatar var3 = (Avatar) tempList.elementAt(gI().selected);
             AvatarService.gI().doJoinHouse(var3.IDDB);
             Canvas.startWaitDlg();
             return;
          case 4:
             Canvas.startWaitDlg();
-            FarmScr.gI().doJoinFarm(((Avatar)d.elementAt(this.g)).IDDB, true);
+            FarmScr.gI().doJoinFarm(((Avatar) friendL.elementAt(this.selected)).IDDB, true);
       }
 
    }
 
    public final void g() {
-      this.q = new Command(T.O, 3);
+      this.cmdSelected = new Command(T.O, 3);
       if (Canvas.stypeInt == 0) {
-         super.center = this.q;
+         super.center = this.cmdSelected;
       }
 
    }
@@ -475,12 +475,12 @@ public final class ListScr extends MyScreen {
       }
    }
 
-   public static void h() {
-      i.remove(h);
-      d = null;
+   public static void removeList() {
+      hList.remove(idFriendList);
+      friendL = null;
    }
 
-   static boolean a(ListScr var0) {
-      return var0.m;
+   static boolean getisAction(ListScr var0) {
+      return var0.isAction;
    }
 }

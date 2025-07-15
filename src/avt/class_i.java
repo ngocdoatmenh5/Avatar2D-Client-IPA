@@ -21,13 +21,13 @@ final class class_i extends Command {
 
    public final void update() {
       if (this.h == PopupShop.focus) {
-         MapScr.a(this.g);
+         MapScr.setAvatarShop(this.g);
          PopupShop.resetIsTrans();
          String var1 = "";
          PopupShop.addStr(var1 + AvatarData.getName(this.g));
-         PopupShop.addStr(T.az + Canvas.getPriceMoney(this.g.i[0], this.g.i[1], false));
+         PopupShop.addStr(T.az + Canvas.getPriceMoney(this.g.price[0], this.g.price[1], false));
          PopupShop.addStr(T.dx + AvatarData.getLevel(this.g));
-         PopupShop.addStr(T.em[0] + MapScr.C.lvMain);
+         PopupShop.addStr(T.em[0] + MapScr.avatarShop.lvMain);
       }
 
    }

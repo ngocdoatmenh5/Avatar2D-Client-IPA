@@ -11,9 +11,9 @@ final class class_in implements IAction {
 
    public final void perform() {
       class_cw var1 = MessageScr.gI().b(MessageScr.gI().b);
-      if (ListScr.d != null) {
+      if (ListScr.friendL != null) {
          ListScr.gI();
-         ListScr.h();
+         ListScr.removeList();
       }
 
       ParkService.gI().a(this.a.IDDB, true);

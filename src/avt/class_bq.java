@@ -8,8 +8,8 @@ final class class_bq implements IAction {
    }
 
    public final void perform() {
-      LoginScr.v = true;
-      this.a.left = this.a.h;
+      LoginScr.isNewGame = true;
+      this.a.left = this.a.cmdMenu;
       this.a.center = this.a.g;
    }
 }

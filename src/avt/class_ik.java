@@ -8,6 +8,6 @@ final class class_ik implements IAction {
    }
 
    public final void perform() {
-      ParkService.gI().a(MapScr.h.IDDB, this.a.IDPart, 2);
+      ParkService.gI().doGiftGiving(MapScr.focusP.IDDB, this.a.IDPart, 2);
    }
 }

@@ -10,9 +10,9 @@ final class class_n implements IAction {
    }
 
    public final void perform() {
-      if (!Session_ME.a().c) {
+      if (!Session_ME.gI().connected) {
          Canvas.startWaitDlg(T.M);
-         Canvas.mSocket();
+         Canvas.connect();
       } else {
          Canvas.startWaitDlg();
       }

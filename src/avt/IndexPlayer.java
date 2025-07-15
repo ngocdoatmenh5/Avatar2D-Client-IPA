@@ -1,6 +1,6 @@
 package avt;
 
-public final class class_kp {
+public final class IndexPlayer {
    public byte a;
    public byte b;
    public byte c;

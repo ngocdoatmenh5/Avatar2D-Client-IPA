@@ -103,7 +103,7 @@ public final class DialLuckyScr extends MyScreen {
          switch (var4.type) {
             case 1:
                Part var6 = AvatarData.getPart(var4.idPart);
-               ImageInfo var7 = AvatarData.listImgInfo[var6.h];
+               ImageInfo var7 = AvatarData.listImgInfo[var6.idIcon];
                Canvas.a(0, var1.x, var1.y - 50, -1, CRes.createRGBImage(var7.x0 * AvMain.hd, var7.y0 * AvMain.hd, var7.w * AvMain.hd, var7.h * AvMain.hd, AvatarData.getBigImgInfo((int)var7.bigID).img), var2);
                break;
             case 2:
@@ -202,13 +202,13 @@ public final class DialLuckyScr extends MyScreen {
       for(var1 = 0; var1 < this.listFireWork.size(); ++var1) {
          Point var7;
          Point var10000 = var7 = (Point)this.listFireWork.elementAt(var1);
-         var10000.x += var7.b;
-         if (var7.b > 1 || var7.b < -1) {
-            var7.b -= var7.b / CRes.abs(var7.b);
+         var10000.x += var7.g;
+         if (var7.g > 1 || var7.g < -1) {
+            var7.g -= var7.g / CRes.abs(var7.g);
          }
 
-         var7.y += var7.e;
-         ++var7.e;
+         var7.y += var7.h;
+         ++var7.h;
          ++var7.color;
          if (var7.color > 20) {
             this.listFireWork.removeElement(var7);
@@ -236,8 +236,8 @@ public final class DialLuckyScr extends MyScreen {
 
          Point var5;
          (var5 = new Point(var1, var2)).color = 0;
-         var5.b = var4 * (CRes.rnd(80) / 10);
-         var5.e = -CRes.rnd(70) / 10;
+         var5.g = var4 * (CRes.rnd(80) / 10);
+         var5.h = -CRes.rnd(70) / 10;
          this.listFireWork.addElement(var5);
       }
 
@@ -280,7 +280,7 @@ public final class DialLuckyScr extends MyScreen {
    public final void onStart(int var1, int var2, Vector var3) {
       if (var1 != GameMidlet.avatar.IDDB) {
          Avatar var4;
-         if ((var4 = LoadMap.g(var1)) != null) {
+         if ((var4 = LoadMap.getAvatar(var1)) != null) {
             setItemBay(var3, var4, var2 + 100 + 20);
             return;
          }
@@ -326,7 +326,7 @@ public final class DialLuckyScr extends MyScreen {
                Gift var13;
                switch ((var13 = (Gift)var11.listGift.elementAt(var5)).type) {
                   case 1:
-                     AvatarData.getPart(var13.idPart).a(var12, var13.x, var13.y, 3);
+                     AvatarData.getPart(var13.idPart).paint(var12, var13.x, var13.y, 3);
                      Canvas.borderFont.drawString(var12, var13.expire, var13.x - 17, var13.y - 7, 1);
                      break;
                   case 2:

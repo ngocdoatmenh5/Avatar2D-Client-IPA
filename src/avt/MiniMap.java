@@ -10,7 +10,7 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class MiniMap extends MyScreen {
-   public static MiniMap a;
+   public static MiniMap me;
    private FrameImage p;
    public FrameImage b;
    private byte[] q;
@@ -22,7 +22,7 @@ public final class MiniMap extends MyScreen {
    public int d;
    private static Image v;
    private static Image w;
-   public int e;
+   public int selected;
    private static int x;
    public static int f;
    private static int y;
@@ -33,10 +33,10 @@ public final class MiniMap extends MyScreen {
    private static int C;
    private static int D;
    private static int E;
-   public IAction h;
+   public IAction cmdUpdateKey;
    public static String i;
    private boolean F;
-   public static boolean j = false;
+   public static boolean isCityMap = false;
    public static Image[] k = new Image[2];
    private static Vector G = new Vector();
    private static FrameImage H;
@@ -51,11 +51,11 @@ public final class MiniMap extends MyScreen {
    private int O;
    private long P;
    private long Q;
-   public static IAction n;
-   public static byte o;
+   public static IAction actionReg;
+   public static byte iRequestReg;
 
    public static MiniMap gI() {
-      return a == null ? (a = new MiniMap()) : a;
+      return me == null ? (me = new MiniMap()) : me;
    }
 
    public final void switchToMe() {
@@ -64,16 +64,16 @@ public final class MiniMap extends MyScreen {
          Canvas.endDlg();
       }
 
-      if (LoadMap.y != -1) {
+      if (LoadMap.idTileImg != -1) {
          Canvas.endDlg();
       }
 
       super.left = this.l;
       if (Canvas.isInitChar) {
-         (Canvas.welcome = new Welcome()).a();
+         (Canvas.welcome = new Welcome()).initMiniMap();
          super.left = null;
-      } else if (MyScreen.as > 0 && o == 1) {
-         MessageScr.gI().a(Canvas.currentMyScreen);
+      } else if (MyScreen.as > 0 && iRequestReg == 1) {
+         MessageScr.gI().switchToMe(Canvas.currentMyScreen);
       }
 
       if (Canvas.load == 0) {
@@ -82,7 +82,7 @@ public final class MiniMap extends MyScreen {
 
       Canvas.currentEffect.removeAllElements();
       this.g();
-      MapScr.G = -1;
+      MapScr.idMapOld = -1;
    }
 
    public MiniMap() {
@@ -102,8 +102,8 @@ public final class MiniMap extends MyScreen {
          case 0:
             if (Canvas.welcome == null || !Welcome.isPaintArrow) {
                Vector var3 = new Vector();
-               if (n != null) {
-                  var3.addElement(new Command("Đăng ký", n));
+               if (actionReg != null) {
+                  var3.addElement(new Command("Đăng ký", actionReg));
                }
 
                if (Canvas.stypeInt == 0) {
@@ -112,7 +112,7 @@ public final class MiniMap extends MyScreen {
 
                var3.addElement(new Command(T.ab, 1));
                var3.addElement(new Command(T.cw, 2));
-               if (!LoginScr.w) {
+               if (!LoginScr.isAccVir) {
                   var3.addElement(new Command(T.cx, 3));
                }
 
@@ -139,7 +139,7 @@ public final class MiniMap extends MyScreen {
             GlobalService.gI().requestService((byte)6, "");
             return;
          case 3:
-            MapScr.gI().u();
+            MapScr.gI().doChangePass();
             return;
          case 4:
             Form var5 = new Form(T.cG);
@@ -157,26 +157,26 @@ public final class MiniMap extends MyScreen {
             GlobalService.gI().requestService((byte)3, (String)null);
             return;
          case 6:
-            MapScr.gI().v();
+            MapScr.gI().doExitGame();
             return;
          case 7:
-            Welcome.h();
-            (Canvas.welcome = new Welcome()).a();
+            Welcome.restart();
+            (Canvas.welcome = new Welcome()).initMiniMap();
             super.left = null;
          default:
       }
    }
 
    public final void close() {
-      if (!j && Canvas.currentMyScreen != class_ez.a) {
+      if (!isCityMap && Canvas.currentMyScreen != ServerListScr.a) {
          MapScr.gI().switchToMe();
          H = null;
       } else {
-         MapScr.gI().v();
+         MapScr.gI().doExitGame();
       }
    }
 
-   public final void a(FrameImage var1, byte[] var2, Vector var3, byte var4, int var5, Command var6) {
+   public final void setInfo(FrameImage var1, byte[] var2, Vector var3, byte var4, int var5, Command var6) {
       AvatarData.getImgIcon((short)839);
       GameMidlet.avatar.ableShow = false;
       this.u = (byte)var5;
@@ -192,16 +192,16 @@ public final class MiniMap extends MyScreen {
       this.t = (byte)(var2.length / this.s);
       super.right = null;
       this.init();
-      this.h = null;
+      this.cmdUpdateKey = null;
       G.removeAllElements();
 
       for(int var7 = 0; var7 < 7; ++var7) {
          G.addElement(new AvPosition(var7 * this.s * this.u / 10 + 50, CRes.rnd(10) * (this.t * this.u / 10) + 20, CRes.rnd(2)));
       }
 
-      B = g = f = x = this.e = 0;
+      B = g = f = x = this.selected = 0;
       this.g();
-      if (j) {
+      if (isCityMap) {
          FilePack.b(T.av);
          H = new FrameImage(FilePack.getImage("k"), 40 * AvMain.hd, 40 * AvMain.hd);
          FilePack.reset();
@@ -354,7 +354,7 @@ public final class MiniMap extends MyScreen {
             for(var3 = 0; var3 < this.r.size(); ++var3) {
                var4 = (class_kb)this.r.elementAt(var3);
                if (Canvas.isPointer(this.c + var4.a * this.u + this.u / 2 - 24 * AvMain.hd - f, this.d + var4.b * this.u - 56 * AvMain.hd - g, 48 * AvMain.hd, 56 * AvMain.hd)) {
-                  this.e = var3;
+                  this.selected = var3;
                   return;
                }
             }
@@ -399,7 +399,7 @@ public final class MiniMap extends MyScreen {
             this.P = -1L;
             this.F = false;
             if (CRes.abs(var1) < 10 && CRes.abs(var2) < 10) {
-               var4 = (class_kb)this.r.elementAt(this.e);
+               var4 = (class_kb)this.r.elementAt(this.selected);
                if (Canvas.isPointer(this.c + var4.a * this.u + this.u / 2 - 24 * AvMain.hd - f, this.d + var4.b * this.u - 56 * AvMain.hd - g, 48 * AvMain.hd, 56 * AvMain.hd)) {
                   this.I.perform();
                   return;
@@ -412,26 +412,26 @@ public final class MiniMap extends MyScreen {
          }
       }
 
-      if (this.h == null) {
+      if (this.cmdUpdateKey == null) {
          if (!Canvas.a(2) && !Canvas.a(4)) {
             if (Canvas.a(8) || Canvas.a(6)) {
-               ++this.e;
-               if (this.e >= this.r.size()) {
-                  this.e = 0;
+               ++this.selected;
+               if (this.selected >= this.r.size()) {
+                  this.selected = 0;
                }
 
                this.m = true;
             }
          } else {
-            --this.e;
-            if (this.e < 0) {
-               this.e = this.r.size() - 1;
+            --this.selected;
+            if (this.selected < 0) {
+               this.selected = this.r.size() - 1;
             }
 
             this.m = true;
          }
       } else if (Canvas.welcome == null) {
-         this.h.perform();
+         this.cmdUpdateKey.perform();
       }
 
       if (this.m) {
@@ -442,7 +442,7 @@ public final class MiniMap extends MyScreen {
 
    private void g() {
       class_kb var1;
-      x = (var1 = (class_kb)this.r.elementAt(this.e)).a * this.u - Canvas.w / 2;
+      x = (var1 = (class_kb)this.r.elementAt(this.selected)).a * this.u - Canvas.w / 2;
       B = var1.b * this.u - Canvas.hCan / 2;
       h();
    }
@@ -492,9 +492,9 @@ public final class MiniMap extends MyScreen {
 
       for(var2 = 0; var2 < this.r.size(); ++var2) {
          class_kb var9 = (class_kb)this.r.elementAt(var2);
-         if (var2 == this.e) {
+         if (var2 == this.selected) {
             var1.drawImage(w, var9.a * this.u + this.u / 2, var9.b * this.u, 33);
-            if (j) {
+            if (isCityMap) {
                H.drawFrame(var2, var9.a * this.u + this.u / 2, var9.b * this.u - 12 * AvMain.hd, 0, 33, var1);
             } else {
                AvatarData.paintImg(var1, var9.d, var9.a * this.u + this.u / 2, var9.b * this.u - 12 * AvMain.hd, 33);
@@ -531,7 +531,7 @@ public final class MiniMap extends MyScreen {
             var6 = f + Canvas.w - 47;
          }
 
-         Canvas.borderFont.drawString(var10, var5.c, var6 + 10, var7 - (var4 == var8.e ? 70 * AvMain.hd : 35 * AvMain.hd) - var5.e / 3, 2);
+         Canvas.borderFont.drawString(var10, var5.c, var6 + 10, var7 - (var4 == var8.selected ? 70 * AvMain.hd : 35 * AvMain.hd) - var5.e / 3, 2);
       }
 
       Graphics var11 = var1;
@@ -549,16 +549,16 @@ public final class MiniMap extends MyScreen {
    public final void a(byte var1, String var2, String var3, String var4) {
       System.out.println("onRegisterByEmail: " + var3 + "   " + var4);
       if (var1 == 0) {
-         n = new class_ct(this, var2);
+         actionReg = new class_ct(this, var2);
       } else if (var1 == 1) {
-         n = new class_ay(this, var2);
+         actionReg = new class_ay(this, var2);
       } else {
          if (var1 == 2) {
-            LoginScr.gI().b.a(var3);
-            LoginScr.gI().c.a(var4);
-            LoginScr.gI().g();
+            LoginScr.gI().tfUser.setText(var3);
+            LoginScr.gI().tfPass.setText(var4);
+            LoginScr.gI().saveLogin();
             Canvas.startOKDlg("Đăng ký thành công.");
-            n = null;
+            actionReg = null;
          }
 
       }

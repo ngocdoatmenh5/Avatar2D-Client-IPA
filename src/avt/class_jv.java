@@ -23,7 +23,7 @@ public final class class_jv extends MyScreen {
    }
 
    public final void switchToMe() {
-      OnScreen.b = false;
+      OnScreen.isOngame = false;
       b = 0;
       if (OnScreen.c != 0) {
          c = MyScreen.am;
@@ -53,17 +53,17 @@ public final class class_jv extends MyScreen {
                Canvas.paint.g();
             }
          } else if (b == 52) {
-            LoginScr.gI().h();
+            LoginScr.gI().loadLogin();
             OptionScr.gI().f();
-            if (!LoginScr.u) {
-               LoginScr.u = true;
+            if (!LoginScr.isSelectedLanguage) {
+               LoginScr.isSelectedLanguage = true;
                AvatarData.delErrorRms("avatarSV");
                AvatarData.f();
                b(0);
             } else {
                AvatarData.f();
                LoginScr.gI().e();
-               if (class_ez.b() != Canvas.currentMyScreen) {
+               if (ServerListScr.gI() != Canvas.currentMyScreen) {
                   LoginScr.gI().switchToMe();
                }
 
@@ -90,7 +90,7 @@ public final class class_jv extends MyScreen {
    }
 
    public final void paint(Graphics var1) {
-      PaintPopup.a(0, 0, Canvas.w, Canvas.instance.getHeight(), 0, var1);
+      PaintPopup.fill(0, 0, Canvas.w, Canvas.instance.getHeight(), 0, var1);
       if (b > 1 && c != null) {
          var1.drawImage(c, Canvas.w >> 1, Canvas.h >> 1, 3);
       }

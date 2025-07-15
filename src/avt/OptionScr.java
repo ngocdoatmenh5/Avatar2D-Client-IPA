@@ -53,7 +53,7 @@ public final class OptionScr extends MyScreen {
       super.left = new Command(T.aV, 0);
       this.j = MyScreen.av;
       this.i = Canvas.h;
-      int var1 = PaintPopup.o + (AvMain.Z << 1);
+      int var1 = PaintPopup.o + (AvMain.hDuBox << 1);
       if (this.l != null) {
          int var2;
          for(var2 = 0; var2 < this.l.length; ++var2) {
@@ -159,7 +159,7 @@ public final class OptionScr extends MyScreen {
          Canvas.isPointerClick = false;
          if (Canvas.isPointer(PaintPopup.gI().g, PaintPopup.gI().h, PaintPopup.gI().f, PaintPopup.gI().e)) {
             int var1;
-            for(int var2 = var1 = (Canvas.py - (PaintPopup.gI().h + PaintPopup.o + AvMain.Z)) / this.j; var2 >= 0; --var2) {
+            for(int var2 = var1 = (Canvas.py - (PaintPopup.gI().h + PaintPopup.o + AvMain.hDuBox)) / this.j; var2 >= 0; --var2) {
                if (!this.l[var2]) {
                   ++var1;
                }
@@ -245,7 +245,7 @@ public final class OptionScr extends MyScreen {
       var1.translate(-var1.getTranslateX(), -var1.getTranslateY());
       var1.translate(0, this.i);
       PaintPopup.gI().a(var1);
-      var1.translate(Canvas.hw - 65, PaintPopup.gI().h + PaintPopup.o + AvMain.Z);
+      var1.translate(Canvas.hw - 65, PaintPopup.gI().h + PaintPopup.o + AvMain.hDuBox);
       if (this.f >= 4) {
          this.f = 0;
       }

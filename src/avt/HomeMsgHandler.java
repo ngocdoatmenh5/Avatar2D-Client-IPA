@@ -27,7 +27,7 @@ public final class HomeMsgHandler extends IService implements IMiniGameMsgHandle
                var19 = var1.reader().readShort();
                byte[] var22 = new byte[var1.reader().readInt()];
                var1.reader().read(var22);
-               HouseScr.b().a((byte[])var22, var19);
+               HouseScr.gI().saveTileMap((byte[])var22, var19);
                return;
             case -67:
                byte var14 = var1.reader().readByte();
@@ -49,14 +49,14 @@ public final class HomeMsgHandler extends IService implements IMiniGameMsgHandle
                   }
                }
 
-               HouseScr.b().a(var14, var16, var17, var18);
+               HouseScr.gI().onGetTypeHouse(var14, var16, var17, var18);
                return;
             case -66:
                MapItem var13;
                (var13 = new MapItem()).typeID = var1.reader().readShort();
                var13.x = var1.reader().readByte();
                var13.y = var1.reader().readByte();
-               HouseScr.b().b(var13);
+               HouseScr.gI().onRemoveItem(var13);
                return;
             case -65:
                var17 = var1.reader().readByte();
@@ -82,28 +82,28 @@ public final class HomeMsgHandler extends IService implements IMiniGameMsgHandle
                }
 
                Vector var20 = GlobalMessageHandler.readListPlayer(var1);
-               ParkMsgHandler.a();
-               HouseScr.b().a((byte)var17, var2, var15, (byte)var19, var18, var20);
+               ParkMsgHandler.onHandler();
+               HouseScr.gI().onJoin((byte)var17, var2, var15, (byte)var19, var18, var20);
                return;
             case -46:
                short var9 = var1.reader().readShort();
                String var11 = var1.reader().readUTF();
-               HouseScr.b().a(var9, var11);
+               HouseScr.gI().onCreateHome(var9, var11);
                return;
             case -43:
                Tile[] var3 = new Tile[var2 = var1.reader().readShort()];
 
                for(int var4 = 0; var4 < var2; ++var4) {
                   var3[var4] = new Tile();
-                  var3[var4].a = var1.reader().readUTF();
-                  var3[var4].b = var1.reader().readInt();
-                  var3[var4].c = var1.reader().readInt();
+                  var3[var4].name = var1.reader().readUTF();
+                  var3[var4].priceXu = var1.reader().readInt();
+                  var3[var4].priceLuong = var1.reader().readInt();
                }
 
-               HouseScr.b().a(var3);
+               HouseScr.gI().onGetTileInfo(var3);
                return;
             case 51:
-               MapScr.gI().a(ParkMsgHandler.b(var1));
+               MapScr.gI().onPlayerJoinPark(ParkMsgHandler.playerJoinBoard(var1));
                return;
             case 76:
                GlobalMessageHandler.readMove(var1);

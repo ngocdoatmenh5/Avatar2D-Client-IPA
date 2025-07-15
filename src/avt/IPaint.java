@@ -4,17 +4,17 @@ import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 
 public interface IPaint {
-   void a(Graphics var1, int var2, int var3, int var4, int var5, TField var6, boolean var7);
+   void paintTextBox(Graphics var1, int var2, int var3, int var4, int var5, TField var6, boolean var7);
 
    void a(Graphics var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8);
 
-   void a(Graphics var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10, int var11, int var12, int[] var13, int[] var14, String var15);
+   void paintBoxTab(Graphics var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10, int var11, int var12, int[] var13, int[] var14, String var15);
 
    void paintCmd(Graphics var1, Command var2, Command var3, Command var4);
 
    void a(Graphics var1, int var2, int var3, int var4, int var5);
 
-   void a();
+   void init();
 
    void b();
 
@@ -32,21 +32,21 @@ public interface IPaint {
 
    int d();
 
-   void a(LoginScr var1);
+   void initPosLogin(LoginScr var1);
 
-   void a(Graphics var1, int var2, int var3, int var4, boolean var5);
+   void paintCheckBox(Graphics var1, int var2, int var3, int var4, boolean var5);
 
-   void a(Graphics var1, int var2, int var3, int var4, int var5, int var6);
+   void paintPopupBack(Graphics var1, int var2, int var3, int var4, int var5, int var6);
 
    void b(Graphics var1, int var2, int var3, int var4, int var5);
 
    void b(Graphics var1, int var2, int var3, int var4, int var5, int var6);
 
-   void a(Graphics var1, String var2, int var3, int var4, int var5);
+   void drawString(Graphics var1, String var2, int var3, int var4, int var5);
 
    void c(Graphics var1, int var2, int var3, int var4, int var5);
 
-   void a(int var1);
+   void setVirtualKeyFish(int var1);
 
    void e();
 
@@ -74,7 +74,7 @@ public interface IPaint {
 
    void j();
 
-   void a(Command var1, Command var2, Command var3);
+   void updateKeyOn(Command var1, Command var2, Command var3);
 
    void c(Graphics var1);
 

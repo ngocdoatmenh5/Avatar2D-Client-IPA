@@ -3,16 +3,16 @@ package avt;
 import javax.microedition.lcdui.Graphics;
 
 final class class_fk extends Command {
-   private final class_kp f;
+   private final IndexPlayer f;
 
-   class_fk(MapScr var1, String var2, IAction var3, class_kp var4) {
+   class_fk(MapScr var1, String var2, IAction var3, IndexPlayer var4) {
       super((String)null, (IAction)null);
       this.f = var4;
    }
 
    public final void paint(Graphics var1, int var2, int var3) {
       var2 = PopupShop.c / 2 + 7;
-      int var4 = (var3 = (PopupShop.d - MyScreen.at - (AvMain.Z << 1)) / 7) / 2 - MapScr.k.getHeight() / 2;
+      int var4 = (var3 = (PopupShop.d - MyScreen.at - (AvMain.hDuBox << 1)) / 7) / 2 - MapScr.imgBar.getHeight() / 2;
       MapScr.a(var1, T.eu[0] + this.f.g, var2, var4, this.f.f);
       MapScr.a(var1, T.eu[1], var2, var4 += var3, this.f.a);
       MapScr.a(var1, T.eu[2], var2, var4 += var3, this.f.b);

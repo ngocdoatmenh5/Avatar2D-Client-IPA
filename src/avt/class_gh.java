@@ -12,8 +12,8 @@ final class class_gh implements IAction {
    }
 
    public final void perform() {
-      HouseScr.d(this.a.a, HouseScr.d(this.a.a));
-      HouseScr.e(this.a.a, HouseScr.e(this.a.a));
+      HouseScr.setxTemp(this.a.a, HouseScr.getX(this.a.a));
+      HouseScr.setYtemp(this.a.a, HouseScr.getY(this.a.a));
       HouseScr.a(this.a.a, this.b, this.c);
    }
 }

@@ -14,7 +14,7 @@ public final class APartInfo extends Part {
          if (super.IDPart >= 2000) {
             ImageIcon var6;
             if ((var6 = AvatarData.getImagePart(this.imgID[var2])).count != -1) {
-               var1.drawRegion(var6.img, 0, 0, var6.b, var6.c, var5, var3 + this.dx[var2] * AvMain.hd - (var5 == Base.LEFT ? (this.dx[var2] * AvMain.hd << 1) + var6.b : 0), var4 + this.dy[var2] * AvMain.hd, 0);
+               var1.drawRegion(var6.img, 0, 0, var6.w, var6.h, var5, var3 + this.dx[var2] * AvMain.hd - (var5 == Base.LEFT ? (this.dx[var2] * AvMain.hd << 1) + var6.w : 0), var4 + this.dy[var2] * AvMain.hd, 0);
                return;
             }
          } else {

@@ -154,14 +154,14 @@ public final class BCBoardScr extends BoardScr {
          Avatar var6 = (Avatar)BoardScr.avatarInfos.elementAt(var1);
          Avatar var8 = (Avatar)BoardScr.avatarInfos.elementAt(var7);
          Point var5;
-         (var5 = new Point(var6.x, var6.y)).o = (short)var4;
+         (var5 = new Point(var6.x, var6.y)).distant = (short)var4;
          var5.color = CRes.rnd(3);
          var2 = (byte) CRes.tan(var8.x - var6.x, -(var8.x - var6.y));
-         var5.b = var2;
+         var5.g = var2;
          var5.catagory = (byte)CRes.rnd(-1, 1);
-         var5.e = CRes.fixangle(var5.b + var5.catagory * 90);
-         var2 = (byte) (10 * CRes.cos(var5.e) >> 10);
-         var4 = -(10 * CRes.sin(var5.e)) >> 10;
+         var5.h = CRes.fixangle(var5.g + var5.catagory * 90);
+         var2 = (byte) (10 * CRes.cos(var5.h) >> 10);
+         var4 = -(10 * CRes.sin(var5.h)) >> 10;
          var5.xTo = (short)var8.x;
          var5.yTo = (short)var8.y;
          var5.x += var2;
@@ -355,7 +355,7 @@ public final class BCBoardScr extends BoardScr {
       for(int var4 = 0; var4 < var2.listFireWork.size(); ++var4) {
          Point var5;
          if ((var5 = (Point)var2.listFireWork.elementAt(var4)).dis >= 0) {
-            Canvas.O.drawString(var3, "+" + var5.o, var5.x, var5.y, 2);
+            Canvas.O.drawString(var3, "+" + var5.distant, var5.x, var5.y, 2);
          }
       }
 
@@ -414,7 +414,7 @@ public final class BCBoardScr extends BoardScr {
                }
 
                if ((var7 = getSeatATmapSeat(var3.mapSeat, BoardScr.getIndexByID(var10.IDDB))) != -1 && AvatarData.getImgIcon((short)871).count != -1) {
-                  var4.drawRegion(AvatarData.getImgIcon((short)871).img, 0, getIndex(var7) * 12, 12, 12, 0, var10.x, var10.y + 5 + AvMain.ai, 17);
+                  var4.drawRegion(AvatarData.getImgIcon((short)871).img, 0, getIndex(var7) * 12, 12, 12, 0, var10.x, var10.y + 5 + AvMain.hSmall, 17);
                }
             }
          }
@@ -634,21 +634,21 @@ public final class BCBoardScr extends BoardScr {
          if (this.xn.size() > 0) {
             for(var6 = 0; var6 < this.xn.size(); ++var6) {
                Xingau var8;
-               (var8 = (Xingau)this.xn.elementAt(var6)).a();
+               (var8 = (Xingau)this.xn.elementAt(var6)).update();
                if (this.isStopXn) {
-                  var8.a = this.result[var6];
-                  var8.b = true;
+                  var8.typeStop = this.result[var6];
+                  var8.stopHere = true;
                }
             }
          }
 
          for(var6 = 0; var6 < this.listFireWork.size(); ++var6) {
             Point var9;
-            if (CRes.abs((var11 = CRes.tan((var9 = (Point)this.listFireWork.elementAt(var6)).xTo - var9.x, -(var9.yTo - var9.y))) - var9.e) > 10) {
-               var9.e -= var9.height * var9.catagory;
-               var9.e = CRes.fixangle(var9.e);
+            if (CRes.abs((var11 = CRes.tan((var9 = (Point)this.listFireWork.elementAt(var6)).xTo - var9.x, -(var9.yTo - var9.y))) - var9.h) > 10) {
+               var9.h -= var9.height * var9.catagory;
+               var9.h = CRes.fixangle(var9.h);
             } else {
-               var9.e = var11;
+               var9.h = var11;
                var9.dis = (byte)(var9.dis + 2);
             }
 
@@ -657,8 +657,8 @@ public final class BCBoardScr extends BoardScr {
             }
 
             ++var9.color;
-            var11 = var9.dis * CRes.cos(var9.e) >> 10;
-            int var12 = -(var9.dis * CRes.sin(var9.e)) >> 10;
+            var11 = var9.dis * CRes.cos(var9.h) >> 10;
+            int var12 = -(var9.dis * CRes.sin(var9.h)) >> 10;
             if (CRes.distance(var9.x, var9.y, var9.xTo, var9.yTo) >= var9.dis) {
                var9.x += var11;
                var9.y += var12;

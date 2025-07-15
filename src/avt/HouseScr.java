@@ -10,46 +10,46 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class HouseScr extends MyScreen implements IChatable {
-   public static HouseScr a;
-   private int h;
-   private int i;
-   private int j = -1;
-   private Command k;
-   private Command l;
-   private Command m;
-   private static short n = 0;
-   public static boolean b = false;
-   private Vector o;
-   public byte c = -1;
-   private int p = -1;
-   public int d = -1;
-   private int q;
-   public static boolean e = false;
-   private Tile[] r;
-   private AvPosition s;
-   private AvPosition t;
-   private BigImgInfo u;
-   private Image v;
-   private int w = -1;
-   private int x = -1;
-   private int[] y = new int[]{1688583, 14744065};
+   public static HouseScr me;
+   private int x;
+   private int y;
+   private int selected = -1;
+   private Command cmdBrick;
+   private Command cmdFinish;
+   private Command cmdMenu;
+   private static short numW = 0;
+   public static boolean isSelectObj = false;
+   private Vector listItem;
+   public byte typeHome = -1;
+   private int indexName = -1;
+   public int isSelectedItem = -1;
+   private int idHouse;
+   public static boolean isChange = false;
+   private Tile[] listTile;
+   private AvPosition posSort;
+   private AvPosition posJoin;
+   private BigImgInfo imgTileMap;
+   private Image imgBuyItem;
+   private int xTemp = -1;
+   private int yTemp = -1;
+   private int[] color = new int[]{1688583, 14744065};
    public int f;
    public int g;
-   private short z = 69;
-   private short A = 68;
-   private short[] B;
+   private short IDHoa = 69;
+   private short IDHo = 68;
+   private short[] temp;
    private int C = 0;
-   private Vector D;
-   private Vector E;
-   private int F;
-   private byte G;
+   private Vector listP_Chest;
+   private Vector listP_Con;
+   private int moneyOnChest;
+   private byte levelChest;
 
-   public static HouseScr b() {
-      if (a == null) {
-         a = new HouseScr();
+   public static HouseScr gI() {
+      if (me == null) {
+         me = new HouseScr();
       }
 
-      return a;
+      return me;
    }
 
    public final void switchToMe() {
@@ -58,21 +58,21 @@ public final class HouseScr extends MyScreen implements IChatable {
    }
 
    public HouseScr() {
-      this.k = new Command(T.cS, 0);
-      this.l = new Command(T.cy, 1);
-      this.m = new Command(T.c, 2);
+      this.cmdBrick   = new Command(T.cS, 0);
+      this.cmdFinish = new Command(T.cy, 1);
+      this.cmdMenu = new Command(T.c, 2);
       FilePack.b(T.av);
-      this.v = FilePack.getImage("hand");
+      this.imgBuyItem = FilePack.getImage("hand");
       FilePack.reset();
    }
 
    private void i() {
-      if (this.q == GameMidlet.avatar.IDDB) {
+      if (this.idHouse == GameMidlet.avatar.IDDB) {
          super.center = MapScr.gI().e;
          super.center.caption = T.O;
-         super.left = this.m;
+         super.left = this.cmdMenu;
       } else {
-         super.left = this.m;
+         super.left = this.cmdMenu;
          if (Canvas.stypeInt == 0) {
             super.center = MapScr.gI().e;
          }
@@ -80,36 +80,36 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
    }
 
-   private void j() {
-      LoadMap.b(GameMidlet.avatar);
-      GameMidlet.avatar.x = this.t.x;
-      GameMidlet.avatar.y = this.t.y;
+   private void addPlayer() {
+      LoadMap.addPlayer(GameMidlet.avatar);
+      GameMidlet.avatar.x = this.posJoin.x;
+      GameMidlet.avatar.y = this.posJoin.y;
       GameMidlet.avatar.action = 0;
-      AvCamera.gI().setToPos(this.t.x * AvMain.hd, this.t.y * AvMain.hd);
+      AvCamera.gI().setToPos(this.posJoin.x * AvMain.hd, this.posJoin.y * AvMain.hd);
    }
 
    public final void close() {
-      MapScr.gI().e();
+      MapScr.gI().doExit();
    }
 
-   private void m() {
+   private void doOption() {
       super.center = new Command(T.O, 3);
       super.right = new Command(T.cy, 4);
       super.left = null;
-      e = true;
-      this.h = GameMidlet.avatar.x / 24;
-      this.i = GameMidlet.avatar.y / 24;
-      LoadMap.c(GameMidlet.avatar);
+      isChange = true;
+      this.x = GameMidlet.avatar.x / 24;
+      this.y = GameMidlet.avatar.y / 24;
+      LoadMap.removePlayer(GameMidlet.avatar);
    }
 
-   private void n() {
+   private void setStatusBuyItem() {
       HomeMsgHandler.onHandler();
-      this.h = GameMidlet.avatar.x / 24;
-      this.i = GameMidlet.avatar.y / 24;
-      LoadMap.c(GameMidlet.avatar);
+      this.x = GameMidlet.avatar.x / 24;
+      this.y = GameMidlet.avatar.y / 24;
+      LoadMap.removePlayer(GameMidlet.avatar);
    }
 
-   private static void o() {
+   private static void doKick() {
       Vector var0 = new Vector();
 
       for(int var1 = 0; var1 < LoadMap.playerLists.size(); ++var1) {
@@ -122,25 +122,25 @@ public final class HouseScr extends MyScreen implements IChatable {
       MenuSub.gI().startAt(var0, 0);
    }
 
-   private void p() {
-      this.n();
-      if (this.B == null) {
-         this.B = new short[LoadMap.map.length];
+   private void doSelectMap() {
+      this.setStatusBuyItem();
+      if (this.temp == null) {
+         this.temp = new short[LoadMap.map.length];
 
          for(int var1 = 0; var1 < LoadMap.map.length; ++var1) {
-            this.B[var1] = LoadMap.map[var1];
+            this.temp[var1] = LoadMap.map[var1];
          }
       }
 
-      b = false;
-      super.center = this.k;
-      super.right = this.l;
+      isSelectObj = false;
+      super.center = this.cmdBrick;
+      super.right = this.cmdFinish;
       super.left = new Command(T.O, 5);
       Vector var4 = new Vector();
 
-      for(int var2 = 0; var2 < this.r.length; ++var2) {
-         if (this.r[var2].b != -1 || this.r[var2].c != -1) {
-            var4.addElement(new class_gl(this, this.r[var2].a + "(" + Canvas.getPriceMoney(this.r[var2].b, this.r[var2].c, true) + ")", 17, var2, var2));
+      for(int var2 = 0; var2 < this.listTile.length; ++var2) {
+         if (this.listTile[var2].priceXu != -1 || this.listTile[var2].priceLuong != -1) {
+            var4.addElement(new CommandMap(this, this.listTile[var2].name + "(" + Canvas.getPriceMoney(this.listTile[var2].priceXu, this.listTile[var2].priceLuong, true) + ")", 17, var2, var2));
          }
       }
 
@@ -150,26 +150,26 @@ public final class HouseScr extends MyScreen implements IChatable {
 
    }
 
-   private void q() {
-      this.d = -1;
-      this.j = -1;
-      e = false;
-      b = false;
+   private void reset() {
+      this.isSelectedItem = -1;
+      this.selected = -1;
+      isChange = false;
+      isSelectObj = false;
       this.i();
       super.right = null;
-      if (LoadMap.g(GameMidlet.avatar.IDDB) == null) {
-         this.j();
+      if (LoadMap.getAvatar(GameMidlet.avatar.IDDB) == null) {
+         this.addPlayer();
       }
 
    }
 
-   private void r() {
+   private void doSelectObject() {
       Vector var1 = new Vector();
 
       for(int var2 = 0; var2 < AvatarData.listMapItemType.size(); ++var2) {
          MapItemType var3;
          int var4;
-         if ((var3 = (MapItemType)AvatarData.listMapItemType.elementAt(var2)).buy != 0 && (this.c != 4 && (var3.buy == 1 || var3.buy == 2) || this.c == 4) && (var4 = var3.name.indexOf(":")) != -1) {
+         if ((var3 = (MapItemType)AvatarData.listMapItemType.elementAt(var2)).buy != 0 && (this.typeHome != 4 && (var3.buy == 1 || var3.buy == 2) || this.typeHome == 4) && (var4 = var3.name.indexOf(":")) != -1) {
             boolean var5 = false;
             String var6 = var3.name.substring(0, var4);
 
@@ -188,14 +188,14 @@ public final class HouseScr extends MyScreen implements IChatable {
       MenuSub.gI().startAt(var1, 2);
    }
 
-   private void b(String var1) {
-      this.q();
+   private void doSelectedItem(String var1) {
+      this.reset();
       Vector var2 = new Vector();
 
       for(int var3 = 0; var3 < AvatarData.listMapItemType.size(); ++var3) {
          MapItemType var4;
          int var5 = (var4 = (MapItemType)AvatarData.listMapItemType.elementAt(var3)).name.indexOf(var1);
-         if (var4.buy != 0 && var5 != -1 && (this.c != 4 && (var4.buy == 1 || var4.buy == 2) || this.c == 4)) {
+         if (var4.buy != 0 && var5 != -1 && (this.typeHome != 4 && (var4.buy == 1 || var4.buy == 2) || this.typeHome == 4)) {
             String var8 = var4.name.substring(var4.name.indexOf(":") + 1);
             String var6 = Canvas.getPriceMoney(var4.priceXu, var4.priceLuong, true);
             var2.addElement(new class_gk(this, "", new class_gi(this, var3, var1), var4, 90, var6, var8));
@@ -204,21 +204,21 @@ public final class HouseScr extends MyScreen implements IChatable {
 
       if (var2.size() > 0) {
          MenuSub.gI().startMenuFarm(var2, Canvas.hw, 90, 90);
-         MenuSub.g = new class_gj(this);
+         MenuSub.iNo = new IActionNo(this);
       }
 
    }
 
-   private boolean a(MapItemType var1) {
+   private boolean isDisable(MapItemType var1) {
       if (var1.buy != 2 && var1.buy != 4) {
-         if (LoadMap.type[this.i * LoadMap.wMap + this.h] != 80) {
+         if (LoadMap.type[this.y * LoadMap.wMap + this.x] != 80) {
             Canvas.startOKDlg(T.db);
             return true;
          }
 
          for(int var5 = 0; var5 < var1.listNotTrans.size(); ++var5) {
             AvPosition var6 = (AvPosition)var1.listNotTrans.elementAt(var5);
-            if (LoadMap.type[(this.i + var6.y) * LoadMap.wMap + this.h + var6.x] != 80) {
+            if (LoadMap.type[(this.y + var6.y) * LoadMap.wMap + this.x + var6.x] != 80) {
                Canvas.startOKDlg(T.db);
                return true;
             }
@@ -227,9 +227,9 @@ public final class HouseScr extends MyScreen implements IChatable {
          String var2 = "";
 
          int var3;
-         for(var3 = 0; var3 < this.o.size(); ++var3) {
-            MapItem var4 = (MapItem)this.o.elementAt(var3);
-            if (var3 != this.d && var4.typeID == var1.idType && this.h == var4.x / 24 && this.i == var4.y / 24) {
+         for(var3 = 0; var3 < this.listItem.size(); ++var3) {
+            MapItem var4 = (MapItem)this.listItem.elementAt(var3);
+            if (var3 != this.isSelectedItem && var4.typeID == var1.idType && this.x == var4.x / 24 && this.y == var4.y / 24) {
                var2 = T.dc;
                break;
             }
@@ -241,8 +241,8 @@ public final class HouseScr extends MyScreen implements IChatable {
          }
 
          if (var1.buy == 2 || var1.buy == 4) {
-            var3 = (this.i - 1) * LoadMap.wMap + this.h;
-            if (LoadMap.map[var3] < n || LoadMap.map[this.i * LoadMap.wMap + this.h] >= n) {
+            var3 = (this.y - 1) * LoadMap.wMap + this.x;
+            if (LoadMap.map[var3] < numW || LoadMap.map[this.y * LoadMap.wMap + this.x] >= numW) {
                Canvas.startOKDlg(T.dd);
                return true;
             }
@@ -252,63 +252,63 @@ public final class HouseScr extends MyScreen implements IChatable {
       return false;
    }
 
-   public final void a(MapItem var1) {
-      if (d(var1)) {
+   public final void onBuyItemHouse(MapItem var1) {
+      if (isSetTuong(var1)) {
          ++var1.y;
       }
 
-      this.o.addElement(var1);
+      this.listItem.addElement(var1);
       LoadMap.treeLists.addElement(var1);
-      this.c(var1);
+      this.setType(var1);
       LoadMap.orderVector(LoadMap.treeLists);
    }
 
    public final void updateKey() {
       super.updateKey();
-      if (!e) {
-         Canvas.loadMap.a();
+      if (!isChange) {
+         Canvas.loadMap.updateKey();
          GameMidlet.avatar.updateKey();
       } else {
          boolean var1 = false;
          if (Canvas.a(2)) {
-            if (!b(this.h, this.i - 1)) {
-               --this.i;
+            if (!setCollision(this.x, this.y - 1)) {
+               --this.y;
             }
 
-            if (this.i < 0) {
-               this.i = 0;
+            if (this.y < 0) {
+               this.y = 0;
             }
 
             var1 = true;
          } else if (Canvas.a(4)) {
-            if (!b(this.h - 1, this.i)) {
-               --this.h;
+            if (!setCollision(this.x - 1, this.y)) {
+               --this.x;
             }
 
-            if (this.h < 0) {
-               this.h = 0;
+            if (this.x < 0) {
+               this.x = 0;
             }
 
             var1 = true;
             GameMidlet.avatar.direct = Base.LEFT;
          } else if (Canvas.a(6)) {
-            if (!b(this.h + 1, this.i)) {
-               ++this.h;
+            if (!setCollision(this.x + 1, this.y)) {
+               ++this.x;
             }
 
-            if (this.h >= LoadMap.wMap) {
-               this.h = LoadMap.wMap - 1;
+            if (this.x >= LoadMap.wMap) {
+               this.x = LoadMap.wMap - 1;
             }
 
             var1 = true;
             GameMidlet.avatar.direct = 0;
          } else if (Canvas.a(8)) {
-            if (!b(this.h, this.i + 1)) {
-               ++this.i;
+            if (!setCollision(this.x, this.y + 1)) {
+               ++this.y;
             }
 
-            if (this.i >= LoadMap.Hmap) {
-               this.i = LoadMap.Hmap - 1;
+            if (this.y >= LoadMap.Hmap) {
+               this.y = LoadMap.Hmap - 1;
             }
 
             var1 = true;
@@ -317,23 +317,23 @@ public final class HouseScr extends MyScreen implements IChatable {
          if (Canvas.isPointerRelease) {
             int var3 = (AvCamera.gI().xCam + Canvas.px) / (LoadMap.w * AvMain.hd);
             int var2 = (AvCamera.gI().yCam + Canvas.py) / (LoadMap.w * AvMain.hd);
-            if (var3 == this.h && var2 == this.i && super.center != null) {
+            if (var3 == this.x && var2 == this.y && super.center != null) {
                super.center.perform();
             }
 
-            this.h = var3;
-            this.i = var2;
+            this.x = var3;
+            this.y = var2;
             var1 = true;
             Canvas.isPointerRelease = false;
          }
 
          if (var1) {
-            GameMidlet.avatar.x = this.h * 24 + 12;
-            GameMidlet.avatar.y = this.i * 24 + 12;
-            if (this.d != -1 && this.o.size() > 0) {
+            GameMidlet.avatar.x = this.x * 24 + 12;
+            GameMidlet.avatar.y = this.y * 24 + 12;
+            if (this.isSelectedItem != -1 && this.listItem.size() > 0) {
                MapItem var4;
-               (var4 = (MapItem)this.o.elementAt(this.d)).x = this.h * 24;
-               var4.y = this.i * 24;
+               (var4 = (MapItem)this.listItem.elementAt(this.isSelectedItem)).x = this.x * 24;
+               var4.y = this.y * 24;
                LoadMap.orderVector(LoadMap.treeLists);
             }
          }
@@ -341,14 +341,14 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
    }
 
-   private static boolean b(int var0, int var1) {
-      return LoadMap.map[var1 * LoadMap.wMap + var0] == LoadMap.c.nFrame - 2 || LoadMap.map[var1 * LoadMap.wMap + var0] == -1;
+   private static boolean setCollision(int var0, int var1) {
+      return LoadMap.map[var1 * LoadMap.wMap + var0] == LoadMap.imgMap.nFrame - 2 || LoadMap.map[var1 * LoadMap.wMap + var0] == -1;
    }
 
    public final void update() {
       MapScr.gI().update();
-      if (!e && !b && super.right == null && MapScr.gI().right != null) {
-         super.right = LoadMap.q;
+      if (!isChange && !isSelectObj && super.right == null && MapScr.gI().right != null) {
+         super.right = LoadMap.cmdNext;
       }
 
    }
@@ -360,61 +360,61 @@ public final class HouseScr extends MyScreen implements IChatable {
    }
 
    public final void paintMain(Graphics var1) {
-      Canvas.loadMap.b(var1);
-      if (e && Canvas.menuMain == null) {
+      Canvas.loadMap.paint(var1);
+      if (isChange && Canvas.menuMain == null) {
          Graphics var3 = var1;
          HouseScr var2 = this;
          int var6;
-         if (!b && this.d == -1) {
-            if (this.j != -1) {
+         if (!isSelectObj && this.isSelectedItem == -1) {
+            if (this.selected != -1) {
                var6 = 0;
 
                while(true) {
                   if (var6 >= LoadMap.type.length) {
-                     LoadMap.c.drawFrame(var2.j, var2.h * 24 * AvMain.hd, var2.i * 24 * AvMain.hd, 0, 0, var3);
+                     LoadMap.imgMap.drawFrame(var2.selected, var2.x * 24 * AvMain.hd, var2.y * 24 * AvMain.hd, 0, 0, var3);
                      break;
                   }
 
-                  if (var2.p == 0 && LoadMap.map[var6] >= n && LoadMap.map[var6] < var2.r.length && (var2.r[LoadMap.map[var6]].c != -1 || var2.r[LoadMap.map[var6]].b != -1) || var2.p == 1 && LoadMap.map[var6] < n) {
-                     var2.a(var3, 2 + var6 % LoadMap.wMap * 24, 2 + var6 / LoadMap.wMap * 24, 0, 20);
+                  if (var2.indexName == 0 && LoadMap.map[var6] >= numW && LoadMap.map[var6] < var2.listTile.length && (var2.listTile[LoadMap.map[var6]].priceLuong != -1 || var2.listTile[LoadMap.map[var6]].priceXu != -1) || var2.indexName == 1 && LoadMap.map[var6] < numW) {
+                     var2.paintIndex(var3, 2 + var6 % LoadMap.wMap * 24, 2 + var6 / LoadMap.wMap * 24, 0, 20);
                   }
 
                   ++var6;
                }
             }
-         } else if (this.j != -1) {
+         } else if (this.selected != -1) {
             MapItemType var4;
-            if ((var4 = (MapItemType)AvatarData.listMapItemType.elementAt(this.j)).buy != 2 && var4.buy != 4) {
+            if ((var4 = (MapItemType)AvatarData.listMapItemType.elementAt(this.selected)).buy != 2 && var4.buy != 4) {
                for(var6 = 0; var6 < LoadMap.type.length; ++var6) {
-                  if (LoadMap.type[var6] == 80 && (var6 % LoadMap.wMap != var2.h || var6 / LoadMap.wMap != var2.i)) {
-                     var2.a(var3, 2 + var6 % LoadMap.wMap * 24, 2 + var6 / LoadMap.wMap * 24, 0, 20);
+                  if (LoadMap.type[var6] == 80 && (var6 % LoadMap.wMap != var2.x || var6 / LoadMap.wMap != var2.y)) {
+                     var2.paintIndex(var3, 2 + var6 % LoadMap.wMap * 24, 2 + var6 / LoadMap.wMap * 24, 0, 20);
                   }
                }
             } else {
                for(var6 = 0; var6 < LoadMap.map.length; ++var6) {
-                  if (var6 > 0 && LoadMap.map[var6] < n && LoadMap.map[var6 - LoadMap.wMap] >= n) {
-                     var2.a(var3, 2 + var6 % LoadMap.wMap * 24, 2 + var6 / LoadMap.wMap * 24, 0, 20);
+                  if (var6 > 0 && LoadMap.map[var6] < numW && LoadMap.map[var6 - LoadMap.wMap] >= numW) {
+                     var2.paintIndex(var3, 2 + var6 % LoadMap.wMap * 24, 2 + var6 / LoadMap.wMap * 24, 0, 20);
                   }
                }
             }
          }
 
-         var2.a(var3, var2.h * 24, var2.i * 24, 1, 24);
+         var2.paintIndex(var3, var2.x * 24, var2.y * 24, 1, 24);
       }
 
-      Canvas.loadMap.d(var1);
-      if (e) {
-         if (b && this.j != -1) {
-            MapItemType var5 = (MapItemType)AvatarData.listMapItemType.elementAt(this.j);
-            AvatarData.paintImg(var1, var5.imgID, (this.h * 24 + var5.dx) * AvMain.hd, (this.i * 24 + var5.dy) * AvMain.hd, 0);
+      Canvas.loadMap.paintBackGround(var1);
+      if (isChange) {
+         if (isSelectObj && this.selected != -1) {
+            MapItemType var5 = (MapItemType)AvatarData.listMapItemType.elementAt(this.selected);
+            AvatarData.paintImg(var1, var5.imgID, (this.x * 24 + var5.dx) * AvMain.hd, (this.y * 24 + var5.dy) * AvMain.hd, 0);
          }
 
          if (Canvas.menuMain == null) {
-            var1.drawImage(this.v, (this.h * 24 + 12) * AvMain.hd, (this.i * 24 + this.C) * AvMain.hd, 33);
+            var1.drawImage(this.imgBuyItem, (this.x * 24 + 12) * AvMain.hd, (this.y * 24 + this.C) * AvMain.hd, 33);
          }
 
-         if (this.p != -1) {
-            Canvas.borderFont.drawString(var1, this.r[this.j].a + "(" + Canvas.getPriceMoney(this.r[this.j].b, this.r[this.j].c, true) + ")", (this.h * 24 + 12) * AvMain.hd, (this.i * 24 - 40) * AvMain.hd, 2);
+         if (this.indexName != -1) {
+            Canvas.borderFont.drawString(var1, this.listTile[this.selected].name + "(" + Canvas.getPriceMoney(this.listTile[this.selected].priceXu, this.listTile[this.selected].priceLuong, true) + ")", (this.x * 24 + 12) * AvMain.hd, (this.y * 24 - 40) * AvMain.hd, 2);
          }
 
          ++this.C;
@@ -427,25 +427,25 @@ public final class HouseScr extends MyScreen implements IChatable {
       LoadMap.paintEffectCamera(var1);
    }
 
-   private void a(Graphics var1, int var2, int var3, int var4, int var5) {
-      var1.setColor(this.y[var4]);
+   private void paintIndex(Graphics var1, int var2, int var3, int var4, int var5) {
+      var1.setColor(this.color[var4]);
       var1.drawRect(var2 * AvMain.hd, var3 * AvMain.hd, (var5 - 1) * AvMain.hd, (var5 - 1) * AvMain.hd);
    }
 
-   public final void a(byte var1, int var2, short[] var3, byte var4, Vector var5, Vector var6) {
-      this.c = (byte)var1;
-      this.q = var2;
-      this.o = var5;
+   public final void onJoin(byte var1, int var2, short[] var3, byte var4, Vector var5, Vector var6) {
+      this.typeHome = (byte)var1;
+      this.idHouse = var2;
+      this.listItem = var5;
       LoadMap.wMap = var4;
       LoadMap.Hmap = (short)(var3.length / var4);
       LoadMap.map = var3;
-      if (this.c == 4) {
-         Canvas.loadMap.e(111);
+      if (this.typeHome == 4) {
+         Canvas.loadMap.load(111);
       } else {
-         Canvas.loadMap.e(68 + this.c);
+         Canvas.loadMap.load(68 + this.typeHome);
       }
 
-      LoadMap.t = -1;
+      LoadMap.rememMap = -1;
       var1 = -1;
       var2 = 0;
 
@@ -453,14 +453,14 @@ public final class HouseScr extends MyScreen implements IChatable {
       int var14;
       for(var8 = 0; var8 < var4; ++var8) {
          for(var14 = 0; var14 < LoadMap.Hmap; ++var14) {
-            if (LoadMap.map[var14 * var4 + var8] < n) {
+            if (LoadMap.map[var14 * var4 + var8] < numW) {
                LoadMap.type[var14 * var4 + var8] = 80;
             } else {
                LoadMap.type[var14 * var4 + var8] = 88;
             }
          }
 
-         if (LoadMap.map[(LoadMap.Hmap - 1) * var4 + var8] == this.u.img.getHeight() / (24 * AvMain.hd) - 1) {
+         if (LoadMap.map[(LoadMap.Hmap - 1) * var4 + var8] == this.imgTileMap.img.getHeight() / (24 * AvMain.hd) - 1) {
             LoadMap.map[(LoadMap.Hmap - 1) * var4 + var8] = LoadMap.map[(LoadMap.Hmap - 2) * var4 + var8];
             LoadMap.type[(LoadMap.Hmap - 1) * var4 + var8] = 21;
             ++var2;
@@ -470,33 +470,33 @@ public final class HouseScr extends MyScreen implements IChatable {
          }
       }
 
-      this.t = new AvPosition(var1 + var2 * 24 / 2, LoadMap.Hmap * 24 - 30);
-      GameMidlet.avatar.x = this.t.x;
-      GameMidlet.avatar.y = this.t.y;
+      this.posJoin = new AvPosition(var1 + var2 * 24 / 2, LoadMap.Hmap * 24 - 30);
+      GameMidlet.avatar.x = this.posJoin.x;
+      GameMidlet.avatar.y = this.posJoin.y;
       Pet var11;
-      if ((var11 = LoadMap.h(GameMidlet.avatar.IDDB)) != null) {
+      if ((var11 = LoadMap.getPet(GameMidlet.avatar.IDDB)) != null) {
          var11.setPos(GameMidlet.avatar.x, GameMidlet.avatar.y);
          var11.reset();
       }
 
-      AvCamera.gI().init(70 + this.c);
-      LoadMap.c = new FrameImage(this.u.img, 24 * AvMain.hd, 24 * AvMain.hd);
+      AvCamera.gI().init(70 + this.typeHome);
+      LoadMap.imgMap = new FrameImage(this.imgTileMap.img, 24 * AvMain.hd, 24 * AvMain.hd);
 
       for(var14 = 0; var14 < var6.size(); ++var14) {
          Avatar var7;
          (var7 = (Avatar)var6.elementAt(var14)).xCur = var7.x;
          var7.yCur = var7.y;
          if (var7.IDDB != GameMidlet.avatar.IDDB) {
-            LoadMap.b(var7);
+            LoadMap.addPlayer(var7);
          }
       }
 
       var14 = 0;
       var1 = 0;
 
-      for(var2 = 0; var2 < this.o.size(); ++var2) {
+      for(var2 = 0; var2 < this.listItem.size(); ++var2) {
          MapItem var12;
-         if ((var12 = (MapItem)this.o.elementAt(var2)).x == 0 && var12.y == 0) {
+         if ((var12 = (MapItem)this.listItem.elementAt(var2)).x == 0 && var12.y == 0) {
             boolean var13 = false;
 
             for(int var16 = 0; var16 < LoadMap.map.length; ++var16) {
@@ -506,7 +506,7 @@ public final class HouseScr extends MyScreen implements IChatable {
                   var14 = var12.x;
                   var1 = (byte) var12.y;
                   var13 = true;
-                  this.c(var12);
+                  this.setType(var12);
                   AvatarService.gI().doSortItem(var12.typeID, 0, 0, var12.x / 24, var12.y / 24, var12.dir);
                   break;
                }
@@ -519,19 +519,19 @@ public final class HouseScr extends MyScreen implements IChatable {
             }
          }
 
-         if (d(var12)) {
+         if (isSetTuong(var12)) {
             ++var12.y;
          }
       }
 
-      MapScr.gI().n();
-      Vector var10 = this.o;
+      MapScr.gI().move();
+      Vector var10 = this.listItem;
       HouseScr var9 = this;
 
       for(var8 = 0; var8 < var10.size(); ++var8) {
          MapItem var15 = (MapItem)var10.elementAt(var8);
          LoadMap.treeLists.addElement(var15);
-         var9.c(var15);
+         var9.setType(var15);
       }
 
       LoadMap.orderVector(LoadMap.treeLists);
@@ -539,10 +539,10 @@ public final class HouseScr extends MyScreen implements IChatable {
       Canvas.endDlg();
    }
 
-   private static boolean d(MapItem var0) {
+   private static boolean isSetTuong(MapItem var0) {
       if (AvatarData.getMapItemTypeByID((int)var0.typeID).buy != 2 && AvatarData.getMapItemTypeByID((int)var0.typeID).buy != 4) {
          int var1 = (var0.y / 24 - 1) * LoadMap.wMap + var0.x / 24;
-         if (LoadMap.map[var1] >= n && LoadMap.map[var0.y / 24 * LoadMap.wMap + var0.x / 24] < n) {
+         if (LoadMap.map[var1] >= numW && LoadMap.map[var0.y / 24 * LoadMap.wMap + var0.x / 24] < numW) {
             return true;
          }
       }
@@ -550,36 +550,36 @@ public final class HouseScr extends MyScreen implements IChatable {
       return false;
    }
 
-   private BigImgInfo s() {
+   private BigImgInfo loadTileMap() {
       DataInputStream var1;
       if ((var1 = AvatarData.loadRMS("avatarTileMap")) == null) {
          return null;
       } else {
-         this.u = new BigImgInfo();
+         this.imgTileMap = new BigImgInfo();
 
          try {
-            this.u.ver = var1.readShort();
-            n = var1.readShort();
+            this.imgTileMap.ver = var1.readShort();
+            numW = var1.readShort();
             byte[] var2 = new byte[var1.available()];
             var1.read(var2);
-            this.u.img = CRes.createImage(var2);
+            this.imgTileMap.img = CRes.createImage(var2);
             var1.close();
          } catch (Exception var3) {
             var3.printStackTrace();
          }
 
-         return this.u;
+         return this.imgTileMap;
       }
    }
 
-   public final void a(byte[] var1, int var2) {
-      n = (short)var2;
-      this.u.img = CRes.createImage(var1);
+   public final void saveTileMap(byte[] var1, int var2) {
+      numW = (short)var2;
+      this.imgTileMap.img = CRes.createImage(var1);
       ByteArrayOutputStream var3 = new ByteArrayOutputStream();
       DataOutputStream var4 = new DataOutputStream(var3);
 
       try {
-         var4.writeShort(this.u.ver);
+         var4.writeShort(this.imgTileMap.ver);
          var4.writeShort(var2);
          var4.write(var1);
          CRes.saveRMS("avatarTileMap", var3.toByteArray());
@@ -588,9 +588,9 @@ public final class HouseScr extends MyScreen implements IChatable {
          var5.printStackTrace();
       }
 
-      if (MapScr.v != -1) {
-         AvatarService.gI().doJoinHouse(MapScr.v);
-         MapScr.v = -1;
+      if (MapScr.idHouse != -1) {
+         AvatarService.gI().doJoinHouse(MapScr.idHouse);
+         MapScr.idHouse = -1;
       } else {
          Canvas.endDlg();
       }
@@ -601,18 +601,18 @@ public final class HouseScr extends MyScreen implements IChatable {
       Vector var7;
       switch (var1) {
          case 0:
-            if (this.j == -1) {
+            if (this.selected == -1) {
                return;
             }
 
-            var2 = this.i * LoadMap.wMap + this.h;
-            if (this.r[LoadMap.map[var2]].c == -1 && this.r[LoadMap.map[var2]].b == -1) {
+            var2 = this.y * LoadMap.wMap + this.x;
+            if (this.listTile[LoadMap.map[var2]].priceLuong == -1 && this.listTile[LoadMap.map[var2]].priceXu == -1) {
                Canvas.startOKDlg(T.db);
             } else {
-               if ((this.j >= n || LoadMap.map[var2] < n) && (this.j < n || LoadMap.map[var2] >= n)) {
-                  this.w = this.h;
-                  this.x = this.i;
-                  LoadMap.map[this.i * LoadMap.wMap + this.h] = (short)this.j;
+               if ((this.selected >= numW || LoadMap.map[var2] < numW) && (this.selected < numW || LoadMap.map[var2] >= numW)) {
+                  this.xTemp = this.x;
+                  this.yTemp = this.y;
+                  LoadMap.map[this.y * LoadMap.wMap + this.x] = (short)this.selected;
                   return;
                }
 
@@ -620,14 +620,14 @@ public final class HouseScr extends MyScreen implements IChatable {
             }
             break;
          case 1:
-            this.j = -1;
-            this.p = -1;
-            this.w = -1;
-            this.x = -1;
+            this.selected = -1;
+            this.indexName = -1;
+            this.xTemp = -1;
+            this.yTemp = -1;
             boolean var6 = false;
 
-            for(var2 = 0; var2 < this.B.length; ++var2) {
-               if (this.B[var2] != LoadMap.map[var2]) {
+            for(var2 = 0; var2 < this.temp.length; ++var2) {
+               if (this.temp[var2] != LoadMap.map[var2]) {
                   var6 = true;
                   break;
                }
@@ -638,14 +638,14 @@ public final class HouseScr extends MyScreen implements IChatable {
                Canvas.startWaitDlg();
             }
 
-            this.j();
-            e = false;
+            this.addPlayer();
+            isChange = false;
             this.i();
             super.right = null;
             return;
          case 2:
             var7 = new Vector();
-            if (this.q == GameMidlet.avatar.IDDB) {
+            if (this.idHouse == GameMidlet.avatar.IDDB) {
                var7.addElement(new Command(T.co, 1));
                var7.addElement(new Command(T.cT, 2));
                var1 = 0;
@@ -672,8 +672,8 @@ public final class HouseScr extends MyScreen implements IChatable {
             var7.addElement(new Command(T.bg, 13));
             MenuSub.gI().startAt(var7, 2);
             MenuSub var10000 = MenuSub.gI();
-            int var10001 = this.h * 24 * AvMain.hd - AvCamera.gI().xCam - MenuSub.gI().c / 2 + 12;
-            int var4 = this.i * 24 * AvMain.hd - AvCamera.gI().yCam - MenuSub.gI().d - 12;
+            int var10001 = this.x * 24 * AvMain.hd - AvCamera.gI().xCam - MenuSub.gI().c / 2 + 12;
+            int var4 = this.y * 24 * AvMain.hd - AvCamera.gI().yCam - MenuSub.gI().d - 12;
             var3 = var10001;
             MenuSub var5 = var10000;
             var10000.a = var3;
@@ -688,13 +688,13 @@ public final class HouseScr extends MyScreen implements IChatable {
 
             return;
          case 4:
-            this.q();
+            this.reset();
             return;
          case 5:
-            this.p();
+            this.doSelectMap();
             return;
          case 8:
-            InputFace.b();
+            InputFace.gI();
             Canvas.currentFace = null;
             return;
          case 50:
@@ -702,25 +702,25 @@ public final class HouseScr extends MyScreen implements IChatable {
             Canvas.startWaitDlg();
             return;
          case 51:
-            LoadMap.map = this.B;
-            this.B = null;
-            ParkMsgHandler.a();
+            LoadMap.map = this.temp;
+            this.temp = null;
+            ParkMsgHandler.onHandler();
             return;
          case 53:
             GlobalService.gI().doUpdateChest(0);
             Canvas.startWaitDlg();
             return;
          case 100:
-            AvatarService.gI().doSetPassMyHouse(Canvas.inputDlg.a(), 0, 0);
+            AvatarService.gI().doSetPassMyHouse(Canvas.inputDlg.getText(), 0, 0);
             Canvas.endDlg();
             return;
          case 101:
-            GlobalService.gI().doEnterPass(Canvas.inputDlg.a(), (byte)0);
+            GlobalService.gI().doEnterPass(Canvas.inputDlg.getText(), (byte)0);
       }
 
    }
 
-   public final void a(short var1, String var2) {
+   public final void onCreateHome(short var1, String var2) {
       Canvas.endDlg();
       if (var1 == 0) {
          Vector var3;
@@ -730,30 +730,30 @@ public final class HouseScr extends MyScreen implements IChatable {
       } else {
          Canvas.startOKDlg(var2);
          if (var1 == 2) {
-            LoadMap.map = this.B;
+            LoadMap.map = this.temp;
          }
 
-         this.B = null;
-         ParkMsgHandler.a();
-         GameMidlet.avatar.x = this.t.x;
-         GameMidlet.avatar.y = this.t.y;
+         this.temp = null;
+         ParkMsgHandler.onHandler();
+         GameMidlet.avatar.x = this.posJoin.x;
+         GameMidlet.avatar.y = this.posJoin.y;
          super.center = MapScr.gI().e;
-         AvCamera.gI().init(70 + this.c);
+         AvCamera.gI().init(70 + this.typeHome);
       }
    }
 
-   public final void a(Tile[] var1) {
-      this.r = var1;
-      this.p();
+   public final void onGetTileInfo(Tile[] var1) {
+      this.listTile = var1;
+      this.doSelectMap();
       Canvas.endDlg();
    }
 
-   private void e(MapItem var1) {
+   private void removeTrans(MapItem var1) {
       int var2 = 0;
 
-      for(int var3 = 0; var3 < this.o.size(); ++var3) {
+      for(int var3 = 0; var3 < this.listItem.size(); ++var3) {
          MapItem var4;
-         if ((var4 = (MapItem)this.o.elementAt(var3)).x / 24 == var1.x / 24 && var4.y / 24 == var1.y / 24) {
+         if ((var4 = (MapItem)this.listItem.elementAt(var3)).x / 24 == var1.x / 24 && var4.y / 24 == var1.y / 24) {
             ++var2;
          }
       }
@@ -769,20 +769,20 @@ public final class HouseScr extends MyScreen implements IChatable {
 
    }
 
-   public final void b(MapItem var1) {
+   public final void onRemoveItem(MapItem var1) {
       MapItem var2 = var1;
       HouseScr var5 = this;
       int var3 = 0;
 
       MapItem var10000;
       while(true) {
-         if (var3 >= var5.o.size()) {
+         if (var3 >= var5.listItem.size()) {
             var10000 = null;
             break;
          }
 
          MapItem var4;
-         if ((var4 = (MapItem)var5.o.elementAt(var3)).x / 24 == var2.x && var4.y / 24 == var2.y && var4.typeID == var2.typeID) {
+         if ((var4 = (MapItem)var5.listItem.elementAt(var3)).x / 24 == var2.x && var4.y / 24 == var2.y && var4.typeID == var2.typeID) {
             var10000 = var4;
             break;
          }
@@ -792,18 +792,18 @@ public final class HouseScr extends MyScreen implements IChatable {
 
       var1 = var10000;
       LoadMap.treeLists.removeElement(var1);
-      this.o.removeElement(var1);
-      this.e(var1);
-      ParkMsgHandler.a();
+      this.listItem.removeElement(var1);
+      this.removeTrans(var1);
+      ParkMsgHandler.onHandler();
       Canvas.endDlg();
    }
 
-   public final void c(MapItem var1) {
+   public final void setType(MapItem var1) {
       MapItemType var2 = AvatarData.getMapItemTypeByID((int)var1.typeID);
       byte var3 = 88;
-      if (var2.idType == this.A) {
+      if (var2.idType == this.IDHo) {
          var3 = 112;
-      } else if (var2.idType == this.z) {
+      } else if (var2.idType == this.IDHoa) {
          var3 = 111;
       } else if (var2.iconID == 1) {
          var3 = 79;
@@ -818,7 +818,7 @@ public final class HouseScr extends MyScreen implements IChatable {
 
    }
 
-   public final void a(int var1, int var2, short var3, Vector var4) {
+   public final void onGetTypeHouse(int var1, int var2, short var3, Vector var4) {
       if (var1 != 0) {
          for(var1 = 0; var1 < var4.size(); ++var1) {
             Avatar var6;
@@ -829,19 +829,19 @@ public final class HouseScr extends MyScreen implements IChatable {
          }
 
          Canvas.endDlg();
-         this.e();
+         this.onRoadFriend();
       } else {
          GameMidlet.avatar.typeHome = (byte)var2;
          MapScr.gI().switchToMe();
          boolean var10000;
-         if (this.u == null) {
-            this.s();
-            if (this.u != null && var3 == this.u.ver) {
+         if (this.imgTileMap == null) {
+            this.loadTileMap();
+            if (this.imgTileMap != null && var3 == this.imgTileMap.ver) {
                var10000 = true;
             } else {
-               if (this.u == null) {
-                  this.u = new BigImgInfo();
-                  this.u.ver = var3;
+               if (this.imgTileMap == null) {
+                  this.imgTileMap = new BigImgInfo();
+                  this.imgTileMap.ver = var3;
                }
 
                AvatarService var5;
@@ -854,9 +854,9 @@ public final class HouseScr extends MyScreen implements IChatable {
          }
 
          if (var10000) {
-            if (MapScr.v != -1) {
-               AvatarService.gI().doJoinHouse(MapScr.v);
-               MapScr.v = -1;
+            if (MapScr.idHouse != -1) {
+               AvatarService.gI().doJoinHouse(MapScr.idHouse);
+               MapScr.idHouse = -1;
             } else {
                Canvas.load = 1;
                Canvas.endDlg();
@@ -878,35 +878,35 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
    }
 
-   public final void e() {
-      if (ListScr.d == null) {
+   public final void onRoadFriend() {
+      if (ListScr.friendL == null) {
          Canvas.startWaitDlg();
          CasinoService.gI().requestFriendList();
-         ListScr.e = 2;
-      } else if (ListScr.f) {
-         ListScr.f = false;
+         ListScr.typeListFriend = 2;
+      } else if (ListScr.isGetTypeHouse) {
+         ListScr.isGetTypeHouse = false;
          Canvas.startWaitDlg();
          AvatarService.gI().getTypeHouse((int)1);
       } else {
          Vector var1 = new Vector();
 
-         for(int var2 = 0; var2 < ListScr.d.size(); ++var2) {
+         for(int var2 = 0; var2 < ListScr.friendL.size(); ++var2) {
             Avatar var3;
-            if ((var3 = (Avatar)ListScr.d.elementAt(var2)).typeHome == this.c) {
+            if ((var3 = (Avatar)ListScr.friendL.elementAt(var2)).typeHome == this.typeHome) {
                var1.addElement(var3);
             }
          }
 
          if (var1.size() == 0) {
             if (Canvas.currentMyScreen == ListScr.gI()) {
-               ListScr.gI().b.switchToMe();
+               ListScr.gI().backMyScreen.switchToMe();
             }
 
-            Canvas.startOKDlg(T.de);
+            Canvas.startOKDlg(T.noFriend);
          } else {
             ListScr.gI().switchToMe();
-            ListScr.c = var1;
-            ListScr.gI().e();
+            ListScr.tempList = var1;
+            ListScr.gI().setCam();
             ListScr.gI().g();
          }
       }
@@ -917,8 +917,8 @@ public final class HouseScr extends MyScreen implements IChatable {
 
       int var4;
       MapItem var5;
-      for(var4 = 0; var4 < this.o.size(); ++var4) {
-         if ((var5 = (MapItem)this.o.elementAt(var4)).x / 24 == this.h && var5.y / 24 == this.i) {
+      for(var4 = 0; var4 < this.listItem.size(); ++var4) {
+         if ((var5 = (MapItem)this.listItem.elementAt(var4)).x / 24 == this.x && var5.y / 24 == this.y) {
             var3 = var4;
             break;
          }
@@ -926,7 +926,7 @@ public final class HouseScr extends MyScreen implements IChatable {
 
       var5 = null;
       if (var3 != -1) {
-         var5 = (MapItem)this.o.elementAt(var3);
+         var5 = (MapItem)this.listItem.elementAt(var3);
       }
 
       var5 = var5;
@@ -940,28 +940,28 @@ public final class HouseScr extends MyScreen implements IChatable {
             Vector var10;
             (var10 = new Vector()).addElement(new Command(T.cU, 6));
             var10.addElement(new Command(T.cV, 7));
-            if (this.o.size() > 0) {
+            if (this.listItem.size() > 0) {
                var10.addElement(new Command(T.cW, 8));
             }
 
             MenuSub.gI().startAt(var10, 2);
             return;
          case 3:
-            o();
+            doKick();
             return;
          case 4:
-            Canvas.inputDlg.a(T.bO + ":", 100, 2);
+            Canvas.inputDlg.setInfoIkb(T.bO + ":", 100, 2);
             return;
          case 5:
-            MapScr.gI().e();
+            MapScr.gI().doExit();
             return;
          case 6:
-            this.r();
+            this.doSelectObject();
             return;
          case 7:
-            e = true;
-            if (this.r == null) {
-               if (this.r == null) {
+            isChange = true;
+            if (this.listTile == null) {
+               if (this.listTile == null) {
                   HomeMsgHandler.onHandler();
                   AvatarService var9;
                   (var9 = AvatarService.gI()).createMessage((byte)-43);
@@ -972,10 +972,10 @@ public final class HouseScr extends MyScreen implements IChatable {
                return;
             }
 
-            this.p();
+            this.doSelectMap();
             return;
          case 8:
-            this.m();
+            this.doOption();
             return;
          case 9:
          case 10:
@@ -987,19 +987,19 @@ public final class HouseScr extends MyScreen implements IChatable {
                return;
             }
 
-            this.d = var3;
+            this.isSelectedItem = var3;
 
             for(var1 = 0; var1 < AvatarData.listMapItemType.size(); ++var1) {
                if (((MapItemType)AvatarData.listMapItemType.elementAt(var1)).idType == var5.typeID) {
-                  this.j = var1;
+                  this.selected = var1;
                   break;
                }
             }
 
             super.left = null;
             super.right = null;
-            this.e(var5);
-            this.s = new AvPosition(this.h, this.i, var5.typeID);
+            this.removeTrans(var5);
+            this.posSort = new AvPosition(this.x, this.y, var5.typeID);
             super.center = new Command(T.z, new class_ga(this, var5));
             return;
          case 12:
@@ -1014,10 +1014,10 @@ public final class HouseScr extends MyScreen implements IChatable {
                var5.dir = 0;
             }
 
-            AvatarService.gI().doSortItem(var5.typeID, this.h, this.i, this.h, this.i, var5.dir);
+            AvatarService.gI().doSortItem(var5.typeID, this.x, this.y, this.x, this.y, var5.dir);
             return;
          case 13:
-            if (var3 != -1 && var5.typeID != this.z) {
+            if (var3 != -1 && var5.typeID != this.IDHoa) {
                Canvas.startOKDlg(T.da, (IAction)(new class_fw(this, var5)));
                return;
             }
@@ -1026,22 +1026,22 @@ public final class HouseScr extends MyScreen implements IChatable {
             return;
          case 14:
             PopupShop.gI().close();
-            Canvas.b(T.cK, 53);
+            Canvas.startOKDlg(T.cK, 53);
             return;
          case 15:
             TField[] var7 = new TField[3];
 
             for(var2 = 0; var2 < 3; ++var2) {
                var7[var2] = new TField();
-               var7[var2].d(2);
+               var7[var2].setIputType(2);
             }
 
-            var7[0].a(true);
+            var7[0].setFocus(true);
             Command var8 = new Command(T.cy, new class_gg(this, var7));
             PopupShop.gI().close();
-            InputFace.b().a(var7, T.cx, T.eF, var8);
-            Canvas.currentFace = InputFace.b();
-            InputFace.b().left = new Command(T.d, 8);
+            InputFace.gI().setIputType(var7, T.cx, T.eF, var8);
+            Canvas.currentFace = InputFace.gI();
+            InputFace.gI().left = new Command(T.d, 8);
             return;
          case 16:
             if (var2 < LoadMap.playerLists.size()) {
@@ -1051,21 +1051,21 @@ public final class HouseScr extends MyScreen implements IChatable {
             }
             break;
          case 17:
-            for(var1 = 0; var1 < this.r.length; ++var1) {
+            for(var1 = 0; var1 < this.listTile.length; ++var1) {
                if (var1 == var2) {
-                  if (this.w != -1) {
-                     this.h = this.w;
-                     this.i = this.x;
-                     GameMidlet.avatar.x = this.w * 24;
-                     GameMidlet.avatar.y = this.x * 24;
+                  if (this.xTemp != -1) {
+                     this.x = this.xTemp;
+                     this.y = this.yTemp;
+                     GameMidlet.avatar.x = this.xTemp * 24;
+                     GameMidlet.avatar.y = this.yTemp * 24;
                      AvCamera.gI().setToPos(GameMidlet.avatar.x * AvMain.hd, GameMidlet.avatar.y * AvMain.hd);
                   }
 
-                  this.j = var1;
-                  if (this.j < n) {
-                     this.p = 1;
+                  this.selected = var1;
+                  if (this.selected < numW) {
+                     this.indexName = 1;
                   } else {
-                     this.p = 0;
+                     this.indexName = 0;
                   }
                }
             }
@@ -1074,33 +1074,33 @@ public final class HouseScr extends MyScreen implements IChatable {
          case 18:
             for(var1 = 0; var1 < AvatarData.listMapItemType.size(); ++var1) {
                MapItemType var12;
-               if (var1 == var2 && (var12 = (MapItemType)AvatarData.listMapItemType.elementAt(var1)).buy != 0 && (this.c != 4 && (var12.buy == 1 || var12.buy == 2) || this.c == 4) && (var4 = var12.name.indexOf(":")) != -1) {
+               if (var1 == var2 && (var12 = (MapItemType)AvatarData.listMapItemType.elementAt(var1)).buy != 0 && (this.typeHome != 4 && (var12.buy == 1 || var12.buy == 2) || this.typeHome == 4) && (var4 = var12.name.indexOf(":")) != -1) {
                   String var13 = var12.name.substring(0, var4);
-                  this.b(var13);
+                  this.doSelectedItem(var13);
                }
             }
       }
 
    }
 
-   public final void f() {
-      this.D = null;
-      this.E = null;
+   public final void doOut() {
+      this.listP_Chest = null;
+      this.listP_Con = null;
       ParkService.gI().doJoinPark(21, 0);
-      LoadMap.t = -1;
+      LoadMap.rememMap = -1;
    }
 
-   public final void a(Vector var1, Vector var2, int var3, byte var4) {
-      this.E = var1;
-      this.D = var2;
-      this.F = var3;
-      this.G = var4;
-      Vector var7 = MapScr.gI().a(var1, GameMidlet.avatar.IDDB, 3);
-      var2 = MapScr.gI().a(var2, GameMidlet.avatar.IDDB, 2);
-      if (Canvas.currentMyScreen != MenuCenter.a) {
+   public final void onCustomChest(Vector var1, Vector var2, int var3, byte var4) {
+      this.listP_Con = var1;
+      this.listP_Chest = var2;
+      this.moneyOnChest = var3;
+      this.levelChest = var4;
+      Vector var7 = MapScr.gI().getListCmdDoUsing(var1, GameMidlet.avatar.IDDB, 3);
+      var2 = MapScr.gI().getListCmdDoUsing(var2, GameMidlet.avatar.IDDB, 2);
+      if (Canvas.currentMyScreen != MenuCenter.me) {
          PopupShop.gI().isHorizontal = true;
-         PopupShop.gI().a(new String[]{T.by, T.co}, new Vector[]{var7, var2}, (Vector)null);
-         Command var5 = MapScr.gI().a(var1, 1, 1, false);
+         PopupShop.gI().addElement(new String[]{T.by, T.co}, new Vector[]{var7, var2}, (Vector)null);
+         Command var5 = MapScr.gI().cmdDellPart(var1, 1, 1, false);
          Command var6 = new Command(T.c, new class_dd(this));
          PopupShop.gI().setCmdLeft(var5, 0);
          PopupShop.gI().setCmdLeft(var6, 1);
@@ -1111,11 +1111,11 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
    }
 
-   public static void g() {
-      Canvas.inputDlg.a(T.bO, 101, 2);
+   public static void onEnterPass() {
+      Canvas.inputDlg.setInfoIkb(T.bO, 101, 2);
    }
 
-   public final void a(boolean var1, String var2) {
+   public final void onTransChestPart(boolean var1, String var2) {
       if (!var1) {
          Canvas.startOKDlg(var2);
       } else {
@@ -1123,25 +1123,25 @@ public final class HouseScr extends MyScreen implements IChatable {
          int var5 = PopupShop.focus;
          SeriPart var4;
          if (var3 == 0) {
-            var4 = (SeriPart)this.E.elementAt(var5);
-            this.D.addElement(var4);
-            this.E.removeElement(var4);
+            var4 = (SeriPart)this.listP_Con.elementAt(var5);
+            this.listP_Chest.addElement(var4);
+            this.listP_Con.removeElement(var4);
          } else {
-            var4 = (SeriPart)this.D.elementAt(var5);
-            this.E.addElement(var4);
-            this.D.removeElement(var4);
+            var4 = (SeriPart)this.listP_Chest.elementAt(var5);
+            this.listP_Con.addElement(var4);
+            this.listP_Chest.removeElement(var4);
          }
 
-         this.h();
+         this.restartPopup();
          Canvas.endDlg();
       }
    }
 
-   public final void h() {
+   public final void restartPopup() {
       int var1 = PopupShop.focusTap;
       int var2 = PopupShop.focus;
       PopupShop.gI().close();
-      this.a(this.E, this.D, this.F, this.G);
+      this.onCustomChest(this.listP_Con, this.listP_Chest, this.moneyOnChest, this.levelChest);
       PopupShop.focusTap = var1;
       PopupShop.gI().setCmyLim();
       if (var2 >= PopupShop.gI().h[var1].size()) {
@@ -1153,9 +1153,9 @@ public final class HouseScr extends MyScreen implements IChatable {
       Canvas.cameraList.setSelect(PopupShop.focus);
    }
 
-   public final void a(byte var1, String var2, String[] var3, short[] var4, short[] var5, String[] var6, String[] var7, int[] var8, short[] var9) {
+   public final void onOpenShop(byte var1, String var2, String[] var3, short[] var4, short[] var5, String[] var6, String[] var7, int[] var8, short[] var9) {
       MapScr.gI();
-      MapScr.d(GameMidlet.avatar);
+      MapScr.setAvatarShop(GameMidlet.avatar);
       Vector var10 = new Vector();
 
       for(int var11 = 0; var11 < var3.length; ++var11) {
@@ -1165,84 +1165,84 @@ public final class HouseScr extends MyScreen implements IChatable {
       if (var10.size() > 0) {
          PopupShop.gI().switchToMe();
          PopupShop.o = true;
-         PopupShop.gI().a(new String[]{var2}, new Vector[]{var10}, (Vector)null);
+         PopupShop.gI().addElement(new String[]{var2}, new Vector[]{var10}, (Vector)null);
       }
 
    }
 
-   static void a(HouseScr var0) {
-      var0.n();
+   static void setStatusBuyItem(HouseScr var0) {
+      var0.setStatusBuyItem();
    }
 
-   static int b(HouseScr var0) {
-      return var0.w;
+   static int getxTemp(HouseScr var0) {
+      return var0.xTemp;
    }
 
-   static void a(HouseScr var0, int var1) {
-      var0.h = var1;
+   static void setX(HouseScr var0, int var1) {
+      var0.x = var1;
    }
 
-   static int c(HouseScr var0) {
+   static int getYtemp(HouseScr var0) {
+      return var0.yTemp;
+   }
+
+   static void setyTemp(HouseScr var0, int var1) {
+      var0.y = var1;
+   }
+
+   static void setSelectedIndex(HouseScr var0, int var1) {
+      var0.selected = var1;
+   }
+
+   static int getX(HouseScr var0) {
       return var0.x;
    }
 
-   static void b(HouseScr var0, int var1) {
-      var0.i = var1;
+   static void setxTemp(HouseScr var0, int var1) {
+      var0.xTemp = var1;
    }
 
-   static void c(HouseScr var0, int var1) {
-      var0.j = var1;
+   static int getY(HouseScr var0) {
+      return var0.y;
    }
 
-   static int d(HouseScr var0) {
-      return var0.h;
-   }
-
-   static void d(HouseScr var0, int var1) {
-      var0.w = var1;
-   }
-
-   static int e(HouseScr var0) {
-      return var0.i;
-   }
-
-   static void e(HouseScr var0, int var1) {
-      var0.x = var1;
+   static void setYtemp(HouseScr var0, int var1) {
+      var0.yTemp = var1;
    }
 
    static void a(HouseScr var0, int var1, String var2) {
       MapItemType var3 = (MapItemType)AvatarData.listMapItemType.elementAt(var1);
-      if (!var0.a(var3)) {
-         Canvas.a(var3.priceXu, var3.priceLuong, new class_cr(var0, var3, var2), new class_co(var0, var3, var2), new class_de(var0));
+      if (!var0.isDisable(var3)) {
+         Canvas.getTypeMoney(var3.priceXu, var3.priceLuong, new class_cr(var0, var3, var2), new class_co(var0, var3, var2), new class_de(var0));
       }
 
    }
 
    static void f(HouseScr var0) {
-      var0.r();
+      var0.doSelectObject();
    }
 
    static boolean a(HouseScr var0, MapItemType var1) {
-      return var0.a(var1);
+      return var0.isDisable(var1);
    }
 
-   static AvPosition g(HouseScr var0) {
-      return var0.s;
+   static AvPosition getposSort(HouseScr var0) {
+      return var0.posSort;
    }
 
-   static boolean a(HouseScr var0, MapItem var1) {
-      return d(var1);
+   static boolean isSetTuong(HouseScr var0, MapItem var1) {
+      return isSetTuong(var1);
    }
 
-   static void h(HouseScr var0) {
-      var0.m();
+   static void doOption(HouseScr var0) {
+      var0.doOption();
    }
 
-   static void a(HouseScr var0, String var1) {
-      var0.b(var1);
+   static void doSelectedItem(HouseScr var0, String var1) {
+      var0.doSelectedItem(var1);
    }
 
-   static void i(HouseScr var0) {
-      var0.q();
+   static void reset(HouseScr var0) {
+      var0.reset();
    }
 }

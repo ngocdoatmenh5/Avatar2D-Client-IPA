@@ -12,10 +12,10 @@ final class class_m implements IAction {
    }
 
    public final void perform() {
-      if (MapScr.a(this.b)) {
-         GlobalService.gI().doChangePass(this.b[0].f(), this.b[1].f());
+      if (MapScr.setEnterPass(this.b)) {
+         GlobalService.gI().doChangePass(this.b[0].getText(), this.b[1].getText());
          Canvas.startWaitDlg();
-         InputFace.b();
+         InputFace.gI();
          Canvas.currentFace = null;
       }
 

@@ -29,10 +29,10 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
 
                while(var1.reader().available() > 0) {
                   RoomInfo var19;
-                  (var19 = new RoomInfo()).a = var1.reader().readByte();
-                  var19.b = var1.reader().readByte();
+                  (var19 = new RoomInfo()).id = var1.reader().readByte();
+                  var19.roomFree = var1.reader().readByte();
                   var1.reader().readByte();
-                  var19.c = var1.reader().readByte();
+                  var19.lv = var1.reader().readByte();
                   var21.addElement(var19);
                }
 
@@ -104,7 +104,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                }
 
                d.setPlayers(var15, var16, var17, var5, var6);
-               TLBoardScr.b().b = true;
+               TLBoardScr.gI().isFirstMatch = true;
                BoardScr.disableReady = false;
                int var23 = var6.size();
 
@@ -126,8 +126,8 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
 
                d.loadMap();
                d.switchToMe();
-               TLBoardScr.b();
-               TLBoardScr.b(false);
+               TLBoardScr.gI();
+               TLBoardScr.setMode(false);
                Canvas.endDlg();
                Canvas.load = 1;
                return;
@@ -172,7 +172,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                var8.setExp(var1.reader().readInt());
                var8.idImg = var1.reader().readShort();
                var8.isReady = false;
-               TLBoardScr.b().b = true;
+               TLBoardScr.gI().isFirstMatch = true;
                var8.isReady = false;
                d.setAt(var9, var8);
                return;
@@ -183,7 +183,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                   d.closeBoard(T.J);
                }
 
-               TLBoardScr.b().b = true;
+               TLBoardScr.gI().isFirstMatch = true;
                BoardScr.me.playerLeave(var2);
                BoardScr.setOwner(var13);
                return;
@@ -227,10 +227,10 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
             case 61:
                switch (var1.reader().readByte()) {
                   case 3:
-                     TienLenMsgHandler.a();
+                     TienLenMsgHandler.onHandler();
                      break;
                   case 7:
-                     PhomMsgHandler.a();
+                     PhomMsgHandler.onHandler();
                      break;
                   case 21:
                      DiamondMessageHandler.a();

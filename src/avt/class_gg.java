@@ -11,10 +11,10 @@ final class class_gg implements IAction {
 
    public final void perform() {
       MapScr.gI();
-      if (MapScr.a(this.a)) {
-         GlobalService.gI().doChangeChestPass(this.a[0].f(), this.a[1].f());
+      if (MapScr.setEnterPass(this.a)) {
+         GlobalService.gI().doChangeChestPass(this.a[0].getText(), this.a[1].getText());
          Canvas.startWaitDlg();
-         InputFace.b();
+         InputFace.gI();
          Canvas.currentFace = null;
       }
 

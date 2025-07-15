@@ -1,15 +1,15 @@
 package avt;
 
-final class class_dg implements IAction {
+final class IActionChangeAcc implements IAction {
    private LoginScr a;
 
-   class_dg(LoginScr var1) {
+   IActionChangeAcc(LoginScr var1) {
       this.a = var1;
    }
 
    public final void perform() {
-      LoginScr.v = false;
+      LoginScr.isNewGame = false;
       this.a.left = new Command("Đóng", new class_bq(this.a));
-      this.a.center = this.a.f;
+      this.a.center = this.a.cmdLogin;
    }
 }

@@ -10,7 +10,7 @@ public final class Card {
    public int y;
    public int distant;
    public boolean f;
-   public boolean g;
+   public boolean isShow;
    public int[] cardMapping;
    public int cardType;
    public int cardValue;

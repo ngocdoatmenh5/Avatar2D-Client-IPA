@@ -1,9 +1,9 @@
 package avt;
 
 final class class_kh implements Runnable {
-   private class_dy a;
+   private NetworkInit a;
 
-   class_kh(class_dy var1) {
+   class_kh(NetworkInit var1) {
       this.a = var1;
    }
 
@@ -14,17 +14,17 @@ final class class_kh implements Runnable {
          System.out.println("ERROR 1111111111");
       }
 
-      if (this.a.a.d) {
+      if (this.a.a.connecting) {
          try {
-            Session_ME.a(this.a.a).close();
-            Session_ME2.a(Session_ME.b(this.a.a)).removeAllElements();
+            Session_ME.setSc(this.a.a).close();
+            Sender.a(Session_ME.getSender(this.a.a)).removeAllElements();
          } catch (Exception var2) {
          }
 
          Session_ME.l = true;
-         this.a.a.d = false;
-         this.a.a.c = false;
-         this.a.a.b.onConnectionFail();
+         this.a.a.connecting = false;
+         this.a.a.connected = false;
+         this.a.a.messageHandler.onConnectionFail();
       }
 
    }

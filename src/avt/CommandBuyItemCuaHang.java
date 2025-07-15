@@ -20,9 +20,9 @@ final class CommandBuyItemCuaHang extends Command {
          PopupShop.resetIsTrans();
          PopupShop.addStr(FarmData.treeInfo[this.f].name1 + "(" + FarmData.treeInfo[this.f].harvestTime + T.bq + ")");
          PopupShop.addStr(T.az + Canvas.getPriceMoney(FarmData.treeInfo[this.f].priceSeed[0], FarmData.treeInfo[this.f].priceSeed[1], false));
-         PopupShop.addStr(T.em[2] + ": " + FarmData.treeInfo[this.f].m);
-         if (FarmData.treeInfo[this.f].l) {
-            FarmItem var1 = FarmScr.getFarmItem(FarmData.treeInfo[this.f].j);
+         PopupShop.addStr(T.em[2] + ": " + FarmData.treeInfo[this.f].lv);
+         if (FarmData.treeInfo[this.f].isDynamic) {
+            FarmItem var1 = FarmScr.getFarmItem(FarmData.treeInfo[this.f].productID);
             PopupShop.addStr(T.dP + ": " + var1.des);
          }
 

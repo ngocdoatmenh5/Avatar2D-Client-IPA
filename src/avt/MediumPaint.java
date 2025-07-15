@@ -56,7 +56,7 @@ public final class MediumPaint implements IPaint {
       PaintPopup.a = FrameImage.init("arrowup", 9, 6);
       MsgDlg.b = FrameImage.init("busy", 16, 16);
       MenuSub.f = FrameImage.init("cmd", 24, 24);
-      MapScr.k = FilePack.getImage("bar");
+      MapScr.imgBar = FilePack.getImage("bar");
       MapScr.d = FilePack.getImage("arF");
       FrameImage.init("icon", 17, 19);
       Avatar.imgBlog = new FrameImage(FilePack.getImage("dauhoathi"), 9, 9);
@@ -80,44 +80,44 @@ public final class MediumPaint implements IPaint {
       }
    }
 
-   public final void a(Graphics var1, int var2, int var3, int var4, int var5, TField var6, boolean var7) {
+   public final void paintTextBox(Graphics var1, int var2, int var3, int var4, int var5, TField var6, boolean var7) {
       if (var7) {
          TField.r.drawFrame(2, var2 + 1, var3 + 1, 0, var1);
          TField.r.drawFrame(3, var2 + var4 - 5, var3 + 1, 0, var1);
-         PaintPopup.a(var2 + 4, var3 + 1, var4 - 8, 2, 2716523, var1);
+         PaintPopup.fill(var2 + 4, var3 + 1, var4 - 8, 2, 2716523, var1);
          var1.fillRect(var2 + 4, var3 + 18, var4 - 8, 2);
-         PaintPopup.a(var2 + 4, var3 + 3, var4 - 8, 1, 2704964, var1);
-         PaintPopup.a(var2 + 4, var3 + 4, var4 - 8, 1, 5014141, var1);
-         PaintPopup.a(var2 + 4, var3 + 5, var4 - 8, 13, 6201499, var1);
+         PaintPopup.fill(var2 + 4, var3 + 3, var4 - 8, 1, 2704964, var1);
+         PaintPopup.fill(var2 + 4, var3 + 4, var4 - 8, 1, 5014141, var1);
+         PaintPopup.fill(var2 + 4, var3 + 5, var4 - 8, 13, 6201499, var1);
       } else {
          TField.r.drawFrame(0, var2 + 1, var3 + 1, 0, var1);
          TField.r.drawFrame(1, var2 + var4 - 5, var3 + 1, 0, var1);
-         PaintPopup.a(var2 + 4, var3 + 2, var4 - 9, 1, 11074288, var1);
+         PaintPopup.fill(var2 + 4, var3 + 2, var4 - 9, 1, 11074288, var1);
          var1.fillRect(var2 + 4, var3 + 18, var4 - 9, 1);
-         PaintPopup.a(var2 + 4, var3 + 3, var4 - 9, 1, 2704964, var1);
-         PaintPopup.a(var2 + 4, var3 + 4, var4 - 9, 1, 5014141, var1);
-         PaintPopup.a(var2 + 4, var3 + 5, var4 - 9, 13, 6201499, var1);
+         PaintPopup.fill(var2 + 4, var3 + 3, var4 - 9, 1, 2704964, var1);
+         PaintPopup.fill(var2 + 4, var3 + 4, var4 - 9, 1, 5014141, var1);
+         PaintPopup.fill(var2 + 4, var3 + 5, var4 - 9, 13, 6201499, var1);
       }
 
       var1.setClip(var2 + 3, var3 + 1, var4 - 8, var5 - 2);
       var1.setColor(0);
-      if (var6.g.equals("")) {
-         Canvas.normalFont.drawString(var1, var6.q, 5 + var6.j + var2, var3 + (var5 - AvMain.af) / 2, 0);
+      if (var6.paintedText.equals("")) {
+         Canvas.normalFont.drawString(var1, var6.q, 5 + var6.offsetX + var2, var3 + (var5 - AvMain.hBlack) / 2, 0);
       } else {
-         Canvas.M.drawString(var1, var6.g, 5 + var6.j + var2, var3 + (var5 - AvMain.af) / 2 + 1, 0);
+         Canvas.M.drawString(var1, var6.paintedText, 5 + var6.offsetX + var2, var3 + (var5 - AvMain.hBlack) / 2 + 1, 0);
       }
 
-      if (var6.d() && var6.k == 0 && (var6.l > 0 || var6.i / 5 % 2 == 0)) {
+      if (var6.isFocused() && var6.keyInActiveState == 0 && (var6.showCaretCounter > 0 || var6.counter / 5 % 2 == 0)) {
          var1.setColor(16777215);
-         var1.fillRect(5 + var6.j + var2 + Canvas.M.getWidth(var6.g.substring(0, var6.h)) - 1 + 1, var3 + (var5 - TField.f) / 2 + 2, 1, var5 - 5 * AvMain.hd);
+         var1.fillRect(5 + var6.offsetX + var2 + Canvas.M.getWidth(var6.paintedText.substring(0, var6.caretPos)) - 1 + 1, var3 + (var5 - TField.f) / 2 + 2, 1, var5 - 5 * AvMain.hd);
       }
 
-      if (var7 && Canvas.getSecond() - TField.o < 2) {
-         int var8 = Canvas.normalFont.getWidth(TField.p[TField.n]);
+      if (var7 && Canvas.getSecond() - TField.timeChangeMode < 2) {
+         int var8 = Canvas.normalFont.getWidth(TField.p[TField.mode]);
          var1.setClip(0, 0, Canvas.w, Canvas.h);
-         PaintPopup.a(var2 + var4 - var8 - 4, var3 + 4, var8 + 1, var5 - 6, 8969676, var1);
-         PaintPopup.a(var2 + var4 - var8 - 4, var3 + 4, var8 + 1, 1, 5614233, var1);
-         Canvas.normalFont.drawString(var1, TField.p[TField.n], var2 + var4 - 3, var3 + 3, 1);
+         PaintPopup.fill(var2 + var4 - var8 - 4, var3 + 4, var8 + 1, var5 - 6, 8969676, var1);
+         PaintPopup.fill(var2 + var4 - var8 - 4, var3 + 4, var8 + 1, 1, 5614233, var1);
+         Canvas.normalFont.drawString(var1, TField.p[TField.mode], var2 + var4 - 3, var3 + 3, 1);
       }
 
    }
@@ -127,16 +127,16 @@ public final class MediumPaint implements IPaint {
       a.drawFrame(1 + (var8 << 2), var2 + var4 - 8, var3, 0, var1);
       a.drawFrame(2 + (var8 << 2), var2, var3 + var5 - 8, 0, var1);
       a.drawFrame(3 + (var8 << 2), var2 + var4 - 8, var3 + var5 - 8, 0, var1);
-      PaintPopup.a(var2 + 8, var3, var4 - 16, 8, var6, var1);
+      PaintPopup.fill(var2 + 8, var3, var4 - 16, 8, var6, var1);
       var1.fillRect(var2 + 8, var3 + var5 - 8, var4 - 16, 7);
       var1.fillRect(var2, var3 + 8, var4, var5 - 16);
-      PaintPopup.a(var2 + 8, var3, var4 - 16, 1, var7, var1);
+      PaintPopup.fill(var2 + 8, var3, var4 - 16, 1, var7, var1);
       var1.fillRect(var2 + 8, var3 + var5 - 1, var4 - 16, 1);
       var1.fillRect(var2, var3 + 8, 1, var5 - 16);
       var1.fillRect(var2 + var4 - 1, var3 + 8, 1, var5 - 16);
    }
 
-   public final void a(Graphics var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10, int var11, int var12, int[] var13, int[] var14, String var15) {
+   public final void paintBoxTab(Graphics var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10, int var11, int var12, int[] var13, int[] var14, String var15) {
       Canvas.resetTrans(var1);
       this.a(var1, var2, var3, var5, var4, PaintPopup.d[0], PaintPopup.d[1], 0);
 
@@ -157,9 +157,9 @@ public final class MediumPaint implements IPaint {
 
          var16 = var17 - var7;
          a.drawFrame(var18 + 4, var2 + 3 + var16 * var8, var3 + 3, 0, var1);
-         PaintPopup.a(var2 + 11 + var16 * var8, var3 + 3, var9 - 16, var10 - 2, PaintPopup.d[2 + var18 / 2], var1);
+         PaintPopup.fill(var2 + 11 + var16 * var8, var3 + 3, var9 - 16, var10 - 2, PaintPopup.d[2 + var18 / 2], var1);
          var1.fillRect(var2 + 3 + var16 * var8, var3 + 11, var9 - 1, var10);
-         PaintPopup.a(var2 + 11 + var16 * var8, var3 + 3, var9 - 16, 1, PaintPopup.d[3 + var18 / 2], var1);
+         PaintPopup.fill(var2 + 11 + var16 * var8, var3 + 3, var9 - 16, 1, PaintPopup.d[3 + var18 / 2], var1);
          var1.fillRect(var2 + 3 + var16 * var8, var3 + 11, 1, var10 + 1);
          var1.fillRect(var2 + 2 + var9 + var16 * var8, var3 + 11, 1, var10 + 1);
       }
@@ -186,15 +186,15 @@ public final class MediumPaint implements IPaint {
          }
 
          a.drawFrame(var11 + 5, var2 + 3 + var9 - 8 + var16 * var8, var3 + 3, 0, var1);
-         PaintPopup.a(var2 + 11 + var16 * var8, var3 + 3, var9 - 16, 8, PaintPopup.d[2 + var11 / 2], var1);
+         PaintPopup.fill(var2 + 11 + var16 * var8, var3 + 3, var9 - 16, 8, PaintPopup.d[2 + var11 / 2], var1);
          var1.fillRect(var2 + 3 + var16 * var8, var3 + 11, var9 - 1, 15);
-         PaintPopup.a(var2 + 11 + var16 * var8, var3 + 3, var9 - 16, 1, PaintPopup.d[3 + var11 / 2], var1);
+         PaintPopup.fill(var2 + 11 + var16 * var8, var3 + 3, var9 - 16, 1, PaintPopup.d[3 + var11 / 2], var1);
          var1.fillRect(var2 + 3 + var16 * var8, var3 + 11, 1, 20);
          var1.fillRect(var2 + 2 + var9 + var16 * var8, var3 + 11, 1, 15);
       }
 
       this.a(var1, var2 + 3, var3 + var10, var5 - 6, var4 - var10 - 3, PaintPopup.d[2], PaintPopup.d[3], 1);
-      PaintPopup.a(var2 + 4 + (var6 - var7) * var8, var3 + var10 / 2, var9 - 2, var10, PaintPopup.d[2], var1);
+      PaintPopup.fill(var2 + 4 + (var6 - var7) * var8, var3 + var10 / 2, var9 - 2, var10, PaintPopup.d[2], var1);
       Canvas.normalFont.drawString(var1, var15, var2 + 3 + var9 / 2 + (var6 - var7) * var8, var3 + var10 / 2 - AvMain.ah / 2, 2);
    }
 
@@ -214,7 +214,7 @@ public final class MediumPaint implements IPaint {
    }
 
    public final void a(Graphics var1, int var2, int var3, int var4, int var5) {
-      this.a(var1, var2, var3, var4, var5, 0);
+      this.paintPopupBack(var1, var2, var3, var4, var5, 0);
    }
 
    public final void b() {
@@ -336,13 +336,13 @@ public final class MediumPaint implements IPaint {
       }
    }
 
-   public final void a() {
-      AvMain.Z = 5;
+   public final void init() {
+      AvMain.hDuBox = 5;
    }
 
    public final void a(Graphics var1) {
       byte var2 = 0;
-      if (Canvas.currentMyScreen == LoginScr.a || Canvas.currentMyScreen == MiniMap.a) {
+      if (Canvas.currentMyScreen == LoginScr.me || Canvas.currentMyScreen == MiniMap.me) {
          var2 = 14;
       }
 
@@ -401,43 +401,43 @@ public final class MediumPaint implements IPaint {
       return -1;
    }
 
-   public final void a(LoginScr var1) {
-      var1.l = 176;
-      if (var1.i) {
-         var1.m = 170;
+   public final void initPosLogin(LoginScr var1) {
+      var1.wLogin = 176;
+      if (var1.isReg) {
+         var1.hLogin = 170;
       } else {
-         var1.m = 130;
+         var1.hLogin = 130;
       }
 
-      if (var1.l > Canvas.w) {
-         var1.l = Canvas.w;
-         var1.m = 100;
+      if (var1.wLogin > Canvas.w) {
+         var1.wLogin = Canvas.w;
+         var1.hLogin = 100;
       }
 
-      var1.x = (var1.m - 20) / 3;
-      var1.y = 10;
-      var1.j = Canvas.hw - var1.l / 2;
-      var1.k = Canvas.hh - var1.m / 2 + 5;
-      int var2 = var1.k + 15 + 4;
-      var1.b.b = var2;
-      var1.b.a = var1.c.a = var1.d.a = var1.e.a = var1.q;
-      var1.b.c = var1.c.c = var1.d.c = var1.e.c = var1.p;
-      var2 += var1.b.d + 15;
-      var1.c.b = var2;
-      var2 += var1.b.d + 15;
-      var1.d.b = var2;
-      var1.o = var2 - 10;
-      var2 += var1.b.d + 15;
-      var1.e.b = var2;
-      var1.n = var1.c.a - 40;
+      var1.hCellNew = (var1.hLogin - 20) / 3;
+      var1.yNew = 10;
+      var1.xLogin = Canvas.hw - var1.wLogin / 2;
+      var1.yLogin = Canvas.hh - var1.hLogin / 2 + 5;
+      int var2 = var1.yLogin + 15 + 4;
+      var1.tfUser.y = var2;
+      var1.tfUser.x = var1.tfPass.x = var1.tfReg.x = var1.tfEmail.x = var1.xC;
+      var1.tfUser.width = var1.tfPass.width = var1.tfReg.width = var1.tfEmail.width = var1.wC;
+      var2 += var1.tfUser.height + 15;
+      var1.tfPass.y = var2;
+      var2 += var1.tfUser.height + 15;
+      var1.tfReg.y = var2;
+      var1.yCheck = var2 - 10;
+      var2 += var1.tfUser.height + 15;
+      var1.tfEmail.y = var2;
+      var1.xCheck = var1.tfPass.x - 40;
    }
 
-   public final void a(Graphics var1, int var2, int var3, int var4, int var5, int var6) {
+   public final void paintPopupBack(Graphics var1, int var2, int var3, int var4, int var5, int var6) {
       this.a(var1, var2, var3, var4, var5, PaintPopup.d[var6], PaintPopup.d[var6 + 1], 0);
       this.a(var1, var2 + 3, var3 + 3, var4 - 6, var5 - 6, PaintPopup.d[2], PaintPopup.d[3], 1);
    }
 
-   public final void a(Graphics var1, int var2, int var3, int var4, boolean var5) {
+   public final void paintCheckBox(Graphics var1, int var2, int var3, int var4, boolean var5) {
       byte var6 = 0;
       if (var4 == 2) {
          var6 = 1;
@@ -465,7 +465,7 @@ public final class MediumPaint implements IPaint {
 
    }
 
-   public final void a(Graphics var1, String var2, int var3, int var4, int var5) {
+   public final void drawString(Graphics var1, String var2, int var3, int var4, int var5) {
       Canvas.normalFont.drawString(var1, var2, var3, var4, var5);
    }
 
@@ -474,7 +474,7 @@ public final class MediumPaint implements IPaint {
       var1.fillRect(var2, var3, var4, var5);
    }
 
-   public final void a(int var1) {
+   public final void setVirtualKeyFish(int var1) {
       if (var1 == 14 || var1 == 15 || var1 == 16) {
          if (AvMain.ak) {
             TField.m = true;
@@ -495,11 +495,11 @@ public final class MediumPaint implements IPaint {
       if (Canvas.w < 200) {
          PBoardScr.c = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.hcard / 2, 0), new AvPosition(BoardScr.wCard / 2, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.hcard + 20, 0), new AvPosition(Canvas.w - BoardScr.wCard / 2 - 3, var2 / 2, 0)};
          PBoardScr.d = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.hcard, 0), new AvPosition(BoardScr.wCard + 3, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.hcard / 2 + 20, 0), new AvPosition(Canvas.w - 3, var2 / 2, 0)};
-         PBoardScr.b = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.hcard + BoardScr.hcard / 2 + 2, 2), new AvPosition(BoardScr.wCard / 4 * 3 + BoardScr.wCard / 2 + 5, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.hcard - AvMain.ai - 5, 2), new AvPosition(Canvas.w - BoardScr.wCard - 5, var2 / 2 - 5, 1)};
+         PBoardScr.b = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.hcard + BoardScr.hcard / 2 + 2, 2), new AvPosition(BoardScr.wCard / 4 * 3 + BoardScr.wCard / 2 + 5, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.hcard - AvMain.hSmall - 5, 2), new AvPosition(Canvas.w - BoardScr.wCard - 5, var2 / 2 - 5, 1)};
       } else {
          PBoardScr.c = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.hcard / 2, 0), new AvPosition(BoardScr.wCard / 2, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.hcard / 2, 0), new AvPosition(Canvas.w - BoardScr.wCard / 2, var2 / 2, 0)};
          PBoardScr.d = new AvPosition[]{new AvPosition(Canvas.hw, 0, 0), new AvPosition(BoardScr.wCard / 4 * 3, var2 / 2, 0), new AvPosition(Canvas.hw, var1 - BoardScr.hcard / 2 + BoardScr.hcard / 4, 0), new AvPosition(Canvas.w - BoardScr.wCard / 4, var2 / 2, 0)};
-         PBoardScr.b = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.hcard + 2, 2), new AvPosition(BoardScr.wCard / 4 * 3 + BoardScr.wCard / 2 + 5, var2 / 2 - 10, 0), new AvPosition(Canvas.hw, var1 - BoardScr.hcard - AvMain.ai - 1, 2), new AvPosition(Canvas.w - BoardScr.wCard - 5, var2 / 2 - 10, 1)};
+         PBoardScr.b = new AvPosition[]{new AvPosition(Canvas.hw, BoardScr.hcard + 2, 2), new AvPosition(BoardScr.wCard / 4 * 3 + BoardScr.wCard / 2 + 5, var2 / 2 - 10, 0), new AvPosition(Canvas.hw, var1 - BoardScr.hcard - AvMain.hSmall - 1, 2), new AvPosition(Canvas.w - BoardScr.wCard - 5, var2 / 2 - 10, 1)};
       }
    }
 
@@ -508,9 +508,9 @@ public final class MediumPaint implements IPaint {
       var3 = (var2 / var3 + 1) * var4;
       var4 = var6 + var4 / 2;
       var1.setClip(var4 - var5 / 2, var3, var5, var7);
-      var6 = (var7 - (AvMain.Z << 1)) / 4;
-      this.a(var1, var4 - var5 / 2, var3, var5, var7, 0);
-      var3 += AvMain.Z + 8;
+      var6 = (var7 - (AvMain.hDuBox << 1)) / 4;
+      this.paintPopupBack(var1, var4 - var5 / 2, var3, var5, var7, 0);
+      var3 += AvMain.hDuBox + 8;
       if (var8 == 1) {
          ((FarmItem)FarmData.listItemFarm.elementAt(var2)).paint(var1, var4, var3 + var6 / 2, 0, 3);
       } else {
@@ -554,7 +554,7 @@ public final class MediumPaint implements IPaint {
    }
 
    public final void a(Graphics var1, int var2, int var3) {
-      var1.drawImage(OnSplashScr.c, var2, var3, 3);
+      var1.drawImage(OnSplashScr.imgBg, var2, var3, 3);
    }
 
    public final void a(Graphics var1, String var2, String var3, String var4) {
@@ -606,9 +606,9 @@ public final class MediumPaint implements IPaint {
       e = null;
       l = null;
       OnScreen.a = null;
-      TLBoardScr.a = null;
+      TLBoardScr.instance = null;
       PBoardScr.a = null;
-      OnSplashScr.a = null;
+      OnSplashScr.me = null;
       BoardScr.me = null;
       CasinoMsgHandler.d = null;
    }
@@ -640,10 +640,10 @@ public final class MediumPaint implements IPaint {
          var6 = 40;
       }
 
-      var1.fillRect(4, PaintPopup.o + 20 + AvMain.af / 2 + var6 - var7 / 2, PaintPopup.gI().f - 8, var7);
+      var1.fillRect(4, PaintPopup.o + 20 + AvMain.hBlack / 2 + var6 - var7 / 2, PaintPopup.gI().f - 8, var7);
       Canvas.normalFont.drawString(var1, var3 == 1 ? T.et[0] : T.et[1], PaintPopup.gI().f / 2, PaintPopup.o + 20, 2);
-      PaintPopup.a.drawFrame(0, PaintPopup.gI().f / 2 - 35 - var4 / 2, PaintPopup.o + 20 + AvMain.af / 2 + var6, 4, 3, var1);
-      PaintPopup.a.drawFrame(0, PaintPopup.gI().f / 2 + 35 + var5 / 2, PaintPopup.o + 20 + AvMain.af / 2 + var6, 7, 3, var1);
+      PaintPopup.a.drawFrame(0, PaintPopup.gI().f / 2 - 35 - var4 / 2, PaintPopup.o + 20 + AvMain.hBlack / 2 + var6, 4, 3, var1);
+      PaintPopup.a.drawFrame(0, PaintPopup.gI().f / 2 + 35 + var5 / 2, PaintPopup.o + 20 + AvMain.hBlack / 2 + var6, 7, 3, var1);
       GameMidlet.avatar.paintIcon(var1, PaintPopup.gI().f / 2 + 1, PaintPopup.o + 87, false);
       Canvas.normalFont.drawString(var1, T.aA + GameMidlet.avatar.name, PaintPopup.gI().f / 2, PaintPopup.o + 100, 2);
       Canvas.normalFont.drawString(var1, T.ao + GameMidlet.avatar.strMoney, PaintPopup.gI().f / 2, PaintPopup.o + 115, 2);
@@ -651,17 +651,17 @@ public final class MediumPaint implements IPaint {
 
    public final void j() {
       if (Canvas.isPointerClick) {
-         if (Canvas.b(PaintPopup.gI().g + PaintPopup.gI().f / 2 - 20, PaintPopup.gI().h + PaintPopup.o + AvMain.af / 2, 40, 40)) {
+         if (Canvas.b(PaintPopup.gI().g + PaintPopup.gI().f / 2 - 20, PaintPopup.gI().h + PaintPopup.o + AvMain.hBlack / 2, 40, 40)) {
             RegisterScr.b().b(0);
             Canvas.isPointerClick = false;
          } else if (Canvas.b(PaintPopup.gI().g + PaintPopup.gI().f / 2 - 20, PaintPopup.gI().h + PaintPopup.o + 95 - GameMidlet.avatar.height / 2 - 20, 40, 45)) {
             RegisterScr.b().b(1);
             Canvas.isPointerClick = false;
-         } else if (Canvas.b(PaintPopup.gI().g + PaintPopup.gI().f / 2 - 20 - 40, PaintPopup.gI().h + PaintPopup.o + AvMain.af / 2 + 50 * RegisterScr.b().a, 40, 40)) {
+         } else if (Canvas.b(PaintPopup.gI().g + PaintPopup.gI().f / 2 - 20 - 40, PaintPopup.gI().h + PaintPopup.o + AvMain.hBlack / 2 + 50 * RegisterScr.b().a, 40, 40)) {
             RegisterScr.b().c(-1);
             RegisterScr.b().b = 6;
             Canvas.isPointerClick = false;
-         } else if (Canvas.b(PaintPopup.gI().g + PaintPopup.gI().f / 2 - 20 + 40, PaintPopup.gI().h + PaintPopup.o + AvMain.af / 2 + 50 * RegisterScr.b().a, 40, 40)) {
+         } else if (Canvas.b(PaintPopup.gI().g + PaintPopup.gI().f / 2 - 20 + 40, PaintPopup.gI().h + PaintPopup.o + AvMain.hBlack / 2 + 50 * RegisterScr.b().a, 40, 40)) {
             RegisterScr.b().c(1);
             RegisterScr.b().c = 6;
             Canvas.isPointerClick = false;
@@ -767,7 +767,7 @@ public final class MediumPaint implements IPaint {
       var1.fillRect(0, Canvas.hCan - Canvas.hTab, Canvas.w, 1);
    }
 
-   public final void a(Command var1, Command var2, Command var3) {
+   public final void updateKeyOn(Command var1, Command var2, Command var3) {
       // $FF: Couldn't be decompiled
    }
 
@@ -800,18 +800,18 @@ public final class MediumPaint implements IPaint {
 
       for(var7 = var7; var7 < var8; ++var7) {
          RoomInfo var9 = (RoomInfo)var2.elementAt(var7);
-         if (var7 == var4 && var9.a != -1) {
+         if (var7 == var4 && var9.id != -1) {
             Canvas.paint.g(var1, 2, var5, Canvas.w - 4, var3);
          }
 
-         if (var9.a == -1) {
-            Canvas.borderFont.drawString(var1, T.ex[var9.c], 15, var5 + 8 + (Canvas.stypeInt == 0 ? -4 : 0), 0);
+         if (var9.id == -1) {
+            Canvas.borderFont.drawString(var1, T.ex[var9.lv], 15, var5 + 8 + (Canvas.stypeInt == 0 ? -4 : 0), 0);
             Canvas.paint.f(var1, 0, var5 + 25, Canvas.w, var5 + 25);
          } else {
             k.drawFrame(0, 22, var5 + var3 / 2 + 1, 0, 3, var1);
-            Canvas.M.drawString(var1, T.V + var9.a, 50, var5 + var6, 0);
-            if (var9.b >= 0 && var9.b <= 2) {
-               RoomListOnScr.b.drawFrame(var9.b, Canvas.w - 20, var5 + var3 / 2, 0, 3, var1);
+            Canvas.M.drawString(var1, T.V + var9.id, 50, var5 + var6, 0);
+            if (var9.roomFree >= 0 && var9.roomFree <= 2) {
+               RoomListOnScr.b.drawFrame(var9.roomFree, Canvas.w - 20, var5 + var3 / 2, 0, 3, var1);
             }
          }
 

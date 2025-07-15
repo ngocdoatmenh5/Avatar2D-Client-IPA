@@ -30,10 +30,10 @@ final class class_eg implements IAction {
             MenuCenter.gI();
             MenuCenter.g();
          } else {
-            this.a.a.q();
+            this.a.a.doStore();
          }
       } else {
-         HouseScr.b().h();
+         HouseScr.gI().restartPopup();
       }
    }
 }

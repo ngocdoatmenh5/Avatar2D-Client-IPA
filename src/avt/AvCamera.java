@@ -163,7 +163,7 @@ public final class AvCamera {
          }
 
          this.xTo = var1 - Canvas.hw;
-         this.yTo = (this.followPlayer.y + this.followPlayer.N) * AvMain.hd - (Canvas.h - (Canvas.hh - w));
+         this.yTo = (this.followPlayer.y + this.followPlayer.direct_) * AvMain.hd - (Canvas.h - (Canvas.hh - w));
          if (this.followPlayer.direct == Base.LEFT) {
             if (this.followPlayer.x * AvMain.hd < Canvas.hw) {
                this.xTo = 0;
@@ -177,7 +177,7 @@ public final class AvCamera {
    }
 
    private void setLimit() {
-      if (LoadMap.TYPEMAP >= 0 && LoadMap.TYPEMAP < LoadMap.h.length && LoadMap.h[LoadMap.TYPEMAP] == -1 && LoadMap.b == null && Canvas.h > LoadMap.Hmap * w) {
+      if (LoadMap.TYPEMAP >= 0 && LoadMap.TYPEMAP < LoadMap.bg.length && LoadMap.bg[LoadMap.TYPEMAP] == -1 && LoadMap.imgBG == null && Canvas.h > LoadMap.Hmap * w) {
          this.yCam = this.yTo = -(Canvas.h - LoadMap.Hmap * w) / 2;
       }
 

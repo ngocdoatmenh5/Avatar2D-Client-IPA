@@ -13,7 +13,7 @@ final class class_io implements IAction {
 
    public final void perform() {
       if (GameMidlet.avatar.action != 2) {
-         MapScr.doAction(MapScr.w[this.b]);
+         MapScr.doAction(MapScr.ac[this.b]);
       }
 
    }

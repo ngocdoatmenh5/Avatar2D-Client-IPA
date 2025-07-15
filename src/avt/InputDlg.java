@@ -5,15 +5,15 @@ import javax.microedition.lcdui.Image;
 import main.Canvas;
 
 public final class InputDlg extends Dialog {
-   private String[] a;
-   private TField b = new TField();
-   private IAction c;
-   private Image d;
-   private int e;
-   private int f;
+   private String[] info;
+   private TField tfInput = new TField();
+   private IAction okAction;
+   private Image img;
+   private int w;
+   private int h;
 
    public InputDlg() {
-      this.b.e = false;
+      this.tfInput.e = false;
    }
 
    public final void commandTab(int var1, int var2) {
@@ -26,76 +26,76 @@ public final class InputDlg extends Dialog {
       }
    }
 
-   public final void a(Image var1) {
-      this.d = var1;
-      this.f += var1.getHeight();
+   public final void setImg(Image var1) {
+      this.img = var1;
+      this.h += var1.getHeight();
       this.init();
    }
 
-   public final String a() {
-      return this.b.f();
+   public final String getText() {
+      return this.tfInput.getText();
    }
 
    public final void init() {
-      this.b.a = Canvas.hw - this.b.c / 2;
-      this.b.b = Canvas.h - (Canvas.h - Canvas.ae[0].y + 5) - this.b.d - 8;
+      this.tfInput.x = Canvas.hw - this.tfInput.width / 2;
+      this.tfInput.y = Canvas.h - (Canvas.h - Canvas.ae[0].y + 5) - this.tfInput.height - 8;
    }
 
-   public final void a(String var1, int var2, int var3) {
-      this.a(var1, var3);
+   public final void setInfoIkb(String var1, int var2, int var3) {
+      this.initInfo(var1, var3);
       super.center = new Command(T.z, var2);
       Canvas.currentDialog = this;
-      this.b.a(true);
+      this.tfInput.setFocus(true);
    }
 
-   private void a(String var1, int var2) {
-      this.d = null;
-      this.e = Canvas.w - 40;
-      this.f = 70 * AvMain.hd;
-      if (Canvas.normalFont.getWidth(var1) + 20 < this.e) {
-         this.e = Canvas.normalFont.getWidth(var1) + 20;
+   private void initInfo(String var1, int var2) {
+      this.img = null;
+      this.w = Canvas.w - 40;
+      this.h = 70 * AvMain.hd;
+      if (Canvas.normalFont.getWidth(var1) + 20 < this.w) {
+         this.w = Canvas.normalFont.getWidth(var1) + 20;
       }
 
-      if (this.e < Canvas.w / 2) {
-         this.e = Canvas.w / 2;
+      if (this.w < Canvas.w / 2) {
+         this.w = Canvas.w / 2;
       }
 
-      this.a = Canvas.normalFont.splitFontBStrInLine(var1, this.e - 20);
-      this.b = new TField();
-      this.b.e = false;
-      this.b.c = this.e - 10;
+      this.info = Canvas.normalFont.splitFontBStrInLine(var1, this.w - 20);
+      this.tfInput = new TField();
+      this.tfInput.e = false;
+      this.tfInput.width = this.w - 10;
       this.init();
-      this.b.a("");
-      this.b.d(var2);
+      this.tfInput.setText("");
+      this.tfInput.setIputType(var2);
       super.left = new Command(T.d, 120);
       Canvas.currentDialog = this;
    }
 
    public final void a(String var1, IAction var2, int var3) {
-      this.a(var1, var3);
-      this.c = var2;
-      super.center = new Command(T.z, this.c);
+      this.initInfo(var1, var3);
+      this.okAction = var2;
+      super.center = new Command(T.z, this.okAction);
       Canvas.currentDialog = this;
    }
 
    public final void paint(Graphics var1) {
       Canvas.resetTrans(var1);
-      Canvas.paint.a(var1, Canvas.hw - this.e / 2, Canvas.h - this.f - (Canvas.h - Canvas.ae[0].y + 5), this.e, this.f, 0);
-      int var2 = Canvas.h - this.f - (Canvas.h - Canvas.ae[0].y + 5) + (this.f - this.b.d - 8) / 2 - (this.a.length >> 1) * AvMain.ah - AvMain.ah / 2;
-      if (this.d != null) {
-         var1.drawImage(this.d, Canvas.hw, this.b.b - this.d.getHeight() / 2 - 5 * AvMain.hd, 3);
-         var2 -= this.d.getHeight() / 2;
+      Canvas.paint.paintPopupBack(var1, Canvas.hw - this.w / 2, Canvas.h - this.h - (Canvas.h - Canvas.ae[0].y + 5), this.w, this.h, 0);
+      int var2 = Canvas.h - this.h - (Canvas.h - Canvas.ae[0].y + 5) + (this.h - this.tfInput.height - 8) / 2 - (this.info.length >> 1) * AvMain.ah - AvMain.ah / 2;
+      if (this.img != null) {
+         var1.drawImage(this.img, Canvas.hw, this.tfInput.y - this.img.getHeight() / 2 - 5 * AvMain.hd, 3);
+         var2 -= this.img.getHeight() / 2;
       }
 
       int var3 = 0;
 
-      for(var2 = var2; var3 < this.a.length; var2 += AvMain.ah) {
-         Canvas.normalFont.drawString(var1, this.a[var3], Canvas.hw, var2, 2);
+      for(var2 = var2; var3 < this.info.length; var2 += AvMain.ah) {
+         Canvas.normalFont.drawString(var1, this.info[var3], Canvas.hw, var2, 2);
          ++var3;
       }
 
-      this.b.paint(var1);
-      if (OnScreen.b) {
+      this.tfInput.paint(var1);
+      if (OnScreen.isOngame) {
          Canvas.resetTrans(var1);
          Canvas.paint.c(var1);
          Canvas.paint.b(var1, super.left, super.center, super.right);
@@ -105,17 +105,17 @@ public final class InputDlg extends Dialog {
    }
 
    public final void keyPress(int var1) {
-      this.b.b(var1);
+      this.tfInput.keyPressed(var1);
    }
 
    public final void updateKey() {
-      this.b.e();
-      if (this.b.d()) {
-         super.right = this.b.a();
+      this.tfInput.update();
+      if (this.tfInput.isFocused()) {
+         super.right = this.tfInput.a();
       }
 
-      if (OnScreen.b && Canvas.stypeInt != 0) {
-         Canvas.paint.a(super.left, super.center, super.right);
+      if (OnScreen.isOngame && Canvas.stypeInt != 0) {
+         Canvas.paint.updateKeyOn(super.left, super.center, super.right);
       } else {
          super.updateKey();
       }

@@ -10,7 +10,7 @@ final class class_dq implements IAction {
    public final void perform() {
       GameMidlet.CLIENT_TYPE = 8;
       GlobalMessageHandler.gI().miniGameMessageHandler = null;
-      Session_ME.a().c();
+      Session_ME.gI().close();
       LoginScr.gI().switchToMe();
       Canvas.menuMain = null;
       SoundManager.a.a();

@@ -22,7 +22,7 @@ public class Base extends MyObject {
    public byte direct;
    public boolean ableShow;
    public boolean M;
-   public short N;
+   public short direct_;
    public ChatPopup chat;
    public Vector listChat;
 
@@ -30,7 +30,7 @@ public class Base extends MyObject {
       this.direct = LEFT;
       this.ableShow = false;
       this.M = false;
-      this.N = 0;
+      this.direct_ = 0;
       this.listChat = new Vector();
    }
 
@@ -118,7 +118,7 @@ public class Base extends MyObject {
    public final boolean setWay(int var1, int var2) {
       if (this.action != 0 && this.action != 1) {
          return false;
-      } else if (LoadMap.c(super.x + var1, super.y + var2) == 90) {
+      } else if (LoadMap.getTypeMap(super.x + var1, super.y + var2) == 90) {
          return false;
       } else {
          int var3 = super.x;
@@ -129,39 +129,39 @@ public class Base extends MyObject {
          int var4;
          int var5;
          if (var1 != 0) {
-            var4 = LoadMap.c(var3 + var1, super.y - 24);
-            var5 = LoadMap.c(var3, super.y - 24);
+            var4 = LoadMap.getTypeMap(var3 + var1, super.y - 24);
+            var5 = LoadMap.getTypeMap(var3, super.y - 24);
             if (var4 == 80 && var5 == 80) {
                this.vy = -this.G;
                this.xCur = var3;
-               MapScr.gI().n();
+               MapScr.gI().move();
                return true;
             }
 
-            var1 = LoadMap.c(var3 + var1, super.y + 24);
-            var2 = LoadMap.c(var3, super.y + 24);
+            var1 = LoadMap.getTypeMap(var3 + var1, super.y + 24);
+            var2 = LoadMap.getTypeMap(var3, super.y + 24);
             if (var1 == 80 && var2 == 80) {
                this.vy = this.G;
                this.xCur = var3;
-               MapScr.gI().n();
+               MapScr.gI().move();
                return true;
             }
          } else if (var2 != 0) {
-            var4 = LoadMap.c(var3 - 24, super.y + var2);
-            var5 = LoadMap.c(var3 - 24, super.y);
+            var4 = LoadMap.getTypeMap(var3 - 24, super.y + var2);
+            var5 = LoadMap.getTypeMap(var3 - 24, super.y);
             if (var4 == 80 && var5 == 80) {
                this.vx = -this.G;
                this.yCur = super.y;
-               MapScr.gI().n();
+               MapScr.gI().move();
                return true;
             }
 
-            var1 = LoadMap.c(var3 + 24, super.y + var2);
-            var2 = LoadMap.c(var3 + 24, super.y);
+            var1 = LoadMap.getTypeMap(var3 + 24, super.y + var2);
+            var2 = LoadMap.getTypeMap(var3 + 24, super.y);
             if (var1 == 80 && var2 == 80) {
                this.vx = this.G;
                this.yCur = super.y;
-               MapScr.gI().n();
+               MapScr.gI().move();
                return true;
             }
          }
@@ -173,7 +173,7 @@ public class Base extends MyObject {
    public void paintIcon(Graphics var1, int var2, int var3, boolean var4) {
    }
 
-   public final void a(int var1, String var2, byte var3) {
+   public final void addChat(int var1, String var2, byte var3) {
       this.listChat.addElement(new ChatPopup(var1, var2, var3));
       this.getChat();
    }

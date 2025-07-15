@@ -6,37 +6,37 @@ import javax.microedition.lcdui.Image;
 import main.Canvas;
 
 public final class TransMoneyDlg extends Dialog {
-   private FrameImage b;
-   public static TransMoneyDlg a;
-   private int c;
-   private int d;
-   private int e;
-   private int f;
-   private int g;
+   private FrameImage imgButton;
+   public static TransMoneyDlg me;
+   private int x;
+   private int y;
+   private int w;
    private int h;
-   private int i;
-   private int[] j;
+   private int hItem;
+   private int wItem;
+   private int focus;
+   private int[] money;
 
-   public static TransMoneyDlg a() {
-      return a == null ? (a = new TransMoneyDlg()) : a;
+   public static TransMoneyDlg gI() {
+      return me == null ? (me = new TransMoneyDlg()) : me;
    }
 
-   public final void b() {
+   public final void init() {
       TransMoneyDlg var1 = this;
-      if (this.b == null) {
+      if (this.imgButton == null) {
          try {
-            var1.b = new FrameImage(Image.createImage(T.a() + "/button.png"), AvMain.hd == 2 ? 112 : 52, 16 * AvMain.hd);
+            var1.imgButton = new FrameImage(Image.createImage(T.a() + "/button.png"), AvMain.hd == 2 ? 112 : 52, 16 * AvMain.hd);
          } catch (IOException var3) {
             var3.printStackTrace();
          }
 
-         this.e = this.b.frameWidth * 3 + 30 * AvMain.hd;
-         this.f = this.b.frameHeight * 3 + 60 * AvMain.hd;
-         this.c = (Canvas.w - this.e) / 2;
-         this.d = (Canvas.h - this.f) / 2;
-         this.g = this.f / 3;
-         this.h = this.e / 3;
-         this.j = new int[]{100, 1000, 10000, 50000, 100000, 500000, 1000000, 5000000, 10000000};
+         this.w = this.imgButton.frameWidth * 3 + 30 * AvMain.hd;
+         this.h = this.imgButton.frameHeight * 3 + 60 * AvMain.hd;
+         this.x = (Canvas.w - this.w) / 2;
+         this.y = (Canvas.h - this.h) / 2;
+         this.hItem = this.h / 3;
+         this.wItem = this.w / 3;
+         this.money = new int[]{100, 1000, 10000, 50000, 100000, 500000, 1000000, 5000000, 10000000};
          super.center = new Command(T.O, 0, this);
          super.right = new Command(T.d, 1, this);
       }
@@ -61,26 +61,26 @@ public final class TransMoneyDlg extends Dialog {
    public final void updateKey() {
       super.updateKey();
       if (Canvas.a(2)) {
-         if (this.i / 3 > 0) {
-            this.i -= 3;
+         if (this.focus / 3 > 0) {
+            this.focus -= 3;
          }
       } else if (Canvas.a(4)) {
-         if (this.i % 3 > 0) {
-            --this.i;
+         if (this.focus % 3 > 0) {
+            --this.focus;
          }
       } else if (Canvas.a(6)) {
-         if (this.i % 3 < 2) {
-            ++this.i;
+         if (this.focus % 3 < 2) {
+            ++this.focus;
          }
-      } else if (Canvas.a(8) && this.i / 3 < 2) {
-         this.i += 3;
+      } else if (Canvas.a(8) && this.focus / 3 < 2) {
+         this.focus += 3;
       }
 
       if (Canvas.isPointerClick) {
-         for(int var1 = 0; var1 < this.j.length; ++var1) {
-            if (Canvas.b(this.c + var1 % 3 * this.h, this.d + var1 / 3 * this.g, this.h, this.g)) {
+         for(int var1 = 0; var1 < this.money.length; ++var1) {
+            if (Canvas.b(this.x + var1 % 3 * this.wItem, this.y + var1 / 3 * this.hItem, this.wItem, this.hItem)) {
                Canvas.isPointerClick = false;
-               this.i = var1;
+               this.focus = var1;
                return;
             }
          }
@@ -91,23 +91,23 @@ public final class TransMoneyDlg extends Dialog {
    public final void paint(Graphics var1) {
       Canvas.currentMyScreen.paintMain(var1);
       Canvas.resetTrans(var1);
-      Canvas.paint.h(var1, this.c, this.d, this.e, this.f);
-      var1.translate(this.c, this.d);
+      Canvas.paint.h(var1, this.x, this.y, this.w, this.h);
+      var1.translate(this.x, this.y);
 
-      for(int var2 = 0; var2 < this.j.length; ++var2) {
-         this.b.drawFrame(this.i == var2 ? 1 : 0, this.h / 2 + var2 % 3 * this.h, this.g / 2 + var2 / 3 * this.g, 0, 3, var1);
-         Canvas.smallFontYellow.drawString(var1, String.valueOf(this.j[var2]), this.h / 2 + var2 % 3 * this.h, this.g / 2 + var2 / 3 * this.g - AvMain.ai / 2, 2);
+      for(int var2 = 0; var2 < this.money.length; ++var2) {
+         this.imgButton.drawFrame(this.focus == var2 ? 1 : 0, this.wItem / 2 + var2 % 3 * this.wItem, this.hItem / 2 + var2 / 3 * this.hItem, 0, 3, var1);
+         Canvas.smallFontYellow.drawString(var1, String.valueOf(this.money[var2]), this.wItem / 2 + var2 % 3 * this.wItem, this.hItem / 2 + var2 / 3 * this.hItem - AvMain.hSmall / 2, 2);
       }
 
       Canvas.resetTrans(var1);
       OnScreen.a(var1, super.left, super.center, super.right);
    }
 
-   static int[] a(TransMoneyDlg var0) {
-      return var0.j;
+   static int[] getMoney(TransMoneyDlg var0) {
+      return var0.money;
    }
 
-   static int b(TransMoneyDlg var0) {
-      return var0.i;
+   static int getFocus(TransMoneyDlg var0) {
+      return var0.focus;
    }
 }

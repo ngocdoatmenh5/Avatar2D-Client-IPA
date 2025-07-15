@@ -10,10 +10,10 @@ final class class_de implements IAction {
    }
 
    public final void perform() {
-      HouseScr.i(this.a);
+      HouseScr.reset(this.a);
       HouseScr var10000 = this.a;
-      HouseScr.e(this.a, -1);
-      HouseScr.d(var10000, -1);
+      HouseScr.setYtemp(this.a, -1);
+      HouseScr.setxTemp(var10000, -1);
       Canvas.endDlg();
    }
 }

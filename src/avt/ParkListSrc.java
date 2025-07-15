@@ -3,43 +3,43 @@ package avt;
 import javax.microedition.lcdui.Graphics;
 import main.Canvas;
 
-public final class class_hk extends MyScreen {
-   public static class_hk a;
-   private int[] b;
-   private MyScreen c;
+public final class ParkListSrc extends MyScreen {
+   public static ParkListSrc instance;
+   private int[] listBoard;
+   private MyScreen lastScr;
    private int d = 5;
    private int e;
    private int f = 7;
 
-   public static class_hk b() {
-      if (a == null) {
-         a = new class_hk();
+   public static ParkListSrc gI() {
+      if (instance == null) {
+         instance = new ParkListSrc();
       }
 
-      return a;
+      return instance;
    }
 
-   public final void a(MyScreen var1) {
+   public final void switchToMe(MyScreen var1) {
       super.switchToMe();
-      this.c = var1;
-      super.ar = 0;
+      this.lastScr = var1;
+      super.selected_ = 0;
    }
 
    public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
             Canvas.cameraList.isShow = false;
-            this.c.switchToMe();
+            this.lastScr.switchToMe();
             return;
          case 1:
             Canvas.cameraList.isShow = false;
-            this.c.switchToMe();
-            ParkService.gI().doJoinPark(MapScr.b, super.ar);
+            this.lastScr.switchToMe();
+            ParkService.gI().doJoinPark(MapScr.roomID, super.selected_);
          default:
       }
    }
 
-   public class_hk() {
+   public ParkListSrc() {
       super.right = new Command(T.d, 0);
       super.center = new Command(T.O, 1);
       this.e = 20;
@@ -57,17 +57,17 @@ public final class class_hk extends MyScreen {
 
    }
 
-   public final void a(int var1, boolean var2) {
-      if (var2 && super.ar == var1 && super.center != null) {
+   public final void setSelected(int var1, boolean var2) {
+      if (var2 && super.selected_ == var1 && super.center != null) {
          super.center.perform();
       }
 
-      super.a(var1, var2);
+      super.setSelected(var1, var2);
    }
 
-   public final void a(int[] var1) {
-      this.b = var1;
-      Canvas.cameraList.a(Canvas.hw - (this.e * this.d + 10) / 2 + 4, Canvas.hh - this.e * this.f / 2, this.e, this.e, this.d * this.e, this.b.length / this.d * this.e, this.e * this.d, this.e * this.f - (Canvas.stypeInt == 0 ? 30 : 0), var1.length);
+   public final void setList(int[] var1) {
+      this.listBoard = var1;
+      Canvas.cameraList.a(Canvas.hw - (this.e * this.d + 10) / 2 + 4, Canvas.hh - this.e * this.f / 2, this.e, this.e, this.d * this.e, this.listBoard.length / this.d * this.e, this.e * this.d, this.e * this.f - (Canvas.stypeInt == 0 ? 30 : 0), var1.length);
    }
 
    public final void updateKey() {
@@ -75,15 +75,15 @@ public final class class_hk extends MyScreen {
    }
 
    public final void update() {
-      this.c.update();
+      this.lastScr.update();
    }
 
    public final void paint(Graphics var1) {
       var1.translate(0, 0);
       var1.setClip(0, 0, Canvas.w, Canvas.h);
-      this.c.paintMain(var1);
+      this.lastScr.paintMain(var1);
       Canvas.paint.a(var1, Canvas.hw - (this.e * this.d + 10) / 2, Canvas.hh - this.e * this.f / 2, this.e * this.d + 10, this.e * this.f);
-      Canvas.paint.a(var1, this.e, this.d, this.f, super.aj, super.ar, this.b);
+      Canvas.paint.a(var1, this.e, this.d, this.f, super.aj, super.selected_, this.listBoard);
       super.paint(var1);
    }
 }

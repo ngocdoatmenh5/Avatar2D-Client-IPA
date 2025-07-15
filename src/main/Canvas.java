@@ -106,18 +106,18 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       R = new mFont(7);
       paint = new MediumPaint();
       MyScreen.al = normalFont.getHeight() + 6;
-      AvMain.af = (byte) fontChatB.getHeight();
+      AvMain.hBlack = (byte) fontChatB.getHeight();
       AvMain.ag = (byte) borderFont.getHeight();
       AvMain.ah = (byte) normalFont.getHeight();
-      AvMain.ai = (byte) smallFontRed.getHeight();
-      this.b();
+      AvMain.hSmall = (byte) smallFontRed.getHeight();
+      this.setSize();
       hw = w / 2;
       hh = h / 2;
       instance = this;
       System.gc();
-      TField.a(0);
+      TField.initKey(0);
       if (ah = this.getKeyCode(8) == -20) {
-         TField.a(1);
+         TField.initKey(1);
       }
 
       String var1;
@@ -131,7 +131,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             count0 = 1;
          }
 
-         TField.a(3);
+         TField.initKey(3);
          this.setCommandListener(this);
          am = new javax.microedition.lcdui.Command(T.d, 2, 1);
          al = new javax.microedition.lcdui.Command(T.c, 1, 1);
@@ -179,10 +179,10 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
    public final void sizeChanged(int var1, int var2) {
       this.setFullScreenMode(true);
-      this.b();
+      this.setSize();
    }
 
-   public final void b() {
+   public final void setSize() {
       w = this.getWidth();
       h = this.getHeight();
       AvMain.aa = 20;
@@ -201,12 +201,12 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       hw = w / 2;
       paint.c();
       hh = h / 2;
-      paint.a();
+      paint.init();
       if (menuMain != null) {
          menuMain = null;
       }
 
-      if (LoginScr.a != null) {
+      if (LoginScr.me != null) {
          LoginScr.gI().init();
       }
 
@@ -237,7 +237,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             MessageScr.me.init();
          }
 
-         if (MiniMap.a != null) {
+         if (MiniMap.me != null) {
             MiniMap.gI().init();
          }
 
@@ -270,8 +270,8 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       }
 
       if (currentMyScreen != null) {
-         if (currentMyScreen == class_ez.a) {
-            class_ez.b().e();
+         if (currentMyScreen == ServerListScr.a) {
+            ServerListScr.gI().e();
          }
 
          if (currentMyScreen == OptionScr.a) {
@@ -294,7 +294,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    }
 
    public static void a(String var0) {
-      if (!OnScreen.b && !var0.equals("")) {
+      if (!OnScreen.isOngame && !var0.equals("")) {
          StringObj var1;
          (var1 = new StringObj(var0, -normalFont.getWidth(var0))).x = w + 10;
          listInfoSV.addElement(var1);
@@ -306,14 +306,14 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       }
    }
 
-   public static void mSocket() {
-      if (!Session_ME.a().b()) {
+   public static void connect() {
+      if (!Session_ME.gI().isConnected()) {
          int var0;
-         if ((var0 = class_ez.b().ar - 1) < 0) {
+         if ((var0 = ServerListScr.gI().selected_ - 1) < 0) {
             var0 = 0;
          }
 
-         String var1 = "socket://" + GameMidlet.b[OptionScr.gI().b[4]][class_ez.b().b][var0] + ":" + GameMidlet.c[OptionScr.gI().b[4]][class_ez.b().b][var0];
+         String var1 = "socket://" + GameMidlet.b[OptionScr.gI().b[4]][ServerListScr.gI().b][var0] + ":" + GameMidlet.c[OptionScr.gI().b[4]][ServerListScr.gI().b][var0];
          if (E) {
             if (OptionScr.e) {
                var1 = var1 + ";interface=wifi";
@@ -322,7 +322,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             }
          }
 
-         Session_ME.a().a(var1);
+         Session_ME.gI().connect(var1);
          GlobalService.gI().setProviderAndClientType();
       }
 
@@ -334,7 +334,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       }
 
       aq = true;
-      Session_ME.a().c();
+      Session_ME.gI().close();
    }
 
    public final void run() {
@@ -351,7 +351,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
             long var1 = System.currentTimeMillis();
             if (++gameTick > 10000) {
-               if (System.currentTimeMillis() - this.ar > 20000L && currentMyScreen == LoginScr.a) {
+               if (System.currentTimeMillis() - this.ar > 20000L && currentMyScreen == LoginScr.me) {
                   GameMidlet.h.notifyDestroyed();
                }
 
@@ -407,7 +407,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                      StringObj var9;
                      StringObj var10000 = var9 = (StringObj) listInfoSV.elementAt(0);
                      var10000.x -= 2;
-                     if (var9.x < var9.c) {
+                     if (var9.x < var9.w2) {
                         listInfoSV.removeElementAt(0);
                      }
                   }
@@ -843,7 +843,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
    }
 
-   public static void g() {
+   public static void clearKeyReleased() {
       isPointerDown = false;
 
       for(int var0 = 0; var0 < 14; ++var0) {
@@ -942,7 +942,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                var3 = ab / 2 - AvMain.ag / 2;
                var6.setClip(0, var3, w, AvMain.ag + 2);
                StringObj var4 = (StringObj) listInfoSV.elementAt(0);
-               borderFont.drawString(var6, var4.a, var4.x, var3, 0);
+               borderFont.drawString(var6, var4.str, var4.x, var3, 0);
                resetTrans(var6);
             }
          }
@@ -986,7 +986,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    }
 
    public static void a(String var0, Vector var1) {
-      if (OnScreen.b) {
+      if (OnScreen.isOngame) {
          msgdlg.setInfoC(var0, (Command)null, var1);
       } else {
          msgdlg.setInfoC(var0, new Command("", -1), var1);
@@ -1013,7 +1013,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       a(var0, var2);
    }
 
-   public static void b(String var0, int var1) {
+   public static void startOKDlg(String var0, int var1) {
       Vector var2;
       (var2 = new Vector()).addElement(new Command(T.o, var1));
       var2.addElement(ad);
@@ -1119,16 +1119,16 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
             Display.getDisplay(GameMidlet.h).setCurrent(this);
             this.setFullScreenMode(true);
-            OnSplashScr.d = false;
+            OnSplashScr.isOpen = false;
          }
       } else {
          List list = (List) var2;
          if (list != null && list.getSelectedIndex() != 0) {
-            OnScreen.b = true;
+            OnScreen.isOngame = true;
             OnScreen.e().switchToMe();
          }
 
-         OnSplashScr.d = false;
+         OnSplashScr.isOpen = false;
          Display.getDisplay(GameMidlet.h).setCurrent(this);
          this.setFullScreenMode(true);
       }
@@ -1151,7 +1151,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       return px >= var0 && px <= var0 + var2 && py >= var1 && py <= var1 + var3;
    }
 
-   public static void a(int var0, int var1, IAction var2, IAction var3, IAction var4) {
+   public static void getTypeMoney(int var0, int var1, IAction var2, IAction var3, IAction var4) {
       String var5 = "";
       Vector var6 = new Vector();
       if (var0 > 0) {
@@ -1192,6 +1192,6 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    }
 
    public static boolean isPaintIconVir() {
-      return currentDialog == null && menuMain == null && currentMyScreen != MessageScr.me && currentMyScreen != PopupShop.gI() && currentMyScreen != ListScr.a && currentMyScreen != RoomListOnScr.me && currentMyScreen != BoardListOnScr.me && currentMyScreen != MenuCenter.a && currentMyScreen != OnScreen.a && currentMyScreen != MiniMap.a && currentMyScreen != MoneyScr.a && !HouseScr.e && !HouseScr.b && currentMyScreen != class_hk.a && (currentMyScreen != DiamondScr.me_ || !BoardScr.isStartGame);
+      return currentDialog == null && menuMain == null && currentMyScreen != MessageScr.me && currentMyScreen != PopupShop.gI() && currentMyScreen != ListScr.instance && currentMyScreen != RoomListOnScr.me && currentMyScreen != BoardListOnScr.me && currentMyScreen != MenuCenter.me && currentMyScreen != OnScreen.a && currentMyScreen != MiniMap.me && currentMyScreen != MoneyScr.a && !HouseScr.isChange && !HouseScr.isSelectObj && currentMyScreen != ParkListSrc.instance && (currentMyScreen != DiamondScr.me_ || !BoardScr.isStartGame);
    }
 }

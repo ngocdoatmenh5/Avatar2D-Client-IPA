@@ -6,16 +6,16 @@ import main.GameMidlet;
 
 public class AvMain {
    public static int hd = 1;
-   public static int Z;
+   public static int hDuBox;
    public static int aa;
    public static int ab;
    public Command left;
    public Command center;
    public Command right;
-   public static byte af;
+   public static byte hBlack;
    public static byte ag;
    public static byte ah;
-   public static byte ai;
+   public static byte hSmall;
    public boolean aj;
    public static boolean ak = false;
    private static byte a = 0;
@@ -99,8 +99,8 @@ public class AvMain {
                if (!OptionScr.d) {
                   OptionScr.d = true;
                   OptionScr.gI().b[4] = 1;
-                  Canvas.instance.b();
-                  Canvas.z.a = true;
+                  Canvas.instance.setSize();
+                  Canvas.z.isPointerClick = true;
                   if (Canvas.currentMyScreen == MapScr.gI()) {
                      ChatTextField.gI().parentMyScreen = MapScr.gI();
                      ChatTextField.isShow = true;
@@ -108,7 +108,7 @@ public class AvMain {
                } else {
                   OptionScr.d = false;
                   OptionScr.gI().b[4] = 0;
-                  Canvas.instance.b();
+                  Canvas.instance.setSize();
                   if (Canvas.currentMyScreen == MapScr.gI()) {
                      ChatTextField.isShow = false;
                   }

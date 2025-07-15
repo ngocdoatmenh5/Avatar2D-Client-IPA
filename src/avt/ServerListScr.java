@@ -5,8 +5,8 @@ import javax.microedition.lcdui.Image;
 import main.Canvas;
 import main.GameMidlet;
 
-public final class class_ez extends MyScreen {
-   public static class_ez a;
+public final class ServerListScr extends MyScreen {
+   public static ServerListScr a;
    public int b;
    private Image c;
    private boolean d = false;
@@ -27,8 +27,8 @@ public final class class_ez extends MyScreen {
    private long s;
    private int t;
 
-   public static class_ez b() {
-      return a == null ? (a = new class_ez()) : a;
+   public static ServerListScr gI() {
+      return a == null ? (a = new ServerListScr()) : a;
    }
 
    public final void switchToMe() {
@@ -42,7 +42,7 @@ public final class class_ez extends MyScreen {
       this.g();
    }
 
-   public class_ez() {
+   public ServerListScr() {
       FilePack.b(T.av);
       this.c = FilePack.getImage("tp");
       FilePack.reset();
@@ -53,16 +53,16 @@ public final class class_ez extends MyScreen {
    public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:
-            if (this.d && super.ar > 0) {
+            if (this.d && super.selected_ > 0) {
                Canvas.startWaitCancelDlg(T.N);
-               LoginScr.gI().r = System.currentTimeMillis();
-               LoginScr.gI().i();
+               LoginScr.gI().timeOut = System.currentTimeMillis();
+               LoginScr.gI().login();
                return;
             } else {
                if (!this.d) {
                   this.d = true;
                   this.e();
-                  super.ar = 1 + CRes.rnd(GameMidlet.a[OptionScr.gI().b[4]][this.b].length - 1);
+                  super.selected_ = 1 + CRes.rnd(GameMidlet.a[OptionScr.gI().b[4]][this.b].length - 1);
                   this.g();
                   return;
                }
@@ -76,7 +76,7 @@ public final class class_ez extends MyScreen {
          case 2:
             this.d = false;
             this.b = 0;
-            super.ar = 0;
+            super.selected_ = 0;
             LoginScr.gI().switchToMe();
          default:
       }
@@ -150,8 +150,8 @@ public final class class_ez extends MyScreen {
 
       PaintPopup.gI().a(T.bP, var1 * AvMain.hd, MyScreen.av * 6, 1);
       k = PaintPopup.gI().g + 4;
-      l = PaintPopup.gI().h + PaintPopup.o + AvMain.Z;
-      j = PaintPopup.gI().e - (PaintPopup.o + (AvMain.Z << 1));
+      l = PaintPopup.gI().h + PaintPopup.o + AvMain.hDuBox;
+      j = PaintPopup.gI().e - (PaintPopup.o + (AvMain.hDuBox << 1));
       i = GameMidlet.a[OptionScr.gI().b[4]].length * MyScreen.av + (this.d ? GameMidlet.a[OptionScr.gI().b[4]][this.b].length * MyScreen.av : 0) - j;
       e = 0;
       f = 0;
@@ -220,10 +220,10 @@ public final class class_ez extends MyScreen {
 
    }
 
-   public final void a(int var1, boolean var2) {
-      super.ar = var1;
-      if (super.ar >= GameMidlet.a[OptionScr.gI().b[4]][this.b].length || super.ar <= 0) {
-         super.ar = 0;
+   public final void setSelected(int var1, boolean var2) {
+      super.selected_ = var1;
+      if (super.selected_ >= GameMidlet.a[OptionScr.gI().b[4]][this.b].length || super.selected_ <= 0) {
+         super.selected_ = 0;
          if (var2) {
             this.d = false;
             this.e();
@@ -240,14 +240,14 @@ public final class class_ez extends MyScreen {
          if (!this.d) {
             this.b(this.b + 1);
          } else {
-            this.a(super.ar + 1, true);
+            this.setSelected(super.selected_ + 1, true);
          }
       } else if (Canvas.a(2)) {
          var1 = true;
          if (!this.d) {
             this.b(this.b - 1);
          } else {
-            this.a(super.ar - 1, true);
+            this.setSelected(super.selected_ - 1, true);
          }
       }
 
@@ -271,7 +271,7 @@ public final class class_ez extends MyScreen {
             this.o = 0;
             var5 = (e + Canvas.py - l) / MyScreen.av;
             if (this.d) {
-               super.ar = var5 - this.b;
+               super.selected_ = var5 - this.b;
             } else if (var5 >= 0 && var5 < GameMidlet.a[OptionScr.gI().b[4]].length) {
                this.b = var5;
             }
@@ -306,19 +306,19 @@ public final class class_ez extends MyScreen {
                   int var7 = (e + Canvas.py - l) / MyScreen.av;
                   if (this.d) {
                      if (var7 - this.b > 0 && var7 - this.b < GameMidlet.a[OptionScr.gI().b[4]][this.b].length) {
-                        super.ar = var7 - this.b;
+                        super.selected_ = var7 - this.b;
                         this.commandTab(0, -1);
                      } else {
                         if (var7 - this.b <= 0) {
                            this.d = false;
-                           super.ar = 0;
+                           super.selected_ = 0;
                            this.b = var7;
                            var1 = true;
                         }
 
                         if (var7 >= GameMidlet.a[OptionScr.gI().b[4]][this.b].length - this.b && var7 < GameMidlet.a[OptionScr.gI().b[4]][this.b].length - 1 + GameMidlet.a[OptionScr.gI().b[4]].length) {
                            this.d = false;
-                           super.ar = 0;
+                           super.selected_ = 0;
                            this.b = var7 - GameMidlet.a[OptionScr.gI().b[4]][this.b].length + 1;
                            var1 = true;
                         }
@@ -344,7 +344,7 @@ public final class class_ez extends MyScreen {
    }
 
    private void g() {
-      if ((e = (this.b + (this.d ? super.ar : 0)) * MyScreen.av - j / 2 + MyScreen.av / 2) < 0) {
+      if ((e = (this.b + (this.d ? super.selected_ : 0)) * MyScreen.av - j / 2 + MyScreen.av / 2) < 0) {
          e = 0;
       }
 
@@ -355,8 +355,8 @@ public final class class_ez extends MyScreen {
    }
 
    public final void paint(Graphics var1) {
-      Canvas.loadMap.b(var1);
-      Canvas.loadMap.d(var1);
+      Canvas.loadMap.paint(var1);
+      Canvas.loadMap.paintBackGround(var1);
       Canvas.resetTrans(var1);
       PaintPopup.gI().a(var1);
       if (GameMidlet.avatar != null && !GameMidlet.avatar.name.equals("")) {
@@ -364,10 +364,10 @@ public final class class_ez extends MyScreen {
       }
 
       var1.translate(k, l);
-      var1.setClip(0, 0, PaintPopup.gI().f - 9, PaintPopup.gI().e - (PaintPopup.o + (AvMain.Z << 1)));
+      var1.setClip(0, 0, PaintPopup.gI().f - 9, PaintPopup.gI().e - (PaintPopup.o + (AvMain.hDuBox << 1)));
       var1.translate(0, -f);
       if (!super.aj) {
-         Canvas.paint.c(var1, 2 * AvMain.hd, this.b * MyScreen.av + (this.d ? super.ar * MyScreen.av : 0), PaintPopup.gI().f - 8 - 4 * AvMain.hd, MyScreen.av);
+         Canvas.paint.c(var1, 2 * AvMain.hd, this.b * MyScreen.av + (this.d ? super.selected_ * MyScreen.av : 0), PaintPopup.gI().f - 8 - 4 * AvMain.hd, MyScreen.av);
       }
 
       int var2 = (MyScreen.av - AvMain.ah) / 2;

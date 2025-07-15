@@ -4,13 +4,13 @@ import java.util.Vector;
 import main.Canvas;
 
 public final class PhomMsgHandler extends IService implements IMiniGameMsgHandler {
-   private static PhomMsgHandler a = new PhomMsgHandler();
+   private static PhomMsgHandler instance = new PhomMsgHandler();
 
-   public static void a() {
+   public static void onHandler() {
       BoardScr.numPlayer = 4;
       BoardListOnScr.type = BoardListOnScr.c;
       RoomListOnScr.setName(1, PBoardScr.b());
-      CasinoMsgHandler.me.miniGameMessageHandler = a;
+      CasinoMsgHandler.me.miniGameMessageHandler = instance;
    }
 
    public final void onMessage(Message var1) {

@@ -22,7 +22,7 @@ final class class_e extends Command {
    public final void update() {
       if (this.h == PopupShop.focus) {
          PopupShop.resetIsTrans();
-         MapScr.a(this.g);
+         MapScr.setAvatarShop(this.g);
          String var1 = "";
          if (this.g.zOrder == 20) {
             var1 = T.aC;
@@ -35,9 +35,9 @@ final class class_e extends Command {
          }
 
          PopupShop.addStr(var1 + AvatarData.getName(this.g));
-         PopupShop.addStr(Canvas.getPriceMoney(this.g.i[0], this.g.i[1], true));
+         PopupShop.addStr(Canvas.getPriceMoney(this.g.price[0], this.g.price[1], true));
          PopupShop.addStr(T.dx + AvatarData.getLevel(this.g));
-         PopupShop.addStr(T.em[0] + MapScr.C.lvMain);
+         PopupShop.addStr(T.em[0] + MapScr.avatarShop.lvMain);
       }
 
    }

@@ -405,7 +405,7 @@ public final class Fish {
 
          int var2;
          if (this.isQuan != 0 && !this.isSuccess && this.u[0].x > 0 && this.u[0].x > AvCamera.gI().xCam && this.u[0].x < AvCamera.gI().xCam + Canvas.w) {
-            var1.setColor(l[LoadMap.j]);
+            var1.setColor(l[LoadMap.status]);
 
             for(var2 = 0; var2 < 2; ++var2) {
                var1.drawRoundRect(this.u[var2].x - this.u[var2].anchor / 2, this.u[var2].y - this.u[var2].anchor / 4, this.u[var2].anchor, this.u[var2].anchor / 2, this.u[var2].anchor, this.u[var2].anchor);
@@ -421,20 +421,20 @@ public final class Fish {
             }
 
             if (this.isQuan == 0 && this.posTemp[this.size - 1].y < this.ava.y + this.ava.ySat + 10) {
-               PaintPopup.a(this.posTemp[this.size - 1].x, this.posTemp[this.size - 1].y, 2, 2, 0, var1);
+               PaintPopup.fill(this.posTemp[this.size - 1].x, this.posTemp[this.size - 1].y, 2, 2, 0, var1);
             }
 
             int var10002 = this.posTemp[this.size - 2].x;
             int var10003 = this.posTemp[this.size - 2].y;
-            var1.drawImage(class_kv.b().a, var10002, var10003, 3);
+            var1.drawImage(FishingScr.b().a, var10002, var10003, 3);
             if (this.isSuccess && this.idFish > 0) {
                int var10001 = 0 + this.count / 3;
                var10002 = this.posTemp[this.size - 2].x + 2;
                var10003 = this.posTemp[this.size - 2].y + 4;
-               class_kv.b().b.drawFrame(var10001, var10002, var10003, 0, 24, var1);
+               FishingScr.b().b.drawFrame(var10001, var10002, var10003, 0, 24, var1);
                PartSmall var3;
                if (Canvas.gameTick % 10 > 5 && (var3 = (PartSmall)AvatarData.getPart((short)this.idFish)) != null) {
-                  var3.a(var1, this.ava.x * AvMain.hd, this.ava.y - 55 * AvMain.hd, 3);
+                  var3.paint(var1, this.ava.x * AvMain.hd, this.ava.y - 55 * AvMain.hd, 3);
                }
             }
          }

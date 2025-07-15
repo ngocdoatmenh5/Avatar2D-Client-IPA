@@ -16,8 +16,8 @@ final class class_ch implements IAction {
    public final void perform() {
       MoneyScr var10000 = this.a;
       String var10001 = this.b;
-      String var10002 = this.c[0].f();
-      String var4 = this.c[1].f();
+      String var10002 = this.c[0].getText();
+      String var4 = this.c[1].getText();
       String var3 = var10002;
       String var2 = var10001;
       MoneyScr var1 = var10000;

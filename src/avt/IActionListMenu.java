@@ -21,7 +21,7 @@ final class IActionListMenu implements IAction {
 
    public final void perform() {
       Vector var1 = new Vector();
-      if (!ListScr.a(this.a) && this.b.equals(ListScr.h)) {
+      if (!ListScr.getisAction(this.a) && this.b.equals(ListScr.idFriendList)) {
          var1.addElement(new Command(T.f, 50));
       }
 

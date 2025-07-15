@@ -8,6 +8,6 @@ final class class_dk implements IAction {
    }
 
    public final void perform() {
-      Welcome.a(this.a);
+      Welcome.click(this.a);
    }
 }

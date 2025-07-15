@@ -35,10 +35,10 @@ final class CommandShop1 extends Command {
          if (var1.IDPart != -1) {
             if (GameMidlet.avatar.gender == 1) {
                MapScr.gI();
-               MapScr.a(var1);
+               MapScr.setAvatarShop(var1);
             } else {
                MapScr.gI();
-               MapScr.a(var1);
+               MapScr.setAvatarShop(var1);
             }
          }
 

@@ -15,7 +15,7 @@ final class class_hu implements IAction {
          GlobalService.gI().requestShop(this.a.a);
          Canvas.startWaitDlg();
       } else if (this.a.d != null && !this.a.d.equals("")) {
-         GameMidlet.b(this.a.d);
+         GameMidlet.flatForm(this.a.d);
       } else {
          GameMidlet.a(this.a.e, this.a.f);
       }

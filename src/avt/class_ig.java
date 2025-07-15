@@ -8,6 +8,6 @@ final class class_ig implements IAction {
    }
 
    public final void perform() {
-      MapScr.f();
+      MapScr.doEvent();
    }
 }

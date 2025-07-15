@@ -6,14 +6,14 @@ import main.GameMidlet;
 import java.io.IOException;
 
 public final class ParkMsgHandler extends IService implements IMiniGameMsgHandler {
-   public static ParkMsgHandler a;
+   public static ParkMsgHandler instance;
 
-   public static void a() {
-      if (a == null) {
-         a = new ParkMsgHandler();
+   public static void onHandler() {
+      if (instance == null) {
+         instance = new ParkMsgHandler();
       }
 
-      GlobalMessageHandler.gI().miniGameMessageHandler = a;
+      GlobalMessageHandler.gI().miniGameMessageHandler = instance;
    }
 
    public final void onMessage(Message var1) {
@@ -38,15 +38,15 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
             case -68:
                var14 = var1.reader().readByte();
                var10 = var1.reader().readInt();
-               MapScr.gI().a(var14, var10);
+               MapScr.gI().onInviteToMyHome(var14, var10);
                return;
             case 51:
-               MapScr.gI().a(b(var1));
+               MapScr.gI().onPlayerJoinPark(playerJoinBoard(var1));
                return;
             case 53:
                var10 = var1.reader().readInt();
                MapScr.gI();
-               MapScr.c(var10);
+               MapScr.onPlayerLeave(var10);
                return;
             case 54:
                GlobalMessageHandler.readMove(var1);
@@ -58,7 +58,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                var2 = var1.reader().readInt();
                var12 = var1.reader().readByte();
                MapScr.gI();
-               MapScr.a(var2, var12);
+               MapScr.onFeel(var2, var12);
                return;
             case 58:
                var2 = var1.reader().readInt();
@@ -75,7 +75,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                var7 = var1.reader().readInt();
                var8 = var1.reader().readInt();
                var10 = var1.reader().readInt();
-               MapScr.gI().a(var2, var3, var16, var17, var18, var7, var8, var10);
+               MapScr.gI().onGiftGiving(var2, var3, var16, var17, var18, var7, var8, var10);
                return;
             case 59:
                var2 = var1.reader().readInt();
@@ -89,7 +89,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                   var18 = var1.reader().readShort();
                }
 
-               MapScr.gI().a(var2, var3, var16, var17, var18);
+               MapScr.gI().onGivingDefferent(var2, var3, var16, var17, var18);
                return;
             case 60:
                int[] var15 = new int[var14 = var1.reader().readByte()];
@@ -98,23 +98,23 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                   var15[var4] = var1.reader().readByte();
                }
 
-               MapScr.gI().a(var15);
+               MapScr.gI().onParkList(var15);
                Canvas.endDlg();
                return;
             case 78:
                return;
             case 82:
                var4 = var1.reader().readInt();
-               class_kv.b().b(var4);
+               FishingScr.b().b(var4);
                return;
             case 84:
                var2 = var1.reader().readInt();
                var11 = var1.reader().readShort();
-               class_kv.b().c(var2, var11);
+               FishingScr.b().c(var2, var11);
                return;
             case 85:
                var10 = var1.reader().readInt();
-               class_kv.b().e(var10);
+               FishingScr.b().e(var10);
                return;
             case 86:
                boolean var19 = var1.reader().readBoolean();
@@ -123,13 +123,13 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                   var20 = var1.reader().readUTF();
                }
 
-               class_kv.b().a(var19, var20);
+               FishingScr.b().a(var19, var20);
                return;
             case 87:
                var2 = var1.reader().readInt();
                var12 = var1.reader().readByte();
-               class_kv.b();
-               class_kv.e(var2, var12);
+               FishingScr.b();
+               FishingScr.e(var2, var12);
                return;
             case 88:
                var2 = var1.reader().readInt();
@@ -137,7 +137,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                var16 = var1.reader().readByte();
                var5 = var1.reader().readInt();
                var11 = var1.reader().readShort();
-               class_kv.b().a(var2, var13, (byte)var16, var5, var11);
+               FishingScr.b().a(var2, var13, (byte)var16, var5, var11);
                return;
             case 91:
                var2 = var1.reader().readInt();
@@ -151,7 +151,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
                   var1.reader().read(var6[var7]);
                }
 
-               class_kv.b().a(var2, var3, (short)var4, var6);
+               FishingScr.b().a(var2, var3, (short)var4, var6);
                return;
             case 92:
                if (MapScr.s = var1.reader().readBoolean()) {
@@ -162,7 +162,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
             case 93:
                var2 = var1.reader().readInt();
                var10 = var1.reader().readInt();
-               MapScr.gI().e(var2, var10);
+               MapScr.gI().onWeddingStart(var2, var10);
                return;
             default:
                return;
@@ -173,7 +173,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
 
    }
 
-   public static Avatar b(Message var0) throws IOException {
+   public static Avatar playerJoinBoard(Message var0) throws IOException {
       Avatar var1;
       (var1 = new Avatar()).IDDB = var0.reader().readInt();
       var1.setName(var0.reader().readUTF());

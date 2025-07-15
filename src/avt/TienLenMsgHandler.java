@@ -4,13 +4,13 @@ import java.util.Vector;
 import main.Canvas;
 
 public final class TienLenMsgHandler extends IService implements IMiniGameMsgHandler {
-   private static TienLenMsgHandler a = new TienLenMsgHandler();
+   private static TienLenMsgHandler instance = new TienLenMsgHandler();
 
-   public static void a() {
+   public static void onHandler() {
       BoardScr.numPlayer = 4;
       BoardListOnScr.type = BoardListOnScr.c;
-      RoomListOnScr.setName(0, TLBoardScr.b());
-      CasinoMsgHandler.me.miniGameMessageHandler = a;
+      RoomListOnScr.setName(0, TLBoardScr.gI());
+      CasinoMsgHandler.me.miniGameMessageHandler = instance;
    }
 
    public final void onMessage(Message var1) {
@@ -38,7 +38,7 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
                var15 = var1.reader().readInt();
                Canvas.endDlg();
                BoardScr.resetReady();
-               TLBoardScr.b().a(var15, var14, var17);
+               TLBoardScr.gI().start(var15, var14, var17);
                CasinoService var11 = CasinoService.gI();
 
                try {
@@ -58,19 +58,19 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
 
                var15 = var1.reader().readInt();
                BoardScr.disableReady = true;
-               TLBoardScr.b().a(var5, var16, var15);
-               TLBoardScr.b().setPosPlaying();
+               TLBoardScr.gI().move(var5, var16, var15);
+               TLBoardScr.gI().setPosPlaying();
                return;
             case 49:
                var2 = var1.reader().readInt();
                var3 = var1.reader().readInt();
                boolean var10 = var1.reader().readBoolean();
-               TLBoardScr.b().a(var2, var3, var10);
+               TLBoardScr.gI().skip(var2, var3, var10);
                return;
             case 50:
-               TLBoardScr.b().b = false;
-               TLBoardScr.b();
-               TLBoardScr.m();
+               TLBoardScr.gI().isFirstMatch = false;
+               TLBoardScr.gI();
+               TLBoardScr.stopGame();
                if (var1.reader().available() > 0) {
                   var2 = var1.reader().readInt();
                   byte[] var18 = new byte[var13 = var1.reader().readByte()];
@@ -79,7 +79,7 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
                      var18[var5] = var1.reader().readByte();
                   }
 
-                  TLBoardScr.b().a(var2, var18);
+                  TLBoardScr.gI().showCards(var2, var18);
                   return;
                }
                break;
@@ -88,8 +88,8 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
                var13 = var1.reader().readByte();
                var15 = var1.reader().readInt();
                int var9 = var1.reader().readInt();
-               TLBoardScr.b();
-               TLBoardScr.a(var2, var13, var15, var9);
+               TLBoardScr.gI();
+               TLBoardScr.finish(var2, var13, var15, var9);
                return;
             case 53:
                var3 = var1.reader().readInt();
@@ -104,17 +104,17 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
                }
 
                Canvas.endDlg();
-               TLBoardScr.b();
-               TLBoardScr.m();
+               TLBoardScr.gI();
+               TLBoardScr.stopGame();
                if (var12 != null) {
-                  TLBoardScr.b().a(var3, var12);
+                  TLBoardScr.gI().showCards(var3, var12);
                }
 
                BoardScr.showChat(var3, T.K);
                return;
             case 54:
                String var4 = var1.reader().readUTF();
-               TLBoardScr.b().b(var4);
+               TLBoardScr.gI().moveError(var4);
             default:
                return;
          }

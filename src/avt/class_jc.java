@@ -5,6 +5,6 @@ final class class_jc implements IAction {
    }
 
    public final void perform() {
-      ParkService.gI().d(MapScr.b, MapScr.c);
+      ParkService.gI().doRequestWedding(MapScr.roomID, MapScr.boardID);
    }
 }

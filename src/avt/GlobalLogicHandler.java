@@ -48,13 +48,13 @@ public final class GlobalLogicHandler {
          isNewVersion = false;
       }
 
-      System.out.println("doGetHandler: " + var0 + "    " + MapScr.g);
+      System.out.println("doGetHandler: " + var0 + "    " + MapScr.typeJoin);
       if (GlobalMessageHandler.gI().miniGameMessageHandler != null) {
          switch (var0) {
             case 3:
                CasinoMsgHandler.gI();
                MapScr.gI();
-               MapScr.m();
+               MapScr.onJoinCasino();
             case 4:
             case 5:
             case 6:
@@ -62,15 +62,15 @@ public final class GlobalLogicHandler {
             default:
                break;
             case 8:
-               MapScr.gI().y = true;
+               MapScr.gI().isTour = true;
                AvatarMsgHandler.onHandler();
-               if (MapScr.D != -1) {
-                  GlobalService.gI().doJoinOfflineMap(MapScr.D);
-                  MapScr.D = -1;
-               } else if (MapScr.g != -1) {
-                  Canvas.loadMap.e(57 + MapScr.g);
+               if (MapScr.idMapOffline != -1) {
+                  GlobalService.gI().doJoinOfflineMap(MapScr.idMapOffline);
+                  MapScr.idMapOffline = -1;
+               } else if (MapScr.typeJoin != -1) {
+                  Canvas.loadMap.load(57 + MapScr.typeJoin);
                   if (Canvas.isInitChar && LoadMap.TYPEMAP == 57) {
-                     (Canvas.welcome = new Welcome()).b(MapScr.a);
+                     (Canvas.welcome = new Welcome()).initShop(MapScr.instance);
                   }
 
                   GameMidlet.avatar.setFeel(4);
@@ -81,25 +81,25 @@ public final class GlobalLogicHandler {
                }
                break;
             case 9:
-               ParkMsgHandler.a();
-               if (LoadMap.H == -1) {
-                  if (!OnScreen.b) {
+               ParkMsgHandler.onHandler();
+               if (LoadMap.xDichChuyen == -1) {
+                  if (!OnScreen.isOngame) {
                      if (GameMidlet.CLIENT_TYPE == 12) {
                         LoadMap.w = 24;
-                        LoadMap.t = -1;
-                        ParkService.gI().doJoinPark(MapScr.m, -1);
+                        LoadMap.rememMap = -1;
+                        ParkService.gI().doJoinPark(MapScr.indexMap, -1);
                      } else if (GameMidlet.CLIENT_TYPE == 3) {
                         Canvas.paint.i();
-                        ParkService.gI().doJoinPark(MapScr.m, -1);
-                     } else if (MapScr.g != -1) {
+                        ParkService.gI().doJoinPark(MapScr.indexMap, -1);
+                     } else if (MapScr.typeJoin != -1) {
                         MapScr.gI();
-                        MapScr.x();
-                     } else if (MapScr.G != -1) {
+                        MapScr.doSetHandlerSuccess();
+                     } else if (MapScr.idMapOld != -1) {
                         Canvas.startWaitDlg();
-                        ParkService.gI().doJoinPark(MapScr.G, -1);
-                        MapScr.G = -1;
+                        ParkService.gI().doJoinPark(MapScr.idMapOld, -1);
+                        MapScr.idMapOld = -1;
                      } else {
-                        MapScr.gI().s();
+                        MapScr.gI().doJoin();
                      }
                   } else {
                      Canvas.paint.i();
@@ -107,7 +107,7 @@ public final class GlobalLogicHandler {
                      Canvas.endDlg();
                   }
                } else {
-                  LoadMap.y = -1;
+                  LoadMap.idTileImg = -1;
                }
                break;
             case 10:
@@ -133,7 +133,7 @@ public final class GlobalLogicHandler {
                HomeMsgHandler.onHandler();
                LoadMap.TYPEMAP = -1;
                ParkService.gI().doJoinPark(21, 0);
-               if (MapScr.v != -1) {
+               if (MapScr.idHouse != -1) {
                   Canvas.startWaitDlg();
                   AvatarService.gI().getTypeHouse((int)0);
                }

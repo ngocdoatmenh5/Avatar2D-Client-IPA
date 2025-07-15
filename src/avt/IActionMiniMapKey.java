@@ -7,7 +7,7 @@ final class IActionMiniMapKey implements IAction {
    }
 
    public final void perform() {
-      int var1 = MiniMap.gI().e;
+      int var1 = MiniMap.gI().selected;
       if (Canvas.a(8)) {
          if (var1 == 0) {
             var1 = 5;
@@ -71,7 +71,7 @@ final class IActionMiniMapKey implements IAction {
       }
 
       if (MiniMap.gI().m) {
-         MiniMap.gI().e = var1;
+         MiniMap.gI().selected = var1;
       }
 
    }

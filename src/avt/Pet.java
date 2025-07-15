@@ -95,7 +95,7 @@ public final class Pet extends Animal {
             var2 = -(10 + CRes.rnd(20));
          }
 
-         if (LoadMap.c(this.r.x + var2, this.r.y) != 80) {
+         if (LoadMap.getTypeMap(this.r.x + var2, this.r.y) != 80) {
             var2 = 0;
          }
 
@@ -170,13 +170,13 @@ public final class Pet extends Animal {
             if (var2.IDPart >= 2000) {
                ImageIcon var3;
                if ((var3 = AvatarData.getImagePart(var2.imgID[U[super.action][super.frame]])).count != -1) {
-                  if (!this.T && var2.dy[0] + var3.c < -10 && var3.c > 0) {
+                  if (!this.T && var2.dy[0] + var3.h < -10 && var3.h > 0) {
                      this.T = true;
                      this.S = 1;
                   }
 
                   var1.drawImage(s[this.T ? 0 : 1], super.x * MyObject.hd, (super.y - 1) * MyObject.hd, 3);
-                  var1.drawRegion(var3.img, 0, 0, var3.b, var3.c, super.direct, super.x * MyObject.hd + var2.dx[U[super.action][super.frame]] * MyObject.hd - (super.direct == Base.LEFT ? (var2.dx[U[super.action][super.frame]] * AvMain.hd << 1) + var3.b * AvMain.hd : 0), (super.y + this.R) * MyObject.hd + var2.dy[U[super.action][super.frame]] * MyObject.hd, 0);
+                  var1.drawRegion(var3.img, 0, 0, var3.w, var3.h, super.direct, super.x * MyObject.hd + var2.dx[U[super.action][super.frame]] * MyObject.hd - (super.direct == Base.LEFT ? (var2.dx[U[super.action][super.frame]] * AvMain.hd << 1) + var3.w * AvMain.hd : 0), (super.y + this.R) * MyObject.hd + var2.dy[U[super.action][super.frame]] * MyObject.hd, 0);
                   return;
                }
             } else {
@@ -203,15 +203,15 @@ public final class Pet extends Animal {
       APartInfo var5;
       if ((var5 = (APartInfo)AvatarData.getPart(this.r.idPet)).IDPart != -1) {
          int var6 = var3 + var5.dy[U[super.action][super.frame]];
-         PaintPopup.a(var2 - 10, var6 - 10, 20, 3, 11381824, var1);
+         PaintPopup.fill(var2 - 10, var6 - 10, 20, 3, 11381824, var1);
          var1.setColor(11072024);
          var1.drawRect(var2 - 10, var6 - 10, 20, 3);
-         PaintPopup.a(var2 - 9, var6 - 9, var4 * 20 / 100, 2, 16644608, var1);
+         PaintPopup.fill(var2 - 9, var6 - 9, var4 * 20 / 100, 2, 16644608, var1);
          if (var5.IDPart >= 2000) {
             ImageIcon var7;
             if ((var7 = AvatarData.getImagePart(var5.imgID[U[super.action][super.frame]])).count != -1) {
                var1.drawImage(s[this.T ? 0 : 1], var2, var3 - 1, 3);
-               var1.drawRegion(var7.img, 0, 0, var7.b, var7.c, super.direct, var2 + var5.dx[U[super.action][super.frame]] * MyObject.hd - (super.direct == Base.LEFT ? (var5.dx[U[super.action][super.frame]] * AvMain.hd << 1) + var7.b * AvMain.hd : 0), var6 + this.R, 0);
+               var1.drawRegion(var7.img, 0, 0, var7.w, var7.h, super.direct, var2 + var5.dx[U[super.action][super.frame]] * MyObject.hd - (super.direct == Base.LEFT ? (var5.dx[U[super.action][super.frame]] * AvMain.hd << 1) + var7.w * AvMain.hd : 0), var6 + this.R, 0);
                return;
             }
          } else {

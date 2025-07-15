@@ -1,9 +1,9 @@
 package avt;
 
-final class class_gj implements IAction {
+final class IActionNo implements IAction {
    private HouseScr a;
 
-   class_gj(HouseScr var1) {
+   IActionNo(HouseScr var1) {
       this.a = var1;
    }
 

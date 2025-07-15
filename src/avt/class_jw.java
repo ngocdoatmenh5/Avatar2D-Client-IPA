@@ -8,8 +8,8 @@ final class class_jw implements IAction {
    }
 
    public final void perform() {
-      if (TField.a(this.a)) {
-         this.a.b();
+      if (TField.getFocus(this.a)) {
+         this.a.clear();
       }
 
    }

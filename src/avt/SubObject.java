@@ -32,18 +32,18 @@ public class SubObject extends MyObject {
                return;
             case -9:
                if (Canvas.welcome != null) {
-                  var1.drawImage(LoadMap.r, var2, var3, 3);
-                  AvatarData.paintImg(var1, 900, var2, var3 + Canvas.welcome.a - 10, 33);
+                  var1.drawImage(LoadMap.imgShadow, var2, var3, 3);
+                  AvatarData.paintImg(var1, 900, var2, var3 + Canvas.welcome.index - 10, 33);
                }
             case -4:
             case -1:
             default:
                return;
             case -8:
-               a(var1, var2, var3, FarmScr.listNest);
+               paintNest(var1, var2, var3, FarmScr.listNest);
                return;
             case -7:
-               a(var1, var2, var3, FarmScr.listBucket);
+               paintNest(var1, var2, var3, FarmScr.listBucket);
                return;
             case -6:
                FarmScr.s.drawFrame(0, var2, var3, 0, 3, var1);
@@ -71,7 +71,7 @@ public class SubObject extends MyObject {
       }
    }
 
-   private static void a(Graphics var0, int var1, int var2, Vector var3) {
+   private static void paintNest(Graphics var0, int var1, int var2, Vector var3) {
       for(int var4 = 0; var4 < var3.size(); ++var4) {
          AvPosition var5;
          if ((var5 = (AvPosition)var3.elementAt(var4)).x * MyObject.hd == var1 && var5.y * MyObject.hd == var2) {

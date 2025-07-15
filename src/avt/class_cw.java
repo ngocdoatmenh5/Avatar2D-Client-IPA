@@ -48,7 +48,7 @@ public final class class_cw {
    }
 
    private void d() {
-      this.i = PaintPopup.gI().e - PaintPopup.o - (AvMain.Z << 1) - 7 - (this.h ? MessageScr.c.d : 0);
+      this.i = PaintPopup.gI().e - PaintPopup.o - (AvMain.hDuBox << 1) - 7 - (this.h ? MessageScr.c.height : 0);
    }
 
    public final void a(String var1, String var2) {
@@ -75,7 +75,7 @@ public final class class_cw {
 
    public final void a() {
       int var1 = this.e.size();
-      class_il.a().a(var1 * l, this.i);
+      Scroll.gI().init(var1 * l, this.i);
       if ((k = var1 * l - this.i) < 0) {
          k = 0;
       }
@@ -87,7 +87,7 @@ public final class class_cw {
    }
 
    public final void a(Graphics var1) {
-      class_il.a().a(var1, Canvas.w - 50, 0);
+      Scroll.gI().paintScroll(var1, Canvas.w - 50, 0);
       var1.setClip(0, 0, Canvas.w - (MessageScr.e << 1), this.i + 4);
       var1.translate(0, -m);
       int var2;
@@ -204,7 +204,7 @@ public final class class_cw {
          n &= 15;
       }
 
-      class_il.a().b(m, j);
+      Scroll.gI().updateScroll(m, j);
    }
 
    public final void c() {

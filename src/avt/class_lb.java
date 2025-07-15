@@ -7,7 +7,7 @@ public final class class_lb extends Part {
 
    public final void paintIcon(Graphics var1, int var2, int var3, int var4, int var5) {
       APartInfo var6 = (APartInfo)AvatarData.getPart(super.follow);
-      if (super.h == var6.imgID[0]) {
+      if (super.idIcon == var6.imgID[0]) {
          ImageInfo var7 = AvatarData.listImgInfo[var6.imgID[0]];
          int var10002 = var7.x0 * AvMain.hd;
          int var10003 = var7.y0 * AvMain.hd;
@@ -15,7 +15,7 @@ public final class class_lb extends Part {
          int var10005 = var7.h * AvMain.hd;
          var1.drawRegion(AvatarData.getBigImgInfo((int)this.a).img, var10002, var10003, var10004, var10005, 0, var2, var3, var5);
       } else {
-         var6.a(var1, var2, var3, var5);
+         var6.paint(var1, var2, var3, var5);
       }
    }
 

@@ -8,7 +8,7 @@ final class ISelectMiniMapAction implements IAction {
 
    public final void perform() {
       String var1 = T.bc;
-      switch (MiniMap.gI().e) {
+      switch (MiniMap.gI().selected) {
          case 0:
             GlobalService.gI().getHandler((int)11);
             break;
@@ -24,6 +24,6 @@ final class ISelectMiniMapAction implements IAction {
             GlobalService.gI().getHandler((int)10);
       }
 
-      Canvas.startWaitDlg(var1 + T.nameRegion[MiniMap.gI().e] + "...");
+      Canvas.startWaitDlg(var1 + T.nameRegion[MiniMap.gI().selected] + "...");
    }
 }

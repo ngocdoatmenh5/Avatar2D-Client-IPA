@@ -342,7 +342,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                return;
             case 83:
                if (var1.reader().readBoolean()) {
-                  FarmScr.starFruil.b = var1.reader().readShort();
+                  FarmScr.starFruil.productID = var1.reader().readShort();
                   ++FarmScr.starFruil.lv;
                   return;
                }
@@ -358,7 +358,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                var10000 = GameMidlet.avatar.money;
                var10000[0] -= var71;
                FarmScr.starFruil.timeFinish = var72 * 60;
-               FarmScr.starFruil.h = System.currentTimeMillis();
+               FarmScr.starFruil.time = System.currentTimeMillis();
                Canvas.a(-var71, GameMidlet.avatar.x, GameMidlet.avatar.y, -1, -1);
                return;
             case 85:
@@ -374,7 +374,7 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                }
 
                var1.reader().readInt();
-               FarmScr.starFruil.b = var1.reader().readShort();
+               FarmScr.starFruil.productID = var1.reader().readShort();
                FarmScr.starFruil.timeFinish = 0;
                ++FarmScr.starFruil.lv;
                int var113 = var1.reader().readInt();
@@ -601,13 +601,13 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
       var10 = var0.reader().readByte();
       byte var12 = var0.reader().readByte();
       (FarmScr.starFruil = new StarFruitObj()).lv = var0.reader().readShort();
-      FarmScr.starFruil.b = var0.reader().readShort();
+      FarmScr.starFruil.productID = var0.reader().readShort();
       FarmScr.starFruil.fruitID = var0.reader().readShort();
       FarmScr.starFruil.numberFruit = var0.reader().readShort();
       var0.reader().readShort();
       var0.reader().readShort();
       FarmScr.starFruil.timeFinish = var0.reader().readShort() * 60;
-      FarmScr.starFruil.h = System.currentTimeMillis();
+      FarmScr.starFruil.time = System.currentTimeMillis();
 
       for(int var13 = 0; var13 < var4; ++var13) {
          ((CellFarm)var2.elementAt(var13)).level = var0.reader().readByte();

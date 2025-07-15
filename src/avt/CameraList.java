@@ -106,7 +106,7 @@ public final class CameraList {
 
       if (Canvas.keyPressed[4] || Canvas.keyPressed[6] || Canvas.keyPressed[8] || Canvas.keyPressed[2]) {
          this.C = true;
-         Canvas.currentMyScreen.a(this.selected, false);
+         Canvas.currentMyScreen.setSelected(this.selected, false);
          Canvas.keyPressed[4] = false;
          Canvas.keyPressed[6] = false;
          Canvas.keyPressed[8] = false;
@@ -121,7 +121,7 @@ public final class CameraList {
          if (this.H > 0) {
             --this.H;
             if (this.H == 0 && Canvas.currentMyScreen != PopupShop.me) {
-               Canvas.currentMyScreen.a(this.selected, true);
+               Canvas.currentMyScreen.setSelected(this.selected, true);
             }
 
          } else {
@@ -181,16 +181,16 @@ public final class CameraList {
                         this.selected = this.sizeH * this.sizeW - 1;
                      }
 
-                     Canvas.currentMyScreen.a(this.selected, false);
+                     Canvas.currentMyScreen.setSelected(this.selected, false);
                   }
 
                   if (CRes.abs(Canvas.dy()) < 10 * AvMain.hd && CRes.abs(Canvas.dx()) < 10 * AvMain.hd) {
                      if (var1 > 3L && var1 < 8L) {
                         this.I = false;
-                        Canvas.currentMyScreen.a(false);
+                        Canvas.currentMyScreen.setHidePointer(false);
                      }
                   } else {
-                     Canvas.currentMyScreen.a(true);
+                     Canvas.currentMyScreen.setHidePointer(true);
                   }
                }
 
@@ -213,11 +213,11 @@ public final class CameraList {
                   if (CRes.abs(Canvas.dy()) < 10 * AvMain.hd && CRes.abs(Canvas.dx()) < 10 * AvMain.hd) {
                      if (var1 <= 4L) {
                         this.H = 5;
-                        Canvas.currentMyScreen.a(false);
+                        Canvas.currentMyScreen.setHidePointer(false);
                      } else {
-                        Canvas.currentMyScreen.a(this.selected, true);
+                        Canvas.currentMyScreen.setSelected(this.selected, true);
                         if (Canvas.currentMyScreen != PopupShop.me) {
-                           Canvas.currentMyScreen.a(true);
+                           Canvas.currentMyScreen.setHidePointer(true);
                         }
                      }
 

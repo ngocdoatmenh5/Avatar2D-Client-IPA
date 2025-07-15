@@ -18,8 +18,8 @@ final class class_gk extends Command {
    }
 
    public final void paint(Graphics var1, int var2, int var3) {
-      AvatarData.paintImg(var1, this.f.imgID, var2, var3 + this.g / 2 - AvMain.af - AvMain.ah - 5, 33);
-      Canvas.fontChatB.drawString(var1, this.h, var2, var3 + this.g / 2 - AvMain.af, 2);
-      Canvas.normalFont.drawString(var1, this.i, var2, var3 + this.g / 2 - AvMain.af - AvMain.ah, 2);
+      AvatarData.paintImg(var1, this.f.imgID, var2, var3 + this.g / 2 - AvMain.hBlack - AvMain.ah - 5, 33);
+      Canvas.fontChatB.drawString(var1, this.h, var2, var3 + this.g / 2 - AvMain.hBlack, 2);
+      Canvas.normalFont.drawString(var1, this.i, var2, var3 + this.g / 2 - AvMain.hBlack - AvMain.ah, 2);
    }
 }

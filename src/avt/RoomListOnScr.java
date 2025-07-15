@@ -98,7 +98,7 @@ public final class RoomListOnScr extends MyScreen {
    }
 
    public static void setName(int var0, BoardScr var1) {
-      if (!OnScreen.b) {
+      if (!OnScreen.isOngame) {
          c = T.ek[var0];
       } else {
          c = T.eA[var0];
@@ -137,7 +137,7 @@ public final class RoomListOnScr extends MyScreen {
 
    private void f() {
       byte var1;
-      if ((var1 = ((RoomInfo)this.d.elementAt(this.e)).a) != -1) {
+      if ((var1 = ((RoomInfo)this.d.elementAt(this.e)).id) != -1) {
          CasinoService.gI().requestBoardList(var1);
          Canvas.startWaitDlg();
       }
@@ -175,7 +175,7 @@ public final class RoomListOnScr extends MyScreen {
 
          for(int var4 = var2; var4 < var1.size(); ++var4) {
             RoomInfo var5;
-            if ((var5 = (RoomInfo)var1.elementAt(var4)).c < var3.c) {
+            if ((var5 = (RoomInfo)var1.elementAt(var4)).lv < var3.lv) {
                var1.setElementAt(var3, var4);
                var1.setElementAt(var5, var2);
                var3 = var5;
@@ -188,12 +188,12 @@ public final class RoomListOnScr extends MyScreen {
 
       for(int var7 = 0; var7 < var1.size(); ++var7) {
          RoomInfo var8 = (RoomInfo)var1.elementAt(var7);
-         if (var6 == -1 || var8.c != var6) {
-            this.d.addElement(new RoomInfo((byte)-1, (byte)0, (byte)0, var8.c));
+         if (var6 == -1 || var8.lv != var6) {
+            this.d.addElement(new RoomInfo((byte)-1, (byte)0, (byte)0, var8.lv));
          }
 
          this.d.addElement(var8);
-         var6 = var8.c;
+         var6 = var8.lv;
       }
 
       if (Canvas.stypeInt != 0) {
@@ -207,19 +207,19 @@ public final class RoomListOnScr extends MyScreen {
    private boolean g() {
       for(int var1 = 0; var1 < this.d.size(); ++var1) {
          RoomInfo var2;
-         if ((var2 = (RoomInfo)this.d.elementAt(var1)).a == -1) {
+         if ((var2 = (RoomInfo)this.d.elementAt(var1)).id == -1) {
             int var3;
             int var4;
             if ((var3 = this.i - var1 % this.i) != this.i) {
                for(var4 = 0; var4 < var3; ++var4) {
-                  this.d.insertElementAt(new RoomInfo((byte)-2, (byte)0, (byte)0, var2.c), var1);
+                  this.d.insertElementAt(new RoomInfo((byte)-2, (byte)0, (byte)0, var2.lv), var1);
                }
 
                var1 += var3;
             }
 
             for(var4 = 0; var4 < this.i - 1; ++var4) {
-               this.d.insertElementAt(new RoomInfo((byte)-2, (byte)0, (byte)0, var2.c), var1 + 1);
+               this.d.insertElementAt(new RoomInfo((byte)-2, (byte)0, (byte)0, var2.lv), var1 + 1);
             }
 
             var1 += this.i;
@@ -229,7 +229,7 @@ public final class RoomListOnScr extends MyScreen {
       return false;
    }
 
-   public final void a(int var1, boolean var2) {
+   public final void setSelected(int var1, boolean var2) {
       if (var2 && this.e == var1) {
          this.f();
       }
@@ -237,7 +237,7 @@ public final class RoomListOnScr extends MyScreen {
       if (Canvas.stypeInt == 0) {
          if (this.e > 0 && this.e < this.d.size()) {
             RoomInfo var3;
-            if ((var3 = (RoomInfo)this.d.elementAt(var1)).a != -1 && var3.a != -1) {
+            if ((var3 = (RoomInfo)this.d.elementAt(var1)).id != -1 && var3.id != -1) {
                if (var1 >= 0 && var1 < this.d.size()) {
                   this.e = var1;
                }
@@ -262,7 +262,7 @@ public final class RoomListOnScr extends MyScreen {
 
    public final void updateKey() {
       if (Canvas.stypeInt != 0) {
-         Canvas.paint.a(super.left, super.center, super.right);
+         Canvas.paint.updateKeyOn(super.left, super.center, super.right);
       } else {
          super.updateKey();
       }

@@ -91,7 +91,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
    private void doCloseBoard() {
       chatHistory.removeAllElements();
       setPosCam();
-      ReportDlg.a().b();
+      ReportDlg.gI().show();
    }
 
    public final void closeBoard(String var1) {
@@ -184,7 +184,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
             doAddFriend();
             return;
          case 4:
-            MessageScr.gI().a((MyScreen) me);
+            MessageScr.gI().switchToMe((MyScreen) me);
             return;
          case 5:
             this.doExit();
@@ -196,19 +196,19 @@ public abstract class BoardScr extends MyScreen implements IChatable {
          default:
             break;
          case 10:
-            Canvas.inputDlg.a(T.G, 100, 1);
+            Canvas.inputDlg.setInfoIkb(T.G, 100, 1);
             return;
          case 11:
             doSetMaxPlayer();
             return;
          case 12:
-            Canvas.inputDlg.a(T.t, 101, 3);
+            Canvas.inputDlg.setInfoIkb(T.t, 101, 3);
             return;
          case 13:
             if (var2 < avatarInfos.size()) {
                var5 = (Avatar) avatarInfos.elementAt(var2);
                MapScr.gI();
-               MapScr.c(var5);
+               MapScr.doRequestAddFriend(var5);
                return;
             }
             break;
@@ -255,7 +255,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
 
    public void updateKey() {
       if (Canvas.stypeInt != 0) {
-         Canvas.paint.a(super.left, super.center, super.right);
+         Canvas.paint.updateKeyOn(super.left, super.center, super.right);
       } else {
          super.updateKey();
       }
@@ -341,7 +341,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
          chatPublic.paintAnimal(var1);
       }
 
-      if (OnScreen.b) {
+      if (OnScreen.isOngame) {
          OnScreen.a(var1, super.left, super.center, super.right);
       } else {
          super.paint(var1);
@@ -358,7 +358,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
          Avatar var3;
          if ((var3 = (Avatar) avatarInfos.elementAt(var2)).IDDB != -1) {
             var3.paintName(var1, var3.x, var3.y);
-            paintReady(var1, var3.x, var3.y - 50 - (!isStartGame && LoadMap.y == -1 ? 10 * AvMain.hd : 0), 3, var3);
+            paintReady(var1, var3.x, var3.y - 50 - (!isStartGame && LoadMap.idTileImg == -1 ? 10 * AvMain.hd : 0), 3, var3);
             var3.paintIcon(var1, var3.x, var3.y, false);
          }
       }
@@ -380,18 +380,18 @@ public abstract class BoardScr extends MyScreen implements IChatable {
       var1.setClip(0, 0, Canvas.w, Canvas.h + Canvas.hTab);
       if (!isStartGame && !disableReady) {
          Canvas.resetTrans(var1);
-         if (OnScreen.b) {
+         if (OnScreen.isOngame) {
             paintBgOngame(var1);
          } else {
             var1.setClip(0, 0, Canvas.w, Canvas.h + Canvas.hTab);
             var1.setColor(0);
             var1.fillRect(0, 0, Canvas.w, Canvas.h + Canvas.hTab);
             var1.translate(-AvCamera.gI().xCam, -AvCamera.gI().yCam);
-            Canvas.loadMap.c(var1);
+            Canvas.loadMap.paintM(var1);
             if (Canvas.w > 150) {
-               Canvas.fontChatB.drawString(var1, RoomListOnScr.c, AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - AvMain.af - AvMain.af / 2 - 5, 2);
-               Canvas.fontChatB.drawString(var1, "P: " + roomID + " - B: " + boardID, AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - AvMain.af / 2 - 5, 2);
-               Canvas.smallFontYellow.drawString(var1, money + T.k(), AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - 5 + AvMain.af / 2, 2);
+               Canvas.fontChatB.drawString(var1, RoomListOnScr.c, AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - AvMain.hBlack - AvMain.hBlack / 2 - 5, 2);
+               Canvas.fontChatB.drawString(var1, "P: " + roomID + " - B: " + boardID, AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - AvMain.hBlack / 2 - 5, 2);
+               Canvas.smallFontYellow.drawString(var1, money + T.k(), AvCamera.gI().xCam + Canvas.hw, AvCamera.gI().yCam + Canvas.hh - 5 + AvMain.hBlack / 2, 2);
                paintChat(var1);
             }
 
@@ -508,7 +508,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
             return;
          case 100:
             try {
-               if ((var1 = Integer.parseInt(Canvas.inputDlg.a())) < 0) {
+               if ((var1 = Integer.parseInt(Canvas.inputDlg.getText())) < 0) {
                   return;
                } else {
                   Canvas.endDlg();
@@ -524,7 +524,7 @@ public abstract class BoardScr extends MyScreen implements IChatable {
                return;
             }
          case 101:
-            CasinoService.gI().setPassword(Canvas.inputDlg.a());
+            CasinoService.gI().setPassword(Canvas.inputDlg.getText());
             Canvas.startOKDlg(T.I);
          default:
       }

@@ -4,8 +4,8 @@ import javax.microedition.lcdui.Image;
 
 public final class ImageIcon {
    public Image img;
-   public short b;
-   public short c;
+   public short w;
+   public short h;
    public int count = -1;
 
    public ImageIcon() {
@@ -14,7 +14,7 @@ public final class ImageIcon {
    public ImageIcon(Image var1) {
       this.img = var1;
       this.count = 0;
-      this.b = (short)var1.getWidth();
-      this.c = (short)var1.getHeight();
+      this.w = (short)var1.getWidth();
+      this.h = (short)var1.getHeight();
    }
 }

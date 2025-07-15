@@ -261,16 +261,16 @@ public final class FarmData {
 
       for(var3 = 0; var3 < var21; ++var3) {
          var20[var3] = new TreeInfo();
-         var20[var3].l = true;
+         var20[var3].isDynamic = true;
          var20[var3].ID = var11.readShort();
          var20[var3].name = var11.readUTF();
          var20[var3].name1 = var20[var3].name.toLowerCase();
          var20[var3].harvestTime = var11.readShort();
          var20[var3].priceSeed[0] = var11.readShort();
          var20[var3].priceSeed[1] = var11.readShort();
-         var20[var3].j = var11.readShort();
+         var20[var3].productID = var11.readShort();
          var20[var3].numProduct = var11.readShort();
-         var20[var3].m = var11.readByte();
+         var20[var3].lv = var11.readByte();
          var20[var3].idImg = new short[8];
 
          for(var4 = 0; var4 < var20[var3].idImg.length; ++var4) {

@@ -10,7 +10,7 @@ public final class ImageInfo {
    public short w;
    public short h;
 
-   public final void a(Graphics var1, int var2, int var3, int var4) {
+   public final void paintPart(Graphics var1, int var2, int var3, int var4) {
       int var10002 = this.x0 * AvMain.hd;
       int var10003 = this.y0 * AvMain.hd;
       int var10004 = this.w * AvMain.hd;

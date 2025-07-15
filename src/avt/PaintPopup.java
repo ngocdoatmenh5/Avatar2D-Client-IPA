@@ -147,12 +147,12 @@ public final class PaintPopup {
    }
 
    public final void a(Graphics var1) {
-      Canvas.paint.a(var1, this.g, this.h, this.e, this.f, this.l, this.q, this.j, this.i, o, this.p, this.r, this.n, this.m, this.s);
+      Canvas.paint.paintBoxTab(var1, this.g, this.h, this.e, this.f, this.l, this.q, this.j, this.i, o, this.p, this.r, this.n, this.m, this.s);
       Canvas.resetTrans(var1);
    }
 
    public static void a(Graphics var0, int var1, int var2, int var3, int var4) {
-      a(var1, var2, var3, var4, d[0], var0);
+      fill(var1, var2, var3, var4, d[0], var0);
       var0.setColor(d[2]);
       var0.drawRect(var1, var2, var3, var4);
       var0.setColor(12450472);
@@ -161,7 +161,7 @@ public final class PaintPopup {
       var0.drawRect(var1 + 2, var2 + 2, var3 - 4, var4 - 4);
    }
 
-   public static void a(int var0, int var1, int var2, int var3, int var4, Graphics var5) {
+   public static void fill(int var0, int var1, int var2, int var3, int var4, Graphics var5) {
       var5.setColor(var4);
       var5.fillRect(var0, var1, var2, var3);
    }

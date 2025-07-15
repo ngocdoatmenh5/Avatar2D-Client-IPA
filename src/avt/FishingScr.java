@@ -5,9 +5,9 @@ import main.Canvas;
 import main.GameMidlet;
 import javax.microedition.lcdui.Image;
 
-public final class class_kv extends MyScreen
+public final class FishingScr extends MyScreen
 {
-   private static class_kv c;
+   private static FishingScr c;
    private Command d;
    private Command e;
    private Command f;
@@ -26,11 +26,11 @@ public final class class_kv extends MyScreen
    private int q;
    private int r;
 
-   public static class_kv b() {
-      if (class_kv.c == null) {
-         return class_kv.c = new class_kv();
+   public static FishingScr b() {
+      if (FishingScr.c == null) {
+         return FishingScr.c = new FishingScr();
       }
-      return class_kv.c;
+      return FishingScr.c;
    }
 
    public final void commandTab(final int n, final int n2) {
@@ -59,7 +59,7 @@ public final class class_kv extends MyScreen
       }
    }
 
-   public class_kv() {
+   public FishingScr() {
       this.g = new Fish();
       this.l = 0;
       this.d = new Command(T.cz, 0);
@@ -86,7 +86,7 @@ public final class class_kv extends MyScreen
       final Avatar k = GameMidlet.avatar;
       k.y -= 10;
       AvCamera.setDistance(Canvas.w / 10);
-      MapScr.l.removeElement(this.g);
+      MapScr.listFish.removeElement(this.g);
       MapScr.gI().switchToMe();
    }
 
@@ -208,11 +208,11 @@ public final class class_kv extends MyScreen
 
    public final void b(final int n) {
       final Avatar g;
-      if ((g = LoadMap.g(n)) != null) {
+      if ((g = LoadMap.getAvatar(n)) != null) {
          final Avatar b = g;
          final Fish c;
          if ((c = c(b.IDDB)) != null) {
-            MapScr.l.removeElement(c);
+            MapScr.listFish.removeElement(c);
          }
          Fish fish = new Fish();
          if (b.IDDB == GameMidlet.avatar.IDDB) {
@@ -222,7 +222,7 @@ public final class class_kv extends MyScreen
          else {
             fish = new Fish();
          }
-         MapScr.l.addElement(fish);
+         MapScr.listFish.addElement(fish);
          if (b.action != 2) {
             if (b.IDDB != GameMidlet.avatar.IDDB) {
                fish.ava = b;
@@ -270,7 +270,7 @@ public final class class_kv extends MyScreen
       final Fish c;
       if ((c = c(n)) != null) {
          if (c.ava.action != 2 && c.ava.action != 13) {
-            MapScr.l.removeElement(c);
+            MapScr.listFish.removeElement(c);
             return;
          }
          if (h < 0) {
@@ -287,9 +287,9 @@ public final class class_kv extends MyScreen
    }
 
    public static Fish c(final int n) {
-      for (int i = 0; i < MapScr.l.size(); ++i) {
+      for (int i = 0; i < MapScr.listFish.size(); ++i) {
          final Fish fish;
-         if ((fish = (Fish) MapScr.l.elementAt(i)).ava.IDDB == n) {
+         if ((fish = (Fish) MapScr.listFish.elementAt(i)).ava.IDDB == n) {
             return fish;
          }
       }
@@ -307,9 +307,9 @@ public final class class_kv extends MyScreen
          final PartSmall partSmall;
          if (c.idFish > 0 && (partSmall = (PartSmall)AvatarData.getPart((short)c.idFish)) != null) {
             final ImageInfo imageInfo;
-            Canvas.a(1, c.ava.x, c.ava.y + c.ava.ySat - 50, -1, Image.createImage(AvatarData.getBigImgInfo((int)(imageInfo = AvatarData.listImgInfo[partSmall.h]).bigID).img, imageInfo.x0 * AvMain.hd, imageInfo.y0 * AvMain.hd, imageInfo.w * AvMain.hd, imageInfo.h * AvMain.hd, 0), -1);
+            Canvas.a(1, c.ava.x, c.ava.y + c.ava.ySat - 50, -1, Image.createImage(AvatarData.getBigImgInfo((int)(imageInfo = AvatarData.listImgInfo[partSmall.idIcon]).bigID).img, imageInfo.x0 * AvMain.hd, imageInfo.y0 * AvMain.hd, imageInfo.w * AvMain.hd, imageInfo.h * AvMain.hd, 0), -1);
          }
-         MapScr.l.removeElement(c);
+         MapScr.listFish.removeElement(c);
       }
    }
 
@@ -336,9 +336,9 @@ public final class class_kv extends MyScreen
 
    public static void e(final int n, final int n2) {
       final Avatar g;
-      if ((g = LoadMap.g(n)) != null && (g.action == 2 || g.action == 13)) {
+      if ((g = LoadMap.getAvatar(n)) != null && (g.action == 2 || g.action == 13)) {
          final Fish obj = new Fish();
-         MapScr.l.addElement(obj);
+         MapScr.listFish.addElement(obj);
          obj.doQuanCau(g);
          obj.doQuanDay();
          obj.posDay[obj.size - 1].x = g.x + 70 + (AvMain.hd - 1) * 35 + CRes.rnd(25);
@@ -363,10 +363,10 @@ public final class class_kv extends MyScreen
 
    public final void a(final int n, final byte b, final byte b2, final int n2, final short n3) {
       Avatar g;
-      if ((g = LoadMap.g(n)) == null && ListScr.c != null) {
-         for (int i = 0; i < ListScr.c.size(); ++i) {
+      if ((g = LoadMap.getAvatar(n)) == null && ListScr.tempList != null) {
+         for (int i = 0; i < ListScr.tempList.size(); ++i) {
             final Avatar avatar;
-            if ((avatar = (Avatar) ListScr.c.elementAt(i)).IDDB == n) {
+            if ((avatar = (Avatar) ListScr.tempList.elementAt(i)).IDDB == n) {
                g = avatar;
             }
          }
@@ -375,7 +375,7 @@ public final class class_kv extends MyScreen
       if ((avatar2 = g) != null) {
          final Vector vector;
          (vector = new Vector()).addElement(new CommandInfo(this, null, 0, avatar2, b, b2, n2, n3));
-         PopupShop.gI().a(new String[] { T.cw }, new Vector[1], vector);
+         PopupShop.gI().addElement(new String[] { T.cw }, new Vector[1], vector);
          PopupShop.gI().switchToMe();
       }
       Canvas.endDlg();

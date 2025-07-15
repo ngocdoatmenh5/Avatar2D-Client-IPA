@@ -64,15 +64,15 @@ public final class Bus {
             GameMidlet.avatar.setAction((byte)0);
             AvCamera.disable = false;
             GameMidlet.avatar.ableShow = false;
-            if (Canvas.isInitChar && Session_ME.a().b()) {
+            if (Canvas.isInitChar && Session_ME.gI().isConnected()) {
                if (LoadMap.TYPEMAP == 9) {
-                  (Canvas.welcome = new Welcome()).b();
+                  (Canvas.welcome = new Welcome()).initMapScr();
                } else if (direct == 1 && LoadMap.TYPEMAP == 25) {
-                  (Canvas.welcome = new Welcome()).a((MyScreen)MapScr.a);
-               } else if (LoadMap.TYPEMAP == 13 && Welcome.c < 8) {
-                  (Canvas.welcome = new Welcome()).f();
+                  (Canvas.welcome = new Welcome()).initFarmPath((MyScreen)MapScr.instance);
+               } else if (LoadMap.TYPEMAP == 13 && Welcome.indexFish < 8) {
+                  (Canvas.welcome = new Welcome()).initFish();
                } else if (direct == 1 && LoadMap.TYPEMAP == 23) {
-                  (Canvas.welcome = new Welcome()).d();
+                  (Canvas.welcome = new Welcome()).initKhuMuaSam();
                }
             }
          }

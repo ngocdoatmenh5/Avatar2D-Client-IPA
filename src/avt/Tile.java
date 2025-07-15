@@ -1,7 +1,7 @@
 package avt;
 
 public final class Tile {
-   public String a;
-   public int b;
-   public int c;
+   public String name;
+   public int priceXu;
+   public int priceLuong;
 }

@@ -28,7 +28,7 @@ public final class MsgDlg extends Dialog {
    private int u = 0;
 
    public MsgDlg() {
-      this.m = AvMain.af;
+      this.m = AvMain.hBlack;
    }
 
    public final void setInfoC(String var1, Command var2, Vector var3) {
@@ -125,11 +125,11 @@ public final class MsgDlg extends Dialog {
       if (System.currentTimeMillis() / 100L - this.t >= 5L) {
          Canvas.paint.a(var1, this.i, this.j, this.g, this.h, PaintPopup.d[0], PaintPopup.d[1], 0);
          if (super.center != null) {
-            PaintPopup.a(this.i + 1, this.j + this.h - (this.q + 15 * AvMain.hd - 4), this.g - 2, this.q, 15530985, var1);
+            PaintPopup.fill(this.i + 1, this.j + this.h - (this.q + 15 * AvMain.hd - 4), this.g - 2, this.q, 15530985, var1);
          }
 
          if (this.a) {
-            b.drawFrame(this.k, this.i + this.g / 2, this.j + 4 + (this.h - this.n) / 2 + this.c.size() * AvMain.af / 2 + (this.h - (4 + (this.h - this.n) / 2 + this.c.size() * AvMain.af / 2)) / 2, 0, 3, var1);
+            b.drawFrame(this.k, this.i + this.g / 2, this.j + 4 + (this.h - this.n) / 2 + this.c.size() * AvMain.hBlack / 2 + (this.h - (4 + (this.h - this.n) / 2 + this.c.size() * AvMain.hBlack / 2)) / 2, 0, 3, var1);
          }
 
          if (this.l > 0) {
@@ -143,7 +143,7 @@ public final class MsgDlg extends Dialog {
          }
 
          for(int var3 = 0; var3 < this.c.size(); ++var3) {
-            Canvas.M.drawString(var1, (String)this.c.elementAt(var3), Canvas.hw, this.j + 4 + (this.h - this.n) / 2 - this.c.size() * AvMain.af / 2 + var3 * AvMain.af, 2);
+            Canvas.M.drawString(var1, (String)this.c.elementAt(var3), Canvas.hw, this.j + 4 + (this.h - this.n) / 2 - this.c.size() * AvMain.hBlack / 2 + var3 * AvMain.hBlack, 2);
          }
 
       }
@@ -152,7 +152,7 @@ public final class MsgDlg extends Dialog {
    public final void commandTab(int var1, int var2) {
       switch (var1) {
          case -2:
-            MapScr.gI().v();
+            MapScr.gI().doExitGame();
             return;
          case -1:
             this.a = false;

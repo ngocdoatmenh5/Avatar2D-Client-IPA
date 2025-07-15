@@ -11,7 +11,7 @@ public abstract class MyScreen extends AvMain {
    public static Image ao;
    public static Image ap;
    public static Image aq;
-   public int ar = 0;
+   public int selected_ = 0;
    public static int as = 0;
    public static int at = 20;
    public static int au;
@@ -19,11 +19,11 @@ public abstract class MyScreen extends AvMain {
    public static final int[] aw = new int[]{4802889, 3092271};
    public static final int[] ax = new int[]{14400144, 12689526};
 
-   public void a(int var1, boolean var2) {
-      this.ar = var1;
+   public void setSelected(int var1, boolean var2) {
+      this.selected_ = var1;
    }
 
-   public void a(boolean var1) {
+   public void setHidePointer(boolean var1) {
       super.aj = var1;
    }
 
@@ -40,10 +40,10 @@ public abstract class MyScreen extends AvMain {
          Canvas.resetTrans(var1);
       }
 
-      if (!Session_ME.a().b()) {
+      if (!Session_ME.gI().isConnected()) {
          Canvas.M.drawString(var1, "2.5.8", Canvas.af.x, Canvas.af.y, Canvas.af.anchor);
-      } else if (Canvas.currentMyScreen == class_ez.a || Canvas.currentMyScreen == MiniMap.a) {
-         Canvas.M.drawString(var1, Session_ME.a().k, Canvas.af.x, Canvas.af.y, Canvas.af.anchor);
+      } else if (Canvas.currentMyScreen == ServerListScr.a || Canvas.currentMyScreen == MiniMap.me) {
+         Canvas.M.drawString(var1, Session_ME.gI().k, Canvas.af.x, Canvas.af.y, Canvas.af.anchor);
       }
 
       Canvas.paint.a(var1);
@@ -70,7 +70,7 @@ public abstract class MyScreen extends AvMain {
       if (Canvas.currentMyScreen == DiamondScr.me_) {
          DiamondScr.me_.paintCaro(var1);
       } else {
-         if (Canvas.currentMyScreen == TLBoardScr.a || Canvas.currentMyScreen == PBoardScr.a) {
+         if (Canvas.currentMyScreen == TLBoardScr.instance || Canvas.currentMyScreen == PBoardScr.a) {
             int var2;
             if (Canvas.w < var0) {
                var2 = var0 / 10;

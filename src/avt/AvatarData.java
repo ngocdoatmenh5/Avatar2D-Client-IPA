@@ -299,33 +299,33 @@ public final class AvatarData {
          if ((var7 = var10.readShort()) == -2) {
             PartSmall var13;
             (var13 = new PartSmall()).IDPart = (short)var4;
-            var13.i[0] = var5;
-            var13.i[1] = var6;
+            var13.price[0] = var5;
+            var13.price[1] = var6;
             var13.follow = var7;
             var13.name = var10.readUTF();
-            var13.k = var10.readByte();
-            var13.h = var10.readShort();
+            var13.sell = var10.readByte();
+            var13.idIcon = var10.readShort();
             var11.addElement(var13);
          } else if (var7 != -1) {
             class_lb var12;
             (var12 = new class_lb()).IDPart = (short)var4;
-            var12.i[0] = var5;
-            var12.i[1] = var6;
+            var12.price[0] = var5;
+            var12.price[1] = var6;
             var12.follow = var7;
             var12.a = var10.readShort();
             var11.addElement(var12);
          } else {
             APartInfo var8;
             (var8 = new APartInfo()).IDPart = (short)var4;
-            var8.i[0] = var5;
-            var8.i[1] = var6;
+            var8.price[0] = var5;
+            var8.price[1] = var6;
             var8.follow = var7;
             var8.name = var10.readUTF();
-            var8.k = var10.readByte();
+            var8.sell = var10.readByte();
             var8.zOrder = var10.readByte();
             var8.gender = var10.readByte();
             var8.level = var10.readByte();
-            var8.h = var10.readShort();
+            var8.idIcon = var10.readShort();
             var8.imgID = new short[15];
             var8.dx = new byte[15];
             var8.dy = new byte[15];
@@ -380,9 +380,9 @@ public final class AvatarData {
             Part var1 = listPart[listPart[var0].follow];
             Part var2;
             (var2 = listPart[var0]).name = var1.name;
-            var2.k = var1.k;
+            var2.sell = var1.sell;
             var2.zOrder = var1.zOrder;
-            var2.h = var1.h;
+            var2.idIcon = var1.idIcon;
          }
       }
 

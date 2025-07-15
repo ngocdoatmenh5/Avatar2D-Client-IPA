@@ -12,13 +12,13 @@ public final class TreeInfo {
    public short[] priceSeed = new short[2];
    public short priceProduct;
    public short numProduct;
-   public short j;
+   public short productID;
    public String name1;
-   public boolean l = false;
-   public byte m = 1;
+   public boolean isDynamic = false;
+   public byte lv = 1;
 
    public final void a(Graphics var1, int var2, int var3, int var4, int var5) {
-      if (this.l) {
+      if (this.isDynamic) {
          FarmData.paintImg(var1, this.idImg[var2], var3, var4, var5);
       } else {
          ImageInfo var10000 = FarmData.listImgInfo[this.idImg[var2]];
