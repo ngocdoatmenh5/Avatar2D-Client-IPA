@@ -7,6 +7,6 @@ final class IActionLeft implements IAction {
    }
 
    public final void perform() {
-      Canvas.startOKDlg(T.dB, (IAction)(new IActionLeft1(this)));
+      Canvas.startOKDlg(T.usureStop, new IActionLeft1(this));
    }
 }

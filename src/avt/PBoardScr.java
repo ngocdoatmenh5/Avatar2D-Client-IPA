@@ -49,7 +49,7 @@ public final class PBoardScr extends BoardScr {
    private AvPosition getC;
    private Card cardE;
    private Card aQ;
-   private int colorPhom_1  = 473848;
+   private int colorPhom_1 = 473848;
    private int colorPhom_2 = 517368;
    private int colorPhom_3 = 522270;
    private static int disCard_ = 12;
@@ -150,7 +150,7 @@ public final class PBoardScr extends BoardScr {
       this.getC = new AvPosition(Canvas.hw, Canvas.hh, 3);
       if (BoardScr.imgBan == null) {
          try {
-            BoardScr.imgBan = Image.createImage(avt.T.getPath() + "/on/star.on");
+            BoardScr.imgBan = Image.createImage(T.getPath() + "/on/star.on");
             return;
          } catch (IOException var2) {
             var2.printStackTrace();
@@ -178,7 +178,8 @@ public final class PBoardScr extends BoardScr {
       PBoardScr var3;
       int var5;
       int var6;
-      label115:
+      int[] var9;
+      label116:
       switch (var1) {
          case 30:
             var3 = this;
@@ -195,8 +196,8 @@ public final class PBoardScr extends BoardScr {
             for(var5 = 0; var5 < 10; ++var5) {
                if (var3.L[var5] == 0) {
                   if (var8 == 5) {
-                     Canvas.startOKDlg(avt.T.ak);
-                     break label115;
+                     Canvas.startOKDlg(T.youSelect);
+                     break label116;
                   }
 
                   var3.cardToEat[var8] = var3.myCard[var5].cardID;
@@ -205,9 +206,9 @@ public final class PBoardScr extends BoardScr {
             }
 
             if (var8 < 2) {
-               Canvas.startOKDlg(avt.T.aZ);
+               Canvas.startOKDlg(T.upTwoCard);
             } else {
-               int[] var9 = new int[6];
+               var9 = new int[6];
 
                for(var6 = 0; var6 < 5; ++var6) {
                   if (var3.cardToEat[var6] != -1) {
@@ -228,15 +229,15 @@ public final class PBoardScr extends BoardScr {
                }
 
                if (var10 == -1) {
-                  Canvas.startOKDlg(avt.T.al);
+                  Canvas.startOKDlg(T.notPhom);
                } else {
                   for(var8 = 0; var8 < var9.length; ++var8) {
                      if (var9[var8] != -1) {
                         for(int var7 = 0; var7 < 10; ++var7) {
                            if (var9[var8] == var3.myCard[var7].cardID) {
                               if (!var3.checkCardToEat(var7)) {
-                                 Canvas.startOKDlg(avt.T.al);
-                                 break label115;
+                                 Canvas.startOKDlg(T.notPhom);
+                                 break label116;
                               }
                               break;
                            }
@@ -257,18 +258,18 @@ public final class PBoardScr extends BoardScr {
             var3 = this;
             this.resetOrderCard();
             if (GameMidlet.avatar.IDDB != super.currentPlayer) {
-               Canvas.startOKDlg(avt.T.ai);
+               Canvas.startOKDlg(T.waitToCurrent);
             } else {
                this.resetChangeCard();
-               int[] var4 = new int[12];
+               var9 = new int[12];
                var5 = -1;
 
                for(var6 = 0; var6 < 10; ++var6) {
-                  if (var3.myCard[var6].phom == 0 || var5 != -1 && var5 != var3.myCard[var6].phom) {
-                     var4[var6] = -1;
-                  } else {
+                  if (var3.myCard[var6].phom != 0 && (var5 == -1 || var5 == var3.myCard[var6].phom)) {
                      var5 = var3.myCard[var6].phom;
-                     var4[var6] = var3.myCard[var6].cardID;
+                     var9[var6] = var3.myCard[var6].cardID;
+                  } else {
+                     var9[var6] = -1;
                   }
                }
 
@@ -283,9 +284,9 @@ public final class PBoardScr extends BoardScr {
 
    public PBoardScr() {
       this.reset();
-      this.cmdEat = new Command(avt.T.ac, 30);
-      this.cmdGet = new Command(avt.T.ad, 31);
-      this.cmdHaPhom = new Command(avt.T.ae, 32);
+      this.cmdEat = new Command(T.eat, 30);
+      this.cmdGet = new Command(T.gett, 31);
+      this.cmdHaPhom = new Command(T.haPhom, 32);
       Canvas.paint.initPosPhom();
    }
 
@@ -334,6 +335,7 @@ public final class PBoardScr extends BoardScr {
             this.hCard = new Card((byte)-1, true);
          }
       }
+
    }
 
    private void resetCell(int var1) {
@@ -564,6 +566,7 @@ public final class PBoardScr extends BoardScr {
 
          this.setPosCard(false);
       }
+
    }
 
    public final void update() {
@@ -688,7 +691,7 @@ public final class PBoardScr extends BoardScr {
          }
 
          var8 = this;
-         BoardScr.dieTime = (long)((int)((long) Canvas.getSecond() - BoardScr.currentTime));
+         BoardScr.dieTime = (long)((int)((long)Canvas.getSecond() - BoardScr.currentTime));
          if ((long)BoardScr.interval - BoardScr.dieTime >= 0L) {
             return;
          }
@@ -794,7 +797,6 @@ public final class PBoardScr extends BoardScr {
                this.doResetPhomEat(this.hCard, var1);
             }
          }
-
       } else {
          if (super.selectedCard < 9) {
             for(var2 = 0; var2 < 3; ++var2) {
@@ -855,8 +857,7 @@ public final class PBoardScr extends BoardScr {
             ++var2;
          }
 
-         var2 = var10000;
-         if (super.selectedCard >= var2 && var2 != -1) {
+         if (super.selectedCard >= var10000 && var10000 != -1) {
             this.resetChangeCard();
          } else {
             this.myCard[super.selectedCard] = this.hCard;
@@ -866,9 +867,9 @@ public final class PBoardScr extends BoardScr {
                this.cleanPhomRandom();
                this.findPhom();
             }
-
          }
       }
+
    }
 
    private void doResetPhomEat(Card var1, int var2) {
@@ -1128,7 +1129,7 @@ public final class PBoardScr extends BoardScr {
          if ((var3 = (Avatar)BoardScr.avatarInfos.elementAt(var2)).IDDB != -1 && (Canvas.w >= 160 || var3.IDDB == super.currentPlayer)) {
             int var4 = BoardScr.getIndexByID(super.currentPlayer);
             if (var2 != var4 || Canvas.gameTick % 20 > 5 && var2 == var4 || this.finish) {
-               Canvas.smallFontYellow.drawString(var1, var3.getMoneyNew() + " " + avt.T.getMoney(), b[BoardScr.indexPlayer[var2]].x, b[BoardScr.indexPlayer[var2]].y, b[BoardScr.indexPlayer[var2]].anchor);
+               Canvas.smallFontYellow.drawString(var1, var3.getMoneyNew() + " " + T.getMoney(), b[BoardScr.indexPlayer[var2]].x, b[BoardScr.indexPlayer[var2]].y, b[BoardScr.indexPlayer[var2]].anchor);
             }
          }
       }
@@ -1154,54 +1155,56 @@ public final class PBoardScr extends BoardScr {
          var6 = 20;
       }
 
+      int var10;
+      Avatar var11;
+      int var12;
       if (!this.finish) {
-         for(int var7 = 0; var7 < 4; ++var7) {
-            Avatar var8;
-            if ((var8 = (Avatar)BoardScr.avatarInfos.elementAt(var7)) != null && var8.IDDB != -1) {
-               int var9 = 3;
+         for(var10 = 0; var10 < 4; ++var10) {
+            if ((var11 = (Avatar)BoardScr.avatarInfos.elementAt(var10)) != null && var11.IDDB != -1) {
+               var12 = 3;
                int var15;
-               if (var4.cardShow[var7] != null) {
+               if (var4.cardShow[var10] != null) {
                   for(var15 = 0; var15 < 4; ++var15) {
-                     if (var4.cardShow[var7][var15] == null) {
-                        var9 = var15;
+                     if (var4.cardShow[var10][var15] == null) {
+                        var12 = var15;
                         break;
                      }
                   }
                }
 
-               if (BoardScr.indexPlayer[var7] != 0 && BoardScr.indexPlayer[var7] != 2) {
-                  for(var15 = 0; var15 < 4 && var4.cardShow[var7][var15] != null; ++var15) {
-                     var4.cardShow[var7][var15].x = c[BoardScr.indexPlayer[var7]].x;
-                     var4.cardShow[var7][var15].y = c[BoardScr.indexPlayer[var7]].y + (var15 * var6 << 1) - (var9 * var6 << 1) / 2;
+               if (BoardScr.indexPlayer[var10] != 0 && BoardScr.indexPlayer[var10] != 2) {
+                  for(var15 = 0; var15 < 4 && var4.cardShow[var10][var15] != null; ++var15) {
+                     var4.cardShow[var10][var15].x = c[BoardScr.indexPlayer[var10]].x;
+                     var4.cardShow[var10][var15].y = c[BoardScr.indexPlayer[var10]].y + (var15 * var6 << 1) - (var12 * var6 << 1) / 2;
                      if (Canvas.w > 176) {
-                        var4.cardShow[var7][var15].paintFull(var5);
+                        var4.cardShow[var10][var15].paintFull(var5);
                      } else {
-                        var4.cardShow[var7][var15].paintSmall(var5, true);
+                        var4.cardShow[var10][var15].paintSmall(var5, true);
                      }
                   }
                } else {
-                  for(var15 = 0; var15 < 4 && var4.cardShow[var7] != null && var4.cardShow[var7][var15] != null; ++var15) {
-                     var4.cardShow[var7][var15].x = c[BoardScr.indexPlayer[var7]].x + var15 * disShow - (var9 * disShow + (BoardScr.wCard - disShow)) / 2 + BoardScr.wCard / 2;
-                     var4.cardShow[var7][var15].y = c[BoardScr.indexPlayer[var7]].y;
-                     if (BoardScr.indexPlayer[var7] == 2) {
+                  for(var15 = 0; var15 < 4 && var4.cardShow[var10] != null && var4.cardShow[var10][var15] != null; ++var15) {
+                     var4.cardShow[var10][var15].x = c[BoardScr.indexPlayer[var10]].x + var15 * disShow - (var12 * disShow + (BoardScr.wCard - disShow)) / 2 + BoardScr.wCard / 2;
+                     var4.cardShow[var10][var15].y = c[BoardScr.indexPlayer[var10]].y;
+                     if (BoardScr.indexPlayer[var10] == 2) {
                         if (Canvas.w > 176) {
-                           if (var15 < 3 && var4.cardShow[var7][var15 + 1] != null) {
+                           if (var15 < 3 && var4.cardShow[var10][var15 + 1] != null) {
                               if (disCard_ > 13) {
-                                 var4.cardShow[var7][var15].paintFull(var5);
+                                 var4.cardShow[var10][var15].paintFull(var5);
                               } else {
-                                 var4.cardShow[var7][var15].paintFull(var5);
+                                 var4.cardShow[var10][var15].paintFull(var5);
                               }
                            } else {
-                              var4.cardShow[var7][var15].paintFull(var5);
+                              var4.cardShow[var10][var15].paintFull(var5);
                            }
                         } else {
-                           var4.cardShow[var7][var15].paintSmall(var5, false);
+                           var4.cardShow[var10][var15].paintSmall(var5, false);
                         }
                      } else if (Canvas.w > 176) {
-                        var4.cardShow[var7][var15].x = c[BoardScr.indexPlayer[var7]].x - var15 * disShow + (var4.distant[var7] * disShow + (BoardScr.wCard - disShow)) / 2 - BoardScr.wCard / 2;
-                        var4.cardShow[var7][var15].paintFull(var5);
+                        var4.cardShow[var10][var15].x = c[BoardScr.indexPlayer[var10]].x - var15 * disShow + (var4.distant[var10] * disShow + (BoardScr.wCard - disShow)) / 2 - BoardScr.wCard / 2;
+                        var4.cardShow[var10][var15].paintFull(var5);
                      } else {
-                        var4.cardShow[var7][var15].paintSmall(var5, false);
+                        var4.cardShow[var10][var15].paintSmall(var5, false);
                      }
                   }
                }
@@ -1209,9 +1212,6 @@ public final class PBoardScr extends BoardScr {
          }
       }
 
-      int var10;
-      Avatar var11;
-      int var12;
       for(var10 = 0; var10 < 4; ++var10) {
          if ((var11 = (Avatar)BoardScr.avatarInfos.elementAt(var10)) != null && var11.IDDB != -1) {
             if (BoardScr.indexPlayer[var10] == 1 || BoardScr.indexPlayer[var10] == 3) {
@@ -1460,28 +1460,28 @@ public final class PBoardScr extends BoardScr {
       PBoardScr var2 = this;
 
       int var4;
+      int var3;
       label148:
       for(var4 = 0; var4 < 8 && !var2.searchCardEat(var2.myCard[var4].phom); ++var4) {
          int[] var5 = new int[6];
 
-         int var6;
-         for(var6 = 0; var6 < 6; ++var6) {
-            var5[var6] = -1;
+         for(var3 = 0; var3 < 6; ++var3) {
+            var5[var3] = -1;
          }
 
-         for(var6 = 0; var6 < 3; ++var6) {
-            if (var2.myCard[var4 + var6].phom != 0) {
+         for(var3 = 0; var3 < 3; ++var3) {
+            if (var2.myCard[var4 + var3].phom != 0) {
                break label148;
             }
 
-            var5[var6] = var2.myCard[var4 + var6].cardID;
+            var5[var3] = var2.myCard[var4 + var3].cardID;
          }
 
          if (var2.checkPhomSanh(var5) || var2.checkPhomBaLa(var5)) {
             ++var2.phomRandom;
 
-            for(var6 = 0; var6 < 3; ++var6) {
-               var2.myCard[var4 + var6].phom = (byte)var2.phomRandom;
+            for(var3 = 0; var3 < 3; ++var3) {
+               var2.myCard[var4 + var3].phom = (byte)var2.phomRandom;
             }
 
             var4 += 2;
@@ -1490,7 +1490,7 @@ public final class PBoardScr extends BoardScr {
 
       for(int var1 = 0; var1 < 10; ++var1) {
          if (!this.searchCardEat(this.myCard[var1].phom) && this.myCard[var1].phom == 0 && this.myCard[var1].cardID != -1) {
-            int var3 = var1;
+            var3 = var1;
             var2 = this;
             if (this.myCard[var1].phom == 0 && this.myCard[var1].cardID != -1) {
                var4 = 0;
@@ -1586,13 +1586,13 @@ public final class PBoardScr extends BoardScr {
       super.start();
       this.initP();
       this.reset();
-      BoardScr.currentTime = (long) Canvas.getSecond();
+      BoardScr.currentTime = (long)Canvas.getSecond();
       super.currentPlayer = var3;
       this.firstPlayer = super.currentPlayer;
       BoardScr.interval = var1;
       this.firstHa = var4;
       BoardScr.isStartGame = true;
-      var1 = (byte) var2.size();
+      var1 = (byte)var2.size();
 
       for(var3 = 0; var3 < var1; ++var3) {
          Card var5 = (Card)var2.elementAt(var3);
@@ -1627,13 +1627,13 @@ public final class PBoardScr extends BoardScr {
       }
 
       if (var1 > 1) {
-         Canvas.startOKDlg(avt.T.af);
+         Canvas.startOKDlg(T.canYouOnceOnly);
       } else if (var2 == -1) {
-         Canvas.startOKDlg(avt.T.ag);
+         Canvas.startOKDlg(T.yetSellectCard);
       } else {
          boolean var10000;
          if (this.myCard[var2].phom != 0 && !this.checkCardToEat(var2)) {
-            Canvas.startOKDlg(avt.T.ah);
+            Canvas.startOKDlg(T.ifFireBreakPhom);
             var10000 = false;
          } else {
             var10000 = true;
@@ -1645,19 +1645,20 @@ public final class PBoardScr extends BoardScr {
             CasinoService.gI().moveCo(this.myCard[var2].cardID);
          }
       }
+
    }
 
    public final void onFire(int var1, int var2, int var3, byte var4) {
       if (var3 == -1) {
          this.setCmdFire();
-         Canvas.startOKDlg(avt.T.aY);
+         Canvas.startOKDlg(T.cardToMiss);
       } else {
          if (var1 == GameMidlet.avatar.IDDB) {
             this.resetOrderCard();
          }
 
          this.resetCmd();
-         BoardScr.currentTime = (long) Canvas.getSecond();
+         BoardScr.currentTime = (long)Canvas.getSecond();
          int var5;
          if ((var5 = BoardScr.getIndexByID(var2)) != -1) {
             this.h.x = BoardScr.posAvatar[BoardScr.indexPlayer[var5]].x;
@@ -1680,9 +1681,10 @@ public final class PBoardScr extends BoardScr {
             this.firstPlayer = var2;
             this.numberCard[var5] = var4;
             this.M = true;
-            int var10002 = this.distant[var5]++;
+            int var10003 = this.distant[var5]++;
          }
       }
+
    }
 
    public final void onSkipPlayer(int var1, int var2) {
@@ -1694,8 +1696,9 @@ public final class PBoardScr extends BoardScr {
          }
 
          super.currentPlayer = var1;
-         BoardScr.currentTime = (long) Canvas.getSecond();
+         BoardScr.currentTime = (long)Canvas.getSecond();
       }
+
    }
 
    private void resetUpCard() {
@@ -1708,7 +1711,7 @@ public final class PBoardScr extends BoardScr {
    public final void onHaPhom(boolean var1, int[] var2, boolean var3, int var4) {
       int var5 = BoardScr.getIndexByID(var4);
       if (!var1) {
-         Canvas.startOKDlg(avt.T.aj);
+         Canvas.startOKDlg(T.notSamePhom);
       } else {
          if (var4 == GameMidlet.avatar.IDDB) {
             this.resetOrderCard();
@@ -1740,23 +1743,29 @@ public final class PBoardScr extends BoardScr {
 
          if (GameMidlet.avatar.IDDB == var4) {
             this.isHaPhom = true;
+            var7 = 0;
 
-            for(var7 = 0; var7 < 10; ++var7) {
+            while(true) {
+               if (var7 >= 10) {
+                  this.setCmdFire();
+                  this.myCard = orderCardIncrease(this.myCard);
+                  if (this.myCard[super.selectedCard].cardID == -1) {
+                     super.selectedCard = this.setAssetCard() - 1;
+                  }
+
+                  this.setPosCard(false);
+                  break;
+               }
+
                for(var6 = 0; var6 < var2.length; ++var6) {
                   if (this.myCard[var7].cardID == var2[var6]) {
                      this.resetCell(var7);
                      break;
                   }
                }
-            }
 
-            this.setCmdFire();
-            this.myCard = orderCardIncrease(this.myCard);
-            if (this.myCard[super.selectedCard].cardID == -1) {
-               super.selectedCard = this.setAssetCard() - 1;
+               ++var7;
             }
-
-            this.setPosCard(false);
          }
 
          if (this.isU) {
@@ -1768,11 +1777,11 @@ public final class PBoardScr extends BoardScr {
 
          for(var7 = 0; var7 < this.Q[var5].length; ++var7) {
             if (this.Q[var5][var7] != -1) {
-               int var10002 = this.numCardPhom[var5]++;
+               int var10003 = this.numCardPhom[var5]++;
             }
          }
-
       }
+
    }
 
    public final void onFinish(int[] var1, int[][] var2) {
@@ -1792,7 +1801,7 @@ public final class PBoardScr extends BoardScr {
       this.cardRac = var2;
 
       for(var4 = 0; var4 < 4; ++var4) {
-         this.numCardRac[var4] = (byte) getAssetArray(var2[var4]);
+         this.numCardRac[var4] = (byte)getAssetArray(var2[var4]);
       }
 
       this.finish = true;
@@ -1802,11 +1811,11 @@ public final class PBoardScr extends BoardScr {
          Avatar var5;
          if ((var5 = (Avatar)BoardScr.avatarInfos.elementAt(var4)) != null && var5.IDDB != -1 && this.scorePlayer[var4] != -1) {
             if (this.scorePlayer[var4] == -2) {
-               BoardScr.showChat(var5.IDDB, avt.T.dm);
+               BoardScr.showChat(var5.IDDB, T.chay);
             } else if (var4 == this.winer) {
-               BoardScr.showChat(var5.IDDB, avt.T.aP);
+               BoardScr.showChat(var5.IDDB, T.win);
             } else {
-               BoardScr.showChat(var5.IDDB, avt.T.aQ);
+               BoardScr.showChat(var5.IDDB, T.lose);
             }
 
             var5.isReady = false;
@@ -1822,7 +1831,7 @@ public final class PBoardScr extends BoardScr {
       this.setContinue();
       if (!BoardScr.disableReady) {
          this.winer = BoardScr.indexOfMe;
-         BoardScr.showChat(((Avatar)BoardScr.avatarInfos.elementAt(this.winer)).IDDB, avt.T.aP);
+         BoardScr.showChat(((Avatar)BoardScr.avatarInfos.elementAt(this.winer)).IDDB, T.win);
       }
 
       BoardScr.isStartGame = true;
@@ -1833,21 +1842,21 @@ public final class PBoardScr extends BoardScr {
       this.setContinue();
       this.winer = var1;
       this.isU = true;
-      BoardScr.showChat(this.winer, avt.T.dn);
-      BoardScr.showChat(this.firstPlayer, avt.T.var_do);
+      BoardScr.showChat(this.winer, T.u);
+      BoardScr.showChat(this.firstPlayer, T.denU);
    }
 
    private boolean checkCardToEat(int var1) {
       int var2 = -1;
 
-      for(int var3 = 0; var3 < 3; ++var3) {
-         if (this.cardEat[var3].phom != 0 && this.cardEat[var3].phom == this.myCard[var1].phom) {
-            var2 = var3;
+      int var4;
+      for(var4 = 0; var4 < 3; ++var4) {
+         if (this.cardEat[var4].phom != 0 && this.cardEat[var4].phom == this.myCard[var1].phom) {
+            var2 = var4;
             break;
          }
       }
 
-      int var4;
       int[] var6;
       if (var2 == -1) {
          if (this.myCard[var1].phom != 0) {
@@ -1969,7 +1978,7 @@ public final class PBoardScr extends BoardScr {
                this.distant[var6] = this.numberCard[var6];
             }
 
-            int var10002 = this.numCardEat[var5]++;
+            int var10003 = this.numCardEat[var5]++;
             if (super.currentPlayer == GameMidlet.avatar.IDDB) {
                ++this.numPhom;
                if (getAssetCard(this.cardShow[BoardScr.indexOfMe]) == 3) {
@@ -1978,26 +1987,7 @@ public final class PBoardScr extends BoardScr {
                   this.setCmdFire();
                }
 
-               var6 = var2 - 1;
-
-               while(true) {
-                  if (var6 < 0) {
-                     var6 = this.setAssetCard();
-                     this.myCard[var6] = new Card((byte)this.cardCurrent, true);
-                     this.myCard[var6].phom = (byte)this.numPhom;
-
-                     for(var7 = 0; var7 < 3; ++var7) {
-                        if (this.cardEat[var7].cardID == -1) {
-                           this.cardEat[var7] = this.myCard[var6];
-                           break;
-                        }
-                     }
-
-                     this.cleanPhomRandom();
-                     this.findPhom();
-                     break;
-                  }
-
+               for(var6 = var2 - 1; var6 >= 0; --var6) {
                   for(var7 = 0; var7 < 10; ++var7) {
                      if (this.myCard[var7].cardID == this.cardToEat[var6]) {
                         this.myCard[var7].phom = (byte)this.numPhom;
@@ -2005,23 +1995,35 @@ public final class PBoardScr extends BoardScr {
                         this.cleanCard(var7);
                      }
                   }
-
-                  --var6;
                }
+
+               var6 = this.setAssetCard();
+               this.myCard[var6] = new Card((byte)this.cardCurrent, true);
+               this.myCard[var6].phom = (byte)this.numPhom;
+
+               for(var7 = 0; var7 < 3; ++var7) {
+                  if (this.cardEat[var7].cardID == -1) {
+                     this.cardEat[var7] = this.myCard[var6];
+                     break;
+                  }
+               }
+
+               this.cleanPhomRandom();
+               this.findPhom();
             }
 
             this.R[var5][getAssetArray(this.R[var5])] = this.cardCurrent;
             this.resetUpCard();
          } else if (super.currentPlayer == GameMidlet.avatar.IDDB) {
-            Canvas.startOKDlg(avt.T.al);
+            Canvas.startOKDlg(T.notPhom);
             this.setCmdEatAndGet();
          }
 
          if (GameMidlet.avatar.IDDB == super.currentPlayer || GameMidlet.avatar.IDDB == this.firstPlayer) {
             this.setPosCard(false);
          }
-
       }
+
    }
 
    private void doGet() {
@@ -2061,8 +2063,7 @@ public final class PBoardScr extends BoardScr {
          ++var3;
       }
 
-      int var5 = var10000;
-      this.bg = var5;
+      this.bg = var10000;
       this.aM = true;
       this.cardE = new Card((byte)var1, true);
    }
@@ -2120,8 +2121,8 @@ public final class PBoardScr extends BoardScr {
                }
             }
          }
-
       }
+
    }
 
    private int setAssetCard() {
@@ -2239,7 +2240,7 @@ public final class PBoardScr extends BoardScr {
    public final void onPlaying(int var1, int var2, int var3, int[][] var4, int[][] var5, int var6) {
       this.reset();
       BoardScr.disableReady = true;
-      BoardScr.currentTime = (long) Canvas.getSecond();
+      BoardScr.currentTime = (long)Canvas.getSecond();
 
       int var7;
       for(var7 = 0; var7 < var4.length; ++var7) {

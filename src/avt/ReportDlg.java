@@ -33,7 +33,7 @@ public final class ReportDlg extends Dialog {
    }
 
    public ReportDlg() {
-      super.center = new Command(T.z, 0);
+      super.center = new Command(T.OK, 0);
    }
 
    public final void update() {

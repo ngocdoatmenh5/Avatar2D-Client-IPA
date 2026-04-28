@@ -93,19 +93,41 @@ public final class Fish {
       this.countQuan = 0;
       this.idFish = 0;
       Object var4;
-      if (((Part)(var4 = AvatarData.getPartByZ(var1.seriPart, 70))).follow >= 0) {
+      if (((Part)((Part)(var4 = AvatarData.getPartByZ(var1.seriPart, 70)))).follow >= 0) {
          var4 = AvatarData.getPart(((Part)var4).follow);
       }
 
       APartInfo var8 = (APartInfo)var4;
-      ImageInfo var5 = AvatarData.listImgInfo[var8.imgID[3]];
-      ImageInfo var6 = AvatarData.listImgInfo[var8.imgID[14]];
       int var7 = var1.x;
       int var3 = var1.y + var1.ySat;
-      this.posGoc[0].x = var7 + var8.dx[3] * AvMain.hd + var5.w * AvMain.hd;
-      this.posGoc[0].y = var3 + var8.dy[3] * AvMain.hd - 5 * (AvMain.hd - 1);
-      this.posGoc[1].x = var7 + var8.dx[14] * AvMain.hd + var6.w * AvMain.hd;
-      this.posGoc[1].y = var3 + var8.dy[14] * AvMain.hd - 5 * (AvMain.hd - 1);
+      try {
+         if (AvatarData.listImgInfo == null || var8.imgID == null || var8.dx == null || var8.dy == null) {
+            throw new Exception();
+         }
+         if (var8.imgID.length <= 14 || var8.dx.length <= 14 || var8.dy.length <= 14) {
+            throw new Exception();
+         }
+         int id3 = var8.imgID[3];
+         int id14 = var8.imgID[14];
+         if (id3 < 0 || id14 < 0 || id3 >= AvatarData.listImgInfo.length || id14 >= AvatarData.listImgInfo.length) {
+            throw new Exception();
+         }
+         ImageInfo var5 = AvatarData.listImgInfo[id3];
+         ImageInfo var6 = AvatarData.listImgInfo[id14];
+         if (var5 == null || var6 == null) {
+            throw new Exception();
+         }
+         this.posGoc[0].x = var7 + var8.dx[3] * AvMain.hd + var5.w * AvMain.hd;
+         this.posGoc[0].y = var3 + var8.dy[3] * AvMain.hd - 5 * (AvMain.hd - 1);
+         this.posGoc[1].x = var7 + var8.dx[14] * AvMain.hd + var6.w * AvMain.hd;
+         this.posGoc[1].y = var3 + var8.dy[14] * AvMain.hd - 5 * (AvMain.hd - 1);
+      } catch (Exception var9) {
+         // Fallback tránh crash khi thiếu/khác version imgID
+         this.posGoc[0].x = var7;
+         this.posGoc[0].y = var3;
+         this.posGoc[1].x = var7;
+         this.posGoc[1].y = var3;
+      }
       this.posMoi.anchor = -1;
       if (var1.IDDB == GameMidlet.avatar.IDDB) {
          MapScr.gI();
@@ -133,6 +155,7 @@ public final class Fish {
       } else {
          this.ava.action = 2;
       }
+
    }
 
    public final void update() {
@@ -147,6 +170,7 @@ public final class Fish {
          int var3;
          int var5;
          AvPosition var10000;
+         boolean var13;
          if (this.indexQuan != 0) {
             if (this.isQuan == 1) {
                for(var2 = 1; var2 < var1.size - 2; ++var2) {
@@ -154,7 +178,7 @@ public final class Fish {
                   var10000.y += 6;
                }
 
-               label273: {
+               label269: {
                   Fish var10 = var1;
                   if (var1.isLac && var1.idFish > 0) {
                      ++var1.y;
@@ -163,7 +187,7 @@ public final class Fish {
 
                         while(true) {
                            if (var3 >= var10.size) {
-                              break label273;
+                              break label269;
                            }
 
                            var10000 = var10.posDay[var3];
@@ -177,7 +201,7 @@ public final class Fish {
 
                         while(true) {
                            if (var3 >= var10.size) {
-                              break label273;
+                              break label269;
                            }
 
                            var10000 = var10.posDay[var3];
@@ -187,12 +211,12 @@ public final class Fish {
                      }
 
                      if (var1.y <= 14) {
-                        break label273;
+                        break label269;
                      }
 
                      --var1.z;
                      if (var1.z >= 0) {
-                        break label273;
+                        break label269;
                      }
 
                      var1.y = 0;
@@ -206,7 +230,7 @@ public final class Fish {
                }
             }
 
-            boolean var11 = false;
+            var13 = false;
             var3 = var1.size - 1;
             byte var4 = 1;
             if (var1.isSuccess) {
@@ -218,7 +242,7 @@ public final class Fish {
             int var8;
             for(var5 = 1; var5 < var1.size - var1.isQuan * var4; ++var5) {
                if ((var6 = CRes.distance(var1.posDay[var5].x, var1.posDay[var5].y, var1.posDay[var5 - 1].x, var1.posDay[var5 - 1].y)) > var1.distant + 1) {
-                  var11 = true;
+                  var13 = true;
                   var7 = var6 - var1.distant;
                   var6 = CRes.tan(var1.posDay[var5 - 1].x - var1.posDay[var5].x, -(var1.posDay[var5 - 1].y - var1.posDay[var5].y));
                   var8 = var7 * CRes.cos(CRes.fixangle(var6)) >> 10;
@@ -241,7 +265,7 @@ public final class Fish {
             if (!var1.isSuccess) {
                for(var5 = var3 - 1; var5 > 0; --var5) {
                   if ((var6 = CRes.distance(var1.posDay[var5].x, var1.posDay[var5].y, var1.posDay[var5 + 1].x, var1.posDay[var5 + 1].y)) > var1.distant + 1) {
-                     var11 = true;
+                     var13 = true;
                      var7 = CRes.tan(var1.posDay[var5 + 1].x - var1.posDay[var5].x, -(var1.posDay[var5 + 1].y - var1.posDay[var5].y));
                      var8 = (var6 -= var1.distant) * CRes.cos(CRes.fixangle(var7)) >> 10;
                      var6 = -(var6 * CRes.sin(CRes.fixangle(var7))) >> 10;
@@ -253,7 +277,7 @@ public final class Fish {
                }
             }
 
-            if (!var11) {
+            if (!var13) {
                var1.isQuan = 1;
             }
          }
@@ -293,10 +317,9 @@ public final class Fish {
                if (!this.isLac) {
                   for(var3 = 0; var3 < var1.size - 1; ++var3) {
                      var10000 = var1.posDay[var3];
-                     boolean var13 = true;
+                     var13 = true;
                      var5 = var1.posDay[var3 + 1].x;
-                     AvPosition var12 = var10000;
-                     if (CRes.abs(var5 - var12.x) > 1) {
+                     if (CRes.abs(var5 - var10000.x) > 1) {
                         ++var2;
                      }
                   }
@@ -393,8 +416,8 @@ public final class Fish {
 
             this.posTemp[var9].y = this.posDay[var9].y;
          }
-
       }
+
    }
 
    public final void paint(Graphics var1) {
@@ -432,8 +455,8 @@ public final class Fish {
                var10002 = this.posTemp[this.size - 2].x + 2;
                var10003 = this.posTemp[this.size - 2].y + 4;
                FishingScr.gI().imgCa.drawFrame(var10001, var10002, var10003, 0, 24, var1);
-               PartSmall var3;
-               if (Canvas.gameTick % 10 > 5 && (var3 = (PartSmall)AvatarData.getPart((short)this.idFish)) != null) {
+               Part var3;
+               if (Canvas.gameTick % 10 > 5 && (var3 = AvatarData.getPart((short)this.idFish)) != null) {
                   var3.paint(var1, this.ava.x * AvMain.hd, this.ava.y - 55 * AvMain.hd, 3);
                }
             }
@@ -442,7 +465,7 @@ public final class Fish {
          if (AvMain.hd > 1) {
             var1.translate(0, -this.ava.y);
          }
-
       }
+
    }
 }

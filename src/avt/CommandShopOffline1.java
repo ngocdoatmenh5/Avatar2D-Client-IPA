@@ -25,19 +25,19 @@ final class CommandShopOffline1 extends Command {
          MapScr.setAvatarShop(this.g);
          String var1 = "";
          if (this.g.zOrder == 20) {
-            var1 = T.aC;
+            var1 = T.setMaxMoney;
          } else if (this.g.zOrder == 10) {
-            var1 = T.aB;
+            var1 = T.pant;
          } else if (this.g.zOrder == 40) {
-            var1 = T.aE;
+            var1 = T.eye;
          } else if (this.g.zOrder == 50) {
-            var1 = T.aD;
+            var1 = T.hair;
          }
 
          PopupShop.addStr(var1 + AvatarData.getName(this.g));
          PopupShop.addStr(Canvas.getPriceMoney(this.g.price[0], this.g.price[1], true));
-         PopupShop.addStr(T.dx + AvatarData.getLevel(this.g));
-         PopupShop.addStr(T.em[0] + MapScr.avatarShop.lvMain);
+         PopupShop.addStr(T.youAreBittenByDog + AvatarData.getLevel(this.g));
+         PopupShop.addStr(T.roomName[0] + MapScr.avatarShop.lvMain);
       }
 
    }

@@ -45,6 +45,7 @@ public final class Session_ME implements ISession {
          this.initThread = new Thread(new NetworkInit(this, var1));
          this.initThread.start();
       }
+
    }
 
    public final void sendMessage(Message var1) {
@@ -89,8 +90,9 @@ public final class Session_ME implements ISession {
          }
 
          this.dos.flush();
-      } catch (IOException var4) {
+      } catch (IOException var6) {
       }
+
    }
 
    private byte writeKey(byte var1) {
@@ -137,6 +139,7 @@ public final class Session_ME implements ISession {
       } catch (Exception var2) {
          var2.printStackTrace();
       }
+
    }
 
    static SocketConnection setSc(Session_ME var0) {
@@ -164,7 +167,7 @@ public final class Session_ME implements ISession {
    }
 
    static byte readKey(Session_ME var0, byte var1) {
-      byte[] var10000 = (var0 = var0).key;
+      byte[] var10000 = var0.key;
       byte var10003 = var0.curR;
       var0.curR = (byte)(var10003 + 1);
       var1 = (byte)(var10000[var10003] & 255 ^ var1 & 255);

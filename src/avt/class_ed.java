@@ -7,6 +7,6 @@ final class class_ed implements IAction {
    }
 
    public final void perform() {
-      Canvas.startOKDlg(T.cK, (IAction)(new class_ec(this)));
+      Canvas.startOKDlg(T.getData, new class_ec(this));
    }
 }

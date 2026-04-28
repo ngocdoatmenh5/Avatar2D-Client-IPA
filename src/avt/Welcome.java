@@ -40,7 +40,7 @@ public final class Welcome extends AvMain {
       this.x = 10;
       this.next = 0;
       super.center = new Command("", new IActionClick(this));
-      super.left = new Command(T.dA, new IActionLeft(this));
+      super.left = new Command(T.notTooGreedy, new IActionLeft(this));
    }
 
    public final void update() {
@@ -111,7 +111,7 @@ public final class Welcome extends AvMain {
                   var4 = Canvas.M;
                }
 
-               var4.drawString(var1, T.w, Canvas.ae[1].x + MyScreen.wTab / 2, Canvas.ae[1].y + Canvas.hTab / 2 - AvMain.hBorder / 2, 2);
+               var4.drawString(var1, T.continuee, Canvas.ae[1].x + MyScreen.wTab / 2, Canvas.ae[1].y + Canvas.hTab / 2 - AvMain.hBorder / 2, 2);
             }
          }
       }
@@ -136,6 +136,7 @@ public final class Welcome extends AvMain {
          Canvas.welcome.setText(this.textMiniMap[indexMiniMap]);
          ++indexMiniMap;
       }
+
    }
 
    private void setText(String[] var1) {

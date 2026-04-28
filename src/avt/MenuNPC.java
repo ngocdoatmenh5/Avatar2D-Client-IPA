@@ -40,14 +40,6 @@ public final class MenuNPC extends MenuMain {
    private int cmvy;
    private int cmyLim;
 
-   static {
-      try {
-         imgDc = new FrameImage(Image.createImage(T.getPath() + "/race/popup/tile0.png"), 20 * AvMain.hd, 20 * AvMain.hd);
-      } catch (IOException var1) {
-         var1.printStackTrace();
-      }
-   }
-
    public static MenuNPC gI() {
       return me == null ? (me = new MenuNPC()) : me;
    }
@@ -62,8 +54,8 @@ public final class MenuNPC extends MenuMain {
       this.xList = this.w - this.wList - 12 * AvMain.hd;
       this.hItem = 30 * AvMain.hd;
       this.hList = this.hItem * 3 + 20 * AvMain.hd;
-      super.center = new Command(T.O, 0, this);
-      super.right = new Command(T.d, 1, this);
+      super.center = new Command(T.selectt, 0, this);
+      super.right = new Command(T.close, 1, this);
    }
 
    public final void commandActionPointer(int var1) {
@@ -282,8 +274,11 @@ public final class MenuNPC extends MenuMain {
       }
 
       Avatar var9 = LoadMap.getAvatar(this.idUser);
-      Canvas.normalFont.drawString(var1, this.nameNPC, this.xList / 2, this.yList + this.hList / 2 - AvMain.hNormal - 20 * AvMain.hd, 2);
-      var9.paintIcon(var1, this.xList / 2, this.yList + this.hList / 2 + var9.height, true);
+      String npcName = this.nameNPC == null ? "" : this.nameNPC;
+      Canvas.normalFont.drawString(var1, npcName, this.xList / 2, this.yList + this.hList / 2 - AvMain.hNormal - 20 * AvMain.hd, 2);
+      if (var9 != null) {
+         var9.paintIcon(var1, this.xList / 2, this.yList + this.hList / 2 + var9.height, true);
+      }
       var2 = 4441283;
       FrameImage var7 = imgDc;
       int var6 = this.hList;
@@ -329,5 +324,14 @@ public final class MenuNPC extends MenuMain {
       }
 
       super.paint(var1);
+   }
+
+   static {
+      try {
+         imgDc = new FrameImage(Image.createImage(T.getPath() + "/race/popup/tile0.png"), 20 * AvMain.hd, 20 * AvMain.hd);
+      } catch (IOException var1) {
+         var1.printStackTrace();
+      }
+
    }
 }

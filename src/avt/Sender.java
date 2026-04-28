@@ -2,7 +2,7 @@ package avt;
 
 import java.util.Vector;
 
-final class    Sender implements Runnable {
+final class Sender implements Runnable {
    private final Vector sendingMessage;
    private Session_ME instance;
 
@@ -16,20 +16,20 @@ final class    Sender implements Runnable {
    }
 
    public final void run() {
-       while(this.instance.connected) {
-          if (this.instance.getKeyComplete) {
-             while(this.sendingMessage.size() > 0) {
-                Message var1 = (Message)this.sendingMessage.elementAt(0);
-                this.sendingMessage.removeElementAt(0);
-                Session_ME.sendMes(this.instance, var1);
-             }
-          }
+      while(this.instance.connected) {
+         if (this.instance.getKeyComplete) {
+            while(this.sendingMessage.size() > 0) {
+               Message var1 = (Message)this.sendingMessage.elementAt(0);
+               this.sendingMessage.removeElementAt(0);
+               Session_ME.sendMes(this.instance, var1);
+            }
+         }
 
-          try {
-             Thread.sleep(10L);
-          } catch (InterruptedException var2) {
-          }
-       }
+         try {
+            Thread.sleep(10L);
+         } catch (InterruptedException var2) {
+         }
+      }
 
    }
 

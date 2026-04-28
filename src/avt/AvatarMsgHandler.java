@@ -84,10 +84,10 @@ public final class AvatarMsgHandler extends IService implements IMiniGameMsgHand
                var1.reader().readInt();
                AvatarData.checkDataAvatar(var2, var15, var16, var3, var6, var7);
                return;
-            default:
          }
-      } catch (Exception var11) {
-         var11.printStackTrace();
+      } catch (Exception var14) {
+         var14.printStackTrace();
       }
+
    }
 }

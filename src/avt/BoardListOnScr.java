@@ -28,10 +28,6 @@ public final class BoardListOnScr extends MyScreen {
    public static Image imgSelectBoard;
    int j;
 
-   static {
-      type = STYLE_4PLAYER;
-   }
-
    public static BoardListOnScr gI() {
       return me == null ? (me = new BoardListOnScr()) : me;
    }
@@ -59,15 +55,15 @@ public final class BoardListOnScr extends MyScreen {
    }
 
    public BoardListOnScr() {
-      this.cmdSellect = new Command(T.O, 1);
-      super.right = new Command(T.d, 2);
+      this.cmdSellect = new Command(T.selectt, 1);
+      super.right = new Command(T.close, 2);
       if (Canvas.stypeInt != 0) {
-         super.center = new Command(T.i, 5);
+         super.center = new Command(T.strongest, 5);
       } else {
          super.center = this.cmdSellect;
       }
 
-      super.left = new Command(T.c, 6);
+      super.left = new Command(T.menu, 6);
       this.wSmall = (short)(110 * AvMain.hd);
       if (Canvas.stypeInt == 1) {
          this.wSmall = 95;
@@ -114,7 +110,7 @@ public final class BoardListOnScr extends MyScreen {
                   return;
                }
 
-               Canvas.inputDlg.setImg(T.X, new IActionJoinBoard(this), 2);
+               Canvas.inputDlg.setImg(T.ifPassword, new IActionJoinBoard(this), 2);
             }
             break;
          case 2:
@@ -132,10 +128,10 @@ public final class BoardListOnScr extends MyScreen {
             return;
          case 6:
             Vector var3;
-            (var3 = new Vector()).addElement(new Command(T.i, 5));
+            (var3 = new Vector()).addElement(new Command(T.strongest, 5));
             var3.addElement(new Command("Đến bàn", 6));
             var3.addElement(MapScr.gI().f);
-            var3.addElement(new Command(T.am, 7));
+            var3.addElement(new Command(T.viewMyInfo, 7));
             Menu.gI().startAt(var3, 0);
       }
 
@@ -144,7 +140,7 @@ public final class BoardListOnScr extends MyScreen {
    public final void commandActionPointer(int var1, int var2) {
       switch (var1) {
          case 1:
-            Canvas.startWaitDlg(T.b);
+            Canvas.startWaitDlg(T.pleaseWait);
             CasinoService.gI().requestBoardList(this.roomID);
             return;
          case 3:
@@ -170,15 +166,15 @@ public final class BoardListOnScr extends MyScreen {
    }
 
    private void doAskForBoardToGo() {
-      Canvas.inputDlg.setImg(T.an, new IActionToGo(this), 3);
+      Canvas.inputDlg.setImg(T.goToBoard, new IActionToGo(this), 3);
    }
 
    protected final void doAskForPass() {
-      Canvas.inputDlg.setImg(T.ap, new IActionPass(this), 0);
+      Canvas.inputDlg.setImg(T.banChiCo, new IActionPass(this), 0);
    }
 
    public final void setXeng() {
-      Canvas.startOKDlg("Hiện tại bạn không đủ Xèng để tham gia màn chơi, bạn có muốn nạp thêm Xèng không?", (IAction)(new IActionXeng(this)));
+      Canvas.startOKDlg("Hiện tại bạn không đủ Xèng để tham gia màn chơi, bạn có muốn nạp thêm Xèng không?", new IActionXeng(this));
    }
 
    private static void doExitBoardList() {
@@ -247,6 +243,7 @@ public final class BoardListOnScr extends MyScreen {
       } else {
          super.updateKey();
       }
+
    }
 
    public final void a(Vector var1) {
@@ -279,5 +276,9 @@ public final class BoardListOnScr extends MyScreen {
    }
 
    public final void update() {
+   }
+
+   static {
+      type = STYLE_4PLAYER;
    }
 }

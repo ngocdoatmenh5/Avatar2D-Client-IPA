@@ -29,15 +29,14 @@ public final class Cattle extends Animal {
          var2 = posPigTr;
          super.posNext = var2;
       }
+
    }
 
    public final void updateEat() {
-      if (super.hunger && !super.isEat) {
-         if (itemID != -1) {
-            super.isEat = true;
-         }
-
+      if (super.hunger && !super.isEat && itemID != -1) {
+         super.isEat = true;
       }
+
    }
 
    public final void reset() {

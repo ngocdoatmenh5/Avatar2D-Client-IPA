@@ -69,6 +69,7 @@ public class SubObject extends MyObject {
                AvatarData.paintImg(var1, 243, var2, var3, 33);
          }
       }
+
    }
 
    private static void paintNest(Graphics var0, int var1, int var2, Vector var3) {

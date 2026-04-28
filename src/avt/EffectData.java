@@ -16,21 +16,24 @@ public final class EffectData {
       for(int var5 = 0; var5 < var9.dx.length; ++var5) {
          byte var7 = var9.idImg[var5];
          EffectData var6 = this;
+         int var8 = 0;
 
          ImageInfo var10000;
-         label23: {
-            for(int var8 = 0; var8 < var6.imgImfo.length; ++var8) {
-               if (var6.imgImfo[var8].ID == var7) {
-                  var10000 = var6.imgImfo[var8];
-                  break label23;
-               }
+         while(true) {
+            if (var8 >= var6.imgImfo.length) {
+               var10000 = null;
+               break;
             }
 
-            var10000 = null;
+            if (var6.imgImfo[var8].ID == var7) {
+               var10000 = var6.imgImfo[var8];
+               break;
+            }
+
+            ++var8;
          }
 
-         ImageInfo var10 = var10000;
-         var1.drawRegion(this.img, var10.x0 * AvMain.hd, var10.y0 * AvMain.hd, var10.w * AvMain.hd, var10.h * AvMain.hd, 0, var2 * AvMain.hd + var9.dx[var5] * AvMain.hd, var3 * AvMain.hd + var9.dy[var5] * AvMain.hd, 0);
+         var1.drawRegion(this.img, var10000.x0 * AvMain.hd, var10000.y0 * AvMain.hd, var10000.w * AvMain.hd, var10000.h * AvMain.hd, 0, var2 * AvMain.hd + var9.dx[var5] * AvMain.hd, var3 * AvMain.hd + var9.dy[var5] * AvMain.hd, 0);
       }
 
    }

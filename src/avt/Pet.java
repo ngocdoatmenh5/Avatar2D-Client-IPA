@@ -53,12 +53,10 @@ public final class Pet extends Animal {
          super.posNext.x = LoadMap.wMap * 24 - 5;
       } else if (super.posNext.y < 0) {
          super.posNext.y = 5;
-      } else {
-         if (super.posNext.y > LoadMap.Hmap * 24 - 24) {
-            super.posNext.y = LoadMap.Hmap * 24 - 30;
-         }
-
+      } else if (super.posNext.y > LoadMap.Hmap * 24 - 24) {
+         super.posNext.y = LoadMap.Hmap * 24 - 30;
       }
+
    }
 
    public final void updatePos() {
@@ -71,7 +69,7 @@ public final class Pet extends Animal {
       }
 
       int var10000 = Canvas.gameTick;
-      if (true && super.action == 1 && super.y == super.yCur && this.isFly) {
+      if (super.action == 1 && super.y == super.yCur && this.isFly) {
          if (this.dir == 1) {
             ++this.yFly;
             if (this.yFly > 3) {
@@ -125,7 +123,6 @@ public final class Pet extends Animal {
                super.cycle = 0;
                super.v = 4;
             }
-
          } else {
             this.setPos();
             if (super.posNext.x > super.x) {
@@ -140,6 +137,7 @@ public final class Pet extends Animal {
       } else {
          this.move();
       }
+
    }
 
    public final void reset() {
@@ -161,42 +159,42 @@ public final class Pet extends Animal {
       } else {
          super.v = 1 + CRes.rnd(this.quich);
       }
+
    }
 
    public final void paint(Graphics var1) {
-      if ((super.x + 15) * MyObject.hd >= AvCamera.gI().xCam && (super.x - 15) * MyObject.hd <= AvCamera.gI().xCam + Canvas.w && !this.follow.ableShow && (Canvas.stypeInt <= 0 || Canvas.currentMyScreen != MainMenu.gI())) {
-         APartInfo var2;
-         if ((var2 = (APartInfo)AvatarData.getPart(this.follow.idPet)).IDPart != -1) {
-            if (var2.IDPart >= 2000) {
-               ImageIcon var3;
-               if ((var3 = AvatarData.getImagePart(var2.imgID[FRAME[super.action][super.frame]])).count != -1) {
-                  if (!this.isFly && var2.dy[0] + var3.h < -10 && var3.h > 0) {
-                     this.isFly = true;
-                     this.dir = 1;
-                  }
-
-                  var1.drawImage(imgShadow[this.isFly ? 0 : 1], super.x * MyObject.hd, (super.y - 1) * MyObject.hd, 3);
-                  var1.drawRegion(var3.img, 0, 0, var3.w, var3.h, super.direct, super.x * MyObject.hd + var2.dx[FRAME[super.action][super.frame]] * MyObject.hd - (super.direct == Base.LEFT ? (var2.dx[FRAME[super.action][super.frame]] * AvMain.hd << 1) + var3.w * AvMain.hd : 0), (super.y + this.yFly) * MyObject.hd + var2.dy[FRAME[super.action][super.frame]] * MyObject.hd, 0);
-                  return;
-               }
-            } else {
-               ImageInfo var4 = AvatarData.listImgInfo[var2.imgID[FRAME[super.action][super.frame]]];
-               if (!this.isFly && var2.dy[0] + var4.h < -10 && var4.h > 0) {
+      APartInfo var2;
+      if ((super.x + 15) * MyObject.hd >= AvCamera.gI().xCam && (super.x - 15) * MyObject.hd <= AvCamera.gI().xCam + Canvas.w && !this.follow.ableShow && (Canvas.stypeInt <= 0 || Canvas.currentMyScreen != MainMenu.gI()) && (var2 = (APartInfo)AvatarData.getPart(this.follow.idPet)).IDPart != -1) {
+         if (var2.IDPart >= 2000) {
+            ImageIcon var3;
+            if ((var3 = AvatarData.getImagePart(var2.imgID[FRAME[super.action][super.frame]])).count != -1) {
+               if (!this.isFly && var2.dy[0] + var3.h < -10 && var3.h > 0) {
                   this.isFly = true;
                   this.dir = 1;
                }
 
                var1.drawImage(imgShadow[this.isFly ? 0 : 1], super.x * MyObject.hd, (super.y - 1) * MyObject.hd, 3);
-               int var10002 = var4.x0 * MyObject.hd;
-               int var10003 = var4.y0 * MyObject.hd;
-               int var10004 = var4.w * MyObject.hd;
-               int var10005 = var4.h * MyObject.hd;
-               int var10007 = super.x * MyObject.hd + var2.dx[FRAME[super.action][super.frame]] * MyObject.hd - (super.direct == Base.LEFT ? (var2.dx[FRAME[super.action][super.frame]] * AvMain.hd << 1) + var4.w * AvMain.hd : 0);
-               var1.drawRegion(AvatarData.getBigImgInfo((int)var4.bigID).img, var10002, var10003, var10004, var10005, super.direct, var10007, (super.y + this.yFly) * MyObject.hd + var2.dy[FRAME[super.action][super.frame]] * MyObject.hd, 0);
+               var1.drawRegion(var3.img, 0, 0, var3.w, var3.h, super.direct, super.x * MyObject.hd + var2.dx[FRAME[super.action][super.frame]] * MyObject.hd - (super.direct == Base.LEFT ? (var2.dx[FRAME[super.action][super.frame]] * AvMain.hd << 1) + var3.w * AvMain.hd : 0), (super.y + this.yFly) * MyObject.hd + var2.dy[FRAME[super.action][super.frame]] * MyObject.hd, 0);
+               return;
             }
-         }
+         } else {
+            ImageInfo var4 = AvatarData.listImgInfo[var2.imgID[FRAME[super.action][super.frame]]];
+            if (!this.isFly && var2.dy[0] + var4.h < -10 && var4.h > 0) {
+               this.isFly = true;
+               this.dir = 1;
+            }
 
+            var1.drawImage(imgShadow[this.isFly ? 0 : 1], super.x * MyObject.hd, (super.y - 1) * MyObject.hd, 3);
+            int var10002 = var4.x0 * MyObject.hd;
+            int var10003 = var4.y0 * MyObject.hd;
+            int var10004 = var4.w * MyObject.hd;
+            int var10005 = var4.h * MyObject.hd;
+            int var10007 = super.x * MyObject.hd + var2.dx[FRAME[super.action][super.frame]] * MyObject.hd - (super.direct == Base.LEFT ? (var2.dx[FRAME[super.action][super.frame]] * AvMain.hd << 1) + var4.w * AvMain.hd : 0);
+            int var10008 = (super.y + this.yFly) * MyObject.hd + var2.dy[FRAME[super.action][super.frame]] * MyObject.hd;
+            var1.drawRegion(AvatarData.getBigImgInfo(var4.bigID).img, var10002, var10003, var10004, var10005, super.direct, var10007, var10008, 0);
+         }
       }
+
    }
 
    public final void paintIcon(Graphics var1, int var2, int var3, int var4) {
@@ -222,7 +220,7 @@ public final class Pet extends Animal {
             int var10004 = var8.w * MyObject.hd;
             int var10005 = var8.h * MyObject.hd;
             int var10007 = var2 + var5.dx[FRAME[super.action][super.frame]] * MyObject.hd;
-            var1.drawRegion(AvatarData.getBigImgInfo((int)var8.bigID).img, var10002, var10003, var10004, var10005, super.direct, var10007 - (super.direct == Base.LEFT ? (var5.dx[FRAME[super.action][super.frame]] * AvMain.hd << 1) + var8.w * AvMain.hd : 0), var6 + this.yFly, 0);
+            var1.drawRegion(AvatarData.getBigImgInfo(var8.bigID).img, var10002, var10003, var10004, var10005, super.direct, var10007 - (super.direct == Base.LEFT ? (var5.dx[FRAME[super.action][super.frame]] * AvMain.hd << 1) + var8.w * AvMain.hd : 0), var6 + this.yFly, 0);
          }
       }
 

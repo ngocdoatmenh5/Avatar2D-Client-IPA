@@ -17,8 +17,8 @@ public final class CustomTab extends Face {
    private Vector listPic = new Vector();
    private Hashtable listImg;
    private String title = "";
-   private String strTemp   = "";
-   private int x0  = 5;
+   private String strTemp = "";
+   private int x0 = 5;
    private int y0 = 5;
    private int wTab = 30;
    private byte idAction;
@@ -60,7 +60,7 @@ public final class CustomTab extends Face {
 
    public CustomTab() {
       this.setSize();
-      super.right = new Command(T.d, 0);
+      super.right = new Command(T.close, 0);
       wStr = AvMain.hBlack;
    }
 
@@ -90,6 +90,7 @@ public final class CustomTab extends Face {
       } else {
          this.setCanhle(var1, "");
       }
+
    }
 
    private void setCanhle(String var1, String var2) {
@@ -112,6 +113,7 @@ public final class CustomTab extends Face {
             this.addd(var1, var2, 0);
          }
       }
+
    }
 
    private void addd(String var1, String var2, int var3) {
@@ -147,7 +149,7 @@ public final class CustomTab extends Face {
       this.count = 0;
       super.center = null;
       if (var4 != -1) {
-         super.center = new Command(T.O, 1);
+         super.center = new Command(T.selectt, 1);
       }
 
       this.idAction = var4;
@@ -167,7 +169,6 @@ public final class CustomTab extends Face {
       this.y0 = -10;
 
       int var10;
-      label97:
       while((var10 = var3.indexOf("µ")) != -1) {
          String var13 = var3.substring(0, var10);
          var3 = var3.substring(var10 + 1, var3.length());
@@ -207,29 +208,29 @@ public final class CustomTab extends Face {
          var9 = !var9;
 
          while(true) {
-            while((var10 = var13.indexOf("¶")) == -1) {
-               if (!var13.equals("")) {
-                  this.setFont(var13.substring(0, var13.length() - 1));
-               }
+            while((var10 = var13.indexOf("¶")) != -1) {
+               var5 = var13.substring(0, var10);
+               var13 = var13.substring(var10 + 1, var13.length());
 
-               if (var3.indexOf("µ") != -1 || var3.indexOf("¶") == -1) {
-                  continue label97;
+               try {
+                  Integer.parseInt(var5, 16);
+                  this.setFont("¶" + var5);
+                  this.y0 -= wStr / 2;
+               } catch (Exception var15) {
+                  this.setFont(var5);
                }
-
-               var13 = var3;
-               var3 = "";
             }
 
-            var5 = var13.substring(0, var10);
-            var13 = var13.substring(var10 + 1, var13.length());
-
-            try {
-               Integer.parseInt(var5, 16);
-               this.setFont("¶" + var5);
-               this.y0 -= wStr / 2;
-            } catch (Exception var8) {
-               this.setFont(var5);
+            if (!var13.equals("")) {
+               this.setFont(var13.substring(0, var13.length() - 1));
             }
+
+            if (var3.indexOf("µ") != -1 || var3.indexOf("¶") == -1) {
+               break;
+            }
+
+            var13 = var3;
+            var3 = "";
          }
       }
 

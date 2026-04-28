@@ -23,7 +23,7 @@ final class CommandCooking1 extends Command {
             Item var5;
             if (this.food.material[var2] < 50) {
                var5 = FarmScr.getProductByID(this.food.material[var2]);
-               FarmData.getTreeByID((int)this.food.material[var2]).a(var1, 7, PopupShop.w / 2 - this.food.material.length * 30 * AvMain.hd / 2 + var2 * 30 * AvMain.hd + 15 * (AvMain.hd - 1), (PopupShop.h << 1) + 25 * AvMain.hd + (AvMain.hBlack << 2) + 10 * (AvMain.hd - 1), 3);
+               FarmData.getTreeByID(this.food.material[var2]).a(var1, 7, PopupShop.w / 2 - this.food.material.length * 30 * AvMain.hd / 2 + var2 * 30 * AvMain.hd + 15 * (AvMain.hd - 1), (PopupShop.h << 1) + 25 * AvMain.hd + (AvMain.hBlack << 2) + 10 * (AvMain.hd - 1), 3);
             } else if (this.food.material[var2] < 100) {
                var5 = FarmScr.getProductByID(this.food.material[var2]);
                AnimalInfo var6 = FarmData.getAnimalByID(this.food.material[var2]);
@@ -54,15 +54,15 @@ final class CommandCooking1 extends Command {
       if (this.g == PopupShop.focus) {
          PopupShop.resetIsTrans();
          PopupShop.addStr(this.food.text);
-         PopupShop.addStr(T.eM + this.food.cookTime + "p");
+         PopupShop.addStr(T.time + this.food.cookTime + "p");
          FarmItem var1;
          if ((var1 = FarmScr.getFarmItem(this.food.productID)).priceXu > 0) {
-            PopupShop.addStr(T.eJ + Canvas.getMoneys(var1.priceXu) + T.T);
+            PopupShop.addStr(T.salePrice + Canvas.getMoneys(var1.priceXu) + T.dola);
          } else if (var1.priceLuong > 0) {
-            PopupShop.addStr(T.eJ + Canvas.getMoneys(var1.priceLuong) + T.T);
+            PopupShop.addStr(T.salePrice + Canvas.getMoneys(var1.priceLuong) + T.dola);
          }
 
-         PopupShop.addStr(T.eK);
+         PopupShop.addStr(T.material);
       }
 
    }

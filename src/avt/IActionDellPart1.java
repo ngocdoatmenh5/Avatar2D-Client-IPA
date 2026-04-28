@@ -12,7 +12,7 @@ final class IActionDellPart1 implements IAction {
    public final void perform() {
       Vector var1;
       (var1 = new Vector()).addElement(this.a);
-      var1.addElement(new Command(T.dk, new class_ed(this)));
+      var1.addElement(new Command(T.won, new class_ed(this)));
       Menu.gI().startAt(var1, 0);
    }
 }

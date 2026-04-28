@@ -11,7 +11,7 @@ final class IActionForgetPass implements IAction {
 
    public final void perform() {
       if (!Session_ME.gI().connected) {
-         Canvas.startWaitDlg(T.M);
+         Canvas.startWaitDlg(T.connecting);
          Canvas.connect();
       } else {
          Canvas.startWaitDlg();

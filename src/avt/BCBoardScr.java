@@ -75,16 +75,16 @@ public final class BCBoardScr extends BoardScr {
 
    public BCBoardScr() {
       try {
-         this.pointer = Image.createImage(avt.T.getPath() + "/on/p.on");
+         this.pointer = Image.createImage(T.getPath() + "/on/p.on");
       } catch (IOException var2) {
          var2.printStackTrace();
       }
 
       this.resetdata();
       this.moneyP = null;
-      this.cmdskipBC = new Command(avt.T.B, 7);
-      this.cmdNextBC = new Command(avt.T.w, 8);
-      this.cmdSkip = new Command(avt.T.B, 9);
+      this.cmdskipBC = new Command(T.skip, 7);
+      this.cmdNextBC = new Command(T.continuee, 8);
+      this.cmdSkip = new Command(T.skip, 9);
       if (Canvas.w > 200) {
          c = 23;
          b = 23;
@@ -114,7 +114,7 @@ public final class BCBoardScr extends BoardScr {
             this.listFireWork.removeAllElements();
             BoardScr.isGameEnd = false;
             BoardScr.isStartGame = false;
-            BoardScr.disableReady    = false;
+            BoardScr.disableReady = false;
             super.currentPlayer = -1;
             this.moneyP = null;
             this.moneyInput.removeAllElements();
@@ -145,23 +145,22 @@ public final class BCBoardScr extends BoardScr {
       } else {
          posAvatar5 = new AvPosition[]{new AvPosition(20, 13, 6), new AvPosition(20, Canvas.hh - 5, 6), new AvPosition(Canvas.hw, Canvas.hCan - Canvas.hTab - 10, 33), new AvPosition(Canvas.w - 14, Canvas.hh - 5, 10), new AvPosition(Canvas.w - 14, 13, 10)};
       }
+
    }
 
    public final void showFlyText5Baucua(byte var1, byte var2, int var3) {
-      int var4 = var3;
-      byte var7 = (byte)var2;
-      if (var4 != 0) {
+      if (var3 != 0) {
          Avatar var6 = (Avatar)BoardScr.avatarInfos.elementAt(var1);
-         Avatar var8 = (Avatar)BoardScr.avatarInfos.elementAt(var7);
+         Avatar var8 = (Avatar)BoardScr.avatarInfos.elementAt(var2);
          Point var5;
-         (var5 = new Point(var6.x, var6.y)).distant = (short)var4;
+         (var5 = new Point(var6.x, var6.y)).distant = (short)var3;
          var5.color = CRes.rnd(3);
-         var2 = (byte) CRes.tan(var8.x - var6.x, -(var8.x - var6.y));
+         var2 = (byte)CRes.tan(var8.x - var6.x, -(var8.x - var6.y));
          var5.g = var2;
          var5.catagory = (byte)CRes.rnd(-1, 1);
          var5.h = CRes.fixangle(var5.g + var5.catagory * 90);
-         var2 = (byte) (10 * CRes.cos(var5.h) >> 10);
-         var4 = -(10 * CRes.sin(var5.h)) >> 10;
+         var2 = (byte)(10 * CRes.cos(var5.h) >> 10);
+         int var4 = -(10 * CRes.sin(var5.h)) >> 10;
          var5.xTo = (short)var8.x;
          var5.yTo = (short)var8.y;
          var5.x += var2;
@@ -268,10 +267,7 @@ public final class BCBoardScr extends BoardScr {
          int var10002 = var3.y + hH / 2;
          int var10003 = var3.moneyPut;
          int var7 = getIndex(var4);
-         int var6 = var10003;
-         int var5 = var10002;
-         var4 = var10001;
-         MoneyPut var8 = new MoneyPut(var4, var5, var6, var7);
+         MoneyPut var8 = new MoneyPut(var10001, var10002, var10003, var7);
          var1.moneyInput.addElement(var8);
       }
 
@@ -333,7 +329,7 @@ public final class BCBoardScr extends BoardScr {
 
       super.currentPlayer = var3.IDDB;
       BoardScr.interval = this.saveTime;
-      BoardScr.currentTime = (long) Canvas.getSecond();
+      BoardScr.currentTime = (long)Canvas.getSecond();
       if (!this.beginCharTa) {
          this.beginCharTa = true;
       }
@@ -368,6 +364,7 @@ public final class BCBoardScr extends BoardScr {
       Graphics var4;
       int var5;
       int var10003;
+      int var2;
       if (BoardScr.isStartGame || BoardScr.disableReady) {
          Canvas.resetTrans(var1);
          var4 = var1;
@@ -391,9 +388,9 @@ public final class BCBoardScr extends BoardScr {
                PimgBC var6 = (PimgBC)var3.bc.elementAt(var5);
                if (AvatarData.getImgIcon((short)(Canvas.w > 200 ? 872 : 873)).count != -1) {
                   var10003 = var6.type * hH;
-                  int var10007 = var3.xbg + var5 % 3 * (rW + 10);
+                  var2 = var3.xbg + var5 % 3 * (rW + 10);
                   int var10008 = var3.ybg + var5 / 3 * (hH + 8);
-                  var4.drawRegion(AvatarData.getImgIcon((short)(Canvas.w > 200 ? 872 : 873)).img, 0, var10003, rW, hH, 0, var10007, var10008, 0);
+                  var4.drawRegion(AvatarData.getImgIcon((short)(Canvas.w > 200 ? 872 : 873)).img, 0, var10003, rW, hH, 0, var2, var10008, 0);
                }
             }
          }
@@ -410,7 +407,7 @@ public final class BCBoardScr extends BoardScr {
             Avatar var10;
             if ((var10 = (Avatar)BoardScr.avatarInfos.elementAt(var5)).IDDB == BoardScr.ownerID || var10.IDDB != -1) {
                if (var3.currentPlayer != var10.IDDB || Canvas.gameTick % 10 >= 5) {
-                  Canvas.smallFontYellow.drawString(var4, var10.getMoneyNew() + avt.T.getMoney(), var10.x, var10.y + 5, 2);
+                  Canvas.smallFontYellow.drawString(var4, var10.getMoneyNew() + T.getMoney(), var10.x, var10.y + 5, 2);
                }
 
                if ((var7 = getSeatATmapSeat(var3.mapSeat, BoardScr.getIndexByID(var10.IDDB))) != -1 && AvatarData.getImgIcon((short)871).count != -1) {
@@ -419,7 +416,6 @@ public final class BCBoardScr extends BoardScr {
             }
          }
 
-         int var2;
          if (BoardScr.isStartGame || BoardScr.disableReady) {
             if ((var2 = (int)((long)BoardScr.interval - BoardScr.dieTime)) > 0 && !BoardScr.isGameEnd && this.xn.size() <= 0) {
                Canvas.O.drawString(var1, String.valueOf(var2), Canvas.hw, 10, 2);
@@ -450,7 +446,7 @@ public final class BCBoardScr extends BoardScr {
          if (this.vtmoneySV.size() > 0) {
             for(var2 = 0; var2 < this.vtmoneySV.size(); ++var2) {
                MoneySV var9;
-               if ((var9 = (MoneySV)this.vtmoneySV.elementAt(var2)).valuea > 0 && !(var9 = var9).move) {
+               if ((var9 = (MoneySV)this.vtmoneySV.elementAt(var2)).valuea > 0 && !var9.move) {
                   FontX var11 = Canvas.O;
                   if (Canvas.w <= 200) {
                      var11 = Canvas.smallFontYellow;
@@ -666,8 +662,8 @@ public final class BCBoardScr extends BoardScr {
                this.listFireWork.removeElement(var9);
             }
          }
-
       }
+
    }
 
    public final void onFinish(int[] var1) {
@@ -788,7 +784,7 @@ public final class BCBoardScr extends BoardScr {
       BoardScr.isGameEnd = false;
       BoardScr.isStartGame = true;
       BoardScr.interval = var1;
-      BoardScr.currentTime = (long) Canvas.getSecond();
+      BoardScr.currentTime = (long)Canvas.getSecond();
    }
 
    public final void onMove(byte var1) {

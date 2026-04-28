@@ -24,6 +24,7 @@ public final class Dog extends Animal {
       } else if (super.hunger && !super.isEat) {
          super.isEat = true;
       }
+
    }
 
    public final void updatePos() {
@@ -41,6 +42,7 @@ public final class Dog extends Animal {
          var2 = new AvPosition(288 + (CRes.rnd(126) << 2), 24 + (CRes.rnd(36) << 2));
          super.posNext = var2;
       }
+
    }
 
    public final void reset() {

@@ -8,8 +8,8 @@ final class IHouse1 implements IAction {
 
    public final void perform() {
       Vector var1;
-      (var1 = new Vector()).addElement(new Command(T.dk, 14));
-      var1.addElement(new Command(T.t, 15));
+      (var1 = new Vector()).addElement(new Command(T.won, 14));
+      var1.addElement(new Command(T.setPass, 15));
       Menu.gI().startAt(var1, 0);
    }
 }

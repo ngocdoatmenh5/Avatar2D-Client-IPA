@@ -12,6 +12,8 @@ final class IActionMenuOption implements IAction {
    }
 
    public final void perform() {
+      System.out.println("DEBUG NPC_MENU_CLICK: doMenuOption args int=" + this.a + " byte=" + this.b + " idx=" + this.c);
+      ClientUtilities.rememberLastNpcMenuAction(this.a, this.b, this.c);
       if (!ListScr.gI().setList(this.a + "-" + this.b + "-" + this.c)) {
          GlobalService.gI().doMenuOption(this.a, this.b, this.c);
       }

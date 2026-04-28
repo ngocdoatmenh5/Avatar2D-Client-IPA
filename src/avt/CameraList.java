@@ -123,7 +123,6 @@ public final class CameraList {
             if (this.H == 0 && Canvas.currentMyScreen != PopupShop.me) {
                Canvas.currentMyScreen.setSelected(this.selected, true);
             }
-
          } else {
             if (Canvas.isPointerClick && Canvas.isPointer(this.x, this.y, this.h, this.disY)) {
                this.M = Canvas.pyLast;
@@ -227,9 +226,9 @@ public final class CameraList {
                   Canvas.isPointerRelease = false;
                }
             }
-
          }
       }
+
    }
 
    private void setCam() {

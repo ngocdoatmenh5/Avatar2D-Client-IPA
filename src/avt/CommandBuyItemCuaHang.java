@@ -18,15 +18,15 @@ final class CommandBuyItemCuaHang extends Command {
    public final void update() {
       if (this.f == PopupShop.focus && PopupShop.isTransFocus) {
          PopupShop.resetIsTrans();
-         PopupShop.addStr(FarmData.treeInfo[this.f].name1 + "(" + FarmData.treeInfo[this.f].harvestTime + T.bq + ")");
-         PopupShop.addStr(T.az + Canvas.getPriceMoney(FarmData.treeInfo[this.f].priceSeed[0], FarmData.treeInfo[this.f].priceSeed[1], false));
-         PopupShop.addStr(T.em[2] + ": " + FarmData.treeInfo[this.f].lv);
+         PopupShop.addStr(FarmData.treeInfo[this.f].name1 + "(" + FarmData.treeInfo[this.f].harvestTime + T.h + ")");
+         PopupShop.addStr(T.priceStr + Canvas.getPriceMoney(FarmData.treeInfo[this.f].priceSeed[0], FarmData.treeInfo[this.f].priceSeed[1], false));
+         PopupShop.addStr(T.roomName[2] + ": " + FarmData.treeInfo[this.f].lv);
          if (FarmData.treeInfo[this.f].isDynamic) {
             FarmItem var1 = FarmScr.getFarmItem(FarmData.treeInfo[this.f].productID);
-            PopupShop.addStr(T.dP + ": " + var1.des);
+            PopupShop.addStr(T.doo + ": " + var1.des);
          }
 
-         PopupShop.addStr(T.dQ + ": " + Canvas.getMoneys(FarmData.treeInfo[this.f].numProduct));
+         PopupShop.addStr(T.detail + ": " + Canvas.getMoneys(FarmData.treeInfo[this.f].numProduct));
          PopupShop.addStr(MapScr.strTkFarm());
       }
 

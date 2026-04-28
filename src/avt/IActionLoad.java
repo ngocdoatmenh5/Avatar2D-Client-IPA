@@ -18,17 +18,15 @@ final class IActionLoad implements IAction {
       String var10001 = this.b;
       String var10002 = this.c[0].getText();
       String var4 = this.c[1].getText();
-      String var3 = var10002;
-      String var2 = var10001;
-      MoneyScr var1 = var10000;
-      if (var3.equals("")) {
-         Canvas.startOKDlg(T.en[0]);
+      if (var10002.equals("")) {
+         Canvas.startOKDlg(T.enterCard[0]);
       } else if (var4.equals("")) {
-         Canvas.startOKDlg(T.en[1]);
+         Canvas.startOKDlg(T.enterCard[1]);
       } else {
-         GlobalService.gI().b(var2, var3, var4);
-         var1.commandTab(var1.left.indexMenu, var1.left.subIndex);
+         GlobalService.gI().b(var10001, var10002, var4);
+         var10000.commandTab(var10000.left.indexMenu, var10000.left.subIndex);
          Canvas.startWaitDlg();
       }
+
    }
 }

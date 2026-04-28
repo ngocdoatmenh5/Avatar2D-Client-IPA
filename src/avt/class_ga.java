@@ -10,7 +10,7 @@ final class class_ga implements IAction {
    }
 
    public final void perform() {
-      if (!HouseScr.a(this.a, AvatarData.getMapItemTypeByID((int)this.b.typeID))) {
+      if (!HouseScr.a(this.a, AvatarData.getMapItemTypeByID(this.b.typeID))) {
          AvatarService.gI().doSortItem(HouseScr.getposSort(this.a).anchor, HouseScr.getposSort(this.a).x, HouseScr.getposSort(this.a).y, HouseScr.getX(this.a), HouseScr.getY(this.a), this.b.dir);
          HouseScr.isSelectObj = false;
          this.a.isSelectedItem = -1;
@@ -24,5 +24,6 @@ final class class_ga implements IAction {
          LoadMap.orderVector(LoadMap.treeLists);
          HouseScr.doOption(this.a);
       }
+
    }
 }

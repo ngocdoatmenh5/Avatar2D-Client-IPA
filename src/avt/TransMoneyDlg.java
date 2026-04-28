@@ -37,8 +37,8 @@ public final class TransMoneyDlg extends Dialog {
          this.hItem = this.h / 3;
          this.wItem = this.w / 3;
          this.money = new int[]{100, 1000, 10000, 50000, 100000, 500000, 1000000, 5000000, 10000000};
-         super.center = new Command(T.O, 0, this);
-         super.right = new Command(T.d, 1, this);
+         super.center = new Command(T.selectt, 0, this);
+         super.right = new Command(T.close, 1, this);
       }
 
       Canvas.currentDialog = this;
@@ -47,7 +47,7 @@ public final class TransMoneyDlg extends Dialog {
    public final void commandActionPointer(int var1) {
       switch (var1) {
          case 0:
-            Canvas.startOKDlg("Bạn có chắc muốn chuyển tiền không ?", (IAction)(new IActionTransXeng(this)));
+            Canvas.startOKDlg("Bạn có chắc muốn chuyển tiền không ?", new IActionTransXeng(this));
             return;
          case 1:
             Canvas.currentDialog = null;

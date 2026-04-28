@@ -26,8 +26,8 @@ public final class GlobalService extends IService {
       try {
          super.m.writer().writeByte(var1);
          super.m.writer().writeUTF(var2);
-      } catch (Exception var3) {
-         var3.printStackTrace();
+      } catch (Exception var4) {
+         var4.printStackTrace();
       }
 
       this.sendMessage();
@@ -54,12 +54,12 @@ public final class GlobalService extends IService {
          super.m.writer().writeInt(Canvas.h);
          super.m.writer().writeBoolean(Canvas.isKeyBoard);
          super.m.writer().writeByte(AvMain.hd - 1);
-         super.m.writer().writeUTF("2.5.8");
+         super.m.writer().writeUTF(GameMidlet.APP_VERSION);
          System.out.println("setProviderAndClientType: " + PopupShop.i + "    " + MiniMap.i + "    " + MapScr.j);
          super.m.writer().writeUTF(PopupShop.i);
          super.m.writer().writeUTF(MiniMap.i);
          super.m.writer().writeUTF(MapScr.j);
-      } catch (IOException var3) {
+      } catch (IOException var4) {
       }
 
       this.sendMessage();
@@ -67,8 +67,8 @@ public final class GlobalService extends IService {
 
       try {
          super.m.writer().writeUTF(GameMidlet.g);
-      } catch (IOException var2) {
-         var2.printStackTrace();
+      } catch (IOException var3) {
+         var3.printStackTrace();
       }
 
       this.sendMessage();
@@ -80,7 +80,7 @@ public final class GlobalService extends IService {
 
       try {
          var0 = (long)((var2 = RecordStore.openRecordStore("textrms", true)).getSizeAvailable() + var2.getSize());
-      } catch (Exception var9) {
+      } catch (Exception var12) {
       } finally {
          try {
             if (var2 != null) {
@@ -88,7 +88,7 @@ public final class GlobalService extends IService {
             }
 
             RecordStore.deleteRecordStore("textrms");
-         } catch (Exception var8) {
+         } catch (Exception var11) {
          }
 
       }
@@ -114,7 +114,7 @@ public final class GlobalService extends IService {
          super.m.writer().writeUTF(var1);
          super.m.writer().writeUTF(var2);
          super.m.writer().writeUTF(var3);
-      } catch (IOException var4) {
+      } catch (IOException var5) {
       }
 
       this.sendMessage();
@@ -132,7 +132,7 @@ public final class GlobalService extends IService {
       try {
          super.m.writer().writeInt(var1);
          super.m.writer().writeUTF(var2);
-      } catch (IOException var3) {
+      } catch (IOException var4) {
       }
 
       this.sendMessage();
@@ -162,7 +162,7 @@ public final class GlobalService extends IService {
       try {
          super.m.writer().writeShort(var1);
          super.m.writer().writeByte(var2);
-      } catch (IOException var3) {
+      } catch (IOException var4) {
       }
 
       this.sendMessage();
@@ -175,13 +175,14 @@ public final class GlobalService extends IService {
    }
 
    public final void doUsingItem(short var1, byte var2) {
+      System.out.println("DEBUG USEITEM: GlobalService.doUsingItem(id=" + var1 + ", type=" + var2 + ") packet -48");
       this.createMessage((byte)-48);
       super.m = new Message((byte)-48);
 
       try {
          super.m.writer().writeShort(var1);
          super.m.writer().writeByte(var2);
-      } catch (IOException var3) {
+      } catch (IOException var4) {
       }
 
       this.sendMessage();
@@ -219,16 +220,25 @@ public final class GlobalService extends IService {
    }
 
    public final void doMenuOption(int var1, byte var2, int var3) {
+      if (var1 >= 2000000000) {
+         System.out.println("DEBUG NPC_OPTION(-59): npcId=" + var1 + " menuByte=" + var2 + " optionIdx=" + var3);
+      } else {
+         System.out.println("DEBUG MENUOPTION(-59): int=" + var1 + " byte=" + var2 + " idx=" + var3);
+      }
       this.createMessage((byte)-59);
 
       try {
          super.m.writer().writeInt(var1);
          super.m.writer().writeByte(var2);
          super.m.writer().writeByte(var3);
-      } catch (IOException var4) {
+      } catch (IOException var5) {
       }
 
       this.sendMessage();
+   }
+
+   public final void menuOption(int var1, byte var2, byte var3) {
+      this.doMenuOption(var1, var2, var3);
    }
 
    public final void doTextBox(int var1, byte var2, String var3) {
@@ -238,7 +248,7 @@ public final class GlobalService extends IService {
          super.m.writer().writeInt(var1);
          super.m.writer().writeByte(var2);
          super.m.writer().writeUTF(var3);
-      } catch (IOException var4) {
+      } catch (IOException var5) {
       }
 
       this.sendMessage();
@@ -258,7 +268,7 @@ public final class GlobalService extends IService {
          super.m.writer().writeUTF(var1);
          super.m.writer().writeUTF(var2);
          super.m.writer().writeUTF(var3);
-      } catch (IOException var4) {
+      } catch (IOException var5) {
       }
 
       this.sendMessage();
@@ -270,7 +280,7 @@ public final class GlobalService extends IService {
       try {
          super.m.writer().writeUTF(var1);
          super.m.writer().writeUTF(var2);
-      } catch (IOException var3) {
+      } catch (IOException var4) {
       }
 
       this.sendMessage();
@@ -282,7 +292,7 @@ public final class GlobalService extends IService {
       try {
          super.m.writer().writeShort(var1);
          super.m.writer().writeShort(var2);
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();
@@ -294,7 +304,7 @@ public final class GlobalService extends IService {
       try {
          super.m.writer().writeInt(var1);
          super.m.writer().writeUTF(var2);
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();
@@ -308,7 +318,7 @@ public final class GlobalService extends IService {
          super.m.writer().writeByte(var2);
          super.m.writer().writeShort(var3);
          super.m.writer().writeByte(var4);
-      } catch (Exception var5) {
+      } catch (Exception var6) {
       }
 
       this.sendMessage();
@@ -321,7 +331,7 @@ public final class GlobalService extends IService {
       try {
          super.m.writer().writeShort(var1);
          super.m.writer().writeInt(var2);
-      } catch (IOException var3) {
+      } catch (IOException var4) {
       }
 
       this.sendMessage();
@@ -339,7 +349,7 @@ public final class GlobalService extends IService {
       try {
          super.m.writer().writeByte(0);
          super.m.writer().writeUTF(var1);
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();
@@ -352,7 +362,7 @@ public final class GlobalService extends IService {
          super.m.writer().writeByte(1);
          super.m.writer().writeUTF(var1);
          super.m.writer().writeUTF(var2);
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();
@@ -371,7 +381,7 @@ public final class GlobalService extends IService {
          super.m.writer().writeByte(var1);
          super.m.writer().writeShort(var2);
          super.m.writer().writeShort(var3);
-      } catch (Exception var4) {
+      } catch (Exception var5) {
       }
 
       this.sendMessage();
@@ -399,7 +409,7 @@ public final class GlobalService extends IService {
          super.m.writer().writeByte(MapScr.A);
          super.m.writer().writeByte(0);
          super.m.writer().writeShort(var1);
-      } catch (Exception var2) {
+      } catch (Exception var3) {
       }
 
       this.sendMessage();
@@ -457,9 +467,10 @@ public final class GlobalService extends IService {
          super.m.writer().writeByte(var1);
          super.m.writer().writeShort(var2);
          this.sendMessage();
-      } catch (Exception var3) {
-         var3.printStackTrace();
+      } catch (Exception var4) {
+         var4.printStackTrace();
       }
+
    }
 
    public final void doRegisterByEmail(String var1, String var2, String var3) {
@@ -472,8 +483,9 @@ public final class GlobalService extends IService {
          this.writeUTF(var3);
          this.writeByte(0);
          this.sendMessage();
-      } catch (Exception var4) {
-         var4.printStackTrace();
+      } catch (Exception var5) {
+         var5.printStackTrace();
       }
+
    }
 }

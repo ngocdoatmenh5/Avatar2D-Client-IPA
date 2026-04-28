@@ -18,6 +18,6 @@ final class IActionAddFriend4 implements IAction {
 
       ParkService.gI().doAddFriend(this.a.IDDB, true);
       MessageScr.gI().a(var1);
-      Canvas.startOKDlg(T.y + T.cb + this.a.name + ".");
+      Canvas.startOKDlg(T.addFriend + T.with + this.a.name + ".");
    }
 }

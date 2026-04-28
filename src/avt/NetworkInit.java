@@ -37,13 +37,11 @@ final class NetworkInit implements Runnable {
          } catch (InterruptedException var3) {
          }
 
-         if (!Session_ME.l) {
-            if (this.session.messageHandler != null) {
-               this.session.close();
-               this.session.messageHandler.onConnectionFail();
-            }
-
+         if (!Session_ME.l && this.session.messageHandler != null) {
+            this.session.close();
+            this.session.messageHandler.onConnectionFail();
          }
       }
+
    }
 }

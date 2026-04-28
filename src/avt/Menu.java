@@ -61,10 +61,10 @@ public final class Menu extends MenuMain {
 
    public final void initCmd() {
       if (Canvas.stypeInt == 0) {
-         super.left = new Command(T.O, 0);
+         super.left = new Command(T.selectt, 0);
       }
 
-      super.right = new Command(T.d, 1);
+      super.right = new Command(T.close, 1);
    }
 
    public final void startMenuFarm(Vector var1, int var2, int var3, int var4) {
@@ -103,6 +103,7 @@ public final class Menu extends MenuMain {
          h = null;
          Canvas.menuMain = this;
       }
+
    }
 
    private void setSelected() {
@@ -198,6 +199,7 @@ public final class Menu extends MenuMain {
          this.x = this.menuH;
          Canvas.menuMain = this;
       }
+
    }
 
    private void click() {
@@ -211,6 +213,7 @@ public final class Menu extends MenuMain {
       } else {
          Canvas.currentMyScreen.commandActionPointer(var1.indexMenu, var1.subIndex);
       }
+
    }
 
    public final void updateKey() {
@@ -347,9 +350,11 @@ public final class Menu extends MenuMain {
       var1.translate(0, this.xL);
       int var6;
       int var8;
+      Graphics var10;
+      Menu var2;
       if (this.showMenuFarm) {
-         Graphics var3 = var1;
-         Menu var2 = this;
+         var10 = var1;
+         var2 = this;
          Canvas.resetTrans(var1);
          Canvas.paint.drawArea(var1, this.menuX, this.menuY, this.menuW, this.menuH);
          var1.translate(this.menuX + AvMain.hDuBox + 2, this.menuY + AvMain.hDuBox + 2);
@@ -370,12 +375,12 @@ public final class Menu extends MenuMain {
          }
 
          for(var6 = var4; var6 < var5; ++var6) {
-            ((Command)var2.list.elementAt(var6)).paint(var3, var6 * var2.e + var2.e / 2, var2.e / 2);
+            ((Command)var2.list.elementAt(var6)).paint(var10, var6 * var2.e + var2.e / 2, var2.e / 2);
          }
 
          if (var2.selected >= 0 && var2.selected < var2.list.size()) {
             Command var11 = (Command)var2.list.elementAt(var2.selected);
-            var3.setClip(var2.cmy - 50, -100, var2.cmy + Canvas.w + 100, var2.menuH + 200);
+            var10.setClip(var2.cmy - 50, -100, var2.cmy + Canvas.w + 100, var2.menuH + 200);
             int var7 = var2.selected * var2.e + var2.e / 2;
             if (var2.size * var2.e + (AvMain.hDuBox << 1) + 10 > Canvas.w) {
                var8 = Canvas.borderFont.getWidth(var11.caption) / 2;
@@ -386,14 +391,14 @@ public final class Menu extends MenuMain {
                }
             }
 
-            Canvas.borderFont.drawString(var3, var11.caption, var7, -AvMain.hBorder - AvMain.hDuBox - 6 - (AvMain.hd == 2 ? 15 : 0), 2);
+            Canvas.borderFont.drawString(var10, var11.caption, var7, -AvMain.hBorder - AvMain.hDuBox - 6 - (AvMain.hd == 2 ? 15 : 0), 2);
          }
 
-         Canvas.resetTrans(var3);
+         Canvas.resetTrans(var10);
       } else if (this.size != 0) {
          var1.translate(-var1.getTranslateX(), -var1.getTranslateY());
-         Graphics var10 = var1;
-         Menu var9 = this;
+         var10 = var1;
+         var2 = this;
          Canvas.resetTrans(var1);
          if (OnScreen.isOngame) {
             Canvas.paint.drawContainer(var1, this.menuX - 2, this.m - 7, this.menuW + 4, this.menuH + 15);
@@ -406,27 +411,32 @@ public final class Menu extends MenuMain {
          var1.translate(0, -this.cmy);
          var6 = (this.e - AvMain.hNormal) / 2;
 
-         for(var8 = 0; var8 < var9.size; ++var8) {
+         for(var8 = 0; var8 < var2.size; ++var8) {
             var10.setColor(0);
-            if (!var9.isHide_ && var8 == var9.selected) {
+            if (!var2.isHide_ && var8 == var2.selected) {
                if (OnScreen.isOngame) {
                   var10.setColor(35217);
-                  var10.fillRect(0, var8 * var9.e, var9.menuW - 6, var9.e);
+                  var10.fillRect(0, var8 * var2.e, var2.menuW - 6, var2.e);
                } else {
-                  Canvas.paint.drawBorder(var10, 0, var8 * var9.e, var9.menuW - 6, var9.e);
+                  Canvas.paint.drawBorder(var10, 0, var8 * var2.e, var2.menuW - 6, var2.e);
                }
             }
 
             short var12 = 0;
             if (h != null && var8 < h.length && h[var8] != -1 && AvatarData.getImgIcon(h[var8]) != null) {
                var12 = AvatarData.getImgIcon(h[var8]).w;
-               AvatarData.paintImg(var10, h[var8], 3, var8 * var9.e + var6 + 1, 0);
+               AvatarData.paintImg(var10, h[var8], 3, var8 * var2.e + var6 + 1, 0);
             }
 
             if (OnScreen.isOngame) {
-               Canvas.borderFont.drawString(var10, ((Command)var9.list.elementAt(var8)).caption, var12 + 5, var8 * var9.e + var6, 0);
+               Canvas.borderFont.drawString(var10, ((Command)var2.list.elementAt(var8)).caption, var12 + 5, var8 * var2.e + var6, 0);
             } else {
-               Canvas.paint.drawString(var10, ((Command)var9.list.elementAt(var8)).caption, var12 + 5, var8 * var9.e + var6, 0);
+               Canvas.paint.drawString(var10, ((Command)var2.list.elementAt(var8)).caption, var12 + 5, var8 * var2.e + var6, 0);
+            }
+
+            if (var8 == 0 && h != null && h.length > 0 && h[0] != -1 && AvatarData.getImgIcon(h[0]) != null) {
+               int var13 = var12 + 5 + Canvas.normalFont.getWidth(((Command)var2.list.elementAt(var8)).caption) + 1;
+               AvatarData.paintImg(var10, h[0], var13, var8 * var2.e + var6 + 1, 0);
             }
          }
       }

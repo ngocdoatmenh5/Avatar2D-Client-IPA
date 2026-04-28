@@ -13,14 +13,14 @@ final class CommandOpenKhoHang1 extends Command {
    }
 
    public final void paint(Graphics var1, int var2, int var3) {
-      FarmData.getTreeByID((int)this.f.ID).a(var1, 7, var2 + PopupShop.h / 2, var3 + PopupShop.h / 2, 3);
+      FarmData.getTreeByID(this.f.ID).a(var1, 7, var2 + PopupShop.h / 2, var3 + PopupShop.h / 2, 3);
    }
 
    public final void update() {
       if (this.g == PopupShop.focus) {
          PopupShop.resetIsTrans();
          PopupShop.addStr(this.f.name);
-         PopupShop.addStr(T.ay + this.f.number);
+         PopupShop.addStr(T.number + this.f.number);
       }
 
    }

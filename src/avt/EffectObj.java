@@ -30,24 +30,22 @@ public final class EffectObj extends Base {
    }
 
    public final void paint(Graphics var1) {
-      if (Canvas.stypeInt <= 0 || Canvas.currentMyScreen != MainMenu.gI()) {
-         EffectData var2;
-         if ((var2 = AvatarData.getEffect(this.ID)) != null) {
-            if (this.style == 0) {
-               Avatar var3;
-               if ((var3 = LoadMap.getAvatar(this.idPlayer)) == null) {
-                  this.removee();
-                  return;
-               }
-
-               super.x = var3.x + this.dx;
-               super.y = var3.y + this.dy;
+      EffectData var2;
+      if ((Canvas.stypeInt <= 0 || Canvas.currentMyScreen != MainMenu.gI()) && (var2 = AvatarData.getEffect(this.ID)) != null) {
+         if (this.style == 0) {
+            Avatar var3;
+            if ((var3 = LoadMap.getAvatar(this.idPlayer)) == null) {
+               this.removee();
+               return;
             }
 
-            var2.paint(var1, super.x, super.y, this.index);
+            super.x = var3.x + this.dx;
+            super.y = var3.y + this.dy;
          }
 
+         var2.paint(var1, super.x, super.y, this.index);
       }
+
    }
 
    private void removee() {

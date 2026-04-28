@@ -10,14 +10,6 @@ public final class SplashScr extends MyScreen {
    private static int splashScrStat = 20;
    private static Image imgLogoo;
 
-   static {
-      try {
-         imgLogoo = Image.createImage(T.getPath() + "/lg.png");
-      } catch (IOException var1) {
-         var1.printStackTrace();
-      }
-   }
-
    public static SplashScr gI() {
       return me == null ? (me = new SplashScr()) : me;
    }
@@ -96,5 +88,14 @@ public final class SplashScr extends MyScreen {
       }
 
       Canvas.paintPlus(var1);
+   }
+
+   static {
+      try {
+         imgLogoo = Image.createImage(T.getPath() + "/lg.png");
+      } catch (IOException var1) {
+         var1.printStackTrace();
+      }
+
    }
 }

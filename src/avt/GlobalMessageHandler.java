@@ -1,5 +1,6 @@
 package avt;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -20,21 +21,37 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
       return instance;
    }
 
+   @Override
    public final void onConnectionFail() {
       System.out.println("onConnectionFail");
-      Canvas.startOKDlg(T.Y);
+      Canvas.startOKDlg(T.gameDraw);
    }
 
+   @Override
    public final void onDisconnected() {
       System.out.println("onDisconnected");
+      System.out.println("[FISH_AUTO_LOGIN] onDisconnected entry enabled=" + ClientUtilities.fishingAutoLogin + " stageActive=" + ClientUtilities.isFishingReloginActive());
       Canvas.endDlg();
       GameMidlet.CLIENT_TYPE = 8;
-      if (Canvas.currentMyScreen != LoginScr.me) {
-         Canvas.startOK(T.aO, new IExitGame());
-      } else {
-         Canvas.startOKDlg(T.aO);
+      if (ClientUtilities.fishingAutoLogin) {
+         System.out.println("[FISH_AUTO_LOGIN] onDisconnected -> trigger auto relogin flow");
+         ClientUtilities.onFishingAutoDisconnected();
+         Canvas.menuMain = null;
+         HouseScr.me = null;
+         MessageScr.me = null;
+         SoundManager.a.a();
+         if (ChatTextField.gI().left.action != null) {
+            ChatTextField.gI().left.action.perform();
+         }
+         FarmData.init();
+         return;
       }
-
+      if (Canvas.currentMyScreen != LoginScr.me) {
+         Canvas.startOK(T.disConnect, new IExitGame());
+      }
+      else {
+         Canvas.startOKDlg(T.disConnect);
+      }
       Canvas.menuMain = null;
       HouseScr.me = null;
       MessageScr.me = null;
@@ -42,7 +59,6 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
       if (ChatTextField.gI().left.action != null) {
          ChatTextField.gI().left.action.perform();
       }
-
       FarmData.init();
    }
 
@@ -173,12 +189,14 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
             case -101:
                var262 = var1.reader().readByte();
                short var263 = var1.reader().readShort();
+               System.out.println("DEBUG NPC_MENU_LIST(-101): mode=" + var262 + " anthor=" + var263);
                if (var262 == 1) {
                   StringObj var163;
                   (var163 = new StringObj()).anthor = var263;
                   var163.str = var1.reader().readUTF();
                   var163.dis = var1.reader().readShort();
                   var163.type = var1.reader().readByte();
+                  System.out.println("DEBUG NPC_MENU_ITEM(-101): anthor=" + var163.anthor + " text=" + var163.str + " dis=" + var163.dis + " type=" + var163.type);
                   MapScr.listCmdRotate.addElement(var163);
                   if (Canvas.currentMyScreen == PopupShop.gI()) {
                      PopupShop.gI().close();
@@ -199,6 +217,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                      }
 
                      if (((StringObj)MapScr.listCmdRotate.elementAt(var264)).anthor == var263) {
+                        System.out.println("DEBUG NPC_MENU_REMOVE(-101): anthor=" + var263);
                         MapScr.listCmdRotate.removeElementAt(var264);
                         break label823;
                      }
@@ -340,7 +359,39 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   var129.addElement(var131);
                }
 
+               int tilePx = 16 * AvMain.hd;
+               FrameImage fi;
+               if (var125.length > 0) {
+                  Image cityImg = null;
+
+                  try {
+                     cityImg = CRes.createImage(var125);
+                  } catch (Exception var125img) {
+                  }
+
+                  if (cityImg != null) {
+                     fi = new FrameImage(cityImg, tilePx, tilePx);
+                  } else {
+                     FilePack.b(T.aw);
+                     fi = FrameImage.init("ct", tilePx, tilePx);
+                     FilePack.reset();
+                  }
+               } else {
+                  FilePack.b(T.aw);
+                  fi = FrameImage.init("ct", tilePx, tilePx);
+                  FilePack.reset();
+               }
+
+               byte mapCols = 34;
+               if (var126 > 0 && var126 % mapCols != 0) {
+                  mapCols = 1;
+               }
+
                MiniMap.isCityMap = false;
+               LoadMap.idTileImg = -1;
+               MiniMap.gI().setInfo(fi, var127, var129, mapCols, tilePx, new Command(T.selectt, new ISelectMiniMapAction(MapScr.gI())));
+               MiniMap.gI().cmdUpdateKey = new IActionMiniMapKey(MapScr.gI());
+               Canvas.endDlg();
                MiniMap.gI().switchToMe();
                LoadMap.TYPEMAP = -1;
                LoadMap.typeAny = -108;
@@ -625,9 +676,9 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                      case 1:
                         var83.idPart = var1.reader().readShort();
                         if ((var84 = var1.reader().readByte()) == -1) {
-                           var83.expire = "(" + T.cQ + ")";
+                           var83.expire = "(" + T.forever + ")";
                         } else {
-                           var83.expire = "(" + var84 + " " + T.cM + ")";
+                           var83.expire = "(" + var84 + " " + T.day + ")";
                         }
                         break;
                      case 2:
@@ -858,9 +909,20 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   Canvas.addFlyTextSmall(var3 + "xeng", GameMidlet.avatar.x, GameMidlet.avatar.y, -1, 0, -1);
                }
 
-               var5 = var1.reader().readInt();
-               var7 = var1.reader().readInt();
-               var8 = var1.reader().readInt();
+               if (var1.reader().available() < 12) {
+                  System.out.println("[WARN] cmd -33 payload too short: " + var1.reader().available() + " bytes");
+                  return;
+               }
+
+               try {
+                  var5 = var1.reader().readInt();
+                  var7 = var1.reader().readInt();
+                  var8 = var1.reader().readInt();
+               } catch (EOFException var214) {
+                  System.out.println("[WARN] cmd -33 parse money failed (EOF)");
+                  return;
+               }
+
                GameMidlet.avatar.updateMoney(var5, var7, var8);
                return;
             case -25:
@@ -1019,7 +1081,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                   var8 = var1.reader().readInt();
                   Avatar var9;
                   (var9 = new Avatar()).setExp(var3);
-                  Canvas.startOKDlg(T.aA + var204 + ". " + T.ao + var2 + "$. Level: " + var9.lvMain + "+" + var9.perLvFarm + "%. " + T.aP + ": " + var4 + ". " + T.aQ + ": " + var5 + ". " + T.aR + ": " + var7 + ". " + T.aS + ": " + var8);
+                  Canvas.startOKDlg(T.nameStr + var204 + ". " + T.moneyStr + var2 + "$. Level: " + var9.lvMain + "+" + var9.perLvFarm + "%. " + T.win + ": " + var4 + ". " + T.lose  + ": " + var5 + ". " + T.draw  + ": " + var7 + ". " + T.give + ": " + var8);
                }
 
                return;
@@ -1094,6 +1156,28 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
       }
 
       if (this.miniGameMessageHandler != null) {
+         if (var1.command == 55 && this.miniGameMessageHandler == FarmMsgHandler.instance) {
+            try {
+               int len = var1.reader().available();
+               byte[] data = new byte[len];
+               var1.reader().read(data);
+               int count = 0;
+               if (data.length >= 2) {
+                  count = (data[0] & 255) << 8 | data[1] & 255;
+               }
+
+               if (count > 0 && data.length >= 2 + count * 8) {
+                  FarmData.saveImageData(data);
+               } else {
+                  readChat(new Message((byte)55, data));
+               }
+            } catch (Exception var300) {
+               var300.printStackTrace();
+            }
+
+            return;
+         }
+
          this.miniGameMessageHandler.onMessage(var1);
       } else {
          try {
@@ -1165,7 +1249,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
 
                   GameMidlet.avatar.lvMain = GameMidlet.myIndexP.g = var1.reader().readShort();
                   if (Canvas.W == 1 || Canvas.W == 2) {
-                     T.nameCasino = T.el;
+                     T.constructing = T.roomList;
                   }
 
                   GameMidlet.avatar.idWedding = var1.reader().readShort();

@@ -12,7 +12,6 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
-
 import main.Canvas;
 import main.GameMidlet;
 
@@ -56,7 +55,7 @@ public final class AvatarData {
    }
 
    public static void checkDataAvatar(Vector var0, int var1, int var2, int var3, int var4, int var5) {
-      CRes.a("avatar", "2.5.8");
+      CRes.a("avatar", GameMidlet.APP_VERSION);
 
       try {
          playing = 0;
@@ -71,9 +70,9 @@ public final class AvatarData {
             verItem = var12.readInt();
          }
 
+         int var13;
          int var7;
          BigImgInfo var8;
-         int var13;
          if (!loadImgBig()) {
             bigImgInfo = var0;
             var13 = var0.size();
@@ -88,7 +87,7 @@ public final class AvatarData {
 
             for(var7 = 0; var7 < var13; ++var7) {
                BigImgInfo var9;
-               if ((var9 = getBigImgInfoList((int)(var8 = (BigImgInfo)var0.elementAt(var7)).id)) == null) {
+               if ((var9 = getBigImgInfoList((var8 = (BigImgInfo)var0.elementAt(var7)).id)) == null) {
                   bigImgInfo.addElement(var8);
                   AvatarService.gI().getBigImage(var8.id);
                   ++playing;
@@ -183,9 +182,10 @@ public final class AvatarData {
          }
 
          setPlaying();
-      } catch (Exception var10) {
-         var10.printStackTrace();
+      } catch (Exception var11) {
+         var11.printStackTrace();
       }
+
    }
 
    public static void saveItemData(BigImgInfo var0) {
@@ -194,7 +194,7 @@ public final class AvatarData {
 
       for(int var2 = 0; var2 < var1; ++var2) {
          BigImgInfo var3;
-         if ((var3 = (BigImgInfo) bigImgInfo.elementAt(var2)).id == var0.id) {
+         if ((var3 = (BigImgInfo)bigImgInfo.elementAt(var2)).id == var0.id) {
             var3.data = var0.data;
             var3.ver = var0.ver;
             var3.follow = var0.follow;
@@ -213,7 +213,7 @@ public final class AvatarData {
          var1.writeShort(bigImgInfo.size());
 
          for(int var2 = 0; var2 < bigImgInfo.size(); ++var2) {
-            BigImgInfo var3 = (BigImgInfo) bigImgInfo.elementAt(var2);
+            BigImgInfo var3 = (BigImgInfo)bigImgInfo.elementAt(var2);
             var1.writeShort(var3.id);
             var1.writeShort(var3.follow);
             var1.writeInt(var3.data.length);
@@ -226,6 +226,7 @@ public final class AvatarData {
          CRes.a("partImageNormal", l);
       } catch (Exception var4) {
       }
+
    }
 
    private static boolean loadImgBig() {
@@ -253,7 +254,7 @@ public final class AvatarData {
             }
 
             var0.close();
-         } catch (Exception var5) {
+         } catch (Exception var9) {
             delErrorRms("avatarImgBig");
          }
 
@@ -431,8 +432,8 @@ public final class AvatarData {
          var5.bigID = var7.readShort();
          var5.x0 = (short)var7.readUnsignedByte();
          var5.y0 = (short)var7.readUnsignedByte();
-         var5.w = var7.readByte();
-         var5.h = var7.readByte();
+         var5.w = (short)var7.readByte();
+         var5.h = (short)var7.readByte();
          var2.addElement(var5);
       }
 
@@ -472,8 +473,8 @@ public final class AvatarData {
          var9.readUTF();
          var4.imgID = var9.readShort();
          var4.iconID = var9.readShort();
-         var4.dx = var9.readByte();
-         var4.dy = var9.readByte();
+         var4.dx = (short)var9.readByte();
+         var4.dy = (short)var9.readByte();
          var4.priceXu = var9.readShort();
          if (var4.priceXu == 32767) {
             var4.priceXu = -1;
@@ -549,7 +550,7 @@ public final class AvatarData {
             var1.writeInt(verItem);
             CRes.saveRMS("avatarVs", var0.toByteArray());
             var1.close();
-         } catch (Exception var4) {
+         } catch (Exception var6) {
          }
 
          readImageData();
@@ -558,8 +559,8 @@ public final class AvatarData {
          BigImgInfo var2;
          int var6;
          for(var6 = 0; var6 < var5; ++var6) {
-            if ((var2 = (BigImgInfo) bigImgInfo.elementAt(var6)).follow != -1) {
-               byte[] var3 = getBigImgInfoList((int)var2.follow).data;
+            if ((var2 = (BigImgInfo)bigImgInfo.elementAt(var6)).follow != -1) {
+               byte[] var3 = getBigImgInfoList(var2.follow).data;
                System.arraycopy(var2.data, 0, var3, 0, var2.data.length);
                var2.data = var3;
             }
@@ -572,12 +573,12 @@ public final class AvatarData {
          }
 
          for(var6 = 0; var6 < bigImgInfo.size(); ++var6) {
-            (var2 = (BigImgInfo) bigImgInfo.elementAt(var6)).data = null;
+            (var2 = (BigImgInfo)bigImgInfo.elementAt(var6)).data = null;
             listBigImg.put("" + var2.id, var2);
          }
 
          for(var6 = 0; var6 < bigImgInfo.size(); ++var6) {
-            var2 = (BigImgInfo) bigImgInfo.elementAt(var6);
+            var2 = (BigImgInfo)bigImgInfo.elementAt(var6);
             if (listBigImgBB != null) {
                setBigImgBB(var2);
             }
@@ -586,8 +587,9 @@ public final class AvatarData {
          bigImgInfo.removeAllElements();
          bigImgInfo = null;
          GameMidlet.avatar.orderSeriesPath();
-         MapScr.gI().joinCitymap();
+         ClientUtilities.requestChangeZone();
       }
+
    }
 
    private static void setBigImgBB(BigImgInfo var0) {
@@ -605,16 +607,16 @@ public final class AvatarData {
 
       for(var3 = 0; var3 < listPart.length; ++var3) {
          if (listPart[var3] != null && listPart[var3].follow >= 0 && listPart[var3].IDPart < 2000) {
-            APartInfo var4 = (APartInfo) getPart(listPart[var3].follow);
+            APartInfo var4 = (APartInfo)getPart(listPart[var3].follow);
 
             for(int var5 = 0; var5 < var4.imgID.length; ++var5) {
                ImageInfo var6 = listImgInfo[var4.imgID[var5]];
-               if (((PartFollow) listPart[var3]).color == var0.id) {
+               if (((PartFollow)listPart[var3]).color == var0.id) {
                   int var10002 = var6.x0 * AvMain.hd;
                   int var10003 = var6.y0 * AvMain.hd;
                   int var10004 = var6.w * AvMain.hd;
                   int var10005 = var6.h * AvMain.hd;
-                  var2.drawRegion(getBigImgInfo((int)var0.id).img, var10002, var10003, var10004, var10005, Base.LEFT, var6.x0, var6.y0, 0);
+                  var2.drawRegion(getBigImgInfo(var0.id).img, var10002, var10003, var10004, var10005, Base.LEFT, var6.x0, var6.y0, 0);
                }
             }
          }
@@ -631,16 +633,18 @@ public final class AvatarData {
 
    public static void a(Graphics var0, int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9) {
       int var10002;
-      if (var8 != 0 && (Canvas.E || Canvas.F)) {
-         var10002 = var2 * AvMain.hd;
-         var0.drawRegion(((BigImgInfo) listBigImgBB.get("" + var1)).img, var10002, var3 * AvMain.hd, var4 * AvMain.hd, var5 * AvMain.hd, 0, var6, var7, 0);
-      } else {
+      if (var8 == 0 || !Canvas.E && !Canvas.F) {
          var10002 = var2 * AvMain.hd;
          int var10003 = var3 * AvMain.hd;
          int var10004 = var4 * AvMain.hd;
          int var10005 = var5 * AvMain.hd;
          var0.drawRegion(getBigImgInfo(var1).img, var10002, var10003, var10004, var10005, var8, var6, var7, 0);
+      } else {
+         var10002 = var2 * AvMain.hd;
+         int var10003 = var3 * AvMain.hd;
+         var0.drawRegion(((BigImgInfo)listBigImgBB.get("" + var1)).img, var10002, var10003, var4 * AvMain.hd, var5 * AvMain.hd, 0, var6, var7, 0);
       }
+
    }
 
    public static DataInputStream loadRMS(String var0) {
@@ -662,9 +666,10 @@ public final class AvatarData {
          var1.writeUTF(GameMidlet.g);
          CRes.saveRMS("avatarSV", var0.toByteArray());
          var1.close();
-      } catch (Exception var2) {
-         var2.printStackTrace();
+      } catch (Exception var3) {
+         var3.printStackTrace();
       }
+
    }
 
    public static void d() {
@@ -674,10 +679,11 @@ public final class AvatarData {
             GameMidlet.PROVIDER = var0.readByte();
             GameMidlet.g = var0.readUTF();
             var0.close();
-         } catch (Exception var1) {
-            var1.printStackTrace();
+         } catch (Exception var2) {
+            var2.printStackTrace();
          }
       }
+
    }
 
    public static void e() {
@@ -704,6 +710,7 @@ public final class AvatarData {
       } catch (Exception var4) {
          var4.printStackTrace();
       }
+
    }
 
    public static void f() {
@@ -741,6 +748,7 @@ public final class AvatarData {
             delErrorRms("avatarSV");
          }
       }
+
    }
 
    private static BigImgInfo getBigImgInfoList(int var0) {
@@ -748,7 +756,7 @@ public final class AvatarData {
 
       for(int var2 = 0; var2 < var1; ++var2) {
          BigImgInfo var3;
-         if ((var3 = (BigImgInfo) bigImgInfo.elementAt(var2)).id == var0) {
+         if ((var3 = (BigImgInfo)bigImgInfo.elementAt(var2)).id == var0) {
             return var3;
          }
       }
@@ -757,15 +765,15 @@ public final class AvatarData {
    }
 
    public static BigImgInfo getBigImgInfo(int var0) {
-      return (BigImgInfo) listBigImg.get("" + var0);
+      return (BigImgInfo)listBigImg.get("" + var0);
    }
 
    public static MapItemType getMapItemTypeByID(int var0) {
       int var1 = listMapItemType.size();
 
       for(int var2 = 0; var2 < var1; ++var2) {
-         if (((MapItemType) listMapItemType.elementAt(var2)).idType == var0) {
-            return (MapItemType) listMapItemType.elementAt(var2);
+         if (((MapItemType)listMapItemType.elementAt(var2)).idType == var0) {
+            return (MapItemType)listMapItemType.elementAt(var2);
          }
       }
 
@@ -823,8 +831,8 @@ public final class AvatarData {
    public static Part getPart(short var0) {
       if (var0 >= 2000) {
          Object var1;
-         if ((var1 = (Part) listPartDynamic.get("" + var0)) == null) {
-            ((Part)(var1 = new APartInfo())).IDPart = -1;
+         if ((var1 = (Part)listPartDynamic.get("" + var0)) == null) {
+            ((Part)((Part)(var1 = new APartInfo()))).IDPart = -1;
             listPartDynamic.put("" + var0, var1);
             GlobalService.gI().requestPartDynaMic(var0);
          }
@@ -848,7 +856,7 @@ public final class AvatarData {
 
    public static ImageIcon getImagePart(short var0) {
       ImageIcon var1;
-      if ((var1 = (ImageIcon) listImgPart.get("" + var0)) == null) {
+      if ((var1 = (ImageIcon)listImgPart.get("" + var0)) == null) {
          var1 = new ImageIcon();
          listImgPart.put("" + var0, var1);
          GlobalService.gI().requestImagePart(var0);
@@ -861,7 +869,7 @@ public final class AvatarData {
 
    public static ImageIcon getImgIcon(short var0) {
       ImageIcon var1;
-      if ((var1 = (ImageIcon) listImgIcon.get("" + var0)) == null) {
+      if ((var1 = (ImageIcon)listImgIcon.get("" + var0)) == null) {
          var1 = new ImageIcon();
          listImgIcon.put("" + var0, var1);
          AvatarService.gI().doGetImgIcon(var0);
@@ -881,7 +889,7 @@ public final class AvatarData {
 
          while(var0.hasMoreElements()) {
             var1 = (String)var0.nextElement();
-            if ((var2 = (ImageIcon) listImgIcon.get(var1)).count != -1 && System.currentTimeMillis() / 1000L - (long)var2.count > (long) Canvas.V) {
+            if ((var2 = (ImageIcon)listImgIcon.get(var1)).count != -1 && System.currentTimeMillis() / 1000L - (long)var2.count > (long)Canvas.V) {
                listImgIcon.remove(var1);
             }
          }
@@ -892,7 +900,7 @@ public final class AvatarData {
 
          while(var0.hasMoreElements()) {
             var1 = (String)var0.nextElement();
-            if ((var2 = (ImageIcon) listImgPart.get(var1)).count != -1 && System.currentTimeMillis() / 1000L - (long)var2.count > (long) Canvas.V) {
+            if ((var2 = (ImageIcon)listImgPart.get(var1)).count != -1 && System.currentTimeMillis() / 1000L - (long)var2.count > (long)Canvas.V) {
                listImgPart.remove(var1);
             }
          }
@@ -903,7 +911,7 @@ public final class AvatarData {
    public static int getLevel(Part var0) {
       byte var1;
       if (var0.follow >= 0) {
-         var1 = ((APartInfo) getPart(var0.follow)).level;
+         var1 = ((APartInfo)getPart(var0.follow)).level;
       } else {
          var1 = ((APartInfo)var0).level;
       }
@@ -914,7 +922,7 @@ public final class AvatarData {
    public static EffectData getEffect(short var0) {
       for(int var1 = 0; var1 < effectList.size(); ++var1) {
          EffectData var2;
-         if ((var2 = (EffectData) effectList.elementAt(var1)).ID == var0) {
+         if ((var2 = (EffectData)effectList.elementAt(var1)).ID == var0) {
             return var2;
          }
       }
@@ -924,8 +932,9 @@ public final class AvatarData {
 
    public static void delErrorRms(String var0) {
       try {
-         RecordStore.deleteRecordStore("2.5.8" + var0);
-      } catch (Exception var1) {
+         RecordStore.deleteRecordStore(GameMidlet.APP_VERSION + var0);
+      } catch (Exception var2) {
       }
+
    }
 }

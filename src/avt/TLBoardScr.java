@@ -1,10 +1,9 @@
 package avt;
 
+import java.util.Vector;
+import javax.microedition.lcdui.Graphics;
 import main.Canvas;
 import main.GameMidlet;
-
-import javax.microedition.lcdui.Graphics;
-import java.util.Vector;
 
 public final class TLBoardScr extends BoardScr {
    public static TLBoardScr instance;
@@ -28,10 +27,6 @@ public final class TLBoardScr extends BoardScr {
    private int V = 0;
    private boolean forceMove3Bich = false;
    public boolean isFirstMatch = true;
-
-   static {
-      CRes.random.setSeed(System.currentTimeMillis());
-   }
 
    public static TLBoardScr gI() {
       return instance == null ? (instance = new TLBoardScr()) : instance;
@@ -73,7 +68,7 @@ public final class TLBoardScr extends BoardScr {
             this.selectedCard_ = -1;
             break;
          case 21:
-            Canvas.startOKDlg(avt.T.Q, 70);
+            Canvas.startOKDlg(avt.T.doYouWantSkip, 70);
             break;
          case 70:
             super.currentPlayer = -1;
@@ -86,8 +81,8 @@ public final class TLBoardScr extends BoardScr {
    }
 
    public TLBoardScr() {
-      this.M = new Command(avt.T.F, 20);
-      this.L = new Command(avt.T.B, 21);
+      this.M = new Command(avt.T.sapBaiXong, 20);
+      this.L = new Command(avt.T.skip, 21);
       this.initYShow();
    }
 
@@ -126,11 +121,11 @@ public final class TLBoardScr extends BoardScr {
    }
 
    private void doSelect() {
-      ((Card) this.cards.elementAt(super.selectedCard)).f = !((Card) this.cards.elementAt(super.selectedCard)).f;
+      ((Card)this.cards.elementAt(super.selectedCard)).f = !((Card)this.cards.elementAt(super.selectedCard)).f;
       this.selectedCards = this.getSelectedCardsValue();
       this.selectedCardsType = CardUtils.getType(this.selectedCards);
       if (this.selectedCardsType != -1) {
-         BoardScr.addInfo(avt.T.eE[this.selectedCardsType], 10, -1);
+         BoardScr.addInfo(avt.T.cardTypeName[this.selectedCardsType], 10, -1);
       }
 
       this.setPosCard(false);
@@ -138,17 +133,18 @@ public final class TLBoardScr extends BoardScr {
 
    protected final void doFire() {
       super.doFire();
+      boolean var10000;
       if (this.forceMove3Bich) {
-         boolean var1 = false;
+         var10000 = false;
 
-         for (int var2 = 0; var2 < this.selectedCards.length; ++var2) {
+         for(int var2 = 0; var2 < this.selectedCards.length; ++var2) {
             if (this.selectedCards[var2] == 0) {
-               var1 = true;
+               var10000 = true;
             }
          }
 
-         if (!var1) {
-            BoardScr.showChat(GameMidlet.avatar.IDDB, avt.T.R);
+         if (!var10000) {
+            BoardScr.showChat(GameMidlet.avatar.IDDB, avt.T.youMustFire3Bich);
             return;
          }
 
@@ -156,8 +152,7 @@ public final class TLBoardScr extends BoardScr {
       }
 
       if (this.currentCards != null && this.currentCards.size() != 0) {
-         boolean var10000;
-         label129: {
+         label133: {
             byte var4 = this.currentCardsType;
             byte[] var3 = this.currentCardsValue;
             byte var6 = this.selectedCardsType;
@@ -166,12 +161,12 @@ public final class TLBoardScr extends BoardScr {
                case -1:
                   if (var6 != -1) {
                      var10000 = true;
-                     break label129;
+                     break label133;
                   }
                case 0:
                   if (var6 == 0 && var5[0] > var3[0]) {
                      var10000 = true;
-                     break label129;
+                     break label133;
                   }
 
                   if (var3[0] / 4 != 12 || var6 != 4 && var6 != 5 && var6 != 6) {
@@ -179,47 +174,46 @@ public final class TLBoardScr extends BoardScr {
                   }
 
                   var10000 = true;
-                  break label129;
+                  break label133;
                case 1:
                   if (var6 == 1 && var5.length == var3.length && var5[var5.length - 1] > var3[var3.length - 1]) {
                      var10000 = true;
-                     break label129;
+                     break label133;
                   }
                   break;
                case 2:
                   if (var6 == 2 && var5[1] > var3[1]) {
                      var10000 = true;
-                     break label129;
+                     break label133;
                   }
 
-                  if (var3[0] / 4 != 12 || var6 != 6 && var6 != 5) {
-                     break;
+                  if (var3[0] / 4 == 12 && (var6 == 6 || var6 == 5)) {
+                     var10000 = true;
+                     break label133;
                   }
-
-                  var10000 = true;
-                  break label129;
+                  break;
                case 3:
                   if (var6 == 3 && var5[2] > var3[2]) {
                      var10000 = true;
-                     break label129;
+                     break label133;
                   }
                   break;
                case 4:
                   if (var6 == 4 && var5[5] > var3[5] || var6 == 6 || var6 == 5) {
                      var10000 = true;
-                     break label129;
+                     break label133;
                   }
                   break;
                case 5:
                   if (var6 == 5 && var5[7] > var3[7]) {
                      var10000 = true;
-                     break label129;
+                     break label133;
                   }
                   break;
                case 6:
                   if (var6 == 6 && var5[3] > var3[3] || var6 == 5) {
                      var10000 = true;
-                     break label129;
+                     break label133;
                   }
             }
 
@@ -227,7 +221,7 @@ public final class TLBoardScr extends BoardScr {
          }
 
          if (!var10000) {
-            BoardScr.showChat(GameMidlet.avatar.IDDB, avt.T.S);
+            BoardScr.showChat(GameMidlet.avatar.IDDB, avt.T.notSameOrSmaller);
             return;
          }
       }
@@ -238,7 +232,7 @@ public final class TLBoardScr extends BoardScr {
    }
 
    private void setUpDown(boolean var1) {
-      ((Card) this.cards.elementAt(super.selectedCard)).f = var1;
+      ((Card)this.cards.elementAt(super.selectedCard)).f = var1;
       this.selectedCards = this.getSelectedCardsValue();
       this.selectedCardsType = CardUtils.getType(this.selectedCards);
       this.setPosCard(false);
@@ -257,7 +251,7 @@ public final class TLBoardScr extends BoardScr {
          }
       } else {
          if (this.selectedCard_ > 0 || this.selectedCard_ < this.cards.size() - 1) {
-            Card var2 = (Card) this.cards.elementAt(this.selectedCard_ + var1);
+            Card var2 = (Card)this.cards.elementAt(this.selectedCard_ + var1);
             this.cards.setElementAt(this.cards.elementAt(this.selectedCard_), this.selectedCard_ + var1);
             this.cards.setElementAt(var2, this.selectedCard_);
             this.selectedCard_ += var1;
@@ -330,7 +324,7 @@ public final class TLBoardScr extends BoardScr {
                   this.U = false;
                   this.selectedCard_ = -1;
                   if (CRes.abs(var1) <= 10 && CRes.abs(var2) <= 10) {
-                     this.setUpDown(!((Card) this.cards.elementAt(super.selectedCard)).f);
+                     this.setUpDown(!((Card)this.cards.elementAt(super.selectedCard)).f);
                   }
                }
             }
@@ -354,7 +348,7 @@ public final class TLBoardScr extends BoardScr {
          }
 
          if (Canvas.a(8)) {
-            if (((Card) this.cards.elementAt(super.selectedCard)).f) {
+            if (((Card)this.cards.elementAt(super.selectedCard)).f) {
                this.doSelect();
                this.setPosCard(true);
                return;
@@ -372,7 +366,7 @@ public final class TLBoardScr extends BoardScr {
       Card var2;
       int var3;
       if (BoardScr.isStartGame && this.cards != null && this.cards.size() > 0) {
-         for (int var1 = this.cards.size() - 1; var1 >= 0 && (var3 = (var2 = (Card) this.cards.elementAt(var1)).translate()) != 1; --var1) {
+         for(int var1 = this.cards.size() - 1; var1 >= 0 && (var3 = (var2 = (Card)this.cards.elementAt(var1)).translate()) != 1; --var1) {
             if (var3 == -1) {
                var2.isShow = false;
             }
@@ -397,7 +391,6 @@ public final class TLBoardScr extends BoardScr {
          if (Canvas.stypeInt == 0) {
             super.center = this.M;
          }
-
       } else {
          if (BoardScr.isGameEnd) {
             super.left = null;
@@ -421,9 +414,9 @@ public final class TLBoardScr extends BoardScr {
 
          TLBoardScr var4 = this;
          if (this.currentCards != null && this.N) {
-            for (int var5 = 0; var5 < var4.currentCards.size(); ++var5) {
+            for(int var5 = 0; var5 < var4.currentCards.size(); ++var5) {
                Card var6;
-               if ((var6 = (Card) var4.currentCards.elementAt(var5)) != null) {
+               if ((var6 = (Card)var4.currentCards.elementAt(var5)) != null) {
                   var3 = var6.translate();
                   if (var5 == var4.currentCards.size() - 1 && var3 == 0) {
                      var4.N = false;
@@ -431,8 +424,8 @@ public final class TLBoardScr extends BoardScr {
                }
             }
          }
-
       }
+
    }
 
    private void setPosCard(boolean var1) {
@@ -466,7 +459,7 @@ public final class TLBoardScr extends BoardScr {
       int var3 = this.R;
 
       for(int var4 = 0; var4 < var2; ++var4) {
-         Card var5 = (Card) this.cards.elementAt(var4);
+         Card var5 = (Card)this.cards.elementAt(var4);
          int var6 = 0;
          if (var5.f) {
             var6 = -8 * (Canvas.stypeInt + 1);
@@ -512,19 +505,22 @@ public final class TLBoardScr extends BoardScr {
    public final void paintMain(Graphics var1) {
       super.paintMain(var1);
       this.paintNamePlayers(var1);
+      Graphics var3;
+      TLBoardScr var2;
+      int var11;
       if ((BoardScr.isStartGame || BoardScr.disableReady) && this.currentCards != null && this.currentCards.size() != 0) {
-         Graphics var5 = var1;
-         TLBoardScr var4 = this;
-         int var6 = this.currentCards.size();
+         var3 = var1;
+         var2 = this;
+         var11 = this.currentCards.size();
 
-         for(int var7 = 0; var7 < var6; ++var7) {
-            Card var8 = (Card) var4.currentCards.elementAt(var7);
+         for(int var7 = 0; var7 < var11; ++var7) {
+            Card var8 = (Card)var2.currentCards.elementAt(var7);
             if (Canvas.w < 150) {
-               var8.paintSmall(var5, false);
-            } else if (var7 == var6 - 1) {
-               var8.paintFull(var5);
+               var8.paintSmall(var3, false);
+            } else if (var7 == var11 - 1) {
+               var8.paintFull(var3);
             } else {
-               var8.paintHalf(var5);
+               var8.paintHalf(var3);
             }
          }
 
@@ -534,10 +530,10 @@ public final class TLBoardScr extends BoardScr {
       }
 
       if (BoardScr.isStartGame || BoardScr.disableReady) {
-         Graphics var3 = var1;
-         TLBoardScr var2 = this;
+         var3 = var1;
+         var2 = this;
 
-         for(int var11 = 0; var11 < 4; ++var11) {
+         for(var11 = 0; var11 < 4; ++var11) {
             Avatar var12;
             if ((var12 = (Avatar)BoardScr.avatarInfos.elementAt(var11)).IDDB != -1) {
                byte var13 = 0;
@@ -597,22 +593,24 @@ public final class TLBoardScr extends BoardScr {
          int var4 = 0;
 
          for(int var5 = 0; var5 < var2; ++var5) {
-            Card var6 = (Card) this.cards.elementAt(var5);
+            Card var6 = (Card)this.cards.elementAt(var5);
             Card var7;
             (var7 = new Card((byte)-1, false)).x = var6.x;
             var7.y = var6.y;
             if (!var6.isShow) {
-               var7 = (Card) this.cards.elementAt(var5);
+               var7 = (Card)this.cards.elementAt(var5);
             }
 
             if (Canvas.w < 150) {
                var7.paintSmall(var1, false);
-            } else if (var5 == var2 - 1 || var5 == this.selectedCard_ || var6.f || var5 == this.selectedCard_ - 1 || var7 != null && var7.f) {
-               var7.paintFull(var1);
-            } else if (super.disCard <= 14 && var7.x == var7.xTo && var7.y == var7.yTo) {
-               var7.paintHalf(var1);
+            } else if (var5 != var2 - 1 && var5 != this.selectedCard_ && !var6.f && var5 != this.selectedCard_ - 1 && (var7 == null || !var7.f)) {
+               if (super.disCard <= 14 && var7.x == var7.xTo && var7.y == var7.yTo) {
+                  var7.paintHalf(var1);
+               } else {
+                  var7.paintHalfBackFull(var1);
+               }
             } else {
-               var7.paintHalfBackFull(var1);
+               var7.paintFull(var1);
             }
 
             if (var5 == super.selectedCard) {
@@ -646,7 +644,7 @@ public final class TLBoardScr extends BoardScr {
 
          for(int var6 = 0; var6 < var2; ++var6) {
             Card var7;
-            (var7 = (Card) this.cardShows.elementAt(var6)).x = var4;
+            (var7 = (Card)this.cardShows.elementAt(var6)).x = var4;
             var7.y = var5;
             var4 += var3 * AvMain.hd;
             if (Canvas.w < 150) {
@@ -657,8 +655,8 @@ public final class TLBoardScr extends BoardScr {
                var7.paintHalf(var1);
             }
          }
-
       }
+
    }
 
    public final void start(int var1, byte var2, Vector var3) {
@@ -685,9 +683,9 @@ public final class TLBoardScr extends BoardScr {
       this.cards = var3;
       sort(var3);
 
-      for (var4 = 0; var4 < this.cards.size(); ++var4) {
+      for(var4 = 0; var4 < this.cards.size(); ++var4) {
          Card var5;
-         (var5 = (Card) this.cards.elementAt(var4)).x = Canvas.hw;
+         (var5 = (Card)this.cards.elementAt(var4)).x = Canvas.hw;
          var5.y = (Canvas.h + Canvas.hTab) / 2;
          var5.isShow = true;
       }
@@ -703,7 +701,7 @@ public final class TLBoardScr extends BoardScr {
       }
 
       Avatar var7 = BoardScr.getAvatarByID(var1);
-      BoardScr.addInfo(var7.name + avt.T.U, 20, var7.IDDB);
+      BoardScr.addInfo(var7.name + avt.T.firstFire, 20, var7.IDDB);
       this.currentCardsType = -1;
       this.currentCardsValue = new byte[0];
       super.selectedCard = 2;
@@ -737,7 +735,7 @@ public final class TLBoardScr extends BoardScr {
                var6 = this.cards.size() - 1;
 
                for(; var6 >= 0; --var6) {
-                  Card var9 = (Card) var15.cards.elementAt(var6);
+                  Card var9 = (Card)var15.cards.elementAt(var6);
 
                   for(var10 = 0; var10 < var5.length; ++var10) {
                      if (var9.cardID == var5[var10]) {
@@ -811,9 +809,9 @@ public final class TLBoardScr extends BoardScr {
       String var4;
       Avatar var5;
       if ((var5 = BoardScr.getAvatarByID(var1)).name.equals("")) {
-         var4 = avt.T.u;
+         var4 = avt.T.exitBoard;
       } else {
-         var4 = avt.T.B;
+         var4 = avt.T.skip;
       }
 
       BoardScr.addInfo(var4, 60, var5.IDDB);
@@ -867,7 +865,7 @@ public final class TLBoardScr extends BoardScr {
          }
       }
 
-      BoardScr.showChat(var0, avt.T.W + (var1 + 1));
+      BoardScr.showChat(var0, avt.T.goad + (var1 + 1));
    }
 
    public static void stopGame() {
@@ -885,8 +883,8 @@ public final class TLBoardScr extends BoardScr {
    }
 
    private void removeCards(byte[] var1) {
-      for (int var2 = this.cards.size() - 1; var2 >= 0; --var2) {
-         Card var3 = (Card) this.cards.elementAt(var2);
+      for(int var2 = this.cards.size() - 1; var2 >= 0; --var2) {
+         Card var3 = (Card)this.cards.elementAt(var2);
 
          for(int var4 = 0; var4 < var1.length; ++var4) {
             if (var3.cardID == var1[var4]) {
@@ -904,7 +902,7 @@ public final class TLBoardScr extends BoardScr {
       int var3;
       for(var3 = 0; var3 < var2; ++var3) {
          Card var4;
-         if ((var4 = (Card) this.cards.elementAt(var3)).f) {
+         if ((var4 = (Card)this.cards.elementAt(var3)).f) {
             var1.addElement(var4);
          }
       }
@@ -917,5 +915,9 @@ public final class TLBoardScr extends BoardScr {
 
       CardUtils.sort(var5);
       return var5;
+   }
+
+   static {
+      CRes.random.setSeed(System.currentTimeMillis());
    }
 }

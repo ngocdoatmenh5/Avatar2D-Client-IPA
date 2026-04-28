@@ -22,5 +22,6 @@ final class IActionOkReg implements IAction {
       } else {
          Canvas.startOKDlg("Bạn chưa nhập mật khẩu");
       }
+
    }
 }

@@ -16,16 +16,6 @@ public final class ChatPopup {
    private static Image[] imgArrow = new Image[2];
    private byte iNPC = 0;
 
-   static {
-      FilePack.b(T.aw);
-      hText = 8;
-      imgPopup[0] = FrameImage.init("c", hText, hText);
-      imgPopup[1] = FrameImage.init("cB", hText, hText);
-      imgArrow[0] = FilePack.getImage("ar");
-      imgArrow[1] = FilePack.getImage("ara");
-      FilePack.reset();
-   }
-
    public ChatPopup() {
    }
 
@@ -114,5 +104,15 @@ public final class ChatPopup {
       var0.fillRect(var1 + hText, var2 + var4 - 1, var3 - (hText << 1), 1);
       var0.fillRect(var1, var2 + hText, 1, var4 - (hText << 1));
       var0.fillRect(var1 + var3 - 1, var2 + hText, 1, var4 - (hText << 1));
+   }
+
+   static {
+      FilePack.b(T.aw);
+      hText = 8;
+      imgPopup[0] = FrameImage.init("c", hText, hText);
+      imgPopup[1] = FrameImage.init("cB", hText, hText);
+      imgArrow[0] = FilePack.getImage("ar");
+      imgArrow[1] = FilePack.getImage("ara");
+      FilePack.reset();
    }
 }

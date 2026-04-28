@@ -130,7 +130,7 @@ public final class OnScreen extends MyScreen {
                case 3:
                   var1 = this.e;
                   Canvas.startWaitDlg();
-                  GlobalService.gI().getHandler((int)3);
+                  GlobalService.gI().getHandler(3);
                   MapScr.typeCasino = (byte)var1;
                   return;
                case 4:
@@ -157,11 +157,11 @@ public final class OnScreen extends MyScreen {
    }
 
    public OnScreen() {
-      this.d = new Command(T.O, 0);
-      super.right = new Command(T.x, 1);
+      this.d = new Command(T.selectt, 0);
+      super.right = new Command(T.exit, 1);
       super.left = new Command("Top", 2);
       if (Canvas.stypeInt == 0) {
-         super.center = new Command(T.O, 3);
+         super.center = new Command(T.selectt, 3);
       }
 
    }
@@ -247,7 +247,7 @@ public final class OnScreen extends MyScreen {
 
       int var1;
       if (Canvas.isPointerClick) {
-         for(var1 = 0; var1 < T.nameMenuOn.length; ++var1) {
+         for(var1 = 0; var1 < T.selectLanguage.length; ++var1) {
             if (Canvas.b(this.f + var1 % this.j * this.h - this.k / 2, this.g + var1 / this.j * this.i - this.k / 2, this.k, this.k + AvMain.hNormal + 10)) {
                this.B = Canvas.pxLast;
                this.y = this.x;
@@ -288,8 +288,8 @@ public final class OnScreen extends MyScreen {
                   this.e = 0;
                }
 
-               if (this.e >= T.nameMenuOn.length) {
-                  this.e = T.nameMenuOn.length - 1;
+               if (this.e >= T.selectLanguage.length) {
+                  this.e = T.selectLanguage.length - 1;
                }
             }
 
@@ -329,6 +329,7 @@ public final class OnScreen extends MyScreen {
       } else {
          super.updateKey();
       }
+
    }
 
    public final void paintMain(Graphics var1) {
@@ -340,9 +341,9 @@ public final class OnScreen extends MyScreen {
       var1.translate(this.f, this.g);
       var1.translate(-n, 0);
 
-      for(int var2 = 0; var2 < T.nameMenuOn.length; ++var2) {
+      for(int var2 = 0; var2 < T.selectLanguage.length; ++var2) {
          l.drawFrame(var2, var2 % this.j * this.h, var2 / this.j * this.i, 0, 3, var1);
-         Canvas.M.drawString(var1, T.nameMenuOn[var2], var2 % this.j * this.h, var2 / this.j * this.i + l.frameHeight / 2 + 5, 2);
+         Canvas.M.drawString(var1, T.selectLanguage[var2], var2 % this.j * this.h, var2 / this.j * this.i + l.frameHeight / 2 + 5, 2);
          if (this.e == var2 && (!Canvas.isKeyBoard || !r)) {
             var1.drawImage(s, var2 % this.j * this.h, var2 / this.j * this.i, 3);
          }

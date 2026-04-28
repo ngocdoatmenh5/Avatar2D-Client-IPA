@@ -25,8 +25,8 @@ final class IActionTriBenh1 implements IAction {
       }
 
       if (!var1) {
-         Canvas.startOKDlg(T.dV);
-         FarmScr.gI().commandTab((int)8, (int)-1);
+         Canvas.startOKDlg(T.lvUse);
+         FarmScr.gI().commandTab(8, -1);
       }
 
    }

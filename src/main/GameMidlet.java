@@ -1,5 +1,12 @@
 package main;
 
+import avt.Avatar;
+import avt.AvatarData;
+import avt.CRes;
+import avt.GlobalMessageHandler;
+import avt.IndexPlayer;
+import avt.Session_ME;
+import avt.SplashScr;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Vector;
@@ -9,13 +16,12 @@ import javax.microedition.io.HttpConnection;
 import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.MIDlet;
 
-import avt.*;
-
 public class GameMidlet extends MIDlet {
-   public static String[][][] nameSV = new String[][][]{{{"Xu So Dieu Ky", "Thanh Pho Hoan My", "Thanh Pho Tam Giao", "Thanh Pho Than Thoai", "Thanh Pho Tri Ky", "Thanh Pho Hoa Binh", "Thanh Pho Dieu Ky", "Thanh Pho Mong Mo"}, {"Xu So Than Tien", "Thanh Pho Bao Binh", "Thanh Pho Nhan Ma", "Thanh Pho Su Tu"}}, {{"International Server", "Aries City"}}};
-   public static String[][][] ipSV = new String[][][]{{{"112.213.85.102", "112.213.85.104", "27.0.14.77", "112.213.85.106", "112.213.85.110", "112.213.85.101", "112.213.85.103"}, {"115.84.183.38", "210.211.109.119", "210.211.109.119"}}, {{"112.78.1.25"}}};
-   public static int[][][] PORT = new int[][][]{{{19128, 19128, 19128, 19128, 19128, 19128, 19128, 19128, 19128}, {19128, 19128, 18128}}, {{19128}}};
-   public static final String[][] linkGetHost = new String[][]{{"http://teamobi.com/srvips/avatar2.txt", "http://trochoididong.us/srvips/avatar_C.txt"}, {"http://teamobi.com/srvips/avatarinterd2.txt", "http://trochoididong.us/srvips/avatarinter_C.txt"}};
+   public static final String APP_VERSION = "2.5.8";
+   public static String[][][] nameSV = new String[][][]{{{"Xu So Stown", "Thanh Pho Stown"}}};
+   public static String[][][] ipSV = new String[][][]{{{"160.191.242.130"}}};
+   public static int[][][] PORT = new int[][][]{{{19128}}};
+   public static final String[][] linkGetHost = new String[][]{{"http://teamobi.com/srvips/avatar2.txt"}, {"http://teamobi.com/srvips/avatarinterd2.txt"}};
    public static int CLIENT_TYPE = 8;
    public static byte PROVIDER = -1;
    public static String g;
@@ -41,8 +47,8 @@ public class GameMidlet extends MIDlet {
          }
 
          PROVIDER = Byte.parseByte(var2.toString());
-      } catch (Exception var5) {
-         var5.printStackTrace();
+      } catch (Exception var7) {
+         var7.printStackTrace();
       }
 
       if (PROVIDER == -1) {
@@ -59,7 +65,7 @@ public class GameMidlet extends MIDlet {
          }
 
          g = var6.toString();
-      } catch (Exception var4) {
+      } catch (Exception e) {
       }
 
       (canvas = new Canvas()).d();
@@ -69,9 +75,9 @@ public class GameMidlet extends MIDlet {
       canvas.sizeChanged(0, 0);
       canvas.setSize();
       Display.getDisplay(this).setCurrent(canvas);
-      Session_ME.gI().setHandler((IMessageHandler)GlobalMessageHandler.gI());
+      Session_ME.gI().setHandler(GlobalMessageHandler.gI());
       String var8;
-      if ((var8 = CRes.b("avatar")) == null || !var8.equals("2.5.8")) {
+      if ((var8 = CRes.b("avatar")) == null || !var8.equals(APP_VERSION)) {
          AvatarData.delRMS();
       }
 
@@ -82,7 +88,7 @@ public class GameMidlet extends MIDlet {
    }
 
    public static void exit() {
-       instance.destroyApp(true);
+      instance.destroyApp(true);
    }
 
    protected void pauseApp() {
@@ -116,7 +122,7 @@ public class GameMidlet extends MIDlet {
          } else {
             return null;
          }
-      } catch (IOException var3) {
+      } catch (IOException var6) {
          return null;
       }
    }
@@ -125,8 +131,9 @@ public class GameMidlet extends MIDlet {
       try {
          instance.platformRequest(var0);
          instance.notifyDestroyed();
-      } catch (ConnectionNotFoundException var1) {
-         var1.printStackTrace();
+      } catch (ConnectionNotFoundException var2) {
+         var2.printStackTrace();
       }
+
    }
 }

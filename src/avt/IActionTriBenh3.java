@@ -28,8 +28,8 @@ final class IActionTriBenh3 implements IAction {
       }
 
       if (!var1) {
-         Canvas.startOKDlg(T.dY);
-         this.instance.commandTab((int)8, (int)-1);
+         Canvas.startOKDlg(T.info);
+         this.instance.commandTab(8, -1);
       }
 
    }

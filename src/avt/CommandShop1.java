@@ -48,7 +48,7 @@ final class CommandShop1 extends Command {
          }
 
          if (this.price >= 0) {
-            PopupShop.addStr(T.az + Canvas.getMoneys(this.price) + " Tim");
+            PopupShop.addStr(T.priceStr + Canvas.getMoneys(this.price) + " Tim");
          }
       }
 

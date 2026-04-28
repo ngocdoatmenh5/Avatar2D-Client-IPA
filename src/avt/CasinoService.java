@@ -29,7 +29,7 @@ public final class CasinoService extends IService {
       try {
          this.createMessageWithBoard((byte)56);
          super.m.writer().writeByte(var1);
-      } catch (Exception var2) {
+      } catch (Exception var3) {
       }
 
       this.sendMessage();
@@ -42,7 +42,7 @@ public final class CasinoService extends IService {
          super.m.writer().writeByte(var1);
          super.m.writer().writeByte(var2);
          super.m.writer().writeUTF(var3);
-      } catch (IOException var4) {
+      } catch (IOException var5) {
       }
 
       this.sendMessage();
@@ -75,7 +75,7 @@ public final class CasinoService extends IService {
    public final void e() {
       try {
          this.createMessageWithBoard((byte)49);
-      } catch (Exception var1) {
+      } catch (Exception var2) {
       }
 
       this.sendMessage();
@@ -91,7 +91,7 @@ public final class CasinoService extends IService {
       try {
          this.createMessageWithBoard((byte)21);
          super.m.writer().writeByte(var1);
-      } catch (Exception var2) {
+      } catch (Exception var3) {
       }
 
       this.sendMessage();
@@ -100,7 +100,7 @@ public final class CasinoService extends IService {
    public final void GetCardPhom() {
       try {
          this.createMessageWithBoard((byte)63);
-      } catch (Exception var1) {
+      } catch (Exception var2) {
       }
 
       this.sendMessage();
@@ -168,7 +168,7 @@ public final class CasinoService extends IService {
          for(var2 = 0; var2 < 5 && var1[var2] != -1; ++var2) {
             super.m.writer().writeByte(var1[var2]);
          }
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();
@@ -178,7 +178,7 @@ public final class CasinoService extends IService {
       try {
          this.createMessageWithBoard((byte)9);
          super.m.writer().writeUTF(var1);
-      } catch (IOException var2) {
+      } catch (IOException var3) {
       }
 
       this.sendMessage();
@@ -187,7 +187,7 @@ public final class CasinoService extends IService {
    public final void leaveBoard() {
       try {
          this.createMessageWithBoard((byte)15);
-      } catch (IOException var1) {
+      } catch (IOException var2) {
       }
 
       this.sendMessage();
@@ -197,7 +197,7 @@ public final class CasinoService extends IService {
       try {
          this.createMessageWithBoard((byte)16);
          super.m.writer().writeBoolean(var1);
-      } catch (IOException var2) {
+      } catch (IOException var3) {
       }
 
       this.sendMessage();
@@ -207,7 +207,7 @@ public final class CasinoService extends IService {
       try {
          this.createMessageWithBoard((byte)19);
          super.m.writer().writeInt(var1);
-      } catch (IOException var2) {
+      } catch (IOException var3) {
       }
 
       this.sendMessage();
@@ -217,7 +217,7 @@ public final class CasinoService extends IService {
       try {
          this.createMessageWithBoard((byte)18);
          super.m.writer().writeUTF(var1);
-      } catch (IOException var2) {
+      } catch (IOException var3) {
       }
 
       this.sendMessage();
@@ -227,7 +227,7 @@ public final class CasinoService extends IService {
       try {
          this.createMessageWithBoard((byte)11);
          super.m.writer().writeInt(var1);
-      } catch (IOException var2) {
+      } catch (IOException var3) {
       }
 
       this.sendMessage();
@@ -236,7 +236,7 @@ public final class CasinoService extends IService {
    public final void startGame() {
       try {
          this.createMessageWithBoard((byte)20);
-      } catch (IOException var1) {
+      } catch (IOException var2) {
       }
 
       this.sendMessage();
@@ -266,8 +266,8 @@ public final class CasinoService extends IService {
          this.createMessageWithBoard((byte)21);
          super.m.writer().writeByte(var1);
          super.m.writer().writeByte(var2);
-      } catch (IOException var3) {
-         var3.printStackTrace();
+      } catch (IOException var4) {
+         var4.printStackTrace();
       }
 
       this.sendMessage();
@@ -304,7 +304,7 @@ public final class CasinoService extends IService {
          this.createMessageWithBoard((byte)65);
          super.m.writer().writeByte(var1);
          super.m.writer().writeByte(var2);
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();
@@ -313,7 +313,7 @@ public final class CasinoService extends IService {
    public final void skip() {
       try {
          this.createMessageWithBoard((byte)49);
-      } catch (Exception var1) {
+      } catch (Exception var2) {
       }
 
       this.sendMessage();

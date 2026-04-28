@@ -36,12 +36,12 @@ final class CommandOpenShop extends Command {
             }
 
             if (var1.follow == -1) {
-               PopupShop.addStr(T.em[0] + ((APartInfo)var1).level);
+               PopupShop.addStr(T.roomName[0] + ((APartInfo)var1).level);
             }
 
-            PopupShop.addStr(T.ao + GameMidlet.avatar.strMoney);
+            PopupShop.addStr(T.moneyStr + GameMidlet.avatar.strMoney);
             if (MapScr.isNewVersion) {
-               PopupShop.addStr(T.dE + GameMidlet.avatar.money[3] + " " + T.getMoney());
+               PopupShop.addStr(T.tkNew + GameMidlet.avatar.money[3] + " " + T.getMoney());
             }
          }
       }

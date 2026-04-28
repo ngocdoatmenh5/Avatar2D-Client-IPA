@@ -50,7 +50,7 @@ public final class OptionScr extends MyScreen {
    }
 
    public final void initSize() {
-      super.left = new Command(T.aV, 0);
+      super.left = new Command(T.complete, 0);
       this._hText_ = MyScreen.hText;
       this.xL = Canvas.h;
       int var1 = PaintPopup.hTab + (AvMain.hDuBox << 1);
@@ -67,7 +67,7 @@ public final class OptionScr extends MyScreen {
             var2 = Canvas.w;
          }
 
-         PaintPopup.gI().a(T.ab, var2 * AvMain.hd, var1, 1);
+         PaintPopup.gI().a(T.option, var2 * AvMain.hd, var1, 1);
          if (Canvas.currentMyScreen != this) {
             for(var1 = 0; var1 < 3; ++var1) {
                this.isPaint[var1] = true;
@@ -133,6 +133,7 @@ public final class OptionScr extends MyScreen {
          this.init();
          SoundManager.a.a(this.volume / 10);
       }
+
    }
 
    private void init() {
@@ -255,11 +256,11 @@ public final class OptionScr extends MyScreen {
 
       for(int var5 = 0; var5 < this.max; ++var5) {
          if (this.isPaint[var5]) {
-            Canvas.normalFont.drawString(var1, T.eG[var5][2], -50 * (AvMain.hd - 1), var4 + var3, 0);
-            Canvas.normalFont.drawString(var1, T.eG[var5][this.mapFocus[var5]], 52 + 50 * AvMain.hd, var4 + var3 - 1, 2);
+            Canvas.normalFont.drawString(var1, T.sms[var5][2], -50 * (AvMain.hd - 1), var4 + var3, 0);
+            Canvas.normalFont.drawString(var1, T.sms[var5][this.mapFocus[var5]], 52 + 50 * AvMain.hd, var4 + var3 - 1, 2);
             byte var2 = 0;
             int var6;
-            if ((var6 = Canvas.normalFont.getWidth(T.eG[var5][this.mapFocus[var5]]) + 10 + 15 * (Canvas.stypeInt + 1) + PaintPopup.b.frameWidth) < 25 * AvMain.hd) {
+            if ((var6 = Canvas.normalFont.getWidth(T.sms[var5][this.mapFocus[var5]]) + 10 + 15 * (Canvas.stypeInt + 1) + PaintPopup.b.frameWidth) < 25 * AvMain.hd) {
                var6 = 25 * AvMain.hd;
             }
 

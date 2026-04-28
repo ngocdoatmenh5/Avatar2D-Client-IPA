@@ -21,7 +21,7 @@ public final class MainMenu extends MyScreen {
    public AvPosition b;
    private static PopupName popFocus;
    public boolean isWearing = false;
-      private boolean isTran;
+   private boolean isTran;
    private long q = 0L;
    private boolean isCircle = false;
    private int s;
@@ -59,12 +59,12 @@ public final class MainMenu extends MyScreen {
 
    public final void initCmd() {
       if (Canvas.stypeInt == 0) {
-         super.right = new Command(T.d, 0);
+         super.right = new Command(T.close, 0);
       } else {
          this.isAble = true;
       }
 
-      this.n = new Command(T.O, 1);
+      this.n = new Command(T.selectt, 1);
    }
 
    public MainMenu() {
@@ -101,7 +101,7 @@ public final class MainMenu extends MyScreen {
             var10.b = null;
             var10.setInfo(var12);
             return;
-            case 3:
+         case 3:
             this.doExchange();
             return;
          case 4:
@@ -167,37 +167,37 @@ public final class MainMenu extends MyScreen {
             byte[] var7 = new byte[]{4, 5, 6, 7, 8, 9, 10, 11, 12};
             if (var2 == 0) {
                MapScr.gI();
-               MapScr.doSellectFeel((int)4);
+               MapScr.doSellectFeel(4);
                return;
             }
 
             MapScr.gI();
-            MapScr.doSellectFeel((int)var7[var2]);
+            MapScr.doSellectFeel(var7[var2]);
             return;
          case 20:
             if (GameMidlet.avatar.task != 0 && GameMidlet.avatar.task != -5 || Bus.isRun) {
                return;
             }
 
-            if (LoadMap.focusObj == null || LoadMap.focusObj.catagory != 5) {
-               Vector var9 = new Vector();
-               Command var3 = this.setCommandMenu(T.cw, 4, 17);
-               Command var4 = this.setCommandMenu(T.dr, 6, 14);
-               Command var5 = this.setCommandMenu(T.l, 21, 14);
-               Command var6 = this.setCommandMenu(T.cd, 15, 17);
-               var9.addElement(var3);
-               var9.addElement(var6);
-               var9.addElement(var5);
-               var9.addElement(var4);
-               if (Canvas.currentMyScreen != PopupShop.gI()) {
-                  gI().setInfo(var9);
-               }
-
-               return;
+            if (LoadMap.focusObj != null && LoadMap.focusObj.catagory == 5) {
+               ParkService.gI().doGetDropPart(((Drop_Part)LoadMap.focusObj).ID);
+               break;
             }
 
-            ParkService.gI().doGetDropPart(((Drop_Part)LoadMap.focusObj).ID);
-            break;
+            Vector var9 = new Vector();
+            Command var3 = this.setCommandMenu(T.viewInfo, 4, 17);
+            Command var4 = this.setCommandMenu(T.basket, 6, 14);
+            Command var5 = this.setCommandMenu(T.wearing, 21, 14);
+            Command var6 = this.setCommandMenu(T.index, 15, 17);
+            var9.addElement(var3);
+            var9.addElement(var6);
+            var9.addElement(var5);
+            var9.addElement(var4);
+            if (Canvas.currentMyScreen != PopupShop.gI()) {
+               gI().setInfo(var9);
+            }
+
+            return;
          case 21:
             GlobalService.gI().doRequestContainer(GameMidlet.avatar.IDDB);
             this.isWearing = true;
@@ -209,13 +209,13 @@ public final class MainMenu extends MyScreen {
       if (MapScr.focusP != null) {
          this.isCircle = false;
          Vector var1;
-         (var1 = new Vector()).addElement(this.setCommandMenu(T.bT, 9, 13));
-         var1.addElement(this.setCommandMenu(T.bW, 12, 2));
-         var1.addElement(this.setCommandMenu(T.y, 7, 11));
-         var1.addElement(this.setCommandMenu(T.bS, 8, 12));
-         var1.addElement(this.setCommandMenu(T.bU, 10, 21));
-         var1.addElement(this.setCommandMenu(T.bV, 11, 19));
-         var1.addElement(this.setCommandMenu(T.dj, 13, 22));
+         (var1 = new Vector()).addElement(this.setCommandMenu(T.hit, 9, 13));
+         var1.addElement(this.setCommandMenu(T.tkFarm, 12, 2));
+         var1.addElement(this.setCommandMenu(T.addFriend, 7, 11));
+         var1.addElement(this.setCommandMenu(T.giveGift, 8, 12));
+         var1.addElement(this.setCommandMenu(T.kiss, 10, 21));
+         var1.addElement(this.setCommandMenu(T.tkChinh, 11, 19));
+         var1.addElement(this.setCommandMenu(T.inviteMyHouse, 13, 22));
          if (MapScr.listCmdRotate.size() > 0) {
             for(int var2 = 0; var2 < MapScr.listCmdRotate.size(); ++var2) {
                StringObj var3;
@@ -227,75 +227,75 @@ public final class MainMenu extends MyScreen {
 
          this.setInfo(var1);
       }
+
    }
 
    public final void perform() {
-      if (GameMidlet.avatar.task == 0 || GameMidlet.avatar.task == -5) {
-         if (!Bus.isRun) {
-            if (LoadMap.focusObj != null && LoadMap.focusObj.catagory == 5) {
-               ParkService.gI().doGetDropPart(((Drop_Part)LoadMap.focusObj).ID);
-            } else if (LoadMap.focusObj != null && LoadMap.focusObj.catagory == 0 && ((Avatar)LoadMap.focusObj).IDDB == -100) {
-               Canvas.startOKDlg(T.eb, (IAction)(new class_jc(this)));
-            } else {
-               Vector var1 = new Vector();
-               Command var2 = this.setCommandMenu(T.bX, 1, 1);
-               Command var3 = this.setCommandMenu(T.bY, 2, 0);
-               Command var4 = this.setCommandMenu(T.bZ, 3, 20);
-               Command var5 = this.setCommandMenu(T.by, 20, 17);
-               Command var6 = this.setCommandMenu(T.aa, 5, 18);
-               if (Canvas.stypeInt == 0) {
-                  var1.addElement(var4);
-               }
+      if ((GameMidlet.avatar.task == 0 || GameMidlet.avatar.task == -5) && !Bus.isRun) {
+         if (LoadMap.focusObj != null && LoadMap.focusObj.catagory == 5) {
+            ParkService.gI().doGetDropPart(((Drop_Part)LoadMap.focusObj).ID);
+         } else if (LoadMap.focusObj != null && LoadMap.focusObj.catagory == 0 && ((Avatar)LoadMap.focusObj).IDDB == -100) {
+            Canvas.startOKDlg(T.doYouWantUpgradeCoffer, new class_jc(this));
+         } else {
+            Vector var1 = new Vector();
+            Command var2 = this.setCommandMenu(T.action, 1, 1);
+            Command var3 = this.setCommandMenu(T.feel, 2, 0);
+            Command var4 = this.setCommandMenu(T.exchange, 3, 20);
+            Command var5 = this.setCommandMenu(T.mySeft, 20, 17);
+            Command var6 = this.setCommandMenu(T.friend, 5, 18);
+            if (Canvas.stypeInt == 0) {
+               var1.addElement(var4);
+            }
 
-               var1.addElement(var5);
-               var1.addElement(var3);
-               if (Canvas.stypeInt == 0) {
-                  var1.addElement(MapScr.gI().f);
-               }
+            var1.addElement(var5);
+            var1.addElement(var3);
+            if (Canvas.stypeInt == 0) {
+               var1.addElement(MapScr.gI().f);
+            }
 
-               if (GameMidlet.avatar.action != 14) {
-                  var1.addElement(var2);
-               }
+            if (GameMidlet.avatar.action != 14) {
+               var1.addElement(var2);
+            }
 
-               var1.addElement(var6);
-               int var7;
-               StringObj var8;
-               if (Canvas.stypeInt > 0 && MapScr.listCmd != null && MapScr.listCmd.size() > 0) {
-                  for(var7 = 0; var7 < MapScr.listCmd.size(); ++var7) {
-                     var8 = (StringObj)MapScr.listCmd.elementAt(var7);
-                     var1.addElement(new class_jg(this, var8.str, 17, var7, var8));
+            var1.addElement(var6);
+            int var7;
+            StringObj var8;
+            if (Canvas.stypeInt > 0 && MapScr.listCmd != null && MapScr.listCmd.size() > 0) {
+               for(var7 = 0; var7 < MapScr.listCmd.size(); ++var7) {
+                  var8 = (StringObj)MapScr.listCmd.elementAt(var7);
+                  var1.addElement(new class_jg(this, var8.str, 17, var7, var8));
+               }
+            }
+
+            if (MapScr.listCmdRotate.size() > 0) {
+               for(var7 = 0; var7 < MapScr.listCmdRotate.size(); ++var7) {
+                  if ((var8 = (StringObj)MapScr.listCmdRotate.elementAt(var7)).type == 0) {
+                     var1.addElement(new class_ix(this, var8.str, 18, var7, var8));
                   }
                }
+            }
 
-               if (MapScr.listCmdRotate.size() > 0) {
-                  for(var7 = 0; var7 < MapScr.listCmdRotate.size(); ++var7) {
-                     if ((var8 = (StringObj)MapScr.listCmdRotate.elementAt(var7)).type == 0) {
-                        var1.addElement(new class_ix(this, var8.str, 18, var7, var8));
-                     }
-                  }
-               }
-
-               if (Canvas.currentMyScreen != PopupShop.gI()) {
-                  this.b = null;
-                  gI().setInfo(var1);
-               }
+            if (Canvas.currentMyScreen != PopupShop.gI()) {
+               this.b = null;
+               gI().setInfo(var1);
             }
          }
       }
+
    }
 
    public static void doWearing() {
       Avatar var0 = GameMidlet.avatar;
       if (Canvas.currentMyScreen != me) {
          PopupShop.gI().isFull = true;
-         PopupShop.gI().addElement(new String[]{T.l, T.co}, new Vector[]{MapScr.gI().getListYourPart((Avatar)var0, 0), MapScr.gI().getListCmdDoUsing(GameMidlet.listContainer, var0.IDDB, 1)}, (Vector)null);
+         PopupShop.gI().addElement(new String[]{T.wearing, T.container}, new Vector[]{MapScr.gI().getListYourPart(var0, 0), MapScr.gI().getListCmdDoUsing(GameMidlet.listContainer, var0.IDDB, 1)}, (Vector)null);
          PopupShop.gI().setCmdLeft(MapScr.gI().cmdDellPart(var0.seriPart, 0, 0, false), 0);
          PopupShop.gI().setCmdLeft(MapScr.gI().cmdDellPart(GameMidlet.listContainer, 1, 0, true), 1);
          if (Canvas.currentMyScreen != PopupShop.gI()) {
             PopupShop.gI().switchToMe();
          }
-
       }
+
    }
 
    private Command setCommandMenu(String var1, int var2, int var3) {
@@ -421,7 +421,7 @@ public final class MainMenu extends MyScreen {
          }
       } else if (Canvas.a(2)) {
          if ((var3 = this.selected - this.numW) < 0) {
-            if ((var3 = this.list.size() / this.numW * this.numW + this.numW + var3) < this.list.size()) {
+            if ((var3 += this.list.size() / this.numW * this.numW + this.numW) < this.list.size()) {
                this.selected = var3;
             }
          } else {

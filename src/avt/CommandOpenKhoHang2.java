@@ -28,7 +28,7 @@ final class CommandOpenKhoHang2 extends Command {
             var2 -= FarmScr.listFood[0].size();
          }
 
-         PopupShop.addStr(T.ay + var2);
+         PopupShop.addStr(T.number + var2);
       }
 
    }

@@ -15,12 +15,13 @@ final class CommandGoKhoHang1 extends Command {
 
    public final void paint(Graphics var1, int var2, int var3) {
       if (this.g.ID < 50) {
-         FarmData.getTreeByID((int)this.g.ID).a(var1, 7, var2 + PopupShop.h / 2, var3 + PopupShop.h / 2, 3);
+         FarmData.getTreeByID(this.g.ID).a(var1, 7, var2 + PopupShop.h / 2, var3 + PopupShop.h / 2, 3);
       } else {
          int var10002 = var2 + PopupShop.h / 2;
          int var10003 = var3 + PopupShop.h / 2;
          AvatarData.paintImg(var1, FarmData.getAnimalByID(this.g.ID).iconProduct, var10002, var10003, 3);
       }
+
    }
 
    public final void update() {
@@ -29,8 +30,8 @@ final class CommandGoKhoHang1 extends Command {
          short var10000 = this.g.ID;
          boolean var10001 = true;
          PopupShop.addStr(this.g.name);
-         PopupShop.addStr(T.ay + this.g.number);
-         PopupShop.addStr(T.aK + Canvas.getMoneys(this.g.price[0] * this.g.number) + T.T);
+         PopupShop.addStr(T.number + this.g.number);
+         PopupShop.addStr(T.inCome + Canvas.getMoneys(this.g.price[0] * this.g.number) + T.dola);
          PopupShop.addStr(MapScr.strTkFarm());
       }
 

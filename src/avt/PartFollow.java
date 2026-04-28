@@ -13,10 +13,11 @@ public final class PartFollow extends Part {
          int var10003 = var7.y0 * AvMain.hd;
          int var10004 = var7.w * AvMain.hd;
          int var10005 = var7.h * AvMain.hd;
-         var1.drawRegion(AvatarData.getBigImgInfo((int)this.color).img, var10002, var10003, var10004, var10005, 0, var2, var3, var5);
+         var1.drawRegion(AvatarData.getBigImgInfo(this.color).img, var10002, var10003, var10004, var10005, 0, var2, var3, var5);
       } else {
          var6.paint(var1, var2, var3, var5);
       }
+
    }
 
    public final void paintAvatar(Graphics var1, int var2, int var3, int var4, int var5) {

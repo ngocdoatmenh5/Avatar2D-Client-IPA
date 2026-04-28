@@ -15,5 +15,6 @@ final class IActionDisconnect implements IAction {
       Canvas.menuMain = null;
       SoundManager.a.a();
       FarmData.init();
+      ClientUtilities.onFishingAutoDisconnected();
    }
 }

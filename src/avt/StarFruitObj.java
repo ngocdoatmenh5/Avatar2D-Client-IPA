@@ -70,7 +70,7 @@ public final class StarFruitObj extends SubObject {
             int var5 = this.timeFinish - var3 * 3600 - var4 * 60;
             Canvas.smallFontYellow.drawString(var1, var3 + ":" + var4 + ":" + var5, (super.x + 3) * MyObject.hd, super.y * MyObject.hd - var2 + Canvas.borderFont.getHeight() / 2 + 2 * MyObject.hd, 2);
          }
-
       }
+
    }
 }

@@ -1,5 +1,6 @@
 package avt;
 
+import java.util.Vector;
 import main.Canvas;
 
 final class IActionOpenShop implements IAction {
@@ -23,7 +24,17 @@ final class IActionOpenShop implements IAction {
 
    public final void perform() {
       if (this.idShop == 100) {
-         Canvas.startOKDlg(T.cP, (IAction)(new IActionDial(this.g, this.b)));
+         final short var6 = this.b;
+         final MapScr var7 = this.g;
+         Vector var8 = new Vector();
+         var8.addElement(new Command(T.dial, new IActionDial(var7, var6, true)));
+         var8.addElement(new Command("Cài đặt", new IAction() {
+            public void perform() {
+               PopupShop.gI().close();
+               DialLuckyScr.gI().openSettingsFromShop(Canvas.currentMyScreen, var6);
+            }
+         }));
+         Menu.gI().startAt(var8, 0);
       } else if (this.idShop == 26) {
          Canvas.endDlg();
          MapScr.gI().doGiving(this.b);
@@ -35,10 +46,11 @@ final class IActionOpenShop implements IAction {
          }
 
          if (this.idBoss != -1 && this.idShop != 17 && this.idShop != 18) {
-            Canvas.startOKDlg(this.textDes, (IAction)(new IActionTextDes(this.g, this.idBoss, this.idShop, this.ii)));
+            Canvas.startOKDlg(this.textDes, new IActionTextDes(this.g, this.idBoss, this.idShop, this.ii));
          } else {
             MapScr.doSelectMoneyBuyItem(var1);
          }
       }
+
    }
 }

@@ -82,12 +82,12 @@ public final class RaceScr extends MyScreen implements IChatable {
       (FRAME = new byte[3][])[0] = new byte[]{0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1};
       FRAME[1] = new byte[]{2, 2, 2, 3, 3, 3, 2, 2, 2, 3, 3, 3};
       FRAME[2] = new byte[]{4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4};
-      this.cmdChangeFocus = new Command(avt.T.bz, 3, this);
-      this.s = new Command(avt.T.ec, 1, this);
-      this.r = new Command(avt.T.c, 7, this);
-      this.t = new Command(avt.T.z, 6, this);
-      this.u = new Command(avt.T.d, 8, this);
-      this.b = new Command(avt.T.x, 2, this);
+      this.cmdChangeFocus = new Command(T.next, 3, this);
+      this.s = new Command(T.datCuoc, 1, this);
+      this.r = new Command(T.menu, 7, this);
+      this.t = new Command(T.OK, 6, this);
+      this.u = new Command(T.close, 8, this);
+      this.b = new Command(T.exit, 2, this);
       this.wPopup = 220 * AvMain.hd;
       this.hPopup = 240 * AvMain.hd;
       this.xInfo = 8 * AvMain.hd;
@@ -116,25 +116,25 @@ public final class RaceScr extends MyScreen implements IChatable {
       int var5;
       if (imgWater == null) {
          try {
-            this.imgInfo = new FrameImage(Image.createImage(avt.T.getPath() + "/race/popup/tile1.png"), 20 * AvMain.hd, 20 * AvMain.hd);
-            this.imgBackpet = new FrameImage(Image.createImage(avt.T.getPath() + "/race/popup/bt1.png"), 31 * AvMain.hd, 31 * AvMain.hd);
-            this.imgBackMoney = new FrameImage(Image.createImage(avt.T.getPath() + "/race/popup/bt0.png"), 60 * AvMain.hd, 24 * AvMain.hd);
-            this.imgTime = new FrameImage(Image.createImage(avt.T.getPath() + "/race/popup/time.png"), 14 * AvMain.hd, 14 * AvMain.hd);
-            imgWater = Image.createImage(avt.T.getPath() + "/race/28.png");
-            imgFire = Image.createImage(avt.T.getPath() + "/race/29.png");
+            this.imgInfo = new FrameImage(Image.createImage(T.getPath() + "/race/popup/tile1.png"), 20 * AvMain.hd, 20 * AvMain.hd);
+            this.imgBackpet = new FrameImage(Image.createImage(T.getPath() + "/race/popup/bt1.png"), 31 * AvMain.hd, 31 * AvMain.hd);
+            this.imgBackMoney = new FrameImage(Image.createImage(T.getPath() + "/race/popup/bt0.png"), 60 * AvMain.hd, 24 * AvMain.hd);
+            this.imgTime = new FrameImage(Image.createImage(T.getPath() + "/race/popup/time.png"), 14 * AvMain.hd, 14 * AvMain.hd);
+            imgWater = Image.createImage(T.getPath() + "/race/28.png");
+            imgFire = Image.createImage(T.getPath() + "/race/29.png");
             imgBui = new Image[5];
 
             for(var5 = 0; var5 < 5; ++var5) {
-               imgBui[var5] = Image.createImage(avt.T.getPath() + "/race/bui/d0" + var5 + ".png");
+               imgBui[var5] = Image.createImage(T.getPath() + "/race/bui/d0" + var5 + ".png");
             }
 
             imgTe = new Image[3];
 
             for(var5 = 0; var5 < 3; ++var5) {
-               imgTe[var5] = Image.createImage(avt.T.getPath() + "/race/bui/w" + var5 + ".png");
+               imgTe[var5] = Image.createImage(T.getPath() + "/race/bui/w" + var5 + ".png");
             }
-         } catch (Exception var7) {
-            var7.printStackTrace();
+         } catch (Exception var9) {
+            var9.printStackTrace();
          }
       }
 
@@ -291,11 +291,11 @@ public final class RaceScr extends MyScreen implements IChatable {
          case 2:
             IACctionOut var3 = new IACctionOut(this);
             if (this.isStart) {
-               Canvas.startOKDlg(avt.T.eP, (IAction)var3);
+               Canvas.startOKDlg(T.notSendSmg, var3);
                return;
             }
 
-            Canvas.startOKDlg(avt.T.ee, (IAction)var3);
+            Canvas.startOKDlg(T.theft, var3);
             return;
          case 3:
             AvCamera var10000 = AvCamera.gI();
@@ -323,8 +323,8 @@ public final class RaceScr extends MyScreen implements IChatable {
             return;
          case 7:
             Vector var2;
-            (var2 = new Vector()).addElement(new Command(avt.T.ed, 0, this));
-            var2.addElement(new Command(avt.T.x, 2, this));
+            (var2 = new Vector()).addElement(new Command(T.sendTo, 0, this));
+            var2.addElement(new Command(T.exit, 2, this));
             Menu.gI().startAt(var2, 0);
             return;
          case 8:
@@ -567,15 +567,13 @@ public final class RaceScr extends MyScreen implements IChatable {
       } else if (this.indexPet != -1) {
          GlobalService.gI().doPetInfo(this.listPet[this.indexPet].IDDB);
          this.indexPet = -1;
-      } else {
-         if (this.indexMoney != -1) {
-            this.isDC = true;
-            super.center = this.t;
-            super.left = null;
-            super.right = this.u;
-         }
-
+      } else if (this.indexMoney != -1) {
+         this.isDC = true;
+         super.center = this.t;
+         super.left = null;
+         super.right = this.u;
       }
+
    }
 
    private static void paint(Graphics var0, int var1, int var2, int var3, int var4, FrameImage var5, int var6) {
@@ -613,37 +611,38 @@ public final class RaceScr extends MyScreen implements IChatable {
       if (this.isRace) {
          Canvas.paint.drawRectangle(var1, this.xPopup, this.yPopup, this.wPopup, this.hPopup, PaintPopup.color[2], PaintPopup.color[3], 1);
          var1.translate(this.xPopup, this.yPopup);
-         Canvas.normalFont.drawString(var1, avt.T.ec, this.wPopup / 2, 6 * AvMain.hd, 2);
+         Canvas.normalFont.drawString(var1, T.datCuoc, this.wPopup / 2, 6 * AvMain.hd, 2);
          paint(var1, this.xInfo, this.yInfo, this.wInfo, this.Hinfo, this.imgInfo, -1);
          paint(var1, this.xDC, this.yDC, this.wDC, this.hDC, MenuNPC.imgDc, -12335933);
 
-         for(int var2 = 0; var2 < 6; ++var2) {
-            this.imgBackpet.drawFrame(this.indexPet == var2 ? 1 : 0, this.xDC + 32 * AvMain.hd / 2, this.yDC + 3 * AvMain.hd + this.W * var2 + 31 * AvMain.hd / 2, 0, 3, var1);
-            AvatarData.paintImg(var1, this.listPet[var2].idIcon, this.xDC + 32 * AvMain.hd / 2, this.yDC + 3 * AvMain.hd + this.W * var2 + 31 * AvMain.hd / 2, 3);
-            Canvas.M.drawString(var1, "x" + this.listPet[var2].rate, this.xDC + 32 * AvMain.hd / 2 + this.imgBackpet.frameWidth / 2 - 5 * AvMain.hd, this.yDC + 3 * AvMain.hd + this.W * var2 + 31 * AvMain.hd / 2 + this.imgBackpet.frameHeight / 2 - AvMain.hBlack, 2);
-            this.imgBackMoney.drawFrame(this.indexMoney == var2 ? 1 : 0, this.xDC + this.wDC - 1 * AvMain.hd - this.imgBackMoney.frameWidth, this.yDC + 7 * AvMain.hd + this.W * var2, 0, var1);
-            if (this.listPet[var2].money > 0) {
-               Canvas.normalFont.drawString(var1, "" + this.listPet[var2].money, this.xDC + this.wDC - 1 * AvMain.hd - this.imgBackMoney.frameWidth / 2, this.yDC + 7 * AvMain.hd + this.W * var2 + this.imgBackMoney.frameHeight / 2 - AvMain.hNormal / 2 - AvMain.hd - 1, 2);
+         int var4;
+         for(var4 = 0; var4 < 6; ++var4) {
+            this.imgBackpet.drawFrame(this.indexPet == var4 ? 1 : 0, this.xDC + 32 * AvMain.hd / 2, this.yDC + 3 * AvMain.hd + this.W * var4 + 31 * AvMain.hd / 2, 0, 3, var1);
+            AvatarData.paintImg(var1, this.listPet[var4].idIcon, this.xDC + 32 * AvMain.hd / 2, this.yDC + 3 * AvMain.hd + this.W * var4 + 31 * AvMain.hd / 2, 3);
+            Canvas.M.drawString(var1, "x" + this.listPet[var4].rate, this.xDC + 32 * AvMain.hd / 2 + this.imgBackpet.frameWidth / 2 - 5 * AvMain.hd, this.yDC + 3 * AvMain.hd + this.W * var4 + 31 * AvMain.hd / 2 + this.imgBackpet.frameHeight / 2 - AvMain.hBlack, 2);
+            this.imgBackMoney.drawFrame(this.indexMoney == var4 ? 1 : 0, this.xDC + this.wDC - 1 * AvMain.hd - this.imgBackMoney.frameWidth, this.yDC + 7 * AvMain.hd + this.W * var4, 0, var1);
+            if (this.listPet[var4].money > 0) {
+               Canvas.normalFont.drawString(var1, "" + this.listPet[var4].money, this.xDC + this.wDC - 1 * AvMain.hd - this.imgBackMoney.frameWidth / 2, this.yDC + 7 * AvMain.hd + this.W * var4 + this.imgBackMoney.frameHeight / 2 - AvMain.hNormal / 2 - AvMain.hd - 1, 2);
             } else {
-               Canvas.normalFont.drawString(var1, avt.T.ec, this.xDC + this.wDC - 1 * AvMain.hd - this.imgBackMoney.frameWidth / 2, this.yDC + 7 * AvMain.hd + this.W * var2 + this.imgBackMoney.frameHeight / 2 - AvMain.hNormal / 2 - AvMain.hd - 1, 2);
+               Canvas.normalFont.drawString(var1, T.datCuoc, this.xDC + this.wDC - 1 * AvMain.hd - this.imgBackMoney.frameWidth / 2, this.yDC + 7 * AvMain.hd + this.W * var4 + this.imgBackMoney.frameHeight / 2 - AvMain.hNormal / 2 - AvMain.hd - 1, 2);
             }
          }
 
          if (this.isPetInfo && this.listPet != null) {
             Canvas.normalFont.drawString(var1, this.namePetInfo, this.xInfo + this.wInfo / 2, this.yInfo + 6 * AvMain.hd, 2);
             AvatarData.paintImg(var1, this.idImgPeInfo, this.xInfo + this.wInfo / 2, this.yInfo + 40 * AvMain.hd, 3);
-            int var4 = this.yInfo + 70 * AvMain.hd;
-            Canvas.normalFont.drawString(var1, avt.T.aP, this.xInfo + 5 * AvMain.hd, var4, 0);
+            var4 = this.yInfo + 70 * AvMain.hd;
+            Canvas.normalFont.drawString(var1, T.win, this.xInfo + 5 * AvMain.hd, var4, 0);
             Canvas.fontChatB.drawString(var1, this.numWin + "%", this.xInfo + this.wInfo - 8 * AvMain.hd, var4 + AvMain.hNormal / 2 - AvMain.hBlack / 2, 1);
             var4 += AvMain.hNormal;
-            Canvas.normalFont.drawString(var1, avt.T.eg, this.xInfo + 5 * AvMain.hd, var4, 0);
+            Canvas.normalFont.drawString(var1, T.cityIsOffLine, this.xInfo + 5 * AvMain.hd, var4, 0);
             Canvas.fontChatB.drawString(var1, "X" + this.ratePetInfo, this.xInfo + this.wInfo - 8 * AvMain.hd, var4 + AvMain.hNormal / 2 - AvMain.hBlack / 2, 1);
             var4 += AvMain.hNormal;
-            Canvas.normalFont.drawString(var1, avt.T.eh, this.xInfo + 5 * AvMain.hd, var4, 0);
-            Canvas.fontChatB.drawString(var1, avt.T.eD[this.phongDoPetInfo], this.xInfo + this.wInfo - 8 * AvMain.hd, var4 + AvMain.hNormal / 2 - AvMain.hBlack / 2, 1);
+            Canvas.normalFont.drawString(var1, T.youAre, this.xInfo + 5 * AvMain.hd, var4, 0);
+            Canvas.fontChatB.drawString(var1, T.cannotRegister[this.phongDoPetInfo], this.xInfo + this.wInfo - 8 * AvMain.hd, var4 + AvMain.hNormal / 2 - AvMain.hBlack / 2, 1);
             var4 += AvMain.hNormal;
-            Canvas.normalFont.drawString(var1, avt.T.eQ, this.xInfo + 5 * AvMain.hd, var4, 0);
-            Canvas.fontChatB.drawString(var1, avt.T.eD[this.sucKhoePetInfo], this.xInfo + this.wInfo - 8 * AvMain.hd, var4 + AvMain.hNormal / 2 - AvMain.hBlack / 2, 1);
+            Canvas.normalFont.drawString(var1, T.email, this.xInfo + 5 * AvMain.hd, var4, 0);
+            Canvas.fontChatB.drawString(var1, T.cannotRegister[this.sucKhoePetInfo], this.xInfo + this.wInfo - 8 * AvMain.hd, var4 + AvMain.hNormal / 2 - AvMain.hBlack / 2, 1);
             this.imgTime.drawFrame(0, this.xInfo + this.imgTime.frameWidth / 2 + 8 * AvMain.hd, this.yInfo + this.Hinfo - AvMain.hBorder - this.imgTime.frameHeight - 8 * AvMain.hd, 0, 3, var1);
             Canvas.normalFont.drawString(var1, String.valueOf(this.timeRemain), this.xInfo + 8 * AvMain.hd + this.imgTime.frameWidth + 2 * AvMain.hd, this.yInfo + this.Hinfo - AvMain.hBorder - this.imgTime.frameHeight - 8 * AvMain.hd - Canvas.normalFont.getHeight() / 2, 0);
             this.imgTime.drawFrame(1, this.xInfo + this.imgTime.frameWidth / 2 + 8 * AvMain.hd, this.yInfo + this.Hinfo - AvMain.hBorder - AvMain.hd, 0, 3, var1);
@@ -681,7 +680,7 @@ public final class RaceScr extends MyScreen implements IChatable {
       Canvas.resetTrans(var1);
       Canvas.paint.drawRectangle(var1, this.xSelectDC, this.ySelectDC, this.wSelectDC, this.hSelectDC, PaintPopup.color[2], PaintPopup.color[3], 1);
       var1.translate(this.xSelectDC, this.ySelectDC);
-      Canvas.normalFont.drawString(var1, avt.T.ef, this.wSelectDC / 2, 10 * AvMain.hd, 2);
+      Canvas.normalFont.drawString(var1, T.upgradeChest, this.wSelectDC / 2, 10 * AvMain.hd, 2);
 
       for(int var2 = 0; var2 < 9; ++var2) {
          this.imgBackMoney.drawFrame(this.indexDC == var2 ? 1 : 0, 5 * AvMain.hd + var2 % 3 * (5 * AvMain.hd + this.imgBackMoney.frameWidth), this.hSelectDC - 29 * AvMain.hd * 3 + var2 / 3 * 29 * AvMain.hd, 0, var1);
@@ -695,7 +694,8 @@ public final class RaceScr extends MyScreen implements IChatable {
       Canvas.loadMap.paint(var1);
 
       for(int var2 = 0; var2 < 6; ++var2) {
-         if (AvCamera.gI().xCam <= 4 * LoadMap.w * AvMain.hd) {
+         int var10001 = 4 * LoadMap.w;
+         if (AvCamera.gI().xCam <= var10001 * AvMain.hd) {
             LoadMap.imgMap.drawFrameXY(0, var2 % 2 == 0 ? 2 : 3, 3 * LoadMap.w * AvMain.hd, (var2 + 6) * LoadMap.w * AvMain.hd, 0, var1);
          }
 
@@ -714,12 +714,11 @@ public final class RaceScr extends MyScreen implements IChatable {
          this.myChat.xc = Canvas.hw;
          this.myChat.yc = Canvas.h - this.myChat.h - MyScreen.hTab - ChatTextField.gI().tfChat.height;
          GlobalService var10000 = GlobalService.gI();
-         String var2 = var1;
-         GlobalService var3 = var10000;
          var10000.createMessage((byte)9);
-         var3.writeUTF(var2);
-         var3.sendMessage();
+         var10000.writeUTF(var1);
+         var10000.sendMessage();
       }
+
    }
 
    public final void onPetInfo(short var1, String var2, short var3, byte var4, byte var5, byte var6) {

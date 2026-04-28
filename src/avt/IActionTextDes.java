@@ -12,6 +12,7 @@ final class IActionTextDes implements IAction {
    }
 
    public final void perform() {
+      System.out.println("DEBUG SHOP_BUY_CONFIRM: doBossShop idBoss=" + this.a + " idShopByte=" + this.b + " optionIdx=" + this.c);
       ParkService.gI().doBossShop(this.a, this.b, this.c);
    }
 }

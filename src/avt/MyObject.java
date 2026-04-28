@@ -9,13 +9,13 @@ public abstract class MyObject {
    public byte catagory = 0;
    public short height = 0;
 
-   static {
-      hd = AvMain.hd;
-   }
-
    public void update() {
    }
 
    public void paint(Graphics var1) {
+   }
+
+   static {
+      hd = AvMain.hd;
    }
 }

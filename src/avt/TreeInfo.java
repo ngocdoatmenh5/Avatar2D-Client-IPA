@@ -22,9 +22,8 @@ public final class TreeInfo {
          FarmData.paintImg(var1, this.idImg[var2], var3, var4, var5);
       } else {
          ImageInfo var10000 = FarmData.listImgInfo[this.idImg[var2]];
-         Graphics var7 = var1;
-         ImageInfo var6 = var10000;
-         var7.drawRegion(FarmData.imgBig[var6.bigID], var6.x0 * AvMain.hd, var6.y0 * AvMain.hd, var6.w * AvMain.hd, var6.h * AvMain.hd, 0, var3, var4, var5);
+         var1.drawRegion(FarmData.imgBig[var10000.bigID], var10000.x0 * AvMain.hd, var10000.y0 * AvMain.hd, var10000.w * AvMain.hd, var10000.h * AvMain.hd, 0, var3, var4, var5);
       }
+
    }
 }

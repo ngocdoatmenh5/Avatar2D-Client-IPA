@@ -51,11 +51,11 @@ public final class MoneyScr extends MyScreen {
       String var1;
       if (LoadMap.TYPEMAP == 25) {
          this.type = 1;
-         var1 = T.ev[1];
+         var1 = T.strName[1];
          FarmService.gI().doTransMoney(0, 0);
          Canvas.startWaitDlg();
       } else {
-         var1 = T.ev[0];
+         var1 = T.strName[0];
          this.type = 0;
       }
 
@@ -91,7 +91,7 @@ public final class MoneyScr extends MyScreen {
          case 1:
          case 2:
             if (this.type != 0) {
-               Canvas.inputDlg.setInfoIkb(T.ay, 100, 1);
+               Canvas.inputDlg.setInfoIkb(T.number, 100, 1);
                return;
             }
 
@@ -99,42 +99,37 @@ public final class MoneyScr extends MyScreen {
             MoneyInfo var8;
             if ((var8 = (MoneyInfo)this.avs.elementAt(super.selected_)).smsTo.indexOf(T.aH) != -1) {
                var3 = Canvas.normalFont.replace(var8.smsTo, T.aI, GameMidlet.avatar.name);
-               Canvas.startOKDlg(T.cL, (IAction)(new IActionDoBuy1(this, var3)));
+               Canvas.startOKDlg(T.doYouWantExitIntoRegion, new IActionDoBuy1(this, var3));
+            } else if (var8.smsTo.indexOf("napthe:") != -1) {
+               var3 = var8.smsTo.substring(0, var8.smsTo.indexOf("napthe:") + "napthe:".length());
+               var3 = Canvas.normalFont.replace(var8.smsTo, var3, "");
+               String var10001 = var3;
+               var3 = var8.info;
+               TField[] var4;
+               (var4 = new TField[2])[0] = new TField();
+               var4[1] = new TField();
+               var4[0].setIputType(0);
+               var4[1].setIputType(1);
+               InputFace.gI().setIputType(var4, var3, T.sendSmgFinish, new Command(T.finish, new IActionLoad(this, var10001, var4)));
+               Canvas.currentFace = InputFace.gI();
             } else {
-               String var9;
-               if (var8.smsTo.indexOf("napthe:") != -1) {
-                  var3 = var8.smsTo.substring(0, var8.smsTo.indexOf("napthe:") + "napthe:".length());
-                  var3 = Canvas.normalFont.replace(var8.smsTo, var3, "");
-                  String var10001 = var3;
-                  var3 = var8.info;
-                  var9 = var10001;
-                  TField[] var4;
-                  (var4 = new TField[2])[0] = new TField();
-                  var4[1] = new TField();
-                  var4[0].setIputType(0);
-                  var4[1].setIputType(1);
-                  InputFace.gI().setIputType(var4, var3, T.eH, new Command(T.cy, new IActionLoad(this, var9, var4)));
-                  Canvas.currentFace = InputFace.gI();
-               } else {
-                  if (var8.smsTo.indexOf("ServerNap:") == -1) {
-                     Canvas.startWaitDlg();
-                     GlobalService var10000 = GlobalService.gI();
-                     var9 = var8.smsContent;
-                     GlobalService var7 = var10000;
-                     var10000.createMessage((byte)-91);
-                     var7.writeUTF(var9);
-                     var7.sendMessage();
-                     return;
-                  }
-
-                  var3 = var8.smsTo.substring(0, var8.smsTo.indexOf("ServerNap:") + "ServerNap:".length());
-                  var3 = Canvas.normalFont.replace(var8.smsTo, var3, "");
-                  AvatarService var6;
-                  (var6 = AvatarService.gI()).createMessage((byte)-76);
-                  var6.writeUTF(var3);
-                  var6.sendMessage();
+               if (var8.smsTo.indexOf("ServerNap:") == -1) {
                   Canvas.startWaitDlg();
+                  GlobalService var10000 = GlobalService.gI();
+                  String var9 = var8.smsContent;
+                  var10000.createMessage((byte)-91);
+                  var10000.writeUTF(var9);
+                  var10000.sendMessage();
+                  return;
                }
+
+               var3 = var8.smsTo.substring(0, var8.smsTo.indexOf("ServerNap:") + "ServerNap:".length());
+               var3 = Canvas.normalFont.replace(var8.smsTo, var3, "");
+               AvatarService var6;
+               (var6 = AvatarService.gI()).createMessage((byte)-76);
+               var6.writeUTF(var3);
+               var6.sendMessage();
+               Canvas.startWaitDlg();
             }
             break;
          case 100:
@@ -147,18 +142,18 @@ public final class MoneyScr extends MyScreen {
                FarmService.gI().doTransMoney(var1, super.selected_ == 0 ? 1 : 0);
                Canvas.startWaitDlg();
                return;
-            } catch (Exception var5) {
+            } catch (Exception e) {
             }
       }
 
    }
 
    public final void initCmd() {
-      this.cmdTrans = new Command(T.ev[0], 1);
+      this.cmdTrans = new Command(T.strName[0], 1);
       super.left = this.cmdTrans;
-      this.cmdLoad = new Command(T.O, 2);
+      this.cmdLoad = new Command(T.selectt, 2);
       super.center = this.cmdLoad;
-      this.cmdClose = new Command(T.d, 0);
+      this.cmdClose = new Command(T.close, 0);
       super.right = this.cmdClose;
    }
 
@@ -172,7 +167,7 @@ public final class MoneyScr extends MyScreen {
       Canvas.resetTrans(var1);
       if (OnScreen.isOngame) {
          Canvas.paint.paintDefaultBg(var1);
-         Canvas.paint.drawTextElements(var1, T.cf.toUpperCase(), GameMidlet.avatar.money[0] + T.C, GameMidlet.avatar.money[2] + T.D);
+         Canvas.paint.drawTextElements(var1, T.loadMoney.toUpperCase(), GameMidlet.avatar.money[0] + T.xu, GameMidlet.avatar.money[2] + T.gold);
       } else if (this.backScr != null) {
          this.backScr.paintMain(var1);
       }
@@ -189,12 +184,12 @@ public final class MoneyScr extends MyScreen {
 
          if (this.focusTap == 1) {
             int var2 = (this.h - PaintPopup.hTab + (AvMain.hDuBox << 1)) / 6;
-            Canvas.fontChatB.drawString(var1, T.aA + GameMidlet.avatar.name, this.x + this.w / 2, var2 / 2, 2);
+            Canvas.fontChatB.drawString(var1, T.nameStr + GameMidlet.avatar.name, this.x + this.w / 2, var2 / 2, 2);
             if (!FarmScr.isNew) {
-               Canvas.fontChatB.drawString(var1, T.aJ + ": " + GameMidlet.avatar.strMoney, this.x + this.w / 2, var2 / 2 + var2, 2);
+               Canvas.fontChatB.drawString(var1, T.youFirstFire + ": " + GameMidlet.avatar.strMoney, this.x + this.w / 2, var2 / 2 + var2, 2);
             }
 
-            Canvas.fontChatB.drawString(var1, GameMidlet.avatar.money[2] + T.D, this.x + this.w / 2, var2 / 2 + (var2 << 1), 2);
+            Canvas.fontChatB.drawString(var1, GameMidlet.avatar.money[2] + T.gold, this.x + this.w / 2, var2 / 2 + (var2 << 1), 2);
             if (FarmScr.isNew) {
                Canvas.fontChatB.drawString(var1, MapScr.strTkFarm(), this.x + this.w / 2, var2 / 2 + var2 * 3, 2);
             }
@@ -213,6 +208,7 @@ public final class MoneyScr extends MyScreen {
 
          Canvas.paintPlus(var1);
       }
+
    }
 
    public final void setAvatarList(Vector var1) {
@@ -234,6 +230,7 @@ public final class MoneyScr extends MyScreen {
 
          Canvas.cameraList.setInfo(this.x, this.y + (!OnScreen.isOngame ? PaintPopup.hTab + AvMain.hDuBox : 0), this.w, this._hSmall__, this.w, var1, this.w, this.h - (PaintPopup.hTab + 2 * AvMain.hDuBox) - AvMain.hDuBox, var2);
       }
+
    }
 
    private void initPos() {
@@ -255,7 +252,7 @@ public final class MoneyScr extends MyScreen {
             Canvas.paint.drawSelectedArea(var1, this.x + 3 * AvMain.hd, var2 * this._hSmall__ + 5, this.w - 6 * AvMain.hd, this._hSmall__);
          }
 
-         Canvas.normalFont.drawString(var1, T.ew[var2], this.x + 10 + (super.selected_ == var2 ? this.xTrans : 0), var2 * this._hSmall__ + 5 + this._hSmall__ / 2 - AvMain.hNormal / 2, 0);
+         Canvas.normalFont.drawString(var1, T.strTransMoney[var2], this.x + 10 + (super.selected_ == var2 ? this.xTrans : 0), var2 * this._hSmall__ + 5 + this._hSmall__ / 2 - AvMain.hNormal / 2, 0);
       }
 
    }
@@ -306,12 +303,12 @@ public final class MoneyScr extends MyScreen {
       if (this.focusTap == 0) {
          this.focusTap = 1;
          super.left = null;
-         var1 = T.ev[2];
+         var1 = T.strName[2];
       } else {
          if (this.type == 1) {
-            var1 = T.ev[1];
+            var1 = T.strName[1];
          } else {
-            var1 = T.ev[0];
+            var1 = T.strName[0];
          }
 
          this.focusTap = 0;
@@ -333,7 +330,7 @@ public final class MoneyScr extends MyScreen {
          MoneyInfo var1 = (MoneyInfo)this.avs.elementAt(super.selected_);
          var2 = Canvas.normalFont.getWidth(var1.info);
       } else {
-         var2 = Canvas.normalFont.getWidth(T.ew[super.selected_]);
+         var2 = Canvas.normalFont.getWidth(T.strTransMoney[super.selected_]);
       }
 
       if (var2 > this.w - 20) {
@@ -361,5 +358,6 @@ public final class MoneyScr extends MyScreen {
          super.left = null;
          super.center = null;
       }
+
    }
 }

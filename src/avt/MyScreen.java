@@ -3,6 +3,7 @@ package avt;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 import main.Canvas;
+import main.GameMidlet;
 
 public abstract class MyScreen extends AvMain {
    public static int ITEM_HEIGHT = 20;
@@ -41,7 +42,7 @@ public abstract class MyScreen extends AvMain {
       }
 
       if (!Session_ME.gI().isConnected()) {
-         Canvas.M.drawString(var1, "2.5.8", Canvas.af.x, Canvas.af.y, Canvas.af.anchor);
+         Canvas.M.drawString(var1, GameMidlet.APP_VERSION, Canvas.af.x, Canvas.af.y, Canvas.af.anchor);
       } else if (Canvas.currentMyScreen == ServerListScr.me || Canvas.currentMyScreen == MiniMap.me) {
          Canvas.M.drawString(var1, Session_ME.gI().k, Canvas.af.x, Canvas.af.y, Canvas.af.anchor);
       }
@@ -69,23 +70,21 @@ public abstract class MyScreen extends AvMain {
       Graphics var1 = an.getGraphics();
       if (Canvas.currentMyScreen == DiamondScr.me_) {
          DiamondScr.me_.paintCaro(var1);
-      } else {
-         if (Canvas.currentMyScreen == TLBoardScr.instance || Canvas.currentMyScreen == PBoardScr.instance) {
-            int var2;
-            if (Canvas.w < var0) {
-               var2 = var0 / 10;
-            } else {
-               var2 = Canvas.w / 10;
-            }
-
-            for(int var3 = 0; var3 < var2; ++var3) {
-               var1.setColor(6629892);
-               var1.drawRect(Canvas.hw - var3 * var2 - 1, var0 / 2 - var3 * var2, var3 * var2 << 1, var3 * var2 << 1);
-               var1.setColor(13399567);
-               var1.drawRect(Canvas.hw - var3 * var2, var0 / 2 - var3 * var2 + 1, var3 * var2 << 1, var3 * var2 << 1);
-            }
+      } else if (Canvas.currentMyScreen == TLBoardScr.instance || Canvas.currentMyScreen == PBoardScr.instance) {
+         int var2;
+         if (Canvas.w < var0) {
+            var2 = var0 / 10;
+         } else {
+            var2 = Canvas.w / 10;
          }
 
+         for(int var3 = 0; var3 < var2; ++var3) {
+            var1.setColor(6629892);
+            var1.drawRect(Canvas.hw - var3 * var2 - 1, var0 / 2 - var3 * var2, var3 * var2 << 1, var3 * var2 << 1);
+            var1.setColor(13399567);
+            var1.drawRect(Canvas.hw - var3 * var2, var0 / 2 - var3 * var2 + 1, var3 * var2 << 1, var3 * var2 << 1);
+         }
       }
+
    }
 }

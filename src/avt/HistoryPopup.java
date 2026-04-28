@@ -24,7 +24,7 @@ public final class HistoryPopup extends Dialog {
    public HistoryPopup(RaceMsgHandler var1, short[] var2, String[] var3) {
       this.idPet = var2;
       this.time = var3;
-      super.center = new Command(T.z, (IAction)null);
+      super.center = new Command(T.OK, (IAction)null);
       this.h = 150 * AvMain.hd;
       this.w = 200 * AvMain.hd;
       this.w = 0;

@@ -29,9 +29,9 @@ public final class RegisterScr extends MyScreen {
       switch (var1) {
          case 0:
             Vector var3;
-            (var3 = new Vector()).addElement(new Command(T.o, 0, this));
-            var3.addElement(new Command(T.p, 1, this));
-            Canvas.setInfoC(T.dC, var3);
+            (var3 = new Vector()).addElement(new Command(T.yes, 0, this));
+            var3.addElement(new Command(T.no, 1, this));
+            Canvas.setInfoC(T.milk, var3);
          default:
       }
    }
@@ -51,7 +51,7 @@ public final class RegisterScr extends MyScreen {
       GameMidlet.avatar.direct = 0;
       GameMidlet.avatar.seriPart = new Vector();
       this.getAvatarPart();
-      super.center = new Command(T.cj, 0);
+      super.center = new Command(T.success, 0);
       SeriPart var1 = new SeriPart();
       int var2 = CRes.random.nextInt(this.listQ.size());
       var1.idPart = ((APartInfo)this.listQ.elementAt(var2)).IDPart;
@@ -68,7 +68,7 @@ public final class RegisterScr extends MyScreen {
       GameMidlet.avatar.addSeri(var1);
       GameMidlet.avatar.addSeri(new SeriPart((short)0));
       GameMidlet.avatar.orderSeriesPath();
-      PaintPopup.gI().a(T.ck, 150 * AvMain.hd, 170 + (AvMain.hd == 2 ? 120 : 0), 1);
+      PaintPopup.gI().a(T.createChar, 150 * AvMain.hd, 170 + (AvMain.hd == 2 ? 120 : 0), 1);
       super.switchToMe();
    }
 
@@ -108,7 +108,7 @@ public final class RegisterScr extends MyScreen {
 
    private static void doFinish() {
       Canvas.isInitChar = true;
-      Canvas.startWaitDlg(T.ck + "...");
+      Canvas.startWaitDlg(T.createChar + "...");
       GlobalService.gI().doRequestCreCharacter();
    }
 
@@ -170,6 +170,7 @@ public final class RegisterScr extends MyScreen {
       } else {
          this.getId();
       }
+
    }
 
    public final void updateKey() {
@@ -210,9 +211,10 @@ public final class RegisterScr extends MyScreen {
    public static void onCreaCharacter(boolean var0) {
       Canvas.endDlg();
       if (var0) {
-         MapScr.gI().joinCitymap();
+         ClientUtilities.requestChangeZone();
       } else {
-         Canvas.startOKDlg(T.cl);
+         Canvas.startOKDlg(T.createCharFail);
       }
+
    }
 }

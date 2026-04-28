@@ -222,13 +222,19 @@ public final class AnimateEffect extends Effect {
             if (System.currentTimeMillis() / 1000L - (long)this.timeCur > (long)this.timeStop) {
                ++this.timeStop;
 
-               for(var2 = 0; var2 < 5; ++var2) {
+               int removeCount = var5.list.size();
+               if (removeCount > 5) {
+                  removeCount = 5;
+               }
+
+               for(var2 = 0; var2 < removeCount; ++var2) {
                   var5.list.removeElementAt(0);
-                  var5.number = var5.list.size();
-                  if (var5.number == 0) {
-                     var5.close();
-                     return;
-                  }
+               }
+
+               var5.number = var5.list.size();
+               if (var5.number == 0) {
+                  var5.close();
+                  return;
                }
             }
 
@@ -253,8 +259,8 @@ public final class AnimateEffect extends Effect {
                   var5.rndPos(var3);
                }
             }
+         default:
       }
-
    }
 
    private void rndPos(Point var1) {

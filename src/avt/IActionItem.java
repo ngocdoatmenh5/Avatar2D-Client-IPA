@@ -26,7 +26,7 @@ final class IActionItem implements IAction {
       HouseScr.isSelectObj = true;
       HouseScr.isChange = true;
       HouseScr.setSelectedIndex(this.me, this.ii);
-      this.me.center = new Command(T.cS, new IActionItem1(this, this.ii, this.na));
+      this.me.center = new Command(T.sett, new IActionItem1(this, this.ii, this.na));
       this.me.left = null;
       this.me.right = null;
    }

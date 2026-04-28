@@ -67,6 +67,7 @@ public final class FlyTextInfo {
             this.y += this.dir;
          }
       }
+
    }
 
    public final void paint(Graphics var1) {
@@ -84,9 +85,11 @@ public final class FlyTextInfo {
          if (this.isSmall) {
             if (this.normal == 0) {
                var3 = Canvas.smallFontRed;
+            } else if (this.normal == 2) {
+               var3 = Canvas.smallFontYellow;
+            } else if (this.normal == 3) {
+               var3 = Canvas.R;
             } else {
-               byte var10000 = this.normal;
-               boolean var10001 = true;
                var3 = Canvas.borderFont;
             }
          }
@@ -105,7 +108,7 @@ public final class FlyTextInfo {
          } else if (!this.isSmall) {
             var1.drawImage(this.img, this.x * var2, this.y * var2, 33);
          }
-
       }
+
    }
 }

@@ -1,14 +1,15 @@
 package main;
 
+import avt.*;
+
 import java.util.Vector;
+import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.List;
-
-import avt.*;
 
 public final class Canvas extends javax.microedition.lcdui.Canvas implements Runnable, CommandListener {
    public static Canvas instance;
@@ -52,8 +53,8 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    public static boolean isKeyBoard = false;
    public static boolean isInitChar = false;
    public static int load = -1;
-   private static javax.microedition.lcdui.Command al;
-   private static javax.microedition.lcdui.Command am;
+   private static Command al;
+   private static Command am;
    private static Object an = new Object();
    public static FontX normalFont;
    public static FontX borderFont;
@@ -81,7 +82,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    private int as;
    private int at;
    private static Vector au;
-   public static Command ad;
+   public static avt.Command ad;
    public static AvPosition[] ae = new AvPosition[3];
    public static AvPosition af;
 
@@ -106,10 +107,10 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       R = new mFont(7);
       paint = new MediumPaint();
       MyScreen.ITEM_HEIGHT = normalFont.getHeight() + 6;
-      AvMain.hBlack = (byte) fontChatB.getHeight();
-      AvMain.hBorder = (byte) borderFont.getHeight();
-      AvMain.hNormal = (byte) normalFont.getHeight();
-      AvMain.hSmall = (byte) smallFontRed.getHeight();
+      AvMain.hBlack = (byte)fontChatB.getHeight();
+      AvMain.hBorder = (byte)borderFont.getHeight();
+      AvMain.hNormal = (byte)normalFont.getHeight();
+      AvMain.hSmall = (byte)smallFontRed.getHeight();
       this.setSize();
       hw = w / 2;
       hh = h / 2;
@@ -133,8 +134,8 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
          TField.initKey(3);
          this.setCommandListener(this);
-         am = new javax.microedition.lcdui.Command(T.d, 2, 1);
-         al = new javax.microedition.lcdui.Command(T.c, 1, 1);
+         am = new Command(T.close, 2, 1);
+         al = new Command(T.menu, 1, 1);
          this.addCommand(al);
          this.addCommand(am);
       }
@@ -149,6 +150,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
       TField.b(instance.getGameAction(48) == 0 && instance.getGameAction(49) == 0 && instance.getGameAction(50) == 0 && instance.getGameAction(51) == 0 && instance.getGameAction(52) == 0 && instance.getGameAction(53) == 0 && instance.getGameAction(54) == 0 && instance.getGameAction(55) == 0 && instance.getGameAction(56) == 0 && instance.getGameAction(57) == 0);
       CRes.init();
+      ClientUtilities.loadPersistedUtilitySettings();
       menuMain = new Menu();
       msgdlg = new MsgDlg();
       avataData = new AvatarData();
@@ -169,7 +171,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    }
 
    public static void a() {
-      ad = new Command(T.p, -1);
+      ad = new avt.Command(T.no, -1);
       Menu.gI().initCmd();
       if (currentMyScreen != null) {
          currentMyScreen.initCmd();
@@ -304,6 +306,20 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
          transTab = 0;
       }
+
+   }
+
+   public static void addServerInfo(String var0) {
+      if (!var0.equals("")) {
+         StringObj var1;
+         (var1 = new StringObj(var0, -normalFont.getWidth(var0))).x = w + 10;
+         listInfoSV.addElement(var1);
+         if (ab == 0) {
+            ab = 1;
+         }
+
+         transTab = 0;
+      }
    }
 
    public static void connect() {
@@ -351,10 +367,6 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
             long var1 = System.currentTimeMillis();
             if (++gameTick > 10000) {
-               if (System.currentTimeMillis() - this.ar > 20000L && currentMyScreen == LoginScr.me) {
-                  GameMidlet.instance.notifyDestroyed();
-               }
-
                gameTick = 0;
             }
 
@@ -386,11 +398,12 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                int var3;
                if (currentEffect.size() > 0) {
                   for(var3 = 0; var3 < currentEffect.size(); ++var3) {
-                     ((Effect) currentEffect.elementAt(var3)).updateWind();
+                     ((Effect)currentEffect.elementAt(var3)).updateWind();
                   }
                }
 
                if (currentMyScreen != null) {
+                  LoginScr.tickOnlineKeyGuard();
                   if (ChatTextField.isShow) {
                      ChatTextField.gI().updateKey();
                   }
@@ -405,7 +418,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                      }
 
                      StringObj var9;
-                     StringObj var10000 = var9 = (StringObj) listInfoSV.elementAt(0);
+                     StringObj var10000 = var9 = (StringObj)listInfoSV.elementAt(0);
                      var10000.x -= 2;
                      if (var9.x < var9.w2) {
                         listInfoSV.removeElementAt(0);
@@ -518,12 +531,12 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                isPointerRelease = false;
 
                for(var3 = 0; var3 < flyTexts.size(); ++var3) {
-                  ((FlyTextInfo) flyTexts.elementAt(var3)).update();
+                  ((FlyTextInfo)flyTexts.elementAt(var3)).update();
                }
 
                if (E || ak) {
                   for(var3 = 0; var3 < 4; ++var3) {
-                     if (keyHold[(var3 << 1) + 2] && System.currentTimeMillis() / 100L - timeBB[var3] > (long) count0) {
+                     if (keyHold[(var3 << 1) + 2] && System.currentTimeMillis() / 100L - timeBB[var3] > (long)count0) {
                         keyHold[(var3 << 1) + 2] = false;
                      }
                   }
@@ -535,8 +548,8 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                synchronized(an) {
                   try {
                      an.wait(1000L);
-                  } catch (InterruptedException var6) {
-                     var6.printStackTrace();
+                  } catch (InterruptedException var8) {
+                     var8.printStackTrace();
                   }
                }
             } else {
@@ -544,17 +557,18 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             }
 
             long var11 = System.currentTimeMillis() - var1;
+            long var12 = (long)ClientUtilities.getFrameTargetMs();
 
             try {
-               if (var11 < 50L) {
-                  Thread.sleep(50L - var11);
+               if (var11 < var12) {
+                  Thread.sleep(var12 - var11);
                } else {
                   Thread.sleep(1L);
                }
-            } catch (InterruptedException var5) {
+            } catch (InterruptedException var7) {
             }
-         } catch (Exception var8) {
-            var8.printStackTrace();
+         } catch (Exception var10) {
+            var10.printStackTrace();
          }
       }
 
@@ -563,6 +577,12 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    public final void keyPressed(int var1) {
       if (load == -1) {
          this.ar = System.currentTimeMillis();
+         if (currentDialog == null && currentFace == null && !ChatTextField.isShow
+                 && (ClientUtilities.handleAutoClickStartHotKey(var1) || ClientUtilities.handleAutoStoneStartHotKey(var1))) {
+            return;
+         }
+
+         long var5;
          if (ah) {
             switch (this.getGameAction(var1)) {
                case 1:
@@ -597,29 +617,41 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                   return;
             }
          } else if (E) {
-            long var2 = System.currentTimeMillis() / 100L;
+            var5 = System.currentTimeMillis() / 100L;
             switch (var1) {
                case -8:
                   keyHold[5] = true;
                   keyPressed[5] = true;
                   return;
+               case -7:
+               case -6:
+               case -5:
+               case -4:
+               case -3:
+               case -2:
+               case -1:
+               case 0:
+               case 3:
+               case 4:
+               default:
+                  break;
                case 1:
-                  timeBB[0] = var2;
+                  timeBB[0] = var5;
                   keyHold[2] = true;
                   keyPressed[2] = true;
                   return;
                case 2:
-                  timeBB[1] = var2;
+                  timeBB[1] = var5;
                   keyHold[4] = true;
                   keyPressed[4] = true;
                   return;
                case 5:
-                  timeBB[2] = var2;
+                  timeBB[2] = var5;
                   keyHold[6] = true;
                   keyPressed[6] = true;
                   return;
                case 6:
-                  timeBB[3] = var2;
+                  timeBB[3] = var5;
                   keyHold[8] = true;
                   keyPressed[8] = true;
                   return;
@@ -639,7 +671,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
          }
 
          if (ak) {
-            long var5 = System.currentTimeMillis() / 100L;
+            var5 = System.currentTimeMillis() / 100L;
             switch (var1) {
                case -39:
                case -2:
@@ -701,6 +733,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                keyPressed[10] = true;
          }
       }
+
    }
 
    public static boolean a(int var0) {
@@ -874,6 +907,11 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       flyTexts.addElement(new FlyTextInfo(var1, var2, var0, -1, var4, var5, -1, -1));
    }
 
+   public static void addFlyImage(int x, int y, Image img, int delay) {
+      
+      flyTexts.addElement(new FlyTextInfo(x, y, 0, 1, img, delay, -1, -1));
+   }
+
    public static void addFlyTextSmall(String var0, int var1, int var2, int var3, int var4, int var5) {
       flyTexts.addElement(new FlyTextInfo(var1, var2, var0, -1, var4, var5));
    }
@@ -895,7 +933,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
          if (currentEffect.size() > 0 && currentMyScreen != RoomListOnScr.me && currentMyScreen != BoardListOnScr.me) {
             for(int var2 = 0; var2 < currentEffect.size(); ++var2) {
-               ((Effect) currentEffect.elementAt(var2)).paint(var1);
+               ((Effect)currentEffect.elementAt(var2)).paint(var1);
             }
          }
 
@@ -917,13 +955,57 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             welcome.paint(var1);
          }
 
+         if (GameMidlet.avatar != null) {
+            resetTrans(var1);
+            int x = 2;
+            int y = 30;
+            int dy = 15;
+            String lv = "Lv: " + GameMidlet.myIndexP.g + " + " + GameMidlet.myIndexP.f + "%";
+            String money = "TK: " + getMoneys(GameMidlet.avatar.money[0]) + "xu - " + getMoneys(GameMidlet.avatar.money[2]) + "L - " + getMoneys(GameMidlet.avatar.luongKhoa) + "LK";
+            int zoneMax = MapScr.zoneMaxIndex >= 0 ? MapScr.zoneMaxIndex : MapScr.roomID;
+            String zone = "Khu: " + MapScr.boardID + "/" + zoneMax;
+            borderFont.drawString(var1, "Nguyễn Văn Bằng", x, y, 0);
+            borderFont.drawString(var1, "ID: " + GameMidlet.avatar.name + " - " + lv, x, y + dy, 0);
+            borderFont.drawString(var1, money, x, y + dy * 2, 0);
+            borderFont.drawString(var1, zone, x, y + dy * 3, 0);
+            String autoStoneLine1 = ClientUtilities.getAutoStoneOverlayLine1();
+            String autoStoneLine2 = ClientUtilities.getAutoStoneOverlayLine2();
+            String autoStoneLine3 = ClientUtilities.getAutoStoneOverlayLine3();
+            boolean hasAnyAutoStoneOverlay = autoStoneLine1 != null || autoStoneLine2 != null || autoStoneLine3 != null;
+            if (autoStoneLine1 != null) {
+               borderFont.drawString(var1, autoStoneLine1, x, y + dy * 4, 0);
+            }
+            if (autoStoneLine2 != null) {
+               borderFont.drawString(var1, autoStoneLine2, x, y + dy * 5, 0);
+            }
+            if (autoStoneLine3 != null) {
+               borderFont.drawString(var1, autoStoneLine3, x, y + dy * 6, 0);
+            }
+
+            if (currentMyScreen == DialLuckyScr.gI() || DialLuckyScr.gI().isAutoDialEnabled()) {
+               int dialBaseLine = hasAnyAutoStoneOverlay ? 7 : 4;
+               String spinning = DialLuckyScr.gI().getSelectedDialItemText();
+               if (spinning == null) {
+                  spinning = DialLuckyScr.gI().getSpinningGiftText();
+               }
+               if (spinning != null) {
+                  borderFont.drawString(var1, spinning, x, y + dy * dialBaseLine, 0);
+                  dialBaseLine++;
+               }
+
+               borderFont.drawString(var1, DialLuckyScr.gI().getDialCountText(), x, y + dy * dialBaseLine, 0);
+            }
+
+            ClientUtilities.paintFishingCounterOverlay(var1);
+         }
+
          Graphics var6 = var1;
          resetTrans(var1);
          var1.translate(-AvCamera.gI().xCam, -AvCamera.gI().yCam);
 
          int var3;
          for(var3 = 0; var3 < flyTexts.size(); ++var3) {
-            ((FlyTextInfo) flyTexts.elementAt(var3)).paint(var6);
+            ((FlyTextInfo)flyTexts.elementAt(var3)).paint(var6);
          }
 
          if (ab > 0) {
@@ -941,7 +1023,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                resetTrans(var6);
                var3 = ab / 2 - AvMain.hBorder / 2;
                var6.setClip(0, var3, w, AvMain.hBorder + 2);
-               StringObj var4 = (StringObj) listInfoSV.elementAt(0);
+               StringObj var4 = (StringObj)listInfoSV.elementAt(0);
                borderFont.drawString(var6, var4.str, var4.x, var3, 0);
                resetTrans(var6);
             }
@@ -968,6 +1050,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             an.notify();
          }
       }
+
    }
 
    public static void resetTrans(Graphics var0) {
@@ -982,67 +1065,86 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    }
 
    public static void startOKDlg(String var0) {
-      msgdlg.setInfoC(var0, new Command(T.z, -1), (Vector)null);
+      ClientUtilities.onDialogShown(var0);
+      if (ClientUtilities.autoStoneEnabled) {
+         endDlg();
+         return;
+      }
+      msgdlg.setInfoC(var0, new avt.Command(T.OK, -1), (Vector)null);
    }
 
    public static void setInfoC(String var0, Vector var1) {
-      if (OnScreen.isOngame) {
-         msgdlg.setInfoC(var0, (Command)null, var1);
-      } else {
-         msgdlg.setInfoC(var0, new Command("", -1), var1);
+      ClientUtilities.onDialogShown(var0);
+      if (ClientUtilities.autoStoneEnabled) {
+         endDlg();
+         return;
       }
+      if (OnScreen.isOngame) {
+         msgdlg.setInfoC(var0, (avt.Command)null, var1);
+      } else {
+         msgdlg.setInfoC(var0, new avt.Command("", -1), var1);
+      }
+
    }
 
    public static void startOKDlg(String var0, IAction var1) {
       Vector var2;
-      (var2 = new Vector()).addElement(new Command(T.o, var1));
+      (var2 = new Vector()).addElement(new avt.Command(T.yes, var1));
       var2.addElement(ad);
       setInfoC(var0, var2);
    }
 
    public static void startOKDlg(String var0, int var1, AvMain var2) {
       Vector var3;
-      (var3 = new Vector()).addElement(new Command(T.o, var1, var2));
+      (var3 = new Vector()).addElement(new avt.Command(T.yes, var1, var2));
       var3.addElement(ad);
       setInfoC(var0, var3);
    }
 
    public static void startOK(String var0, IAction var1) {
       Vector var2;
-      (var2 = new Vector()).addElement(new Command(T.z, var1));
+      (var2 = new Vector()).addElement(new avt.Command(T.OK, var1));
       setInfoC(var0, var2);
    }
 
    public static void startOKDlg(String var0, int var1) {
       Vector var2;
-      (var2 = new Vector()).addElement(new Command(T.o, var1));
+      (var2 = new Vector()).addElement(new avt.Command(T.yes, var1));
       var2.addElement(ad);
       setInfoC(var0, var2);
    }
 
    public static void startOK(String var0, int var1, AvMain var2) {
       Vector var3;
-      (var3 = new Vector()).addElement(new Command(T.z, var1, var2));
+      (var3 = new Vector()).addElement(new avt.Command(T.OK, var1, var2));
       setInfoC(var0, var3);
    }
 
    public static void startWaitDlg(String var0) {
-      msgdlg.setInfoC(var0, (Command)null, (Vector)null);
+      if (ClientUtilities.autoStoneEnabled) {
+         endDlg();
+         return;
+      }
+      msgdlg.setInfoC(var0, (avt.Command)null, (Vector)null);
       msgdlg.setIsWaiting(true);
    }
 
    public static void startWaitCancelDlg(String var0) {
-      msgdlg.setInfoC(var0, new Command(T.cm, -1), (Vector)null);
+      if (ClientUtilities.autoStoneEnabled) {
+         endDlg();
+         return;
+      }
+      msgdlg.setInfoC(var0, new avt.Command(T.cancel, -1), (Vector)null);
    }
 
    public static void startWaitDlg() {
-      startWaitDlg(T.b);
+      startWaitDlg(T.pleaseWait);
    }
 
    public static String getPriceMoney(int var0, int var1, int var2, boolean var3) {
       String var4 = "";
       if (var0 > 0) {
-         var4 = var4 + getMoneys(var0) + T.C;
+         var4 = var4 + getMoneys(var0) + T.xu;
       }
 
       if (var1 > 0) {
@@ -1050,7 +1152,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             var4 = var4 + " - ";
          }
 
-         var4 = var4 + getMoneys(var1) + T.D;
+         var4 = var4 + getMoneys(var1) + T.gold;
       }
 
       if (var2 >= 0) {
@@ -1058,7 +1160,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             var4 = var4 + " - ";
          }
 
-         var4 = var4 + getMoneys(var2) + T.E;
+         var4 = var4 + getMoneys(var2) + T.noReady;
       }
 
       return var4;
@@ -1067,7 +1169,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    public static String getPriceMoney(int var0, int var1, boolean var2) {
       String var3 = "";
       if (var0 > 0) {
-         var3 = var3 + getMoneys(var0) + (var2 ? T.C : T.T);
+         var3 = var3 + getMoneys(var0) + (var2 ? T.xu : T.dola);
       }
 
       if (var1 > 0) {
@@ -1075,7 +1177,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             var3 = var3 + " - ";
          }
 
-         var3 = var3 + getMoneys(var1) + T.D;
+         var3 = var3 + getMoneys(var1) + T.gold;
       }
 
       return var3;
@@ -1108,7 +1210,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       return var1;
    }
 
-   public final void commandAction(javax.microedition.lcdui.Command var1, Displayable var2) {
+   public final void commandAction(Command var1, Displayable var2) {
       if (var1 != null && var1 != List.SELECT_COMMAND) {
          if (var1 == null) {
             if (currentMyScreen == SplashScr.me) {
@@ -1122,7 +1224,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             OnSplashScr.isOpen = false;
          }
       } else {
-         List list = (List) var2;
+         List list = (List)var2;
          if (list != null && list.getSelectedIndex() != 0) {
             OnScreen.isOngame = true;
             OnScreen.gI().switchToMe();
@@ -1135,12 +1237,10 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
       if (var1 == al) {
          keyPressed[12] = true;
-      } else {
-         if (var1 == am) {
-            keyPressed[13] = true;
-         }
-
+      } else if (var1 == am) {
+         keyPressed[13] = true;
       }
+
    }
 
    public static boolean isPointer(int var0, int var1, int var2, int var3) {
@@ -1155,25 +1255,25 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       String var5 = "";
       Vector var6 = new Vector();
       if (var0 > 0) {
-         var6.addElement(new Command(var1 <= 0 ? T.o : T.C, var2));
-         var5 = " " + var0 + T.C;
+         var6.addElement(new avt.Command(var1 <= 0 ? T.yes : T.xu, var2));
+         var5 = " " + var0 + T.xu;
       }
 
       if (var1 > 0) {
-         var6.addElement(new Command(var0 <= 0 ? T.o : T.D, var3));
-         var5 = " " + var1 + T.D;
+         var6.addElement(new avt.Command(var0 <= 0 ? T.yes : T.gold, var3));
+         var5 = " " + var1 + T.gold;
       }
 
       if (var6.size() == 1) {
-         var5 = T.cR + var5 + " " + T.p + " ?";
+         var5 = T.doYouWanBuyPrice + var5 + " " + T.no + " ?";
       } else {
-         var5 = T.aG + " \n" + var0 + T.C + " - " + var1 + " " + T.D;
+         var5 = T.selectMoney + " \n" + var0 + T.xu + " - " + var1 + " " + T.gold;
       }
 
       if (var4 == null) {
          var6.addElement(ad);
       } else {
-         var6.addElement(new Command(T.p, var4));
+         var6.addElement(new avt.Command(T.no, var4));
       }
 
       setInfoC(var5, var6);

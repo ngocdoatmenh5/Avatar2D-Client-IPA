@@ -29,7 +29,7 @@ public class Command {
    public Command(String var1, int var2, int var3) {
       this.caption = var1;
       this.indexMenu = (byte)var2;
-      this.subIndex = (byte)var3;
+      this.subIndex = (short)((byte)var3);
    }
 
    public final void perform() {
@@ -42,6 +42,7 @@ public class Command {
       } else {
          Canvas.currentMyScreen.commandTab(this.indexMenu, this.subIndex);
       }
+
    }
 
    public void update() {

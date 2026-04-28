@@ -14,10 +14,18 @@ public final class GlobalLogicHandler {
 
    public static void onLoginSuccess() {
       AvatarMsgHandler.onHandler();
+      boolean fishAutoHandled = ClientUtilities.onFishingAutoLoginSuccess();
+      System.out.println("[FISH_AUTO_LOGIN] onLoginSuccess fishAutoHandled=" + fishAutoHandled + " playing=" + AvatarData.playing);
+      if (fishAutoHandled) {
+         AvatarService.gI().doRequestExpicePet(GameMidlet.avatar.IDDB);
+         AvatarData.listImgIcon = new Hashtable();
+         AvatarData.listImgPart = new Hashtable();
+         return;
+      }
       if (AvatarData.playing == -1) {
          AvatarService.gI().getBigData();
       } else {
-         MapScr.gI().joinCitymap();
+         ClientUtilities.requestChangeZone();
       }
 
       AvatarService.gI().doRequestExpicePet(GameMidlet.avatar.IDDB);
@@ -28,8 +36,8 @@ public final class GlobalLogicHandler {
    public final void onVersion(String var1, String var2) {
       IActionVersionDown var4 = new IActionVersionDown(this, var2);
       Vector var3;
-      (var3 = new Vector()).addElement(new Command(T.z, var4));
-      var3.addElement(new Command(T.d, new IActionVersionDown2(this)));
+      (var3 = new Vector()).addElement(new Command(T.OK, var4));
+      var3.addElement(new Command(T.close, new IActionVersionDown2(this)));
       Canvas.msgdlg.setIsWaiting(false);
       Canvas.setInfoC(var1, var3);
       isNewVersion = true;
@@ -41,6 +49,7 @@ public final class GlobalLogicHandler {
       } else {
          Canvas.startOKDlg(var1);
       }
+
    }
 
    public static void doGetHandler(byte var0) {
@@ -62,6 +71,11 @@ public final class GlobalLogicHandler {
             default:
                break;
             case 8:
+               if (ClientUtilities.isFishingReloginActive()) {
+                  System.out.println("[FISH_AUTO_LOGIN] doGetHandler(8) detected relogin flow -> force join map 9");
+                  ClientUtilities.forceFishingReloginJoinMap9FromHandler9();
+                  return;
+               }
                MapScr.gI().isTour = true;
                AvatarMsgHandler.onHandler();
                if (MapScr.idMapOffline != -1) {
@@ -76,12 +90,17 @@ public final class GlobalLogicHandler {
                   GameMidlet.avatar.setFeel(4);
                   Canvas.endDlg();
                } else {
-                  MapScr.gI().joinCitymap();
+                  ClientUtilities.requestChangeZone();
                   Canvas.endDlg();
                }
                break;
             case 9:
                ParkMsgHandler.onHandler();
+               if (ClientUtilities.isFishingReloginActive()) {
+                  System.out.println("[FISH_AUTO_LOGIN] doGetHandler(9) detected relogin flow -> force join map 9");
+                  ClientUtilities.forceFishingReloginJoinMap9FromHandler9();
+                  return;
+               }
                if (LoadMap.xDichChuyen == -1) {
                   if (!OnScreen.isOngame) {
                      if (GameMidlet.CLIENT_TYPE == 12) {
@@ -135,7 +154,7 @@ public final class GlobalLogicHandler {
                ParkService.gI().doJoinPark(21, 0);
                if (MapScr.idHouse != -1) {
                   Canvas.startWaitDlg();
-                  AvatarService.gI().getTypeHouse((int)0);
+                  AvatarService.gI().getTypeHouse(0);
                }
                break;
             case 12:
@@ -171,13 +190,15 @@ public final class GlobalLogicHandler {
       } else {
          Menu.gI().startAt(var7, 0);
       }
+
    }
 
    public final void onUpdateCHest(byte var1, byte var2, String var3) {
       if (var2 == 0) {
-         Canvas.startOKDlg(var3, (IAction)(new IActionChest(this, var1)));
+         Canvas.startOKDlg(var3, new IActionChest(this, var1));
       } else {
          Canvas.startOKDlg(var3);
       }
+
    }
 }

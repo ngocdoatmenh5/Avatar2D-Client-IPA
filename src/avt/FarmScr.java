@@ -8,6 +8,27 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class FarmScr extends MyScreen {
+   private static final byte CMD_FARM_QUICK_CARE = 101;
+   private static final byte CMD_FARM_CROP = 102;
+   private static final byte CMD_FARM_ANIMAL = 103;
+   private static final byte CMD_FARM_AUTO_CARE = 104;
+   private static final byte CMD_FARM_KITCHEN = 105;
+   private static final byte CMD_FARM_WAREHOUSE = 106;
+   private static final byte CMD_FARM_SHOP = 107;
+   private static final byte CMD_FARM_LOBBY = 108;
+   private static final byte CMD_FARM_SWITCH_ACC = 109;
+   private static final byte CMD_FARM_LOGOUT = 110;
+   private static final byte CMD_FARM_EXIT = 111;
+   private static final byte CMD_CROP_HARVEST = 112;
+   private static final byte CMD_CROP_SOW = 113;
+   private static final byte CMD_CROP_TILL = 114;
+   private static final byte CMD_CROP_FERTILIZE = 115;
+   private static final byte CMD_CROP_PEST_WEED = 116;
+   private static final byte CMD_CROP_WATER = 117;
+   private static final byte CMD_ANIMAL_SELL = 118;
+   private static final byte CMD_ANIMAL_COLLECT = 119;
+   private static final byte CMD_ANIMAL_PUMP = 120;
+   private static final byte CMD_ANIMAL_CURE = 121;
    public static FarmScr instance;
    public static int idFarm;
    private String nameFarm;
@@ -79,6 +100,39 @@ public final class FarmScr extends MyScreen {
    private Vector listSelectedCell = new Vector();
    private boolean isTran = false;
    private int n = 0;
+   private boolean isRangeSowMode = false;
+   private int rangeSowSeedIndex = -1;
+   private int rangeSowFrom = -1;
+   private boolean isBatchSellAnimal = false;
+   private int batchSellRemain = 0;
+   private static final int QUICK_CARE_DELAY_MS = 50;
+   private boolean quickCareThrottleActive = false;
+   private Vector quickCareQueueType = new Vector();
+   private Vector quickCareQueueA = new Vector();
+   private Vector quickCareQueueB = new Vector();
+   private long quickCareNextSendAtMs = 0L;
+   private boolean quickCareQueueRunning = false;
+   private int quickCarePendingHarvestTreeAcks = 0;
+   private boolean quickCarePendingSowPromptAfterHarvest = false;
+   private int pendingHarvestPromptCellIndex = -1;
+   private boolean pendingHarvestPromptResume = false;
+   private boolean pendingHarvestSowPrompt = false;
+   private int pendingHarvestSowCellIndex = -1;
+   private boolean pendingHarvestSowAskQueued = false;
+   private int pendingHarvestSowAskCellIndex = -1;
+   private boolean pendingHarvestSowAskResumeAfter = false;
+   private short preferredSeedAutoBuyId = -1;
+   private boolean quickCareAutoSellSessionActive = false;
+   private boolean quickCareRebuyTriggered = false;
+   private boolean quickCarePendingLobbyRebuy = false;
+   private boolean quickCarePendingRebuyAfterSow = false;
+   private boolean quickCarePendingRangeSowAskQueued = false;
+   private boolean quickCareRangeSowAskShowing = false;
+   private boolean quickCareSowInProgress = false;
+   private int quickCarePendingPlantAcks = 0;
+   private Vector quickCareRebuySpecies = new Vector();
+   private Vector quickCareRebuyCounts = new Vector();
+   private Vector quickCarePendingAnimalHarvestIds = new Vector();
    public static byte levelStore;
    public static byte numBarn;
    public static byte numPond;
@@ -93,6 +147,22 @@ public final class FarmScr extends MyScreen {
    private int indexAuto = 0;
    public static int xPosCook;
    public static int yPosCook;
+
+   public final boolean isQuickCareBusyForAuto() {
+      if (this.quickCareQueueRunning) return true;
+      if (this.quickCareQueueType.size() > 0) return true;
+      if (this.isBatchSellAnimal || this.batchSellRemain > 0) return true;
+      if (this.quickCarePendingHarvestTreeAcks > 0) return true;
+      if (this.quickCarePendingAnimalHarvestIds.size() > 0) return true;
+      if (this.quickCarePendingSowPromptAfterHarvest) return true;
+      if (this.pendingHarvestSowPrompt || this.pendingHarvestSowAskQueued) return true;
+      if (this.isRangeSowMode) return true;
+      if (this.quickCarePendingRangeSowAskQueued || this.quickCareRangeSowAskShowing) return true;
+      if (this.quickCareSowInProgress) return true;
+      if (this.quickCarePendingPlantAcks > 0) return true;
+      if (this.quickCarePendingLobbyRebuy || this.quickCarePendingRebuyAfterSow) return true;
+      return false;
+   }
 
    public static FarmScr gI() {
       if (instance == null) {
@@ -110,7 +180,7 @@ public final class FarmScr extends MyScreen {
       isSteal = false;
       isAbleSteal = false;
       if (unk == null) {
-         FilePack.b(avt.T.au);
+         FilePack.b(T.au);
          imgBuyLant = FilePack.getImage("buyLand");
          unk = FrameImage.init("cut", 24 * AvMain.hd, 24 * AvMain.hd);
          p = FrameImage.init("vp", 16 * AvMain.hd, 16 * AvMain.hd);
@@ -122,11 +192,12 @@ public final class FarmScr extends MyScreen {
          imgSell = FilePack.getImage("focus");
          FilePack.reset();
       }
+
    }
 
    public final void initCmd() {
-      aO = new Command(avt.T.O, 0);
-      aP = new Command(avt.T.c, 7);
+      aO = new Command(T.selectt, 0);
+      aP = new Command(T.menu, 1);
       aQ = new Command((String)null, 2);
       aR = new Command((String)null, 3);
       super.left = aP;
@@ -136,16 +207,16 @@ public final class FarmScr extends MyScreen {
       listFood[0] = new Vector();
       listFood[1] = new Vector();
       this.initCmd();
-      FilePack.b(avt.T.au);
+      FilePack.b(T.au);
       imgFocusCel = FilePack.getImage("coin");
       u = FrameImage.init("iB", 9 * AvMain.hd, 13 * AvMain.hd);
       FilePack.reset();
       this.r();
       initImg();
-      aS = new Command(avt.T.cy, 8);
-      aT = new Command(avt.T.bz, 9);
-      this.aU = new Command(avt.T.bz, 16, this);
-      this.aV = new Command(avt.T.d, 18, this);
+      aS = new Command(T.finish, 8);
+      aT = new Command(T.next, 9);
+      this.aU = new Command(T.next, 16, this);
+      this.aV = new Command(T.close, 18, this);
    }
 
    private void doFeeding() {
@@ -154,7 +225,7 @@ public final class FarmScr extends MyScreen {
       for(int var2 = 0; var2 < listItemFarm.size(); ++var2) {
          Item var3;
          FarmItem var4;
-         if ((var4 = getFarmItem((var3 = (Item) listItemFarm.elementAt(var2)).ID)).action == 5 && (var4.type == 4 || var4.type == 101)) {
+         if ((var4 = getFarmItem((var3 = (Item)listItemFarm.elementAt(var2)).ID)).action == 5 && (var4.type == 4 || var4.type == 101)) {
             var1.addElement(new CommandThuoc(this, var4.des, new IActionThuoc(this, var3), var4));
          }
       }
@@ -163,9 +234,1262 @@ public final class FarmScr extends MyScreen {
    }
 
    private void r() {
-      this.K.addElement(MapScr.gI().f);
-      Command var1 = new Command(avt.T.x, 20);
-      this.K.addElement(var1);
+      this.K.removeAllElements();
+      this.K.addElement(new Command(T.farmQuickCare, CMD_FARM_QUICK_CARE));
+      this.K.addElement(new Command(T.farmCrop, CMD_FARM_CROP));
+      this.K.addElement(new Command(T.farmAnimal, CMD_FARM_ANIMAL));
+      this.K.addElement(new Command(T.farmAutoCare, CMD_FARM_AUTO_CARE));
+      this.K.addElement(new Command(T.farmKitchen, CMD_FARM_KITCHEN));
+      this.K.addElement(new Command(T.farmWarehouse, CMD_FARM_WAREHOUSE));
+      this.K.addElement(new Command(T.farmShop, CMD_FARM_SHOP));
+      this.K.addElement(new Command(T.farmLobby, CMD_FARM_LOBBY));
+      this.K.addElement(new Command(T.farmSwitchAccount, CMD_FARM_SWITCH_ACC));
+      this.K.addElement(new Command(T.farmLogout, CMD_FARM_LOGOUT));
+      this.K.addElement(new Command(T.farmExit, CMD_FARM_EXIT));
+   }
+
+   private void openCropMenu() {
+      Vector var1 = new Vector();
+      var1.addElement(new Command(T.farmHarvest, CMD_CROP_HARVEST));
+      var1.addElement(new Command(T.farmSowSeed, CMD_CROP_SOW));
+      var1.addElement(new Command(T.farmTillSoil, CMD_CROP_TILL));
+      var1.addElement(new Command(T.farmFertilize, CMD_CROP_FERTILIZE));
+      var1.addElement(new Command(T.farmPestWeed, CMD_CROP_PEST_WEED));
+      var1.addElement(new Command(T.farmWatering, CMD_CROP_WATER));
+      Menu.gI().startAt(var1, -1);
+   }
+
+   private void openAnimalMenu() {
+      Vector var1 = new Vector();
+      var1.addElement(new Command(T.farmSellAnimal, CMD_ANIMAL_SELL));
+      var1.addElement(new Command(T.farmCollectProduce, CMD_ANIMAL_COLLECT));
+      var1.addElement(new Command(T.farmPumpTonic, CMD_ANIMAL_PUMP));
+      var1.addElement(new Command(T.farmCureDisease, CMD_ANIMAL_CURE));
+      Menu.gI().startAt(var1, -1);
+   }
+
+   private boolean useItemForCell(int var1, int var2, int var3) {
+      for(int var4 = 0; var4 < listItemFarm.size(); ++var4) {
+         Item var5 = (Item)listItemFarm.elementAt(var4);
+         FarmItem var6 = getFarmItem(var5.ID);
+         if (var6 != null && var6.type == 0 && var6.action == var2 && (var3 == -1 || var5.ID == var3) && var5.number > 0) {
+            if (this.quickCareThrottleActive) {
+               this.quickCareEnqueue((byte)1, var1, var5.ID);
+            } else {
+               FarmService.gI().doUsingItem(idFarm, var1, var5.ID);
+               --var5.number;
+               if (var5.number <= 0) {
+                  listItemFarm.removeElement(var5);
+               }
+            }
+            return true;
+         }
+      }
+
+      if (var2 == 1) {
+         return false;
+      }
+
+      short autoBuyId = this.findAutoBuyItemIdForCellAction(var2, (short)var3);
+      if (autoBuyId != -1 && this.tryAutoBuyItem(autoBuyId) && this.tryUseItemForTarget(var1, autoBuyId)) {
+         return true;
+      }
+
+      return false;
+   }
+
+   private boolean useItemForAnimalAction(Animal var1, int var2) {
+      AnimalInfo var3 = FarmData.getAnimalByID(var1.species);
+      if (var3 == null) {
+         return false;
+      } else {
+         for(int var4 = 0; var4 < listItemFarm.size(); ++var4) {
+            Item var5 = (Item)listItemFarm.elementAt(var4);
+            FarmItem var6 = getFarmItem(var5.ID);
+            if (var6 != null && var6.action == var2 && var5.number > 0 && (var6.type == var3.area || var6.type == 101 || var6.type == 100 && var3.area != 4)) {
+               if (this.quickCareThrottleActive) {
+                  this.quickCareEnqueue((byte)1, var1.IDDB, var5.ID);
+               } else {
+                  FarmService.gI().doUsingItem(idFarm, var1.IDDB, var5.ID);
+               }
+               --var5.number;
+               if (var5.number <= 0) {
+                  listItemFarm.removeElement(var5);
+               }
+               return true;
+            }
+         }
+
+         short autoBuyId = this.findAutoBuyItemIdForAnimalAction(var2, var3.area, (short)-1);
+         if (autoBuyId != -1 && this.tryAutoBuyItem(autoBuyId) && this.tryUseItemForTarget(var1.IDDB, autoBuyId)) {
+            return true;
+         }
+
+         return false;
+      }
+   }
+
+   private boolean useSpecificAnimalItem(Animal var1, int var2, int var3) {
+      AnimalInfo var4 = FarmData.getAnimalByID(var1.species);
+      if (var4 == null) {
+         return false;
+      } else {
+         for(int var5 = 0; var5 < listItemFarm.size(); ++var5) {
+            Item var6 = (Item)listItemFarm.elementAt(var5);
+            FarmItem var7 = getFarmItem(var6.ID);
+            if (var6.ID == var3 && var7 != null && var7.action == var2 && var6.number > 0 && (var7.type == var4.area || var7.type == 101 || var7.type == 100 && var4.area != 4)) {
+               if (this.quickCareThrottleActive) {
+                  this.quickCareEnqueue((byte)1, var1.IDDB, var6.ID);
+               } else {
+                  FarmService.gI().doUsingItem(idFarm, var1.IDDB, var6.ID);
+               }
+               --var6.number;
+               if (var6.number <= 0) {
+                  listItemFarm.removeElement(var6);
+               }
+
+               return true;
+            }
+         }
+
+         short autoBuyId = this.findAutoBuyItemIdForAnimalAction(var2, var4.area, (short)var3);
+         if (autoBuyId != -1 && this.tryAutoBuyItem(autoBuyId) && this.tryUseItemForTarget(var1.IDDB, autoBuyId)) {
+            return true;
+         }
+
+         return false;
+      }
+   }
+
+   private short chooseMoneyTypeForBuy(FarmItem fi) {
+      if (fi == null) {
+         return 0;
+      } else {
+         boolean canXu = fi.priceXu > 0 && GameMidlet.avatar.money[0] >= fi.priceXu;
+         boolean canLuong = fi.priceLuong > 0 && GameMidlet.avatar.money[1] >= fi.priceLuong;
+         if (canXu) {
+            return 1;
+         } else if (canLuong) {
+            return 2;
+         } else if (fi.priceXu > 0) {
+            return 1;
+         } else if (fi.priceLuong > 0) {
+            return 2;
+         } else {
+            return 0;
+         }
+      }
+   }
+
+   private short findAutoBuyItemIdForCellAction(int action, short preferredId) {
+      if (preferredId > 0) {
+         FarmItem preferred = getFarmItem(preferredId);
+         if (preferred != null && preferred.isItem && preferred.type == 0 && preferred.action == action && (preferred.priceXu > 0 || preferred.priceLuong > 0)) {
+            return preferredId;
+         }
+      }
+
+      short selected = -1;
+      int bestCost = Integer.MAX_VALUE;
+
+      for(int i = 0; i < FarmData.listItemFarm.size(); ++i) {
+         FarmItem fi = (FarmItem)FarmData.listItemFarm.elementAt(i);
+         if (fi != null && fi.isItem && fi.type == 0 && fi.action == action && (fi.priceXu > 0 || fi.priceLuong > 0)) {
+            int cost = fi.priceXu > 0 ? fi.priceXu : fi.priceLuong;
+            if (cost < bestCost) {
+               bestCost = cost;
+               selected = fi.ID;
+            }
+         }
+      }
+
+      return selected;
+   }
+
+   private short findAutoBuyItemIdForAnimalAction(int action, int area, short preferredId) {
+      if (preferredId > 0) {
+         FarmItem preferred = getFarmItem(preferredId);
+         if (preferred != null && preferred.isItem && preferred.action == action && (preferred.type == area || preferred.type == 101 || preferred.type == 100 && area != 4) && (preferred.priceXu > 0 || preferred.priceLuong > 0)) {
+            return preferredId;
+         }
+      }
+
+      short selected = -1;
+      int bestCost = Integer.MAX_VALUE;
+
+      for(int i = 0; i < FarmData.listItemFarm.size(); ++i) {
+         FarmItem fi = (FarmItem)FarmData.listItemFarm.elementAt(i);
+         if (fi != null && fi.isItem && fi.action == action && (fi.type == area || fi.type == 101 || fi.type == 100 && area != 4) && (fi.priceXu > 0 || fi.priceLuong > 0)) {
+            int cost = fi.priceXu > 0 ? fi.priceXu : fi.priceLuong;
+            if (cost < bestCost) {
+               bestCost = cost;
+               selected = fi.ID;
+            }
+         }
+      }
+
+      return selected;
+   }
+
+   private void addFarmItemLocal(short itemId, int amount) {
+      if (amount <= 0) {
+         return;
+      }
+
+      Item it = Item.getItemByList(listItemFarm, itemId);
+      if (it == null) {
+         it = new Item();
+         it.ID = itemId;
+         it.number = amount;
+         FarmItem fi = getFarmItem(itemId);
+         if (fi != null) {
+            it.name = fi.des;
+         }
+
+         listItemFarm.addElement(it);
+      } else {
+         it.number += amount;
+      }
+   }
+
+   private boolean tryAutoBuyItem(short itemId) {
+      FarmItem fi = getFarmItem(itemId);
+      short moneyType = this.chooseMoneyTypeForBuy(fi);
+      if (fi == null || moneyType == 0) {
+         return false;
+      } else {
+         if (this.quickCareThrottleActive) {
+            this.quickCareEnqueue((byte)4, itemId, moneyType);
+         } else {
+            FarmService.gI().doBuyItem(itemId, (byte)1, moneyType);
+         }
+
+         this.addFarmItemLocal(itemId, 1);
+         return true;
+      }
+   }
+
+   private boolean tryUseItemForTarget(int targetId, short itemId) {
+      Item it = Item.getItemByList(listItemFarm, itemId);
+      if (it == null || it.number <= 0) {
+         return false;
+      } else {
+         if (this.quickCareThrottleActive) {
+            this.quickCareEnqueue((byte)1, targetId, itemId);
+         } else {
+            FarmService.gI().doUsingItem(idFarm, targetId, itemId);
+         }
+
+         --it.number;
+         if (it.number <= 0) {
+            listItemFarm.removeElement(it);
+         }
+
+         return true;
+      }
+   }
+
+   private byte chooseMoneyTypeForSeed(short seedId) {
+      TreeInfo t = FarmData.getTreeByID(seedId);
+      if (t == null) {
+         return 0;
+      } else {
+         boolean canXu = t.priceSeed[0] > 0 && GameMidlet.avatar.money[0] >= t.priceSeed[0];
+         boolean canLuong = t.priceSeed[1] > 0 && GameMidlet.avatar.money[1] >= t.priceSeed[1];
+         if (canXu) {
+            return 1;
+         } else if (canLuong) {
+            return 2;
+         } else if (t.priceSeed[0] > 0) {
+            return 1;
+         } else if (t.priceSeed[1] > 0) {
+            return 2;
+         } else {
+            return 0;
+         }
+      }
+   }
+
+   private void addSeedLocal(short seedId, int amount) {
+      if (amount <= 0) {
+         return;
+      }
+
+      Item seed = Item.getItemByList(itemSeed, seedId);
+      if (seed == null) {
+         seed = new Item();
+         seed.ID = seedId;
+         seed.number = amount;
+         TreeInfo t = FarmData.getTreeByID(seedId);
+         if (t != null) {
+            seed.name = t.name;
+         }
+
+         itemSeed.addElement(seed);
+      } else {
+         seed.number += amount;
+      }
+   }
+
+   private boolean tryAutoBuySeed(short seedId, int amount) {
+      if (amount <= 0) {
+         return true;
+      } else {
+         byte moneyType = this.chooseMoneyTypeForSeed(seedId);
+         if (moneyType == 0) {
+            return false;
+         } else {
+            for(int i = 0; i < amount; ++i) {
+               FarmService.gI().doBuyItem(seedId, (byte)1, moneyType);
+            }
+
+            this.addSeedLocal(seedId, amount);
+            return true;
+         }
+      }
+   }
+
+   private int cureAnimalDiseases(Animal var1) {
+      int var2 = 0;
+      if (var1.disease[1] && this.useSpecificAnimalItem(var1, 4, 120)) {
+         ++var2;
+      }
+
+      if (var1.disease[0] && this.useSpecificAnimalItem(var1, 4, 121)) {
+         ++var2;
+      }
+
+      if (var2 == 0 && (var1.disease[0] || var1.disease[1]) && this.useItemForAnimalAction(var1, 4)) {
+         ++var2;
+      }
+
+      return var2;
+   }
+
+   private int boostPlantUntilFull(int var1) {
+      int var2 = 0;
+
+      for(int var3 = 0; var3 < 20; ++var3) {
+         if (!this.useItemForCell(var1, 2, 111) && !this.useItemForCell(var1, 2, 112) && !this.useItemForCell(var1, 2, -1)) {
+            break;
+         }
+
+         ++var2;
+      }
+
+      return var2;
+   }
+
+   private int boostAnimalUntilFull(Animal var1) {
+      if (var1 == null || var1.health >= 100) {
+         return 0;
+      } else {
+         return this.useItemForAnimalAction(var1, 6) ? 1 : 0;
+      }
+   }
+
+   private boolean isAnimalMature(Animal var1) {
+      if (var1 == null) {
+         return false;
+      } else {
+         AnimalInfo info = FarmData.getAnimalByID(var1.species);
+         return info != null && info.harvestTime > 0 && var1.bornTime >= info.harvestTime * 60;
+      }
+   }
+
+   private boolean shouldAutoSellMatureAnimal(Animal var1) {
+      if (var1 == null) {
+         return false;
+      } else {
+         return var1.species == 54 || var1.species == 59 || var1.species == 52 || var1.species == 58 || var1.species == 61;
+      }
+   }
+
+   private boolean isFishOrTurtleSpecies(byte species) {
+      return species == 54 || species == 59;
+   }
+
+   private void addQuickCareRebuySpecies(byte species) {
+      for(int i = 0; i < this.quickCareRebuySpecies.size(); ++i) {
+         Byte sp = (Byte)this.quickCareRebuySpecies.elementAt(i);
+         if (sp.byteValue() == species) {
+            Integer old = (Integer)this.quickCareRebuyCounts.elementAt(i);
+            this.quickCareRebuyCounts.setElementAt(new Integer(old.intValue() + 1), i);
+            return;
+         }
+      }
+
+      this.quickCareRebuySpecies.addElement(new Byte(species));
+      this.quickCareRebuyCounts.addElement(new Integer(1));
+   }
+
+   private void addPendingAnimalHarvest(int animalId) {
+      Integer id = new Integer(animalId);
+      if (!this.quickCarePendingAnimalHarvestIds.contains(id)) {
+         this.quickCarePendingAnimalHarvestIds.addElement(id);
+      }
+   }
+
+   private void quickCareProcessPendingAnimalHarvests() {
+      for(int i = 0; i < this.quickCarePendingAnimalHarvestIds.size(); ++i) {
+         int animalId = ((Integer)this.quickCarePendingAnimalHarvestIds.elementAt(i)).intValue();
+         Animal a = getAnimalByIndex(animalId);
+         if (a == null) {
+            this.quickCarePendingAnimalHarvestIds.removeElementAt(i);
+            --i;
+         } else if (a.health >= 100 && !a.disease[0] && !a.disease[1] && a.numEggOne > 0) {
+            a.numEggOne = 0;
+            this.quickCareEnqueue((byte)0, a.IDDB, 0);
+            this.quickCarePendingAnimalHarvestIds.removeElementAt(i);
+            --i;
+         }
+      }
+   }
+
+   private void tryShowQueuedHarvestSowPrompt() {
+      if (!this.pendingHarvestSowAskQueued) {
+         return;
+      }
+
+      if (this.quickCareQueueRunning || this.quickCareQueueType.size() > 0 || this.isBatchSellAnimal || this.batchSellRemain > 0) {
+         return;
+      }
+
+      if (Canvas.currentDialog != null) {
+         Canvas.endDlg();
+      }
+
+      final int cellIndex = this.pendingHarvestSowAskCellIndex;
+      final boolean resumeAfter = this.pendingHarvestSowAskResumeAfter;
+      this.pendingHarvestSowAskQueued = false;
+      this.pendingHarvestSowAskCellIndex = -1;
+      this.pendingHarvestSowAskResumeAfter = false;
+
+      Canvas.startOKDlg("Đã thu hoạch xong, gieo hạt luôn ?", new IAction() {
+         public void perform() {
+            FarmScr.this.pendingHarvestSowPrompt = false;
+            FarmScr.this.pendingHarvestSowCellIndex = -1;
+            FarmScr.this.openSeedSelectMenuForCell(cellIndex, resumeAfter);
+         }
+      });
+   }
+
+   private void tryShowQueuedQuickCareRangeSowPrompt() {
+      if (!this.quickCarePendingRangeSowAskQueued) {
+         return;
+      }
+
+      if (this.quickCareQueueRunning || this.quickCareQueueType.size() > 0) {
+         return;
+      }
+
+      if (this.isBatchSellAnimal || this.batchSellRemain > 0) {
+         return;
+      }
+
+      if (Canvas.currentDialog != null) {
+         Canvas.endDlg();
+      }
+
+      this.quickCarePendingRangeSowAskQueued = false;
+      this.quickCareRangeSowAskShowing = true;
+      Canvas.startOKDlg("Đã thu hoạch xong, gieo hạt luôn ?", new IAction() {
+         public final void perform() {
+            FarmScr.this.quickCareRangeSowAskShowing = false;
+            FarmScr.this.quickCareSowInProgress = true;
+            FarmScr.this.startRangeSowFlow();
+         }
+      });
+   }
+
+   private int chooseMoneyTypeForAnimal(AnimalInfo info) {
+      if (info == null) {
+         return 0;
+      } else {
+         boolean canXu = info.price[0] > 0 && GameMidlet.avatar.money[0] >= info.price[0];
+         boolean canLuong = info.price[1] > 0 && GameMidlet.avatar.money[1] >= info.price[1];
+         if (canXu) {
+            return 1;
+         } else if (canLuong) {
+            return 2;
+         } else if (info.price[0] > 0) {
+            return 1;
+         } else if (info.price[1] > 0) {
+            return 2;
+         } else {
+            return 0;
+         }
+      }
+   }
+
+   private void tryFinalizeQuickCareRebuyFlow() {
+      if (this.quickCareRebuyTriggered) {
+         return;
+      }
+
+      if (this.quickCareRebuySpecies.size() == 0) {
+         return;
+      }
+
+      if (this.isBatchSellAnimal || this.batchSellRemain > 0) {
+         return;
+      }
+
+      if (this.pendingHarvestSowPrompt || this.pendingHarvestSowAskQueued || this.isRangeSowMode || this.quickCarePendingRangeSowAskQueued || this.quickCareRangeSowAskShowing || this.quickCareSowInProgress || this.quickCarePendingPlantAcks > 0) {
+         this.quickCarePendingRebuyAfterSow = true;
+         return;
+      }
+
+      this.quickCareRebuyTriggered = true;
+      this.quickCareAutoSellSessionActive = false;
+      this.quickCarePendingLobbyRebuy = false;
+      this.quickCarePendingRebuyAfterSow = false;
+      this.doGoFarmWay();
+
+      boolean sentAnyBuy = false;
+      for(int i = 0; i < this.quickCareRebuySpecies.size(); ++i) {
+         byte species = ((Byte)this.quickCareRebuySpecies.elementAt(i)).byteValue();
+         int count = ((Integer)this.quickCareRebuyCounts.elementAt(i)).intValue();
+         AnimalInfo info = FarmData.getAnimalByID(species);
+         int moneyType = this.chooseMoneyTypeForAnimal(info);
+         if (info != null && moneyType != 0) {
+            for(int j = 0; j < count; ++j) {
+               FarmService.gI().doBuyAnimal(info, moneyType);
+               sentAnyBuy = true;
+            }
+         }
+      }
+
+      if (sentAnyBuy) {
+         ParkService.gI().chatToBoard("Đã chăm sóc xong");
+      }
+
+      this.quickCareRebuySpecies.removeAllElements();
+      this.quickCareRebuyCounts.removeAllElements();
+   }
+
+   private void doQuickCareAll() {
+      if (idFarm != GameMidlet.avatar.IDDB) {
+         Canvas.startOKDlg(T.notOnFarmOther);
+         return;
+      }
+
+      if (isAutoVatNuoi) {
+         Canvas.startOKDlg("Chăm sóc tự động đang bật.");
+         return;
+      }
+
+      boolean var1 = false;
+      boolean harvestedCrop = false;
+      this.quickCareAutoSellSessionActive = false;
+      this.quickCareRebuyTriggered = false;
+      this.quickCareRebuySpecies.removeAllElements();
+      this.quickCareRebuyCounts.removeAllElements();
+      this.quickCarePendingAnimalHarvestIds.removeAllElements();
+      this.quickCarePendingHarvestTreeAcks = 0;
+      this.quickCarePendingSowPromptAfterHarvest = false;
+      this.quickCareThrottleActive = true;
+      int var2;
+      CellFarm var3;
+      for(var2 = 0; var2 < cell.size(); ++var2) {
+         var3 = (CellFarm)cell.elementAt(var2);
+         if (var3.statusTree == 5) {
+            this.quickCareEnqueue((byte)3, var2, 0);
+            ++this.quickCarePendingHarvestTreeAcks;
+            var1 = true;
+            harvestedCrop = true;
+            continue;
+         }
+
+         if (var3.idTree != -1 && var3.statusTree < 6) {
+            if (var3.isWorm && this.useItemForCell(var2, 7, -1)) {
+               var1 = true;
+            }
+
+            if (var3.isGrass && this.useItemForCell(var2, 3, -1)) {
+               var1 = true;
+            }
+
+            if (var3.vitalityPer < 100 && this.boostPlantUntilFull(var2) > 0) {
+               var1 = true;
+            }
+         }
+      }
+
+      for(var2 = 0; var2 < animalLists.size(); ++var2) {
+         Animal var4 = (Animal)animalLists.elementAt(var2);
+         if ((var4.disease[0] || var4.disease[1]) && this.cureAnimalDiseases(var4) > 0) {
+            var1 = true;
+         }
+
+         int forcedPump = 0;
+         for(int p = 0; p < 5 && var4.health < 100; ++p) {
+            if (!this.useItemForAnimalAction(var4, 6)) {
+               break;
+            }
+
+            ++forcedPump;
+         }
+         if (forcedPump > 0) {
+            var1 = true;
+         }
+
+         if (var4.numEggOne > 0) {
+            this.addPendingAnimalHarvest(var4.IDDB);
+            var1 = true;
+         }
+      }
+
+      for(var2 = 0; var2 < animalLists.size(); ++var2) {
+         Animal var16 = (Animal)animalLists.elementAt(var2);
+         if (this.isAnimalMature(var16) && this.shouldAutoSellMatureAnimal(var16)) {
+            this.quickCareEnqueue((byte)5, var16.IDDB, 0);
+            if (this.isFishOrTurtleSpecies(var16.species)) {
+               this.addQuickCareRebuySpecies(var16.species);
+            }
+            var1 = true;
+            this.quickCareAutoSellSessionActive = true;
+            this.isBatchSellAnimal = true;
+            ++this.batchSellRemain;
+         }
+      }
+
+      boolean var7 = false;
+      for(var2 = 0; var2 < listNest.size(); ++var2) {
+         if (var2 < listNest.size()) {
+            AvPosition var8 = (AvPosition)listNest.elementAt(var2);
+            for(int var9 = 0; var9 < animalLists.size(); ++var9) {
+               Animal var10 = (Animal)animalLists.elementAt(var9);
+               AnimalInfo var11 = FarmData.getAnimalByID(var10.species);
+               if (var10.numEggOne > 0 && var8.anchor == var10.species && var11.area == 1) {
+                  var7 = true;
+                  break;
+               }
+            }
+         }
+      }
+
+      for(var2 = 0; var2 < listNest.size(); ++var2) {
+         this.doHarvestAnimal(1, var2, listNest);
+      }
+
+      for(var2 = 0; var2 < listBucket.size(); ++var2) {
+         if (var2 < listBucket.size()) {
+            AvPosition var12 = (AvPosition)listBucket.elementAt(var2);
+            for(int var13 = 0; var13 < animalLists.size(); ++var13) {
+               Animal var14 = (Animal)animalLists.elementAt(var13);
+               AnimalInfo var15 = FarmData.getAnimalByID(var14.species);
+               if (var14.numEggOne > 0 && var12.anchor == var14.species && var15.area == 2) {
+                  var7 = true;
+                  break;
+               }
+            }
+         }
+      }
+
+      for(var2 = 0; var2 < listBucket.size(); ++var2) {
+         this.doHarvestAnimal(2, var2, listBucket);
+      }
+
+      if (var7) {
+         var1 = true;
+      }
+
+      if (starFruil != null && starFruil.numberFruit > 0) {
+         FarmService var5 = FarmService.gI();
+         var5.createMessage((byte)85);
+         var5.sendMessage();
+         var1 = true;
+      }
+
+      if (foodID > 0 && remainTime == 0) {
+         FarmService var6 = FarmService.gI();
+         var6.createMessage((byte)92);
+         var6.sendMessage();
+         var1 = true;
+      }
+
+      this.quickCareThrottleActive = false;
+      if (harvestedCrop) {
+         this.quickCarePendingSowPromptAfterHarvest = true;
+      }
+      if (var1) {
+         this.quickCareStart();
+      }
+
+      if (!var1) {
+         Canvas.startOKDlg("Không có gì để làm.");
+      }
+   }
+
+   private void doCropHarvestAll() {
+      boolean var1 = false;
+
+      for(int var2 = 0; var2 < cell.size(); ++var2) {
+         CellFarm var3 = (CellFarm)cell.elementAt(var2);
+         if (var3.statusTree == 5) {
+            FarmService.gI().doHervest(idFarm, var2);
+            var1 = true;
+         }
+      }
+
+      if (!var1) {
+         Canvas.startOKDlg("Không có gì để làm.");
+      }
+   }
+
+   private void doCropFertilizeAll() {
+      this.openFertilizerSelectMenu();
+   }
+
+   private void openFertilizerSelectMenu() {
+      if (idFarm != GameMidlet.avatar.IDDB) {
+         Canvas.startOKDlg(T.notOnFarmOther);
+         return;
+      }
+
+      Vector cmds = new Vector();
+      cmds.addElement(this.buildFixedFertilizerCmd((short)111, "Phân bón trung cấp"));
+      cmds.addElement(this.buildFixedFertilizerCmd((short)112, "Phân bón siêu cấp"));
+      cmds.addElement(this.buildFixedFertilizerCmd((short)113, "Giảm 15 phút"));
+      cmds.addElement(this.buildFixedFertilizerCmd((short)114, "Giảm 30 phút"));
+      cmds.addElement(this.buildFixedFertilizerCmd((short)115, "Giảm 60 phút"));
+
+      Menu.gI().startAt(cmds, -1);
+   }
+
+   private Command buildFixedFertilizerCmd(final short itemId, String label) {
+      int count = this.getFarmItemCount(itemId);
+      String caption = label + " (" + count + ")";
+      return new Command(caption, new IAction() {
+         public void perform() {
+            FarmScr.this.doCropFertilizeAllByItem(itemId);
+         }
+      });
+   }
+
+   private int getFarmItemCount(short itemId) {
+      for (int i = 0; i < listItemFarm.size(); i++) {
+         Item it = (Item)listItemFarm.elementAt(i);
+         if (it != null && it.ID == itemId) {
+            return it.number;
+         }
+      }
+      return 0;
+   }
+
+   private boolean useFarmItemOnCellById(int cellIndex, short itemId) {
+      for (int i = 0; i < listItemFarm.size(); i++) {
+         Item it = (Item)listItemFarm.elementAt(i);
+         if (it == null || it.ID != itemId || it.number <= 0) continue;
+
+         FarmItem fi = getFarmItem(it.ID);
+         if (fi == null || fi.type != 0) {
+            return false;
+         }
+
+         return this.tryUseItemForTarget(cellIndex, itemId);
+      }
+
+      if (this.tryAutoBuyItem(itemId)) {
+         return this.tryUseItemForTarget(cellIndex, itemId);
+      }
+
+      return false;
+   }
+
+   private int boostPlantUntilFullWithItem(int cellIndex, short itemId) {
+      return this.useItemForCell(cellIndex, 2, itemId) ? 1 : 0;
+   }
+
+   private void doCropFertilizeAllByItem(short itemId) {
+      boolean did = false;
+      this.quickCareThrottleActive = true;
+
+      for (int i = 0; i < cell.size(); i++) {
+         CellFarm c = (CellFarm)cell.elementAt(i);
+         if (c.idTree == -1 || c.statusTree >= 6) continue;
+
+         if (itemId == 111 || itemId == 112) {
+            if (c.vitalityPer < 100) {
+               if (this.boostPlantUntilFullWithItem(i, itemId) > 0) {
+                  did = true;
+               }
+            }
+         } else {
+            if (this.useFarmItemOnCellById(i, itemId)) {
+               did = true;
+            }
+         }
+      }
+
+      this.quickCareThrottleActive = false;
+      if (!did) {
+         Canvas.startOKDlg("Không có gì để làm.");
+      } else {
+         this.quickCareStart();
+      }
+   }
+
+   private void doCropPestWeedAll() {
+      boolean var1 = false;
+
+      for(int var2 = 0; var2 < cell.size(); ++var2) {
+         CellFarm var3 = (CellFarm)cell.elementAt(var2);
+         if (var3.idTree != -1 && var3.statusTree < 6) {
+            if (var3.isWorm && this.useItemForCell(var2, 7, -1)) {
+               var1 = true;
+            }
+
+            if (var3.isGrass && this.useItemForCell(var2, 3, -1)) {
+               var1 = true;
+            }
+         }
+      }
+
+      if (!var1) {
+         Canvas.startOKDlg("Không có gì để làm.");
+      }
+   }
+
+   private void doCropWaterAll() {
+      boolean var1 = false;
+
+      for(int var2 = 0; var2 < cell.size(); ++var2) {
+         CellFarm var3 = (CellFarm)cell.elementAt(var2);
+         if (var3.idTree != -1 && var3.statusTree < 6 && this.useItemForCell(var2, 1, -1)) {
+            var1 = true;
+         }
+      }
+
+      if (!var1) {
+         Canvas.startOKDlg("Không có gì để làm.");
+      }
+   }
+
+   private void doAnimalCollectAll() {
+      boolean var1 = false;
+      int var2;
+      for(var2 = 0; var2 < animalLists.size(); ++var2) {
+         Animal var3 = (Animal)animalLists.elementAt(var2);
+         if (var3.numEggOne > 0) {
+            var3.numEggOne = 0;
+            AnimalInfo var4 = FarmData.getAnimalByID(var3.species);
+            if (var4 != null) {
+               if (var4.area == 1) {
+                  removePopup(-50);
+               } else if (var4.area == 2) {
+                  removePopup(-51);
+               }
+            }
+            this.quickCareEnqueue((byte)0, var3.IDDB, 0);
+            var1 = true;
+         }
+      }
+
+      if (!var1) {
+         Canvas.startOKDlg("Không có gì để làm.");
+      } else {
+         this.quickCareStart();
+      }
+   }
+
+   private void doAnimalPumpAll() {
+      boolean var1 = false;
+      this.quickCareThrottleActive = true;
+
+      for(int var2 = 0; var2 < animalLists.size(); ++var2) {
+         Animal var3 = (Animal)animalLists.elementAt(var2);
+         if (var3.health < 100 && this.boostAnimalUntilFull(var3) > 0) {
+            var1 = true;
+         }
+      }
+
+      this.quickCareThrottleActive = false;
+
+      if (!var1) {
+         Canvas.startOKDlg("Không có gì để làm.");
+      } else {
+         this.quickCareStart();
+      }
+   }
+
+   private void doAnimalCureAll() {
+      boolean var1 = false;
+      this.quickCareThrottleActive = true;
+
+      for(int var2 = 0; var2 < animalLists.size(); ++var2) {
+         Animal var3 = (Animal)animalLists.elementAt(var2);
+         if ((var3.disease[0] || var3.disease[1]) && this.cureAnimalDiseases(var3) > 0) {
+            var1 = true;
+         }
+      }
+
+      this.quickCareThrottleActive = false;
+
+      if (!var1) {
+         Canvas.startOKDlg("Không có gì để làm.");
+      } else {
+         this.quickCareStart();
+      }
+   }
+
+   private void quickCareEnqueue(byte type, int a, int b) {
+      this.quickCareQueueType.addElement(new Byte(type));
+      this.quickCareQueueA.addElement(new Integer(a));
+      this.quickCareQueueB.addElement(new Integer(b));
+   }
+
+   private void quickCareStart() {
+      if (this.quickCareQueueRunning) {
+         return;
+      }
+
+      if (this.quickCareQueueType.size() == 0) {
+         return;
+      }
+
+      this.quickCareQueueRunning = true;
+      this.quickCareNextSendAtMs = 0L;
+   }
+
+   private void quickCareTickQueue() {
+      if (!this.quickCareQueueRunning) {
+         return;
+      }
+
+      long now = System.currentTimeMillis();
+      if (this.quickCareNextSendAtMs != 0L && now < this.quickCareNextSendAtMs) {
+         return;
+      }
+
+      if (this.quickCareQueueType.size() == 0) {
+         this.quickCareQueueRunning = false;
+         return;
+      }
+
+      Byte t = (Byte)this.quickCareQueueType.elementAt(0);
+      Integer a = (Integer)this.quickCareQueueA.elementAt(0);
+      Integer b = (Integer)this.quickCareQueueB.elementAt(0);
+      this.quickCareQueueType.removeElementAt(0);
+      this.quickCareQueueA.removeElementAt(0);
+      this.quickCareQueueB.removeElementAt(0);
+
+      if (t.byteValue() == 0) {
+         FarmService.gI().doHarvestAnimal(idFarm, a.intValue());
+      } else if (t.byteValue() == 1) {
+         FarmService.gI().doUsingItem(idFarm, a.intValue(), (short)b.intValue());
+      } else if (t.byteValue() == 2) {
+         FarmService.gI().doPlantSeed(idFarm, a.intValue(), (short)b.intValue());
+      } else if (t.byteValue() == 3) {
+         FarmService.gI().doHervest(idFarm, a.intValue());
+      } else if (t.byteValue() == 4) {
+         FarmService.gI().doBuyItem((short)a.intValue(), (byte)1, b.intValue());
+      } else if (t.byteValue() == 5) {
+         FarmService.gI().doRequestPriceAnimal(idFarm, a.intValue());
+      }
+
+      this.quickCareNextSendAtMs = now + (long)QUICK_CARE_DELAY_MS;
+      this.tryFinalizeQuickCareRebuyFlow();
+   }
+
+   private int countAnimalBySpecies(byte var1) {
+      int var2 = 0;
+
+      for(int var3 = 0; var3 < animalLists.size(); ++var3) {
+         Animal var4 = (Animal)animalLists.elementAt(var3);
+         if (var4.species == var1) {
+            ++var2;
+         }
+      }
+
+      return var2;
+   }
+
+   private void openAnimalSellMenu() {
+      Vector var1 = new Vector();
+      Vector var2 = new Vector();
+
+      for(int var3 = 0; var3 < animalLists.size(); ++var3) {
+         Animal var4 = (Animal)animalLists.elementAt(var3);
+         Byte var5 = new Byte(var4.species);
+         if (!var2.contains(var5)) {
+            var2.addElement(var5);
+            AnimalInfo var6 = FarmData.getAnimalByID(var4.species);
+            final byte var7 = var4.species;
+            final String var8 = var6 != null ? var6.name : ("ID " + var7);
+            int var9 = this.countAnimalBySpecies(var7);
+            String var10 = var8 + " (" + var9 + ")";
+            var1.addElement(new Command(var10, new IAction() {
+               public void perform() {
+                  Canvas.startOKDlg("Bạn có muốn bán " + var8 + " không ?", new IAction() {
+                     public void perform() {
+                        FarmScr.this.sellAllAnimalsBySpecies(var7);
+                     }
+                  });
+               }
+            }));
+         }
+      }
+
+      if (var1.size() == 0) {
+         Canvas.startOKDlg("Không có gì để làm.");
+      } else {
+         Menu.gI().startAt(var1, -1);
+      }
+   }
+
+   private void sellAllAnimalsBySpecies(byte var1) {
+      Vector var2 = new Vector();
+
+      for(int var3 = 0; var3 < animalLists.size(); ++var3) {
+         Animal var4 = (Animal)animalLists.elementAt(var3);
+         if (var4.species == var1) {
+            var2.addElement(new Integer(var4.IDDB));
+         }
+      }
+
+      if (var2.size() == 0) {
+         Canvas.startOKDlg("Không có gì để làm.");
+      } else {
+         this.isBatchSellAnimal = true;
+         this.batchSellRemain = var2.size();
+
+         for(int var5 = 0; var5 < var2.size(); ++var5) {
+            Integer var6 = (Integer)var2.elementAt(var5);
+            FarmService.gI().doRequestPriceAnimal(idFarm, var6.intValue());
+         }
+      }
+   }
+
+   private void startRangeSowFlow() {
+      this.isRangeSowMode = true;
+      this.rangeSowSeedIndex = -1;
+      this.rangeSowFrom = -1;
+      this.doKhoGiong();
+   }
+
+   private int parseCellInput(String var1) {
+      if (var1 == null) {
+         return -1;
+      } else {
+         String var2 = var1.trim();
+         if (var2.length() == 0) {
+            return -1;
+         } else {
+            int var3;
+            try {
+               var3 = Integer.parseInt(var2);
+            } catch (Exception var5) {
+               return -1;
+            }
+
+            if (var3 < 1 || var3 > 48) {
+               return -1;
+            } else {
+               return var3 - 1;
+            }
+         }
+      }
+   }
+
+   private void promptRangeSowFrom() {
+      Canvas.inputDlg.setImg("Bắt đầu gieo từ ô:", new IAction() {
+         public final void perform() {
+            int var1 = FarmScr.this.parseCellInput(Canvas.inputDlg.getText());
+            if (var1 >= 0 && var1 < FarmScr.cell.size()) {
+               FarmScr.this.rangeSowFrom = var1;
+               Canvas.endDlg();
+               FarmScr.this.promptRangeSowTo();
+            } else {
+               Canvas.startOKDlg("Ô bắt đầu không hợp lệ.");
+            }
+         }
+      }, 1);
+   }
+
+   private void promptRangeSowTo() {
+      Canvas.inputDlg.setImg("Đến ô:", new IAction() {
+         public final void perform() {
+            int var1 = FarmScr.this.parseCellInput(Canvas.inputDlg.getText());
+            if (var1 >= FarmScr.this.rangeSowFrom && var1 < FarmScr.cell.size()) {
+               Canvas.endDlg();
+               FarmScr.this.performRangeSow(FarmScr.this.rangeSowFrom, var1, FarmScr.this.rangeSowSeedIndex);
+            } else {
+               Canvas.startOKDlg("Ô kết thúc không hợp lệ.");
+            }
+         }
+      }, 1);
+   }
+
+   private void performRangeSow(int var1, int var2, int var3) {
+      this.commandTab(5, -1);
+      this.quickCarePendingPlantAcks = 0;
+      int var4 = 0;
+      int var5 = 0;
+      int var6 = 0;
+      Item var7 = null;
+      if (var3 >= 0 && var3 < itemSeed.size()) {
+         var7 = (Item)itemSeed.elementAt(var3);
+         if (var7 != null) {
+            this.preferredSeedAutoBuyId = var7.ID;
+         }
+      }
+
+      if (var7 == null || var7.number <= 0) {
+         this.quickCareSowInProgress = false;
+         this.isRangeSowMode = false;
+         this.rangeSowSeedIndex = -1;
+         this.rangeSowFrom = -1;
+         Canvas.startOKDlg("Không có hạt giống để gieo.");
+         return;
+      }
+
+      for(int var8 = 0; var8 < cell.size(); ++var8) {
+         CellFarm var9 = (CellFarm)cell.elementAt(var8);
+         int var10 = var9.time1;
+         int var11 = var8;
+         boolean var12 = var10 >= var1 && var10 <= var2;
+         if (!var12) {
+            var12 = var11 >= var1 && var11 <= var2;
+         }
+         if (!var12 && var1 > 0 && var2 > 0) {
+            var12 = var10 >= var1 - 1 && var10 <= var2 - 1;
+         }
+         if (!var12 && var1 > 0 && var2 > 0) {
+            var12 = var11 >= var1 - 1 && var11 <= var2 - 1;
+         }
+
+         if (var12 && (var9.idTree == -1 || var9.statusTree == 6)) {
+            ++var6;
+         }
+      }
+
+      if (var6 > var7.number) {
+         int needBuy = var6 - var7.number;
+         if (!this.tryAutoBuySeed(var7.ID, needBuy)) {
+            this.quickCareSowInProgress = false;
+            this.isRangeSowMode = false;
+            this.rangeSowSeedIndex = -1;
+            this.rangeSowFrom = -1;
+            Canvas.startOKDlg("Thiếu hạt giống và không đủ tiền để tự mua.");
+            return;
+         }
+
+         var7 = (Item)itemSeed.elementAt(var3);
+      }
+
+      if (var6 > var7.number) {
+         this.quickCareSowInProgress = false;
+         this.isRangeSowMode = false;
+         this.rangeSowSeedIndex = -1;
+         this.rangeSowFrom = -1;
+         Canvas.startOKDlg("Không đủ hạt giống để gieo.");
+         return;
+      }
+
+      for(int var13 = 0; var13 < cell.size() && var5 < var7.number; ++var13) {
+         CellFarm var14 = (CellFarm)cell.elementAt(var13);
+         int var15 = var14.time1;
+         int var16 = var13;
+         boolean var17 = var15 >= var1 && var15 <= var2;
+         if (!var17) {
+            var17 = var16 >= var1 && var16 <= var2;
+         }
+         if (!var17 && var1 > 0 && var2 > 0) {
+            var17 = var15 >= var1 - 1 && var15 <= var2 - 1;
+         }
+         if (!var17 && var1 > 0 && var2 > 0) {
+            var17 = var16 >= var1 - 1 && var16 <= var2 - 1;
+         }
+
+         if (var17 && (var14.idTree == -1 || var14.statusTree == 6)) {
+            ++this.quickCarePendingPlantAcks;
+            doPlantSeed(var3, var13);
+            ++var5;
+            ++var4;
+         }
+      }
+
+      this.isRangeSowMode = false;
+      this.rangeSowSeedIndex = -1;
+      this.rangeSowFrom = -1;
+      if (this.quickCarePendingPlantAcks == 0) {
+         this.quickCareSowInProgress = false;
+      }
+      if (var4 == 0) {
+         this.commandTab(5, -1);
+         Canvas.startOKDlg("Không có ô hợp lệ để gieo.");
+      }
+   }
+
+   private void tillAllLand() {
+      if (idFarm != GameMidlet.avatar.IDDB) {
+         Canvas.startOKDlg(T.notOnFarmOther);
+         return;
+      }
+
+      boolean var1 = false;
+      for(int var2 = 0; var2 < cell.size(); ++var2) {
+         CellFarm var3 = (CellFarm)cell.elementAt(var2);
+         if (var3.idTree != -1 && var3.statusTree < 5) {
+            var1 = true;
+            break;
+         }
+      }
+
+      if (var1) {
+         Canvas.startOKDlg("Bạn có muốn phá cây hiện tại ?", new IAction() {
+            public final void perform() {
+               FarmScr.this.tillAllLandInternal(true);
+            }
+         });
+      } else {
+         this.tillAllLandInternal(false);
+      }
+   }
+
+   private void tillAllLandInternal(boolean var1) {
+      boolean var2 = false;
+
+      for(int var3 = 0; var3 < cell.size(); ++var3) {
+         CellFarm var4 = (CellFarm)cell.elementAt(var3);
+         boolean var5 = var4.idTree != -1 && var4.statusTree < 5;
+         if (var5) {
+            if (var1) {
+               FarmService.gI().doPlantSeed(idFarm, var3, -1);
+               this.applyTillLocal(var4);
+               var2 = true;
+            }
+         } else if (var4.level == 1 && var4.status != this.typeCell[1] || var4.level == 2 && var4.status != this.typeCell1[1]) {
+            FarmService.gI().doPlantSeed(idFarm, var3, -1);
+            this.applyTillLocal(var4);
+            var2 = true;
+         }
+      }
+
+      if (!var2) {
+         Canvas.startOKDlg("Không có ô nào cần làm đất.");
+      } else {
+         Canvas.startOKDlg("Đã làm đất xong, Gieo hạt luôn ?", new IAction() {
+            public final void perform() {
+               FarmScr.this.startRangeSowFlow();
+            }
+         });
+      }
+   }
+
+   private void applyTillLocal(CellFarm var1) {
+      this.setStatusCell(var1, 1);
+      var1.statusTree = 0;
+      var1.idTree = -1;
+      var1.isGrass = false;
+      var1.isWorm = false;
+      var1.time = 0;
+      var1.tempTime = 0L;
+      var1.vitalityPer = 100;
+      var1.hervestPer = 0;
+      LoadMap.map[var1.yCell * LoadMap.wMap + var1.xCell] = (short)var1.status;
    }
 
    private void doKhoGiong() {
@@ -173,17 +1497,37 @@ public final class FarmScr extends MyScreen {
 
       for(int var2 = 0; var2 < itemSeed.size(); ++var2) {
          Item var3;
-         if (FarmData.getTreeByID((int)(var3 = (Item) itemSeed.elementAt(var2)).ID) != null) {
+         if (FarmData.getTreeByID((var3 = (Item)itemSeed.elementAt(var2)).ID) != null) {
             var1.addElement(new CommandKhoGiong(this, var3.name + "(" + var3.number + ")", 7, var2, var3));
          }
+      }
+
+      if (var1.size() == 0) {
+         this.promptOpenSeedShop();
+         return;
       }
 
       startMenuFarm(var1);
    }
 
+   private void promptOpenSeedShop() {
+      short seedId = this.preferredSeedAutoBuyId;
+      if (FarmData.getTreeByID(seedId) == null) {
+         seedId = -1;
+      }
+
+      if (seedId != -1 && this.tryAutoBuySeed(seedId, 1)) {
+         Canvas.startOKDlg("Đã tự mua hạt giống.");
+      } else if (seedId == -1) {
+         Canvas.startOKDlg("Chưa chọn loại hạt để tự mua.");
+      } else {
+         Canvas.startOKDlg("Kho hết giống và không đủ tiền để tự mua.");
+      }
+   }
+
    public final void close() {
       Canvas.startWaitDlg();
-      GlobalService.gI().getHandler((int)8);
+      GlobalService.gI().getHandler(8);
    }
 
    private void doSellect() {
@@ -191,56 +1535,54 @@ public final class FarmScr extends MyScreen {
       if ((var1 = this.getPosTreeByFocus(focusCell.x, focusCell.y)) - cell.size() == 0) {
          Canvas.startWaitDlg();
          FarmService.gI().doRequestPricePlant(idFarm);
-      } else {
-         if (var1 >= 0 && var1 < cell.size()) {
-            CellFarm var8;
-            if ((var8 = (CellFarm) cell.elementAt(var1)).statusTree == 5) {
-               this.doHarvest();
+      } else if (var1 >= 0 && var1 < cell.size()) {
+         CellFarm var8;
+         if ((var8 = (CellFarm)cell.elementAt(var1)).statusTree == 5) {
+            this.doHarvest();
+            return;
+         }
+
+         if (var8.idTree == -1 && (var8.level == 1 && var8.status == this.typeCell[1] || var8.level == 2 && var8.status == this.typeCell1[1])) {
+            FarmScr var9 = this;
+            if (itemSeed.size() != 0) {
+               if (action == -1) {
+                  Vector var2 = new Vector();
+                  int var3 = this.getPosTreeByFocus(focusCell.x, focusCell.y);
+                  CellFarm var4 = (CellFarm)cell.elementAt(var3);
+                  CellFarm var5 = null;
+                  if (var3 > 0) {
+                     var5 = (CellFarm)cell.elementAt(var3 - 1);
+                  }
+
+                  for(int var6 = 0; var6 < itemSeed.size(); ++var6) {
+                     Item var7;
+                     if (FarmData.getTreeByID((var7 = (Item)itemSeed.elementAt(var6)).ID) != null) {
+                        var2.addElement(new class_bn(var9, var7.name + "(" + var7.number + ")", 5, var6, var7));
+                     }
+                  }
+
+                  if (idFarm == GameMidlet.avatar.IDDB && (var4.level == 1 && var3 == 0 || var3 > 0 && var4.level < var5.level)) {
+                     var2.addElement(new class_bp(var9, T.update, 11));
+                  }
+
+                  startMenuFarm(var2);
+               }
+
                return;
             }
 
-            if (var8.idTree != -1 || (var8.level != 1 || var8.status != this.typeCell[1]) && (var8.level != 2 || var8.status != this.typeCell1[1])) {
-               this.doVatPham(var8);
-            } else {
-               FarmScr var9 = this;
-               if (itemSeed.size() != 0) {
-                  if (action == -1) {
-                     Vector var2 = new Vector();
-                     int var3 = this.getPosTreeByFocus(focusCell.x, focusCell.y);
-                     CellFarm var4 = (CellFarm) cell.elementAt(var3);
-                     CellFarm var5 = null;
-                     if (var3 > 0) {
-                        var5 = (CellFarm) cell.elementAt(var3 - 1);
-                     }
-
-                     for(int var6 = 0; var6 < itemSeed.size(); ++var6) {
-                        Item var7;
-                        if (FarmData.getTreeByID((int)(var7 = (Item) itemSeed.elementAt(var6)).ID) != null) {
-                           var2.addElement(new class_bn(var9, var7.name + "(" + var7.number + ")", 5, var6, var7));
-                        }
-                     }
-
-                     if (idFarm == GameMidlet.avatar.IDDB && (var4.level == 1 && var3 == 0 || var3 > 0 && var4.level < var5.level)) {
-                        var2.addElement(new class_bp(var9, avt.T.g, 11));
-                     }
-
-                     startMenuFarm(var2);
-                  }
-
-                  return;
-               }
-
-               Canvas.startOKDlg(avt.T.dF);
-            }
+            Canvas.startOKDlg(T.egg);
+         } else {
+            this.doVatPham(var8);
          }
-
       }
+
    }
 
    public static void a(String var0) {
       Vector var1;
-      (var1 = new Vector()).addElement(new Command(avt.T.C, 51));
-      var1.addElement(new Command(avt.T.D, 52));
+      (var1 = new Vector()).addElement(new Command(T.xu, 51));
+      var1.addElement(new Command(T.gold, 52));
       var1.addElement(Canvas.ad);
       Canvas.setInfoC(var0, var1);
    }
@@ -251,6 +1593,7 @@ public final class FarmScr extends MyScreen {
       } else {
          var1.perform();
       }
+
    }
 
    private boolean setBonPhan(int var1, int var2) {
@@ -258,15 +1601,15 @@ public final class FarmScr extends MyScreen {
 
       for(int var4 = 0; var4 < listItemFarm.size(); ++var4) {
          FarmItem var5;
-         if ((var5 = getFarmItem(((Item) listItemFarm.elementAt(var4)).ID)).type == 0 && var5.action == var2) {
-            this.setAction((IAction)(new IActionBonPhan(this, var5, var1)));
+         if ((var5 = getFarmItem(((Item)listItemFarm.elementAt(var4)).ID)).type == 0 && var5.action == var2) {
+            this.setAction(new IActionBonPhan(this, var5, var1));
             var3 = true;
             break;
          }
       }
 
       if (!var3) {
-         Canvas.startOKDlg(avt.T.dG);
+         Canvas.startOKDlg(T.youWantBuyPro);
       }
 
       return var3;
@@ -274,32 +1617,32 @@ public final class FarmScr extends MyScreen {
 
    private void doVatPham(CellFarm var1) {
       int var2 = this.getPosTreeByFocus(focusCell.x, focusCell.y);
-      CellFarm var3 = (CellFarm) cell.elementAt(var2);
+      CellFarm var3 = (CellFarm)cell.elementAt(var2);
       CellFarm var4 = null;
       if (var2 > 0) {
-         var4 = (CellFarm) cell.elementAt(var2 - 1);
+         var4 = (CellFarm)cell.elementAt(var2 - 1);
       }
 
       Command1 var5 = null;
       if (idFarm == GameMidlet.avatar.IDDB && (var3.level == 1 && var2 == 0 || var2 > 0 && var3.level < var4.level)) {
-         var5 = new Command1(this, avt.T.g, 11);
+         var5 = new Command1(this, T.update, 11);
       }
 
       if (var1.idTree != -1 && var1.statusTree < 6 && var1.status == 36) {
-         this.setAction((IAction)(new IActionVatPham1(this)));
+         this.setAction(new IActionVatPham1(this));
       }
 
       if (var1.idTree == -1 || var1.statusTree >= 6) {
          IActionVatPham2 var7 = new IActionVatPham2(this, var1);
          if (var5 != null) {
             Vector var8;
-            (var8 = new Vector()).addElement(new CommandVatPham2(this, avt.T.be, var7));
+            (var8 = new Vector()).addElement(new CommandVatPham2(this, T.land, var7));
             var8.addElement(var5);
             startMenuFarm(var8);
             return;
          }
 
-         this.setAction((IAction)var7);
+         this.setAction(var7);
       }
 
       if (var1.idTree != -1 && var1.statusTree < 6 && var2 < cell.size() && listItemFarm.size() > 0) {
@@ -307,17 +1650,17 @@ public final class FarmScr extends MyScreen {
             this.setBonPhan(var2, 7);
          } else if (var1.isGrass) {
             this.setBonPhan(var2, 3);
-            } else if (var1.vitalityPer < 80) {
+         } else if (var1.vitalityPer < 80) {
             this.setBonPhan(var2, 2);
          }
       }
 
       if (action == -1) {
          Vector var9 = new Vector();
-         CommandVatPham22 var6 = new CommandVatPham22(this, avt.T.bd, 1);
+         CommandVatPham22 var6 = new CommandVatPham22(this, T.watering, 1);
          var9.addElement(var6);
          if (idFarm == GameMidlet.avatar.IDDB) {
-            var9.addElement(new CommandVatPham222(this, avt.T.be, new IActionVatPham22(this, var1)));
+            var9.addElement(new CommandVatPham222(this, T.land, new IActionVatPham22(this, var1)));
          }
 
          if (var5 != null) {
@@ -327,7 +1670,7 @@ public final class FarmScr extends MyScreen {
          for(var2 = 0; var2 < listItemFarm.size(); ++var2) {
             Item var10;
             FarmItem var12;
-            if ((var12 = getFarmItem((var10 = (Item) listItemFarm.elementAt(var2)).ID)).type == 0 && (var12.action == 3 && var1.isGrass || var12.action == 7 && var1.isWorm || var12.action != 3 && var12.action != 7)) {
+            if ((var12 = getFarmItem((var10 = (Item)listItemFarm.elementAt(var2)).ID)).type == 0 && (var12.action == 3 && var1.isGrass || var12.action == 7 && var1.isWorm || var12.action != 3 && var12.action != 7)) {
                String var11 = var12.des + "(" + var10.number + ")";
                var9.addElement(new CommandThuoc(this, var11, 6, var2, var12));
             }
@@ -351,7 +1694,7 @@ public final class FarmScr extends MyScreen {
       FarmService var2;
       switch (var1) {
          case 0:
-            Canvas.startOKDlg(avt.T.ei, 1, this);
+            Canvas.startOKDlg(T.doUWantCancel, 1, this);
             return;
          case 1:
             FarmService.gI().doCooking((short)-1);
@@ -380,10 +1723,10 @@ public final class FarmScr extends MyScreen {
             FarmService.gI().doUpdateFish(1, 1);
             return;
          case 7:
-            FarmService.gI().doUpdateStarFruil((int)1);
+            FarmService.gI().doUpdateStarFruil(1);
             return;
          case 8:
-            FarmService.gI().doUpdateStarFruitByMoney((int)1);
+            FarmService.gI().doUpdateStarFruitByMoney(1);
             return;
          case 9:
             FarmService.gI().doUpdateLand(1, 1);
@@ -395,7 +1738,7 @@ public final class FarmScr extends MyScreen {
             FarmService.gI().nauNhanh(1);
             return;
          case 12:
-            Canvas.startOKDlg(avt.T.dH, (IAction)(new IUpdateShop(this)));
+            Canvas.startOKDlg(T.feedFor, new IUpdateShop(this));
             return;
          case 13:
             FarmService.gI().doUpdateStore(1, 1);
@@ -431,9 +1774,75 @@ public final class FarmScr extends MyScreen {
       FarmService var3;
       FarmItem var4;
       Item var8;
+      int var5;
+      int var6;
       switch (var1) {
+         case CMD_FARM_QUICK_CARE:
+            this.doQuickCareAll();
+            return;
+         case CMD_FARM_CROP:
+            this.openCropMenu();
+            return;
+         case CMD_FARM_ANIMAL:
+            this.openAnimalMenu();
+            return;
+         case CMD_FARM_AUTO_CARE:
+            this.commandActionPointer(10, -1);
+            return;
+         case CMD_FARM_KITCHEN:
+            this.doOpenCooking();
+            return;
+         case CMD_FARM_WAREHOUSE:
+            this.doOpenKhoHang();
+            return;
+         case CMD_FARM_SHOP:
+            this.doOpenCuaHang();
+            return;
+         case CMD_FARM_LOBBY:
+            ParkService.gI().doJoinPark(25, -1);
+            return;
+         case CMD_FARM_SWITCH_ACC:
+            MapScr.exitGame();
+            LoginScr.gI().openSwitchAccountSettingsForm();
+            return;
+         case CMD_FARM_LOGOUT:
+            MapScr.exitGame();
+            return;
+         case CMD_FARM_EXIT:
+            MapScr.gI().doExit();
+            return;
+         case CMD_CROP_HARVEST:
+            this.doCropHarvestAll();
+            return;
+         case CMD_CROP_SOW:
+            this.startRangeSowFlow();
+            return;
+         case CMD_CROP_TILL:
+            this.tillAllLand();
+            return;
+         case CMD_CROP_FERTILIZE:
+            this.doCropFertilizeAll();
+            return;
+         case CMD_CROP_PEST_WEED:
+            this.doCropPestWeedAll();
+            return;
+         case CMD_CROP_WATER:
+            this.doCropWaterAll();
+            return;
+         case CMD_ANIMAL_SELL:
+            this.openAnimalSellMenu();
+            return;
+         case CMD_ANIMAL_COLLECT:
+            this.doAnimalCollectAll();
+            return;
+         case CMD_ANIMAL_PUMP:
+            this.doAnimalPumpAll();
+            return;
+         case CMD_ANIMAL_CURE:
+            this.doAnimalCureAll();
+            return;
          case 1:
-            this.setAction((byte)1, (int) idItemUsing);
+            this.setAction((byte)1, idItemUsing);
             return;
          case 2:
             if (LoadMap.focusObj != null) {
@@ -446,9 +1855,9 @@ public final class FarmScr extends MyScreen {
             if (LoadMap.focusObj != null) {
                AnimalInfo var12 = FarmData.getAnimalByID(getAnimalByIndex(((Base)LoadMap.focusObj).IDDB).species);
 
-               for(int var11 = 0; var11 < listItemFarm.size(); ++var11) {
-                  if (var2 == var11) {
-                     Item var9 = (Item) listItemFarm.elementAt(var11);
+               for(var6 = 0; var6 < listItemFarm.size(); ++var6) {
+                  if (var2 == var6) {
+                     Item var9 = (Item)listItemFarm.elementAt(var6);
                      this.doUsingVatPhamAnimal(var9, var12.area == 1 ? 0 : 1);
                   }
                }
@@ -460,7 +1869,7 @@ public final class FarmScr extends MyScreen {
             if (LoadMap.focusObj != null) {
                for(var1 = 0; var1 < listItemFarm.size(); ++var1) {
                   if (var2 == var1) {
-                     var4 = getFarmItem((var8 = (Item) listItemFarm.elementAt(var1)).ID);
+                     var4 = getFarmItem((var8 = (Item)listItemFarm.elementAt(var1)).ID);
                      this.setActionAnimal(var4, var8.ID, (Animal)LoadMap.focusObj);
                   }
                }
@@ -471,12 +1880,21 @@ public final class FarmScr extends MyScreen {
          case 5:
             for(var1 = 0; var1 < itemSeed.size(); ++var1) {
                if (var1 == var2) {
-                  int var10;
-                  if ((var10 = this.getPosTreeByFocus(focusCell.x, focusCell.y)) >= cell.size()) {
+                  if ((var8 = (Item)itemSeed.elementAt(var1)).number <= 0) {
+                     if (!this.tryAutoBuySeed(var8.ID, 1)) {
+                        Canvas.startOKDlg("Thiếu hạt giống và không đủ tiền để tự mua.");
+                        return;
+                     }
+
+                     var8 = (Item)itemSeed.elementAt(var1);
+                  }
+
+                  if ((var5 = this.getPosTreeByFocus(focusCell.x, focusCell.y)) >= cell.size()) {
                      return;
                   }
 
-                  doPlantSeed(var1, var10);
+                  this.preferredSeedAutoBuyId = var8.ID;
+                  doPlantSeed(var1, var5);
                }
             }
 
@@ -484,32 +1902,35 @@ public final class FarmScr extends MyScreen {
          case 6:
             for(var1 = 0; var1 < listItemFarm.size(); ++var1) {
                if (var1 == var2) {
-                  if ((var8 = (Item) listItemFarm.elementAt(var1)).number > 0) {
-                     int var5;
+                  if ((var8 = (Item)listItemFarm.elementAt(var1)).number > 0) {
                      if ((var5 = this.getPosTreeByFocus(focusCell.x, focusCell.y)) < cell.size() && listItemFarm.size() != 0) {
-                        byte var6;
                         if ((var6 = (var4 = getFarmItem(var8.ID)).action) != 7) {
                            if (var6 == 1) {
-                              this.setAction((byte)2, (int)var4.ID);
+                              this.setAction((byte)2, var4.ID);
                            } else {
-                              this.setAction((byte)var6, (int)var4.ID);
+                              this.setAction((byte)var6, var4.ID);
                            }
                         }
 
                         FarmService.gI().doUsingItem(idFarm, var5, var4.ID);
                      }
                   } else {
-                     Canvas.startOKDlg(avt.T.bf + var8.name);
+                     Canvas.startOKDlg(T.empty + var8.name);
                   }
                }
             }
 
             return;
          case 7:
-            this.setAuto(var2);
+            if (this.isRangeSowMode) {
+               this.rangeSowSeedIndex = var2;
+               this.promptRangeSowFrom();
+            } else {
+               this.setAuto(var2);
+            }
             return;
          case 8:
-            this.commandTab((int)5, (int)-1);
+            this.commandTab(5, -1);
             this.doKhoGiong();
             return;
          case 9:
@@ -520,13 +1941,13 @@ public final class FarmScr extends MyScreen {
             isAutoVatNuoi = true;
 
             for(var1 = this.indexAuto; var1 < animalLists.size(); ++var1) {
-               Animal var7 = (Animal) animalLists.elementAt(var1);
+               Animal var7 = (Animal)animalLists.elementAt(var1);
                boolean var10000;
                if (var7.disease[1]) {
                   LoadMap.focusObj = var7;
                   AvCamera.gI().setToPos(var7.x * AvMain.hd, var7.y * AvMain.hd);
                   AvCamera.isFollow = true;
-                  super.center = new Command(avt.T.dU, new IActionTriBenh1(this, var7));
+                  super.center = new Command(T.salonBeauty, new IActionTriBenh1(this, var7));
                   super.left = aS;
                   super.right = aT;
                   var10000 = true;
@@ -534,7 +1955,7 @@ public final class FarmScr extends MyScreen {
                   LoadMap.focusObj = var7;
                   AvCamera.gI().setToPos(var7.x * AvMain.hd, var7.y * AvMain.hd);
                   AvCamera.isFollow = true;
-                  super.center = new Command(avt.T.dU, new IActionTriBenh2(this, var7));
+                  super.center = new Command(T.salonBeauty, new IActionTriBenh2(this, var7));
                   super.left = aS;
                   super.right = aT;
                   var10000 = true;
@@ -542,7 +1963,7 @@ public final class FarmScr extends MyScreen {
                   LoadMap.focusObj = var7;
                   AvCamera.gI().setToPos(var7.x * AvMain.hd, var7.y * AvMain.hd);
                   AvCamera.isFollow = true;
-                  super.center = new Command(avt.T.dX, new IActionTriBenh3(this, var7));
+                  super.center = new Command(T.feeding, new IActionTriBenh3(this, var7));
                   super.left = aS;
                   super.right = aT;
                   var10000 = true;
@@ -550,7 +1971,7 @@ public final class FarmScr extends MyScreen {
                   LoadMap.focusObj = var7;
                   AvCamera.gI().setToPos(var7.x * AvMain.hd, var7.y * AvMain.hd);
                   AvCamera.isFollow = true;
-                  super.center = new Command(avt.T.dZ, new class_w(this, var7));
+                  super.center = new Command(T.view, new class_w(this, var7));
                   super.left = aS;
                   super.right = aT;
                   var10000 = true;
@@ -565,8 +1986,8 @@ public final class FarmScr extends MyScreen {
                ++this.indexAuto;
             }
 
-            this.commandTab((int)8, (int)-1);
-            Canvas.startOKDlg(avt.T.dI);
+            this.commandTab(8, -1);
+            Canvas.startOKDlg(T.areYouUseNumReg);
             return;
          case 11:
             FarmService.gI().doUpdateLand(0, 0);
@@ -577,11 +1998,11 @@ public final class FarmScr extends MyScreen {
             return;
          case 13:
             if (starFruil.timeFinish > 0) {
-               FarmService.gI().doUpdateStarFruitByMoney((int)0);
+               FarmService.gI().doUpdateStarFruitByMoney(0);
                return;
             }
 
-            FarmService.gI().doUpdateStarFruil((int)0);
+            FarmService.gI().doUpdateStarFruil(0);
             return;
          case 14:
             (var3 = FarmService.gI()).createMessage((byte)87);
@@ -602,7 +2023,7 @@ public final class FarmScr extends MyScreen {
 
    private void setAuto(int var1) {
       idSelected = 0;
-      super.left = new Command(avt.T.cy, 5);
+      super.left = new Command(T.finish, 5);
       super.right = null;
       AvCamera.isFollow = true;
       super.center = null;
@@ -611,14 +2032,14 @@ public final class FarmScr extends MyScreen {
    }
 
    private void setActionAnimal(FarmItem var1, short var2, Animal var3) {
-      this.setAction((IAction)(new IActionSetAnimal(this, var1, var2, var3)));
+      this.setAction(new IActionSetAnimal(this, var1, var2, var3));
    }
 
    protected final void doUsingVatPhamAnimal(Item var1, int var2) {
       int var3 = GameMidlet.avatar.direct == 0 ? 1 : -1;
       int var4 = listFood[var2].size();
       if (var1.number - var4 <= 0) {
-         Canvas.startOKDlg(avt.T.bw);
+         Canvas.startOKDlg(T.foodForEmpty);
       } else {
          for(int var5 = 0; var5 < 3 && var5 < var1.number - var4; ++var5) {
             Point var6 = new Point(GameMidlet.avatar.x, GameMidlet.avatar.y - 40);
@@ -640,8 +2061,8 @@ public final class FarmScr extends MyScreen {
             listFood[var2].addElement(var6);
             LoadMap.dynamicLists.addElement(var6);
          }
-
       }
+
    }
 
    public static void startTextSmall(int var0, int var1, CellFarm var2, Animal var3) {
@@ -672,6 +2093,7 @@ public final class FarmScr extends MyScreen {
          GameMidlet.avatar.getClass();
          FarmService.gI().doHervest(idFarm, var1);
       }
+
    }
 
    private static void doPlantSeed(int var0, int var1) {
@@ -679,8 +2101,33 @@ public final class FarmScr extends MyScreen {
          Welcome.goFarm();
       }
 
-      Item var2 = (Item) itemSeed.elementAt(var0);
-      FarmService.gI().doPlantSeed((int) idFarm, (int)var1, var2.ID);
+      Item var2 = (Item)itemSeed.elementAt(var0);
+      if (var1 < 0 || var1 >= cell.size()) {
+         return;
+      }
+
+      FarmScr scr = instance;
+      if (scr == null) {
+         FarmService.gI().doPlantSeed(idFarm, var1, var2.ID);
+         return;
+      }
+
+      CellFarm c = (CellFarm)cell.elementAt(var1);
+      boolean needsTill = false;
+      if (c != null) {
+         if (c.idTree != -1 && c.statusTree == 6) {
+            needsTill = true;
+         } else if (c.idTree == -1 && ((c.level == 1 && c.status != scr.typeCell[1]) || (c.level == 2 && c.status != scr.typeCell1[1]))) {
+            needsTill = true;
+         }
+      }
+      if (needsTill) {
+         scr.quickCareEnqueue((byte)2, var1, -1);
+         scr.applyTillLocal(c);
+      }
+
+      scr.quickCareEnqueue((byte)2, var1, var2.ID);
+      scr.quickCareStart();
    }
 
    private int getPosTreeByFocus(int var1, int var2) {
@@ -724,9 +2171,9 @@ public final class FarmScr extends MyScreen {
             int var3 = this.posTree[var1].x + var2 / numH;
             int var4 = this.posTree[var1].y + var2 % numH;
             if (var1 * numO + var2 < cell.size()) {
-               LoadMap.setType(var3, (int)var4, (byte)51);
+               LoadMap.setType(var3, var4, (byte)51);
                CellFarm var5;
-               (var5 = (CellFarm) cell.elementAt(var1 * numO + var2)).time1 = (short)(var1 * numO + var2);
+               (var5 = (CellFarm)cell.elementAt(var1 * numO + var2)).time1 = (short)(var1 * numO + var2);
                var5.xCell = var3;
                var5.yCell = var4;
                var5.x = var3 * LoadMap.w + LoadMap.w / 2;
@@ -736,7 +2183,7 @@ public final class FarmScr extends MyScreen {
             } else {
                if (var1 * numO + var2 == cell.size()) {
                   LoadMap.treeLists.addElement(new SubObject(-3, var3 * LoadMap.w + 20, var4 * LoadMap.w + 20, imgBuyLant.getWidth()));
-                  LoadMap.setType(var3, (int)var4, (byte)51);
+                  LoadMap.setType(var3, var4, (byte)51);
                   LoadMap.orderVector(LoadMap.treeLists);
                }
 
@@ -756,6 +2203,45 @@ public final class FarmScr extends MyScreen {
    }
 
    public final void update() {
+      if (this.quickCareRangeSowAskShowing && Canvas.currentDialog == null) {
+         this.quickCareRangeSowAskShowing = false;
+      }
+      if (this.quickCarePendingSowPromptAfterHarvest && this.quickCarePendingHarvestTreeAcks == 0 && !this.quickCarePendingRangeSowAskQueued && !this.quickCareRangeSowAskShowing) {
+         this.quickCarePendingSowPromptAfterHarvest = false;
+         this.quickCarePendingRangeSowAskQueued = true;
+         this.quickCarePendingRebuyAfterSow = true;
+      }
+      this.tryShowQueuedHarvestSowPrompt();
+      this.tryShowQueuedQuickCareRangeSowPrompt();
+      this.quickCareProcessPendingAnimalHarvests();
+      if (this.quickCarePendingRebuyAfterSow && !this.pendingHarvestSowPrompt && !this.pendingHarvestSowAskQueued && !this.isRangeSowMode && !this.quickCarePendingRangeSowAskQueued && !this.quickCareRangeSowAskShowing && !this.quickCareSowInProgress && this.quickCarePendingPlantAcks == 0) {
+         this.tryFinalizeQuickCareRebuyFlow();
+      }
+      if (this.quickCarePendingLobbyRebuy && LoadMap.TYPEMAP == 25) {
+         this.quickCarePendingLobbyRebuy = false;
+         boolean sentAnyBuy = false;
+
+         for(int i = 0; i < this.quickCareRebuySpecies.size(); ++i) {
+            byte species = ((Byte)this.quickCareRebuySpecies.elementAt(i)).byteValue();
+            int count = ((Integer)this.quickCareRebuyCounts.elementAt(i)).intValue();
+            AnimalInfo info = FarmData.getAnimalByID(species);
+            int moneyType = this.chooseMoneyTypeForAnimal(info);
+            if (info != null && moneyType != 0) {
+               for(int j = 0; j < count; ++j) {
+                  FarmService.gI().doBuyAnimal(info, moneyType);
+                  sentAnyBuy = true;
+               }
+            }
+         }
+
+         if (sentAnyBuy) {
+            ParkService.gI().chatToBoard("Đã chăm sóc xong");
+         }
+
+         this.quickCareRebuySpecies.removeAllElements();
+         this.quickCareRebuyCounts.removeAllElements();
+      }
+
       this.t += 2;
       if (this.t >= 10) {
          this.t = 0;
@@ -770,18 +2256,19 @@ public final class FarmScr extends MyScreen {
          }
       }
 
-      if (LoadMap.TYPEMAP == 24 && LoadMap.TYPEMAP == 53 && (System.currentTimeMillis() - this.curTime) / 1000L > 300L) {
+      if ((LoadMap.TYPEMAP == 24 || LoadMap.TYPEMAP == 53) && (System.currentTimeMillis() - this.curTime) / 1000L > 300L) {
          this.curTime = System.currentTimeMillis();
          this.doJoinFarm(idFarm, true);
       }
 
       Canvas.loadMap.update();
+      this.quickCareTickQueue();
       if (!isAutoVatNuoi && !isSelected && indexItem == -1) {
          this.setFocus();
       }
 
       int var2;
-      label143: {
+      label142: {
          if (action != -1 && this.timeDoing == -1L && GameMidlet.avatar.action == 0) {
             this.timeDoing = System.currentTimeMillis() / 100L;
             var2 = -1;
@@ -807,7 +2294,7 @@ public final class FarmScr extends MyScreen {
 
             if (var2 == -1) {
                this.resetAction();
-               break label143;
+               break label142;
             }
 
             SubObject var6 = new SubObject(-2, GameMidlet.avatar.x, GameMidlet.avatar.y - 5, unk.frameWidth);
@@ -838,10 +2325,10 @@ public final class FarmScr extends MyScreen {
       if ((LoadMap.TYPEMAP == 24 || LoadMap.TYPEMAP == 53) && animalLists.size() > 0 && ++tempTime > 250) {
          tempTime = 0;
          var2 = CRes.rnd(animalLists.size());
-         Animal var7 = (Animal) animalLists.elementAt(var2);
+         Animal var7 = (Animal)animalLists.elementAt(var2);
          String var8 = "";
          if (var7.disease[0]) {
-            var8 = var8 + avt.T.bi;
+            var8 = var8 + T.diarrhea;
          }
 
          if (var7.disease[1]) {
@@ -849,7 +2336,7 @@ public final class FarmScr extends MyScreen {
                var8 = var8 + ", ";
             }
 
-            var8 = var8 + avt.T.bj;
+            var8 = var8 + T.flu;
          }
 
          if (var7.hunger) {
@@ -857,7 +2344,7 @@ public final class FarmScr extends MyScreen {
                var8 = var8 + ", ";
             }
 
-            var8 = var8 + avt.T.bk;
+            var8 = var8 + T.hunger;
          }
 
          if (var7.health < 20) {
@@ -865,7 +2352,7 @@ public final class FarmScr extends MyScreen {
                var8 = var8 + ", ";
             }
 
-            var8 = var8 + avt.T.bl;
+            var8 = var8 + T.tire;
          }
 
          if (!var8.equals("")) {
@@ -883,7 +2370,7 @@ public final class FarmScr extends MyScreen {
 
          for(int var1 = 0; var1 < cell.size(); ++var1) {
             CellFarm var9;
-            if ((var9 = (CellFarm) cell.elementAt(var1)).idTree != -1 && var9.statusTree < 5) {
+            if ((var9 = (CellFarm)cell.elementAt(var1)).idTree != -1 && var9.statusTree < 5) {
                ++var9.tempTime;
                if ((long)(FarmData.getTreeByID(var9.idTree).harvestTime * 60 * 60) - var9.tempTime <= 0L) {
                   var9.statusTree = 5;
@@ -921,7 +2408,7 @@ public final class FarmScr extends MyScreen {
             }
 
             CellFarm var5;
-            if ((var5 = (CellFarm) cell.elementAt(var4)).xCell == var1 && var5.yCell == var2) {
+            if ((var5 = (CellFarm)cell.elementAt(var4)).xCell == var1 && var5.yCell == var2) {
                var10000 = var4;
                break;
             }
@@ -939,14 +2426,14 @@ public final class FarmScr extends MyScreen {
          this.doAction();
       } else {
          if (idItemUsing == -1) {
-            CellFarm var6 = (CellFarm) cell.elementAt(var1);
+            CellFarm var6 = (CellFarm)cell.elementAt(var1);
             switch (action) {
                case 0:
-                  this.setStatusCell((CellFarm)var6, 1);
+                  this.setStatusCell(var6, 1);
                   var6.statusTree = 0;
-                  LoadMap.map[var6.yCell * LoadMap.wMap + var6.xCell] = var6.status;
+                  LoadMap.map[var6.yCell * LoadMap.wMap + var6.xCell] = (short)var6.status;
                   if (var6.idTree != -1) {
-                     FarmService.gI().doPlantSeed((int) idFarm, (int)var1, -1);
+                     FarmService.gI().doPlantSeed(idFarm, var1, -1);
                   }
 
                   var6.idTree = -1;
@@ -955,9 +2442,9 @@ public final class FarmScr extends MyScreen {
                   }
                   break;
                case 1:
-                  this.setStatusCell((CellFarm)var6, 4);
+                  this.setStatusCell(var6, 4);
                   var6.isArid = false;
-                  LoadMap.map[var6.yCell * LoadMap.wMap + var6.xCell] = var6.status;
+                  LoadMap.map[var6.yCell * LoadMap.wMap + var6.xCell] = (short)var6.status;
                   FarmService.gI().doUsingItem(idFarm, var1, 100);
                case 2:
             }
@@ -970,6 +2457,7 @@ public final class FarmScr extends MyScreen {
          GameMidlet.avatar.action = 0;
          this.doAction();
       }
+
    }
 
    private void doAction() {
@@ -979,12 +2467,10 @@ public final class FarmScr extends MyScreen {
          IAction var1;
          (var1 = (IAction)this.listAction.elementAt(0)).perform();
          this.listAction.removeElement(var1);
-      } else {
-         if (this.isChamSoc) {
-            this.setGieoHat();
-         }
-
+      } else if (this.isChamSoc) {
+         this.setGieoHat();
       }
+
    }
 
    private void setFocus() {
@@ -1047,12 +2533,13 @@ public final class FarmScr extends MyScreen {
             if (LoadMap.focusObj == null && super.center == aQ) {
                super.center = null;
             }
-
          }
       }
+
    }
 
    public final void updateKey() {
+      CellFarm var4;
       if (this.isTrans && GameMidlet.avatar.action == 0 && GameMidlet.avatar.task == 0 && GameMidlet.avatar.x == GameMidlet.avatar.xCur && GameMidlet.avatar.y == GameMidlet.avatar.yCur) {
          this.isTrans = false;
          GameMidlet.avatar.direct = 0;
@@ -1060,26 +2547,26 @@ public final class FarmScr extends MyScreen {
          if (action == -1) {
             if (indexItem != -1) {
                if (this.listSelectedCell.size() > 0 && indexItem != -1) {
-                  label244: {
+                  label245: {
                      AvPosition var3 = (AvPosition)this.listSelectedCell.elementAt(0);
-                     CellFarm var4;
-                     (var4 = (CellFarm) cell.elementAt(var3.anchor)).isSelected = false;
+                     (var4 = (CellFarm)cell.elementAt(var3.anchor)).isSelected = false;
                      focusCell.x = var4.x / LoadMap.w;
                      focusCell.y = var4.y / LoadMap.w;
                      if (this.isChamSoc) {
                         if (var4.statusTree == 5) {
-                           this.doHarvest();
-                           this.setGieoHat();
+                           this.pendingHarvestPromptCellIndex = var3.anchor;
+                           this.pendingHarvestPromptResume = true;
+                           FarmService.gI().doHervest(idFarm, var3.anchor);
                         } else {
                            boolean var5 = false;
                            if (var4.idTree != -1 && var4.statusTree < 6 && var4.status == 36) {
-                              this.setAction((IAction)(new IActionSet11(this, var4)));
+                              this.setAction(new IActionSet11(this, var4));
                               var5 = true;
                            }
 
                            if (var4.idTree != -1 && var4.statusTree < 6) {
                               if (var3.anchor >= cell.size()) {
-                                 break label244;
+                                 break label245;
                               }
 
                               if (var4.isWorm && this.setBonPhan(var3.anchor, 7)) {
@@ -1091,20 +2578,7 @@ public final class FarmScr extends MyScreen {
                               }
 
                               if (var4.vitalityPer < 80) {
-                                 boolean var10 = false;
-
-                                 for(int var6 = 0; var6 < listItemFarm.size(); ++var6) {
-                                    FarmItem var7;
-                                    if ((var7 = getFarmItem(((Item) listItemFarm.elementAt(var6)).ID)).action == 2 && (var7.ID == 111 || var7.ID == 112)) {
-                                       var10 = true;
-                                       FarmService.gI().doUsingItem(idFarm, var3.anchor, var7.ID);
-                                       break;
-                                    }
-                                 }
-
-                                 if (!var10) {
-                                    Canvas.startOKDlg(avt.T.dM);
-                                 }
+                                 this.doAutoFertilizeQuickCare(var3.anchor);
                               }
                            }
 
@@ -1116,8 +2590,8 @@ public final class FarmScr extends MyScreen {
                         this.doHarvest();
                         this.setGieoHat();
                      } else {
-                        this.setAction((IAction)(new IActionSet1(this, var4)));
-                        this.setAction((IAction)(new IActionVatPham12(this, var3)));
+                        this.setAction(new IActionSet1(this, var4));
+                        this.setAction(new IActionVatPham12(this, var3));
                      }
 
                      this.listSelectedCell.removeElement(var3);
@@ -1165,36 +2639,35 @@ public final class FarmScr extends MyScreen {
                idSelected = var2;
             }
          } else if (Canvas.a(5)) {
-            label276: {
+            label274: {
                var2 = LoadMap.w;
-               CellFarm var8;
-               if ((var8 = (CellFarm) cell.elementAt(idSelected)).idTree != -1 && var8.statusTree < 6) {
+               if ((var4 = (CellFarm)cell.elementAt(idSelected)).idTree != -1 && var4.statusTree < 6) {
                   if (this.isChamSoc) {
-                     if (!var8.isSelected) {
-                        this.listSelectedCell.addElement(new AvPosition(var8.x / var2, var8.y / var2, idSelected));
+                     if (!var4.isSelected) {
+                        this.listSelectedCell.addElement(new AvPosition(var4.x / var2, var4.y / var2, idSelected));
                      }
 
-                     var8.isSelected = true;
+                     var4.isSelected = true;
                      this.setGieoHat();
-                     break label276;
+                     break label274;
                   }
                } else if (!this.isChamSoc) {
-                  if (!var8.isSelected) {
-                     this.listSelectedCell.addElement(new AvPosition(var8.x / var2, var8.y / var2, idSelected));
+                  if (!var4.isSelected) {
+                     this.listSelectedCell.addElement(new AvPosition(var4.x / var2, var4.y / var2, idSelected));
                   }
 
-                  var8.isSelected = true;
+                  var4.isSelected = true;
                   this.setGieoHat();
-                  break label276;
+                  break label274;
                }
 
-               Canvas.startOKDlg(avt.T.dJ);
+               Canvas.startOKDlg(T.disagree);
             }
          }
 
          if (Canvas.stypeInt == 0) {
-            CellFarm var12 = (CellFarm) cell.elementAt(idSelected);
-            AvCamera.gI().setToPos(var12.x, var12.y);
+            var4 = (CellFarm)cell.elementAt(idSelected);
+            AvCamera.gI().setToPos(var4.x, var4.y);
          }
       }
 
@@ -1209,7 +2682,7 @@ public final class FarmScr extends MyScreen {
             this.isTran = true;
             isSelected = true;
             var11 = this.getPosTreeByFocus(var2 / var11, var9 / var11);
-            var13 = (CellFarm) cell.elementAt(var11);
+            var13 = (CellFarm)cell.elementAt(var11);
             focusCell.x = var13.x / LoadMap.w;
             focusCell.y = var13.y / LoadMap.w;
          }
@@ -1225,7 +2698,7 @@ public final class FarmScr extends MyScreen {
             super.center.perform();
          } else if (var9 / var11 * LoadMap.wMap + var2 / var11 >= 0 && var9 / var11 * LoadMap.wMap + var2 / var11 <= LoadMap.type.length && LoadMap.type[var9 / var11 * LoadMap.wMap + var2 / var11] == 51) {
             var11 = this.getPosTreeByFocus(var2 / var11, var9 / var11);
-            var13 = (CellFarm) cell.elementAt(var11);
+            var13 = (CellFarm)cell.elementAt(var11);
             focusCell.x = var13.x / LoadMap.w;
             focusCell.y = var13.y / LoadMap.w;
             if (this.isSelectedCell && var11 >= 0 && var11 < cell.size()) {
@@ -1240,12 +2713,12 @@ public final class FarmScr extends MyScreen {
                      var13.isSelected = true;
                      this.setGieoHat();
                   } else if (var13.statusTree != 5) {
-                     Canvas.startOKDlg(avt.T.dL);
+                     Canvas.startOKDlg(T.acc);
                   }
                } else {
                   Canvas.isPointerRelease = false;
                   if (this.isChamSoc && var13.statusTree != 5) {
-                     Canvas.startOKDlg(avt.T.dK);
+                     Canvas.startOKDlg(T.viewRule);
                   } else {
                      if (!var13.isSelected) {
                         this.listSelectedCell.addElement(new AvPosition(var2 / LoadMap.w, var9 / LoadMap.w, var11));
@@ -1307,12 +2780,13 @@ public final class FarmScr extends MyScreen {
    public final void paintMain(Graphics var1) {
       Canvas.loadMap.paint(var1);
       Canvas.loadMap.paintBackGround(var1);
+      this.paintCellIndices(var1);
       if (idSelected >= 0) {
          if (this.n >= 8) {
             this.n = 0;
          }
 
-         CellFarm var4 = (CellFarm) cell.elementAt(idSelected);
+         CellFarm var4 = (CellFarm)cell.elementAt(idSelected);
          var1.drawImage(MapScr.imgFocusP, var4.x * AvMain.hd, (var4.y - 24 + this.n / 2) * AvMain.hd, 3);
          ++this.n;
       } else if (Canvas.stypeInt == 0 && focusCell != null && focusCell.x != -1 && LoadMap.TYPEMAP != 25) {
@@ -1332,16 +2806,35 @@ public final class FarmScr extends MyScreen {
       LoadMap.paintEffectCamera(var1);
    }
 
+   private void paintCellIndices(Graphics g) {
+      if (cell == null) {
+         return;
+      }
+
+      for (int i = 0; i < cell.size(); i++) {
+         CellFarm c = (CellFarm)cell.elementAt(i);
+         if (c == null) {
+            continue;
+         }
+
+         String cellNumber = String.valueOf(i + 1);
+         int tx = c.x * AvMain.hd;
+         int ty = (c.y - 6) * AvMain.hd;
+         g.setColor(16777215);
+         Canvas.smallFontRed.drawString(g, cellNumber, tx, ty, 2);
+      }
+   }
+
    public static void a(Vector var0, Vector var1, Vector var2, Vector var3, byte var4, int var5, boolean var6) {
       itemSeed = var0;
       isNew = var6;
-      levelStore = (byte)var4;
+      levelStore = var4;
       int var7 = itemSeed.size();
 
       for(var4 = 0; var4 < var7; ++var4) {
          Item var8;
          TreeInfo var9;
-         if ((var9 = FarmData.getTreeByID((int)(var8 = (Item) itemSeed.elementAt(var4)).ID)) != null) {
+         if ((var9 = FarmData.getTreeByID((var8 = (Item)itemSeed.elementAt(var4)).ID)) != null) {
             var8.name = var9.name;
          }
       }
@@ -1349,7 +2842,7 @@ public final class FarmScr extends MyScreen {
       itemProduct = var1;
 
       for(var4 = 0; var4 < itemProduct.size(); ++var4) {
-         setNameItem((Item) itemProduct.elementAt(var4));
+         setNameItem((Item)itemProduct.elementAt(var4));
       }
 
       listItemFarm = var2;
@@ -1358,27 +2851,25 @@ public final class FarmScr extends MyScreen {
 
    private static void setNameItem(Item var0) {
       if (var0.ID < 50) {
-         var0.price[0] = FarmData.getTreeByID((int)var0.ID).priceProduct;
-         var0.name = FarmData.getTreeByID((int)var0.ID).name;
-      } else {
-         if (var0.ID < 100) {
-            var0.price[0] = FarmData.getAnimalByID(var0.ID).priceProduct;
-            if (FarmData.getAnimalByID(var0.ID).area == 1) {
-               var0.name = avt.T.bn + " " + FarmData.getAnimalByID(var0.ID).name;
+         var0.price[0] = FarmData.getTreeByID(var0.ID).priceProduct;
+         var0.name = FarmData.getTreeByID(var0.ID).name;
+      } else if (var0.ID < 100) {
+         var0.price[0] = FarmData.getAnimalByID(var0.ID).priceProduct;
+         if (FarmData.getAnimalByID(var0.ID).area == 1) {
+            var0.name = T.block2NoWin + " " + FarmData.getAnimalByID(var0.ID).name;
+            return;
+         }
+
+         if (FarmData.getAnimalByID(var0.ID).area == 2) {
+            if (var0.ID == 55) {
+               var0.name = T.privateMsg + " " + FarmData.getAnimalByID(var0.ID).name;
                return;
             }
 
-            if (FarmData.getAnimalByID(var0.ID).area == 2) {
-               if (var0.ID == 55) {
-                  var0.name = avt.T.dN + " " + FarmData.getAnimalByID(var0.ID).name;
-                  return;
-               }
-
-               var0.name = avt.T.bm + " " + FarmData.getAnimalByID(var0.ID).name;
-            }
+            var0.name = T.sixPointNoWin + " " + FarmData.getAnimalByID(var0.ID).name;
          }
-
       }
+
    }
 
    public static FarmItem getFarmItem(int var0) {
@@ -1409,34 +2900,113 @@ public final class FarmScr extends MyScreen {
                var0.name = var5.des;
                listItemFarm.addElement(var0);
             }
-         } else {
-            if (var0.ID <= 100 && var0.ID < 50) {
-               if ((var4 = Item.getItemByList(itemSeed, var0.ID)) != null) {
-                  var4.number += var0.number;
-               } else {
-                  itemSeed.addElement(var0);
-                  var0.name = FarmData.getTreeByID((int)var0.ID).name;
-               }
-
-               if (itemSeed.size() == 0) {
-                  itemSeed.addElement(var0);
-               }
+         } else if (var0.ID <= 100 && var0.ID < 50) {
+            if ((var4 = Item.getItemByList(itemSeed, var0.ID)) != null) {
+               var4.number += var0.number;
+            } else {
+               itemSeed.addElement(var0);
+               var0.name = FarmData.getTreeByID(var0.ID).name;
             }
 
+            if (itemSeed.size() == 0) {
+               itemSeed.addElement(var0);
+            }
          }
+      }
+
+   }
+
+   private void doAutoFertilizeQuickCare(int cellIndex) {
+      if (cellIndex < 0 || cellIndex >= cell.size()) {
+         return;
+      }
+
+      CellFarm c = (CellFarm)cell.elementAt(cellIndex);
+      if (c == null || c.idTree == -1 || c.statusTree >= 6) {
+         return;
+      }
+
+      if (c.vitalityPer >= 100) {
+         return;
+      }
+
+      short superId = this.findAvailableFarmItemId((short)112);
+      short midId = this.findAvailableFarmItemId((short)111);
+      this.quickCareThrottleActive = true;
+
+      boolean did = false;
+      short chosenId = superId != -1 ? superId : midId;
+      if (chosenId != -1) {
+         did |= this.boostPlantUntilFullWithItem(cellIndex, chosenId) > 0;
+      }
+      if (!did && c.vitalityPer < 100) {
+         did |= this.boostPlantUntilFull(cellIndex) > 0;
+      }
+
+      this.quickCareThrottleActive = false;
+      if (did) {
+         this.quickCareStart();
+      } else {
+         Canvas.startOKDlg("Không có phân bón để dùng.");
       }
    }
 
+   private short findAvailableFarmItemId(short itemId) {
+      for (int i = 0; i < listItemFarm.size(); i++) {
+         Item it = (Item)listItemFarm.elementAt(i);
+         if (it != null && it.ID == itemId && it.number > 0) {
+            return itemId;
+         }
+      }
+      return -1;
+   }
+
+   private void promptSowAfterHarvest(final int cellIndex, final boolean resumeAfter) {
+      this.pendingHarvestSowPrompt = true;
+      this.pendingHarvestSowCellIndex = cellIndex;
+      this.pendingHarvestSowAskQueued = true;
+      this.pendingHarvestSowAskCellIndex = cellIndex;
+      this.pendingHarvestSowAskResumeAfter = resumeAfter;
+      this.tryShowQueuedHarvestSowPrompt();
+   }
+
+   private void openSeedSelectMenuForCell(final int cellIndex, final boolean resumeAfter) {
+      Vector cmds = new Vector();
+      for (int i = 0; i < itemSeed.size(); i++) {
+         Item it = (Item)itemSeed.elementAt(i);
+         if (it == null || it.number <= 0) continue;
+         final int seedIndex = i;
+         cmds.addElement(new Command(it.name + " (" + it.number + ")", new IAction() {
+            public void perform() {
+               doPlantSeed(seedIndex, cellIndex);
+               if (resumeAfter) {
+                  FarmScr.this.setGieoHat();
+               }
+            }
+         }));
+      }
+
+      if (cmds.size() == 0) {
+         Canvas.startOKDlg("Không có hạt giống để gieo.");
+         if (resumeAfter) {
+            this.setGieoHat();
+         }
+         return;
+      }
+
+      Menu.gI().startAt(cmds, -1);
+   }
+
    public final void onJoin(int var1, Vector var2, Vector var3, byte var4, byte var5, short var6, int var7) {
-      numBarn = (byte)var4;
-      numPond = (byte)var5;
-      foodID = (short)var6;
+      numBarn = var4;
+      numPond = var5;
+      foodID = var6;
       remainTime = var7;
       idFarm = var1;
       if (var1 != GameMidlet.avatar.IDDB) {
          Avatar var10;
          if ((var10 = ListScr.getAvatar(var1)) == null) {
-            Canvas.startOKDlg(avt.T.bo);
+            Canvas.startOKDlg(T.notOnFarm);
             return;
          }
 
@@ -1458,6 +3028,7 @@ public final class FarmScr extends MyScreen {
 
       setAnimal();
       if (this.isJoin) {
+         int var12;
          if (isReSize || LoadMap.TYPEMAP != 24 && LoadMap.TYPEMAP != 53) {
             isReSize = false;
             focusCell = new AvPosition();
@@ -1468,26 +3039,29 @@ public final class FarmScr extends MyScreen {
             this.posTree = new AvPosition[4];
             Canvas.loadMap.load(25);
             Canvas.load = 0;
-            // Convert signed bytes to unsigned int values to prevent negative indices
-            int var12 = var5 & 0xFF;  // Convert byte to unsigned int
-            int var11 = var4 & 0xFF;  // Convert byte to unsigned int
+            var12 = var5 & 255;
+            int var11 = var4 & 255;
+            var12 = 0;
+            var11 = 0;
 
+            int var13;
+            int barnX;
             try {
                numTilePond = FishFarm.WTile + var12;
                numTileBarn = Cattle.numTileW + var11;
-               int var13 = posPond.x / 24;
-               int barnX = (posBarn.x / 24 + 2);  // Changed var4 to a new variable to avoid overwriting parameter
+               var13 = posPond.x / 24;
+               barnX = posBarn.x / 24 + 2;
                InputStream var16;
                LoadMap.map = new short[(var16 = LoadMap.loadDataMap(25)).available()];
 
-               for(int i = 0; i < LoadMap.map.length; ++i) {  // Changed var6 to i to avoid overwriting parameter
+               for(int i = 0; i < LoadMap.map.length; ++i) {
                   LoadMap.map[i] = (short)var16.read();
                }
 
                short[] var17 = new short[LoadMap.map.length + LoadMap.Hmap * (var12 + var11)];
-               int index = 0;  // Changed var5 to index to avoid overwriting parameter
+               int index = 0;
 
-               for(int i = 0; i < LoadMap.map.length; ++i) {  // Changed var7 to i to avoid overwriting parameter
+               for(int i = 0; i < LoadMap.map.length; ++i) {
                   var17[index] = LoadMap.map[i];
                   ++index;
                   int var8;
@@ -1512,20 +3086,20 @@ public final class FarmScr extends MyScreen {
                Canvas.loadMap.setMap((InputStream)null, LoadMap.TYPEMAP + 1, true);
                Avatar var10000 = GameMidlet.avatar;
                var10000.x += var11 * 24;
-               LoadMap.addObjTree(849, (int)(posPond.x + 12 + CRes.rnd(numTilePond - 2) * 24), (int)(posPond.y + 12 + CRes.rnd(3) * 24));
-            } catch (Exception var9) {
-               var9.printStackTrace();
+               LoadMap.addObjTree(849, posPond.x + 12 + CRes.rnd(numTilePond - 2) * 24, posPond.y + 12 + CRes.rnd(3) * 24);
+            } catch (Exception var17) {
+               var17.printStackTrace();
             }
 
             listNest = new Vector();
             listBucket = new Vector();
             setChickNest(1, Chicken.s, (byte)87, -8, listNest);
             setChickNest(2, Cattle.posBucket, (byte)86, -7, listBucket);
-            int animalCount = animalLists.size();  // Changed var1 to animalCount to avoid overwriting parameter
+            var13 = animalLists.size();
 
-            for(int i = 0; i < animalCount; ++i) {  // Changed var12 to i to avoid overwriting variable
+            for(barnX = 0; barnX < var13; ++barnX) {
                Animal var15;
-               if ((var15 = (Animal) animalLists.elementAt(i)) instanceof FishFarm) {
+               if ((var15 = (Animal)animalLists.elementAt(barnX)) instanceof FishFarm) {
                   ((FishFarm)var15).setInit();
                } else if (var15 instanceof Chicken) {
                   ((Chicken)var15).setInit();
@@ -1544,11 +3118,11 @@ public final class FarmScr extends MyScreen {
             Canvas.endDlg();
          }
 
-         for(int i = 0; i < LoadMap.treeLists.size(); ++i) {  // Changed var1 to i to avoid overwriting parameter
+         for(var12 = 0; var12 < LoadMap.treeLists.size(); ++var12) {
             SubObject var14;
-            if ((var14 = (SubObject)LoadMap.treeLists.elementAt(i)).type < 800 && var14.type >= 100 || var14.type == -3 || var14 instanceof CellFarm) {
+            if ((var14 = (SubObject)LoadMap.treeLists.elementAt(var12)).type < 800 && var14.type >= 100 || var14.type == -3 || var14 instanceof CellFarm) {
                LoadMap.treeLists.removeElement(var14);
-               --i;
+               --var12;
             }
          }
 
@@ -1586,7 +3160,7 @@ public final class FarmScr extends MyScreen {
       for(int var6 = 0; var6 < animalLists.size(); ++var6) {
          Animal var7;
          AnimalInfo var8;
-         if ((var8 = FarmData.getAnimalByID((var7 = (Animal) animalLists.elementAt(var6)).species)).area == var0 && var8.iconProduct != -1) {
+         if ((var8 = FarmData.getAnimalByID((var7 = (Animal)animalLists.elementAt(var6)).species)).area == var0 && var8.iconProduct != -1) {
             boolean var11 = false;
 
             int var9;
@@ -1601,7 +3175,7 @@ public final class FarmScr extends MyScreen {
                var9 = var1.x + var5 * 24;
                var4.addElement(new AvPosition(var9, var1.y, var7.species));
                int var10 = LoadMap.getposMap(var9, var1.y);
-               LoadMap.type[var10] = var2;
+               LoadMap.type[var10] = (short)var2;
                LoadMap.addObjTree(var3, var9, var1.y);
                ++var5;
             }
@@ -1615,7 +3189,7 @@ public final class FarmScr extends MyScreen {
 
       for(int var1 = 0; var1 < animalLists.size(); ++var1) {
          Animal var2;
-         AnimalInfo var3 = FarmData.getAnimalByID((var2 = (Animal) animalLists.elementAt(var1)).species);
+         AnimalInfo var3 = FarmData.getAnimalByID((var2 = (Animal)animalLists.elementAt(var1)).species);
          if (var2 instanceof AnimalDan) {
             boolean var4 = false;
 
@@ -1651,33 +3225,39 @@ public final class FarmScr extends MyScreen {
    }
 
    public final void onPlantSeed(int var1, int var2) {
-      if (LoadMap.TYPEMAP == 24 || LoadMap.TYPEMAP == 53) {
-         Item var3;
-         if ((var3 = Item.getItemByList(itemSeed, var2)) != null) {
-            CellFarm var4;
-            (var4 = (CellFarm) cell.elementAt(var1)).idTree = var2;
-            this.setStatusCell((CellFarm)var4, 4);
-            LoadMap.map[var4.yCell * LoadMap.wMap + var4.xCell] = var4.status;
-            var4.statusTree = 0;
-            var4.isGrass = false;
-            var4.isWorm = false;
-            var4.time = 0;
-            var4.tempTime = 0L;
-            var4.vitalityPer = 100;
-            var4.hervestPer = 0;
-            --var3.number;
-            if (var3.number <= 0) {
-               itemSeed.removeElement(var3);
-            }
+      Item var3;
+      if ((LoadMap.TYPEMAP == 24 || LoadMap.TYPEMAP == 53) && (var3 = Item.getItemByList(itemSeed, var2)) != null) {
+         CellFarm var4;
+         (var4 = (CellFarm)cell.elementAt(var1)).idTree = var2;
+         this.setStatusCell(var4, 4);
+         LoadMap.map[var4.yCell * LoadMap.wMap + var4.xCell] = (short)var4.status;
+         var4.statusTree = 0;
+         var4.isGrass = false;
+         var4.isWorm = false;
+         var4.time = 0;
+         var4.tempTime = 0L;
+         var4.vitalityPer = 100;
+         var4.hervestPer = 0;
+         --var3.number;
+         if (var3.number <= 0) {
+            itemSeed.removeElement(var3);
          }
-
       }
+
+      if (this.quickCarePendingPlantAcks > 0) {
+         --this.quickCarePendingPlantAcks;
+         if (this.quickCarePendingPlantAcks <= 0) {
+            this.quickCarePendingPlantAcks = 0;
+            this.quickCareSowInProgress = false;
+         }
+      }
+
    }
 
    public final void setInfoCell(int var1) {
       CellFarm var4;
-      if ((var4 = (CellFarm) cell.elementAt(var1)).idTree == -1) {
-         this.setStatusCell((CellFarm)var4, 2);
+      if ((var4 = (CellFarm)cell.elementAt(var1)).idTree == -1) {
+         this.setStatusCell(var4, 2);
       } else {
          TreeInfo var2;
          int var3 = (var2 = FarmData.getTreeInfoByID(var4.idTree)).harvestTime * 60 / 5;
@@ -1691,13 +3271,13 @@ public final class FarmScr extends MyScreen {
          }
 
          if (var4.isArid) {
-            this.setStatusCell((CellFarm)var4, 3);
+            this.setStatusCell(var4, 3);
          } else {
-            this.setStatusCell((CellFarm)var4, 4);
+            this.setStatusCell(var4, 4);
          }
       }
 
-      LoadMap.map[var4.yCell * LoadMap.wMap + var4.xCell] = var4.status;
+      LoadMap.map[var4.yCell * LoadMap.wMap + var4.xCell] = (short)var4.status;
    }
 
    private void setStatusCell(CellFarm var1, int var2) {
@@ -1706,16 +3286,17 @@ public final class FarmScr extends MyScreen {
       } else {
          var1.status = this.typeCell[var2];
       }
+
    }
 
    public static void onHarvestTree(int var0, int var1) {
-      CellFarm var3 = (CellFarm) cell.elementAt(var0);
+      CellFarm var3 = (CellFarm)cell.elementAt(var0);
+      TreeInfo var4;
       if (var1 > 0) {
-         TreeInfo var2;
-         if ((var2 = FarmData.getTreeByID(var3.idTree)).isDynamic) {
-            Canvas.addFlyText(var1, var3.xCell * LoadMap.w + 11, var3.yCell * LoadMap.w, -1, 0, var2.idImg[var3.statusTree], -1);
+         if ((var4 = FarmData.getTreeByID(var3.idTree)).isDynamic) {
+            Canvas.addFlyText(var1, var3.xCell * LoadMap.w + 11, var3.yCell * LoadMap.w, -1, 0, var4.idImg[var3.statusTree], -1);
          } else {
-            ImageInfo var5 = FarmData.listImgInfo[var2.idImg[var3.statusTree]];
+            ImageInfo var5 = FarmData.listImgInfo[var4.idImg[var3.statusTree]];
             Canvas.addFlyText(var1, var3.xCell * LoadMap.w + 11, var3.yCell * LoadMap.w, -1, CRes.createRGBImage(var5.x0 * AvMain.hd, var5.y0 * AvMain.hd, var5.w * AvMain.hd, var5.h * AvMain.hd, FarmData.imgBig[var5.bigID]), -1);
          }
       }
@@ -1727,7 +3308,6 @@ public final class FarmScr extends MyScreen {
          var3.isWorm = false;
       }
 
-      TreeInfo var4;
       Item var6;
       if ((var4 = FarmData.getTreeByID(var3.idTree)).isDynamic) {
          if ((var6 = getItemProductByID(var4.productID)) != null) {
@@ -1744,9 +3324,28 @@ public final class FarmScr extends MyScreen {
       } else {
          (var6 = new Item()).ID = var4.ID;
          var6.number = var1;
-         var6.price[0] = FarmData.getTreeByID((int)var4.ID).priceProduct;
-         var6.name = FarmData.getTreeByID((int)var4.ID).name;
+         var6.price[0] = FarmData.getTreeByID(var4.ID).priceProduct;
+         var6.name = FarmData.getTreeByID(var4.ID).name;
          itemProduct.addElement(var6);
+      }
+
+      FarmScr scr = instance;
+      if (scr != null && idFarm == GameMidlet.avatar.IDDB && scr.pendingHarvestPromptCellIndex == var0) {
+         boolean resume = scr.pendingHarvestPromptResume;
+         scr.pendingHarvestPromptCellIndex = -1;
+         scr.pendingHarvestPromptResume = false;
+         scr.promptSowAfterHarvest(var0, resume);
+      } else if (scr != null && idFarm == GameMidlet.avatar.IDDB && scr.quickCarePendingHarvestTreeAcks > 0) {
+         --scr.quickCarePendingHarvestTreeAcks;
+         if (scr.quickCarePendingHarvestTreeAcks == 0 && scr.quickCarePendingSowPromptAfterHarvest) {
+            scr.quickCarePendingSowPromptAfterHarvest = false;
+            scr.quickCarePendingRangeSowAskQueued = true;
+            scr.quickCarePendingRebuyAfterSow = true;
+         }
+      } else if (scr != null && idFarm == GameMidlet.avatar.IDDB && scr.pendingHarvestSowPrompt && scr.pendingHarvestSowCellIndex == var0) {
+         scr.pendingHarvestSowPrompt = false;
+         scr.pendingHarvestSowCellIndex = -1;
+         scr.promptSowAfterHarvest(var0, false);
       }
    }
 
@@ -1770,17 +3369,17 @@ public final class FarmScr extends MyScreen {
          if (AvatarData.getImgIcon(var2.iconProduct) != null) {
             AvPosition var7 = null;
             if (var2.area == 1) {
-               var7 = getPosO((Vector) listNest, var6.species);
+               var7 = getPosO(listNest, var6.species);
             } else if (var2.area == 2) {
-               var7 = getPosO((Vector) listBucket, var6.species);
+               var7 = getPosO(listBucket, var6.species);
             }
 
             if (var7 != null) {
                Canvas.addFlyText(var1, var7.x, var7.y - 25, -1, AvatarData.getImgIcon(var2.iconProduct).img, -1);
             }
          }
-
       }
+
    }
 
    private static AvPosition getPosO(Vector var0, int var1) {
@@ -1800,6 +3399,7 @@ public final class FarmScr extends MyScreen {
          GameMidlet.avatar.updateMoney(var4, var5, var6);
          Canvas.startOKDlg(var3);
       }
+
    }
 
    public final void doJoinFarm(int var1, boolean var2) {
@@ -1808,7 +3408,7 @@ public final class FarmScr extends MyScreen {
    }
 
    public final void doSellProduct(int var1, String var2) {
-      Canvas.startOKDlg(avt.T.bp + " " + var2 + "?", (IAction)(new IActionSellProduct(this, var1)));
+      Canvas.startOKDlg(T.pw + " " + var2 + "?", new IActionSellProduct(this, var1));
    }
 
    public final void doOpenCuaHang() {
@@ -1816,7 +3416,7 @@ public final class FarmScr extends MyScreen {
 
       int var2;
       for(var2 = 0; var2 < FarmData.treeInfo.length; ++var2) {
-         CommandBuyItemCuaHang var4 = new CommandBuyItemCuaHang(this, avt.T.O, 7, FarmData.treeInfo[var2].ID, var2);
+         CommandBuyItemCuaHang var4 = new CommandBuyItemCuaHang(this, T.selectt, 7, FarmData.treeInfo[var2].ID, var2);
          var1.addElement(var4);
       }
 
@@ -1824,14 +3424,14 @@ public final class FarmScr extends MyScreen {
 
       for(int var3 = 0; var3 < var2; ++var3) {
          AnimalInfo var6 = (AnimalInfo)FarmData.listAnimalInfo.elementAt(var3);
-         CommandBuyAnimalCuaHang var7 = new CommandBuyAnimalCuaHang(this, avt.T.O, 8, var3, var6, var3);
+         CommandBuyAnimalCuaHang var7 = new CommandBuyAnimalCuaHang(this, T.selectt, 8, var3, var6, var3);
          var1.addElement(var7);
       }
 
       PopupShop.gI().switchToMe();
-      PopupShop.gI().addElement(new String[]{avt.T.br, avt.T.bs, avt.T.aN}, new Vector[]{var1, this.goVatPham(), this.goKhoHang()}, (Vector)null);
+      PopupShop.gI().addElement(new String[]{T.seed, T.item, T.storePro}, new Vector[]{var1, this.goVatPham(), this.goKhoHang()}, (Vector)null);
       if (Canvas.isInitChar && !Welcome.isOut) {
-         (Canvas.welcome = new Welcome()).initFarmPath((MyScreen)PopupShop.me);
+         (Canvas.welcome = new Welcome()).initFarmPath(PopupShop.me);
       }
 
    }
@@ -1842,7 +3442,7 @@ public final class FarmScr extends MyScreen {
       for(int var2 = 0; var2 < FarmData.listItemFarm.size(); ++var2) {
          FarmItem var3;
          if ((var3 = (FarmItem)FarmData.listItemFarm.elementAt(var2)).isItem && (var3.priceLuong > 0 || var3.priceXu > 0)) {
-            var1.addElement(new CommandGoVatPham(this, avt.T.O, 9, var2, var3, var2));
+            var1.addElement(new CommandGoVatPham(this, T.selectt, 9, var2, var3, var2));
          }
       }
 
@@ -1854,17 +3454,16 @@ public final class FarmScr extends MyScreen {
       int var2 = itemProduct.size();
 
       int var3;
+      Item var7;
       for(var3 = 0; var3 < var2; ++var3) {
-         Item var4;
-         if (FarmData.getTreeByID((int)(var4 = (Item) itemProduct.elementAt(var3)).ID) != null || var4.ID >= 50) {
-            CommandGoKhoHang1 var5 = new CommandGoKhoHang1(this, avt.T.bg, new IActionGoKhoHang1(this, var3), var3, var4);
+         if (FarmData.getTreeByID((var7 = (Item)itemProduct.elementAt(var3)).ID) != null || var7.ID >= 50) {
+            CommandGoKhoHang1 var5 = new CommandGoKhoHang1(this, T.sell, new IActionGoKhoHang1(this, var3), var3, var7);
             var1.addElement(var5);
          }
       }
 
       for(var3 = 0; var3 < listFarmProduct.size(); ++var3) {
-         Item var7;
-         FarmItem var6 = getFarmItem((var7 = (Item) listFarmProduct.elementAt(var3)).ID);
+         FarmItem var6 = getFarmItem((var7 = (Item)listFarmProduct.elementAt(var3)).ID);
          System.out.println("aaaaaaaaaa: " + var6 + "    " + var7.ID);
          var1.addElement(new CommandGoKhoHang2(this, "", 11, var3, var6, var3, var7));
       }
@@ -1874,14 +3473,14 @@ public final class FarmScr extends MyScreen {
 
    public final void doOpenKhoHang() {
       if (GameMidlet.avatar.IDDB != idFarm) {
-         Canvas.startOKDlg(avt.T.bt);
+         Canvas.startOKDlg(T.notOnFarmOther);
       } else {
          Vector var1 = new Vector();
 
          int var2;
          for(var2 = 0; var2 < itemSeed.size(); ++var2) {
             Item var4;
-            if (FarmData.getTreeByID((int)(var4 = (Item) itemSeed.elementAt(var2)).ID) != null) {
+            if (FarmData.getTreeByID((var4 = (Item)itemSeed.elementAt(var2)).ID) != null) {
                CommandOpenKhoHang1 var3 = new CommandOpenKhoHang1(this, "", 12, var2, var4, var2);
                var1.addElement(var3);
             }
@@ -1893,13 +3492,13 @@ public final class FarmScr extends MyScreen {
          }
 
          PopupShop.gI().switchToMe();
-         PopupShop.gI().addElement(new String[]{avt.T.aN, avt.T.bu}, new Vector[]{this.goKhoHang(), var1}, (Vector)null);
+         PopupShop.gI().addElement(new String[]{T.storePro, T.StoreSeed}, new Vector[]{this.goKhoHang(), var1}, (Vector)null);
 
          for(int var5 = 0; var5 < itemProduct.size(); ++var5) {
             itemProduct.elementAt(var5);
          }
-
       }
+
    }
 
    public final void f(int var1, int var2) {
@@ -1911,7 +3510,7 @@ public final class FarmScr extends MyScreen {
                --Welcome.indexFarmPath;
             }
 
-            Canvas.welcome.initFarmPath((MyScreen)PopupShop.me);
+            Canvas.welcome.initFarmPath(PopupShop.me);
             return;
          }
       } else {
@@ -1945,7 +3544,7 @@ public final class FarmScr extends MyScreen {
             return;
          case 1:
             if (Canvas.welcome == null || Welcome.isPaintArrow) {
-               Menu.gI().startAt(this.K, 0);
+               Menu.gI().startAt(this.K, -1);
                return;
             }
             break;
@@ -1959,7 +3558,7 @@ public final class FarmScr extends MyScreen {
             Item var6;
             FarmItem var7;
             for(var5 = 0; var5 < listItemFarm.size(); ++var5) {
-               if ((var7 = getFarmItem((var6 = (Item) listItemFarm.elementAt(var5)).ID)).type == var4.area && var7.action == 5 && (var4.area == 4 || var4.area == 1)) {
+               if ((var7 = getFarmItem((var6 = (Item)listItemFarm.elementAt(var5)).ID)).type == var4.area && var7.action == 5 && (var4.area == 4 || var4.area == 1)) {
                   int var8 = var6.number;
                   if (var4.area == 4) {
                      var8 -= listFood[1].size();
@@ -1972,13 +3571,13 @@ public final class FarmScr extends MyScreen {
             }
 
             for(var5 = 0; var5 < listItemFarm.size(); ++var5) {
-               if ((var7 = getFarmItem((var6 = (Item) listItemFarm.elementAt(var5)).ID)).action != 5 && var7.type != 0 && (var7.type == var4.area || var7.type == 101 || var7.type == 100 && var4.area != 4) && (var7.action != 4 || var3.disease[0] || var3.disease[1]) && (var7.action != 6 || var3.health < 100)) {
+               if ((var7 = getFarmItem((var6 = (Item)listItemFarm.elementAt(var5)).ID)).action != 5 && var7.type != 0 && (var7.type == var4.area || var7.type == 101 || var7.type == 100 && var4.area != 4) && (var7.action != 4 || var3.disease[0] || var3.disease[1]) && (var7.action != 6 || var3.health < 100)) {
                   var11.addElement(new CommandItem5(var10, var7.des + "(" + var6.number + ")", new IActionItem5(var10, var7, var6), var7));
                }
             }
 
             if (idFarm == GameMidlet.avatar.IDDB) {
-               var11.addElement(new CommandSellAnimal(var10, avt.T.bg, 2));
+               var11.addElement(new CommandSellAnimal(var10, T.sell, 2));
             }
 
             startMenuFarm(var11);
@@ -1998,7 +3597,7 @@ public final class FarmScr extends MyScreen {
             this.listSelectedCell.removeAllElements();
 
             for(var1 = 0; var1 < cell.size(); ++var1) {
-               ((CellFarm) cell.elementAt(var1)).isSelected = false;
+               ((CellFarm)cell.elementAt(var1)).isSelected = false;
             }
 
             idSelected = -1;
@@ -2009,12 +3608,8 @@ public final class FarmScr extends MyScreen {
             this.doKhoGiong();
             return;
          case 7:
-            Vector var9;
-            (var9 = new Vector()).addElement(new Command(avt.T.dR, 10));
-            var9.addElement(new Command(avt.T.dS, 8));
-            var9.addElement(new Command(avt.T.dT, 9));
-            var9.addElement(new Command(avt.T.x, 20));
-            Menu.gI().startAt(var9, 0);
+            this.isChamSoc = true;
+            this.setAuto(0);
             return;
          case 8:
             isAutoVatNuoi = false;
@@ -2028,6 +3623,49 @@ public final class FarmScr extends MyScreen {
             ++this.indexAuto;
             this.commandActionPointer(10, -1);
             return;
+         case 10:
+         case 11:
+         case 12:
+         case 13:
+         case 14:
+         case 15:
+         case 16:
+         case 17:
+         case 18:
+         case 19:
+         case 20:
+         case 21:
+         case 22:
+         case 23:
+         case 24:
+         case 25:
+         case 26:
+         case 27:
+         case 28:
+         case 29:
+         case 30:
+         case 31:
+         case 32:
+         case 33:
+         case 34:
+         case 35:
+         case 36:
+         case 37:
+         case 38:
+         case 39:
+         case 40:
+         case 41:
+         case 42:
+         case 43:
+         case 44:
+         case 45:
+         case 46:
+         case 47:
+         case 48:
+         case 49:
+         case 50:
+         default:
+            break;
          case 51:
             FarmService.gI().doOpenLand(idFarm, 1);
             this.curTime = System.currentTimeMillis();
@@ -2039,11 +3677,76 @@ public final class FarmScr extends MyScreen {
             this.doJoinFarm(idFarm, true);
             return;
          case 53:
-            this.setAction((byte)0, (int)-1);
+            this.setAction((byte)0, -1);
             Canvas.endDlg();
             return;
          case 54:
             this.doGoFarmWay();
+            return;
+         case CMD_FARM_QUICK_CARE:
+            this.commandTab(7, -1);
+            return;
+         case CMD_FARM_CROP:
+            this.openCropMenu();
+            return;
+         case CMD_FARM_ANIMAL:
+            this.openAnimalMenu();
+            return;
+         case CMD_FARM_AUTO_CARE:
+            this.commandActionPointer(10, -1);
+            return;
+         case CMD_FARM_KITCHEN:
+            this.doOpenCooking();
+            return;
+         case CMD_FARM_SHOP:
+            this.doOpenCuaHang();
+            return;
+         case CMD_FARM_WAREHOUSE:
+            this.doOpenKhoHang();
+            return;
+         case CMD_FARM_LOBBY:
+            ParkService.gI().doJoinPark(25, -1);
+            return;
+         case CMD_FARM_SWITCH_ACC:
+            MapScr.exitGame();
+            LoginScr.gI().openSwitchAccountSettingsForm();
+            return;
+         case CMD_FARM_LOGOUT:
+            MapScr.exitGame();
+            return;
+         case CMD_FARM_EXIT:
+            MapScr.gI().doExit();
+            return;
+         case CMD_CROP_HARVEST:
+            this.doCropHarvestAll();
+            return;
+         case CMD_CROP_SOW:
+            this.startRangeSowFlow();
+            return;
+         case CMD_CROP_TILL:
+            this.tillAllLand();
+            return;
+         case CMD_CROP_FERTILIZE:
+            this.doCropFertilizeAll();
+            return;
+         case CMD_CROP_PEST_WEED:
+            this.doCropPestWeedAll();
+            return;
+         case CMD_CROP_WATER:
+            this.doCropWaterAll();
+            return;
+         case CMD_ANIMAL_SELL:
+            this.openAnimalSellMenu();
+            return;
+         case CMD_ANIMAL_COLLECT:
+            this.doAnimalCollectAll();
+            return;
+         case CMD_ANIMAL_PUMP:
+            this.doAnimalPumpAll();
+            return;
+         case CMD_ANIMAL_CURE:
+            this.doAnimalCureAll();
+            return;
       }
 
    }
@@ -2055,7 +3758,7 @@ public final class FarmScr extends MyScreen {
    public static void onKick() {
       if (LoadMap.TYPEMAP == 24 || LoadMap.TYPEMAP == 53) {
          Canvas.menuMain = null;
-         Canvas.startOK(avt.T.bv, 54, (AvMain)null);
+         Canvas.startOK(T.youAreBittenByDogByHound, 54, (AvMain)null);
       }
 
    }
@@ -2075,7 +3778,7 @@ public final class FarmScr extends MyScreen {
       for(int var3 = 0; var3 < listItemFarm.size(); ++var3) {
          Item var4;
          FarmItem var5;
-         if (((var5 = getFarmItem((var4 = (Item) listItemFarm.elementAt(var3)).ID)).type == var1 || var5.type == 101) && var5.action == 5) {
+         if (((var5 = getFarmItem((var4 = (Item)listItemFarm.elementAt(var3)).ID)).type == var1 || var5.type == 101) && var5.action == 5) {
             var6.addElement(new CommandThuoc(this, var5.des + "(" + var4.number + ")", new IActionCattleFeeding(this, var1, var4), var5));
          }
       }
@@ -2088,35 +3791,41 @@ public final class FarmScr extends MyScreen {
    }
 
    public final void doHarvestAnimal(int var1, int var2, Vector var3) {
-      if (GameMidlet.avatar.IDDB == idFarm) {
-         if (var2 >= 0 && var2 < var3.size()) {
-            AvPosition var6 = (AvPosition)var3.elementAt(var2);
+      if (GameMidlet.avatar.IDDB == idFarm && var2 >= 0 && var2 < var3.size()) {
+         AvPosition var6 = (AvPosition)var3.elementAt(var2);
 
-            for(int var7 = 0; var7 < animalLists.size(); ++var7) {
-               Animal var4;
-               AnimalInfo var5 = FarmData.getAnimalByID((var4 = (Animal) animalLists.elementAt(var7)).species);
-               if (var4.numEggOne > 0 && var6.anchor == var4.species) {
-                  var4.numEggOne = 0;
-                  if (var1 == 1 && var5.area == var1) {
+         for(int var7 = 0; var7 < animalLists.size(); ++var7) {
+            Animal var4;
+            AnimalInfo var5 = FarmData.getAnimalByID((var4 = (Animal)animalLists.elementAt(var7)).species);
+            if (var4.numEggOne > 0 && var6.anchor == var4.species) {
+               var4.numEggOne = 0;
+               if (var1 == 1 && var5.area == var1) {
+                  if (this.quickCareThrottleActive) {
+                     this.quickCareEnqueue((byte)0, var4.IDDB, 0);
+                  } else {
                      sendHarvestAnimal(var4);
-                     removePopup(-50);
                   }
+                  removePopup(-50);
+               }
 
-                  if (var1 == 2 && var5.area == var1) {
+               if (var1 == 2 && var5.area == var1) {
+                  if (this.quickCareThrottleActive) {
+                     this.quickCareEnqueue((byte)0, var4.IDDB, 0);
+                  } else {
                      sendHarvestAnimal(var4);
-                     removePopup(-51);
                   }
+                  removePopup(-51);
                }
             }
-
          }
       }
+
    }
 
    public final void onSell(int var1, int var2, short var3) {
       GameMidlet.avatar.money[0] = var2;
       PopupShop.isTransFocus = true;
-      Canvas.startOKDlg(avt.T.bx + var1 + avt.T.T);
+      Canvas.startOKDlg(T.moneySellPro + var1 + T.dola);
       Item var4;
       if ((var4 = Item.getItemByList(itemProduct, var3)) == null) {
          var4 = Item.getItemByList(listFarmProduct, var3);
@@ -2151,10 +3860,24 @@ public final class FarmScr extends MyScreen {
 
       PopupShop.isTransFocus = true;
       GameMidlet.avatar.money[0] = var1;
+      FarmScr scr2 = instance;
+      if (scr2 != null) {
+         scr2.tryFinalizeQuickCareRebuyFlow();
+      }
    }
 
    public final void onPriceAnimal(byte var1, String var2) {
-      Canvas.startOKDlg(var2, (IAction)(new IActionPriceAnimal(this, var1)));
+      if (this.isBatchSellAnimal) {
+         FarmService.gI().doSellAnimal(idFarm, var1);
+         --this.batchSellRemain;
+         if (this.batchSellRemain <= 0) {
+            this.isBatchSellAnimal = false;
+            this.batchSellRemain = 0;
+            this.tryFinalizeQuickCareRebuyFlow();
+         }
+      } else {
+         Canvas.startOKDlg(var2, new IActionPriceAnimal(this, var1));
+      }
    }
 
    public final void doGoFarmWay() {
@@ -2164,13 +3887,13 @@ public final class FarmScr extends MyScreen {
       Dog.itemID = -1;
       this.listHound = null;
       super.right = null;
-      ParkService.gI().doJoinPark(25, 0);
+      ParkService.gI().doJoinPark(25, -1);
    }
 
    public static Animal getAnimalByIndex(int var0) {
       for(int var1 = 0; var1 < animalLists.size(); ++var1) {
          Animal var2;
-         if ((var2 = (Animal) animalLists.elementAt(var1)).IDDB == var0) {
+         if ((var2 = (Animal)animalLists.elementAt(var1)).IDDB == var0) {
             return var2;
          }
       }
@@ -2182,13 +3905,14 @@ public final class FarmScr extends MyScreen {
       if (GameMidlet.avatar.IDDB == idFarm) {
          Vector var1 = new Vector();
          if (starFruil.numberFruit > 0) {
-            var1.addElement(new CommandMenuStarFruit1(this, avt.T.eO + "(" + starFruil.numberFruit + ")", 12));
+            var1.addElement(new CommandMenuStarFruit1(this, T.harvest + "(" + starFruil.numberFruit + ")", 12));
          }
 
-         var1.addElement(new CommandMenuStarFruit2(this, starFruil.timeFinish > 0 ? avt.T.eN : avt.T.g, 13));
-         var1.addElement(new CommandMenuStarFruit3(this, avt.T.cw, 14));
+         var1.addElement(new CommandMenuStarFruit2(this, starFruil.timeFinish > 0 ? T.QuickUpgrade : T.update, 13));
+         var1.addElement(new CommandMenuStarFruit3(this, T.viewInfo, 14));
          startMenuFarm(var1);
       }
+
    }
 
    private static void removePopup(int var0) {
@@ -2208,28 +3932,29 @@ public final class FarmScr extends MyScreen {
 
          for(int var2 = 0; var2 < FarmData.listFood.size(); ++var2) {
             Food var3 = (Food)FarmData.listFood.elementAt(var2);
-            var1.addElement(new CommandCooking1(this, avt.T.m, new IActionCooking1(this, var3), var3, var2));
+            var1.addElement(new CommandCooking1(this, T.cook, new IActionCooking1(this, var3), var3, var2));
          }
 
          Vector var5 = new Vector();
          if (foodID > 0) {
             var5.addElement((Object)null);
-            CommandCooking2 var6 = new CommandCooking2(this, remainTime == 0 ? avt.T.eL : avt.T.h, 2, this);
+            CommandCooking2 var6 = new CommandCooking2(this, remainTime == 0 ? T.done : T.playNow, 2, this);
             var5.addElement(var6);
          }
 
          PopupShop.gI().switchToMe();
          PopupShop.gI().isFull = true;
          if (foodID > 0) {
-            PopupShop.gI().addElement(new String[]{avt.T.m, avt.T.dD}, new Vector[]{var1, null}, var5);
-            PopupShop.gI().setCmdLeft(new Command(avt.T.cm, 0, this), 1);
+            PopupShop.gI().addElement(new String[]{T.cook, T.cooking}, new Vector[]{var1, null}, var5);
+            PopupShop.gI().setCmdLeft(new Command(T.cancel, 0, this), 1);
             PopupShop.focusTap = 1;
             PopupShop.gI().setCmyLim();
             PopupShop.gI().setCaption();
          } else {
-            PopupShop.gI().addElement(new String[]{avt.T.m}, new Vector[]{var1}, (Vector)null);
+            PopupShop.gI().addElement(new String[]{T.cook}, new Vector[]{var1}, (Vector)null);
          }
       }
+
    }
 
    public static void onHarvestStarFruit(short var0, short var1) {
@@ -2254,7 +3979,7 @@ public final class FarmScr extends MyScreen {
    public static Item getItemProductByID(int var0) {
       for(int var1 = 0; var1 < listFarmProduct.size(); ++var1) {
          Item var2;
-         if ((var2 = (Item) listFarmProduct.elementAt(var1)).ID == var0) {
+         if ((var2 = (Item)listFarmProduct.elementAt(var1)).ID == var0) {
             return var2;
          }
       }
@@ -2265,7 +3990,7 @@ public final class FarmScr extends MyScreen {
    public static Item getProductByID(int var0) {
       for(int var1 = 0; var1 < itemProduct.size(); ++var1) {
          Item var2;
-         if ((var2 = (Item) itemProduct.elementAt(var1)).ID == var0) {
+         if ((var2 = (Item)itemProduct.elementAt(var1)).ID == var0) {
             return var2;
          }
       }
@@ -2283,11 +4008,12 @@ public final class FarmScr extends MyScreen {
 
    static void a(FarmScr var0, CellFarm var1) {
       if (var1.idTree != -1 && var1.statusTree < 6) {
-         Canvas.startOKDlg(avt.T.bh, 53);
+         Canvas.startOKDlg(T.youWantBreakTree, 53);
       } else {
-         var0.setAction((byte)0, (int)-1);
+         var0.setAction((byte)0, -1);
          Canvas.endDlg();
       }
+
    }
 
    static void a(FarmScr var0, int var1, int var2) {

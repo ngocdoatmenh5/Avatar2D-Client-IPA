@@ -15,5 +15,6 @@ final class IActionCattleFeeding implements IAction {
       } else {
          Dog.itemID = this.b.ID;
       }
+
    }
 }

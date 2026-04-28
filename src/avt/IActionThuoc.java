@@ -10,6 +10,6 @@ final class IActionThuoc implements IAction {
    }
 
    public final void perform() {
-      this.a.doUsingVatPhamAnimal((Item)this.b, 1);
+      this.a.doUsingVatPhamAnimal(this.b, 1);
    }
 }

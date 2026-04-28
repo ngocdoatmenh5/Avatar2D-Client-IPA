@@ -20,7 +20,7 @@ public final class HomeMsgHandler extends IService implements IMiniGameMsgHandle
          switch (var1.command) {
             case -75:
                int var12 = var1.reader().readInt();
-               Canvas.inputDlg.setImg(T.t, new IActionSetPass(this, var12), 0);
+               Canvas.inputDlg.setImg(T.setPass, new IActionSetPass(this, var12), 0);
             default:
                return;
             case -73:
@@ -59,20 +59,21 @@ public final class HomeMsgHandler extends IService implements IMiniGameMsgHandle
                HouseScr.gI().onRemoveItem(var13);
                return;
             case -65:
-               var17 = var1.reader().readByte();
+               var17 = (short)var1.reader().readByte();
                var2 = var1.reader().readInt();
                short var5;
                short[] var15 = new short[var5 = var1.reader().readShort()];
 
-               for(int var6 = 0; var6 < var5; ++var6) {
-                  var15[var6] = var1.reader().readByte();
+               int var8;
+               for(var8 = 0; var8 < var5; ++var8) {
+                  var15[var8] = (short)var1.reader().readByte();
                }
 
-               var19 = var1.reader().readByte();
+               var19 = (short)var1.reader().readByte();
                var18 = new Vector();
                var7 = var1.reader().readShort();
 
-               for(int var8 = 0; var8 < var7; ++var8) {
+               for(var8 = 0; var8 < var7; ++var8) {
                   MapItem var23;
                   (var23 = new MapItem()).typeID = var1.reader().readShort();
                   var23.x = var1.reader().readByte() * 24;
@@ -111,8 +112,9 @@ public final class HomeMsgHandler extends IService implements IMiniGameMsgHandle
             case 77:
                GlobalMessageHandler.readChat(var1);
          }
-      } catch (Exception var10) {
-         var10.printStackTrace();
+      } catch (Exception var19) {
+         var19.printStackTrace();
       }
+
    }
 }

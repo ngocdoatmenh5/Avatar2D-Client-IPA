@@ -22,6 +22,9 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
             byte var11;
             byte var12;
             int var18;
+            int var21;
+            int var14;
+            String var19;
             switch (var1.command) {
                case 20:
                   var12 = var1.reader().readByte();
@@ -29,7 +32,7 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
                   byte[][] var17 = new byte[8][8];
 
                   for(var18 = 0; var18 < 8; ++var18) {
-                     for(int var21 = 0; var21 < 8; ++var21) {
+                     for(var21 = 0; var21 < 8; ++var21) {
                         var17[var18][var21] = var1.reader().readByte();
                      }
                   }
@@ -49,15 +52,15 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
                   return;
                case 21:
                   var18 = var1.reader().readInt();
-                  byte var22 = var1.reader().readByte();
+                  var21 = var1.reader().readByte();
                   var11 = var1.reader().readByte();
-                  DiamondScr.gI().move(var18, var22, var11);
+                  DiamondScr.gI().move(var18, var21, var11);
                   return;
                case 24:
                   var2 = var1.reader().readInt();
                   byte[][] var15 = new byte[8][8];
 
-                  for(int var14 = 0; var14 < 8; ++var14) {
+                  for(var14 = 0; var14 < 8; ++var14) {
                      for(var18 = 0; var18 < 8; ++var18) {
                         var15[var14][var18] = var1.reader().readByte();
                      }
@@ -66,8 +69,8 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
                   DiamondScr.gI().onOutPath(var2, var15);
                   return;
                case 49:
-                  int var10 = var1.reader().readInt();
-                  DiamondScr.gI().onSkip(var10);
+                  var14 = var1.reader().readInt();
+                  DiamondScr.gI().onSkip(var14);
                   return;
                case 51:
                   var4 = new Vector();
@@ -82,12 +85,12 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
                      var16.setMoneyNew(var16.getMoneyNew() + var3);
                      if (var3 != 0) {
                         Canvas.addFlyText(var3, var16.x, var16.y, -1, 30);
-                        String var19 = var16.name + ": ";
+                        var19 = var16.name + ": ";
                         if (var3 > 0) {
                            DiamondScr.gI().idWin = var16.IDDB;
-                           var19 = var19 + T.aP + "   +" + var3 + T.C;
+                           var19 = var19 + T.win + "   +" + var3 + T.xu;
                         } else {
-                           var19 = var19 + T.aQ + "  " + var3 + T.C;
+                           var19 = var19 + T.lose + "  " + var3 + T.xu;
                         }
 
                         var4.addElement("  ");
@@ -105,7 +108,7 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
                      var7[var2] = new AvPosition();
                      var6[var2] = var1.reader().readByte();
                      var7[var2].anchor = var1.reader().readByte();
-                     var7[var2].depth = var1.reader().readByte();
+                     var7[var2].depth = (short)var1.reader().readByte();
                   }
 
                   var12 = var1.reader().readByte();
@@ -113,8 +116,8 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
                   var4 = new Vector();
 
                   for(var18 = 0; var18 < var11; ++var18) {
-                     String var8 = var1.reader().readUTF();
-                     var4.addElement(var8);
+                     var19 = var1.reader().readUTF();
+                     var4.addElement(var19);
                   }
 
                   for(var18 = 0; var18 < 2; ++var18) {
@@ -146,11 +149,11 @@ public final class DiamondMessageHandler extends IService implements IMiniGameMs
 
                   DiamondScr.gI().onData(var5);
                   return;
-               default:
             }
          }
-      } catch (Exception var9) {
-         var9.printStackTrace();
+      } catch (Exception var15) {
+         var15.printStackTrace();
       }
+
    }
 }

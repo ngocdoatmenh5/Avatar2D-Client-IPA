@@ -5,7 +5,6 @@ import java.util.Random;
 import javax.microedition.lcdui.Image;
 import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
-
 import main.GameMidlet;
 
 public final class CRes {
@@ -52,41 +51,43 @@ public final class CRes {
 
    public static final int tan(int var0, int var1) {
       int var10000;
-      int var2;
-      if (var0 != 0) {
-         var2 = Math.abs((var1 << 10) / var0);
+      if (var0 == 0) {
+         var10000 = var1 > 0 ? 90 : 270;
+      } else {
+         int var2 = Math.abs((var1 << 10) / var0);
+         int var3 = 0;
 
-         label44: {
-            for(int var3 = 0; var3 <= 90; ++var3) {
-               if (tann[var3] >= var2) {
-                  var10000 = var3;
-                  break label44;
+         while(true) {
+            if (var3 <= 90) {
+               if (tann[var3] < var2) {
+                  ++var3;
+                  continue;
                }
+
+               var10000 = var3;
+            } else {
+               var10000 = 0;
             }
 
-            var10000 = 0;
-         }
+            var2 = var10000;
+            if (var1 >= 0 && var0 < 0) {
+               var2 = 180 - var10000;
+            }
 
-         var2 = var10000;
-         if (var1 >= 0 && var0 < 0) {
-            var2 = 180 - var2;
-         }
+            if (var1 < 0 && var0 < 0) {
+               var2 += 180;
+            }
 
-         if (var1 < 0 && var0 < 0) {
-            var2 += 180;
-         }
+            if (var1 >= 0 || var0 < 0) {
+               return var2;
+            }
 
-         if (var1 >= 0 || var0 < 0) {
-            return var2;
+            var10000 = 360 - var2;
+            break;
          }
-
-         var10000 = 360 - var2;
-      } else {
-         var10000 = var1 > 0 ? 90 : 270;
       }
 
-      var2 = var10000;
-      return var2;
+      return var10000;
    }
 
    public static final int fixangle(int var0) {
@@ -151,7 +152,7 @@ public final class CRes {
    public static void saveRMS(String var0, byte[] var1) throws RecordStoreException {
       var1 = b(var1);
       RecordStore var2;
-      if ((var2 = RecordStore.openRecordStore("2.5.8" + var0, true)).getNumRecords() > 0) {
+      if ((var2 = RecordStore.openRecordStore(GameMidlet.APP_VERSION + var0, true)).getNumRecords() > 0) {
          var2.setRecord(1, var1, 0, var1.length);
       } else {
          var2.addRecord(var1, 0, var1.length);
@@ -164,9 +165,9 @@ public final class CRes {
       byte[] var1;
       try {
          RecordStore var3;
-         var1 = (var3 = RecordStore.openRecordStore("2.5.8" + var0, false)).getRecord(1);
+         var1 = (var3 = RecordStore.openRecordStore(GameMidlet.APP_VERSION + var0, false)).getRecord(1);
          var3.closeRecordStore();
-      } catch (Exception var2) {
+      } catch (Exception var3) {
          return null;
       }
 
@@ -176,9 +177,10 @@ public final class CRes {
    public static void a(String var0, String var1) {
       try {
          saveRMS(var0, var1.getBytes("UTF-8"));
-      } catch (Exception var2) {
-         var2.printStackTrace();
+      } catch (Exception var3) {
+         var3.printStackTrace();
       }
+
    }
 
    public static String b(String var0) {
@@ -188,7 +190,7 @@ public final class CRes {
       } else {
          try {
             return new String(var3, "UTF-8");
-         } catch (Exception var2) {
+         } catch (Exception e) {
             return new String(var3);
          }
       }

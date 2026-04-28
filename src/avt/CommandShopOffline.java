@@ -25,9 +25,9 @@ final class CommandShopOffline extends Command {
          PopupShop.resetIsTrans();
          String var1 = "";
          PopupShop.addStr(var1 + AvatarData.getName(this.g));
-         PopupShop.addStr(T.az + Canvas.getPriceMoney(this.g.price[0], this.g.price[1], false));
-         PopupShop.addStr(T.dx + AvatarData.getLevel(this.g));
-         PopupShop.addStr(T.em[0] + MapScr.avatarShop.lvMain);
+         PopupShop.addStr(T.priceStr + Canvas.getPriceMoney(this.g.price[0], this.g.price[1], false));
+         PopupShop.addStr(T.youAreBittenByDog + AvatarData.getLevel(this.g));
+         PopupShop.addStr(T.roomName[0] + MapScr.avatarShop.lvMain);
       }
 
    }

@@ -13,5 +13,6 @@ final class IActionExchange implements IAction {
       } else {
          GlobalService.gI().doRequestCmdRotate(this.a.anthor, -1);
       }
+
    }
 }

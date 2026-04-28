@@ -14,6 +14,6 @@ final class IActionShop1 implements IAction {
    }
 
    public final void perform() {
-      Canvas.startOKDlg(this.des, (IAction)(new IActionDes(this)));
+      Canvas.startOKDlg(this.des, new IActionDes(this));
    }
 }

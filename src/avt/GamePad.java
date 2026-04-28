@@ -52,7 +52,7 @@ public final class GamePad {
          this.n = 4;
          this.o = 3;
          this.p = new String[]{"-", "Top", "ABC", "-", "Left", "Down", "Right", "OK"};
-         this.q = new String[]{".,?!1", "abc2", "def3", T.bb, "ghi4", "jkl5", "mno6", T.cy, "pqrs7", "tuv8", "wxyz9", "0"};
+         this.q = new String[]{".,?!1", "abc2", "def3", T.del, "ghi4", "jkl5", "mno6", T.finish, "pqrs7", "tuv8", "wxyz9", "0"};
          this.r = new String[12];
 
          for(var1 = 0; var1 < 12; ++var1) {
@@ -60,7 +60,7 @@ public final class GamePad {
          }
 
          this.r[3] = this.q[3];
-         this.s = new String[]{"1", "2", "3", T.bb, "4", "5", "6", T.cy, "7", "8", "9", "0"};
+         this.s = new String[]{"1", "2", "3", T.del, "4", "5", "6", T.finish, "7", "8", "9", "0"};
          this.u = new byte[]{-6, -1, 0, -7, -3, -2, -4, -5};
       } else {
          Canvas.G = true;
@@ -81,7 +81,7 @@ public final class GamePad {
          this.n = 3;
          this.o = 4;
          this.p = new String[]{"-", "OK", "ABC", "Top", "Left", "Right", "-", "Down"};
-         this.q = new String[]{".,?!1", "abc2", "def3", "ghi4", "jkl5", "mno6", "pqrs7", "tuv8", "wxyz9", T.cy, "0", T.bb};
+         this.q = new String[]{".,?!1", "abc2", "def3", "ghi4", "jkl5", "mno6", "pqrs7", "tuv8", "wxyz9", T.finish, "0", T.del};
          this.r = new String[12];
 
          for(var1 = 0; var1 < 11; ++var1) {
@@ -89,7 +89,7 @@ public final class GamePad {
          }
 
          this.r[11] = this.q[11];
-         this.s = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", T.cy, "0", T.bb};
+         this.s = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", T.finish, "0", T.del};
          this.u = new byte[]{-7, -5, 0, -1, -3, -4, -6, -2};
       }
 
@@ -102,12 +102,10 @@ public final class GamePad {
          TField.t.perform();
       } else if (ChatTextField.isShow) {
          ChatTextField.gI().right.perform();
-      } else {
-         if (Canvas.currentMyScreen.right != null && Canvas.currentMyScreen.right.caption.equals(T.bb)) {
-            Canvas.currentMyScreen.right.action.perform();
-         }
-
+      } else if (Canvas.currentMyScreen.right != null && Canvas.currentMyScreen.right.caption.equals(T.del)) {
+         Canvas.currentMyScreen.right.action.perform();
       }
+
    }
 
    public final void a() {
@@ -151,54 +149,51 @@ public final class GamePad {
                Canvas.isPointerRelease = false;
             }
          }
-
-      } else {
-         if (Canvas.isPointer(this.h, this.i, this.d, this.e)) {
-            if (Canvas.isPointerDown) {
-               var2 = (Canvas.px - this.h) / this.k;
-               var3 = (Canvas.py - this.i) / this.j;
-               this.v = var3 * this.n + var2;
-               var3 = this.v;
-               if (Canvas.G && var3 < 9) {
-                  Canvas.instance.keyPressed(var3 + 49);
-               } else if (!Canvas.G && var3 % 4 != 3) {
-                  Canvas.instance.keyPressed(var3 + 49 - var3 / 4);
-               } else {
-                  switch (var3) {
-                     case 3:
+      } else if (Canvas.isPointer(this.h, this.i, this.d, this.e)) {
+         if (Canvas.isPointerDown) {
+            var2 = (Canvas.px - this.h) / this.k;
+            var3 = (Canvas.py - this.i) / this.j;
+            this.v = var3 * this.n + var2;
+            var3 = this.v;
+            if (Canvas.G && var3 < 9) {
+               Canvas.instance.keyPressed(var3 + 49);
+            } else if (!Canvas.G && var3 % 4 != 3) {
+               Canvas.instance.keyPressed(var3 + 49 - var3 / 4);
+            } else {
+               switch (var3) {
+                  case 3:
+                     b();
+                  case 4:
+                  case 5:
+                  case 6:
+                  case 8:
+                  default:
+                     break;
+                  case 7:
+                  case 9:
+                     this.isPointerClick = false;
+                     break;
+                  case 10:
+                     Canvas.instance.keyPressed(48);
+                     break;
+                  case 11:
+                     if (Canvas.G) {
                         b();
-                     case 4:
-                     case 5:
-                     case 6:
-                     case 8:
-                     default:
-                        break;
-                     case 7:
-                     case 9:
-                        this.isPointerClick = false;
-                        break;
-                     case 10:
+                     } else {
                         Canvas.instance.keyPressed(48);
-                        break;
-                     case 11:
-                        if (Canvas.G) {
-                           b();
-                        } else {
-                           Canvas.instance.keyPressed(48);
-                        }
-                  }
+                     }
                }
-
-               Canvas.isPointerDown = false;
             }
 
-            if (Canvas.isPointerRelease && this.v != -1) {
-               this.v = -1;
-               Canvas.isPointerRelease = false;
-            }
+            Canvas.isPointerDown = false;
          }
 
+         if (Canvas.isPointerRelease && this.v != -1) {
+            this.v = -1;
+            Canvas.isPointerRelease = false;
+         }
       }
+
    }
 
    private void c() {
@@ -300,5 +295,6 @@ public final class GamePad {
          var1.setColor(2716523);
          var1.fillRect(this.b + 1, this.c - 4 + 3, this.d - 1, 1);
       }
+
    }
 }

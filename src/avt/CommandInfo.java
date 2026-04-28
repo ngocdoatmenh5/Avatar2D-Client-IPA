@@ -24,10 +24,10 @@ final class CommandInfo extends Command {
       var2 = PaintPopup.hTab + (AvMain.hDuBox << 1) + 10 * AvMain.hd + 30 * (AvMain.hd - 1) + PopupShop.x;
       byte var5 = AvMain.hNormal;
       this.ava1.paintIcon(var1, Canvas.w / 2, var2, false);
-      Canvas.normalFont.drawString(var1, T.aA + this.ava1.name, Canvas.w / 2, var2 + var5, 2);
-      Canvas.normalFont.drawString(var1, T.em[3] + this.perLv + " (" + this.lv + "%)", Canvas.w / 2, var2 + (var5 << 1), 2);
-      Canvas.normalFont.drawString(var1, T.cC + this.numFish, Canvas.w / 2, var2 + var5 * 3, 2);
-      Canvas.normalFont.drawString(var1, T.cD + ": ", Canvas.w / 2, var2 + (var5 << 2), 2);
+      Canvas.normalFont.drawString(var1, T.nameStr + this.ava1.name, Canvas.w / 2, var2 + var5, 2);
+      Canvas.normalFont.drawString(var1, T.roomName[3] + this.perLv + " (" + this.lv + "%)", Canvas.w / 2, var2 + (var5 << 1), 2);
+      Canvas.normalFont.drawString(var1, T.numberFish + this.numFish, Canvas.w / 2, var2 + var5 * 3, 2);
+      Canvas.normalFont.drawString(var1, T.achieve + ": ", Canvas.w / 2, var2 + (var5 << 2), 2);
       if (this.idPart != -1) {
          ((PartSmall)AvatarData.getPart(this.idPart)).paint(var1, Canvas.w / 2, var2 + var5 * 6, 3);
       }

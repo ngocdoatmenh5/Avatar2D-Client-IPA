@@ -28,8 +28,8 @@ public final class ParkService extends IService {
          super.m.writer().writeByte(var2);
          super.m.writer().writeShort(LoadMap.xDichChuyen_);
          super.m.writer().writeShort(LoadMap.C);
-      } catch (IOException var3) {
-         var3.printStackTrace();
+      } catch (IOException var4) {
+         var4.printStackTrace();
       }
 
       this.sendMessage();
@@ -43,7 +43,7 @@ public final class ParkService extends IService {
          super.m.writer().writeShort(var2);
          super.m.writer().writeByte(var3);
          super.m.writer().writeShort(var4);
-      } catch (IOException var5) {
+      } catch (IOException var6) {
       }
 
       this.sendMessage();
@@ -72,7 +72,7 @@ public final class ParkService extends IService {
       try {
          super.m.writer().writeInt(var1);
          super.m.writer().writeBoolean(var2);
-      } catch (IOException var3) {
+      } catch (IOException var4) {
       }
 
       this.sendMessage();
@@ -86,7 +86,7 @@ public final class ParkService extends IService {
          super.m.writer().writeInt(var1);
          super.m.writer().writeShort(var2);
          super.m.writer().writeByte(var3);
-      } catch (IOException var4) {
+      } catch (IOException var5) {
       }
 
       this.sendMessage();
@@ -98,7 +98,7 @@ public final class ParkService extends IService {
       try {
          super.m.writer().writeInt(var1);
          super.m.writer().writeShort(var2);
-      } catch (IOException var3) {
+      } catch (IOException var4) {
       }
 
       this.sendMessage();
@@ -118,6 +118,7 @@ public final class ParkService extends IService {
    }
 
    public final void doBuyItem(short var1) {
+      System.out.println("DEBUG BUYITEM: ParkService.doBuyItem(id=" + var1 + ") packet -38");
       this.createMessage((byte)-38);
       this.writeShort(var1);
       this.sendMessage();
@@ -133,7 +134,7 @@ public final class ParkService extends IService {
          for(int var4 = 0; var4 < var2.length; ++var4) {
             super.m.writer().writeByte(var2[var4]);
          }
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();
@@ -150,7 +151,7 @@ public final class ParkService extends IService {
       try {
          super.m.writer().writeByte(var1);
          super.m.writer().writeInt(var2);
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();
@@ -163,20 +164,21 @@ public final class ParkService extends IService {
          super.m.writer().writeInt(var1);
          super.m.writer().writeByte(var2);
          super.m.writer().writeByte(var3);
-      } catch (Exception var4) {
+      } catch (Exception var5) {
       }
 
       this.sendMessage();
    }
 
    public final void doBossShop(int var1, int var2, int var3) {
+      System.out.println("DEBUG BOSS_SHOP(-78): idBoss=" + var1 + " shopByte=" + var2 + " optionIdx=" + var3);
       this.createMessage((byte)-78);
 
       try {
          super.m.writer().writeInt(var1);
          super.m.writer().writeByte(var2);
          super.m.writer().writeShort(var3);
-      } catch (Exception var4) {
+      } catch (Exception var5) {
       }
 
       this.sendMessage();
@@ -188,7 +190,7 @@ public final class ParkService extends IService {
       try {
          super.m.writer().writeByte(0);
          super.m.writer().writeInt(var1);
-      } catch (Exception var2) {
+      } catch (Exception var3) {
       }
 
       this.sendMessage();
@@ -201,8 +203,8 @@ public final class ParkService extends IService {
       try {
          super.m.writer().writeByte(var1);
          super.m.writer().writeByte(var2);
-      } catch (Exception var3) {
-         var3.printStackTrace();
+      } catch (Exception var4) {
+         var4.printStackTrace();
       }
 
       this.sendMessage();

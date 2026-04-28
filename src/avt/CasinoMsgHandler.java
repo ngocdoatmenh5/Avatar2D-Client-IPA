@@ -23,6 +23,8 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
          byte var15;
          byte var16;
          int var17;
+         Avatar var25;
+         byte var10;
          switch (var1.command) {
             case 6:
                Vector var21 = new Vector();
@@ -109,7 +111,6 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                int var23 = var6.size();
 
                for(var24 = 0; var24 < var23; ++var24) {
-                  Avatar var25;
                   if ((var25 = (Avatar)var6.elementAt(var24)).IDDB == var17) {
                      var25.isReady = true;
                   }
@@ -121,7 +122,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
 
                if (BoardListOnScr.type != 0) {
                   byte var10000 = BoardListOnScr.type;
-                  byte var10001 = BoardListOnScr.STYLE_4PLAYER;
+                  var10 = BoardListOnScr.STYLE_4PLAYER;
                }
 
                curScr.loadMap();
@@ -148,7 +149,7 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                Canvas.currentDialog = null;
                if (BoardScr.setR_B(var15, var16)) {
                   if (var13 == GameMidlet.avatar.IDDB) {
-                     Canvas.startOK(T.H, new IActionKick(this));
+                     Canvas.startOK(T.youAreKicked, new IActionKick(this));
                      return;
                   }
 
@@ -157,30 +158,30 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                }
                break;
             case 12:
-               Avatar var8 = new Avatar();
+               var25 = new Avatar();
                var9 = var1.reader().readByte();
-               var8.IDDB = var1.reader().readInt();
-               var8.setName(var1.reader().readUTF());
-               var8.setMoneyNew(var1.reader().readInt());
-               byte var10 = var1.reader().readByte();
+               var25.IDDB = var1.reader().readInt();
+               var25.setName(var1.reader().readUTF());
+               var25.setMoneyNew(var1.reader().readInt());
+               var10 = var1.reader().readByte();
 
                for(var2 = 0; var2 < var10; ++var2) {
-                  var8.addSeri(new SeriPart(var1.reader().readShort()));
+                  var25.addSeri(new SeriPart(var1.reader().readShort()));
                }
 
-               var8.direct = 0;
-               var8.setExp(var1.reader().readInt());
-               var8.idImg = var1.reader().readShort();
-               var8.isReady = false;
+               var25.direct = 0;
+               var25.setExp(var1.reader().readInt());
+               var25.idImg = var1.reader().readShort();
+               var25.isReady = false;
                TLBoardScr.gI().isFirstMatch = true;
-               var8.isReady = false;
-               curScr.setAt(var9, var8);
+               var25.isReady = false;
+               curScr.setAt(var9, var25);
                return;
             case 14:
                var2 = var1.reader().readInt();
                var13 = var1.reader().readInt();
                if (BoardScr.isStartGame && BoardScr.numPlayer == 2) {
-                  curScr.closeBoard(T.J);
+                  curScr.closeBoard(T.opponentQuit);
                }
 
                TLBoardScr.gI().isFirstMatch = true;
@@ -249,15 +250,15 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
                      return;
                }
 
-               Canvas.startWaitDlg(T.b);
+               Canvas.startWaitDlg(T.pleaseWait);
                CasinoService.gI().requestRoomList();
                return;
             default:
                this.miniGameMessageHandler.onMessage(var1);
                return;
          }
-      } catch (Exception var11) {
-         var11.printStackTrace();
+      } catch (Exception var21) {
+         var21.printStackTrace();
       }
 
    }

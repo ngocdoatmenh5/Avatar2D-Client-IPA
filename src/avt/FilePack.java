@@ -22,7 +22,9 @@ public final class FilePack {
    }
 
    public static void reset() {
-      instance.close();
+      if (instance != null) {
+         instance.close();
+      }
       instance = null;
       System.gc();
    }
@@ -58,19 +60,45 @@ public final class FilePack {
          this.fullData = new byte[var4];
          this.file.readFully(this.fullData);
          this.encode(this.fullData);
-      } catch (IOException var6) {
-         var6.printStackTrace();
+      } catch (IOException var7) {
+         var7.printStackTrace();
       }
 
       this.close();
    }
 
    public static Image getImage(String var0) {
-      return instance.loadImage(var0 + ".png");
+      Image img = null;
+      try {
+         if (instance != null) {
+            img = instance.loadImage(var0 + ".png");
+         }
+      } catch (Throwable t) {
+      }
+
+      if (img == null) {
+         try {
+            img = Image.createImage(T.getPath() + "/" + var0 + ".png");
+         } catch (Throwable t) {
+         }
+      }
+
+      if (img == null) {
+         try {
+            img = Image.createImage(1, 1);
+         } catch (Throwable t) {
+         }
+      }
+
+      return img;
    }
 
    public static void b(String var0) {
-      instance = new FilePack(T.getPath() + var0);
+      try {
+         instance = new FilePack(T.getPath() + var0);
+      } catch (Throwable t) {
+         instance = new FilePack();
+      }
    }
 
    private void encode(byte[] var1) {
@@ -88,7 +116,7 @@ public final class FilePack {
             this.file.close();
             return;
          }
-      } catch (IOException var1) {
+      } catch (IOException var2) {
       }
 
    }

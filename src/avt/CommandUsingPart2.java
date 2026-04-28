@@ -15,9 +15,9 @@ final class CommandUsingPart2 implements IAction {
 
    public final void perform() {
       if (this.a == 2) {
-         GlobalService.gI().doTransChestPart(1, (int)this.b, (short)this.c.idPart);
+         GlobalService.gI().doTransChestPart(1, this.b, this.c.idPart);
       } else if (this.a == 3) {
-         GlobalService.gI().doTransChestPart(0, (int)this.b, (short)this.c.idPart);
+         GlobalService.gI().doTransChestPart(0, this.b, this.c.idPart);
       } else {
          GlobalService.gI().doUsingItem(this.c.idPart, (byte)this.a);
       }

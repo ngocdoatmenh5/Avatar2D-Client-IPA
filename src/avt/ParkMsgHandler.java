@@ -1,9 +1,8 @@
 package avt;
 
+import java.io.IOException;
 import main.Canvas;
 import main.GameMidlet;
-
-import java.io.IOException;
 
 public final class ParkMsgHandler extends IService implements IMiniGameMsgHandler {
    public static ParkMsgHandler instance;
@@ -33,7 +32,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
          int var18;
          switch (var1.command) {
             case -69:
-               Canvas.startOK(T.dl, new IActionKickOutHome(this));
+               Canvas.startOK(T.outHouse, new IActionKickOutHome(this));
                return;
             case -68:
                var14 = var1.reader().readByte();
@@ -134,7 +133,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
             case 88:
                var2 = var1.reader().readInt();
                byte var13 = var1.reader().readByte();
-               var16 = var1.reader().readByte();
+               var16 = (short)var1.reader().readByte();
                var5 = var1.reader().readInt();
                var11 = var1.reader().readShort();
                FishingScr.gI().onInfo(var2, var13, (byte)var16, var5, var11);
@@ -167,8 +166,8 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
             default:
                return;
          }
-      } catch (Exception var9) {
-         var9.printStackTrace();
+      } catch (Exception var20) {
+         var20.printStackTrace();
       }
 
    }
@@ -186,7 +185,7 @@ public final class ParkMsgHandler extends IService implements IMiniGameMsgHandle
       var1.x = var1.xCur = var0.reader().readShort();
       var1.y = var1.yCur = var0.reader().readShort();
       var1.blogNews = var0.reader().readByte();
-      var1.hungerPet = (byte)(100 - var0.reader().readByte());
+      var1.hungerPet = (short)((byte)(100 - var0.reader().readByte()));
       var1.idImg = var0.reader().readShort();
       var1.idWedding = var0.reader().readShort();
       return var1;

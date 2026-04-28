@@ -216,11 +216,11 @@ public final class PhomMsgHandler extends IService implements IMiniGameMsgHandle
                case 70:
                   var1.reader().readInt();
                   PBoardScr.gI().onOnceWin();
-               default:
             }
          }
-      } catch (Exception var13) {
-         var13.printStackTrace();
+      } catch (Exception var25) {
+         var25.printStackTrace();
       }
+
    }
 }

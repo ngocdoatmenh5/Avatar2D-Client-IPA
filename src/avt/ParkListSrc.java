@@ -40,8 +40,8 @@ public final class ParkListSrc extends MyScreen {
    }
 
    public ParkListSrc() {
-      super.right = new Command(T.d, 0);
-      super.center = new Command(T.O, 1);
+      super.right = new Command(T.close, 0);
+      super.center = new Command(T.selectt, 1);
       this.w = 20;
       if (Canvas.stypeInt > 0) {
          this.w = Canvas.stypeInt * 30;

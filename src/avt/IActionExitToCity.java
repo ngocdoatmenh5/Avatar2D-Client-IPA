@@ -12,7 +12,8 @@ final class IActionExitToCity implements IAction {
          ParkService.gI().doJoinPark(9, -1);
       } else {
          Canvas.startWaitDlg();
-         GlobalService.gI().getHandler((int)9);
+         GlobalService.gI().getHandler(9);
       }
+
    }
 }

@@ -51,5 +51,6 @@ public final class Xingau {
       } else {
          this.idFrame = this.typeStop;
       }
+
    }
 }

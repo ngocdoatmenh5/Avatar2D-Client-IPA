@@ -14,7 +14,7 @@ final class class_bl implements IAction {
       if ((var1 = SoundManager.a.a("" + this.b)) == -1) {
          GlobalService.gI().doRequestSoundData(this.b);
       } else {
-         SoundManager.a.a((byte[])SoundManager.a(this.a).elementAt(var1));
+         SoundManager.a.a((byte[])((byte[])SoundManager.a(this.a).elementAt(var1)));
       }
 
       this.a.b = 1;

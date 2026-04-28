@@ -18,8 +18,8 @@ final class CommandUsingPart1 implements IAction {
 
    public final void perform() {
       Part var1 = AvatarData.getPart(this.a.idPart);
-      if (this.b == GameMidlet.avatar.IDDB && (!AvatarData.isZOrderMain((int)var1.zOrder) || this.c != 0)) {
-         Canvas.startOKDlg(T.es[this.c], (IAction)(new CommandUsingPart2(this, this.c, this.d, this.a)));
+      if (this.b == GameMidlet.avatar.IDDB && (!AvatarData.isZOrderMain(var1.zOrder) || this.c != 0)) {
+         Canvas.startOKDlg(T.emptyRoom[this.c], new CommandUsingPart2(this, this.c, this.d, this.a));
       }
 
    }

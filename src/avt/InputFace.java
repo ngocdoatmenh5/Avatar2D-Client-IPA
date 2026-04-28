@@ -35,7 +35,7 @@ public final class InputFace extends Face {
    }
 
    public final void setIputType(TField[] var1, String var2, String[][] var3, Command var4) {
-      super.left = new Command(T.d, 0);
+      super.left = new Command(T.close, 0);
       super.center = var4;
       this.title = var2;
       this.list = var1;

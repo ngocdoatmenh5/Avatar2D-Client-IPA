@@ -68,7 +68,7 @@ public final class MsgDlg extends Dialog {
          this.size = this.list.size();
       }
 
-         this.num = 0;
+      this.num = 0;
       this.timeDelay = -1L;
       this.init();
       Canvas.currentDialog = Canvas.msgdlg;
@@ -83,7 +83,7 @@ public final class MsgDlg extends Dialog {
          }
       }
 
-      if (this.str.equals(T.b)) {
+      if (this.str.equals(T.pleaseWait)) {
          this.w = Canvas.hw;
       }
 
@@ -117,7 +117,7 @@ public final class MsgDlg extends Dialog {
       }
 
       this.y = Canvas.hCan - Canvas.hTab - this.h - 10;
-      this.limitTime = (long) Canvas.getSecond();
+      this.limitTime = (long)Canvas.getSecond();
    }
 
    public final void paint(Graphics var1) {
@@ -145,8 +145,8 @@ public final class MsgDlg extends Dialog {
          for(int var3 = 0; var3 < this.info.size(); ++var3) {
             Canvas.M.drawString(var1, (String)this.info.elementAt(var3), Canvas.hw, this.y + 4 + (this.h - this.hDu) / 2 - this.info.size() * AvMain.hBlack / 2 + var3 * AvMain.hBlack, 2);
          }
-
       }
+
    }
 
    public final void commandTab(int var1, int var2) {
@@ -188,7 +188,7 @@ public final class MsgDlg extends Dialog {
             this.num = 0;
          }
 
-         if ((long) Canvas.getSecond() - this.limitTime > 30L) {
+         if ((long)Canvas.getSecond() - this.limitTime > 30L) {
             String var1 = "";
 
             for(var2 = 0; var2 < this.info.size(); ++var2) {
@@ -220,7 +220,7 @@ public final class MsgDlg extends Dialog {
       }
 
       if (Canvas.isPointerRelease) {
-         label84: {
+         label85: {
             int var3 = 0;
             if (this.list != null && this.list.size() > 0) {
                Command var4 = (Command)this.list.elementAt(this.index);
@@ -235,7 +235,7 @@ public final class MsgDlg extends Dialog {
                this.perform(super.center);
             } else {
                if (!Canvas.isPointer(this.x + 1, this.y + this.h - (this.hCell + 18 * AvMain.hd - 4), this.w - 2, this.hCell)) {
-                  break label84;
+                  break label85;
                }
 
                if ((var2 = Canvas.hw - Canvas.px) > var3 / 2) {

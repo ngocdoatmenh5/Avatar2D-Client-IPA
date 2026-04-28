@@ -18,19 +18,19 @@ public final class FarmService extends IService {
       this.createMessage((byte)54);
       this.writeShort(var1);
       this.sendMessage();
-      Canvas.startWaitDlg(T.aL);
+      Canvas.startWaitDlg(T.getFarmData);
    }
 
    public final void getImageData() {
       this.createMessage((byte)55);
       this.sendMessage();
-      Canvas.startWaitDlg(T.aL);
+      Canvas.startWaitDlg(T.getFarmData);
    }
 
    public final void getTreeInfo() {
       this.createMessage((byte)56);
       this.sendMessage();
-      Canvas.startWaitDlg(T.aL);
+      Canvas.startWaitDlg(T.getFarmData);
    }
 
    public final void getInventory() {
@@ -51,7 +51,7 @@ public final class FarmService extends IService {
          super.m.writer().writeShort(var1);
          super.m.writer().writeByte(var2);
          super.m.writer().writeByte(var3);
-      } catch (IOException var4) {
+      } catch (IOException var5) {
       }
 
       this.sendMessage();
@@ -71,7 +71,7 @@ public final class FarmService extends IService {
          super.m.writer().writeInt(var1);
          super.m.writer().writeByte(var2);
          super.m.writer().writeByte(var3);
-      } catch (IOException var4) {
+      } catch (IOException var5) {
       }
 
       this.sendMessage();
@@ -85,7 +85,7 @@ public final class FarmService extends IService {
          super.m.writer().writeInt(var1);
          super.m.writer().writeByte(var2);
          super.m.writer().writeShort(var3);
-      } catch (IOException var4) {
+      } catch (IOException var5) {
       }
 
       this.sendMessage();
@@ -98,7 +98,7 @@ public final class FarmService extends IService {
       try {
          super.m.writer().writeInt(var1);
          super.m.writer().writeByte(var2);
-      } catch (IOException var3) {
+      } catch (IOException var4) {
       }
 
       this.sendMessage();
@@ -110,7 +110,7 @@ public final class FarmService extends IService {
       try {
          super.m.writer().writeInt(var1);
          super.m.writer().writeByte(var2);
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();
@@ -128,7 +128,7 @@ public final class FarmService extends IService {
       try {
          super.m.writer().writeInt(var1);
          super.m.writer().writeByte(var2);
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();
@@ -140,7 +140,7 @@ public final class FarmService extends IService {
       try {
          super.m.writer().writeInt(var1);
          super.m.writer().writeByte(var2);
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();
@@ -153,7 +153,7 @@ public final class FarmService extends IService {
       try {
          super.m.writer().writeByte(var1.species);
          super.m.writer().writeByte(var2);
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();
@@ -165,7 +165,7 @@ public final class FarmService extends IService {
       try {
          super.m.writer().writeInt(var1);
          super.m.writer().writeByte(var2);
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();
@@ -177,7 +177,7 @@ public final class FarmService extends IService {
       try {
          super.m.writer().writeInt(var1);
          super.m.writer().writeByte(var2);
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();

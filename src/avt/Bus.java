@@ -1,10 +1,9 @@
 package avt;
 
-import main.Canvas;
-import main.GameMidlet;
-
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
+import main.Canvas;
+import main.GameMidlet;
 
 public final class Bus {
    private int x;
@@ -12,7 +11,7 @@ public final class Bus {
    private int v;
    private int g;
    private int count;
-   private static byte damToc ;
+   private static byte damToc;
    private static byte direct;
    public static AvPosition posBusStop;
    public static boolean isRun = false;
@@ -41,13 +40,13 @@ public final class Bus {
          if (direct == 1) {
             GameMidlet.avatar.ableShow = true;
          }
-
       }
+
    }
 
    public final void update() {
       if ((damToc == 1 && direct == 1 || damToc == -1 && direct == -1) && direct == -1 && !isExit) {
-         GlobalService.gI().getHandler((int)8);
+         GlobalService.gI().getHandler(8);
          GameMidlet.avatar.ableShow = true;
          isExit = true;
       }
@@ -68,7 +67,7 @@ public final class Bus {
                if (LoadMap.TYPEMAP == 9) {
                   (Canvas.welcome = new Welcome()).initMapScr();
                } else if (direct == 1 && LoadMap.TYPEMAP == 25) {
-                  (Canvas.welcome = new Welcome()).initFarmPath((MyScreen)MapScr.instance);
+                  (Canvas.welcome = new Welcome()).initFarmPath(MapScr.instance);
                } else if (LoadMap.TYPEMAP == 13 && Welcome.indexFish < 8) {
                   (Canvas.welcome = new Welcome()).initFish();
                } else if (direct == 1 && LoadMap.TYPEMAP == 23) {

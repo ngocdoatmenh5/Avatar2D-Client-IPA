@@ -43,7 +43,7 @@ public final class InputDlg extends Dialog {
 
    public final void setInfoIkb(String var1, int var2, int var3) {
       this.initInfo(var1, var3);
-      super.center = new Command(T.z, var2);
+      super.center = new Command(T.OK, var2);
       Canvas.currentDialog = this;
       this.tfInput.setFocus(true);
    }
@@ -67,14 +67,25 @@ public final class InputDlg extends Dialog {
       this.init();
       this.tfInput.setText("");
       this.tfInput.setIputType(var2);
-      super.left = new Command(T.d, 120);
+      super.left = new Command(T.close, 120);
       Canvas.currentDialog = this;
    }
 
    public final void setImg(String var1, IAction var2, int var3) {
       this.initInfo(var1, var3);
       this.okAction = var2;
-      super.center = new Command(T.z, this.okAction);
+      super.center = new Command(T.OK, this.okAction);
+      Canvas.currentDialog = this;
+   }
+
+   public final void setImg(String var1, IAction var2, int var3, String var4) {
+      this.initInfo(var1, var3);
+      if (var4 != null) {
+         this.tfInput.setText(var4);
+      }
+
+      this.okAction = var2;
+      super.center = new Command(T.OK, this.okAction);
       Canvas.currentDialog = this;
    }
 
@@ -102,6 +113,7 @@ public final class InputDlg extends Dialog {
       } else {
          super.paint(var1);
       }
+
    }
 
    public final void keyPress(int var1) {
@@ -119,5 +131,6 @@ public final class InputDlg extends Dialog {
       } else {
          super.updateKey();
       }
+
    }
 }

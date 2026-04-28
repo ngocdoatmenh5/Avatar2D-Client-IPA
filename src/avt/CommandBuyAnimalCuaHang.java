@@ -20,8 +20,8 @@ final class CommandBuyAnimalCuaHang extends Command {
    public final void update() {
       if (this.g == PopupShop.focus - FarmData.treeInfo.length && PopupShop.isTransFocus) {
          PopupShop.resetIsTrans();
-         PopupShop.addStr(this.f.name + "(" + this.f.harvestTime + T.bq + ")");
-         PopupShop.addStr(T.az + Canvas.getPriceMoney(this.f.price[0], this.f.price[1], false));
+         PopupShop.addStr(this.f.name + "(" + this.f.harvestTime + T.h + ")");
+         PopupShop.addStr(T.priceStr + Canvas.getPriceMoney(this.f.price[0], this.f.price[1], false));
          PopupShop.addStr(this.f.des);
          PopupShop.addStr(MapScr.strTkFarm());
       }

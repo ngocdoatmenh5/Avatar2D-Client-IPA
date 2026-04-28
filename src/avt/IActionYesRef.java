@@ -18,7 +18,7 @@ final class IActionYesRef implements IAction {
       var1[2].setIputType(2);
       var1[3].setIputType(0);
       String[][] var3 = new String[][]{{"Tên:", ""}, {"Mật khẩu:", ""}, {"Nhập lại", "mật khẩu:"}, {"Số di động", "hoặc email:"}};
-      InputFace.gI().setIputType(var1, "Đăng Ký", var3, new Command(T.cy, new IActionOkReg(this, var1)));
+      InputFace.gI().setIputType(var1, "Đăng Ký", var3, new Command(T.finish, new IActionOkReg(this, var1)));
       Canvas.currentFace = InputFace.gI();
    }
 }

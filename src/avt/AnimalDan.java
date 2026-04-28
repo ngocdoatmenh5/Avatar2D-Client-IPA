@@ -60,6 +60,7 @@ public class AnimalDan extends Animal {
             }
          }
       }
+
    }
 
    public void setFollowPos(AvPosition var1) {
@@ -93,5 +94,6 @@ public class AnimalDan extends Animal {
       } else if (super.hunger && !super.isEat) {
          super.isEat = true;
       }
+
    }
 }

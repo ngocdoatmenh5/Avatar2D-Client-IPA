@@ -37,7 +37,7 @@ public final class ListScr extends MyScreen {
 
    public final void switchToMe() {
       this.selected = 0;
-      this.k = new Command(T.d, 1);
+      this.k = new Command(T.close, 1);
       super.right = this.k;
       this.backMyScreen = null;
       if (Canvas.currentMyScreen != MainMenu.gI() && Canvas.currentMyScreen != PopupShop.gI() && Canvas.currentMyScreen != gI()) {
@@ -130,7 +130,7 @@ public final class ListScr extends MyScreen {
          for(var7 = var2; var7 < var5; ++var7) {
             var12.setClip(10 * AvMain.hd + 4 + AvMain.hd, 0, PaintPopup.gI().w - 8 - (AvMain.hd << 1), PaintPopup.gI().h - 5 - (PaintPopup.hTab + 2 * AvMain.hDuBox));
             var12.translate(0, -CameraList.cmtoY);
-            StringObj var13 = (StringObj) tempList.elementAt(var7);
+            StringObj var13 = (StringObj)tempList.elementAt(var7);
             int var8 = 0;
             if (!var11.isHide && var7 == var11.selected) {
                Canvas.paint.drawSelectedArea(var12, 10 * AvMain.hd + 3 + 2 * AvMain.hd, var6 + 2, Canvas.w - 20 * AvMain.hd - 6 - 4 * AvMain.hd, var11.wSmall - 4);
@@ -164,14 +164,16 @@ public final class ListScr extends MyScreen {
          for(int var4 = var2; var4 < var5; ++var4) {
             var12.setClip(10 * AvMain.hd + 4, 0, PaintPopup.gI().w - 8, PaintPopup.gI().h - 5 - (PaintPopup.hTab + 2 * AvMain.hDuBox));
             var12.translate(0, -CameraList.cmtoY);
-            Avatar var14 = (Avatar) tempList.elementAt(var4);
+            Avatar var14 = (Avatar)tempList.elementAt(var4);
             var9 = 0;
             int var10;
+            int var10001;
+            int var10005;
             if (!var11.isHide && var4 == var11.selected) {
                Canvas.paint.drawSelectedArea(var12, 10 * AvMain.hd + 3 + 2 * AvMain.hd, var6 + 2, Canvas.w - 20 * AvMain.hd - 6 - 4 * AvMain.hd, var11.wSmall - 4);
-               int var10000 = var10 = Canvas.fontChatB.getWidth(var14.text2);
-               int var10003 = AvMain.hd - 1;
-               if (var10000 > PaintPopup.gI().w - (57 + var10003 * 30)) {
+               var10001 = var10 = Canvas.fontChatB.getWidth(var14.text2);
+               var10005 = AvMain.hd - 1;
+               if (var10001 > PaintPopup.gI().w - (57 + var10005 * 30)) {
                   var11.xCus += 2;
                   int var10004 = AvMain.hd - 1;
                   if (var11.xCus > var10 - (PaintPopup.gI().w - (57 + var10004 * 30))) {
@@ -192,8 +194,8 @@ public final class ListScr extends MyScreen {
                AvatarData.paintImg(var12, var14.idImg, 60 + (AvMain.hd - 1) * 30 + var10, var6 + var11.wSmall / 2 - 12 * AvMain.hd + AvMain.hNormal / 2, 3);
             }
 
-            int var10001 = 60 + (AvMain.hd - 1) * 30;
-            int var10005 = AvMain.hd - 1;
+            var10001 = 60 + (AvMain.hd - 1) * 30;
+            var10005 = AvMain.hd - 1;
             var12.setClip(var10001, CameraList.cmtoY, PaintPopup.gI().w - (47 + var10005 * 30), PaintPopup.gI().h - 5 - (PaintPopup.hTab + 2 * AvMain.hDuBox));
             Canvas.normalFont.drawString(var12, var14.name, 60 + (var10 << 1) + (AvMain.hd - 1) * 30, var6 + var11.wSmall / 2 - 12 * AvMain.hd, 0);
             if (var14.idWedding != -1) {
@@ -218,6 +220,7 @@ public final class ListScr extends MyScreen {
       } else {
          super.paint(var1);
       }
+
    }
 
    public final void updateKey() {
@@ -226,6 +229,7 @@ public final class ListScr extends MyScreen {
       } else {
          super.updateKey();
       }
+
    }
 
    public final void update() {
@@ -251,7 +255,7 @@ public final class ListScr extends MyScreen {
             } else if (typeListFriend == 2) {
                isGetTypeHouse = false;
                Canvas.startWaitDlg();
-               AvatarService.gI().getTypeHouse((int)1);
+               AvatarService.gI().getTypeHouse(1);
             } else if (Canvas.currentMyScreen != this) {
                this.switchToMe();
             }
@@ -268,7 +272,7 @@ public final class ListScr extends MyScreen {
       if (this.focus != 5) {
          for(var1 = 0; var1 < tempList.size(); ++var1) {
             Avatar var4;
-            (var4 = (Avatar) tempList.elementAt(var1)).initPet();
+            (var4 = (Avatar)tempList.elementAt(var1)).initPet();
             var4.orderSeriesPath();
          }
       }
@@ -293,7 +297,7 @@ public final class ListScr extends MyScreen {
 
       if (var1) {
          this.isAction = true;
-         this.cmdSelected = new Command(T.O, 4);
+         this.cmdSelected = new Command(T.selectt, 4);
          if (Canvas.stypeInt == 0) {
             super.center = this.cmdSelected;
          }
@@ -306,7 +310,7 @@ public final class ListScr extends MyScreen {
 
       for(int var2 = 0; var2 < var1; ++var2) {
          Avatar var3;
-         if ((var3 = (Avatar) friendL.elementAt(var2)).IDDB == var0) {
+         if ((var3 = (Avatar)friendL.elementAt(var2)).IDDB == var0) {
             return var3;
          }
       }
@@ -315,7 +319,7 @@ public final class ListScr extends MyScreen {
    }
 
    public final boolean setList(String var1) {
-      byte[] var2 = (byte[]) hList.get(var1);
+      byte[] var2 = (byte[])((byte[])hList.get(var1));
       Canvas.endDlg();
       if (var2 == null) {
          return false;
@@ -338,6 +342,7 @@ public final class ListScr extends MyScreen {
          byte var8 = var16.readByte();
          short var9 = var16.readShort();
          Vector var10 = new Vector();
+         int var19;
          if (var7 == 0) {
             this.focus = 5;
 
@@ -355,10 +360,10 @@ public final class ListScr extends MyScreen {
             for(var7 = 0; var7 < var9; ++var7) {
                Avatar var18;
                (var18 = new Avatar()).direct = 0;
-               byte var12 = var16.readByte();
+               var19 = var16.readByte();
                var18.seriPart = new Vector();
 
-               for(int var13 = 0; var13 < var12; ++var13) {
+               for(int var13 = 0; var13 < var19; ++var13) {
                   var18.addSeri(new SeriPart(var16.readShort()));
                }
 
@@ -380,7 +385,7 @@ public final class ListScr extends MyScreen {
             var3 = new String[var17];
             var4 = new byte[var17];
 
-            for(int var19 = 0; var19 < var17; ++var19) {
+            for(var19 = 0; var19 < var17; ++var19) {
                var4[var19] = var16.readByte();
                var3[var19] = var16.readUTF();
             }
@@ -399,17 +404,17 @@ public final class ListScr extends MyScreen {
 
          super.left = null;
          if (var17 > 0) {
-            super.left = new Command(T.c, new IActionListMenu(this, var2, var3, var6, var8, var4));
+            super.left = new Command(T.menu, new IActionListMenu(this, var2, var3, var6, var8, var4));
          }
 
          if (!this.isAction) {
             if (var2.equals(idFriendList)) {
-               this.cmdSelected = new Command(T.L, 0);
+               this.cmdSelected = new Command(T.sendMessage, 0);
                if (Canvas.stypeInt == 0) {
                   super.center = this.cmdSelected;
                }
             } else if (!this.isAction) {
-               this.cmdSelected = new Command(T.O, new IActionReadList(this, var6, var8));
+               this.cmdSelected = new Command(T.selectt, new IActionReadList(this, var6, var8));
                if (Canvas.stypeInt == 0) {
                   super.center = this.cmdSelected;
                }
@@ -417,16 +422,18 @@ public final class ListScr extends MyScreen {
          }
 
          this.isAction = false;
-      } catch (IOException var14) {
-         var14.printStackTrace();
+      } catch (IOException e) {
+         e.printStackTrace();
       }
+
    }
 
    public final void commandTab(int var1, int var2) {
+      Avatar var4;
       switch (var1) {
          case 0:
             if (this.selected >= 0 && this.selected < tempList.size()) {
-               Avatar var4 = (Avatar) tempList.elementAt(this.selected);
+               var4 = (Avatar)tempList.elementAt(this.selected);
                MessageScr.gI().doAction(var4.IDDB, var4.name);
                MessageScr.gI().switchToMe(this.backMyScreen);
                return;
@@ -448,19 +455,19 @@ public final class ListScr extends MyScreen {
          case 2:
             return;
          case 3:
-            Avatar var3 = (Avatar) tempList.elementAt(gI().selected);
-            AvatarService.gI().doJoinHouse(var3.IDDB);
+            var4 = (Avatar)tempList.elementAt(gI().selected);
+            AvatarService.gI().doJoinHouse(var4.IDDB);
             Canvas.startWaitDlg();
             return;
          case 4:
             Canvas.startWaitDlg();
-            FarmScr.gI().doJoinFarm(((Avatar) friendL.elementAt(this.selected)).IDDB, true);
+            FarmScr.gI().doJoinFarm(((Avatar)friendL.elementAt(this.selected)).IDDB, true);
       }
 
    }
 
    public final void g() {
-      this.cmdSelected = new Command(T.O, 3);
+      this.cmdSelected = new Command(T.selectt, 3);
       if (Canvas.stypeInt == 0) {
          super.center = this.cmdSelected;
       }

@@ -12,7 +12,7 @@ final class IActionToGo implements IAction {
    public final void perform() {
       try {
          this.a.j = Integer.parseInt(Canvas.inputDlg.getText());
-      } catch (Exception var1) {
+      } catch (Exception var2) {
          return;
       }
 

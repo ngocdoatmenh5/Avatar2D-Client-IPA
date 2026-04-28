@@ -28,7 +28,7 @@ final class CommandCooking2 extends Command {
       var4 = FarmScr.remainTime - var4 * 3600 - var6 * 60;
       var8 = var8 + var4;
       if (FarmScr.remainTime == 0) {
-         var8 = T.eL;
+         var8 = T.done;
          var5 = Canvas.fontChatB;
       }
 

@@ -43,7 +43,7 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
 
                try {
                   var11.createMessageWithBoard((byte)53);
-               } catch (Exception var6) {
+               } catch (Exception e) {
                }
 
                var11.sendMessage();
@@ -99,7 +99,7 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
                   for(var15 = 0; var15 < 13; ++var15) {
                      var12[var15] = var1.reader().readByte();
                   }
-               } catch (Exception var7) {
+               } catch (Exception e) {
                   var12 = null;
                }
 
@@ -110,7 +110,7 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
                   TLBoardScr.gI().showCards(var3, var12);
                }
 
-               BoardScr.showChat(var3, T.K);
+               BoardScr.showChat(var3, T.forceFinish);
                return;
             case 54:
                String var4 = var1.reader().readUTF();
@@ -118,8 +118,8 @@ public final class TienLenMsgHandler extends IService implements IMiniGameMsgHan
             default:
                return;
          }
-      } catch (Exception var8) {
-         var8.printStackTrace();
+      } catch (Exception var17) {
+         var17.printStackTrace();
       }
 
    }

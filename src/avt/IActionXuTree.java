@@ -12,7 +12,7 @@ final class IActionXuTree implements IAction {
    }
 
    public final void perform() {
-      FarmService.gI().doBuyItem((short)((short)this.a), (byte)((byte)this.b), 1);
+      FarmService.gI().doBuyItem((short)this.a, (byte)this.b, 1);
       PopupShop.k = false;
    }
 }

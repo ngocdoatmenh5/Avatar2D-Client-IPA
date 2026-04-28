@@ -44,9 +44,9 @@ public final class DiamondScr extends BoardScr {
    }
 
    public DiamondScr() {
-      this.cmdSelected = new Command(avt.T.O, 20);
-      this.cmdSkip = new Command(avt.T.B, 21);
-      FilePack.b(avt.T.ax);
+      this.cmdSelected = new Command(T.selectt, 20);
+      this.cmdSkip = new Command(T.skip, 21);
+      FilePack.b(T.ax);
       this.imgFireWork = FrameImage.init("st", 11 * AvMain.hd, 11 * AvMain.hd);
       FilePack.reset();
    }
@@ -210,16 +210,16 @@ public final class DiamondScr extends BoardScr {
          boolean var2 = false;
 
          int var3;
+         int var6;
          for(var3 = 63; var3 >= 0; --var3) {
             if (this.array[var3 / 8][var3 % 8] != null && this.array[var3 / 8][var3 % 8].catagory == 1) {
                Point var4;
-               int var10000;
                if ((var4 = this.array[var3 / 8][var3 % 8]).x == var4.xTo && var4.y == var4.yTo) {
-                  var10000 = -1;
+                  var6 = -1;
                } else if (Math.abs((var4.xTo - var4.x) / 2) <= 1 && Math.abs((var4.yTo - var4.y) / 2) <= 1) {
                   var4.x = var4.xTo;
                   var4.y = var4.yTo;
-                  var10000 = 0;
+                  var6 = 0;
                } else {
                   if (var4.x != var4.xTo) {
                      var4.x += (var4.xTo - var4.x) / 2;
@@ -229,10 +229,10 @@ public final class DiamondScr extends BoardScr {
                      var4.y += (var4.yTo - var4.y) / 2;
                   }
 
-                  var10000 = CRes.distance(var4.x, var4.y, var4.xTo, var4.yTo) <= var4.distant / 5 ? 2 : 1;
+                  var6 = CRes.distance(var4.x, var4.y, var4.xTo, var4.yTo) <= var4.distant / 5 ? 2 : 1;
                }
 
-               if (var10000 == -1) {
+               if (var6 == -1) {
                   this.array[var3 / 8][var3 % 8].catagory = 0;
                   var2 = true;
                } else {
@@ -257,23 +257,47 @@ public final class DiamondScr extends BoardScr {
             this.isSelected = -1;
          }
 
+         Point var7;
          int var5;
          if (!var1) {
             boolean var9 = false;
+            var5 = 63;
 
-            for(var5 = 63; var5 >= 0; --var5) {
+            while(true) {
+               if (var5 < 0) {
+                  if (!var9 && this.isTrans) {
+                     if (super.turn == GameMidlet.avatar.IDDB) {
+                        if (!this.isInit) {
+                           if (this.ableMove) {
+                              this.setPath();
+                           }
+                        } else if (this.setOutPath()) {
+                           super.center = this.cmdSelected;
+                           super.right = this.cmdSkip;
+                        } else {
+                           CasinoService.gI().doOutPath();
+                        }
+
+                        this.isInit = false;
+                     }
+
+                     this.isTrans = false;
+                  }
+                  break;
+               }
+
                if (this.array[var5 / 8][var5 % 8] != null && this.array[var5 / 8][var5 % 8].isFire) {
-                  Point var13 = this.array[var5 / 8][var5 % 8];
-                  var13.x += this.array[var5 / 8][var5 % 8].g;
+                  var7 = this.array[var5 / 8][var5 % 8];
+                  var7.x += this.array[var5 / 8][var5 % 8].g;
                   if (this.array[var5 / 8][var5 % 8].g > 1 || this.array[var5 / 8][var5 % 8].g < -1) {
-                     var13 = this.array[var5 / 8][var5 % 8];
-                     var13.g -= this.array[var5 / 8][var5 % 8].g / CRes.abs(this.array[var5 / 8][var5 % 8].g);
+                     var7 = this.array[var5 / 8][var5 % 8];
+                     var7.g -= this.array[var5 / 8][var5 % 8].g / CRes.abs(this.array[var5 / 8][var5 % 8].g);
                   }
 
-                  var13 = this.array[var5 / 8][var5 % 8];
-                  var13.y += this.array[var5 / 8][var5 % 8].h;
-                  var13 = this.array[var5 / 8][var5 % 8];
-                  var13.h += 2;
+                  var7 = this.array[var5 / 8][var5 % 8];
+                  var7.y += this.array[var5 / 8][var5 % 8].h;
+                  var7 = this.array[var5 / 8][var5 % 8];
+                  var7.h += 2;
                   if (this.array[var5 / 8][var5 % 8].y >= this.array[var5 / 8][var5 % 8].color) {
                      this.array[var5 / 8][var5 % 8].y = this.array[var5 / 8][var5 % 8].color;
                      this.array[var5 / 8][var5 % 8].isFire = false;
@@ -281,29 +305,11 @@ public final class DiamondScr extends BoardScr {
                      var9 = true;
                   }
                }
-            }
 
-            if (!var9 && this.isTrans) {
-               if (super.turn == GameMidlet.avatar.IDDB) {
-                  if (!this.isInit) {
-                     if (this.ableMove) {
-                        this.setPath();
-                     }
-                  } else if (this.setOutPath()) {
-                     super.center = this.cmdSelected;
-                     super.right = this.cmdSkip;
-                  } else {
-                     CasinoService.gI().doOutPath();
-                  }
-
-                  this.isInit = false;
-               }
-
-               this.isTrans = false;
+               --var5;
             }
          }
 
-         int var6;
          if (this.clearCount != -1) {
             if (this.clearCount % 10 == 0) {
                DiamondScr var10 = this;
@@ -323,7 +329,6 @@ public final class DiamondScr extends BoardScr {
             }
          }
 
-         Point var7;
          for(var3 = 0; var3 < this.listFireWork.size(); ++var3) {
             if ((var7 = (Point)this.listFireWork.elementAt(var3)).limitY > 0) {
                ++var7.limitY;
@@ -472,8 +477,8 @@ public final class DiamondScr extends BoardScr {
                this.aE.removeElement(var7);
             }
          }
-
       }
+
    }
 
    private boolean setOutPath() {
@@ -491,79 +496,77 @@ public final class DiamondScr extends BoardScr {
    }
 
    private void addFire(int var1, int var2, int var3) {
-      if (var3 != -1) {
-         Avatar var4;
-         if ((var4 = BoardScr.getAvatarByID(super.turn)) != null) {
-            int var5 = 0;
-            int var6 = 0;
-            switch (var3) {
-               case 0:
-                  this.c(var1 + this.x, var2 + this.y, 0);
-                  return;
-               case 1:
-                  var5 = var4.x;
-                  var6 = var4.y - var4.height / 2;
-                  if (var4.an > 0) {
-                     if (var4.IDDB == GameMidlet.avatar.IDDB) {
-                        var5 = this.xPlayer1 - 20 - 7;
-                     } else {
-                        var5 = this.xPlayer2 + 7 + 20;
-                     }
-
-                     var6 = var4.y - 22;
-                  }
-                  break;
-               case 2:
+      Avatar var4;
+      if (var3 != -1 && (var4 = BoardScr.getAvatarByID(super.turn)) != null) {
+         int var5 = 0;
+         int var6 = 0;
+         switch (var3) {
+            case 0:
+               this.c(var1 + this.x, var2 + this.y, 0);
+               return;
+            case 1:
+               var5 = var4.x;
+               var6 = var4.y - var4.height / 2;
+               if (var4.an > 0) {
                   if (var4.IDDB == GameMidlet.avatar.IDDB) {
-                     var5 = this.xPlayer1 - 20 - this.hhFill + var4.hp * this.hhFill / var4.maxHP;
+                     var5 = this.xPlayer1 - 20 - 7;
                   } else {
-                     var5 = this.xPlayer2 + (this.hhFill - var4.hp * this.hhFill / var4.maxHP) + 20 - var4.hp * this.hhFill / var4.maxHP;
+                     var5 = this.xPlayer2 + 7 + 20;
                   }
 
-                  var6 = var4.y - 2 - 10 * AvMain.hd;
-                  break;
-               case 3:
-                  if (var4.IDDB == GameMidlet.avatar.IDDB) {
-                     var5 = this.xPlayer1 - 20 - this.hhFill + var4.mp * this.hhFill / var4.maxMP;
-                  } else {
-                     var5 = this.xPlayer2 + (this.hhFill - var4.mp * this.hhFill / var4.maxMP) + 20 - var4.hp * this.hhFill / var4.maxHP;
-                  }
+                  var6 = var4.y - 22;
+               }
+               break;
+            case 2:
+               if (var4.IDDB == GameMidlet.avatar.IDDB) {
+                  var5 = this.xPlayer1 - 20 - this.hhFill + var4.hp * this.hhFill / var4.maxHP;
+               } else {
+                  var5 = this.xPlayer2 + (this.hhFill - var4.hp * this.hhFill / var4.maxHP) + 20 - var4.hp * this.hhFill / var4.maxHP;
+               }
 
-                  var6 = var4.y - 5 * AvMain.hd;
-                  break;
-               case 4:
-                  this.c(var1 + this.x, var2 + this.y, 4);
-                  return;
-               case 5:
-                  return;
-            }
+               var6 = var4.y - 2 - 10 * AvMain.hd;
+               break;
+            case 3:
+               if (var4.IDDB == GameMidlet.avatar.IDDB) {
+                  var5 = this.xPlayer1 - 20 - this.hhFill + var4.mp * this.hhFill / var4.maxMP;
+               } else {
+                  var5 = this.xPlayer2 + (this.hhFill - var4.mp * this.hhFill / var4.maxMP) + 20 - var4.hp * this.hhFill / var4.maxHP;
+               }
 
-            Point var10;
-            (var10 = new Point(var1 + this.x, var2 + this.y)).limitY = 1;
-            this.listFireWork.addElement(var10);
+               var6 = var4.y - 5 * AvMain.hd;
+               break;
+            case 4:
+               this.c(var1 + this.x, var2 + this.y, 4);
+               return;
+            case 5:
+               return;
+         }
 
-            for(int var11 = 0; var11 < (var3 != 1 ? 3 : 1); ++var11) {
-               Point var7;
-               (var7 = new Point(var1 + this.x, var2 + this.y)).distant = (short)var3;
-               var7.color = CRes.rnd(3);
-               int var8 = CRes.tan(var5 - var1, -(var6 - var2));
-               var7.g = var8;
-               var7.catagory = (byte)CRes.rnd(-1, 1);
-               var7.h = CRes.fixangle(var7.g + var7.catagory * 90);
-               var8 = 10 * CRes.cos(var7.h) >> 10;
-               int var9 = -(10 * CRes.sin(var7.h)) >> 10;
-               var7.xTo = (short)var5;
-               var7.yTo = (short)var6;
-               var7.x += var8;
-               var7.y += var9;
-               var7.color = 0;
-               var7.dis = (byte)(CRes.rnd(4) + 4);
-               var7.height = (short)(10 + CRes.rnd(5));
-               this.listFireWork.addElement(var7);
-            }
+         Point var10;
+         (var10 = new Point(var1 + this.x, var2 + this.y)).limitY = 1;
+         this.listFireWork.addElement(var10);
 
+         for(int var11 = 0; var11 < (var3 != 1 ? 3 : 1); ++var11) {
+            Point var7;
+            (var7 = new Point(var1 + this.x, var2 + this.y)).distant = (short)var3;
+            var7.color = CRes.rnd(3);
+            int var8 = CRes.tan(var5 - var1, -(var6 - var2));
+            var7.g = var8;
+            var7.catagory = (byte)CRes.rnd(-1, 1);
+            var7.h = CRes.fixangle(var7.g + var7.catagory * 90);
+            var8 = 10 * CRes.cos(var7.h) >> 10;
+            int var9 = -(10 * CRes.sin(var7.h)) >> 10;
+            var7.xTo = (short)var5;
+            var7.yTo = (short)var6;
+            var7.x += var8;
+            var7.y += var9;
+            var7.color = 0;
+            var7.dis = (byte)(CRes.rnd(4) + 4);
+            var7.height = (short)(10 + CRes.rnd(5));
+            this.listFireWork.addElement(var7);
          }
       }
+
    }
 
    private void c(int var1, int var2, int var3) {
@@ -584,8 +587,8 @@ public final class DiamondScr extends BoardScr {
             var6.limitY = 0;
             this.listFireWork.addElement(var6);
          }
-
       }
+
    }
 
    private boolean setSelectedc(int var1) {
@@ -710,6 +713,7 @@ public final class DiamondScr extends BoardScr {
          var2.catagory = 1;
          var1.catagory = 1;
       }
+
    }
 
    private void setPath() {
@@ -748,13 +752,11 @@ public final class DiamondScr extends BoardScr {
 
       if (var1) {
          CasinoService.gI().createCell(this.array);
-      } else {
-         if (this.isMove) {
-            this.isMove = false;
-            this.doSkip();
-         }
-
+      } else if (this.isMove) {
+         this.isMove = false;
+         this.doSkip();
       }
+
    }
 
    private void createPoint() {
@@ -764,11 +766,10 @@ public final class DiamondScr extends BoardScr {
                int var10001 = (var2 << 3) + var1;
                boolean var3 = true;
                int var5 = 4;
-               int var4 = var10001;
                DiamondScr var7 = this;
                this.isTrans = true;
 
-               for(int var6 = var4; var6 / 8 > 0; var6 -= 8) {
+               for(int var6 = var10001; var6 / 8 > 0; var6 -= 8) {
                   var7.array[var6 / 8][var6 % 8].itemID = var7.array[(var6 - 8) / 8][(var6 - 8) % 8].itemID;
                   var7.array[var6 / 8][var6 % 8].color = var6 / 8 * var7.wCell;
                   if (!var7.array[var6 / 8][var6 % 8].isFire) {
@@ -780,16 +781,16 @@ public final class DiamondScr extends BoardScr {
                   var7.array[var6 / 8][var6 % 8].y = var7.array[(var6 - 8) / 8][(var6 - 8) % 8].y;
                }
 
-               var7.array[0][var4 % 8].itemID = -2;
-               var7.array[0][var4 % 8].color = 0;
-               if (!var7.array[0][var4 % 8].isFire) {
-                  var7.array[0][var4 % 8].h = -var5;
+               var7.array[0][var10001 % 8].itemID = -2;
+               var7.array[0][var10001 % 8].color = 0;
+               if (!var7.array[0][var10001 % 8].isFire) {
+                  var7.array[0][var10001 % 8].h = -var5;
                   ++var5;
-                  var7.array[0][var4 % 8].isFire = true;
-                  var7.array[0][var4 % 8].y = 0;
+                  var7.array[0][var10001 % 8].isFire = true;
+                  var7.array[0][var10001 % 8].y = 0;
                }
 
-               Point var10000 = var7.array[0][var4 % 8];
+               Point var10000 = var7.array[0][var10001 % 8];
                var10000.y -= 24;
                ++var2;
             }
@@ -813,18 +814,19 @@ public final class DiamondScr extends BoardScr {
          DiamondScr var2 = this;
          var1.translate(this.x, this.y);
          int var5;
+         int var10;
          if (AvatarData.getImgIcon((short)876).count != -1) {
             for(var5 = 0; var5 < var2.aE.size(); ++var5) {
                Point var6 = (Point)var2.aE.elementAt(var5);
-               int var4 = var5 * 17 - var2.wCell / 2 + 8;
+               var10 = var5 * 17 - var2.wCell / 2 + 8;
                if (var6.color != GameMidlet.avatar.IDDB) {
-                  var4 = (var2.wCell << 3) - var5 * 17 + var2.wCell / 2 - 8;
+                  var10 = (var2.wCell << 3) - var5 * 17 + var2.wCell / 2 - 8;
                }
 
                int var10003 = var6.itemID << 4;
                int var10008 = (var2.wCell << 3) + var2.wCell;
-               var3.drawRegion(AvatarData.getImgIcon((short)876).img, 0, var10003, 16, 16, 0, var4, var10008, 3);
-               Canvas.smallFontYellow.drawString(var3, String.valueOf(var6.dis), var4, (var2.wCell << 3) + var2.wCell - AvMain.hSmall / 2, 2);
+               var3.drawRegion(AvatarData.getImgIcon((short)876).img, 0, var10003, 16, 16, 0, var10, var10008, 3);
+               Canvas.smallFontYellow.drawString(var3, String.valueOf(var6.dis), var10, (var2.wCell << 3) + var2.wCell - AvMain.hSmall / 2, 2);
             }
          }
 
@@ -836,7 +838,7 @@ public final class DiamondScr extends BoardScr {
 
          if ((var9 = AvatarData.getImgIcon((short)(Canvas.hCan > 250 ? 875 : 876))).count != -1) {
             for(var5 = 0; var5 < 8; ++var5) {
-               for(int var10 = 0; var10 < 8; ++var10) {
+               for(var10 = 0; var10 < 8; ++var10) {
                   if (var2.array[var5][var10] != null && var2.array[var5][var10].itemID >= 0) {
                      var3.drawRegion(var9.img, 0, var2.array[var5][var10].itemID * var2.wImg, var2.wImg, var2.wImg, 0, var2.array[var5][var10].x, var2.array[var5][var10].y, 0);
                   }
@@ -860,6 +862,7 @@ public final class DiamondScr extends BoardScr {
          Canvas.O.drawString(var1, var7, this.x + (this.wCell << 3) / 2, this.y + (this.wCell << 3) + Canvas.O.getHeight() + 2, 2);
          this.f(var1);
       }
+
    }
 
    public final void paintCaro(Graphics var1) {
@@ -911,7 +914,7 @@ public final class DiamondScr extends BoardScr {
             var7 = this.hhFill - 7;
             var8 = this.hhFill - 16 * AvMain.hd;
             if (Canvas.w > 160) {
-               Canvas.smallFontYellow.drawString(var1, var12.getMoneyNew() + " " + avt.T.getMoney(), var13 + this.hhFill, var12.y, 1);
+               Canvas.smallFontYellow.drawString(var1, var12.getMoneyNew() + " " + T.getMoney(), var13 + this.hhFill, var12.y, 1);
             }
          } else {
             var13 = this.xPlayer2 + 10 + 10 * AvMain.hd;
@@ -924,7 +927,7 @@ public final class DiamondScr extends BoardScr {
             var5 = 0;
             var8 = 16 * AvMain.hd;
             if (Canvas.w > 160) {
-               Canvas.smallFontYellow.drawString(var1, var12.getMoneyNew() + " " + avt.T.getMoney(), var13, var12.y, 0);
+               Canvas.smallFontYellow.drawString(var1, var12.getMoneyNew() + " " + T.getMoney(), var13, var12.y, 0);
             }
          }
 
@@ -999,18 +1002,17 @@ public final class DiamondScr extends BoardScr {
          if (Canvas.h > 300) {
             boolean var5 = false;
 
+            Point var11;
             for(var7 = 0; var7 < this.aE.size(); ++var7) {
-               Point var8;
-               if ((var8 = (Point)this.aE.elementAt(var7)).itemID == this.array[var1[var6] / 8][var1[var6] % 8].itemID) {
-                  var8.limitY += 20;
+               if ((var11 = (Point)this.aE.elementAt(var7)).itemID == this.array[var1[var6] / 8][var1[var6] % 8].itemID) {
+                  var11.limitY += 20;
                   var5 = true;
-                  ++var8.dis;
+                  ++var11.dis;
                   break;
                }
             }
 
             if (!var5) {
-               Point var11;
                (var11 = new Point()).itemID = this.array[var1[var6] / 8][var1[var6] % 8].itemID;
                var11.limitY = 40;
                var11.dis = 1;
@@ -1089,9 +1091,9 @@ public final class DiamondScr extends BoardScr {
                this.isPath = false;
                this.isSelected = -1;
             }
-
          }
       }
+
    }
 
    public final void onSkip(int var1) {
@@ -1113,6 +1115,7 @@ public final class DiamondScr extends BoardScr {
             super.right = null;
          }
       }
+
    }
 
    public final void onOutPath(int var1, byte[][] var2) {
@@ -1144,14 +1147,14 @@ public final class DiamondScr extends BoardScr {
       String var3 = "";
       ReportDlg var4 = var10000;
       var10000.g = var3;
-      var4.f = Canvas.normalFont.getWidth(var4.g) + 20 * AvMain.hd;
-      if (var4.f < 50 + 20 * AvMain.hd) {
-         var4.f = 50 + 20 * AvMain.hd;
+      var10000.f = Canvas.normalFont.getWidth(var10000.g) + 20 * AvMain.hd;
+      if (var10000.f < 50 + 20 * AvMain.hd) {
+         var10000.f = 50 + 20 * AvMain.hd;
       }
 
-      var4.list = var1;
-      var4.h = var4.list.size() * AvMain.hBlack + (AvMain.hDuBox << 1) + 10 + PaintPopup.hTab;
-      var4.w = 0;
+      var10000.list = var1;
+      var10000.h = var10000.list.size() * AvMain.hBlack + (AvMain.hDuBox << 1) + 10 + PaintPopup.hTab;
+      var10000.w = 0;
 
       for(int var5 = 0; var5 < var4.list.size(); ++var5) {
          var3 = (String)var4.list.elementAt(var5);
@@ -1170,7 +1173,7 @@ public final class DiamondScr extends BoardScr {
 
       var4.x = (Canvas.w - var4.w) / 2;
       var4.y = Canvas.h - Canvas.hTab - var4.h - 10;
-      ReportDlg.gI().center = new Command(avt.T.z, -1, this);
+      ReportDlg.gI().center = new Command(T.OK, -1, this);
       super.center = BoardScr.cmdBack;
       super.right = null;
       super.turn = -1;
@@ -1182,7 +1185,7 @@ public final class DiamondScr extends BoardScr {
    public final void onData(byte[][] var1) {
       for(int var2 = 7; var2 >= 0; --var2) {
          for(int var3 = 7; var3 >= 0; --var3) {
-            this.array[var2][var3].itemID = var1[var2][var3];
+            this.array[var2][var3].itemID = (short)var1[var2][var3];
          }
       }
 

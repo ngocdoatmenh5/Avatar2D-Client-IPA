@@ -45,8 +45,8 @@ public final class ChatTextField extends AvMain {
    }
 
    protected ChatTextField() {
-      super.left = new Command(T.d, 0);
-      super.center = new Command(T.ba, 1);
+      super.left = new Command(T.close, 0);
+      super.center = new Command(T.chat, 1);
       this.tfChat = new TField();
       this.tfChat.e = false;
       this.tfChat.setFocus(true);
@@ -87,6 +87,7 @@ public final class ChatTextField extends AvMain {
 
          this.init();
       }
+
    }
 
    public final void updateKey() {
@@ -96,6 +97,7 @@ public final class ChatTextField extends AvMain {
       } else {
          super.updateKey();
       }
+
    }
 
    public final void paint(Graphics var1) {

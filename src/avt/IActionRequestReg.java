@@ -12,6 +12,6 @@ final class IActionRequestReg implements IAction {
    }
 
    public final void perform() {
-      Canvas.startOKDlg(this.a, (IAction)(new IActionYesRef(this.b)));
+      Canvas.startOKDlg(this.a, new IActionYesRef(this.b));
    }
 }

@@ -25,8 +25,8 @@ final class class_w implements IAction {
       }
 
       if (!var1) {
-         FarmScr.gI().commandTab((int)8, (int)-1);
-         Canvas.startOKDlg(T.ea);
+         FarmScr.gI().commandTab(8, -1);
+         Canvas.startOKDlg(T.doYouWantToTrade);
       }
 
    }

@@ -52,6 +52,7 @@ public final class MessageScr extends MyScreen {
          var10000.a(this.b(this.b).b, var10002, var10003 + (OnScreen.isOngame && this.lastScr != BoardScr.me ? -20 : 0), this.g.size());
          i = PaintPopup.gI().y = 10 + Canvas.ab;
       }
+
    }
 
    public final void commandActionPointer(int var1, int var2) {
@@ -107,10 +108,10 @@ public final class MessageScr extends MyScreen {
          case 5:
             Vector var5 = new Vector();
             if (this.b(this.b) != this.a) {
-               var5.addElement(new Command(T.ch, 10));
+               var5.addElement(new Command(T.closeTab, 10));
             }
 
-            var5.addElement(new Command(T.d, 2));
+            var5.addElement(new Command(T.close, 2));
             Menu.gI().startAt(var5, 0);
             return;
          case 6:
@@ -128,21 +129,21 @@ public final class MessageScr extends MyScreen {
    public final void initCmd() {
       if (Canvas.stypeInt == 0) {
          if (OnScreen.isOngame) {
-            super.left = new Command(T.d, 4);
+            super.left = new Command(T.close, 4);
          } else {
-            super.left = new Command(T.c, 5);
+            super.left = new Command(T.menu, 5);
          }
       } else if (this.b(this.b) == this.a) {
-         super.left = new Command(T.d, 4);
+         super.left = new Command(T.close, 4);
       } else {
-         super.left = new Command(T.ch, 10);
+         super.left = new Command(T.closeTab, 10);
       }
 
-      this.a = new UNK(T.cg, -1, (Command)null, (Command)null, false);
+      this.a = new UNK(T.msgNew, -1, (Command)null, (Command)null, false);
    }
 
    public MessageScr() {
-      this.f = new Command(T.ch, 10);
+      this.f = new Command(T.closeTab, 10);
       if (Canvas.stypeInt == 0) {
          i = 10;
          e = 10;
@@ -191,7 +192,7 @@ public final class MessageScr extends MyScreen {
    public final void a(int var1, String var2, String var3) {
       UNK var4;
       if ((var4 = this.c(var1)) == null) {
-         var4 = new UNK(var2, var1, !var2.equals("admin") ? new Command(T.ba, 3) : null, !var2.equals("admin") ? tfChat.a() : null, !var2.equals("admin"));
+         var4 = new UNK(var2, var1, !var2.equals("admin") ? new Command(T.chat, 3) : null, !var2.equals("admin") ? tfChat.a() : null, !var2.equals("admin"));
          this.b(var4);
       } else {
          var4.a = true;
@@ -233,6 +234,7 @@ public final class MessageScr extends MyScreen {
       } else {
          super.paint(var1);
       }
+
    }
 
    private void e(int var1) {
@@ -309,9 +311,9 @@ public final class MessageScr extends MyScreen {
    public final void doAction(int var1, String var2) {
       UNK var3;
       if ((var3 = this.c(var1)) == null) {
-         var3 = new UNK(var2, var1, new Command(T.ba, 3), tfChat.a(), true);
+         var3 = new UNK(var2, var1, new Command(T.chat, 3), tfChat.a(), true);
          this.b(var3);
-         var3.a(T.ci + var2);
+         var3.a(T.beginChat + var2);
       }
 
       for(var1 = 0; var1 < this.g.size(); ++var1) {

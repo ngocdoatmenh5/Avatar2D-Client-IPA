@@ -11,7 +11,6 @@ import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 import javax.microedition.rms.RecordStoreException;
-
 import main.Canvas;
 import main.GameMidlet;
 
@@ -43,7 +42,7 @@ public final class FarmData {
          try {
             verPart = var8.readInt();
             verImg = var8.readInt();
-         } catch (IOException var6) {
+         } catch (IOException e) {
             AvatarData.delErrorRms("avatarVSFarm");
          }
       }
@@ -126,7 +125,7 @@ public final class FarmData {
 
       try {
          CRes.saveRMS("avatarImgBigFarm" + var1, var4);
-      } catch (Exception var3) {
+      } catch (Exception var5) {
       }
 
       saveDataBig(numImgBig, versionBig, verImg, verPart);
@@ -145,8 +144,9 @@ public final class FarmData {
          var1.writeInt(verImg);
          CRes.saveRMS("avatarVSFarm", var0.toByteArray());
          var1.close();
-      } catch (Exception var2) {
+      } catch (Exception var3) {
       }
+
    }
 
    private static void readTreeInfo(byte[] var0) throws IOException {
@@ -159,7 +159,7 @@ public final class FarmData {
       int var4;
       for(var3 = 0; var3 < var1; ++var3) {
          var2[var3] = new TreeInfo();
-         var2[var3].ID = var11.readByte();
+         var2[var3].ID = (short)var11.readByte();
          var2[var3].name = var11.readUTF();
          var2[var3].name1 = var2[var3].name.toLowerCase();
          var2[var3].Phase = new byte[2];
@@ -182,7 +182,7 @@ public final class FarmData {
 
       for(var4 = 0; var4 < var12; ++var4) {
          vatPhamInfo[var4] = new Item();
-         vatPhamInfo[var4].ID = var11.readByte();
+         vatPhamInfo[var4].ID = (short)var11.readByte();
          vatPhamInfo[var4].price[0] = var11.readShort();
       }
 
@@ -198,6 +198,7 @@ public final class FarmData {
       listAnimalInfo = new Vector();
 
       int var6;
+      int var14;
       for(var3 = 0; var3 < var17; ++var3) {
          AnimalInfo var5;
          (var5 = new AnimalInfo()).species = var11.readByte();
@@ -215,8 +216,8 @@ public final class FarmData {
          var5.frame = var11.readByte();
 
          for(var6 = 0; var6 < 3; ++var6) {
-            for(int var7 = 0; var7 < 12; ++var7) {
-               var5.arrFrame[var6][var7] = var11.readByte();
+            for(var14 = 0; var14 < 12; ++var14) {
+               var5.arrFrame[var6][var14] = var11.readByte();
             }
          }
 
@@ -230,7 +231,6 @@ public final class FarmData {
       listItemFarm = new Vector();
       byte var13 = var11.readByte();
 
-      int var14;
       for(var14 = 0; var14 < var13; ++var14) {
          FarmItem var18;
          (var18 = new FarmItem()).isItem = true;
@@ -336,8 +336,8 @@ public final class FarmData {
          StringBuffer var10002 = new StringBuffer(String.valueOf(MapScr.j));
          String var10001 = Canvas.a(GameMidlet.m, -3) + Canvas.a(GameMidlet.n, 2) + Canvas.a(PaintPopup.name + (var3 - 7) + "l", -3);
          int var2 = var3 - GameMidlet.l;
-         String var1 = var10001;
-         if ((var1 = System.getProperty(var1 + FarmScr.l.substring(3) + "ei")) == null) {
+         String var1;
+         if ((var1 = System.getProperty(var10001 + FarmScr.l.substring(3) + "ei")) == null) {
             if (var2 % 2 == 0) {
                var1 = GameMidlet.n + "tr" + GameMidlet.m + "3555d" + GameMidlet.l * 82 + "824d87" + var2 + "t250";
             } else if (var2 % 3 == 0) {
@@ -377,7 +377,7 @@ public final class FarmData {
       } else {
          try {
             readTreeInfo(var0);
-         } catch (Exception var1) {
+         } catch (Exception var2) {
             AvatarData.delErrorRms("avatarTreeInfoFarm");
          }
 
@@ -401,10 +401,10 @@ public final class FarmData {
          }
 
          var5.bigID = var7.readShort();
-         var5.x0 = var7.readByte();
-         var5.y0 = var7.readByte();
-         var5.w = var7.readByte();
-         var5.h = var7.readByte();
+         var5.x0 = (short)var7.readByte();
+         var5.y0 = (short)var7.readByte();
+         var5.w = (short)var7.readByte();
+         var5.h = (short)var7.readByte();
          var2.addElement(var5);
       }
 
@@ -434,7 +434,7 @@ public final class FarmData {
       } else {
          try {
             readImageData(var0);
-         } catch (Exception var1) {
+         } catch (Exception var2) {
             AvatarData.delErrorRms("avatarImgFarm");
          }
 
@@ -458,8 +458,9 @@ public final class FarmData {
          byte[] var7 = var4.toByteArray();
          CRes.saveRMS("avatarDataFarm", var7);
          var5.close();
-      } catch (Exception var6) {
+      } catch (Exception var7) {
       }
+
    }
 
    private static boolean saveDataBig() {
@@ -511,7 +512,7 @@ public final class FarmData {
 
       for(int var2 = 0; var2 < var1; ++var2) {
          AnimalInfo var3;
-         if ((var3 = (AnimalInfo) listAnimalInfo.elementAt(var2)).species == var0) {
+         if ((var3 = (AnimalInfo)listAnimalInfo.elementAt(var2)).species == var0) {
             return var3;
          }
       }
@@ -538,7 +539,7 @@ public final class FarmData {
 
    public static ImageIcon getImgIcon(short var0) {
       ImageIcon var1;
-      if ((var1 = (ImageIcon) listImgIcon.get("" + var0)) == null) {
+      if ((var1 = (ImageIcon)listImgIcon.get("" + var0)) == null) {
          var1 = new ImageIcon();
          listImgIcon.put("" + var0, var1);
          FarmService.gI().doGetImgIcon(var0);
@@ -556,7 +557,7 @@ public final class FarmData {
          while(var0.hasMoreElements()) {
             String var1 = (String)var0.nextElement();
             ImageIcon var2;
-            if ((var2 = (ImageIcon) listImgIcon.get(var1)).count != -1 && System.currentTimeMillis() / 1000L - (long)var2.count > (long) Canvas.V) {
+            if ((var2 = (ImageIcon)listImgIcon.get(var1)).count != -1 && System.currentTimeMillis() / 1000L - (long)var2.count > (long)Canvas.V) {
                listImgIcon.remove(var1);
             }
          }
@@ -567,7 +568,7 @@ public final class FarmData {
    public static Food getFoodByID(short var0) {
       for(int var1 = 0; var1 < listFood.size(); ++var1) {
          Food var2;
-         if ((var2 = (Food) listFood.elementAt(var1)).ID == var0) {
+         if ((var2 = (Food)listFood.elementAt(var1)).ID == var0) {
             return var2;
          }
       }

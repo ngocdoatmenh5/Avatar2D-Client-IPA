@@ -28,8 +28,8 @@ public final class Scroll {
          if (this.dis <= 0) {
             this.dis = 1;
          }
-
       }
+
    }
 
    public final void updateScroll(int var1, int var2) {

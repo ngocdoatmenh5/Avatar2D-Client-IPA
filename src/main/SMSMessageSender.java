@@ -1,9 +1,9 @@
 package main;
 
+import avt.T;
 import javax.microedition.io.Connector;
 import javax.wireless.messaging.MessageConnection;
 import javax.wireless.messaging.TextMessage;
-import avt.*;
 
 final class SMSMessageSender implements Runnable {
    private final String a;
@@ -21,9 +21,10 @@ final class SMSMessageSender implements Runnable {
          (var2 = (TextMessage)(var1 = (MessageConnection)Connector.open(this.a)).newMessage("text")).setAddress(this.a);
          var2.setPayloadText(this.b);
          var1.send(var2);
-         Canvas.startOKDlg(T.ct);
+         Canvas.startOKDlg(T.sentMsg);
       } catch (Exception var3) {
-         Canvas.startOKDlg(T.cu);
+         Canvas.startOKDlg(T.canNotSendMsg);
       }
+
    }
 }

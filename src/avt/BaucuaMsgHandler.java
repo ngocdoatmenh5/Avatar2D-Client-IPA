@@ -82,7 +82,7 @@ public final class BaucuaMsgHandler implements IMiniGameMsgHandler {
                var6 = var1.reader().readByte();
                if (var3 != var4 && var6 > 0) {
                   BCBoardScr.me_.moneySV[var2][var4] = (byte)var6;
-                  BCBoardScr.me_.onHaphom((byte)var2, (byte)var3, (byte)var4);
+                  BCBoardScr.me_.onHaphom((byte)var2, (byte)var3, var4);
                   return;
                }
                break;
@@ -91,8 +91,8 @@ public final class BaucuaMsgHandler implements IMiniGameMsgHandler {
                BCBoardScr.me_.onSetTurn((byte)var2);
                return;
          }
-      } catch (Exception var5) {
-         var5.printStackTrace();
+      } catch (Exception var10) {
+         var10.printStackTrace();
       }
 
    }

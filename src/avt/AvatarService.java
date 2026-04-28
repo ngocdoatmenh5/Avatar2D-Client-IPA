@@ -25,25 +25,25 @@ public final class AvatarService extends IService {
       this.createMessage((byte)-14);
       this.writeShort(var1);
       this.sendMessage();
-      Canvas.startWaitDlg(T.getData);
+      Canvas.startWaitDlg(T.enemyFirstFire);
    }
 
    public final void getImageData() {
       this.createMessage((byte)-15);
       this.sendMessage();
-      Canvas.startWaitDlg(T.getData);
+      Canvas.startWaitDlg(T.enemyFirstFire);
    }
 
    public final void getAvatarPart() {
       this.createMessage((byte)-16);
       this.sendMessage();
-      Canvas.startWaitDlg(T.getData);
+      Canvas.startWaitDlg(T.enemyFirstFire);
    }
 
    public final void getItemInfo() {
       this.createMessage((byte)-37);
       this.sendMessage();
-      Canvas.startWaitDlg(T.getData);
+      Canvas.startWaitDlg(T.enemyFirstFire);
    }
 
    public final void getMapItemType() {
@@ -62,15 +62,17 @@ public final class AvatarService extends IService {
          this.writeByte(var1);
          this.sendMessage();
       }
+
    }
 
    public final void doBuyItem(int var1, int var2) {
+      System.out.println("DEBUG BUYITEM: AvatarService.doBuyItem(id=" + var1 + ", moneyType=" + var2 + ") packet -24");
       this.createMessage((byte)-24);
 
       try {
          super.m.writer().writeShort(var1);
          super.m.writer().writeByte(var2);
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();
@@ -88,7 +90,7 @@ public final class AvatarService extends IService {
          }
 
          super.m.writer().writeShort(0);
-      } catch (Exception var3) {
+      } catch (Exception var4) {
       }
 
       this.sendMessage();
@@ -103,7 +105,7 @@ public final class AvatarService extends IService {
          super.m.writer().writeByte(var1.x / 24);
          super.m.writer().writeByte(var1.y / 24);
          super.m.writer().writeByte(var1.type);
-      } catch (IOException var2) {
+      } catch (IOException var3) {
       }
 
       this.sendMessage();
@@ -124,7 +126,7 @@ public final class AvatarService extends IService {
          super.m.writer().writeByte(var1.x / 24);
          super.m.writer().writeByte(var1.y / 24);
          super.m.writer().writeByte(var1.dir);
-      } catch (Exception var2) {
+      } catch (Exception var3) {
       }
 
       this.sendMessage();
@@ -158,7 +160,7 @@ public final class AvatarService extends IService {
          super.m.writer().writeByte(var4);
          super.m.writer().writeByte(var5);
          super.m.writer().writeByte(var6);
-      } catch (IOException var7) {
+      } catch (IOException var8) {
       }
 
       this.sendMessage();
@@ -173,7 +175,7 @@ public final class AvatarService extends IService {
          if (var3 == 1) {
             super.m.writer().writeInt(var2);
          }
-      } catch (IOException var4) {
+      } catch (IOException var5) {
       }
 
       this.sendMessage();

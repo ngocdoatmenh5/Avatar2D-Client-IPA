@@ -93,7 +93,7 @@ public final class MiniMap extends MyScreen {
       imgSmallIcon = FilePack.getImage("sIc");
       imgBackIcon = FilePack.getImage("b_p");
       FilePack.reset();
-      this.l = new Command(T.c, 0);
+      this.l = new Command(T.menu, 0);
       super.left = this.l;
    }
 
@@ -110,15 +110,15 @@ public final class MiniMap extends MyScreen {
                   var3.addElement(MapScr.gI().f);
                }
 
-               var3.addElement(new Command(T.ab, 1));
-               var3.addElement(new Command(T.cw, 2));
+               var3.addElement(new Command(T.option, 1));
+               var3.addElement(new Command(T.viewInfo, 2));
                if (!LoginScr.isAccVir) {
-                  var3.addElement(new Command(T.cx, 3));
+                  var3.addElement(new Command(T.changePass, 3));
                }
 
-               var3.addElement(new Command(T.cF, 4));
-               var3.addElement(new Command(T.cJ, 5));
-               var3.addElement(new Command(T.x, 6));
+               var3.addElement(new Command(T.giveGame, 4));
+               var3.addElement(new Command(T.otherGame, 5));
+               var3.addElement(new Command(T.exit, 6));
                Menu.gI().startAt(var3, 0);
             }
 
@@ -142,13 +142,13 @@ public final class MiniMap extends MyScreen {
             MapScr.gI().doChangePass();
             return;
          case 4:
-            Form var5 = new Form(T.cG);
-            TextField var6 = new TextField(T.cH, "", 50, 3);
+            Form var5 = new Form(T.sentToFriend);
+            TextField var6 = new TextField(T.phoneNumber, "", 50, 3);
             var5.append(var6);
-            var5.append(T.cI);
-            javax.microedition.lcdui.Command var3 = new javax.microedition.lcdui.Command(T.z, 4, 1);
+            var5.append(T.youCanSelectFromMenu);
+            javax.microedition.lcdui.Command var3 = new javax.microedition.lcdui.Command(T.OK, 4, 1);
             var5.addCommand(var3);
-            javax.microedition.lcdui.Command var4 = new javax.microedition.lcdui.Command(T.d, 2, 1);
+            javax.microedition.lcdui.Command var4 = new javax.microedition.lcdui.Command(T.close, 2, 1);
             var5.addCommand(var4);
             var5.setCommandListener(new MiniMapCommandListener(this, var3, var6));
             Display.getDisplay(GameMidlet.instance).setCurrent(var5);
@@ -174,6 +174,17 @@ public final class MiniMap extends MyScreen {
       } else {
          MapScr.gI().doExitGame();
       }
+
+   }
+
+   public final String getSelectedZoneLabel() {
+      if (this.listPos != null && this.selected >= 0 && this.selected < this.listPos.size()) {
+         return ((PositionMap)this.listPos.elementAt(this.selected)).c;
+      }
+      if (this.selected >= 0 && this.selected < T.nameRegion.length) {
+         return T.nameRegion[this.selected];
+      }
+      return "";
    }
 
    public final void setInfo(FrameImage var1, byte[] var2, Vector var3, byte var4, int var5, Command var6) {
@@ -318,7 +329,7 @@ public final class MiniMap extends MyScreen {
 
       for(int var1 = 0; var1 < listClound.size(); ++var1) {
          AvPosition var2;
-         AvPosition var10000 = var2 = (AvPosition) listClound.elementAt(var1);
+         AvPosition var10000 = var2 = (AvPosition)listClound.elementAt(var1);
          var10000.x -= var2.anchor + (Canvas.gameTick % 5 == 1 ? 1 : 0);
          if (var2.x < -this.x - 50) {
             var2.x = this.x + CRes.rnd(4) * 50 + this.wMini * this.wSmall;
@@ -538,7 +549,7 @@ public final class MiniMap extends MyScreen {
 
       for(var4 = 0; var4 < listClound.size(); ++var4) {
          AvPosition var12;
-         if ((var12 = (AvPosition) listClound.elementAt(var4)).x > cmx - 30 && var12.x < cmx + 30 + Canvas.w && var12.y > cmy - 20 && var12.y < cmy + 20 + Canvas.h) {
+         if ((var12 = (AvPosition)listClound.elementAt(var4)).x > cmx - 30 && var12.x < cmx + 30 + Canvas.w && var12.y > cmy - 20 && var12.y < cmy + 20 + Canvas.h) {
             var11.drawImage(imgClound[var12.anchor], var12.x, var12.y, 3);
          }
       }
@@ -552,15 +563,13 @@ public final class MiniMap extends MyScreen {
          actionReg = new IActionRequestReg(this, var2);
       } else if (var1 == 1) {
          actionReg = new IActionRequestOK(this, var2);
-      } else {
-         if (var1 == 2) {
-            LoginScr.gI().tfUser.setText(var3);
-            LoginScr.gI().tfPass.setText(var4);
-            LoginScr.gI().saveLogin();
-            Canvas.startOKDlg("Đăng ký thành công.");
-            actionReg = null;
-         }
-
+      } else if (var1 == 2) {
+         LoginScr.gI().tfUser.setText(var3);
+         LoginScr.gI().tfPass.setText(var4);
+         LoginScr.gI().saveLogin();
+         Canvas.startOKDlg("Đăng ký thành công.");
+         actionReg = null;
       }
+
    }
 }

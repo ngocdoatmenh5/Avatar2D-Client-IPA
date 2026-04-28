@@ -26,6 +26,7 @@ public final class Chicken extends AnimalDan {
          super.x = super.xCur = super.posNext.x;
          super.y = super.yCur = super.posNext.y;
       }
+
    }
 
    private static int j() {

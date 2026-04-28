@@ -54,7 +54,7 @@ public final class ServerListScr extends MyScreen {
       switch (var1) {
          case 0:
             if (this.isSelected && super.selected_ > 0) {
-               Canvas.startWaitCancelDlg(T.N);
+               Canvas.startWaitCancelDlg(T.logging);
                LoginScr.gI().timeOut = System.currentTimeMillis();
                LoginScr.gI().login();
                return;
@@ -83,24 +83,25 @@ public final class ServerListScr extends MyScreen {
    }
 
    public final void initCmd() {
-      if (T.O != null) {
+      if (T.selectt != null) {
          if (Canvas.stypeInt == 0) {
-            super.center = new Command(T.O, 0);
+            super.center = new Command(T.selectt, 0);
          }
 
          if (GameMidlet.PROVIDER == 0) {
-            super.left = new Command(T.f, 1);
+            super.left = new Command(T.updateList, 1);
          }
 
-         super.right = new Command(T.dw, 2);
+         super.right = new Command(T.back, 2);
       }
+
    }
 
    private void onGetText() {
       while(true) {
-         Canvas.startWaitCancelDlg(T.b);
+         Canvas.startWaitCancelDlg(T.pleaseWait);
          if (this.indexUSer >= GameMidlet.linkGetHost[OptionScr.gI().mapFocus[4]].length) {
-            Canvas.startOKDlg(T.ds);
+            Canvas.startOKDlg(T.canNotConnect);
             this.indexUSer = 0;
             return;
          }
@@ -148,7 +149,7 @@ public final class ServerListScr extends MyScreen {
          var1 = Canvas.w;
       }
 
-      PaintPopup.gI().a(T.bP, var1 * AvMain.hd, MyScreen.hText * 6, 1);
+      PaintPopup.gI().a(T.cloth, var1 * AvMain.hd, MyScreen.hText * 6, 1);
       x = PaintPopup.gI().x + 4;
       y = PaintPopup.gI().y + PaintPopup.hTab + AvMain.hDuBox;
       hDis = PaintPopup.gI().h - (PaintPopup.hTab + (AvMain.hDuBox << 1));
@@ -360,7 +361,7 @@ public final class ServerListScr extends MyScreen {
       Canvas.resetTrans(var1);
       PaintPopup.gI().paint(var1);
       if (GameMidlet.avatar != null && !GameMidlet.avatar.name.equals("")) {
-         Canvas.borderFont.drawString(var1, T.dz + ", " + GameMidlet.avatar.name, PaintPopup.gI().x + PaintPopup.gI().w / 2, PaintPopup.gI().y - AvMain.hBorder, 2);
+         Canvas.borderFont.drawString(var1, T.StoreEmtpy + ", " + GameMidlet.avatar.name, PaintPopup.gI().x + PaintPopup.gI().w / 2, PaintPopup.gI().y - AvMain.hBorder, 2);
       }
 
       var1.translate(x, y);

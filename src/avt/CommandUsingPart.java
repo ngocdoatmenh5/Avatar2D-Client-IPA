@@ -15,7 +15,7 @@ final class CommandUsingPart extends Command {
    }
 
    public final void paint(Graphics var1, int var2, int var3) {
-      AvatarData.getPart(this.f.idPart).paint(var1, var2 + PopupShop.h / 2, var3 + PopupShop.h / 2, 3);
+      AvatarData.getPart(this.f.idPart).paintIcon(var1, var2 + PopupShop.h / 2, var3 + PopupShop.h / 2, 0, 3);
       PaintPopup.fill(var2 + 3, var3 + PopupShop.h - 3 * AvMain.hd, PopupShop.h - 5, 2 * AvMain.hd, 1, var1);
       PaintPopup.fill(var2 + 3, var3 + PopupShop.h - 3 * AvMain.hd, PopupShop.h - 5 - this.f.time * (PopupShop.h - 5) / 100, 2 * AvMain.hd, 11907085, var1);
    }
@@ -24,12 +24,12 @@ final class CommandUsingPart extends Command {
       if (PopupShop.isTransFocus && this.g == PopupShop.focus) {
          Part var1 = AvatarData.getPart(this.f.idPart);
          PopupShop.resetIsTrans();
-         PopupShop.addStr(T.cr + (100 - this.f.time) + "%");
+         PopupShop.addStr(T.doBen + (100 - this.f.time) + "%");
          String var2 = "";
          if (var1.zOrder == 20) {
-            var2 = T.aC;
+            var2 = T.setMaxMoney;
          } else if (var1.zOrder == 10) {
-            var2 = T.aB;
+            var2 = T.pant;
          }
 
          PopupShop.addStr(var2 + AvatarData.getName(var1));
@@ -38,7 +38,7 @@ final class CommandUsingPart extends Command {
          }
 
          if (this.h == 0) {
-            PopupShop.addStr(T.em[2] + ": " + AvatarData.getLevel(var1));
+            PopupShop.addStr(T.roomName[2] + ": " + AvatarData.getLevel(var1));
             return;
          }
 
@@ -50,7 +50,7 @@ final class CommandUsingPart extends Command {
                var3 = ((APartInfo)var1).level;
             }
 
-            PopupShop.addStr(T.em[2] + ": " + var3);
+            PopupShop.addStr(T.roomName[2] + ": " + var3);
          }
       }
 

@@ -25,17 +25,16 @@ public final class PopupName extends SubObject {
    }
 
    public final void paint(Graphics var1) {
-      if (OptionScr.gI().mapFocus[1] != 1 && Canvas.welcome == null) {
-         if (super.x * MyObject.hd >= AvCamera.gI().xCam && super.x * MyObject.hd <= AvCamera.gI().xCam + Canvas.w && super.y * MyObject.hd >= AvCamera.gI().yCam && super.y * MyObject.hd <= AvCamera.gI().yCam + Canvas.h + 10 && Canvas.currentMyScreen != MainMenu.gI()) {
-            var1.drawImage(LoadMap.imgShadow, super.x * MyObject.hd, super.y * MyObject.hd, 3);
-            if (MiniMap.gI().imgArrow != null) {
-               int var10002 = super.x * MyObject.hd;
-               int var10003 = (super.y - 10 + this.num / 2) * MyObject.hd;
-               MiniMap.gI().imgArrow.drawFrame(0, var10002, var10003, 0, 33, var1);
-            }
-
-            Canvas.smallFontYellow.drawString(var1, this.name, super.x * MyObject.hd, (super.y - 32 + this.num / 2) * MyObject.hd, 2);
+      if (OptionScr.gI().mapFocus[1] != 1 && Canvas.welcome == null && super.x * MyObject.hd >= AvCamera.gI().xCam && super.x * MyObject.hd <= AvCamera.gI().xCam + Canvas.w && super.y * MyObject.hd >= AvCamera.gI().yCam && super.y * MyObject.hd <= AvCamera.gI().yCam + Canvas.h + 10 && Canvas.currentMyScreen != MainMenu.gI()) {
+         var1.drawImage(LoadMap.imgShadow, super.x * MyObject.hd, super.y * MyObject.hd, 3);
+         if (MiniMap.gI().imgArrow != null) {
+            int var10002 = super.x * MyObject.hd;
+            int var10003 = (super.y - 10 + this.num / 2) * MyObject.hd;
+            MiniMap.gI().imgArrow.drawFrame(0, var10002, var10003, 0, 33, var1);
          }
+
+         Canvas.smallFontYellow.drawString(var1, this.name, super.x * MyObject.hd, (super.y - 32 + this.num / 2) * MyObject.hd, 2);
       }
+
    }
 }

@@ -22,7 +22,7 @@ final class IActionDel implements IAction {
    }
 
    public final void perform() {
-      GlobalService.gI().doRemoveItem((int)this.b.IDPart, (int)this.c);
+      GlobalService.gI().doRemoveItem(this.b.IDPart, this.c);
       this.d.removeElementAt(PopupShop.focus);
       this.e.removeElement(this.f);
       if (this.g == 0) {
@@ -35,5 +35,6 @@ final class IActionDel implements IAction {
       } else {
          HouseScr.gI().restartPopup();
       }
+
    }
 }

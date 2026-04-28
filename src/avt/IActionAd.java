@@ -19,5 +19,6 @@ final class IActionAd implements IAction {
       } else {
          GameMidlet.doSendSMS(this.a.sms, this.a.to);
       }
+
    }
 }

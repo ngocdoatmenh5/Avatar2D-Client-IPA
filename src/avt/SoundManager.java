@@ -27,14 +27,15 @@ public final class SoundManager {
                OptionScr.gI().save(OptionScr.gI().volume / 10);
                var4.perform();
             } else {
-               var3.addElement(new Command(T.ep[1], new class_bj(this, var4)));
-               var3.addElement(new Command(T.ep[2], new class_bh(this, var4)));
-               var3.addElement(new Command(T.p, new class_bw(this)));
-               var3.addElement(new Command(T.ep[0], new class_bt(this, var4)));
+               var3.addElement(new Command(T.lister[1], new class_bj(this, var4)));
+               var3.addElement(new Command(T.lister[2], new class_bh(this, var4)));
+               var3.addElement(new Command(T.no, new class_bw(this)));
+               var3.addElement(new Command(T.lister[0], new class_bt(this, var4)));
                Canvas.setInfoC(var1, var3);
             }
          }
       }
+
    }
 
    public final int a(String var1) {
@@ -61,9 +62,10 @@ public final class SoundManager {
          this.f.addElement("" + var2);
          this.e.addElement(var1);
          a.a(var1);
-      } catch (Exception var3) {
-         var3.printStackTrace();
+      } catch (Exception var4) {
+         var4.printStackTrace();
       }
+
    }
 
    public final void a() {
@@ -94,8 +96,8 @@ public final class SoundManager {
             ((VolumeControl)this.d.getControl("VolumeControl")).setLevel(this.c * 20);
             return;
          }
-      } catch (Exception var2) {
-         var2.printStackTrace();
+      } catch (Exception var3) {
+         var3.printStackTrace();
       }
 
    }

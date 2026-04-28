@@ -31,6 +31,7 @@ public final class mFont implements FontX {
       } catch (Exception var4) {
          var4.printStackTrace();
       }
+
    }
 
    public final void drawString(Graphics var1, String var2, int var3, int var4, int var5) {

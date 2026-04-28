@@ -50,7 +50,7 @@ public final class Message {
             this.dos.close();
             return;
          }
-      } catch (IOException var1) {
+      } catch (IOException var2) {
       }
 
    }

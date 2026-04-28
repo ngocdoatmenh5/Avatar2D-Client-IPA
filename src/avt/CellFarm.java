@@ -72,7 +72,7 @@ public final class CellFarm extends SubObject {
                   long var17 = var8 % 60L;
                   var20 = var20 + var13 + ":" + var15 + ":" + var17;
                   if (var10 <= 0L || var8 <= 0L) {
-                     var20 = T.cn;
+                     var20 = T.canHarvest;
                   }
 
                   Canvas.smallFontYellow.drawString(var1, var20, var2 + 5 * MyObject.hd, var3 - 49 * MyObject.hd, 0);
@@ -104,9 +104,9 @@ public final class CellFarm extends SubObject {
                      FarmScr.q.drawFrame(0, var2 + (4 - var19 * 6) * MyObject.hd, var3 - 22 * MyObject.hd, 0, var1);
                   }
                }
-
             }
          }
       }
+
    }
 }

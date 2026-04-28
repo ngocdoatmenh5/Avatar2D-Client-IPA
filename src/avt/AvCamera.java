@@ -22,7 +22,7 @@ public final class AvCamera {
    public Base followPlayer;
 
    public static AvCamera gI() {
-      if (  instance == null) {
+      if (instance == null) {
          instance = new AvCamera();
       }
 
@@ -35,19 +35,19 @@ public final class AvCamera {
 
    public final void init(int var1) {
       if (this.followPlayer != null) {
-         label56: {
+         label54: {
             isFollow = false;
             w = LoadMap.w * AvMain.hd;
             distance = Canvas.w / 10;
             if (this.followPlayer.x * AvMain.hd > Canvas.hw) {
                if (this.followPlayer.x * AvMain.hd < LoadMap.wMap * w - Canvas.hw - w) {
                   this.xTo = this.followPlayer.x * AvMain.hd - Canvas.hw;
-                  break label56;
+                  break label54;
                }
 
                this.xTo = LoadMap.wMap * w - Canvas.w;
                if (this.xTo >= 0) {
-                  break label56;
+                  break label54;
                }
             }
 
@@ -82,8 +82,8 @@ public final class AvCamera {
          if (this.yTo > this.yLimit) {
             this.yTo = this.yLimit;
          }
-
       }
+
    }
 
    public final void notTrans() {
@@ -174,6 +174,7 @@ public final class AvCamera {
 
          this.setLimit();
       }
+
    }
 
    private void setLimit() {

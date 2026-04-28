@@ -29,9 +29,9 @@ public final class RoomListOnScr extends MyScreen {
       super.switchToMe();
       super.right = this.cmdClose;
       if (Canvas.stypeInt == 0) {
-         super.center = new Command(T.O, 3);
+         super.center = new Command(T.selectt, 3);
       } else {
-         super.center = new Command(T.i, 1);
+         super.center = new Command(T.strongest, 1);
       }
 
       super.isHide_ = true;
@@ -67,20 +67,20 @@ public final class RoomListOnScr extends MyScreen {
       switch (var1) {
          case 0:
             Vector var3;
-            (var3 = new Vector()).addElement(new Command(T.i, 1));
-            var3.addElement(new Command(T.f, 2));
+            (var3 = new Vector()).addElement(new Command(T.strongest, 1));
+            var3.addElement(new Command(T.updateList, 2));
             if (Canvas.stypeInt == 0) {
                var3.addElement(MapScr.gI().f);
             }
 
-            var3.addElement(new Command(T.am, 3));
+            var3.addElement(new Command(T.viewMyInfo, 3));
             Menu.gI().startAt(var3, 0);
             return;
          case 1:
             this.doSelectRoom();
             return;
          case 2:
-            GlobalService.gI().getHandler((int)9);
+            GlobalService.gI().getHandler(9);
             Canvas.startWaitDlg();
             return;
          case 3:
@@ -90,18 +90,18 @@ public final class RoomListOnScr extends MyScreen {
    }
 
    public final void initCmd() {
-      this.cmdMenu = new Command(T.c, 0);
-      new Command(T.O, 1);
-      this.cmdClose = new Command(T.d, 2);
+      this.cmdMenu = new Command(T.menu, 0);
+      new Command(T.selectt, 1);
+      this.cmdClose = new Command(T.close, 2);
       super.left = this.cmdMenu;
       super.right = this.cmdClose;
    }
 
    public static void setName(int var0, BoardScr var1) {
       if (!OnScreen.isOngame) {
-         title = T.nameCasino[var0];
+         title = T.constructing[var0];
       } else {
-         title = T.nameMenuOn[var0];
+         title = T.selectLanguage[var0];
       }
 
       CasinoMsgHandler.curScr = var1;
@@ -121,18 +121,16 @@ public final class RoomListOnScr extends MyScreen {
          this.i = Canvas.w / this.hSmall_;
       }
 
-      if (this.roomList != null) {
-         if (this.hSmall_ != 0) {
-            if (Canvas.stypeInt == 0) {
-               Canvas.cameraList.setInfo(0, Canvas.w < 200 ? this.hSmall_ / 2 : 50, Canvas.w, this.hSmall_, Canvas.w, this.roomList.size() * this.hSmall_, Canvas.w, Canvas.h - (Canvas.w < 200 ? this.hSmall_ / 2 : 50) - 4, this.roomList.size());
-            } else {
-               Canvas.cameraList.setInfo((Canvas.w - this.hSmall_ * this.i) / 2, 50 * AvMain.hd, this.hSmall_, this.hSmall_, Canvas.w, (this.roomList.size() / this.i + 2) * this.hSmall_, Canvas.w, Canvas.h - 50 * AvMain.hd - 4, this.roomList.size());
-            }
-
-            Canvas.cameraList.setSelect(this._selected);
+      if (this.roomList != null && this.hSmall_ != 0) {
+         if (Canvas.stypeInt == 0) {
+            Canvas.cameraList.setInfo(0, Canvas.w < 200 ? this.hSmall_ / 2 : 50, Canvas.w, this.hSmall_, Canvas.w, this.roomList.size() * this.hSmall_, Canvas.w, Canvas.h - (Canvas.w < 200 ? this.hSmall_ / 2 : 50) - 4, this.roomList.size());
+         } else {
+            Canvas.cameraList.setInfo((Canvas.w - this.hSmall_ * this.i) / 2, 50 * AvMain.hd, this.hSmall_, this.hSmall_, Canvas.w, (this.roomList.size() / this.i + 2) * this.hSmall_, Canvas.w, Canvas.h - 50 * AvMain.hd - 4, this.roomList.size());
          }
 
+         Canvas.cameraList.setSelect(this._selected);
       }
+
    }
 
    private void doSelectRoom() {
@@ -141,6 +139,7 @@ public final class RoomListOnScr extends MyScreen {
          CasinoService.gI().requestBoardList(var1);
          Canvas.startWaitDlg();
       }
+
    }
 
    public final void paint(Graphics var1) {
@@ -266,6 +265,7 @@ public final class RoomListOnScr extends MyScreen {
       } else {
          super.updateKey();
       }
+
    }
 
    public final void update() {

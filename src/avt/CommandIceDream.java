@@ -22,8 +22,8 @@ final class CommandIceDream extends Command {
       if (this.ii == PopupShop.focus || PopupShop.k) {
          PopupShop.resetIsTrans();
          PopupShop.addStr(this.item.name);
-         PopupShop.addStr(T.az + this.item.price[0] + T.T);
-         PopupShop.addStr(T.ce + Canvas.getMoneys(GameMidlet.avatar.money[0]) + T.T);
+         PopupShop.addStr(T.priceStr + this.item.price[0] + T.dola);
+         PopupShop.addStr(T.have + Canvas.getMoneys(GameMidlet.avatar.money[0]) + T.dola);
       }
 
    }

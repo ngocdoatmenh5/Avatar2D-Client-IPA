@@ -27,10 +27,6 @@ public final class UNK {
    private long t;
    private long u;
 
-   static {
-      l = Canvas.fontChatB.getHeight();
-   }
-
    public UNK(String var1, int var2, Command var3, Command var4, boolean var5) {
       this.b = var1;
       this.g = var2;
@@ -213,5 +209,9 @@ public final class UNK {
       j = 0;
       this.a();
       j = m;
+   }
+
+   static {
+      l = Canvas.fontChatB.getHeight();
    }
 }

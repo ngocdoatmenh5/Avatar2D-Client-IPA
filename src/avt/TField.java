@@ -1,7 +1,7 @@
 package avt;
 
+import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
-import main.Canvas;
 
 public final class TField {
    public int x;
@@ -38,7 +38,7 @@ public final class TField {
    private Command K;
    public String q = "";
    public static FrameImage tfframe;
-   private static javax.microedition.lcdui.Canvas canvas;
+   private static Canvas canvas;
    public static int s;
    public static IAction t;
    public static boolean u = false;
@@ -63,16 +63,14 @@ public final class TField {
          print[11] = "#";
          I = 35;
          changeDau = 42;
-      } else {
-         if (var0 == 2) {
-            print[0] = "0";
-            print[10] = "*";
-            print[11] = " #";
-            I = 42;
-            changeDau = 35;
-         }
-
+      } else if (var0 == 2) {
+         print[0] = "0";
+         print[10] = "*";
+         print[11] = " #";
+         I = 42;
+         changeDau = 35;
       }
+
    }
 
    public final void setFocus(boolean var1) {
@@ -81,26 +79,26 @@ public final class TField {
       }
 
       lastKey = -1984;
-      timeChangeMode = Canvas.getSecond();
+      timeChangeMode = main.Canvas.getSecond();
       this.isFocus = var1;
    }
 
    public final Command a() {
       t = this.K.action;
-      return Canvas.stypeInt == 0 ? this.K : null;
+      return main.Canvas.stypeInt == 0 ? this.K : null;
    }
 
    public static void b(boolean var0) {
       m = var0;
-      Canvas.M.getWidth("ABC");
+      main.Canvas.M.getWidth("ABC");
    }
 
    public TField() {
       this.text = "";
       f = AvMain.hBlack + 1;
-      this.K = new Command(T.bb, new class_jw(this));
+      this.K = new Command(T.del, new class_jw(this));
       if (canvas == null) {
-         canvas = Canvas.instance;
+         canvas = main.Canvas.instance;
       }
 
       this.setFocus(false);
@@ -124,14 +122,14 @@ public final class TField {
          this.paintedText = this.text;
       }
 
-      int var2 = Canvas.M.getWidth(this.paintedText.substring(0, this.caretPos));
+      int var2 = main.Canvas.M.getWidth(this.paintedText.substring(0, this.caretPos));
       if (var1 == -1) {
          if (var2 + this.offsetX < 15 && this.caretPos > 0 && this.caretPos < this.paintedText.length()) {
-            this.offsetX += Canvas.M.getWidth(this.paintedText.substring(this.caretPos, this.caretPos + 1));
+            this.offsetX += main.Canvas.M.getWidth(this.paintedText.substring(this.caretPos, this.caretPos + 1));
          }
       } else if (var1 == 1) {
          if (var2 + this.offsetX > this.width - 25 && this.caretPos < this.paintedText.length() && this.caretPos > 0) {
-            this.offsetX -= Canvas.M.getWidth(this.paintedText.substring(this.caretPos - 1, this.caretPos));
+            this.offsetX -= main.Canvas.M.getWidth(this.paintedText.substring(this.caretPos - 1, this.caretPos));
          }
       } else {
          this.offsetX = -(var2 - (this.width - 12));
@@ -139,41 +137,37 @@ public final class TField {
 
       if (this.offsetX > 0) {
          this.offsetX = 0;
-      } else {
-         if (this.offsetX < 0) {
-            var1 = Canvas.M.getWidth(this.paintedText) - (this.width - 12);
-            if (this.offsetX < -var1) {
-               this.offsetX = -var1;
-            }
+      } else if (this.offsetX < 0) {
+         var1 = main.Canvas.M.getWidth(this.paintedText) - (this.width - 12);
+         if (this.offsetX < -var1) {
+            this.offsetX = -var1;
          }
-
       }
+
    }
 
    private void keyPressedAscii(int var1) {
-      if (this.inputType != 2 && this.inputType != 3 || var1 >= 48 && var1 <= 57 || var1 >= 65 && var1 <= 90 || var1 >= 97 && var1 <= 122) {
-         if (this.text.length() < this.maxTextLenght) {
-            String var2 = this.text.substring(0, this.caretPos) + (char)var1;
-            if (this.caretPos < this.text.length()) {
-               var2 = var2 + this.text.substring(this.caretPos, this.text.length());
-            }
-
-            this.text = var2;
-            ++this.caretPos;
-            this.setPasswordTest();
-            this.setOffset(0);
+      if ((this.inputType != 2 && this.inputType != 3 || var1 >= 48 && var1 <= 57 || var1 >= 65 && var1 <= 90 || var1 >= 97 && var1 <= 122) && this.text.length() < this.maxTextLenght) {
+         String var2 = this.text.substring(0, this.caretPos) + (char)var1;
+         if (this.caretPos < this.text.length()) {
+            var2 = var2 + this.text.substring(this.caretPos, this.text.length());
          }
 
+         this.text = var2;
+         ++this.caretPos;
+         this.setPasswordTest();
+         this.setOffset(0);
       }
+
    }
 
-      public static void keyPressedAscii() {
+   public static void keyPressedAscii() {
       if (++mode > 3) {
          mode = 0;
       }
 
       lastKey = I;
-      timeChangeMode = Canvas.getSecond();
+      timeChangeMode = main.Canvas.getSecond();
    }
 
    private void keyPressedAny(int var1) {
@@ -182,11 +176,10 @@ public final class TField {
             this.keyPressedAscii(var1);
             this.keyInActiveState = 1;
          }
-
       } else {
          int var2 = var1;
          String[] var3;
-         if (Canvas.E) {
+         if (main.Canvas.E) {
             var3 = printBB;
          } else if (this.inputType != 2 && this.inputType != 3) {
             var3 = print;
@@ -194,12 +187,12 @@ public final class TField {
             var3 = printA;
          }
 
-         if (Canvas.E) {
+         if (main.Canvas.E) {
             var2 = var1;
             int var4 = 0;
 
             int var10000;
-            label90:
+            label86:
             while(true) {
                if (var4 >= S.length) {
                   var10000 = -1;
@@ -209,7 +202,7 @@ public final class TField {
                for(int var5 = 0; var5 < S[var4].length; ++var5) {
                   if (S[var4][var5] == var2) {
                      var10000 = var4 + 48;
-                     break label90;
+                     break label86;
                   }
                }
 
@@ -276,10 +269,11 @@ public final class TField {
 
          lastKey = var2;
       }
+
    }
 
    public final boolean keyPressed(int var1) {
-      if (Canvas.E) {
+      if (main.Canvas.E) {
          if (var1 == 8 || var1 == 127) {
             this.clear();
          }
@@ -288,11 +282,17 @@ public final class TField {
          return true;
       }
 
-      if (!Canvas.E && var1 >= 65 && var1 <= 122) {
-         m = true;
+      if (!main.Canvas.E) {
+         if (ClientUtilities.vietnameseTyping) {
+            if (var1 >= 32) {
+               m = true;
+            }
+         } else if (var1 >= 65 && var1 <= 122) {
+            m = true;
+         }
       }
 
-      if (m && !Canvas.E) {
+      if (m && !main.Canvas.E) {
          if (var1 == 45) {
             if (var1 == lastKey && this.keyInActiveState < MAX_TIME_TO_CONFIRM_KEY[typeXpeed]) {
                this.text = this.text.substring(0, this.caretPos - 1) + '_';
@@ -329,7 +329,7 @@ public final class TField {
             var1 = 59;
          }
 
-         if (Canvas.E && var1 >= 48) {
+         if (main.Canvas.E && var1 >= 48) {
             if (m) {
                this.keyPressedAscii(var1);
                this.keyInActiveState = 1;
@@ -398,6 +398,7 @@ public final class TField {
 
          this.indexDau = -1;
       }
+
    }
 
    public final void paint(Graphics var1) {
@@ -408,9 +409,9 @@ public final class TField {
          this.paintedText = this.text;
       }
 
-      var1.setClip(0, 0, Canvas.w + 20, Canvas.h);
+      var1.setClip(0, 0, main.Canvas.w + 20, main.Canvas.h);
       var1.setColor(7829367);
-      Canvas.paint.paintTextBox(var1, this.x, this.y, this.width, this.height, this, var2);
+      main.Canvas.paint.paintTextBox(var1, this.x, this.y, this.width, this.height, this, var2);
    }
 
    public final boolean isFocused() {
@@ -451,23 +452,23 @@ public final class TField {
          --this.showCaretCounter;
       }
 
-      if (Canvas.isPointerClick && Canvas.menuMain == null && Canvas.isPointerClick && Canvas.isPointer(0, 0, Canvas.w, Canvas.h - Canvas.hTab / 2)) {
-         if (Canvas.isPointer(this.x, this.y - 6, this.width, this.height + 12)) {
+      if (main.Canvas.isPointerClick && main.Canvas.menuMain == null && main.Canvas.isPointerClick && main.Canvas.isPointer(0, 0, main.Canvas.w, main.Canvas.h - main.Canvas.hTab / 2)) {
+         if (main.Canvas.isPointer(this.x, this.y - 6, this.width, this.height + 12)) {
             if (!this.isFocus) {
                this.isFocus = true;
             } else {
                if (!OptionScr.isVirTualKey) {
                   this.isTransTF = true;
                   OptionScr.isVirTualKey = true;
-                  Canvas.instance.setSize();
+                  main.Canvas.instance.setSize();
                }
 
-               Canvas.z.isPointerClick = true;
+               main.Canvas.z.isPointerClick = true;
             }
          } else {
             if (this.isTransTF) {
                OptionScr.isVirTualKey = false;
-               Canvas.instance.setSize();
+               main.Canvas.instance.setSize();
                this.isTransTF = false;
             }
 
@@ -481,8 +482,8 @@ public final class TField {
          this.indexDau = -1;
       }
 
-      if (this.isFocus && Canvas.currentDialog == null) {
-         if (Canvas.keyPressed[4]) {
+      if (this.isFocus && main.Canvas.currentDialog == null) {
+         if (main.Canvas.keyPressed[4]) {
             if (this.inputType != 2) {
                --this.caretPos;
                if (this.caretPos < 0) {
@@ -492,11 +493,11 @@ public final class TField {
                this.setOffset(-1);
             }
 
-            Canvas.keyPressed[4] = false;
+            main.Canvas.keyPressed[4] = false;
             return;
          }
 
-         if (Canvas.keyPressed[6]) {
+         if (main.Canvas.keyPressed[6]) {
             if (this.inputType != 2) {
                ++this.caretPos;
                if (this.caretPos > this.text.length()) {
@@ -506,7 +507,7 @@ public final class TField {
                this.setOffset(1);
             }
 
-            Canvas.keyPressed[6] = false;
+            main.Canvas.keyPressed[6] = false;
          }
       }
 
@@ -527,6 +528,7 @@ public final class TField {
          this.caretPos = var1.length();
          this.setOffset(0);
       }
+
    }
 
    public final void setMaxTextLenght(int var1) {

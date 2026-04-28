@@ -27,13 +27,11 @@ final class IActionDellPart implements IAction {
          }
       }
 
-      if (PopupShop.focus < var1.size()) {
-         SeriPart var5;
-         Part var6;
-         if (!AvatarData.isZOrderMain((int)(var6 = AvatarData.getPart((var5 = (SeriPart)var1.elementAt(PopupShop.focus)).idPart)).zOrder) || this.c == 1) {
-            Canvas.startOKDlg(T.cp, (IAction)(new IActionDel(this, var6, this.c, var1, this.b, var5, this.d)));
-         }
-
+      SeriPart var5;
+      Part var6;
+      if (PopupShop.focus < var1.size() && (!AvatarData.isZOrderMain((var6 = AvatarData.getPart((var5 = (SeriPart)var1.elementAt(PopupShop.focus)).idPart)).zOrder) || this.c == 1)) {
+         Canvas.startOKDlg(T.doYouWantDel, new IActionDel(this, var6, this.c, var1, this.b, var5, this.d));
       }
+
    }
 }
