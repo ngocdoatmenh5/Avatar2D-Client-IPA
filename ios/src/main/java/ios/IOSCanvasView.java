@@ -1,13 +1,16 @@
 package ios;
 
-import org.robovm.apple.coregraphics.CGBitmapContext;
 import org.robovm.apple.coregraphics.CGBitmapInfo;
+import org.robovm.apple.coregraphics.CGColorRenderingIntent;
 import org.robovm.apple.coregraphics.CGColorSpace;
 import org.robovm.apple.coregraphics.CGContext;
+import org.robovm.apple.coregraphics.CGDataProvider;
 import org.robovm.apple.coregraphics.CGImage;
 import org.robovm.apple.coregraphics.CGImageAlphaInfo;
 import org.robovm.apple.coregraphics.CGRect;
+import org.robovm.apple.foundation.NSData;
 import org.robovm.apple.uikit.UIEvent;
+import org.robovm.apple.uikit.UIImage;
 import org.robovm.apple.uikit.UITouch;
 import org.robovm.apple.uikit.UIView;
 import org.robovm.apple.uikit.UIGraphics;
@@ -24,8 +27,6 @@ public class IOSCanvasView extends UIView {
     // Shared pixel buffer and graphics
     private int[] pixelBuffer;
     private Graphics graphics;
-    // Reusable byte buffer for CG rendering
-    private byte[] rgbaBuffer;
 
     public IOSCanvasView(CGRect frame) {
         super(frame);
@@ -42,10 +43,9 @@ public class IOSCanvasView extends UIView {
         // Set screen dimensions for J2ME shim layer
         javax.microedition.lcdui.Displayable.setScreenSize(viewWidth, viewHeight);
 
-        // Create shared pixel buffer & reusable RGBA byte buffer
+        // Create shared pixel buffer
         pixelBuffer = new int[viewWidth * viewHeight];
         graphics = new Graphics(pixelBuffer, viewWidth, viewHeight);
-        rgbaBuffer = new byte[viewWidth * viewHeight * 4];
     }
 
     public static IOSCanvasView getInstance() {
@@ -94,46 +94,45 @@ public class IOSCanvasView extends UIView {
             }
         }
 
-        // Convert ARGB int[] to RGBA byte[] for CoreGraphics
-        int len = pixelBuffer.length;
-        for (int i = 0; i < len; i++) {
+        // Convert ARGB int[] → RGBA byte[] for CoreGraphics
+        byte[] rgba = new byte[w * h * 4];
+        for (int i = 0; i < pixelBuffer.length; i++) {
             int argb = pixelBuffer[i];
-            int idx = i << 2; // i * 4
-            rgbaBuffer[idx]     = (byte) ((argb >> 16) & 0xFF); // R
-            rgbaBuffer[idx + 1] = (byte) ((argb >> 8) & 0xFF);  // G
-            rgbaBuffer[idx + 2] = (byte) (argb & 0xFF);          // B
-            rgbaBuffer[idx + 3] = (byte) ((argb >>> 24) & 0xFF); // A
+            int idx = i << 2;
+            rgba[idx]     = (byte) ((argb >> 16) & 0xFF); // R
+            rgba[idx + 1] = (byte) ((argb >> 8) & 0xFF);  // G
+            rgba[idx + 2] = (byte) (argb & 0xFF);          // B
+            rgba[idx + 3] = (byte) ((argb >>> 24) & 0xFF); // A
         }
 
-        // Create CGImage from RGBA data and draw to screen
-        CGColorSpace colorSpace = null;
-        CGBitmapContext bitmapCtx = null;
-        CGImage cgImage = null;
+        // Render via UIImage (most reliable path in RoboVM)
         try {
-            colorSpace = CGColorSpace.createDeviceRGB();
-            bitmapCtx = CGBitmapContext.create(
-                rgbaBuffer, w, h, 8, w * 4, colorSpace,
-                new CGBitmapInfo(CGImageAlphaInfo.PremultipliedLast.value()));
+            NSData nsData = new NSData(rgba);
+            CGColorSpace colorSpace = CGColorSpace.createDeviceRGB();
+            CGDataProvider provider = CGDataProvider.create(nsData);
 
-            if (bitmapCtx != null) {
-                cgImage = bitmapCtx.toImage();
-                if (cgImage != null) {
-                    // CoreGraphics origin is bottom-left, UIKit is top-left - flip Y
-                    context.saveGState();
-                    context.translateCTM(0, h);
-                    context.scaleCTM(1, -1);
-                    context.drawImage(new CGRect(0, 0, w, h), cgImage);
-                    context.restoreGState();
-                }
+            CGImage cgImage = CGImage.create(
+                w, h, 8, 32, w * 4, colorSpace,
+                new CGBitmapInfo(CGImageAlphaInfo.Last.value()),
+                provider, null, false,
+                CGColorRenderingIntent.Default);
+
+            if (cgImage != null) {
+                // Flip Y axis (CG origin is bottom-left)
+                context.saveGState();
+                context.translateCTM(0, h);
+                context.scaleCTM(1, -1);
+                context.drawImage(new CGRect(0, 0, w, h), cgImage);
+                context.restoreGState();
+                cgImage.dispose();
             }
+
+            provider.dispose();
+            colorSpace.dispose();
         } catch (Throwable t) {
-            // Fallback: fill black
-            context.setRGBFillColor(0, 0, 0, 1);
+            // Fallback: fill screen with dark blue to show draw() is called
+            context.setRGBFillColor(0.05, 0.05, 0.2, 1);
             context.fillRect(new CGRect(0, 0, w, h));
-        } finally {
-            if (cgImage != null) try { cgImage.dispose(); } catch (Throwable e) {}
-            if (bitmapCtx != null) try { bitmapCtx.dispose(); } catch (Throwable e) {}
-            if (colorSpace != null) try { colorSpace.dispose(); } catch (Throwable e) {}
         }
     }
 
@@ -149,9 +148,7 @@ public class IOSCanvasView extends UIView {
                     canvas.doPointerPressed((int) pt.getX(), (int) pt.getY());
                 }
             }
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+        } catch (Throwable t) { }
     }
 
     @Override
@@ -166,9 +163,7 @@ public class IOSCanvasView extends UIView {
                     canvas.doPointerDragged((int) pt.getX(), (int) pt.getY());
                 }
             }
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+        } catch (Throwable t) { }
     }
 
     @Override
@@ -183,9 +178,7 @@ public class IOSCanvasView extends UIView {
                     canvas.doPointerReleased((int) pt.getX(), (int) pt.getY());
                 }
             }
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+        } catch (Throwable t) { }
     }
 
     @Override
