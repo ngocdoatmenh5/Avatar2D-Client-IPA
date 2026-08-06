@@ -26,39 +26,51 @@ public class IOSLauncher extends UIApplicationDelegateAdapter {
         // Set screen dimensions BEFORE creating Canvas
         Displayable.setScreenSize(screenW, screenH);
 
-        // Set microedition.platform system property to prevent NullPointerException
+        // Set J2ME system properties to prevent NullPointerException
         System.setProperty("microedition.platform", "iOS");
         System.setProperty("microedition.encoding", "UTF-8");
         System.setProperty("microedition.locale", "en-US");
 
         window = new UIWindow(bounds);
         viewController = new IOSViewController();
-
-        // CRITICAL: Set rootViewController before makeKeyAndVisible
         window.setRootViewController(viewController);
         window.makeKeyAndVisible();
 
-        // Boot MIDlet on a background thread to avoid blocking UI
+        // Set repaint callback so game loop's repaint() triggers iOS rendering
+        javax.microedition.lcdui.Canvas.setRepaintCallback(new Runnable() {
+            @Override
+            public void run() {
+                IOSCanvasView.requestRepaint();
+            }
+        });
+
+        // Boot MIDlet on background thread to avoid blocking UI
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     GameMidlet midlet = new GameMidlet();
-
+                    // Mark game as ready for rendering and touch input
+                    IOSCanvasView view = IOSCanvasView.getInstance();
+                    if (view != null) {
+                        view.setGameReady(true);
+                    }
+                    // Trigger first repaint
+                    IOSCanvasView.requestRepaint();
                 } catch (Throwable t) {
                     t.printStackTrace();
                 }
             }
         }).start();
 
-        // Start 30 FPS display refresh timer
+        // Start 30 FPS display refresh timer (backup for game loop)
         Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 IOSCanvasView.requestRepaint();
             }
-        }, 100, 33);
+        }, 500, 33);
 
         return true;
     }

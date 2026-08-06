@@ -24,6 +24,13 @@ public abstract class Canvas extends Displayable {
     public static final int KEY_STAR = 42;
     public static final int KEY_POUND = 35;
 
+    // Callback to trigger native repaint (set by iOS layer)
+    private static Runnable repaintCallback;
+
+    public static void setRepaintCallback(Runnable callback) {
+        repaintCallback = callback;
+    }
+
     protected Canvas() {
     }
 
@@ -56,12 +63,17 @@ public abstract class Canvas extends Displayable {
     }
 
     public final void repaint() {
+        if (repaintCallback != null) {
+            repaintCallback.run();
+        }
     }
 
     public final void repaint(int x, int y, int width, int height) {
+        repaint();
     }
 
     public final void serviceRepaints() {
+        // On iOS, rendering is handled by the display link / timer
     }
 
     protected abstract void paint(Graphics g);
@@ -83,8 +95,6 @@ public abstract class Canvas extends Displayable {
 
     protected void pointerDragged(int x, int y) {
     }
-
-
 
     protected void showNotify() {
     }

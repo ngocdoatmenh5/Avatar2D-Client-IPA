@@ -12,15 +12,20 @@ import org.robovm.apple.uikit.UITouch;
 import org.robovm.apple.uikit.UIView;
 import org.robovm.apple.uikit.UIGraphics;
 import org.robovm.apple.foundation.NSSet;
-import org.robovm.rt.bro.ptr.IntPtr;
 
 import javax.microedition.lcdui.Graphics;
 
 public class IOSCanvasView extends UIView {
     private static IOSCanvasView instance;
-    private Graphics graphics;
     private int viewWidth;
     private int viewHeight;
+    private volatile boolean gameReady = false;
+
+    // Shared pixel buffer and graphics
+    private int[] pixelBuffer;
+    private Graphics graphics;
+    // Reusable byte buffer for CG rendering
+    private byte[] rgbaBuffer;
 
     public IOSCanvasView(CGRect frame) {
         super(frame);
@@ -31,130 +36,155 @@ public class IOSCanvasView extends UIView {
 
         viewWidth = (int) frame.getWidth();
         viewHeight = (int) frame.getHeight();
+        if (viewWidth <= 0) viewWidth = 320;
+        if (viewHeight <= 0) viewHeight = 480;
 
         // Set screen dimensions for J2ME shim layer
         javax.microedition.lcdui.Displayable.setScreenSize(viewWidth, viewHeight);
 
-        // Create the shared graphics buffer
-        int[] pixels = new int[viewWidth * viewHeight];
-        graphics = new Graphics(pixels, viewWidth, viewHeight);
+        // Create shared pixel buffer & reusable RGBA byte buffer
+        pixelBuffer = new int[viewWidth * viewHeight];
+        graphics = new Graphics(pixelBuffer, viewWidth, viewHeight);
+        rgbaBuffer = new byte[viewWidth * viewHeight * 4];
     }
 
     public static IOSCanvasView getInstance() {
         return instance;
     }
 
+    public void setGameReady(boolean ready) {
+        this.gameReady = ready;
+    }
+
     public static void requestRepaint() {
-        if (instance != null) {
-            instance.performSelectorOnMainThread(
-                org.robovm.objc.Selector.register("setNeedsDisplay"),
-                null, false);
+        final IOSCanvasView view = instance;
+        if (view != null) {
+            try {
+                view.performSelectorOnMainThread(
+                    org.robovm.objc.Selector.register("setNeedsDisplay"),
+                    null, false);
+            } catch (Throwable t) {
+                // ignore
+            }
         }
     }
 
     @Override
     public void draw(CGRect rect) {
         CGContext context = UIGraphics.getCurrentContext();
-        if (context == null || graphics == null) return;
+        if (context == null) return;
 
         int w = viewWidth;
         int h = viewHeight;
-        if (w <= 0 || h <= 0) return;
 
-        int[] pixels = graphics.getPixels();
-        if (pixels == null) return;
-
-        // Call the J2ME Canvas paint method
+        // Paint game content into pixel buffer
         main.Canvas canvas = main.Canvas.instance;
-        if (canvas != null) {
+        if (canvas != null && gameReady) {
             try {
-                // Reset graphics state for each frame
-                graphics.translate(-graphics.getTranslateX(), -graphics.getTranslateY());
+                // Reset graphics translate for each frame
+                int tx = graphics.getTranslateX();
+                int ty = graphics.getTranslateY();
+                if (tx != 0 || ty != 0) {
+                    graphics.translate(-tx, -ty);
+                }
                 graphics.setClip(0, 0, w, h);
                 canvas.paintGame(graphics);
             } catch (Throwable t) {
-                // Ignore transient paint errors during initialization
+                // Silently ignore paint errors
             }
         }
 
-        // Convert ARGB int[] to a CGImage and draw it to screen
-        try {
-            // Allocate native memory for pixel data (BGRA format for CoreGraphics)
-            byte[] bgraData = new byte[w * h * 4];
-            for (int i = 0; i < pixels.length; i++) {
-                int argb = pixels[i];
-                int idx = i * 4;
-                bgraData[idx]     = (byte) ((argb >> 16) & 0xFF); // R
-                bgraData[idx + 1] = (byte) ((argb >> 8) & 0xFF);  // G
-                bgraData[idx + 2] = (byte) (argb & 0xFF);         // B
-                bgraData[idx + 3] = (byte) ((argb >> 24) & 0xFF); // A
-            }
+        // Convert ARGB int[] to RGBA byte[] for CoreGraphics
+        int len = pixelBuffer.length;
+        for (int i = 0; i < len; i++) {
+            int argb = pixelBuffer[i];
+            int idx = i << 2; // i * 4
+            rgbaBuffer[idx]     = (byte) ((argb >> 16) & 0xFF); // R
+            rgbaBuffer[idx + 1] = (byte) ((argb >> 8) & 0xFF);  // G
+            rgbaBuffer[idx + 2] = (byte) (argb & 0xFF);          // B
+            rgbaBuffer[idx + 3] = (byte) ((argb >>> 24) & 0xFF); // A
+        }
 
-            CGColorSpace colorSpace = CGColorSpace.createDeviceRGB();
-            CGBitmapContext bitmapCtx = CGBitmapContext.create(
-                bgraData, w, h, 8, w * 4, colorSpace,
+        // Create CGImage from RGBA data and draw to screen
+        CGColorSpace colorSpace = null;
+        CGBitmapContext bitmapCtx = null;
+        CGImage cgImage = null;
+        try {
+            colorSpace = CGColorSpace.createDeviceRGB();
+            bitmapCtx = CGBitmapContext.create(
+                rgbaBuffer, w, h, 8, w * 4, colorSpace,
                 new CGBitmapInfo(CGImageAlphaInfo.PremultipliedLast.value()));
 
             if (bitmapCtx != null) {
-                CGImage cgImage = bitmapCtx.toImage();
+                cgImage = bitmapCtx.toImage();
                 if (cgImage != null) {
-                    // CoreGraphics has flipped Y axis, so flip it
+                    // CoreGraphics origin is bottom-left, UIKit is top-left - flip Y
                     context.saveGState();
                     context.translateCTM(0, h);
                     context.scaleCTM(1, -1);
                     context.drawImage(new CGRect(0, 0, w, h), cgImage);
                     context.restoreGState();
-                    cgImage.dispose();
                 }
-                bitmapCtx.dispose();
             }
-            colorSpace.dispose();
         } catch (Throwable t) {
-            // Fallback: just fill black
+            // Fallback: fill black
             context.setRGBFillColor(0, 0, 0, 1);
             context.fillRect(new CGRect(0, 0, w, h));
+        } finally {
+            if (cgImage != null) try { cgImage.dispose(); } catch (Throwable e) {}
+            if (bitmapCtx != null) try { bitmapCtx.dispose(); } catch (Throwable e) {}
+            if (colorSpace != null) try { colorSpace.dispose(); } catch (Throwable e) {}
         }
     }
 
     @Override
     public void touchesBegan(NSSet<UITouch> touches, UIEvent event) {
-        UITouch touch = touches.any();
-        if (touch != null) {
-            org.robovm.apple.coregraphics.CGPoint pt = touch.getLocationInView(this);
-            int x = (int) pt.getX();
-            int y = (int) pt.getY();
-            main.Canvas canvas = main.Canvas.instance;
-            if (canvas != null) {
-                canvas.doPointerPressed(x, y);
+        if (!gameReady) return;
+        try {
+            UITouch touch = touches.any();
+            if (touch != null) {
+                org.robovm.apple.coregraphics.CGPoint pt = touch.getLocationInView(this);
+                main.Canvas canvas = main.Canvas.instance;
+                if (canvas != null) {
+                    canvas.doPointerPressed((int) pt.getX(), (int) pt.getY());
+                }
             }
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
     }
 
     @Override
     public void touchesMoved(NSSet<UITouch> touches, UIEvent event) {
-        UITouch touch = touches.any();
-        if (touch != null) {
-            org.robovm.apple.coregraphics.CGPoint pt = touch.getLocationInView(this);
-            int x = (int) pt.getX();
-            int y = (int) pt.getY();
-            main.Canvas canvas = main.Canvas.instance;
-            if (canvas != null) {
-                canvas.doPointerDragged(x, y);
+        if (!gameReady) return;
+        try {
+            UITouch touch = touches.any();
+            if (touch != null) {
+                org.robovm.apple.coregraphics.CGPoint pt = touch.getLocationInView(this);
+                main.Canvas canvas = main.Canvas.instance;
+                if (canvas != null) {
+                    canvas.doPointerDragged((int) pt.getX(), (int) pt.getY());
+                }
             }
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
     }
 
     @Override
     public void touchesEnded(NSSet<UITouch> touches, UIEvent event) {
-        UITouch touch = touches.any();
-        if (touch != null) {
-            org.robovm.apple.coregraphics.CGPoint pt = touch.getLocationInView(this);
-            int x = (int) pt.getX();
-            int y = (int) pt.getY();
-            main.Canvas canvas = main.Canvas.instance;
-            if (canvas != null) {
-                canvas.doPointerReleased(x, y);
+        if (!gameReady) return;
+        try {
+            UITouch touch = touches.any();
+            if (touch != null) {
+                org.robovm.apple.coregraphics.CGPoint pt = touch.getLocationInView(this);
+                main.Canvas canvas = main.Canvas.instance;
+                if (canvas != null) {
+                    canvas.doPointerReleased((int) pt.getX(), (int) pt.getY());
+                }
             }
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
     }
 
