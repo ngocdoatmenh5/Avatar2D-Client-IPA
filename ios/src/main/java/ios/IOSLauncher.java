@@ -46,10 +46,11 @@ public class IOSLauncher extends UIApplicationDelegateAdapter {
 
     // LiveContainer / LC_LOAD_DYLIB EntryPoint export
     @Callback
-    public static int LCEntryPoint(int argc, char** argv) {
+    public static int LCEntryPoint(int argc, long argv) {
         main(new String[0]);
         return 0;
     }
+
 
     public static void main(String[] argv) {
         NSAutoreleasePool pool = new NSAutoreleasePool();
