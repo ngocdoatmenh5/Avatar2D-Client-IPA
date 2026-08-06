@@ -44,7 +44,7 @@ public class IOSLauncher extends UIApplicationDelegateAdapter {
             public void run() {
                 try {
                     GameMidlet midlet = new GameMidlet();
-                    midlet.startApp();
+
                 } catch (Throwable t) {
                     t.printStackTrace();
                 }
