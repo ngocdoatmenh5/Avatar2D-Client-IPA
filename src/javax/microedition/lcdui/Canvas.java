@@ -64,25 +64,26 @@ public abstract class Canvas extends Displayable {
     public final void serviceRepaints() {
     }
 
-    public abstract void paint(Graphics g);
+    protected abstract void paint(Graphics g);
 
-    public void keyPressed(int keyCode) {
+    protected void keyPressed(int keyCode) {
     }
 
-    public void keyRepeated(int keyCode) {
+    protected void keyRepeated(int keyCode) {
     }
 
-    public void keyReleased(int keyCode) {
+    protected void keyReleased(int keyCode) {
     }
 
-    public void pointerPressed(int x, int y) {
+    protected void pointerPressed(int x, int y) {
     }
 
-    public void pointerReleased(int x, int y) {
+    protected void pointerReleased(int x, int y) {
     }
 
-    public void pointerDragged(int x, int y) {
+    protected void pointerDragged(int x, int y) {
     }
+
 
 
     protected void showNotify() {

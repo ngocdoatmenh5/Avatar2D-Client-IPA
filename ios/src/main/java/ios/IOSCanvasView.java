@@ -51,12 +51,11 @@ public class IOSCanvasView extends UIView {
         main.Canvas canvas = main.Canvas.instance;
         if (canvas != null) {
             try {
-                canvas.paint(graphics);
+                canvas.paintGame(graphics);
             } catch (Throwable t) {
                 // Ignore transient paint errors during initialization
             }
         }
-
 
         // Draw buffer to iOS view
         context.saveGState();
@@ -73,7 +72,7 @@ public class IOSCanvasView extends UIView {
             int y = (int) pt.getY();
             main.Canvas canvas = main.Canvas.instance;
             if (canvas != null) {
-                canvas.pointerPressed(x, y);
+                canvas.doPointerPressed(x, y);
             }
         }
     }
@@ -87,7 +86,7 @@ public class IOSCanvasView extends UIView {
             int y = (int) pt.getY();
             main.Canvas canvas = main.Canvas.instance;
             if (canvas != null) {
-                canvas.pointerDragged(x, y);
+                canvas.doPointerDragged(x, y);
             }
         }
     }
@@ -101,10 +100,11 @@ public class IOSCanvasView extends UIView {
             int y = (int) pt.getY();
             main.Canvas canvas = main.Canvas.instance;
             if (canvas != null) {
-                canvas.pointerReleased(x, y);
+                canvas.doPointerReleased(x, y);
             }
         }
     }
+
 
 
     @Override

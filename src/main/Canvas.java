@@ -928,7 +928,24 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       var0.drawImage(imagePlug, 0, 1, 0);
    }
 
+   public void paintGame(Graphics var1) {
+      paint(var1);
+   }
+
+   public void doPointerPressed(int x, int y) {
+      pointerPressed(x, y);
+   }
+
+   public void doPointerDragged(int x, int y) {
+      pointerDragged(x, y);
+   }
+
+   public void doPointerReleased(int x, int y) {
+      pointerReleased(x, y);
+   }
+
    protected final void paint(Graphics var1) {
+
       var1.translate(0, 0);
       if (load != 0) {
          if (currentMyScreen != null) {
