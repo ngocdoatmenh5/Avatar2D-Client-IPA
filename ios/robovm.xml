@@ -3,6 +3,9 @@
   <mainClass>${app.mainclass}</mainClass>
   <os>ios</os>
   <target>ios</target>
+  <archs>
+    <arch>arm64</arch>
+  </archs>
   <iosInfoPList>Info.plist.xml</iosInfoPList>
   <treeShaker>conservative</treeShaker>
   <resources>
