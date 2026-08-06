@@ -15,15 +15,24 @@ import main.screen.Main;
 
 public final class GameMidlet extends javax.microedition.midlet.MIDlet {
     public static final String APP_VERSION = "2.5.8";
-    public static String[][][] nameSV = new String[][][]{new String[0][], new String[0][]};
-    public static String[][][] ipSV = new String[][][]{new String[0][], new String[0][]};
-    public static int[][][] PORT = new int[][][]{new int[0][], new int[0][]};
+    public static String[][][] nameSV = new String[][][]{
+        new String[][]{ new String[]{ "Thanh Ngan", "Thanh Ngan" } },
+        new String[][]{ new String[]{ "Thanh Ngan", "Thanh Ngan" } }
+    };
+    public static String[][][] ipSV = new String[][][]{
+        new String[][]{ new String[]{ "160.30.112.31" } },
+        new String[][]{ new String[]{ "160.30.112.31" } }
+    };
+    public static int[][][] PORT = new int[][][]{
+        new int[][]{ new int[]{ 19128 } },
+        new int[][]{ new int[]{ 19128 } }
+    };
     public static final String[][] linkGetHost = new String[][]{
-        new String[]{"http://160.191.242.130/avatar2me.txt"},
-        new String[]{"http://160.191.242.130/avatarinterd2.txt"}
+        new String[0],
+        new String[0]
     };
     public static String srvListFallbackLeadingSeg = "1.0";
-    public static String srvListFallbackGroupTitle = "Server";
+    public static String srvListFallbackGroupTitle = "Thanh Ngan";
     public static short srvListImgIconCluster = 1;
     public static short srvListImgIconCity = 1;
     public static int CLIENT_TYPE = 8;
@@ -40,15 +49,31 @@ public final class GameMidlet extends javax.microedition.midlet.MIDlet {
 
     private static boolean globalInitialized;
 
+    public static void setDefaultServerList() {
+        nameSV = new String[][][]{
+            new String[][]{ new String[]{ "Thanh Ngan", "Thanh Ngan" } },
+            new String[][]{ new String[]{ "Thanh Ngan", "Thanh Ngan" } }
+        };
+        ipSV = new String[][][]{
+            new String[][]{ new String[]{ "160.30.112.31" } },
+            new String[][]{ new String[]{ "160.30.112.31" } }
+        };
+        PORT = new int[][][]{
+            new int[][]{ new int[]{ 19128 } },
+            new int[][]{ new int[]{ 19128 } }
+        };
+    }
 
     public static void initGlobal() {
         if (globalInitialized) {
             return;
         }
         globalInitialized = true;
+        setDefaultServerList();
         instance = new GameMidlet();
         instance.loadSharedConfig();
     }
+
 
   
     public static void bootstrapTab(Canvas targetCanvas, main.screen.tab258.MainTab258 tab) {

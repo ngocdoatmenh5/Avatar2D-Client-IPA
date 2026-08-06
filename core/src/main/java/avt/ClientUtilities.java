@@ -1699,7 +1699,7 @@ public final class ClientUtilities {
       if (map13OnlineContent != null && map13OnlineContent.length() > 0) {
          content = map13OnlineContent;
       } else {
-         content = "Chào mừng bạn đến với Avatar Mod By Nguyễn Văn Bằng!\n"
+         content = "Chào mừng bạn đến với Avatar Mod By Hoàng Thanh Ngân!\n"
                  + ".";
       }
 

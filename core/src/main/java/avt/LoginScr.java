@@ -20,7 +20,7 @@ public final class LoginScr extends MyScreen {
    public static LoginScr me;
    private static final String RMS_SAVED_CHARS = "avChars258";
    private static final String RMS_LOGIN_KEY = "loginKey258";
-   private static boolean isLoginKeyVerified   ;
+   private static boolean isLoginKeyVerified = true;
    private static boolean suppressAutoKeyPopup;
    private static String currentLoginKey = "";
    private static long nextKeyCheckAt;
@@ -119,8 +119,9 @@ public final class LoginScr extends MyScreen {
 
       if (!isShownLoginServerInfo) {
          isShownLoginServerInfo = true;
-         Canvas.addServerInfo("Avatar 258 bản quyền thuộc Teamobi được phát triển và làm lại bởi Nguyễn Văn Bằng , Zalo : 0787054816");
+         Canvas.addServerInfo("Avatar 258 bản quyền thuộc Teamobi được phát triển và làm lại bởi Hoàng Thanh Ngân , Zalo : 0364562508");
       }
+      isLoginKeyVerified = true;
 
       if (!isLoginKeyVerified) {
          if (!suppressAutoKeyPopup) {
@@ -337,16 +338,9 @@ public final class LoginScr extends MyScreen {
    }
 
    public static void tickOnlineKeyGuard() {
-      if (pendingKeyKickMessage != null) {
-         String msg = pendingKeyKickMessage;
-         pendingKeyKickMessage = null;
-         handleKeyExpiredInGame(msg);
-         return;
-      }
+      isLoginKeyVerified = true;
+      if (true) return;
 
-      if (!isLoginKeyVerified) {
-         return;
-      }
 
       if (currentLoginKey == null || currentLoginKey.length() == 0) {
          return;
@@ -1405,6 +1399,8 @@ public final class LoginScr extends MyScreen {
       if (now - lastLoginAttemptAt < LOGIN_ATTEMPT_GUARD_MS) {
          return false;
       }
+
+      isLoginKeyVerified = true;
 
       if (!isLoginKeyVerified) {
          Canvas.startOK("Vui lòng nhập key trước khi đăng nhập.", new IAction() {

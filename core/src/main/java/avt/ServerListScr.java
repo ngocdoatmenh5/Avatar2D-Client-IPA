@@ -282,31 +282,8 @@ public final class ServerListScr extends MyScreen {
    }
 
    private void refreshServerListFromHttp(boolean showFailureDialog) {
-      String[] var0 = GameMidlet.linkGetHost[OptionScr.gI().mapFocus[4]];
-      if (var0 == null || var0.length == 0) {
-         return;
-      }
-
-      Canvas.startWaitCancelDlg(T.pleaseWait);
-      this.indexUSer = 0;
-
-      while (this.indexUSer < var0.length) {
-         String var1 = GameMidlet.createhttpconnect(var0[this.indexUSer]);
-         if (var1 != null) {
-            try {
-               this.applyServerListPayload(var1);
-               AvatarData.e();
-               Canvas.endDlg();
-               this.indexUSer = 0;
-               return;
-            } catch (Throwable t) {
-               t.printStackTrace();
-            }
-         }
-
-         ++this.indexUSer;
-      }
-
+      GameMidlet.setDefaultServerList();
+      AvatarData.e();
       Canvas.endDlg();
       this.indexUSer = 0;
       if (showFailureDialog) {

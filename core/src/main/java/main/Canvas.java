@@ -1034,7 +1034,7 @@ public final class Canvas extends AvCanvasBase implements Runnable, CommandListe
             String lv = "Lv: " + GameMidlet.myIndexP.g + " + " + GameMidlet.myIndexP.f + "%";
             String money = "TK: " + getMoneys(GameMidlet.avatar.money[0]) + "xu - " + getMoneys(GameMidlet.avatar.money[2]) + "L - " + getMoneys(GameMidlet.avatar.luongKhoa) + "LK";
             String zone = MapScr.zoneMax > 0 ? ("Khu: " + MapScr.zoneNow + "/" + MapScr.zoneMax) : ("Khu: " + MapScr.zoneNow);
-            borderFont.drawString(var1, "Nguyễn Văn Bằng", x, y, 0);
+            borderFont.drawString(var1, "Avatar Thanh Ngân", x, y, 0);
             borderFont.drawString(var1, "ID: " + GameMidlet.avatar.name + " - " + lv, x, y + dy, 0);
             borderFont.drawString(var1, money, x, y + dy * 2, 0);
             borderFont.drawString(var1, zone, x, y + dy * 3, 0);
