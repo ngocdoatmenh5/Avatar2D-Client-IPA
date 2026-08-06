@@ -1,0 +1,77 @@
+
+ext.resolveAndroidSdkDir = {
+    def localProps = new File(rootDir, 'local.properties')
+    if (localProps.exists()) {
+        def p = new Properties()
+        localProps.withInputStream { p.load(it) }
+        def existing = p.getProperty('sdk.dir')
+        if (existing && new File(existing, 'platform-tools').exists()) {
+            return new File(existing)
+        }
+    }
+
+    def candidates = [] as LinkedHashSet
+
+    def gp = new Properties()
+    def gpFile = new File(rootDir, 'gradle.properties')
+    if (gpFile.exists()) {
+        gpFile.withInputStream { gp.load(it) }
+        if (gp.getProperty('androidSdkDir')) {
+            candidates << gp.getProperty('androidSdkDir')
+        }
+    }
+
+    [System.getenv('ANDROID_SDK_ROOT'), System.getenv('ANDROID_HOME')].each { v ->
+        if (v) candidates << v
+    }
+
+    def localAppData = System.getenv('LOCALAPPDATA')
+    if (localAppData) {
+        candidates << new File(localAppData, 'Android/Sdk').absolutePath
+    }
+    candidates << new File(System.getProperty('user.home'), 'Android/Sdk').absolutePath
+    candidates << 'C:/Android/Sdk'
+    candidates << 'D:/Android/Sdk'
+    candidates << 'G:/Android/Sdk'
+
+    def avatarLocalProps = new File(rootDir.parentFile?.parentFile,
+            'Avatar 2D Client LibGDX/Avatar 2D Client LibGDX/local.properties')
+    if (avatarLocalProps.exists()) {
+        def ap = new Properties()
+        avatarLocalProps.withInputStream { ap.load(it) }
+        if (ap.getProperty('sdk.dir')) {
+            candidates << ap.getProperty('sdk.dir')
+        }
+    }
+
+    def found = candidates.find { path ->
+        path && new File(path.toString(), 'platform-tools').exists()
+    }
+
+    if (found) {
+        def sdkPath = found.toString().replace('\\', '/')
+        localProps.text = "sdk.dir=${sdkPath}\n"
+        logger.lifecycle("Đã tạo/cập nhật local.properties → sdk.dir=${sdkPath}")
+        return new File(found.toString())
+    }
+
+    return null
+}
+
+ext.requireAndroidSdkOrHint = {
+    def sdk = resolveAndroidSdkDir()
+    if (sdk != null) return sdk
+
+    throw new GradleException('''\
+Không tìm thấy Android SDK.
+
+Cách xử lý (chọn 1):
+  1) Chạy: setup-android-sdk.bat
+  2) Tạo file local.properties tại thư mục gốc project:
+       sdk.dir=C:/Users/YourName/AppData/Local/Android/Sdk
+  3) Mở gradle.properties, bỏ comment dòng androidSdkDir=... và sửa đúng đường dẫn SDK
+
+Cài SDK: Android Studio → SDK Manager → Android SDK
+Đường dẫn mặc định Windows: %LOCALAPPDATA%\\Android\\Sdk
+''')
+}

@@ -1,0 +1,88 @@
+buildscript {
+  repositories {
+    mavenCentral()
+    google()
+    gradlePluginPortal()
+  }
+  dependencies {
+    classpath "com.android.tools.build:gradle:8.9.3"
+  }
+}
+
+apply from: 'gradle/android-sdk.gradle'
+
+allprojects {
+  apply plugin: 'eclipse'
+  apply plugin: 'idea'
+
+  idea {
+    module {
+      outputDir file('build/classes/java/main')
+      testOutputDir file('build/classes/java/test')
+    }
+  }
+}
+
+configure(subprojects - project(':android')) {
+  apply plugin: 'java-library'
+
+  java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+  }
+
+  tasks.register('generateAssetList') {
+    inputs.dir("${project.rootDir}/assets/")
+    File assetsFolder = new File("${project.rootDir}/assets/")
+    File assetsFile = new File(assetsFolder, "assets.txt")
+    assetsFile.delete()
+
+    fileTree(assetsFolder).matching {
+      include '**/*.png'
+    }.collect {
+      assetsFolder.toPath().relativize(it.toPath()).toString()
+    }.sort().each {
+      assetsFile.append(it + "\n")
+    }
+  }
+  processResources.dependsOn 'generateAssetList'
+
+  compileJava {
+    options.incremental = true
+  }
+}
+
+subprojects {
+  version = "$projectVersion"
+  ext.appName = 'Avatar258'
+  repositories {
+    mavenCentral()
+    maven { url 'https://s01.oss.sonatype.org' }
+    mavenLocal()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'https://jitpack.io' }
+  }
+}
+
+eclipse.project.name = 'Avatar258-parent'
+
+tasks.register('buildApkDebug') {
+  group = 'distribution'
+  description = 'Build Android debug APK'
+  doFirst { requireAndroidSdkOrHint() }
+  dependsOn ':android:assembleDebug'
+}
+
+tasks.register('buildApk') {
+  group = 'distribution'
+  description = 'Build Android release APK'
+  doFirst { requireAndroidSdkOrHint() }
+  dependsOn ':android:assembleRelease'
+}
+
+tasks.register('buildIos') {
+  group = 'distribution'
+  description = 'Build iOS IPA (cần macOS + Xcode)'
+  dependsOn ':ios:createIPA'
+}

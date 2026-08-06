@@ -1,0 +1,7 @@
+## Sao chép file này thành local.properties và sửa đường dẫn SDK của bạn.
+## Windows (sau khi cài Android Studio):
+# sdk.dir=C:/Users/YourName/AppData/Local/Android/Sdk
+#
+## Hoặc đặt biến môi trường ANDROID_HOME rồi chạy setup-android-sdk.bat
+
+sdk.dir=C:/Users/Administrator/AppData/Local/Android/Sdk

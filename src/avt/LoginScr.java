@@ -20,7 +20,7 @@ public final class LoginScr extends MyScreen {
    public static LoginScr me;
    private static final String RMS_SAVED_CHARS = "avChars258";
    private static final String RMS_LOGIN_KEY = "loginKey258";
-   private static boolean isLoginKeyVerified;
+   private static boolean isLoginKeyVerified   ;
    private static boolean suppressAutoKeyPopup;
    private static String currentLoginKey = "";
    private static long nextKeyCheckAt;
@@ -28,7 +28,16 @@ public final class LoginScr extends MyScreen {
    private static String pendingKeyKickMessage;
    private static final String RMS_KEY_API_URL = "keyApiUrl258";
    private static String KEY_API_URL = "http://160.191.242.130/validate_key.php";
+   private static final String RMS_ANNOUNCEMENT_API_URL = "announceApiUrl258";
+   private static String ANNOUNCEMENT_API_URL = "http://160.191.242.130/announcement.php";
+   private static String currentAnnouncement = "";
+   private static long nextAnnouncementCheckAt;
+   private static boolean isCheckingAnnouncementOnline;
+   private static boolean triedShowAnnouncement;
+   private static boolean suppressAutoAnnouncementPopup;
    private static boolean triedAutoVerifySavedKey;
+   private static long lastLoginAttemptAt;
+   private static final long LOGIN_ATTEMPT_GUARD_MS = 1200L;
    private static final byte CMD_MENU_OPEN_SWITCH_CHAR = 105;
    private static final byte CMD_MENU_SELECT_CHAR = 106;
    private static final byte CMD_MENU_ADD_CHAR = 107;
@@ -80,6 +89,14 @@ public final class LoginScr extends MyScreen {
       return me;
    }
 
+   public static String getCurrentLoginKey() {
+      return currentLoginKey;
+   }
+
+   public static String encodeUrl(String s) {
+      return encodeUrlParam(s);
+   }
+
    public final void close() {
       Canvas.startOKDlg(T.doYouWantExit2, 54);
    }
@@ -107,8 +124,38 @@ public final class LoginScr extends MyScreen {
 
       if (!isLoginKeyVerified) {
          if (!suppressAutoKeyPopup) {
-            // Luôn yêu cầu nhập key khi vào LoginScr (mỗi lần mở app).
-            this.showLoginKeyPopup();
+            String savedKey = CRes.b(RMS_LOGIN_KEY);
+            if (savedKey != null && savedKey.trim().length() > 0) {
+               final String key = savedKey.trim();
+               Canvas.startWaitDlg("Đang kiểm tra key...");
+               (new Thread(new Runnable() {
+                  public void run() {
+                     String url = KEY_API_URL + "?key=" + encodeUrlParam(key) + "&checkip=1";
+                     String resp = GameMidlet.createhttpconnect(url);
+                     Canvas.endDlg();
+                     if (resp == null) {
+                        showLoginKeyPopup();
+                        return;
+                     }
+                     resp = resp.trim();
+                     if (resp.startsWith("IP_MATCH:")) {
+                        String boundIp = resp.substring(9);
+                        currentLoginKey = key;
+                        isLoginKeyVerified = true;
+                        nextKeyCheckAt = System.currentTimeMillis() + 10000L;
+                     } else if ("OK".equals(resp)) {
+                        currentLoginKey = key;
+                        isLoginKeyVerified = true;
+                        nextKeyCheckAt = System.currentTimeMillis() + 10000L;
+                     } else {
+                        CRes.a(RMS_LOGIN_KEY, "");
+                        showLoginKeyPopup();
+                     }
+                  }
+               })).start();
+            } else {
+               this.showLoginKeyPopup();
+            }
          }
       }
    }
@@ -156,7 +203,7 @@ public final class LoginScr extends MyScreen {
                   return;
                }
 
-               // Key không còn hợp lệ -> xóa key đã lưu và hỏi nhập lại
+            
                CRes.a(LoginScr.RMS_LOGIN_KEY, "");
                LoginScr.isLoginKeyVerified = false;
                LoginScr.currentLoginKey = "";
@@ -194,7 +241,7 @@ public final class LoginScr extends MyScreen {
             final String key = in;
             (new Thread(new Runnable() {
                public void run() {
-                  // Nhập key (claim) để đổi sang IP mới
+                 
                   String url = LoginScr.KEY_API_URL + "?key=" + LoginScr.encodeUrlParam(key) + "&claim=1";
                   String resp = GameMidlet.createhttpconnect(url);
                   if (resp == null) {
@@ -210,17 +257,50 @@ public final class LoginScr extends MyScreen {
                   resp = resp.trim();
                   Canvas.endDlg();
 
+                  if (resp.startsWith("DIS_OLD:")) {
+                     CRes.a(LoginScr.RMS_LOGIN_KEY, "");
+                     Canvas.startOK("Đã quá số lượng máy đăng nhập cho phép!\nIP chiếm chỗ: " + resp.substring(8), new IAction() {
+                        public void perform() {
+                           LoginScr.this.showLoginKeyPopup();
+                        }
+                     });
+                     return;
+                  }
+
+                  if ("MANY_DEVICES".equals(resp)) {
+                     CRes.a(LoginScr.RMS_LOGIN_KEY, "");
+                     Canvas.startOK("Key của Bạn sử dụng quá nhiều máy!", new IAction() {
+                        public void perform() {
+                           LoginScr.this.showLoginKeyPopup();
+                        }
+                     });
+                     return;
+                  }
+
                   if ("OK".equals(resp)) {
                      LoginScr.isLoginKeyVerified = true;
                      LoginScr.currentLoginKey = key;
                      LoginScr.nextKeyCheckAt = System.currentTimeMillis() + 10000L;
                      CRes.a(LoginScr.RMS_LOGIN_KEY, key);
+                     LoginScr.triedShowAnnouncement = false;
+                     LoginScr.nextAnnouncementCheckAt = 0L;
+                     LoginScr.checkOnlineAnnouncement();
                      return;
                   }
 
                   if ("USED".equals(resp)) {
                      CRes.a(LoginScr.RMS_LOGIN_KEY, "");
                      Canvas.startOK("Key đã được sử dụng.", new IAction() {
+                        public void perform() {
+                           LoginScr.this.showLoginKeyPopup();
+                        }
+                     });
+                     return;
+                  }
+
+                  if ("MANY_DEVICES".equals(resp)) {
+                     CRes.a(LoginScr.RMS_LOGIN_KEY, "");
+                     Canvas.startOK("Clan của Bạn sử dụng quá nhiều máy!", new IAction() {
                         public void perform() {
                            LoginScr.this.showLoginKeyPopup();
                         }
@@ -300,6 +380,16 @@ public final class LoginScr extends MyScreen {
                   return;
                }
 
+               if ("MANY_DEVICES".equals(resp)) {
+                  LoginScr.pendingKeyKickMessage = "Clan của Bạn sử dụng quá nhiều máy!";
+                  return;
+               }
+
+               if (resp.startsWith("MANY_DEVICES:")) {
+                  LoginScr.pendingKeyKickMessage = "Clan của Bạn sử dụng quá nhiều máy!";
+                  return;
+               }
+
                if ("USED".equals(resp)) {
                   LoginScr.pendingKeyKickMessage = "Key đã được sử dụng ở IP khác.Nếu không phải bạn vui lòng liên hệ admin để được hỗ trợ";
                   return;
@@ -311,6 +401,46 @@ public final class LoginScr extends MyScreen {
             }
          }
       })).start();
+   }
+
+   public static void checkOnlineAnnouncement() {
+      if (!isLoginKeyVerified) {
+         return;
+      }
+
+      if (triedShowAnnouncement) {
+         return;
+      }
+
+      triedShowAnnouncement = true;
+
+      (new Thread(new Runnable() {
+         public void run() {
+            try {
+               String url = LoginScr.ANNOUNCEMENT_API_URL + "?key=" + LoginScr.encodeUrlParam(currentLoginKey);
+               String resp = GameMidlet.createhttpconnect(url);
+               if (resp == null) {
+                  return;
+               }
+
+               resp = resp.trim();
+               if (resp.length() == 0 || "NONE".equals(resp)) {
+                  return;
+               }
+
+               currentAnnouncement = resp;
+               showAnnouncementDialog(resp);
+            } catch (Exception e) {
+            }
+         }
+      })).start();
+   }
+
+   private static void showAnnouncementDialog(final String msg) {
+      Canvas.startOK(msg, new IAction() {
+         public void perform() {
+         }
+      });
    }
 
    private static void handleKeyExpiredInGame(final String msg) {
@@ -411,6 +541,17 @@ public final class LoginScr extends MyScreen {
             }
          }
       } catch (Throwable t) {
+      }
+
+      try {
+         String u = CRes.b(RMS_ANNOUNCEMENT_API_URL);
+         if (u != null) {
+            u = u.trim();
+            if (u.length() > 0) {
+               ANNOUNCEMENT_API_URL = u;
+            }
+         }
+      } catch (Throwable t2) {
       }
    }
 
@@ -1245,20 +1386,59 @@ public final class LoginScr extends MyScreen {
       this.numSupport = var1;
    }
 
-   public final void login() {
+   private boolean isCreateNewGameFlow() {
+      return isNewGame && (this.indexNewGame == 0 && this.listStrNew.length == 2 || this.indexNewGame == 1 && this.listStrNew.length == 3);
+   }
+
+   private boolean hasPreparedCredentials() {
+      String user = this.tfUser.getText();
+      if (user != null && user.trim().length() > 0) {
+         String pass = this.tfPass.getText();
+         return pass != null && pass.length() > 0;
+      }
+
+      return this.nameVir != null && this.nameVir.length() > 0 && this.passVir != null && this.passVir.length() > 0;
+   }
+
+   public final boolean login() {
+      long now = System.currentTimeMillis();
+      if (now - lastLoginAttemptAt < LOGIN_ATTEMPT_GUARD_MS) {
+         return false;
+      }
+
       if (!isLoginKeyVerified) {
          Canvas.startOK("Vui lòng nhập key trước khi đăng nhập.", new IAction() {
             public void perform() {
                LoginScr.this.showLoginKeyPopup();
             }
          });
-         return;
+         return false;
       }
 
+      if (!this.isCreateNewGameFlow()) {
+         String user = this.tfUser.getText();
+         if (user != null && user.trim().length() > 0) {
+            String pass = this.tfPass.getText();
+            if (pass == null || pass.length() == 0) {
+               this.focus = 1;
+               this.tfUser.setFocus(false);
+               this.tfPass.setFocus(true);
+               Canvas.startOKDlg("Vui lòng nhập mật khẩu.");
+               return false;
+            }
+         }
+
+         if (!this.hasPreparedCredentials()) {
+            Canvas.startOKDlg("Chưa có thông tin tài khoản để đăng nhập.");
+            return false;
+         }
+      }
+
+      lastLoginAttemptAt = now;
       Canvas.connect();
       GlobalService.gI().doRequestNumSupport(gI().numSupport.hashCode());
       System.out.println("login: " + isNewGame + "    " + this.indexNewGame);
-      if (!isNewGame || (this.indexNewGame != 0 || this.listStrNew.length != 2) && (this.indexNewGame != 1 || this.listStrNew.length != 3)) {
+      if (!this.isCreateNewGameFlow()) {
          if (this.tfUser.getText().equals("")) {
             GlobalService.gI().login(this.nameVir, this.passVir, GameMidlet.APP_VERSION);
             isAccVir = true;
@@ -1275,6 +1455,7 @@ public final class LoginScr extends MyScreen {
          var1.sendMessage();
       }
 
+      return true;
    }
 
    public final void onLoginNewGame(String var1, String var2) {

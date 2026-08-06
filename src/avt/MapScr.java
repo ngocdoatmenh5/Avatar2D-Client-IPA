@@ -14,6 +14,8 @@ public final class MapScr extends MyScreen implements IChatable {
    public static byte roomID;
    public static byte boardID;
    public static int zoneMaxIndex = -1;
+   public static int zoneMax = 0;
+   public static int zoneNow = 0;
    public static Image imgFocusP;
    private Command cmdMenu;
    public Command e;
@@ -161,13 +163,25 @@ public final class MapScr extends MyScreen implements IChatable {
       Vector var1 = new Vector();
       short[] var2 = null;
 
-      if (Canvas.stypeInt == 0) {
-         if (DialLuckyScr.gI().isAutoDialEnabled()) {
-            var1.addElement(new Command(T.utilStopAutoDial, new IActionUtilityCmd((byte)14)));
-         }
+      if (DialLuckyScr.gI().isAutoDialEnabled()) {
+         var1.addElement(new Command("Tắt Auto Quay Số", new IAction() {
+            public void perform() {
+               DialLuckyScr.gI().stopAutoDialFromUtility();
+            }
+         }));
+      }
 
+      if (Canvas.stypeInt == 0) {
          if (LoadMap.TYPEMAP == 16) {
             var1.addElement(new Command("Cài đặt câu cá", new IActionOpenFishingSettingsMenu()));
+         }
+         if (LoadMap.TYPEMAP == 16) {
+            var1.addElement(new Command("Thêm NPC", new IActionMapNpcCmd((byte)0)));
+            if (ClientUtilities.hasRememberedNpc()) {
+               var1.addElement(new Command("D.Sách Npc", new IActionMapNpcCmd((byte)1)));
+            }
+            var1.addElement(new Command("Menu event", new IActionOpenEventSubmenu()));
+            var1.addElement(new Command(T.utilities, new IActionOpenUtilitySubmenu()));
          } else {
             var1.addElement(new Command("Thêm NPC", new IActionMapNpcCmd((byte)0)));
             if (ClientUtilities.hasRememberedNpc()) {
@@ -201,6 +215,28 @@ public final class MapScr extends MyScreen implements IChatable {
             var2[0] = (short)((StringObj)listCmd.elementAt(0)).dis;
          }
       }
+
+      var1.addElement(new Command("Đốt pháo", new IAction() {
+         public void perform() {
+            Vector submenu = new Vector();
+            submenu.addElement(new Command((FireworkSettingsScr.isAutoRunning() ? "Tắt Auto" : "Bật Auto"), new IAction() {
+               public void perform() {
+                  if (FireworkSettingsScr.isAutoRunning()) {
+                     FireworkSettingsScr.stopAutoFirework();
+                  } else {
+                     FireworkSettingsScr.startAutoFirework();
+                  }
+               }
+            }));
+            submenu.addElement(new Command("Cài đặt", new IAction() {
+               public void perform() {
+                  FireworkSettingsScr.gI().load();
+                  FireworkSettingsScr.gI().show(MapScr.gI());
+               }
+            }));
+            Menu.gI().startAt(submenu, 0);
+         }
+      }));
 
       var1.addElement(this.I);
       Menu var10000 = Menu.gI();
@@ -505,6 +541,8 @@ public final class MapScr extends MyScreen implements IChatable {
          Canvas.clearKeyReleased();
          roomID = var1;
          boardID = var2;
+         zoneNow = var2;
+         zoneMax = 0;
          focusP = null;
          LoadMap.focusObj = null;
          GameMidlet.avatar.task = 0;
@@ -660,6 +698,7 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    public static void doMove(int var0, int var1, int var2, int var3) {
+      System.out.println("Player move: x=" + var0 + " y=" + var1 + " direct=" + var2 + " depth=" + var3);
       if ((GameMidlet.CLIENT_TYPE == 9 || GameMidlet.CLIENT_TYPE == 11) && !isWedding) {
          GameMidlet.avatar.xCur = var0;
          GameMidlet.avatar.yCur = var1;
@@ -808,8 +847,37 @@ public final class MapScr extends MyScreen implements IChatable {
 
    }
 
+   private static boolean isKissSameGenderServerText(String msg) {
+      if (msg == null) {
+         return false;
+      }
+
+      String t = msg.trim();
+      if (t.length() == 0) {
+         return false;
+      }
+
+      if (t.equals("Chỉ hỗ trợ hôn khác giới")) {
+         return true;
+      }
+
+      if (t.indexOf("Khác giới") >= 0 || t.indexOf("khác giới") >= 0) {
+         return true;
+      }
+
+      if (t.indexOf("Khac gioi") >= 0 || t.indexOf("khac gioi") >= 0) {
+         return true;
+      }
+
+      return false;
+   }
+
    protected static void doKiss() {
-      if (focusP != null && focusP.task == 0) {
+      if (focusP != null && focusP.task == 0 && GameMidlet.avatar != null) {
+         if (focusP.gender == GameMidlet.avatar.gender) {
+            return;
+         }
+
          ParkService.gI().doGivingDeferrent(focusP.IDDB, 101);
       }
 
@@ -829,6 +897,10 @@ public final class MapScr extends MyScreen implements IChatable {
 
    public final void onGivingDefferent(int var1, int var2, int var3, String var4, int var5) {
       if (var3 == -1) {
+         if (isKissSameGenderServerText(var4)) {
+            return;
+         }
+
          Canvas.startOKDlg(var4);
       } else {
          this.translates(1, var1, var2, var3, var5);
@@ -893,15 +965,17 @@ public final class MapScr extends MyScreen implements IChatable {
                   break;
                case 101:
                   if (var7.task == 0) {
-                     var6.task = 11;
-                     var7.task = 11;
-                     var6.moveList.removeAllElements();
-                     var7.moveList.removeAllElements();
-                     var6.focus = var7;
-                     if (var6.x < var7.x) {
-                        var6.doAction(var7.x - 20, var7.y + 2);
-                     } else {
-                        var6.doAction(var7.x + 20, var7.y + 2);
+                     if (var6.gender != var7.gender) {
+                        var6.task = 11;
+                        var7.task = 11;
+                        var6.moveList.removeAllElements();
+                        var7.moveList.removeAllElements();
+                        var6.focus = var7;
+                        if (var6.x < var7.x) {
+                           var6.doAction(var7.x - 20, var7.y + 2);
+                        } else {
+                           var6.doAction(var7.x + 20, var7.y + 2);
+                        }
                      }
                   }
                   break;

@@ -23,8 +23,8 @@ final class CommandShopOffline extends Command {
       if (this.h == PopupShop.focus) {
          MapScr.setAvatarShop(this.g);
          PopupShop.resetIsTrans();
-         String var1 = "";
-         PopupShop.addStr(var1 + AvatarData.getName(this.g));
+         PopupShop.addStr("Id: " + this.g.IDPart);
+         PopupShop.addStr(AvatarData.getName(this.g));
          PopupShop.addStr(T.priceStr + Canvas.getPriceMoney(this.g.price[0], this.g.price[1], false));
          PopupShop.addStr(T.youAreBittenByDog + AvatarData.getLevel(this.g));
          PopupShop.addStr(T.roomName[0] + MapScr.avatarShop.lvMain);

@@ -14,6 +14,7 @@ import main.GameMidlet;
 
 public final class DialLuckyScr extends MyScreen {
    private static final String RMS_AUTO_DIAL = "adial258";
+   private static final String RMS_ITEM_STATS = "dialstats258";
    private static DialLuckyScr me;
    private Image b;
    private Image c;
@@ -52,9 +53,14 @@ public final class DialLuckyScr extends MyScreen {
    private static final int AUTO_SPIN_SPEED = 18;
    private static final int CMD_MENU = 3;
    private static final int CMD_MAIN_OPEN_SETTINGS = 21;
+   private static java.util.Hashtable itemStats = new java.util.Hashtable();
 
    public static DialLuckyScr gI() {
-      return me == null ? (me = new DialLuckyScr()) : me;
+      if (me == null) {
+         me = new DialLuckyScr();
+         loadItemStats();
+      }
+      return me;
    }
 
    public final boolean isSpinning() {
@@ -135,6 +141,16 @@ public final class DialLuckyScr extends MyScreen {
       }
    }
 
+   public final void startAutoDial() {
+      this.isAutoDial = true;
+      this.isAutoRunning = true;
+      this.isable = true;
+      this.g = AUTO_SPIN_SPEED;
+      this.nextAutoDialAt = 0L;
+      this.refreshCommands();
+      this.tryStartAutoDial();
+   }
+
    public final void switchToMe(MyScreen var1, short var2) {
       this.switchToMe(var1, var2, false);
    }
@@ -151,11 +167,10 @@ public final class DialLuckyScr extends MyScreen {
          this.isable = true;
          this.g = AUTO_SPIN_SPEED;
       } else if (this.isAutoDial) {
-        
          this.isAutoRunning = true;
       }
       this.refreshCommands();
-      if (!var3) {
+      if (var3) {
          super.switchToMe();
       }
       if (var3 || this.isAutoDial) {
@@ -232,6 +247,7 @@ public final class DialLuckyScr extends MyScreen {
       this.isFireWork = new boolean[3];
       this.listFireWork = new Vector();
       this.loadPersistedAutoDialSettings();
+      loadItemStats();
    }
 
    private void persistAutoDialSettings() {
@@ -265,15 +281,101 @@ public final class DialLuckyScr extends MyScreen {
       }
    }
 
+   public static void saveItemStats() {
+      try {
+         StringBuffer sb = new StringBuffer();
+         java.util.Enumeration keys = itemStats.keys();
+         while (keys.hasMoreElements()) {
+            Integer key = (Integer)keys.nextElement();
+            int[] val = (int[])itemStats.get(key);
+            sb.append(key.intValue()).append(",").append(val[0]).append(",").append(val[1]).append(";");
+         }
+         if (sb.length() > 0) {
+            sb.deleteCharAt(sb.length() - 1);
+         }
+         CRes.a(RMS_ITEM_STATS, sb.toString());
+      } catch (Throwable t) {
+      }
+   }
+
+   public static void loadItemStats() {
+      try {
+         itemStats.clear();
+         String s = CRes.b(RMS_ITEM_STATS);
+         if (s == null || s.length() == 0) {
+            return;
+         }
+         String[] items = CRes.split(s, ";");
+         for (int i = 0; i < items.length; i++) {
+            String[] parts = CRes.split(items[i], ",");
+            if (parts.length >= 3) {
+               int id = Integer.parseInt(parts[0].trim());
+               int count = Integer.parseInt(parts[1].trim());
+               int permanent = Integer.parseInt(parts[2].trim());
+               itemStats.put(new Integer(id), new int[]{count, permanent});
+            }
+         }
+      } catch (Throwable t) {
+      }
+   }
+
+   public static int getItemSpinCount(int id) {
+      int[] val = (int[])itemStats.get(new Integer(id));
+      return val != null ? val[0] : 0;
+   }
+
+   public static boolean isItemPermanent(int id) {
+      int[] val = (int[])itemStats.get(new Integer(id));
+      return val != null && val[1] == 1;
+   }
+
+   public static void incrementItemSpinCount(int id) {
+      Integer key = new Integer(id);
+      int[] val = (int[])itemStats.get(key);
+      if (val == null) {
+         itemStats.put(key, new int[]{1, 0});
+      } else {
+         val[0]++;
+         itemStats.put(key, val);
+      }
+      saveItemStats();
+   }
+
+   public static void setItemPermanent(int id) {
+      Integer key = new Integer(id);
+      int[] val = (int[])itemStats.get(key);
+      if (val == null) {
+         itemStats.put(key, new int[]{0, 1});
+      } else {
+         val[1] = 1;
+         itemStats.put(key, val);
+      }
+      saveItemStats();
+   }
+
+   public static int getItemSpinCountStatic(int id) {
+      return getItemSpinCount(id);
+   }
+
+   public static boolean isItemPermanentStatic(int id) {
+      return isItemPermanent(id);
+   }
+
    private void refreshCommands() {
       super.left = this.cmdMenu;
       super.right = this.cmdClose;
+      super.center = this.cmdDial;
    }
 
    private void openMainMenu() {
       Vector var1 = new Vector();
       var1.addElement(new Command("Giới hạn: " + this.getLimitText(), CMD_MAIN_OPEN_SETTINGS, this));
       var1.addElement(new Command("Cài đặt", CMD_MAIN_OPEN_SETTINGS, this));
+      var1.addElement(new Command("Bật Auto", new IAction() {
+         public void perform() {
+            DialLuckyScr.gI().startAutoDial();
+         }
+      }));
       Menu.gI().startAt(var1, -1);
    }
 
@@ -373,6 +475,7 @@ public final class DialLuckyScr extends MyScreen {
       for(int var2 = 0; var2 < var1.size(); ++var2) {
          Gift var3 = (Gift)var1.elementAt(var2);
          if (var3.type == 1 && var3.expire != null && var3.expire.indexOf(T.forever) >= 0) {
+            setItemPermanent(var3.idPart);
             return true;
          }
       }
@@ -381,12 +484,17 @@ public final class DialLuckyScr extends MyScreen {
    }
 
    private void tryStartAutoDial() {
-      if (this.canStartAutoDial() && !this.isTurn && !this.isPaint && super.center == this.cmdDial) {
-         if (this.selectedNumber <= 90) {
-            this.selectedNumber = 180;
+      if (this.canStartAutoDial() && !this.isTurn && !this.isPaint) {
+         if (super.center != this.cmdWait) {
+            super.center = this.cmdDial;
          }
-         GlobalService.gI().doDialLucky(this.idPart, this.selectedNumber - 90);
-         super.center = this.cmdWait;
+         if (super.center == this.cmdDial) {
+            if (this.selectedNumber <= 90) {
+               this.selectedNumber = 180;
+            }
+            GlobalService.gI().doDialLucky(this.idPart, this.selectedNumber - 90);
+            super.center = this.cmdWait;
+         }
       }
    }
 
@@ -417,32 +525,41 @@ public final class DialLuckyScr extends MyScreen {
    }
 
    private static void setItemBay(Vector var0, Avatar var1, int var2) {
-      var2 = var2;
+      if (var0 == null || var1 == null) {
+         return;
+      }
 
       for(int var3 = 0; var3 < var0.size(); ++var3) {
          Gift var4 = (Gift)var0.elementAt(var3);
          String var5 = "";
-         switch (var4.type) {
-            case 1:
-               Part var6 = AvatarData.getPart(var4.idPart);
-               ImageInfo var7 = AvatarData.listImgInfo[var6.idIcon];
-               Canvas.addFlyText(0, var1.x, var1.y - 50, -1, CRes.createRGBImage(var7.x0 * AvMain.hd, var7.y0 * AvMain.hd, var7.w * AvMain.hd, var7.h * AvMain.hd, AvatarData.getBigImgInfo(var7.bigID).img), var2);
-               break;
-            case 2:
-               var5 = "+" + var4.xu + T.xu;
-               var1.setMoney(var1.money[0] + var4.xu);
-               var2 += 20;
-               break;
-            case 3:
-               var5 = "+" + var4.xp + " xp";
-               var1.setExp(var1.exp + var4.xp);
-               var2 += 20;
-               break;
-            case 4:
-               var5 = "+" + var4.luong + T.gold;
-               int[] var10000 = var1.money;
-               var10000[2] += var4.luong;
-               var2 += 20;
+         try {
+            switch (var4.type) {
+               case 1:
+                  Part var6 = AvatarData.getPart(var4.idPart);
+                  if (var6 != null && AvatarData.listImgInfo != null && var6.idIcon >= 0 && var6.idIcon < AvatarData.listImgInfo.length) {
+                     ImageInfo var7 = AvatarData.listImgInfo[var6.idIcon];
+                     if (var7 != null && AvatarData.getBigImgInfo(var7.bigID) != null) {
+                        Canvas.addFlyText(0, var1.x, var1.y - 50, -1, CRes.createRGBImage(var7.x0 * AvMain.hd, var7.y0 * AvMain.hd, var7.w * AvMain.hd, var7.h * AvMain.hd, AvatarData.getBigImgInfo(var7.bigID).img), var2);
+                     }
+                  }
+                  break;
+               case 2:
+                  var5 = "+" + var4.xu + T.xu;
+                  var1.setMoney(var1.money[0] + var4.xu);
+                  var2 += 20;
+                  break;
+               case 3:
+                  var5 = "+" + var4.xp + " xp";
+                  var1.setExp(var1.exp + var4.xp);
+                  var2 += 20;
+                  break;
+               case 4:
+                  var5 = "+" + var4.luong + T.gold;
+                  int[] var10000 = var1.money;
+                  var10000[2] += var4.luong;
+                  var2 += 20;
+            }
+         } catch (Throwable var8) {
          }
 
          if (!var5.equals("")) {
@@ -653,14 +770,13 @@ public final class DialLuckyScr extends MyScreen {
          this.g = 100 + (this.selectedNumber - 90);
          this.isTurn = true;
          ++this.autoDialCount;
+         incrementItemSpinCount(this.idPart);
          if (this.isAutoDial && this.isAutoRunning) {
             if (this.hasForeverGift(var3)) {
                this.isAutoDial = false;
                this.isAutoRunning = false;
-               this.nextAutoDialAt = 0L;
-               this.g = 0;
                this.refreshCommands();
-               Canvas.startOKDlg("Đã ra item vĩnh viễn, dừng Auto Quay Số.");
+               Canvas.startOKDlg("Đã ra item vĩnh viễn! Dừng Auto Quay Số.");
             }
          }
          Canvas.endDlg();
@@ -671,7 +787,6 @@ public final class DialLuckyScr extends MyScreen {
    public final void paint(Graphics var1) {
       this.lastScr.paintMain(var1);
       if (this.isAutoDial && this.isAutoRunning) {
-         super.paint(var1);
          return;
       }
 

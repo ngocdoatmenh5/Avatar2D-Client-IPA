@@ -18,10 +18,17 @@ import javax.microedition.midlet.MIDlet;
 
 public class GameMidlet extends MIDlet {
    public static final String APP_VERSION = "2.5.8";
-   public static String[][][] nameSV = new String[][][]{{{"Xu So Stown", "Thanh Pho Stown"}}};
-   public static String[][][] ipSV = new String[][][]{{{"160.191.242.130"}}};
-   public static int[][][] PORT = new int[][][]{{{19128}}};
-   public static final String[][] linkGetHost = new String[][]{{"http://teamobi.com/srvips/avatar2.txt"}, {"http://teamobi.com/srvips/avatarinterd2.txt"}};
+   public static String[][][] nameSV = new String[][][]{new String[0][], new String[0][]};
+   public static String[][][] ipSV = new String[][][]{new String[0][], new String[0][]};
+   public static int[][][] PORT = new int[][][]{new int[0][], new int[0][]};
+   public static final String[][] linkGetHost = new String[][]{
+      new String[]{"http://160.191.242.130/avatar2me.txt"},
+      new String[]{"http://160.191.242.130/avatarinterd2.txt"}
+   };
+   public static String srvListFallbackLeadingSeg = "1.0";
+   public static String srvListFallbackGroupTitle = "Server";
+   public static short srvListImgIconCluster = 1;
+   public static short srvListImgIconCity = 1;
    public static int CLIENT_TYPE = 8;
    public static byte PROVIDER = -1;
    public static String g;

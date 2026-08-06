@@ -1,0 +1,70 @@
+name: Build Multiplatform (Desktop, Android, iOS)
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  build-desktop-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Build Desktop JAR & Android APK Debug
+        run: ./gradlew :lwjgl3:jar :android:assembleDebug
+
+      - name: Upload Desktop JAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Desktop-JAR
+          path: lwjgl3/build/libs/*.jar
+
+      - name: Upload Android APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Android-APK-Debug
+          path: android/build/outputs/apk/debug/*.apk
+
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Build iOS IPA / RoboVM
+        run: ./gradlew :ios:createIPA || ./gradlew :ios:build
+
+      - name: Upload iOS Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: iOS-Artifacts
+          path: ios/build/robovm/*.ipa
+          if-no-files-found: ignore

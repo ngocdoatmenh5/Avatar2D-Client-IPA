@@ -292,7 +292,7 @@ public final class TField {
          }
       }
 
-      if (m && !main.Canvas.E) {
+      if (!main.Canvas.E) {
          if (var1 == 45) {
             if (var1 == lastKey && this.keyInActiveState < MAX_TIME_TO_CONFIRM_KEY[typeXpeed]) {
                this.text = this.text.substring(0, this.caretPos - 1) + '_';
@@ -306,7 +306,7 @@ public final class TField {
             lastKey = 45;
          }
 
-         if (var1 >= 32) {
+         if (var1 >= 32 && var1 <= 126 && (var1 < 48 || var1 > 57)) {
             this.keyPressedAscii(var1);
             return false;
          }

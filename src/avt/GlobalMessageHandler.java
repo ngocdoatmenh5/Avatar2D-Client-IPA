@@ -785,7 +785,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
 
                CustomTab.me = null;
                CustomTab.gI().setInfo(var219, var194, var202, var217);
-               CustomTab.gI().show();
+               CustomTab.showIfAllowed();
                return;
             case -54:
                var188 = var1.reader().readUTF();
@@ -1060,6 +1060,7 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                var2 = var1.reader().readInt();
                var190 = var1.reader().readUTF();
                var194 = var1.reader().readUTF();
+               ClientUtilities.onFishingInboxMessage(var194);
                if (Canvas.currentMyScreen != MessageScr.gI()) {
                   ++MyScreen.nMsg;
                }

@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="Avatar 258 Auto">
-    <output-path>$PROJECT_DIR$/out/artifacts/AVT258</output-path>
-    <root id="archive" name="Avatar258Auto.jar">
-      <element id="module-output" name="Avatar258" />
-    </root>
-  </artifact>
-</component>

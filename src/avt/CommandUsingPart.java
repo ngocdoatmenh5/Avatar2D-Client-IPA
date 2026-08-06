@@ -25,6 +25,7 @@ final class CommandUsingPart extends Command {
          Part var1 = AvatarData.getPart(this.f.idPart);
          PopupShop.resetIsTrans();
          PopupShop.addStr(T.doBen + (100 - this.f.time) + "%");
+         PopupShop.addStr("Id: " + var1.IDPart);
          String var2 = "";
          if (var1.zOrder == 20) {
             var2 = T.setMaxMoney;

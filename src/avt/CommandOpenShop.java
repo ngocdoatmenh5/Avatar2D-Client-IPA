@@ -30,6 +30,7 @@ final class CommandOpenShop extends Command {
          if (var1.IDPart != -1) {
             MapScr.setAvatarShop(var1);
             PopupShop.resetIsTrans();
+            PopupShop.addStr("Id: " + var1.IDPart);
             PopupShop.addStr(var1.name);
             if (this.i == -1) {
                PopupShop.addStr(Canvas.getPriceMoney(var1.price[0], var1.price[1], false));

@@ -1,6 +1,7 @@
 package avt;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.Vector;
 import javax.microedition.lcdui.ChoiceGroup;
@@ -9,9 +10,11 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.TextField;
 import main.Canvas;
 import main.GameMidlet;
+import avt.FishingScr;
 
 public final class ClientUtilities {
    private static final String RMS_UTIL_SPEED = "utilSpeed258";
@@ -22,7 +25,8 @@ public final class ClientUtilities {
    private static final String RMS_EVENT = "event258";
    private static final String RMS_NPC = "npc258";
    private static final String RMS_FISHING = "fish258";
-   private static final String RMS_SMART_FISHING = "smartFish258";
+   private static final String RMS_FISHING_UP_DAILY = "fishup258";
+   private static final String RMS_FISHING_COUNT_DETAIL = "fishcnt258";
    private static final int STONE_SHOP_NPC_ID = 2000000011;
    private static final byte STONE_SHOP_MENU_BYTE = -4;
 
@@ -66,6 +70,7 @@ public final class ClientUtilities {
    public static int autoStonePickaxeGoldBought;
    public static int autoStoneShovelXuBought;
    public static int autoStoneShovelGoldBought;
+   private static int autoStoneBoughtDayKey;
    private static int autoTickCounter;
    private static int autoChatPartIndex;
    private static long autoChatNextSendAtMs;
@@ -76,13 +81,32 @@ public final class ClientUtilities {
 
    static boolean fishingAutoLogin;
    static boolean fishingAutoBuyBait;
+   static boolean fishingAutoBuyTicket;
+   static boolean fishingAutoBuyRod;
+   static boolean fishingAutoSellStone;
+   static int fishingSelectedTicket; // 0 = vé thường (448), 1 = vé VIP (449)
+   static int fishingSelectedRod; // 0 = cần thường, 1 = cần VIP
    static boolean fishingRedFieldEnabled;
    static int fishingCounter;
    static int fishingSoldCounter;
+   static int fishingKcxCounter;
+   private static long fishingSessionStartMs;
+   private static long fishingUpElapsedMs;
+   private static int fishingBaseXu = -1;
+   private static int fishingUpDayKey;
    static boolean[] fishingSellFishSelected = new boolean[]{true, true, true, true, true, true, true, true, true, true};
    static Hashtable fishingCaughtById = new Hashtable();
    static Hashtable fishingSoldById = new Hashtable();
    static Vector fishingFishIdOrder = new Vector();
+   private static int fishingFlyX = -1;
+   private static int fishingFlyY = -1;
+   private static int fishingFlyLastX = -1;
+   private static int fishingFlyLastY = -1;
+   private static short fishingFlyFishId = -1;
+   private static int fishingFlyMoneyDelta;
+   private static boolean fishingFlyShown;
+   private static long fishingFlyPendingUntilMs;
+   private static long fishingFlyLastShowMs;
    private static Thread fishingAutoLoginThread;
    private static byte fishingReloginStage; // 0 none, 1 waiting login success, 2 waiting join map 9, 3 waiting return map, 4 waiting return move
    private static byte fishingReloginSavedMap = -1;
@@ -92,7 +116,6 @@ public final class ClientUtilities {
    private static int fishingReloginSavedDir;
    private static int fishingReloginSavedDir2;
    private static long fishingReloginNextAtMs;
-   private static boolean fishingReloginLoginIssued;
    private static long fishingAutoBaitNextAtMs;
    private static boolean fishingAutoBaitPendingBuy;
    private static int fishingAutoBaitBuyStep;
@@ -110,83 +133,13 @@ public final class ClientUtilities {
    private static int fishingAutoBaitMoveTargetY = -1;
    private static int fishingAutoBaitForceExitTries;
    private static int fishingAutoBaitDirectBuyRemain;
+   private static boolean fishingAutoBuyTicketRequested;
+   private static boolean fishingAutoBuyRodRequested;
+   private static int fishingAutoBuyTicketStep;
+   private static int fishingAutoBuyRodStep;
+   private static boolean fishingAutoBuyPending;
+   private static boolean fishingAutoBuyBaitPending;
 
-   // Smart fishing (CaiTien-style settings)
-   static boolean smartFishingEnabled;
-   static byte smartFishingMap = 16; // 14/15/16
-   static boolean smartFishingAutoFarm = true;
-   static int smartFishingFarmMinutes = 5;
-   private static long smartFishingNextFarmAtMs;
-   private static long smartFishingReturnToFishAtMs;
-   private static byte smartFishingReturnMap = -1;
-   private static long smartFishingFarmCareNextTryAtMs;
-   private static boolean smartFishingFarmCareStarted;
-   private static long smartFishingNextMapSwitchAtMs;
-   // 0 idle
-   // 1 handler8, 2 handler10, 3 join25, 4 join24(farm)
-   // 5 quick care, 6 back25, 7 handler8, 8 handler9, 9 join13, 10 join fishing map
-   private static byte smartFishingPhase;
-   private static long smartFishingNextStepAtMs;
-   private static long smartFishingQuickCareMinUntilMs;
-   private static long smartFishLastDiagLogMs;
-   /** Delay after handler switches before next network action */
-   private static final long SMART_FISH_HANDLER_GAP_MS = 350L;
-   /** Delay after park joins / farm enter */
-   private static final long SMART_FISH_MAP_GAP_MS = 1800L;
-
-   private static void logSmartFish(String msg) {
-      System.out.println("[SMART_FISH] " + msg);
-   }
-
-   private static void logSmartFishDiagThrottled(String msg) {
-      long t = System.currentTimeMillis();
-      if (t - smartFishLastDiagLogMs < 2000L) {
-         return;
-      }
-      smartFishLastDiagLogMs = t;
-      logSmartFish(msg);
-   }
-
-   private static void requestSmartFishingNeutralHandler() {
-      try {
-         logSmartFish("getHandler(8) call");
-         GlobalService.gI().getHandler(8);
-      } catch (Throwable t) {
-         logSmartFish("getHandler(8) failed: " + t);
-      }
-   }
-
-   private static boolean trySmartFishingJoinPark(int mapId, int boardId) {
-      long now = System.currentTimeMillis();
-      if (now < smartFishingNextMapSwitchAtMs) {
-         logSmartFishDiagThrottled("doJoinPark(" + mapId + "," + boardId + ") blocked cooldown "
-               + (smartFishingNextMapSwitchAtMs - now) + "ms phase=" + smartFishingPhase
-               + " typemap=" + LoadMap.TYPEMAP);
-         return false;
-      }
-      logSmartFish("doJoinPark(" + mapId + "," + boardId + ") phase=" + smartFishingPhase
-            + " typemap=" + LoadMap.TYPEMAP);
-      Canvas.startWaitDlg();
-      ParkService.gI().doJoinPark(mapId, boardId);
-      smartFishingNextMapSwitchAtMs = now + 2000L;
-      return true;
-   }
-
-   private static void beginSmartFishingCycle() {
-      smartFishingReturnMap = smartFishingMap;
-      smartFishingFarmCareStarted = false;
-      smartFishingQuickCareMinUntilMs = 0L;
-      smartFishLastDiagLogMs = 0L;
-      smartFishingPhase = 1;
-      smartFishingNextStepAtMs = System.currentTimeMillis() + 200L;
-      logSmartFish("beginSmartFishingCycle phase=1 in 200ms typemap=" + LoadMap.TYPEMAP);
-      if (Canvas.menuMain != null) {
-         Canvas.menuMain = null;
-      }
-      if (Canvas.currentDialog != null) {
-         Canvas.endDlg();
-      }
-   }
 
    private static String titleCaseWords(String s) {
       if (s == null) return "";
@@ -349,6 +302,11 @@ public final class ClientUtilities {
    private static boolean map13GuideShown;
    private static int lastObservedMapType = -1;
    private static long autoTrollDebugNextLogAtMs;
+   
+   private static final String RMS_MAP13_API_URL = "map13ApiUrl258";
+   private static String MAP13_API_URL = "http://160.191.242.130/map13_announcement.php";
+   private static String map13OnlineContent = "";
+   private static boolean map13OnlineLoaded;
 
    private static byte autoStonePendingBuyType = -1;
    private static int autoStonePendingMoneyXu = -1;
@@ -374,13 +332,22 @@ public final class ClientUtilities {
       v.addElement(new Command("Chuyển nhân vật", new IActionUtilityCmd((byte)13)));
       v.addElement(new Command(T.utilVietnameseIME + ": " + boolCap(vietnameseTyping), new IActionUtilityCmd((byte)10)));
       v.addElement(new Command("Auto đào đá", new IActionUtilityCmd((byte)11)));
-     
+      v.addElement(new Command("Ngồi câu ở đây", new IActionUtilityCmd((byte)14)));
+
       return v;
    }
 
    public static void stopAutoDialLuckyFromUtility() {
       DialLuckyScr.gI().stopAutoDialFromUtility();
       Canvas.startOKDlg("Đã tắt auto quay số.");
+   }
+
+   public static void sitToFishHere() {
+      if (GameMidlet.avatar != null) {
+         int x = GameMidlet.avatar.x;
+         int y = GameMidlet.avatar.y;
+         FishingScr.gI().doSat(x, y);
+      }
    }
 
    public static void openUtilitySubmenu() {
@@ -432,7 +399,6 @@ public final class ClientUtilities {
             final int x = fishingReloginSavedX;
             final int y = fishingReloginSavedY;
             final int savedDir = fishingReloginSavedDir;
-            final int savedDir2 = fishingReloginSavedDir2;
             new Thread(new Runnable() {
                public void run() {
                   try { Thread.sleep(3000L); } catch (Throwable t) {}
@@ -441,24 +407,27 @@ public final class ClientUtilities {
                      try {
                         if (GameMidlet.avatar != null && x >= 0 && y >= 0 && LoadMap.TYPEMAP == fishingReloginSavedMap) {
                            GameMidlet.avatar.direct = (byte)savedDir;
-                           GameMidlet.avatar.direct_ = (short)savedDir2;
-                           int dir = savedDir;
-                           int dir2 = savedDir2;
+                           GameMidlet.avatar.direct_ = (short)0;
                            System.out.println("[FISH_AUTO_LOGIN] return move try=" + retry + " to x=" + x + " y=" + y + " map=" + LoadMap.TYPEMAP);
-                           // Dùng cùng pattern như auto-bait: set focus local rồi gửi move packet.
-                           GameMidlet.avatar.posFocus = new AvPosition(x, y);
-                           GameMidlet.avatar.l();
+                           GameMidlet.avatar.x = x;
+                           GameMidlet.avatar.y = y;
                            GameMidlet.avatar.xCur = x;
                            GameMidlet.avatar.yCur = y;
-                           ParkService.gI().doMove(x, y, dir, dir2);
-                           // Gửi thêm 1 lần qua MapScr để đồng bộ đường đi local + packet dự phòng.
-                           MapScr.doMove(x, y, dir, dir2);
+                           MapScr.doMove(x, y, savedDir, (short)0);
                         }
                      } catch (Throwable t) {
                         System.out.println("[FISH_AUTO_LOGIN] return move error: " + t.toString());
                      }
                      retry++;
                      try { Thread.sleep(700L); } catch (Throwable t) {}
+                  }
+                  try {
+                     Thread.sleep(2000L);
+                     if (GameMidlet.avatar != null && x >= 0 && y >= 0 && LoadMap.TYPEMAP == fishingReloginSavedMap) {
+                        FishingScr.gI().doSat(x, y);
+                     }
+                  } catch (Throwable t) {
+                     System.out.println("[FISH_AUTO_LOGIN] doSat after relogin error: " + t.toString());
                   }
                   fishingReloginStage = 0;
                }
@@ -1462,17 +1431,47 @@ public final class ClientUtilities {
                          + autoStonePickaxeGoldBuyLimit + "\n"
                          + autoStoneShovelXuBuyLimit + "\n"
                          + autoStoneShovelGoldBuyLimit + "\n"
-                         + sell);
+                        + sell + "\n"
+                        + autoStonePickaxeXuBought + "\n"
+                        + autoStonePickaxeGoldBought + "\n"
+                        + autoStoneShovelXuBought + "\n"
+                        + autoStoneShovelGoldBought + "\n"
+                        + autoStoneBoughtDayKey);
       } catch (Throwable var1) {
       }
    }
 
    public static void resetAutoStoneSchedule() {
       autoStoneNextAtMs = 0L;
+   }
+
+   private static int getCurrentLocalDayKey() {
+      try {
+         Calendar c = Calendar.getInstance();
+         int y = c.get(1);
+         int m = c.get(2) + 1;
+         int d = c.get(5);
+         return y * 10000 + m * 100 + d;
+      } catch (Throwable t) {
+         return (int)(System.currentTimeMillis() / 86400000L);
+      }
+   }
+
+   private static void resetAutoStoneBoughtCounterForToday() {
       autoStonePickaxeXuBought = 0;
       autoStonePickaxeGoldBought = 0;
       autoStoneShovelXuBought = 0;
       autoStoneShovelGoldBought = 0;
+   }
+
+   private static void ensureAutoStoneBoughtCounterByDay() {
+      int today = getCurrentLocalDayKey();
+      if (autoStoneBoughtDayKey == today) {
+         return;
+      }
+      autoStoneBoughtDayKey = today;
+      resetAutoStoneBoughtCounterForToday();
+      persistAutoStoneSettings();
    }
 
    private static void autoStoneSellByMenuOption() {
@@ -1646,8 +1645,9 @@ public final class ClientUtilities {
       loadPersistedEventSettings();
       loadPersistedNpcSettings();
       loadPersistedFishingSettings();
-      loadPersistedSmartFishingSettings();
+     
       map13GuideShown = false;
+      map13OnlineContent = "";
       lastObservedMapType = -1;
    }
 
@@ -1663,26 +1663,147 @@ public final class ClientUtilities {
 
       map13GuideShown = true;
 
+      final String key = LoginScr.getCurrentLoginKey();
+      (new Thread(new Runnable() {
+         public void run() {
+            try {
+               String url = MAP13_API_URL + "?key=" + LoginScr.encodeUrl(key);
+               String resp = GameMidlet.createhttpconnect(url);
+               if (resp != null) {
+                  resp = resp.trim();
+                  if (resp.length() > 0 && !resp.equals("NONE")) {
+                     map13OnlineContent = resp;
+                  }
+               }
+            } catch (Exception e) {
+            }
+            showMap13AnnouncementDialog();
+         }
+      })).start();
+   }
+
+   public static void hideCustomTabIfOpen() {
+      try {
+         if (CustomTab.me != null) {
+            CustomTab.gI().commandTab(0, 0);
+         }
+      } catch (Throwable t) {
+      }
+   }
+
+   private static void showMap13AnnouncementDialog() {
       Hashtable icons = new Hashtable();
-      String title = "Bản cập nhật này có gì mới ?";
-      String content =
-              "1 .Cập nhật lại auto quay số , auto câu cá , cập nhật hiển thị rương đồ.\n"
-              + "2. Hướng dẫn sử dụng\n"
-                      + "- Bản cập nhật này Bằng đz đã thêm menu thêm npc.\n"
-                      + "- Anh em đến NPC quay số/Quay số vip ấn menu thêm npc.\n"
-                      + "- Cài đặt cấu hình đào đá và auto Bán đá.\n"
-                      + "- Vào map ae muốn câu - Nhớ mua loại cần và vé tương ứng , sẽ cập nhật tự mua ở bản sau -\n"
-                      + "- Vào map câu cá ngồi vào chỗ câu , ấn Menu cài đặt cấu hình bán cá , cập nhật danh sách cá cần bán\n"
-                      + "- Ngồi câu ae có thể nhấn phím * (phím sao) ở bàn phím để bật auto đào đá, ấn menu chọn danh sách npc , chọn npcquay số và cài đặt cấu hình quay số , rồi auto quay số là được ! -\n"
-                      + "- Chúc anh em có một trải nghiệm phiên bản vui vẻ -\n"
-                      + "- Mọi thắc mắc vui lòng liên hệ admin : Nguyễn Văn Bằng \n"
-                     +   "--------- Zalo : 0787054816  ---------\n";
+      String title = "Thông báo";
+      String content;
+
+      if (map13OnlineContent != null && map13OnlineContent.length() > 0) {
+         content = map13OnlineContent;
+      } else {
+         content = "Chào mừng bạn đến với Avatar Mod By Nguyễn Văn Bằng!\n"
+                 + ".";
+      }
+
       try {
          CustomTab.me = null;
       } catch (Throwable t) {
       }
       CustomTab.gI().setInfo(icons, title, content, (byte)-1);
-      CustomTab.gI().show();
+      CustomTab.showIfAllowed();
+   }
+
+   private static void persistFishingFishCountDetail() {
+      try {
+         StringBuffer sb = new StringBuffer();
+         for (int i = 0; i < fishingFishIdOrder.size(); i++) {
+            Integer v = (Integer)fishingFishIdOrder.elementAt(i);
+            if (v == null) {
+               continue;
+            }
+            short id = canonicalFishCountId((short)v.intValue());
+            int c = getFishCount(fishingCaughtById, id);
+            int s = getFishCount(fishingSoldById, id);
+            if (c == 0 && s == 0) {
+               continue;
+            }
+            if (sb.length() > 0) {
+               sb.append(';');
+            }
+            sb.append(id).append(':').append(c).append(':').append(s);
+         }
+         CRes.a(RMS_FISHING_COUNT_DETAIL, sb.toString());
+      } catch (Exception e) {
+      }
+   }
+
+   private static short canonicalFishCountId(short idFish) {
+      return fishVisualPartId(idFish);
+   }
+
+   private static void mergeLoadedFishCount(short idFish, int caught, int sold) {
+      short canon = canonicalFishCountId(idFish);
+      Integer key = new Integer(canon);
+      if (caught > 0) {
+         Integer cur = (Integer)fishingCaughtById.get(key);
+         fishingCaughtById.put(key, new Integer((cur == null ? 0 : cur.intValue()) + caught));
+      }
+      if (sold > 0) {
+         Integer cur = (Integer)fishingSoldById.get(key);
+         fishingSoldById.put(key, new Integer((cur == null ? 0 : cur.intValue()) + sold));
+      }
+      if (caught > 0 || sold > 0) {
+         boolean seen = false;
+         for (int i = 0; i < fishingFishIdOrder.size(); i++) {
+            Integer v = (Integer)fishingFishIdOrder.elementAt(i);
+            if (v != null && v.intValue() == canon) {
+               seen = true;
+               break;
+            }
+         }
+         if (!seen) {
+            fishingFishIdOrder.addElement(key);
+         }
+      }
+   }
+
+   private static void loadPersistedFishingFishCountDetail() {
+      try {
+         fishingCaughtById.clear();
+         fishingSoldById.clear();
+         fishingFishIdOrder.removeAllElements();
+         String s = CRes.b(RMS_FISHING_COUNT_DETAIL);
+         if (s == null || s.trim().length() == 0) {
+            return;
+         }
+         int i = 0;
+         while (i <= s.length()) {
+            int sep = s.indexOf(';', i);
+            String rec = sep < 0 ? s.substring(i) : s.substring(i, sep);
+            if (rec != null && rec.trim().length() > 0) {
+               int c1 = rec.indexOf(':');
+               int c2 = rec.lastIndexOf(':');
+               if (c1 > 0 && c2 > c1) {
+                  short id = (short)Integer.parseInt(rec.substring(0, c1).trim());
+                  int caught = Integer.parseInt(rec.substring(c1 + 1, c2).trim());
+                  int sold = Integer.parseInt(rec.substring(c2 + 1).trim());
+                  mergeLoadedFishCount(id, caught, sold);
+               }
+            }
+            if (sep < 0) {
+               break;
+            }
+            i = sep + 1;
+         }
+         if (fishingFishIdOrder.size() > 0) {
+            persistFishingFishCountDetail();
+         }
+      } catch (Exception e) {
+         try {
+            fishingCaughtById.clear();
+            fishingSoldById.clear();
+            fishingFishIdOrder.removeAllElements();
+         } catch (Throwable t) {
+         }
+      }
    }
 
    private static void persistFishingSettings() {
@@ -1692,318 +1813,18 @@ public final class ClientUtilities {
             sell += (fishingSellFishSelected[i] ? "1" : "0");
             if (i + 1 < fishingSellFishSelected.length) sell += ",";
          }
-         CRes.a(RMS_FISHING, (fishingAutoLogin ? "1" : "0") + "|" + (fishingAutoBuyBait ? "1" : "0") + "|" + (fishingRedFieldEnabled ? "1" : "0") + "|" + fishingCounter + "|" + fishingSoldCounter + "|" + sell);
+         CRes.a(RMS_FISHING, (fishingAutoLogin ? "1" : "0") + "|" + (fishingAutoBuyBait ? "1" : "0") + "|" + (fishingRedFieldEnabled ? "1" : "0") + "|" + fishingCounter + "|" + fishingSoldCounter + "|" + sell + "|" + (fishingAutoBuyTicket ? "1" : "0") + "|" + fishingSelectedTicket + "|" + (fishingAutoBuyRod ? "1" : "0") + "|" + fishingSelectedRod + "|" + (autoStoneEnabled ? "1" : "0") + "|" + (fishingAutoSellStone ? "1" : "0") + "|0|30");
+         persistFishingFishCountDetail();
       } catch (Exception e) {
-      }
-   }
-
-   private static void persistSmartFishingSettings() {
-      try {
-         // enabled|map|autoFarm|minutes
-         String s =
-                 (smartFishingEnabled ? "1" : "0") + "|"
-                 + (smartFishingMap & 255) + "|"
-                 + (smartFishingAutoFarm ? "1" : "0") + "|"
-                 + smartFishingFarmMinutes;
-         CRes.a(RMS_SMART_FISHING, s);
-      } catch (Throwable t) {
-      }
-   }
-
-   private static void loadPersistedSmartFishingSettings() {
-      try {
-         String s = CRes.b(RMS_SMART_FISHING);
-         if (s == null) return;
-         String[] parts = s.split("\\|");
-         if (parts.length > 0) smartFishingEnabled = "1".equals(parts[0].trim());
-         if (parts.length > 1) {
-            try {
-               int m = Integer.parseInt(parts[1].trim());
-               if (m == 14 || m == 15 || m == 16) smartFishingMap = (byte)m;
-            } catch (Throwable t) {
-            }
-         }
-         if (parts.length > 2) smartFishingAutoFarm = "1".equals(parts[2].trim());
-         if (parts.length > 3) {
-            try {
-               int mins = Integer.parseInt(parts[3].trim());
-               if (mins < 0) mins = 0;
-               if (mins > 1440) mins = 1440;
-               smartFishingFarmMinutes = mins;
-            } catch (Throwable t) {
-            }
-         }
-      } catch (Throwable t) {
-      }
-   }
-
-   static void toggleSmartFishingEnabled() {
-      smartFishingEnabled = !smartFishingEnabled;
-      persistSmartFishingSettings();
-      if (smartFishingEnabled) {
-         smartFishingNextFarmAtMs = System.currentTimeMillis() + (long)smartFishingFarmMinutes * 60_000L;
-         smartFishingReturnToFishAtMs = 0L;
-         smartFishingFarmCareNextTryAtMs = System.currentTimeMillis() + 1200L;
-         smartFishingNextMapSwitchAtMs = 0L;
-         beginSmartFishingCycle();
-         Canvas.addServerInfo("Auto câu cá: Bật");
-      } else {
-         smartFishingReturnToFishAtMs = 0L;
-         smartFishingReturnMap = -1;
-         smartFishingFarmCareNextTryAtMs = 0L;
-         smartFishingFarmCareStarted = false;
-         smartFishingNextMapSwitchAtMs = 0L;
-         smartFishingPhase = 0;
-         smartFishingNextStepAtMs = 0L;
-         smartFishingQuickCareMinUntilMs = 0L;
-         Canvas.addServerInfo("Auto câu cá: Tắt");
-      }
-   }
-
-   static void openSmartFishingSettingsMenu() {
-      Vector v = new Vector();
-      v.addElement(new Command("Auto câu cá: " + (smartFishingEnabled ? "Bật" : "Tắt"), new IActionSmartFishing((byte)0)));
-      v.addElement(new Command("Cài đặt auto nâng cao", new IActionSmartFishing((byte)1)));
-      Menu.gI().startAt(v, -1);
-      Menu.h = null;
-   }
-
-   static void openSmartFishingSettingsForm() {
-      final Form form = new Form("Cài đặt auto nâng cao");
-
-      final ChoiceGroup cgMap = new ChoiceGroup("Bạn muốn câu cá", ChoiceGroup.EXCLUSIVE);
-      cgMap.append("Câu Cá mập, chim, đuối, ngựa (Map 16)", null);
-      cgMap.append("Câu Cá lóc, nóc, cua (Map 15)", null);
-      cgMap.append("Câu Cá rô, chép, vàng, lòng tong (Map 14)", null);
-      int mapIdx = 0;
-      if (smartFishingMap == 15) mapIdx = 1;
-      if (smartFishingMap == 14) mapIdx = 2;
-      cgMap.setSelectedIndex(mapIdx, true);
-
-      final ChoiceGroup cgFarm = new ChoiceGroup("Bạn muốn chăm sóc nông trại", ChoiceGroup.EXCLUSIVE);
-      cgFarm.append("Chăm sóc nông trại thông minh", null);
-      cgFarm.append("Không chăm sóc", null);
-      cgFarm.setSelectedIndex(smartFishingAutoFarm ? 0 : 1, true);
-
-      final TextField tfMin = new TextField("Thời gian về nông trại (Phút)", String.valueOf(smartFishingFarmMinutes), 4, TextField.NUMERIC);
-
-      form.append(cgMap);
-      form.append(cgFarm);
-      form.append(tfMin);
-
-      final javax.microedition.lcdui.Command cmdSave = new javax.microedition.lcdui.Command("Lưu", 4, 1);
-      final javax.microedition.lcdui.Command cmdCancel = new javax.microedition.lcdui.Command(T.cancel, 2, 1);
-      form.addCommand(cmdSave);
-      form.addCommand(cmdCancel);
-
-      form.setCommandListener(new CommandListener() {
-         public void commandAction(javax.microedition.lcdui.Command c, Displayable d) {
-            if (c == cmdSave) {
-               int i = cgMap.getSelectedIndex();
-               smartFishingMap = (byte)(i == 2 ? 14 : (i == 1 ? 15 : 16));
-               smartFishingAutoFarm = cgFarm.getSelectedIndex() == 0;
-               int mins;
-               try {
-                  mins = Integer.parseInt(tfMin.getString().trim());
-               } catch (Throwable t) {
-                  mins = smartFishingFarmMinutes;
-               }
-               if (mins < 0) mins = 0;
-               if (mins > 1440) mins = 1440;
-               smartFishingFarmMinutes = mins;
-               persistSmartFishingSettings();
-               Canvas.addServerInfo("Đã lưu cài đặt auto");
-               if (smartFishingEnabled) {
-                  smartFishingNextFarmAtMs = System.currentTimeMillis() + (long)smartFishingFarmMinutes * 60_000L;
-               }
-            }
-            Canvas.instance.setFullScreenMode(true);
-            Display.getDisplay(GameMidlet.instance).setCurrent(Canvas.instance);
-            ClientUtilities.openFishingSettingsSubmenu();
-         }
-      });
-
-      Display.getDisplay(GameMidlet.instance).setCurrent(form);
-   }
-
-   private static void smartFishingTick() {
-      if (!smartFishingEnabled) return;
-      if (Canvas.menuMain != null || Canvas.currentDialog != null || ChatTextField.isShow) {
-         if (smartFishingPhase != 0) {
-            logSmartFishDiagThrottled("tick blocked UI phase=" + smartFishingPhase
-                  + " menuMain=" + (Canvas.menuMain != null)
-                  + " dialog=" + (Canvas.currentDialog != null)
-                  + " chat=" + ChatTextField.isShow
-                  + " typemap=" + LoadMap.TYPEMAP);
-         }
-         return;
-      }
-      if (!Session_ME.gI().isConnected()) {
-         if (smartFishingPhase != 0) {
-            logSmartFishDiagThrottled("tick blocked disconnected phase=" + smartFishingPhase);
-         }
-         return;
-      }
-
-      long now = System.currentTimeMillis();
-      // 8 -> 10 -> 25(0) -> 24/53 (farm) -> 25(0) -> 8 -> 9 -> 13 -> fishing map
-      if (smartFishingPhase != 0) {
-         if (now < smartFishingNextStepAtMs) {
-            logSmartFishDiagThrottled("phase wait phase=" + smartFishingPhase
-                  + " in " + (smartFishingNextStepAtMs - now) + "ms typemap=" + LoadMap.TYPEMAP);
-            return;
-         }
-
-         switch (smartFishingPhase) {
-            case 1:
-               logSmartFish("phase1 run typemap=" + LoadMap.TYPEMAP);
-               requestSmartFishingNeutralHandler();
-               smartFishingPhase = 2;
-               smartFishingNextStepAtMs = now + SMART_FISH_HANDLER_GAP_MS;
-               logSmartFish("phase1->2 next in " + SMART_FISH_HANDLER_GAP_MS + "ms");
-               return;
-            case 2:
-               logSmartFish("phase2 getHandler(10) typemap=" + LoadMap.TYPEMAP);
-               try {
-                  GlobalService.gI().getHandler(10);
-               } catch (Throwable t) {
-                  logSmartFish("phase2 getHandler(10) failed: " + t);
-               }
-               smartFishingPhase = 3;
-               smartFishingNextStepAtMs = now + SMART_FISH_MAP_GAP_MS;
-               logSmartFish("phase2->3 next in " + SMART_FISH_MAP_GAP_MS + "ms (before join 25)");
-               return;
-            case 3:
-               if (trySmartFishingJoinPark(25, 0)) {
-                  smartFishingPhase = 4;
-                  smartFishingNextStepAtMs = now + SMART_FISH_MAP_GAP_MS;
-                  logSmartFish("phase3->4 next in " + SMART_FISH_MAP_GAP_MS + "ms");
-               }
-               return;
-            case 4:
-               if (LoadMap.TYPEMAP == 25) {
-                  logSmartFish("phase4 doJoinFarm self typemap=25");
-                  try { FarmScr.gI().doJoinFarm(GameMidlet.avatar.IDDB, true); } catch (Throwable t) {
-                     logSmartFish("phase4 doJoinFarm failed: " + t);
-                  }
-                  smartFishingPhase = 5;
-                  smartFishingNextStepAtMs = now + SMART_FISH_MAP_GAP_MS;
-                  logSmartFish("phase4->5 next in " + SMART_FISH_MAP_GAP_MS + "ms");
-               } else {
-                  logSmartFishDiagThrottled("phase4 wait TYPEMAP==25 have " + LoadMap.TYPEMAP);
-                  smartFishingNextStepAtMs = now + 600L;
-               }
-               return;
-            case 5:
-               if (LoadMap.TYPEMAP == 24 || LoadMap.TYPEMAP == 53) {
-                  if (Canvas.currentMyScreen != FarmScr.gI()) {
-                     logSmartFishDiagThrottled("phase5 wait FarmScr screen=" + Canvas.currentMyScreen
-                           + " typemap=" + LoadMap.TYPEMAP);
-                     smartFishingNextStepAtMs = now + 400L;
-                     return;
-                  }
-                  if (!smartFishingFarmCareStarted) {
-                     logSmartFish("phase5 quickCare command 101");
-                     try { FarmScr.gI().commandActionPointer(101, -1); } catch (Throwable t) {
-                        logSmartFish("phase5 quickCare failed: " + t);
-                     }
-                     smartFishingFarmCareStarted = true;
-                     smartFishingQuickCareMinUntilMs = now + 1500L;
-                     smartFishingNextStepAtMs = now + 1200L;
-                     return;
-                  }
-                  if (now < smartFishingQuickCareMinUntilMs) {
-                     smartFishingNextStepAtMs = now + 300L;
-                     return;
-                  }
-                  if (Canvas.currentDialog == null && !FarmScr.gI().isQuickCareBusyForAuto()) {
-                     smartFishingPhase = 6;
-                     smartFishingNextStepAtMs = now + SMART_FISH_MAP_GAP_MS;
-                     logSmartFish("phase5->6 quickCare done next in " + SMART_FISH_MAP_GAP_MS + "ms");
-                  } else {
-                     logSmartFishDiagThrottled("phase5 quickCare busy dialog="
-                           + (Canvas.currentDialog != null));
-                     smartFishingNextStepAtMs = now + 600L;
-                  }
-               } else {
-                  logSmartFishDiagThrottled("phase5 wait farm TYPEMAP have " + LoadMap.TYPEMAP);
-                  smartFishingNextStepAtMs = now + 600L;
-               }
-               return;
-            case 6:
-               if (trySmartFishingJoinPark(25, 0)) {
-                  smartFishingPhase = 7;
-                  smartFishingNextStepAtMs = now + SMART_FISH_HANDLER_GAP_MS;
-                  logSmartFish("phase6->7 next in " + SMART_FISH_HANDLER_GAP_MS + "ms");
-               }
-               return;
-            case 7:
-               logSmartFish("phase7 second getHandler(8)");
-               requestSmartFishingNeutralHandler();
-               smartFishingPhase = 8;
-               smartFishingNextStepAtMs = now + SMART_FISH_HANDLER_GAP_MS;
-               logSmartFish("phase7->8 next in " + SMART_FISH_HANDLER_GAP_MS + "ms");
-               return;
-            case 8:
-               logSmartFish("phase8 getHandler(9)");
-               try {
-                  GlobalService.gI().getHandler(9);
-               } catch (Throwable t) {
-                  logSmartFish("phase8 getHandler(9) failed: " + t);
-               }
-               smartFishingPhase = 9;
-               smartFishingNextStepAtMs = now + SMART_FISH_MAP_GAP_MS;
-               logSmartFish("phase8->9 next in " + SMART_FISH_MAP_GAP_MS + "ms");
-               return;
-            case 9:
-               if (trySmartFishingJoinPark(13, -1)) {
-                  smartFishingPhase = 10;
-                  smartFishingNextStepAtMs = now + SMART_FISH_MAP_GAP_MS;
-                  logSmartFish("phase9->10 next in " + SMART_FISH_MAP_GAP_MS + "ms");
-               }
-               return;
-            case 10:
-               if (trySmartFishingJoinPark(smartFishingMap, -1)) {
-                  smartFishingPhase = 0;
-                  smartFishingReturnMap = -1;
-                  smartFishingFarmCareStarted = false;
-                  smartFishingNextStepAtMs = 0L;
-                  smartFishingQuickCareMinUntilMs = 0L;
-                  logSmartFish("cycle end idle joinFishMap=" + smartFishingMap);
-               }
-               return;
-         }
-      }
-
-      // When idle, avoid interrupting other in-game activities.
-      if (GameMidlet.avatar != null && GameMidlet.avatar.task != 0 && GameMidlet.avatar.task != -5) return;
-      if (Bus.isRun) return;
-
-      if (smartFishingAutoFarm && smartFishingFarmMinutes > 0) {
-         if (smartFishingNextFarmAtMs == 0L) {
-            smartFishingNextFarmAtMs = now + (long)smartFishingFarmMinutes * 60_000L;
-         }
-         if (now >= smartFishingNextFarmAtMs) {
-            smartFishingNextFarmAtMs = now + (long)smartFishingFarmMinutes * 60_000L;
-            beginSmartFishingCycle();
-            return;
-         }
-      }
-
-      int cur = LoadMap.TYPEMAP;
-      if (cur != 14 && cur != 15 && cur != 16) {
-         trySmartFishingJoinPark(smartFishingMap, -1);
       }
    }
 
    private static void loadPersistedFishingSettings() {
       try {
          String s = CRes.b(RMS_FISHING);
-         if (s == null) return;
-         String[] parts = splitLines3(s);
-         if (parts == null || parts.length == 0) {
-            return;
-         }
+         if (s != null) {
+         String[] parts = splitPipe(s.trim(), 20);
+         if (parts != null && parts.length > 0) {
          fishingAutoLogin = "1".equals(parts[0].trim());
          fishingAutoBuyBait = parts.length > 1 && "1".equals(parts[1].trim());
          fishingRedFieldEnabled = parts.length > 2 && "1".equals(parts[2].trim());
@@ -2031,10 +1852,122 @@ public final class ClientUtilities {
                fishingSellFishSelected[i] = "1".equals(sells[i].trim());
             }
          }
+         if (parts.length > 6) {
+            fishingAutoBuyTicket = "1".equals(parts[6].trim());
+         }
+         if (parts.length > 7) {
+            try {
+               fishingSelectedTicket = Integer.parseInt(parts[7].trim());
+               if (fishingSelectedTicket < 0) fishingSelectedTicket = 0;
+               if (fishingSelectedTicket > 1) fishingSelectedTicket = 1;
+            } catch (Exception ex) {
+               fishingSelectedTicket = 0;
+            }
+         }
+         if (parts.length > 8) {
+            fishingAutoBuyRod = "1".equals(parts[8].trim());
+         }
+         if (parts.length > 9) {
+            try {
+               fishingSelectedRod = Integer.parseInt(parts[9].trim());
+               if (fishingSelectedRod < 0) fishingSelectedRod = 0;
+               if (fishingSelectedRod > 1) fishingSelectedRod = 1;
+            } catch (Exception ex) {
+               fishingSelectedRod = 0;
+            }
+         }
+         if (parts.length > 10) {
+            autoStoneEnabled = "1".equals(parts[10].trim());
+         }
+         if (parts.length > 11) {
+            fishingAutoSellStone = "1".equals(parts[11].trim());
+         }
+         }
+         }
          if (fishingAutoLogin) {
             ensureFishingAutoLoginThread();
          }
       } catch (Exception e) {
+      }
+      loadPersistedFishingFishCountDetail();
+      loadPersistedFishingDailyStats();
+   }
+
+   private static void resetFishingDailyStats(int dayKey) {
+      fishingUpDayKey = dayKey;
+      fishingKcxCounter = 0;
+      fishingBaseXu = -1;
+      fishingUpElapsedMs = 0L;
+      fishingSessionStartMs = 0L;
+   }
+
+   private static void flushFishingUpElapsed() {
+      if (fishingSessionStartMs <= 0L) {
+         return;
+      }
+      long now = System.currentTimeMillis();
+      fishingUpElapsedMs += now - fishingSessionStartMs;
+      fishingSessionStartMs = 0L;
+   }
+
+   private static long getFishingUpElapsedMsNow() {
+      if (fishingSessionStartMs <= 0L) {
+         return fishingUpElapsedMs;
+      }
+      return fishingUpElapsedMs + (System.currentTimeMillis() - fishingSessionStartMs);
+   }
+
+   private static void persistFishingDailyStats() {
+      try {
+         long elapsedSave = getFishingUpElapsedMsNow();
+         CRes.a(RMS_FISHING_UP_DAILY, fishingUpDayKey + "|" + fishingBaseXu + "|" + elapsedSave + "|" + fishingKcxCounter);
+      } catch (Exception e) {
+      }
+   }
+
+   private static String[] splitPipe(String s, int maxParts) {
+      if (s == null) {
+         return null;
+      }
+      Vector v = new Vector();
+      int i = 0;
+      while (i <= s.length() && v.size() < maxParts) {
+         int j = s.indexOf('|', i);
+         if (j < 0) {
+            v.addElement(s.substring(i));
+            break;
+         }
+         v.addElement(s.substring(i, j));
+         i = j + 1;
+      }
+      String[] out = new String[v.size()];
+      for (int k = 0; k < v.size(); k++) {
+         out[k] = (String)v.elementAt(k);
+      }
+      return out;
+   }
+
+   private static void loadPersistedFishingDailyStats() {
+      try {
+         String s = CRes.b(RMS_FISHING_UP_DAILY);
+         if (s == null || s.trim().length() == 0) {
+            resetFishingDailyStats(0);
+            return;
+         }
+         String[] parts = splitPipe(s.trim(), 8);
+         if (parts == null || parts.length < 4) {
+            resetFishingDailyStats(0);
+            return;
+         }
+         fishingUpDayKey = Integer.parseInt(parts[0].trim());
+         fishingBaseXu = Integer.parseInt(parts[1].trim());
+         fishingUpElapsedMs = Long.parseLong(parts[2].trim());
+         if (fishingUpElapsedMs < 0L) fishingUpElapsedMs = 0L;
+         fishingKcxCounter = Integer.parseInt(parts[3].trim());
+         if (fishingKcxCounter < 0) fishingKcxCounter = 0;
+         fishingSessionStartMs = 0L;
+      } catch (Exception e) {
+         resetFishingDailyStats(0);
       }
    }
 
@@ -2044,7 +1977,6 @@ public final class ClientUtilities {
       v.addElement(new Command("Rương đồ", new IActionFishingSettings((byte)1)));
       v.addElement(new Command("Reset bộ đếm", new IActionFishingSettings((byte)2)));
       v.addElement(new Command("Auto login: " + (fishingAutoLogin ? "Bật" : "Tắt"), new IActionFishingSettings((byte)3)));
-      v.addElement(new Command("Auto câu cá", new IActionSmartFishing((byte)2)));
       if (Canvas.currentMyScreen == FishingScr.gI() && (LoadMap.TYPEMAP == 14 || LoadMap.TYPEMAP == 15 || LoadMap.TYPEMAP == 16)) {
          v.addElement(new Command("D.Sách Npc", new IActionMapNpcCmd((byte)1)));
       }
@@ -2073,7 +2005,7 @@ public final class ClientUtilities {
       if (GameMidlet.listContainer != null) {
          openPlayerContainerSubmenu();
       } else {
-         Canvas.addServerInfo("Đang tải dữ liệu rương, hãy mở lại sau 1 giây.");
+         // Canvas.addServerInfo("Đang tải dữ liệu rương, hãy mở lại sau 1 giây.");
       }
    }
 
@@ -2112,7 +2044,6 @@ public final class ClientUtilities {
       }
       fishingReloginStage = 1;
       fishingReloginNextAtMs = System.currentTimeMillis() + 3000L;
-      fishingReloginLoginIssued = false;
       System.out.println("[FISH_AUTO_LOGIN] relogin armed. map=" + fishingReloginSavedMap + " board=" + fishingReloginSavedBoard + " x=" + fishingReloginSavedX + " y=" + fishingReloginSavedY + " nextAt=" + fishingReloginNextAtMs);
       try {
          // Yêu cầu: nhận dialog mất kết nối là về Login ngay, rồi đợi 3s tự login
@@ -2129,12 +2060,8 @@ public final class ClientUtilities {
       return fishingReloginNextAtMs;
    }
 
-   static boolean isFishingReloginLoginIssued() {
-      return fishingReloginLoginIssued;
-   }
-
-   static void markFishingReloginLoginIssued() {
-      fishingReloginLoginIssued = true;
+   static void scheduleFishingReloginNextLoginAttempt(long delayMs) {
+      fishingReloginNextAtMs = System.currentTimeMillis() + delayMs;
    }
 
    static boolean isFishingReloginActive() {
@@ -2154,7 +2081,7 @@ public final class ClientUtilities {
    }
 
    public static boolean onFishingAutoLoginSuccess() {
-      System.out.println("[FISH_AUTO_LOGIN] onFishingAutoLoginSuccess called. enabled=" + fishingAutoLogin + " stage=" + fishingReloginStage + " loginIssued=" + fishingReloginLoginIssued);
+      System.out.println("[FISH_AUTO_LOGIN] onFishingAutoLoginSuccess called. enabled=" + fishingAutoLogin + " stage=" + fishingReloginStage);
       if (!fishingAutoLogin) return false;
       if (fishingReloginStage != 1) return false;
       fishingReloginStage = 2;
@@ -2167,8 +2094,8 @@ public final class ClientUtilities {
       return true;
    }
 
-   static void toggleFishingAutoBuyBait() {
-      fishingAutoBuyBait = !fishingAutoBuyBait;
+   private static void resetFishingAutoBaitTripState() {
+      fishingAutoBuyBaitPending = false;
       fishingAutoBaitPendingBuy = false;
       fishingAutoBaitBuyStep = 0;
       fishingAutoBaitMoveDownRemain = 0;
@@ -2186,6 +2113,56 @@ public final class ClientUtilities {
       fishingAutoBaitMoveTargetY = -1;
       fishingAutoBaitForceExitTries = 0;
       fishingAutoBaitDirectBuyRemain = 0;
+   }
+
+   private static boolean isOutOfBaitDialog(String sn) {
+      return sn.indexOf("bancansudungmoicau") >= 0
+            || sn.indexOf("caukhatruongnaydungmoicau") >= 0
+            || (sn.indexOf("moicau") >= 0 && sn.indexOf("caucatrongkhuvucnay") >= 0)
+            || sn.indexOf("trungkien") >= 0
+            || (sn.indexOf("heti") >= 0 && sn.indexOf("moi") >= 0 && sn.indexOf("cau") >= 0 && sn.indexOf("vuilongmuathem") >= 0)
+            || (sn.indexOf("moi") >= 0 && sn.indexOf("cau") >= 0 && sn.indexOf("vuimua") >= 0);
+   }
+
+   private static void handleOutOfBaitInPlace() {
+      resetFishingAutoBaitTripState();
+      try {
+         Canvas.endDlg();
+      } catch (Throwable t) {
+      }
+
+      int sitX = -1;
+      int sitY = -1;
+      try {
+         if (GameMidlet.avatar != null) {
+            sitX = GameMidlet.avatar.x;
+            sitY = GameMidlet.avatar.y;
+         }
+         AvPosition sit = getDefaultFishSitPos(LoadMap.TYPEMAP);
+         if (sit != null) {
+            sitX = sit.x;
+            sitY = sit.y;
+         }
+      } catch (Throwable t) {
+      }
+
+      try {
+         AvatarService.gI().doBuyItem(448, 1);
+      } catch (Throwable t) {
+      }
+
+      if (sitX >= 0 && sitY >= 0) {
+         try {
+            FishingScr.gI().doSat(sitX, sitY);
+         } catch (Throwable t) {
+         }
+      }
+      // Canvas.addServerInfo("Hết mồi: mua tại chỗ, ngồi câu lại");
+   }
+
+   static void toggleFishingAutoBuyBait() {
+      fishingAutoBuyBait = !fishingAutoBuyBait;
+      resetFishingAutoBaitTripState();
       persistFishingSettings();
       Canvas.addServerInfo("Auto mua mồi: " + (fishingAutoBuyBait ? "Bật" : "Tắt"));
    }
@@ -2198,7 +2175,7 @@ public final class ClientUtilities {
       String s = safe(msg).toLowerCase();
       String sn = normalizeForNpcMatch(s);
 
-      // Auto login câu cá: nếu gặp dialog mất kết nối thì tự về Login và auto đăng nhập lại
+      
       try {
          if (fishingAutoLogin && (sn.indexOf("matketnoi") >= 0 || sn.indexOf("khongtheketnoi") >= 0)) {
             onFishingAutoDisconnected();
@@ -2208,7 +2185,7 @@ public final class ClientUtilities {
       } catch (Throwable t) {
       }
       if (autoStoneEnabled) {
-         // Auto đào đá: handle only specific dialogs; keep other dialogs intact.
+        
          try {
             if (autoStoneRecoverHealth && sn.indexOf("suckhoekhongdu") >= 0) {
                ParkService.gI().doBuyItem((short)7);
@@ -2223,7 +2200,7 @@ public final class ClientUtilities {
                     || sn.indexOf("tinhdaodatbangniemtinha") >= 0
                     || sn.indexOf("daodatbangniemtinha") >= 0
                     || (sn.indexOf("alodao") >= 0 && sn.indexOf("niem.tinha") >= 0)) {
-               // Dialog hết dụng cụ (cuốc/xẻng): mua tool theo tick đã chọn
+               
                boolean bought = false;
                if (autoStonePickaxeXu && (autoStonePickaxeXuBuyLimit <= 0 || autoStonePickaxeXuBought < autoStonePickaxeXuBuyLimit)) {
                   markAutoStonePendingPurchase((byte)0);
@@ -2254,7 +2231,7 @@ public final class ClientUtilities {
          } catch (Throwable t) {
          }
 
-         // Tắt hoàn toàn hiển thị dialog khi auto đào đá đang bật.
+        
          try {
             Canvas.endDlg();
          } catch (Throwable tt) {
@@ -2263,19 +2240,39 @@ public final class ClientUtilities {
       }
 
       int map = LoadMap.TYPEMAP;
-      if (map != 13 && map != 14 && map != 15 && map != 16) {
+      if (map != 13 && map != 14 && map != 15 && map != 16 && map != 24 && map != 25) {
          return;
       }
-if (
-  sn.indexOf("bancansudungmoicau") >= 0 ||
-  sn.indexOf("caukhatruongnaydungmoicau") >= 0 ||
-  (sn.indexOf("moicau") >= 0 && sn.indexOf("caucatrongkhuvucnay") >= 0) ||
-  sn.indexOf("trungkien") >= 0
-) {         fishingAutoBaitRequested = true;
-         fishingAutoBaitForceExitTries = 0;
-         fishingAutoBaitNextAtMs = 0L;
-         forceExitFishingState();
-         Canvas.addServerInfo("Phát hiện hết mồi, tự đi mua...");
+      if (isOutOfBaitDialog(sn)) {
+         handleOutOfBaitInPlace();
+         return;
+      }
+
+      // Xử lý dialog hết vé câu cá hoặc thiếu cần câu
+      boolean isNeedTicketOrRod = (
+         (sn.indexOf("vecaucamoi") >= 0 && (sn.indexOf("khuvucnay") >= 0 || sn.indexOf("khuvuc") >= 0)) ||
+         (sn.indexOf("vecauca") >= 0 && sn.indexOf("map") >= 0) ||
+         (sn.indexOf("banccan") >= 0 && sn.indexOf("cau") >= 0 && sn.indexOf("cauca") >= 0) ||
+         (sn.indexOf("trangbi") >= 0 && sn.indexOf("cau") >= 0 && sn.indexOf("cauca") >= 0) ||
+         (sn.indexOf("can") >= 0 && sn.indexOf("cau") >= 0 && sn.indexOf("cauca") >= 0 && sn.indexOf("vatpham") >= 0) ||
+         (sn.indexOf("cancau") >= 0 && sn.indexOf("cuca") >= 0)
+      );
+
+      if (isNeedTicketOrRod && (fishingAutoBuyRod || fishingAutoBuyTicket)) {
+         // Canvas.addServerInfo("Phat hien can mua - bat dau mua ngay!");
+         try { Canvas.endDlg(); } catch (Throwable tt) {}
+        
+         int ticketId = getFishingTicketId();
+         int rodId = getFishingRodId();
+         if (fishingAutoBuyTicket) {
+            // Canvas.addServerInfo("Mua ve: " + ticketId);
+            AvatarService.gI().doBuyItem(ticketId, 1);
+         }
+         if (fishingAutoBuyRod) {
+            // Canvas.addServerInfo("Mua can: " + rodId);
+            AvatarService.gI().doBuyItem(rodId, 1);
+         }
+         return;
       }
    }
 
@@ -2293,6 +2290,7 @@ if (
    }
 
    private static void checkAutoStonePendingPurchase() {
+      ensureAutoStoneBoughtCounterByDay();
       if (autoStonePendingBuyType < 0) {
          return;
       }
@@ -2329,6 +2327,153 @@ if (
             break;
       }
       autoStonePendingBuyType = -1;
+      persistAutoStoneSettings();
+   }
+
+   public static boolean shouldSuppressCustomTab() {
+      try {
+         int map = LoadMap.TYPEMAP;
+         if (map == 14 || map == 15 || map == 16) {
+            return true;
+         }
+         if (Canvas.currentMyScreen == FishingScr.gI()) {
+            return true;
+         }
+      } catch (Throwable t) {
+      }
+      return false;
+   }
+
+   private static boolean isFishingContext() {
+      return shouldSuppressCustomTab();
+   }
+
+   public static void onFishingInboxMessage(String msg) {
+      if (msg == null || msg.length() == 0) {
+         return;
+      }
+      if (!isFishingContext()) {
+         return;
+      }
+      String sn = normalizeForNpcMatch(msg.toLowerCase());
+      if (sn.indexOf("bannhanduoc") < 0 || sn.indexOf("kimcuongxanh") < 0) {
+         return;
+      }
+      fishingKcxCounter += parseKcxAmountFromMessage(sn);
+      persistFishingDailyStats();
+      try {
+         System.out.println("DEBUG SHOP_BUY_CONFIRM: doBossShop idBoss=2 idShopByte=1 optionIdx=1");
+         ParkService.gI().doBossShop(2, 1, 1);
+      } catch (Throwable t) {
+      }
+   }
+
+   private static int parseKcxAmountFromMessage(String sn) {
+      int idx = sn.indexOf("kimcuongxanh");
+      if (idx <= 0) {
+         return 1;
+      }
+      int start = idx;
+      while (start > 0) {
+         char c = sn.charAt(start - 1);
+         if (c >= '0' && c <= '9') {
+            --start;
+         } else {
+            break;
+         }
+      }
+      if (start < idx) {
+         try {
+            int n = Integer.parseInt(sn.substring(start, idx));
+            return n > 0 ? n : 1;
+         } catch (Exception ex) {
+         }
+      }
+      return 1;
+   }
+
+   public static boolean isFishingHudMap() {
+      int map = LoadMap.TYPEMAP;
+      return map == 14 || map == 15 || map == 16;
+   }
+
+   public static void beginFishingUpSession() {
+      hideCustomTabIfOpen();
+      flushFishingUpElapsed();
+      if (fishingUpDayKey <= 0) {
+         fishingUpDayKey = getCurrentLocalDayKey();
+      }
+      if (fishingBaseXu < 0) {
+         try {
+            fishingBaseXu = GameMidlet.avatar != null ? GameMidlet.avatar.money[0] : 0;
+         } catch (Throwable t) {
+            fishingBaseXu = 0;
+         }
+      }
+      fishingSessionStartMs = System.currentTimeMillis();
+      persistFishingDailyStats();
+   }
+
+   private static String formatDayKeyDdMmYyyy(int dayKey) {
+      if (dayKey <= 0) {
+         return "";
+      }
+      int d = dayKey % 100;
+      int m = (dayKey / 100) % 100;
+      int y = dayKey / 10000;
+      String dd = d < 10 ? "0" + d : String.valueOf(d);
+      String mm = m < 10 ? "0" + m : String.valueOf(m);
+      return dd + "/" + mm + "/" + y;
+   }
+
+   private static String formatElapsedHms(long elapsedMs) {
+      if (elapsedMs < 0L) {
+         elapsedMs = 0L;
+      }
+      long totalSec = elapsedMs / 1000L;
+      long h = totalSec / 3600L;
+      long m = (totalSec % 3600L) / 60L;
+      long s = totalSec % 60L;
+      String hh = h < 10L ? "0" + h : String.valueOf(h);
+      String mm = m < 10L ? "0" + m : String.valueOf(m);
+      String ss = s < 10L ? "0" + s : String.valueOf(s);
+      return hh + ":" + mm + ":" + ss;
+   }
+
+   public static String getFishingUpDateText() {
+      if (!isFishingHudMap()) {
+         return null;
+      }
+      if (fishingUpDayKey <= 0) {
+         return null;
+      }
+      return "Ngày up: " + formatDayKeyDdMmYyyy(fishingUpDayKey);
+   }
+
+   public static String getFishingUpTimeText() {
+      if (!isFishingHudMap()) {
+         return null;
+      }
+      return "Up: " + formatElapsedHms(getFishingUpElapsedMsNow());
+   }
+
+   public static String getFishingUpEarnedText() {
+      if (!isFishingHudMap() || fishingBaseXu < 0) {
+         return null;
+      }
+      try {
+         int cur = GameMidlet.avatar != null ? GameMidlet.avatar.money[0] : 0;
+         return "Up được: " + Canvas.getMoneys(cur - fishingBaseXu);
+      } catch (Throwable t) {
+         return null;
+      }
+   }
+
+   public static String getKcxCounterText() {
+      if (!isFishingHudMap()) {
+         return null;
+      }
+      return "KCX: " + fishingKcxCounter;
    }
 
    private static void forceExitFishingState() {
@@ -2397,6 +2542,7 @@ if (
    private static void loadPersistedAutoStoneSettings() {
       String s = CRes.b(RMS_AUTO_STONE);
       if (s == null) {
+         autoStoneBoughtDayKey = getCurrentLocalDayKey();
          return;
       }
 
@@ -2484,6 +2630,35 @@ if (
          } catch (Exception var2) {
          }
       }
+
+      if (lines.length >= (16 + base)) {
+         try {
+            autoStonePickaxeXuBought = Integer.parseInt(lines[11 + base].trim());
+            if (autoStonePickaxeXuBought < 0) autoStonePickaxeXuBought = 0;
+         } catch (Exception var2) {
+         }
+         try {
+            autoStonePickaxeGoldBought = Integer.parseInt(lines[12 + base].trim());
+            if (autoStonePickaxeGoldBought < 0) autoStonePickaxeGoldBought = 0;
+         } catch (Exception var2) {
+         }
+         try {
+            autoStoneShovelXuBought = Integer.parseInt(lines[13 + base].trim());
+            if (autoStoneShovelXuBought < 0) autoStoneShovelXuBought = 0;
+         } catch (Exception var2) {
+         }
+         try {
+            autoStoneShovelGoldBought = Integer.parseInt(lines[14 + base].trim());
+            if (autoStoneShovelGoldBought < 0) autoStoneShovelGoldBought = 0;
+         } catch (Exception var2) {
+         }
+         try {
+            autoStoneBoughtDayKey = Integer.parseInt(lines[15 + base].trim());
+         } catch (Exception var2) {
+         }
+      }
+
+      ensureAutoStoneBoughtCounterByDay();
    }
 
    public static void toggleAutoStoneEnabled() {
@@ -2510,8 +2685,8 @@ if (
       return new String[]{s.substring(0, p1), s.substring(p1 + 1, p2), s.substring(p2 + 1)};
    }
 
-   static void openFishingSettingsForm() {
-      final Form form = new Form("Cài đặt");
+   static void openFishingSettingsForm(boolean showAutoStone) {
+      final Form form = new Form("Cài đặt câu cá");
       final ChoiceGroup cgRed = new ChoiceGroup("Tùy chọn", ChoiceGroup.EXCLUSIVE);
       cgRed.append("Tự động bỏ KCX", null);
       cgRed.append("Giữ KCX", null);
@@ -2530,8 +2705,49 @@ if (
       for (int i = 0; i < fishingSellFishSelected.length && i < 10; i++) {
          cgFish.setSelectedIndex(i, fishingSellFishSelected[i]);
       }
+      final ChoiceGroup cgTicket = new ChoiceGroup("Mua vé", ChoiceGroup.EXCLUSIVE);
+      cgTicket.append("Tự động mua vé", null);
+      cgTicket.append("Không mua vé", null);
+      cgTicket.setSelectedIndex(fishingAutoBuyTicket ? 0 : 1, true);
+      final ChoiceGroup cgTicketType = new ChoiceGroup("Loại vé", ChoiceGroup.EXCLUSIVE);
+      cgTicketType.append("Vé câu cá rô ", null);
+      cgTicketType.append("Vé câu cá lóc ", null);
+      cgTicketType.append("Vé câu cá mập ", null);
+      if (fishingSelectedTicket < 0 || fishingSelectedTicket > 2) fishingSelectedTicket = 0;
+      cgTicketType.setSelectedIndex(fishingSelectedTicket, true);
+      final ChoiceGroup cgRod = new ChoiceGroup("Mua cần", ChoiceGroup.EXCLUSIVE);
+      cgRod.append("Tự động mua cần", null);
+      cgRod.append("Không mua cần", null);
+      cgRod.setSelectedIndex(fishingAutoBuyRod ? 0 : 1, true);
+      final ChoiceGroup cgRodType = new ChoiceGroup("Loại cần", ChoiceGroup.EXCLUSIVE);
+      cgRodType.append("Cần câu tre", null);
+      cgRodType.append("Cần câu sắt", null);
+      cgRodType.append("Cần câu VIP", null);
+      if (fishingSelectedRod < 0 || fishingSelectedRod > 2) fishingSelectedRod = 0;
+      cgRodType.setSelectedIndex(fishingSelectedRod, true);
       form.append(cgRed);
       form.append(cgFish);
+      form.append(cgTicket);
+      form.append(cgTicketType);
+      form.append(cgRod);
+      form.append(cgRodType);
+      final ChoiceGroup cgAutoStone;
+      final ChoiceGroup cgSellStone;
+      if (showAutoStone) {
+         cgAutoStone = new ChoiceGroup("Auto đào đá", ChoiceGroup.EXCLUSIVE);
+         cgAutoStone.append("Bật auto đào đá", null);
+         cgAutoStone.append("Không bật", null);
+         cgAutoStone.setSelectedIndex(autoStoneEnabled ? 0 : 1, true);
+         cgSellStone = new ChoiceGroup("Bán đá", ChoiceGroup.EXCLUSIVE);
+         cgSellStone.append("Có bán đá", null);
+         cgSellStone.append("Không bán", null);
+         cgSellStone.setSelectedIndex(fishingAutoSellStone ? 0 : 1, true);
+         form.append(cgAutoStone);
+         form.append(cgSellStone);
+      } else {
+         cgAutoStone = null;
+         cgSellStone = null;
+      }
       final javax.microedition.lcdui.Command cmdSave = new javax.microedition.lcdui.Command("Lưu", 4, 1);
       final javax.microedition.lcdui.Command cmdCancel = new javax.microedition.lcdui.Command(T.cancel, 2, 1);
       form.addCommand(cmdSave);
@@ -2542,6 +2758,14 @@ if (
                fishingRedFieldEnabled = cgRed.getSelectedIndex() == 0;
                for (int i = 0; i < fishingSellFishSelected.length && i < 10; i++) {
                   fishingSellFishSelected[i] = cgFish.isSelected(i);
+               }
+               fishingAutoBuyTicket = cgTicket.getSelectedIndex() == 0;
+               fishingSelectedTicket = cgTicketType.getSelectedIndex();
+               fishingAutoBuyRod = cgRod.getSelectedIndex() == 0;
+               fishingSelectedRod = cgRodType.getSelectedIndex();
+               if (showAutoStone) {
+                  autoStoneEnabled = cgAutoStone.getSelectedIndex() == 0;
+                  fishingAutoSellStone = cgSellStone.getSelectedIndex() == 0;
                }
                persistFishingSettings();
                Canvas.addServerInfo("Đã lưu cài đặt câu cá");
@@ -2569,20 +2793,28 @@ if (
          fishingFishIdOrder.removeAllElements();
       } catch (Throwable t) {
       }
+      flushFishingUpElapsed();
+      resetFishingDailyStats(getCurrentLocalDayKey());
+      persistFishingDailyStats();
+      try {
+         CRes.a(RMS_FISHING_COUNT_DETAIL, "");
+      } catch (Exception e) {
+      }
       persistFishingSettings();
-      Canvas.addServerInfo("Đã reset bộ đếm");
+      Canvas.addServerInfo("Đã reset bộ đếm (cá + KCX + Up)");
    }
 
    private static void incFishCount(Hashtable table, Vector order, short idFish) {
       try {
-         Integer key = new Integer(idFish);
+         short canon = canonicalFishCountId(idFish);
+         Integer key = new Integer(canon);
          Integer cur = (Integer)table.get(key);
          int next = (cur == null ? 0 : cur.intValue()) + 1;
          table.put(key, new Integer(next));
          boolean seen = false;
          for (int i = 0; i < order.size(); i++) {
             Integer v = (Integer)order.elementAt(i);
-            if (v != null && v.intValue() == idFish) {
+            if (v != null && v.intValue() == canon) {
                seen = true;
                break;
             }
@@ -2596,7 +2828,7 @@ if (
 
    private static int getFishCount(Hashtable table, short idFish) {
       try {
-         Integer v = (Integer)table.get(new Integer(idFish));
+         Integer v = (Integer)table.get(new Integer(canonicalFishCountId(idFish)));
          return v == null ? 0 : v.intValue();
       } catch (Throwable t) {
          return 0;
@@ -2621,6 +2853,113 @@ if (
          if (idx < names.length) return names[idx];
       }
       return "ID " + idFish;
+   }
+
+   private static int getFishingTicketId() {
+      switch (fishingSelectedTicket) {
+         case 0: return 458; // Vé câu cá rô
+         case 1: return 459; // Vé câu cá lóc
+         case 2: return 460; // Vé câu cá mập
+         default: return 458;
+      }
+   }
+
+   private static int getFishingRodId() {
+      switch (fishingSelectedRod) {
+         case 0: return 442; // Cần câu tre
+         case 1: return 445; // Cần câu sắt
+         case 2: return 446; 
+         default: return 442;
+      }
+   }
+
+   private static boolean isFishingMap() {
+      return LoadMap.TYPEMAP == 14 || LoadMap.TYPEMAP == 15 || LoadMap.TYPEMAP == 16;
+   }
+
+   private static void clearFishingFlyPending() {
+      fishingFlyFishId = -1;
+      fishingFlyX = -1;
+      fishingFlyY = -1;
+      fishingFlyMoneyDelta = 0;
+      fishingFlyPendingUntilMs = 0L;
+   }
+
+   static Image createFishFlyIcon(short idFish) {
+      try {
+         short partId = fishVisualPartId(idFish);
+         Part p = AvatarData.getPart(partId);
+         if (p != null && p.idIcon > 0 && AvatarData.listImgInfo != null && p.idIcon < AvatarData.listImgInfo.length) {
+            ImageInfo ii = AvatarData.listImgInfo[p.idIcon];
+            if (ii != null && AvatarData.getBigImgInfo(ii.bigID) != null && AvatarData.getBigImgInfo(ii.bigID).img != null) {
+               return CRes.createRGBImage(ii.x0 * AvMain.hd, ii.y0 * AvMain.hd, ii.w * AvMain.hd, ii.h * AvMain.hd, AvatarData.getBigImgInfo(ii.bigID).img);
+            }
+         }
+      } catch (Throwable t) {
+      }
+      return null;
+   }
+
+   private static void showFishingCatchFly(int x, int y, short fishId) {
+      // Đã bỏ icon bay khi bắt cá theo yêu cầu.
+   }
+
+   /** Lưu vị trí/id cá; vẽ bay sau khi đóng hộp thoại chờ (tránh chỉ nháy dưới dialog). */
+   static void onFishingCatchPrepare(int x, int y, short idFish) {
+      fishingFlyX = x;
+      fishingFlyY = y;
+      fishingFlyLastX = x;
+      fishingFlyLastY = y;
+      fishingFlyFishId = idFish;
+      fishingFlyMoneyDelta = 0;
+      fishingFlyShown = false;
+      fishingFlyLastShowMs = 0L;
+      fishingFlyPendingUntilMs = System.currentTimeMillis() + 5000L;
+   }
+
+   /** Gọi sau Canvas.endDlg() — hiện icon cá bay + xu đã biết. */
+   static void onFishingCatchShowNow() {
+      if (fishingFlyFishId < 0 || fishingFlyShown || System.currentTimeMillis() > fishingFlyPendingUntilMs) {
+         return;
+      }
+      fishingFlyShown = true;
+      fishingFlyLastShowMs = System.currentTimeMillis();
+      int x = fishingFlyX;
+      int y = fishingFlyY;
+      fishingFlyLastX = x;
+      fishingFlyLastY = y;
+      short fishId = fishingFlyFishId;
+      clearFishingFlyPending();
+      showFishingCatchFly(x, y, fishId);
+   }
+
+   static void onFishingCatchMoney(int playerId, int newMoney) {
+      if (GameMidlet.avatar == null) {
+         return;
+      }
+      int me = GameMidlet.avatar.IDDB;
+      if (playerId != me && playerId != (me & 0xFF) && (playerId & 0xFF) != (me & 0xFF)) {
+         return;
+      }
+      int delta = newMoney - GameMidlet.avatar.money[0];
+      GameMidlet.avatar.money[0] = newMoney;
+      fishingFlyMoneyDelta = delta;
+      if (delta != 0 && fishingFlyLastX >= 0) {
+         Canvas.addFlyTextSmall((delta > 0 ? "+" : "") + delta, fishingFlyLastX, fishingFlyLastY + 24, -1, 4, -1);
+      }
+   }
+
+
+   static boolean onFishingMoneyDelta(int delta) {
+      if (!isFishingMap()) {
+         return false;
+      }
+      if (delta != 0 && fishingFlyLastX >= 0) {
+       Canvas.addFlyTextSmall((delta > 0 ? "+" : "") + delta, fishingFlyLastX, fishingFlyLastY + 24, -1, 4, -1);
+         fishingFlyMoneyDelta = delta;
+         return true;
+      }
+      return false;
    }
 
    static void onFishingCaught(short idFish) {
@@ -2695,20 +3034,14 @@ if (
 
    static void sellFishWithFallback() {
       try {
-         if (LoadMap.TYPEMAP == 14 || LoadMap.TYPEMAP == 15 || LoadMap.TYPEMAP == 16) {
-            Avatar npc = findFishingNpcOnCurrentMap();
-            if (npc != null) {
-               GlobalService.gI().doMenuOption(npc.IDDB, (byte)0, 1);
-               return;
-            }
-            
-            GlobalService.gI().doMenuOption(2000000002, (byte)0, 1);
-            return;
-         }
-
          Avatar npc = findFishingNpcOnCurrentMap();
          if (npc != null) {
             GlobalService.gI().doMenuOption(npc.IDDB, (byte)0, 1);
+            return;
+         }
+
+         if (LoadMap.TYPEMAP == 14 || LoadMap.TYPEMAP == 15 || LoadMap.TYPEMAP == 16) {
+            GlobalService.gI().doMenuOption(2000000013, (byte)0, 1);
          }
       } catch (Throwable t) {
       }
@@ -2735,13 +3068,13 @@ if (
       for (int i = 0; i < fishingFishIdOrder.size(); i++) {
          Integer v = (Integer)fishingFishIdOrder.elementAt(i);
          if (v == null) continue;
-         short id = (short)v.intValue();
+         short id = canonicalFishCountId((short)v.intValue());
          int c = getFishCount(fishingCaughtById, id);
          int s = getFishCount(fishingSoldById, id);
          if (c == 0 && s == 0) continue;
          String text = fishDisplayName(id) + ": " + c;
          if (s > 0 && s != c) {
-            text += " (bán " + s + ")";
+            // text += " (bán " + s + ")";
          }
          Canvas.borderFont.drawString(g, text, x, y + dy * line, 1);
          line++;
@@ -3029,63 +3362,6 @@ if (
          return;
       }
 
-      if (Canvas.load != -1) {
-       
-         if (autoClickInjectAwaitRelease) {
-            try {
-               Canvas.instance.keyReleased(autoClickKeyCode);
-            } catch (Throwable t) {
-            }
-            autoClickInjectAwaitRelease = false;
-         }
-         return;
-      }
-
-      if (Canvas.menuMain != null || Canvas.currentDialog != null || ChatTextField.isShow) {
-         if (autoClickInjectAwaitRelease) {
-            try {
-               Canvas.instance.keyReleased(autoClickKeyCode);
-            } catch (Throwable var4) {
-            }
-
-            autoClickInjectAwaitRelease = false;
-         }
-
-         return;
-      }
-
-      if (!Session_ME.gI().isConnected()) {
-         return;
-      }
-
-      if (GameMidlet.avatar != null) {
-         if (GameMidlet.avatar.task != 0 && GameMidlet.avatar.task != -5) {
-            if (autoClickInjectAwaitRelease) {
-               try {
-                  Canvas.instance.keyReleased(autoClickKeyCode);
-               } catch (Throwable var5) {
-               }
-
-               autoClickInjectAwaitRelease = false;
-            }
-
-            return;
-         }
-      }
-
-      if (Bus.isRun) {
-         if (autoClickInjectAwaitRelease) {
-            try {
-               Canvas.instance.keyReleased(autoClickKeyCode);
-            } catch (Throwable var6) {
-            }
-
-            autoClickInjectAwaitRelease = false;
-         }
-
-         return;
-      }
-
       int k = autoClickKeyCode;
       int gap = autoClickIntervalMs;
       if (gap < 1) {
@@ -3122,12 +3398,16 @@ if (
       if (!Session_ME.gI().isConnected()) {
          return;
       }
+      ensureAutoStoneBoughtCounterByDay();
       try {
          DialLuckyScr.gI().tickAutoDialBackground();
       } catch (Throwable t) {
       }
       checkAutoStonePendingPurchase();
       maybeShowMap13GuideTab();
+      if (shouldSuppressCustomTab() && CustomTab.me != null) {
+         hideCustomTabIfOpen();
+      }
       closeAutoTrollUiIfNeeded();
       if (Canvas.menuMain != null && !fishingAutoBaitPendingBuy) {
          closeAutoTrollUiIfNeeded();
@@ -3138,10 +3418,10 @@ if (
       boolean avatarTaskBlocksMapAutos = GameMidlet.avatar != null
             && GameMidlet.avatar.task != 0
             && GameMidlet.avatar.task != -5;
-      if (avatarTaskBlocksMapAutos && !(smartFishingEnabled && smartFishingPhase != 0)) {
+      if (avatarTaskBlocksMapAutos) {
          return;
       }
-      if (Bus.isRun && !(smartFishingEnabled && smartFishingPhase != 0)) {
+      if (Bus.isRun) {
          return;
       }
       if (autoChat) {
@@ -3187,12 +3467,6 @@ if (
                } else {
                   a = (byte)autoTrollCode;
                }
-               System.out.println("[AUTO_TROLL] doAction=" + a
-                       + " count=" + autoTrollCount
-                       + " limit=" + autoTrollLimit
-                       + " gapMs=" + gap
-                       + " avatarTask=" + GameMidlet.avatar.task
-                       + " isBusRun=" + Bus.isRun);
                closeAutoTrollUiIfNeeded();
                MapScr.doAction(a);
                ++autoTrollCount;
@@ -3222,8 +3496,6 @@ if (
 
       autoFishingBaitTick();
 
-      smartFishingTick();
-
       if (!autoKiss && !autoHit && !autoGift && !autoTroll) {
          return;
       }
@@ -3244,11 +3516,19 @@ if (
          autoHitAllPlayersInZone();
       }
 
-      if (MapScr.focusP == null) {
+      if (autoKiss && !autoKissFocusOppositeGenderTarget()) {
          return;
       }
 
       if (autoKiss) {
+         Avatar me = GameMidlet.avatar;
+         Avatar target = MapScr.focusP;
+         if (me == null || target == null) {
+            return;
+         }
+         if (target.gender == me.gender) {
+            return;
+         }
          MapScr.doKiss();
       }
 
@@ -3259,25 +3539,39 @@ if (
    }
 
    private static void autoHitAllPlayersInZone() {
-      Vector list = LoadMap.playerLists;
-      if (list == null || list.size() == 0) {
+      Avatar target = MapScr.focusP;
+      if (target == null || target == GameMidlet.avatar || target.IDDB == GameMidlet.avatar.IDDB || target.task != 0) {
+         return;
+      }
+      if (target.IDDB > 2000000000) {
          return;
       }
 
-      Avatar oldFocus = MapScr.focusP;
+      MapScr.gI().doHit();
+   }
 
-      for(int i = 0; i < list.size(); ++i) {
-         MyObject obj = (MyObject)list.elementAt(i);
+   private static boolean autoKissFocusOppositeGenderTarget() {
+      Vector list = LoadMap.playerLists;
+      if (list == null || list.size() == 0 || GameMidlet.avatar == null) {
+         MapScr.focusP = null;
+         return false;
+      }
+
+      byte myGender = GameMidlet.avatar.gender;
+
+      for (int i = 0; i < list.size(); ++i) {
+         MyObject obj = (MyObject) list.elementAt(i);
          if (obj != null && obj.catagory == 0) {
-            Avatar target = (Avatar)obj;
-            if (target != null && target != GameMidlet.avatar && target.IDDB != GameMidlet.avatar.IDDB && target.task == 0) {
+            Avatar target = (Avatar) obj;
+            if (target != null && target.IDDB <= 2000000000 && target.IDDB != GameMidlet.avatar.IDDB && target.task == 0 && target.gender != myGender) {
                MapScr.focusP = target;
-               MapScr.gI().doHit();
+               return true;
             }
          }
       }
 
-      MapScr.focusP = oldFocus;
+      MapScr.focusP = null;
+      return false;
    }
 
    private static void autoFishingBaitTick() {
@@ -3371,30 +3665,99 @@ if (
          return;
       }
 
+      if (map == 13 && fishingAutoBuyBaitPending) {
+         if (GameMidlet.avatar.x != 286 || GameMidlet.avatar.y != 48) {
+            GameMidlet.avatar.posFocus = new AvPosition(286, 48);
+            GameMidlet.avatar.l();
+            MapScr.doMove(286, 48, 2, (short)0);
+            fishingAutoBaitNextAtMs = now + 2000L;
+            return;
+         }
+         // Đã đến vị trí, mua mồi
+         AvatarService.gI().doBuyItem(448, 1);
+         fishingAutoBuyBaitPending = false;
+         fishingAutoBaitRequested = false;
+         fishingAutoBaitNextAtMs = now + 1500L;
+         // Quay về map 16
+         fishingAutoBaitReturnX = 924;
+         fishingAutoBaitReturnY = 119;
+         fishingAutoBaitNeedReturnMove = true;
+         ParkService.gI().doJoinPark(16, -1);
+         return;
+      }
+
       Avatar npc = findFishingNpcOnCurrentMap();
       if (npc == null) {
          fishingAutoBaitNextAtMs = now + 1200L;
          return;
       }
 
-      if (!fishingAutoBaitPendingBuy) {
+      // Kiểm tra nếu có request mua vé/cần từ dialog
+      boolean hasBuyRequest = fishingAutoBuyTicketRequested || fishingAutoBuyRodRequested || fishingAutoBaitRequested;
+      if (!fishingAutoBaitPendingBuy && hasBuyRequest) {
          fishingAutoBaitPendingBuy = true;
          fishingAutoBaitBuyStep = 0;
          fishingAutoBaitMoveDownRemain = 1;
          fishingAutoBaitEnterRemain = 30;
          fishingAutoBaitDirectBuyRemain = 30;
+         fishingAutoBuyTicketStep = 0;
+         fishingAutoBuyRodStep = 0;
+         fishingAutoBuyPending = true;
          fishingAutoBaitNextAtMs = now + 900L;
          return;
       }
 
-      // Keep direct buy by item 448, plus NPC-menu fallback for server variants.
-      if (fishingAutoBaitDirectBuyRemain > 0) {
-         AvatarService.gI().doBuyItem(448, 1);
-         GlobalService.gI().doMenuOption(npc.IDDB, (byte)0, 3);
-         Canvas.startWaitDlg();
-         --fishingAutoBaitDirectBuyRemain;
-         fishingAutoBaitNextAtMs = now + 170L;
+      if (!fishingAutoBaitPendingBuy) {
+         fishingAutoBaitNextAtMs = now + 1000L;
          return;
+      }
+
+      // Xử lý mua vé, cần, mồi theo thứ tự
+      if (fishingAutoBuyPending) {
+         // Mua vé trước
+         if (fishingAutoBuyTicket && fishingAutoBuyTicketStep == 0) {
+            AvatarService.gI().doBuyItem(getFishingTicketId(), 1);
+            Canvas.startWaitDlg();
+            fishingAutoBuyTicketStep = 1;
+            fishingAutoBaitNextAtMs = now + 300L;
+            return;
+         }
+         if (fishingAutoBuyTicket && fishingAutoBuyTicketStep == 1) {
+            GlobalService.gI().doMenuOption(npc.IDDB, (byte)0, 3);
+            fishingAutoBuyTicketStep = 2;
+            fishingAutoBaitNextAtMs = now + 300L;
+            return;
+         }
+
+         // Mua cần
+         if (fishingAutoBuyRod && fishingAutoBuyRodStep == 0) {
+            AvatarService.gI().doBuyItem(getFishingRodId(), 1);
+            Canvas.startWaitDlg();
+            fishingAutoBuyRodStep = 1;
+            fishingAutoBaitNextAtMs = now + 300L;
+            return;
+         }
+         if (fishingAutoBuyRod && fishingAutoBuyRodStep == 1) {
+            GlobalService.gI().doMenuOption(npc.IDDB, (byte)0, 3);
+            fishingAutoBuyRodStep = 2;
+            fishingAutoBaitNextAtMs = now + 300L;
+            return;
+         }
+
+         // Mua mồi
+         if (fishingAutoBuyBait && fishingAutoBaitDirectBuyRemain > 0) {
+            AvatarService.gI().doBuyItem(448, 1);
+            GlobalService.gI().doMenuOption(npc.IDDB, (byte)0, 3);
+            Canvas.startWaitDlg();
+            --fishingAutoBaitDirectBuyRemain;
+            fishingAutoBaitNextAtMs = now + 170L;
+            return;
+         }
+
+         // Hoàn thành mua
+         fishingAutoBuyPending = false;
+         fishingAutoBuyTicketRequested = false;
+         fishingAutoBuyRodRequested = false;
       }
 
       fishingAutoBaitPendingBuy = false;
@@ -3442,14 +3805,6 @@ if (
       long now = System.currentTimeMillis();
       if (now >= autoTrollDebugNextLogAtMs) {
          autoTrollDebugNextLogAtMs = now + 800L;
-         System.out.println("[AUTO_TROLL] ui-check screen="
-                 + (Canvas.currentMyScreen == null ? "null" : Canvas.currentMyScreen.getClass().getName())
-                 + " displayCurrent="
-                 + (Display.getDisplay(GameMidlet.instance).getCurrent() == null
-                    ? "null"
-                    : Display.getDisplay(GameMidlet.instance).getCurrent().getClass().getName())
-                 + " menuMain=" + (Canvas.menuMain != null)
-                 + " dialog=" + (Canvas.currentDialog != null));
       }
 
       try {
@@ -3468,21 +3823,17 @@ if (
 
       try {
          if (Display.getDisplay(GameMidlet.instance).getCurrent() != Canvas.instance) {
-            System.out.println("[AUTO_TROLL] forcing Display current => Canvas.instance");
             Canvas.instance.setFullScreenMode(true);
             Display.getDisplay(GameMidlet.instance).setCurrent(Canvas.instance);
          }
       } catch (Throwable t) {
-         System.out.println("[AUTO_TROLL] setCurrent(Canvas) error: " + t.toString());
       }
 
       try {
          if (Canvas.currentMyScreen != MapScr.gI()) {
-            System.out.println("[AUTO_TROLL] forcing current screen => MapScr");
             MapScr.gI().switchToMe();
          }
       } catch (Throwable t) {
-         System.out.println("[AUTO_TROLL] MapScr.switchToMe error: " + t.toString());
       }
    }
 
@@ -3497,7 +3848,7 @@ if (
             if (a.IDDB < 2000000000) continue;
             String n = safe(a.name).toLowerCase();
             String nn = normalizeForNpcMatch(n);
-            if (n.indexOf("tho.cau") >= 0 || n.indexOf("tho cau") >= 0 || nn.indexOf("thocau") >= 0) {
+            if (n.indexOf("tho.cau") >= 0 || n.indexOf("tho cau") >= 0 || n.indexOf("tho.cau.ca") >= 0 || n.indexOf("tho cau ca") >= 0 || nn.indexOf("thocau") >= 0 || nn.indexOf("thocauca") >= 0) {
                return a;
             }
          }
@@ -3768,11 +4119,6 @@ final class IActionOpenFishingSettingsMenu implements IAction {
 
 final class IActionAutoKissTurnOnYes implements IAction {
    public final void perform() {
-      if (MapScr.focusP == null) {
-         Canvas.startOK(T.utilAutoKissNoFocus, new IActionOpenUtilitySubmenu());
-         return;
-      }
-
       ClientUtilities.autoKiss = true;
       ClientUtilities.resetAutoKissHitTickOnly();
       ClientUtilities.openUtilitySubmenu();
@@ -3998,6 +4344,9 @@ final class IActionUtilityCmd implements IAction {
             LoginScr.gI().openSwitchAccountSettingsForm();
             return;
          case 14:
+            ClientUtilities.sitToFishHere();
+            return;
+         case 15:
             ClientUtilities.stopAutoDialLuckyFromUtility();
             return;
          default:
@@ -4035,7 +4384,7 @@ final class IActionFishingSettings implements IAction {
    public final void perform() {
       switch (this.code) {
          case 0:
-            ClientUtilities.openFishingSettingsForm();
+            ClientUtilities.openFishingSettingsForm(false);
             return;
          case 1:
             ClientUtilities.requestContainerAndOpen();
@@ -4047,30 +4396,6 @@ final class IActionFishingSettings implements IAction {
          case 3:
             ClientUtilities.toggleFishingAutoLogin();
             ClientUtilities.openFishingSettingsSubmenu();
-            return;
-         default:
-      }
-   }
-}
-
-final class IActionSmartFishing implements IAction {
-   private final byte code;
-
-   IActionSmartFishing(byte code) {
-      this.code = code;
-   }
-
-   public final void perform() {
-      switch (this.code) {
-         case 0:
-            ClientUtilities.toggleSmartFishingEnabled();
-            ClientUtilities.openSmartFishingSettingsMenu();
-            return;
-         case 1:
-            ClientUtilities.openSmartFishingSettingsForm();
-            return;
-         case 2:
-            ClientUtilities.openSmartFishingSettingsMenu();
             return;
          default:
       }

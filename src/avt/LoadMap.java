@@ -1130,6 +1130,7 @@ public final class LoadMap {
       this.setMap(var11, var1, true);
       TYPEMAP = var1 - 1;
       System.out.println("index: " + TYPEMAP);
+      System.out.println("[LOADMAP] after setMap TYPEMAP=" + TYPEMAP);
       if (weather != -1 && TYPEMAP < bg.length && bg[TYPEMAP] != -1) {
          AnimateEffect var8 = new AnimateEffect(weather, 0);
          Canvas.currentEffect.addElement(var8);
@@ -1144,8 +1145,9 @@ public final class LoadMap {
       if (Canvas.load == 0) {
          Canvas.load = 1;
       }
-
+      System.out.println("[LOADMAP] before gc TYPEMAP=" + TYPEMAP);
       System.gc();
+      System.out.println("[LOADMAP] after gc TYPEMAP=" + TYPEMAP);
    }
 
    public final void setMap(final InputStream inputStream, final int n, final boolean bl) {

@@ -27,3 +27,17 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Gradle / LibGDX ###
+.gradle/
+/build/
+/android/build/
+/android/libs/
+/core/build/
+/lwjgl3/build/
+/ios/build/
+/ios/robovm-build/
+local.properties
+/assets/assets.txt
+compile_out.txt
+build-log.txt

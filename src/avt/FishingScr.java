@@ -28,6 +28,7 @@ public final class FishingScr extends MyScreen {
    private int xKeyArr;
    private int yKeyArr;
    private boolean isAutoTossAfterEnd;
+   private boolean pendingTossAfterBaitBuy;
    private long lastAutoArrowPressTime;
    private static final boolean AUTO_PRESS_ARROWS = true;
    private byte[] arrowDirCache;
@@ -139,7 +140,7 @@ public final class FishingScr extends MyScreen {
    public final void update() {
       MapScr.gI().update();
       if (this.fish.isCanCau && !this.fish.isSuccess) {
-         if (this.index < this.arrIndex.length && System.currentTimeMillis() - this.cTime > (long)this.timeDelay) {
+         if (this.arrIndex != null && this.index < this.arrIndex.length && System.currentTimeMillis() - this.cTime > (long)this.timeDelay) {
             this.setIndex(0);
          }
 
@@ -607,25 +608,7 @@ public final class FishingScr extends MyScreen {
             Canvas.endDlg();
             if (h >= 0) {
                short fishId = (short)h;
-               // Hiệu ứng: ảnh cá bay lên (giống item bay của DialLuckyScr) - cắt đúng icon từ listImgInfo để khỏi sai ảnh
-               try {
-                  short partId = ClientUtilities.fishVisualPartId(fishId);
-                  Part p = AvatarData.getPart(partId);
-                  if (p != null && p.idIcon > 0 && AvatarData.listImgInfo != null && p.idIcon < AvatarData.listImgInfo.length) {
-                     ImageInfo ii = AvatarData.listImgInfo[p.idIcon];
-                     if (ii != null && AvatarData.getBigImgInfo(ii.bigID) != null && AvatarData.getBigImgInfo(ii.bigID).img != null) {
-                        Image icon = CRes.createRGBImage(ii.x0 * AvMain.hd, ii.y0 * AvMain.hd, ii.w * AvMain.hd, ii.h * AvMain.hd, AvatarData.getBigImgInfo(ii.bigID).img);
-                        if (icon != null) {
-                           // Bay rõ ràng: dùng addFlyImage (dir=1) với icon đã crop đúng kiểu quay số
-                           Canvas.addFlyImage(c.ava.x, c.ava.y - 60, icon, 0);
-                        }
-                     }
-                  } else {
-                     // fallback: thử vẽ theo idFish (trường hợp part dynamic/icon ngoài list)
-                     Canvas.addFlyText(0, c.ava.x, c.ava.y - 60, -1, -1, -1, partId);
-                  }
-               } catch (Throwable t) {
-               }
+               ClientUtilities.onFishingCatchPrepare(c.ava.x, c.ava.y - 60, fishId);
                ClientUtilities.onFishingCaught(fishId);
             }
             this.isAutoTossAfterEnd = true;
@@ -639,7 +622,7 @@ public final class FishingScr extends MyScreen {
    public static Fish getFish(int n) {
       for(int i = 0; i < MapScr.listFish.size(); ++i) {
          Fish fish;
-         if ((fish = (Fish)MapScr.listFish.elementAt(i)).ava.IDDB == n) {
+         if ((fish = (Fish)MapScr.listFish.elementAt(i)) != null && fish.ava != null && fish.ava.IDDB == n) {
             return fish;
          }
       }
@@ -649,13 +632,9 @@ public final class FishingScr extends MyScreen {
 
    public final void onCauCaXong(int param1) {
       Canvas.endDlg();
+      ClientUtilities.onFishingCatchShowNow();
       if (this.isAutoTossAfterEnd) {
          this.isAutoTossAfterEnd = false;
-         // Buy bait after each fishing end, then toss again.
-         try {
-            AvatarService.gI().doBuyItem(448, 1);
-         } catch (Throwable t) {
-         }
          ParkService a;
          (a = ParkService.gI()).createMessage((byte)82);
          a.sendMessage();
@@ -666,6 +645,7 @@ public final class FishingScr extends MyScreen {
 
    public final void onStartFishing(boolean b, String s) {
       if (b) {
+         ClientUtilities.beginFishingUpSession();
          this.fish.doSetDayCau();
          super.center = this.cmdQuanCau;
          this.switchToMe();

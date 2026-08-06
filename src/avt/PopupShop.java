@@ -286,7 +286,7 @@ public final class PopupShop extends MyScreen {
       if (this.listCell[focusTap] != null) {
          boolean isContainerTab = name != null && focusTap >= 0 && focusTap < name.length && name[focusTap] != null && name[focusTap].equals(T.container);
          if (isContainerTab) {
-            numH = 2;
+            numH = 5;
          } else if ((hAllCell = this.listCell[focusTap].size() / 5) >= 3 && !this.isFull && !isHorizontal && !this.yy[focusTap]) {
             numH = 5;
          } else {
@@ -355,10 +355,6 @@ public final class PopupShop extends MyScreen {
                PopupShop.this.openContainerPreviewMenu();
             }
          });
-      }
-
-      if (isContainerPopup && MapScr.avatarShop != null) {
-         MapScr.avatarShop.update();
       }
 
    }
@@ -592,14 +588,6 @@ public final class PopupShop extends MyScreen {
       }
 
       if (this.listCell[focusTap] != null) {
-         boolean isContainerPopup = name != null && name.length >= 2 && T.container.equals(name[0]) && T.wearing.equals(name[1]);
-         if (isContainerPopup && GameMidlet.avatar != null) {
-            // Refresh preview data before drawing so the selected equipment
-            // is always reflected immediately in the popup.
-            this.refreshContainerPreviewLikeShop();
-            this.paintContainerAvatarPreview(var1);
-         }
-
          if (this.yy[focusTap]) {
             Canvas.fontChatB.drawString(var1, this.z[focusTap], 0, 0, 0);
             var1.translate(0, hDuHori);
@@ -645,14 +633,11 @@ public final class PopupShop extends MyScreen {
                var1.fillArc(8 * AvMain.hd, numH * h + 40 * AvMain.hd - 10 * AvMain.hd, 44 * AvMain.hd, 20 * AvMain.hd, 0, 360);
                MapScr.avatarShop.paintIcon(var1, 30 * AvMain.hd, numH * h + 45 * AvMain.hd, false);
                var1.translate(60 * AvMain.hd, 0);
-            } else if (isContainerPopup) {
-               // Container popup uses left preview area too; move text panel to the right.
-               var1.translate(60 * AvMain.hd, 0);
             }
 
             var11 = var1;
             if (strDes != null && focus < this.listCell[focusTap].size()) {
-               var4 = (isHorizontal || isContainerPopup) ? 80 : 0;
+               var4 = isHorizontal ? 80 : 0;
                var1.setClip(0, numH * h, w - var4 + 5, sai);
 
                for(var5 = 0; var5 < strDes.size(); ++var5) {

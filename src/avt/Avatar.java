@@ -228,10 +228,11 @@ public final class Avatar extends Base {
          imgBlog.drawFrame(this.blogNews, var2 + this.wName / 2 + 7 * MyObject.hd, var3 + 3, 0, 3, var1);
       }
 
+      String var12 = super.name;
       if (super.IDDB == GameMidlet.avatar.IDDB) {
-         Canvas.smallFontRed.drawString(var1, super.name, var2, var3, 2);
+         Canvas.smallFontRed.drawString(var1, var12, var2, var3, 2);
       } else {
-         Canvas.smallFontYellow.drawString(var1, super.name, var2, var3, 2);
+         Canvas.smallFontYellow.drawString(var1, var12, var2, var3, 2);
       }
 
    }
@@ -263,6 +264,11 @@ public final class Avatar extends Base {
    }
 
    public final void setName(String var1) {
+      if (var1 == null) {
+         var1 = "";
+      }
+
+      var1 = var1.replace("*", "").trim();
       super.name = var1;
       if (var1.length() > 7) {
          this.showName = var1.substring(0, 6) + "..";
@@ -438,10 +444,16 @@ public final class Avatar extends Base {
                if (this.task == -2) {
                   this.timeHit = 20;
                } else if (this.task == 11) {
-                  this.timeHit = 30;
-                  this.feel = 107;
-                  this.focus.feel = 107;
-                  this.kiss = new Kiss(this, super.x, super.y);
+                  if (this.gender != this.focus.gender) {
+                     this.timeHit = 30;
+                     this.feel = 107;
+                     this.focus.feel = 107;
+                     this.kiss = new Kiss(this, super.x, super.y);
+                  } else {
+                     this.task = 0;
+                     this.focus.task = 0;
+                     this.focus = null;
+                  }
                }
             }
 
@@ -1246,7 +1258,10 @@ public final class Avatar extends Base {
    public final void updateMoney(int var1, int var2, int var3) {
       System.out.println("updateMoney: " + var1 + "    " + var2 + "   " + var3);
       if (this.money[0] != var1) {
-         Canvas.addFlyTextSmall(var1 - this.money[0] + "xu", super.x, super.y - CRes.rnd(20), -1, 0, -1);
+         int delta = var1 - this.money[0];
+         if (!ClientUtilities.onFishingMoneyDelta(delta)) {
+            Canvas.addFlyTextSmall(delta + "xu", super.x, super.y - CRes.rnd(20), -1, 0, -1);
+         }
          this.money[0] = var1;
       }
 

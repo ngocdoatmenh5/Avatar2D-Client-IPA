@@ -18,7 +18,8 @@ public final class FarmScr extends MyScreen {
    private static final byte CMD_FARM_LOBBY = 108;
    private static final byte CMD_FARM_SWITCH_ACC = 109;
    private static final byte CMD_FARM_LOGOUT = 110;
-   private static final byte CMD_FARM_EXIT = 111;
+   private static final byte CMD_FARM_COM_CHAO = 120;
+   private static final byte CMD_FARM_EXIT = 122;
    private static final byte CMD_CROP_HARVEST = 112;
    private static final byte CMD_CROP_SOW = 113;
    private static final byte CMD_CROP_TILL = 114;
@@ -105,6 +106,10 @@ public final class FarmScr extends MyScreen {
    private int rangeSowFrom = -1;
    private boolean isBatchSellAnimal = false;
    private int batchSellRemain = 0;
+   public boolean isQuickCareActive() {
+      return quickCareThrottleActive || quickCareQueueRunning || quickCareQueueType.size() > 0;
+   }
+
    private static final int QUICK_CARE_DELAY_MS = 50;
    private boolean quickCareThrottleActive = false;
    private Vector quickCareQueueType = new Vector();
@@ -126,6 +131,8 @@ public final class FarmScr extends MyScreen {
    private boolean quickCareRebuyTriggered = false;
    private boolean quickCarePendingLobbyRebuy = false;
    private boolean quickCarePendingRebuyAfterSow = false;
+   private boolean quickCarePendingAnimalSellAfterSow = false;
+   private Vector quickCarePendingAnimalSellIds = new Vector();
    private boolean quickCarePendingRangeSowAskQueued = false;
    private boolean quickCareRangeSowAskShowing = false;
    private boolean quickCareSowInProgress = false;
@@ -245,6 +252,7 @@ public final class FarmScr extends MyScreen {
       this.K.addElement(new Command(T.farmLobby, CMD_FARM_LOBBY));
       this.K.addElement(new Command(T.farmSwitchAccount, CMD_FARM_SWITCH_ACC));
       this.K.addElement(new Command(T.farmLogout, CMD_FARM_LOGOUT));
+//      this.K.addElement(new Command(T.farmComChao, CMD_FARM_COM_CHAO));
       this.K.addElement(new Command(T.farmExit, CMD_FARM_EXIT));
    }
 
@@ -567,25 +575,50 @@ public final class FarmScr extends MyScreen {
    }
 
    private int boostPlantUntilFull(int var1) {
-      int var2 = 0;
-
-      for(int var3 = 0; var3 < 20; ++var3) {
-         if (!this.useItemForCell(var1, 2, 111) && !this.useItemForCell(var1, 2, 112) && !this.useItemForCell(var1, 2, -1)) {
-            break;
-         }
-
-         ++var2;
+      CellFarm cellFarm = (CellFarm)cell.elementAt(var1);
+      if (cellFarm == null || cellFarm.idTree == -1 || cellFarm.statusTree >= 6 || cellFarm.vitalityPer >= 100) {
+         return 0;
       }
 
-      return var2;
+      short preferredItemId = this.findBestFertilizerItemId(cellFarm.vitalityPer);
+      if (preferredItemId != -1 && this.useItemForCell(var1, 2, preferredItemId)) {
+         return 1;
+      }
+
+      return this.useItemForCell(var1, 2, -1) ? 1 : 0;
+   }
+
+   private short findBestFertilizerItemId(int vitalityPer) {
+      if (vitalityPer < 80 && this.findAvailableFarmItemId((short)112) != -1) {
+         return 112;
+      }
+
+      if (this.findAvailableFarmItemId((short)111) != -1) {
+         return 111;
+      }
+
+      if (this.findAvailableFarmItemId((short)112) != -1) {
+         return 112;
+      }
+
+      return -1;
    }
 
    private int boostAnimalUntilFull(Animal var1) {
       if (var1 == null || var1.health >= 100) {
          return 0;
-      } else {
-         return this.useItemForAnimalAction(var1, 6) ? 1 : 0;
       }
+
+      int need = 100 - var1.health;
+      int used = 0;
+      for (int i = 0; i < need && var1.health + i < 100; i++) {
+         if (!this.useItemForAnimalAction(var1, 6)) {
+            break;
+         }
+         used++;
+      }
+
+      return used;
    }
 
    private boolean isAnimalMature(Animal var1) {
@@ -737,6 +770,7 @@ public final class FarmScr extends MyScreen {
 
       if (this.pendingHarvestSowPrompt || this.pendingHarvestSowAskQueued || this.isRangeSowMode || this.quickCarePendingRangeSowAskQueued || this.quickCareRangeSowAskShowing || this.quickCareSowInProgress || this.quickCarePendingPlantAcks > 0) {
          this.quickCarePendingRebuyAfterSow = true;
+         this.quickCarePendingAnimalSellAfterSow = this.quickCarePendingAnimalSellAfterSow || this.isBatchSellAnimal || this.batchSellRemain > 0;
          return;
       }
 
@@ -744,6 +778,7 @@ public final class FarmScr extends MyScreen {
       this.quickCareAutoSellSessionActive = false;
       this.quickCarePendingLobbyRebuy = false;
       this.quickCarePendingRebuyAfterSow = false;
+      this.quickCarePendingAnimalSellAfterSow = false;
       this.doGoFarmWay();
 
       boolean sentAnyBuy = false;
@@ -769,16 +804,24 @@ public final class FarmScr extends MyScreen {
    }
 
    private void doQuickCareAll() {
+      System.out.println("[QUICK_CARE_AUTO] doQuickCareAll START idFarm=" + idFarm + " myID=" + GameMidlet.avatar.IDDB + " isAutoVatNuoi=" + isAutoVatNuoi);
       if (idFarm != GameMidlet.avatar.IDDB) {
+         System.out.println("[QUICK_CARE_AUTO] FAIL: not owner farm");
          Canvas.startOKDlg(T.notOnFarmOther);
          return;
       }
 
       if (isAutoVatNuoi) {
+         System.out.println("[QUICK_CARE_AUTO] FAIL: auto vat nuoi already on");
          Canvas.startOKDlg("Chăm sóc tự động đang bật.");
          return;
       }
 
+      // Reset pending flags to prevent stuck state in AutoFishingFarmCare
+      this.quickCarePendingLobbyRebuy = false;
+      this.quickCarePendingRebuyAfterSow = false;
+
+      System.out.println("[QUICK_CARE_AUTO] doQuickCareAll proceeding with care");
       boolean var1 = false;
       boolean harvestedCrop = false;
       this.quickCareAutoSellSessionActive = false;
@@ -786,6 +829,9 @@ public final class FarmScr extends MyScreen {
       this.quickCareRebuySpecies.removeAllElements();
       this.quickCareRebuyCounts.removeAllElements();
       this.quickCarePendingAnimalHarvestIds.removeAllElements();
+      if (this.quickCarePendingAnimalSellIds != null) {
+         this.quickCarePendingAnimalSellIds.removeAllElements();
+      }
       this.quickCarePendingHarvestTreeAcks = 0;
       this.quickCarePendingSowPromptAfterHarvest = false;
       this.quickCareThrottleActive = true;
@@ -822,15 +868,7 @@ public final class FarmScr extends MyScreen {
             var1 = true;
          }
 
-         int forcedPump = 0;
-         for(int p = 0; p < 5 && var4.health < 100; ++p) {
-            if (!this.useItemForAnimalAction(var4, 6)) {
-               break;
-            }
-
-            ++forcedPump;
-         }
-         if (forcedPump > 0) {
+         if (var4.health > 0 && var4.health < 100 && this.boostAnimalUntilFull(var4) > 0) {
             var1 = true;
          }
 
@@ -851,6 +889,10 @@ public final class FarmScr extends MyScreen {
             this.quickCareAutoSellSessionActive = true;
             this.isBatchSellAnimal = true;
             ++this.batchSellRemain;
+            if (this.quickCarePendingAnimalSellIds == null) {
+               this.quickCarePendingAnimalSellIds = new Vector();
+            }
+            this.quickCarePendingAnimalSellIds.addElement(new Integer(var16.IDDB));
          }
       }
 
@@ -1100,7 +1142,7 @@ public final class FarmScr extends MyScreen {
 
       for(int var2 = 0; var2 < animalLists.size(); ++var2) {
          Animal var3 = (Animal)animalLists.elementAt(var2);
-         if (var3.health < 100 && this.boostAnimalUntilFull(var3) > 0) {
+         if (var3.health > 0 && var3.health < 100 && this.boostAnimalUntilFull(var3) > 0) {
             var1 = true;
          }
       }
@@ -1152,6 +1194,16 @@ public final class FarmScr extends MyScreen {
       this.quickCareQueueRunning = true;
       this.quickCareNextSendAtMs = 0L;
    }
+
+   public void startAutoFishingQuickCare() {
+      System.out.println("[SMART_FISH] FarmScr.startAutoFishingQuickCare screen=" + Canvas.currentMyScreen
+              + " typemap=" + LoadMap.TYPEMAP + " dialog=" + (Canvas.currentDialog != null)
+              + " queueTypeSize=" + this.quickCareQueueType.size()
+              + " queueRunning=" + this.quickCareQueueRunning);
+      this.doQuickCareAll();
+   }
+
+
 
    private void quickCareTickQueue() {
       if (!this.quickCareQueueRunning) {
@@ -1809,11 +1861,12 @@ public final class FarmScr extends MyScreen {
             MapScr.exitGame();
             return;
          case CMD_FARM_EXIT:
-            MapScr.gI().doExit();
+            GlobalService.gI().getHandler(8);
             return;
          case CMD_CROP_HARVEST:
             this.doCropHarvestAll();
             return;
+
          case CMD_CROP_SOW:
             this.startRangeSowFlow();
             return;
@@ -2217,6 +2270,14 @@ public final class FarmScr extends MyScreen {
       if (this.quickCarePendingRebuyAfterSow && !this.pendingHarvestSowPrompt && !this.pendingHarvestSowAskQueued && !this.isRangeSowMode && !this.quickCarePendingRangeSowAskQueued && !this.quickCareRangeSowAskShowing && !this.quickCareSowInProgress && this.quickCarePendingPlantAcks == 0) {
          this.tryFinalizeQuickCareRebuyFlow();
       }
+
+      if (this.quickCarePendingAnimalSellAfterSow && !this.pendingHarvestSowPrompt && !this.pendingHarvestSowAskQueued && !this.isRangeSowMode && !this.quickCarePendingRangeSowAskQueued && !this.quickCareRangeSowAskShowing && !this.quickCareSowInProgress && this.quickCarePendingPlantAcks == 0) {
+         this.quickCarePendingAnimalSellAfterSow = false;
+         this.isBatchSellAnimal = true;
+         if (this.quickCarePendingAnimalSellIds != null) {
+            this.batchSellRemain = this.quickCarePendingAnimalSellIds.size();
+         }
+      }
       if (this.quickCarePendingLobbyRebuy && LoadMap.TYPEMAP == 25) {
          this.quickCarePendingLobbyRebuy = false;
          boolean sentAnyBuy = false;
@@ -2372,7 +2433,8 @@ public final class FarmScr extends MyScreen {
             CellFarm var9;
             if ((var9 = (CellFarm)cell.elementAt(var1)).idTree != -1 && var9.statusTree < 5) {
                ++var9.tempTime;
-               if ((long)(FarmData.getTreeByID(var9.idTree).harvestTime * 60 * 60) - var9.tempTime <= 0L) {
+               TreeInfo treeInfo = FarmData.getTreeByID(var9.idTree);
+               if (treeInfo != null && (long)(treeInfo.harvestTime * 60 * 60) - var9.tempTime <= 0L) {
                   var9.statusTree = 5;
                }
             }
@@ -2922,22 +2984,16 @@ public final class FarmScr extends MyScreen {
       }
 
       CellFarm c = (CellFarm)cell.elementAt(cellIndex);
-      if (c == null || c.idTree == -1 || c.statusTree >= 6) {
+      if (c == null || c.idTree == -1 || c.statusTree >= 6 || c.vitalityPer >= 100) {
          return;
       }
 
-      if (c.vitalityPer >= 100) {
-         return;
-      }
-
-      short superId = this.findAvailableFarmItemId((short)112);
-      short midId = this.findAvailableFarmItemId((short)111);
+      short preferredId = this.findBestFertilizerItemId(c.vitalityPer);
       this.quickCareThrottleActive = true;
 
       boolean did = false;
-      short chosenId = superId != -1 ? superId : midId;
-      if (chosenId != -1) {
-         did |= this.boostPlantUntilFullWithItem(cellIndex, chosenId) > 0;
+      if (preferredId != -1) {
+         did |= this.boostPlantUntilFullWithItem(cellIndex, preferredId) > 0;
       }
       if (!did && c.vitalityPer < 100) {
          did |= this.boostPlantUntilFull(cellIndex) > 0;
@@ -3714,12 +3770,7 @@ public final class FarmScr extends MyScreen {
          case CMD_FARM_LOGOUT:
             MapScr.exitGame();
             return;
-         case CMD_FARM_EXIT:
-            MapScr.gI().doExit();
-            return;
-         case CMD_CROP_HARVEST:
-            this.doCropHarvestAll();
-            return;
+
          case CMD_CROP_SOW:
             this.startRangeSowFlow();
             return;
@@ -3956,6 +4007,10 @@ public final class FarmScr extends MyScreen {
       }
 
    }
+
+//   public final void doOpenComChao() {
+//      Canvas.startOK("Menu Cơm cháo đang phát triển!");
+//   }
 
    public static void onHarvestStarFruit(short var0, short var1) {
       for(int var2 = 0; var2 < starFruil.xFruit.length; ++var2) {

@@ -53,9 +53,10 @@ final class CommandCooking1 extends Command {
    public final void update() {
       if (this.g == PopupShop.focus) {
          PopupShop.resetIsTrans();
+         FarmItem var1;
+         PopupShop.addStr("Id: " + this.food.productID);
          PopupShop.addStr(this.food.text);
          PopupShop.addStr(T.time + this.food.cookTime + "p");
-         FarmItem var1;
          if ((var1 = FarmScr.getFarmItem(this.food.productID)).priceXu > 0) {
             PopupShop.addStr(T.salePrice + Canvas.getMoneys(var1.priceXu) + T.dola);
          } else if (var1.priceLuong > 0) {

@@ -19,8 +19,9 @@ final class CommandOpenKhoHang2 extends Command {
    public final void update() {
       if (PopupShop.isTransFocus && this.ii == PopupShop.focus - FarmScr.getItemSeed().size()) {
          PopupShop.resetIsTrans();
-         PopupShop.addStr(FarmScr.getFarmItem(this.item.ID).des);
          FarmItem var1 = FarmScr.getFarmItem(this.item.ID);
+         PopupShop.addStr("Id: " + this.item.ID);
+         PopupShop.addStr(var1.des);
          int var2 = this.item.number;
          if (var1.type == 4) {
             var2 -= FarmScr.listFood[1].size();

@@ -61,8 +61,9 @@ public final class FlyTextInfo {
             Canvas.flyTexts.removeElement(this);
          }
 
-         if (this.state < 3) {
-            this.y += -2 * this.dir;
+         int step = this.img != null ? 3 : 2;
+         if (this.state < 8) {
+            this.y += -step * this.dir;
          } else {
             this.y += this.dir;
          }
@@ -89,13 +90,15 @@ public final class FlyTextInfo {
                var3 = Canvas.smallFontYellow;
             } else if (this.normal == 3) {
                var3 = Canvas.R;
+            } else if (this.normal == 4) {
+               var3 = Canvas.O;
             } else {
                var3 = Canvas.borderFont;
             }
          }
 
-         var3.drawString(var1, this.text, this.x * var2, this.y * var2, 2);
          if (this.img == null) {
+            var3.drawString(var1, this.text, this.x * var2, this.y * var2, 2);
             if (this.imgID != -1) {
                FarmData.paintImg(var1, this.imgID, this.x * var2, (this.y - 5) * var2, 33);
                return;
@@ -103,10 +106,15 @@ public final class FlyTextInfo {
 
             if (this.imgID_2 != -1) {
                AvatarData.paintImg(var1, this.imgID_2, this.x * var2, (this.y - 5) * var2, 33);
-               return;
             }
          } else if (!this.isSmall) {
             var1.drawImage(this.img, this.x * var2, this.y * var2, 33);
+            if (this.text != null && this.text.length() > 0) {
+               int ty = this.y * var2 - this.img.getHeight() - 4;
+               Canvas.smallFontRed.drawString(var1, this.text, this.x * var2, ty, 2);
+            }
+         } else {
+            var3.drawString(var1, this.text, this.x * var2, this.y * var2, 2);
          }
       }
 

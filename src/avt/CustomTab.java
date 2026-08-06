@@ -42,6 +42,14 @@ public final class CustomTab extends Face {
       return me == null ? (me = new CustomTab()) : me;
    }
 
+   public static void showIfAllowed() {
+      if (ClientUtilities.shouldSuppressCustomTab()) {
+         ClientUtilities.hideCustomTabIfOpen();
+         return;
+      }
+      gI().show();
+   }
+
    public final void commandTab(int var1, int var2) {
       switch (var1) {
          case 0:

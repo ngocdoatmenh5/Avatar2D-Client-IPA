@@ -64,6 +64,8 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    public static FontX smallFontRed;
    public static FontX smallFontYellow;
    public static FontX R;
+   public static FontX fontTitle;
+   public static FontX fontNormal;
    public static IPaint paint;
    public static int hTab = 0;
    public static int transTab = 0;
@@ -105,6 +107,8 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
       smallFontRed = new mFont(5);
       smallFontYellow = new mFont(6);
       R = new mFont(7);
+      fontTitle = new mFont(2);
+      fontNormal = new mFont(0);
       paint = new MediumPaint();
       MyScreen.ITEM_HEIGHT = normalFont.getHeight() + 6;
       AvMain.hBlack = (byte)fontChatB.getHeight();
@@ -324,12 +328,44 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
 
    public static void connect() {
       if (!Session_ME.gI().isConnected()) {
+         int varLang = OptionScr.gI().mapFocus[4];
+         if (GameMidlet.ipSV == null
+            || varLang < 0
+            || varLang >= GameMidlet.ipSV.length
+            || GameMidlet.PORT == null
+            || varLang >= GameMidlet.PORT.length) {
+            startOKDlg(T.canNotConnect);
+            return;
+         }
+
+         String[][] ips = GameMidlet.ipSV[varLang];
+         int[][] ports = GameMidlet.PORT[varLang];
+         if (ips == null || ports == null) {
+            startOKDlg(T.canNotConnect);
+            return;
+         }
+
+         int varIdx = ServerListScr.gI().indexSV;
+         if (varIdx < 0 || varIdx >= ips.length || varIdx >= ports.length || ips[varIdx] == null || ports[varIdx] == null) {
+            startOKDlg(T.canNotConnect);
+            return;
+         }
+
          int var0;
          if ((var0 = ServerListScr.gI().selected_ - 1) < 0) {
             var0 = 0;
          }
 
-         String var1 = "socket://" + GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][ServerListScr.gI().indexSV][var0] + ":" + GameMidlet.PORT[OptionScr.gI().mapFocus[4]][ServerListScr.gI().indexSV][var0];
+         if (var0 >= ips[varIdx].length || var0 >= ports[varIdx].length) {
+            startOKDlg(T.canNotConnect);
+            return;
+         }
+
+         String var1 =
+            "socket://"
+               + ips[varIdx][var0]
+               + ":"
+               + ports[varIdx][var0];
          if (E) {
             if (OptionScr.e) {
                var1 = var1 + ";interface=wifi";
@@ -426,6 +462,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                   }
 
                   currentMyScreen.update();
+                  FireworkSettingsScr.updateAutoFirework();
                   if (cameraList.isShow) {
                      CameraList var10 = cameraList;
                      if (menuMain == null && currentDialog == null) {
@@ -494,7 +531,11 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                   }
 
                   if (currentDialog != null) {
-                     currentDialog.updateKey();
+                     if (currentMyScreen instanceof FarmScr && ((FarmScr)currentMyScreen).isQuickCareActive()) {
+                        currentDialog = null;
+                     } else {
+                        currentDialog.updateKey();
+                     }
                   } else if (currentFace != null) {
                      if (welcome == null) {
                         currentFace.updateKey();
@@ -908,8 +949,16 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
    }
 
    public static void addFlyImage(int x, int y, Image img, int delay) {
-      
       flyTexts.addElement(new FlyTextInfo(x, y, 0, 1, img, delay, -1, -1));
+   }
+
+   
+   public static void addFlyFishWithMoney(int x, int y, Image img, int moneyDelta, int delay) {
+      flyTexts.addElement(new FlyTextInfo(x, y, moneyDelta, 1, img, delay, -1, -1));
+   }
+
+   public static void addFlyAvatarPart(int x, int y, int moneyDelta, short partId) {
+      flyTexts.addElement(new FlyTextInfo(x, y, moneyDelta, 1, (Image)null, 0, -1, partId));
    }
 
    public static void addFlyTextSmall(String var0, int var1, int var2, int var3, int var4, int var5) {
@@ -962,28 +1011,43 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             int dy = 15;
             String lv = "Lv: " + GameMidlet.myIndexP.g + " + " + GameMidlet.myIndexP.f + "%";
             String money = "TK: " + getMoneys(GameMidlet.avatar.money[0]) + "xu - " + getMoneys(GameMidlet.avatar.money[2]) + "L - " + getMoneys(GameMidlet.avatar.luongKhoa) + "LK";
-            int zoneMax = MapScr.zoneMaxIndex >= 0 ? MapScr.zoneMaxIndex : MapScr.roomID;
-            String zone = "Khu: " + MapScr.boardID + "/" + zoneMax;
+            String zone = MapScr.zoneMax > 0 ? ("Khu: " + MapScr.zoneNow + "/" + MapScr.zoneMax) : ("Khu: " + MapScr.zoneNow);
             borderFont.drawString(var1, "Nguyễn Văn Bằng", x, y, 0);
             borderFont.drawString(var1, "ID: " + GameMidlet.avatar.name + " - " + lv, x, y + dy, 0);
             borderFont.drawString(var1, money, x, y + dy * 2, 0);
             borderFont.drawString(var1, zone, x, y + dy * 3, 0);
+            int hudLine = 4;
+            if (ClientUtilities.isFishingHudMap()) {
+               String fishingHud;
+               if ((fishingHud = ClientUtilities.getFishingUpDateText()) != null) {
+                  borderFont.drawString(var1, fishingHud, x, y + dy * hudLine++, 0);
+               }
+               if ((fishingHud = ClientUtilities.getFishingUpTimeText()) != null) {
+                  borderFont.drawString(var1, fishingHud, x, y + dy * hudLine++, 0);
+               }
+               if ((fishingHud = ClientUtilities.getKcxCounterText()) != null) {
+                  borderFont.drawString(var1, fishingHud, x, y + dy * hudLine++, 0);
+               }
+               if ((fishingHud = ClientUtilities.getFishingUpEarnedText()) != null) {
+                  borderFont.drawString(var1, fishingHud, x, y + dy * hudLine++, 0);
+               }
+            }
             String autoStoneLine1 = ClientUtilities.getAutoStoneOverlayLine1();
             String autoStoneLine2 = ClientUtilities.getAutoStoneOverlayLine2();
             String autoStoneLine3 = ClientUtilities.getAutoStoneOverlayLine3();
             boolean hasAnyAutoStoneOverlay = autoStoneLine1 != null || autoStoneLine2 != null || autoStoneLine3 != null;
             if (autoStoneLine1 != null) {
-               borderFont.drawString(var1, autoStoneLine1, x, y + dy * 4, 0);
+               borderFont.drawString(var1, autoStoneLine1, x, y + dy * hudLine++, 0);
             }
             if (autoStoneLine2 != null) {
-               borderFont.drawString(var1, autoStoneLine2, x, y + dy * 5, 0);
+               borderFont.drawString(var1, autoStoneLine2, x, y + dy * hudLine++, 0);
             }
             if (autoStoneLine3 != null) {
-               borderFont.drawString(var1, autoStoneLine3, x, y + dy * 6, 0);
+               borderFont.drawString(var1, autoStoneLine3, x, y + dy * hudLine++, 0);
             }
 
             if (currentMyScreen == DialLuckyScr.gI() || DialLuckyScr.gI().isAutoDialEnabled()) {
-               int dialBaseLine = hasAnyAutoStoneOverlay ? 7 : 4;
+               int dialBaseLine = hudLine;
                String spinning = DialLuckyScr.gI().getSelectedDialItemText();
                if (spinning == null) {
                   spinning = DialLuckyScr.gI().getSpinningGiftText();

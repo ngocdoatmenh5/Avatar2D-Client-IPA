@@ -242,4 +242,27 @@ public final class CRes {
 
       return Image.createRGBImage(var4, var2, var3, true);
    }
+
+   public static String[] split(String str, String delimiter) {
+      if (str == null) {
+         return new String[0];
+      }
+      int count = 0;
+      for (int i = 0; i < str.length() - delimiter.length() + 1; i++) {
+         if (str.regionMatches(i, delimiter, 0, delimiter.length())) {
+            count++;
+         }
+      }
+      String[] result = new String[count + 1];
+      int start = 0;
+      int index = 0;
+      for (int i = 0; i < str.length() - delimiter.length() + 1; i++) {
+         if (str.regionMatches(i, delimiter, 0, delimiter.length())) {
+            result[index++] = str.substring(start, i);
+            start = i + delimiter.length();
+         }
+      }
+      result[index] = str.substring(start);
+      return result;
+   }
 }

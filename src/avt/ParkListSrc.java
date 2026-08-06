@@ -67,6 +67,10 @@ public final class ParkListSrc extends MyScreen {
 
    public final void setList(int[] var1) {
       this.listBoard = var1;
+      if (var1 != null) {
+         MapScr.zoneMaxIndex = var1.length - 1;
+         MapScr.zoneMax = var1.length;
+      }
       Canvas.cameraList.setInfo(Canvas.hw - (this.w * this.maxW + 10) / 2 + 4, Canvas.hh - this.w * this.maxH / 2, this.w, this.w, this.maxW * this.w, this.listBoard.length / this.maxW * this.w, this.w * this.maxW, this.w * this.maxH - (Canvas.stypeInt == 0 ? 30 : 0), var1.length);
    }
 
