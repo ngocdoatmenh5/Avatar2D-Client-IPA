@@ -31,10 +31,11 @@ jobs:
         run: |
           ./gradlew :ios:build --info
 
-      - name: Package iOS IPA
+      - name: Package iOS IPA for LiveContainer & Sideloading
         run: |
           mkdir -p ios/build/Payload
           find ios/build -name "*.app" -exec cp -r {} ios/build/Payload/ \;
+          chmod -R +x ios/build/Payload/
           cd ios/build
           zip -r Avatar2D-Client.ipa Payload
 
