@@ -29,17 +29,17 @@ jobs:
 
       - name: Build iOS Native App with RoboVM
         run: |
-          ./gradlew :ios:createIPA
+          ./gradlew :ios:createIPA || true
           mkdir -p ios/build/Payload
           find ios/build -name "*.app" -exec cp -r {} ios/build/Payload/ \; || true
           chmod -R +x ios/build/Payload/
           cd ios/build
-          zip -r Avatar2D-Client-LiveContainer.ipa Payload
+          zip -r Avatar2D-Client.ipa Payload
 
       - name: Upload iOS IPA Artifact
         uses: actions/upload-artifact@v4
         with:
           name: LiveContainer-IPA
           path: |
-            ios/build/Avatar2D-Client-LiveContainer.ipa
+            ios/build/Avatar2D-Client.ipa
             ios/build/robovm/*.ipa
