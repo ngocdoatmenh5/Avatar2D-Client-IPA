@@ -14,7 +14,10 @@ ext {
   mainClassName = "main.screen.IOSLauncher"
 }
 
+import org.robovm.compiler.config.CpuArch
+
 robovm {
+  archs = [CpuArch.arm64]
   iosSkipSigning = true
 }
 

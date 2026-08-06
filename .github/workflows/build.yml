@@ -29,11 +29,9 @@ jobs:
 
       - name: Build iOS Native App with RoboVM
         run: |
-          ./gradlew :ios:createIPA || true
-          echo "=== Contents of ios/build ==="
-          find ios/build -maxdepth 4 || true
+          ./gradlew :ios:createIPA -Probovm.archs=arm64
           mkdir -p ios/build/Payload
-          find ios/build -name "*.app" -exec cp -r {} ios/build/Payload/ \; || true
+          find ios/build -name "*.app" -exec cp -r {} ios/build/Payload/ \;
           chmod -R +x ios/build/Payload/
           cd ios/build
           zip -r Avatar2D-Client-LiveContainer.ipa Payload
@@ -45,4 +43,3 @@ jobs:
           path: |
             ios/build/Avatar2D-Client-LiveContainer.ipa
             ios/build/robovm/*.ipa
-            ios/build/robovm/*.app
