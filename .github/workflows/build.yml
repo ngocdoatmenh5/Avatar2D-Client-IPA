@@ -59,17 +59,18 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x gradlew
 
-      - name: Build iOS App & Pack IPA
+      - name: Build iOS App & Pack Bundle
         run: |
-          ./gradlew :ios:createIPA || ./gradlew :ios:build || true
+          ./gradlew :ios:build
           mkdir -p ios/build/Payload
           find ios/build -name "*.app" -exec cp -r {} ios/build/Payload/ \; || true
-          cd ios/build && zip -r Avatar2D-iOS.ipa Payload || true
+          cd ios/build && zip -r Avatar2D-iOS-IPA.ipa Payload || true
+          cd ios/build && zip -r Avatar2D-iOS-Build.zip robovm/ || true
 
-      - name: Upload iOS IPA Artifact
+      - name: Upload iOS App Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: iOS-IPA
+          name: iOS-App-Bundle
           path: |
-            ios/build/Avatar2D-iOS.ipa
-            ios/build/**/*.ipa
+            ios/build/Avatar2D-iOS-IPA.ipa
+            ios/build/Avatar2D-iOS-Build.zip
