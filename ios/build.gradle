@@ -9,13 +9,22 @@ buildscript {
         classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$robovmVersion"
     }
 }
+apply plugin: 'java-library'
 apply plugin: 'robovm'
 
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
 
 ext {
     mainClassName = "ios.IOSLauncher"
 }
+
 
 robovm {
     archs = 'arm64'
