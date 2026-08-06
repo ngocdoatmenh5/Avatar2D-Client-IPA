@@ -1,4 +1,4 @@
-name: Build Multiplatform (Desktop, Android, iOS)
+name: Build iOS IPA (RoboVM)
 
 on:
   push:
@@ -8,40 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-desktop-android:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-
-      - name: Make gradlew executable
-        run: chmod +x gradlew
-
-      - name: Build Desktop JAR & Android APK Debug
-        run: ./gradlew :lwjgl3:jar :android:assembleDebug
-
-      - name: Upload Desktop JAR Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Desktop-JAR
-          path: lwjgl3/build/libs/*.jar
-
-      - name: Upload Android APK Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Android-APK-Debug
-          path: android/build/outputs/apk/debug/*.apk
-
   build-ios:
+    name: Build iOS IPA
     runs-on: macos-latest
     steps:
       - name: Checkout Repository
@@ -59,18 +27,19 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x gradlew
 
-      - name: Build iOS App & Pack Bundle
+      - name: Build iOS Native App
         run: |
-          ./gradlew :ios:build
-          mkdir -p ios/build/Payload
-          find ios/build -name "*.app" -exec cp -r {} ios/build/Payload/ \; || true
-          cd ios/build && zip -r Avatar2D-iOS-IPA.ipa Payload || true
-          cd ios/build && zip -r Avatar2D-iOS-Build.zip robovm/ || true
+          ./gradlew :ios:build --info
 
-      - name: Upload iOS App Artifact
+      - name: Package iOS IPA
+        run: |
+          mkdir -p ios/build/Payload
+          find ios/build -name "*.app" -exec cp -r {} ios/build/Payload/ \;
+          cd ios/build
+          zip -r Avatar2D-Client.ipa Payload
+
+      - name: Upload iOS IPA Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: iOS-App-Bundle
-          path: |
-            ios/build/Avatar2D-iOS-IPA.ipa
-            ios/build/Avatar2D-iOS-Build.zip
+          name: iOS-IPA-Package
+          path: ios/build/Avatar2D-Client.ipa
