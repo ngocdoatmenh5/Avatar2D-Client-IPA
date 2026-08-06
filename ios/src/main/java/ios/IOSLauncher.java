@@ -6,7 +6,6 @@ import org.robovm.apple.uikit.UIApplicationDelegateAdapter;
 import org.robovm.apple.uikit.UIApplicationLaunchOptions;
 import org.robovm.apple.uikit.UIScreen;
 import org.robovm.apple.uikit.UIWindow;
-import org.robovm.rt.annotation.Callback;
 
 import main.GameMidlet;
 import java.util.Timer;
@@ -43,14 +42,6 @@ public class IOSLauncher extends UIApplicationDelegateAdapter {
 
         return true;
     }
-
-    // LiveContainer / LC_LOAD_DYLIB EntryPoint export
-    @Callback
-    public static int LCEntryPoint(int argc, long argv) {
-        main(new String[0]);
-        return 0;
-    }
-
 
     public static void main(String[] argv) {
         NSAutoreleasePool pool = new NSAutoreleasePool();
