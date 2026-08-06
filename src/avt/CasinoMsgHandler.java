@@ -246,6 +246,9 @@ public final class CasinoMsgHandler extends IService implements IMiniGameMsgHand
 
                      me.miniGameMessageHandler = BaucuaMsgHandler.instance;
                      break;
+                  case 23:
+                     BaLaMsgHandler.onHandler();
+                     break;
                   default:
                      return;
                }

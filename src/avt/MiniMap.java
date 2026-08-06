@@ -106,6 +106,7 @@ public final class MiniMap extends MyScreen {
                   var3.addElement(new Command("Đăng ký", actionReg));
                }
 
+               var3.addElement(new Command(T.menuAuto, 10));
                if (Canvas.stypeInt == 0) {
                   var3.addElement(MapScr.gI().f);
                }
@@ -126,6 +127,13 @@ public final class MiniMap extends MyScreen {
          case 1:
             MapScr.gI().switchToMe();
             imgPopup = null;
+            break;
+         case 10:
+            Vector var4 = new Vector();
+            var4.addElement(new Command(T.menuAutoFishing, 11));
+            var4.addElement(new Command(T.menuAutoMining, 12));
+            Menu.gI().startAt(var4, 0);
+            return;
          default:
       }
    }
@@ -159,6 +167,36 @@ public final class MiniMap extends MyScreen {
          case 6:
             MapScr.gI().doExitGame();
             return;
+         case 10:
+            Vector var10 = new Vector();
+            var10.addElement(new Command(T.menuAutoFishing, 11));
+            var10.addElement(new Command(T.menuAutoMining, 12));
+            Menu.gI().startAt(var10, 0);
+            return;
+         case 11:
+            Vector var11 = new Vector();
+            var11.addElement(new Command(T.menuAutoFishingOn, 13));
+            var11.addElement(new Command(T.menuAutoFishingSettings, 14));
+            Menu.gI().startAt(var11, 0);
+            return;
+         case 12:
+            Vector var12 = new Vector();
+            var12.addElement(new Command("Cài đặt đào", 16));
+            var12.addElement(new Command("Cài đặt bán đá", 17));
+            Menu.gI().startAt(var12, 0);
+            return;
+         case 16:
+            ClientUtilities.openAutoStoneSettingsForm();
+            return;
+         case 17:
+            ClientUtilities.openAutoStoneSellSettingsForm();
+            return;
+         case 13:
+            doStartAutoFishing();
+            return;
+         case 14:
+            ClientUtilities.openFishingSettingsForm(true);
+            return;
          case 7:
             Welcome.restart();
             (Canvas.welcome = new Welcome()).initMiniMap();
@@ -175,16 +213,6 @@ public final class MiniMap extends MyScreen {
          MapScr.gI().doExitGame();
       }
 
-   }
-
-   public final String getSelectedZoneLabel() {
-      if (this.listPos != null && this.selected >= 0 && this.selected < this.listPos.size()) {
-         return ((PositionMap)this.listPos.elementAt(this.selected)).c;
-      }
-      if (this.selected >= 0 && this.selected < T.nameRegion.length) {
-         return T.nameRegion[this.selected];
-      }
-      return "";
    }
 
    public final void setInfo(FrameImage var1, byte[] var2, Vector var3, byte var4, int var5, Command var6) {
@@ -571,5 +599,60 @@ public final class MiniMap extends MyScreen {
          actionReg = null;
       }
 
+   }
+
+   private void doStartAutoFishing() {
+      Canvas.startWaitDlg();
+      MapScr.roomID = 13;
+      MapScr.typeJoin = 13;
+      if (GameMidlet.avatar != null) {
+         GameMidlet.avatar.direct = 2;
+      }
+      GlobalService.gI().getHandler(9);
+      final int map13X = 282;
+      final int map13Y = 52;
+      final int targetX = 924;
+      final int targetY = 119;
+      final int targetDirect = 2;
+      new Thread(new Runnable() {
+         public void run() {
+            try { Thread.sleep(3000L); } catch (Throwable t) {}
+            if (GameMidlet.avatar != null) {
+               if (MapScr.gI() != null) {
+                  MapScr.gI().switchToMe();
+                  CustomTab.gI().commandTab(0, 0);
+                  try { Thread.sleep(500L); } catch (Throwable tt) {}
+                  GameMidlet.avatar.x = map13X;
+                  GameMidlet.avatar.y = map13Y;
+                  GameMidlet.avatar.xCur = map13X;
+                  GameMidlet.avatar.yCur = map13Y;
+                  try { Thread.sleep(1000L); } catch (Throwable ttt) {}
+                  AvatarService.gI().doBuyItem(448, 1);
+                  try { Thread.sleep(1000L); } catch (Throwable tttt) {}
+                  MapScr.roomID = 16;
+                  MapScr.typeJoin = 16;
+                  GlobalService.gI().getHandler(9);
+                  try { Thread.sleep(3000L); } catch (Throwable ttttt) {}
+                  if (MapScr.gI() != null) {
+                     MapScr.gI().switchToMe();
+                     try { Thread.sleep(500L); } catch (Throwable tttttt) {}
+                     GameMidlet.avatar.x = targetX;
+                     GameMidlet.avatar.y = targetY;
+                     GameMidlet.avatar.xCur = targetX;
+                     GameMidlet.avatar.yCur = targetY;
+                     MapScr.doMove(targetX, targetY, targetDirect, (short)0);
+                     try { Thread.sleep(1500L); } catch (Throwable t7) {}
+                     FishingScr.gI().doSat(targetX, targetY);
+                  }
+               }
+            }
+            Canvas.endDlg();
+            Canvas.addServerInfo("Đã bật auto câu cá!");
+            if (ClientUtilities.autoStoneEnabled) {
+               ClientUtilities.resetAutoStoneSchedule();
+               Canvas.addServerInfo("Auto đào đá: Bật");
+            }
+         }
+      }).start();
    }
 }

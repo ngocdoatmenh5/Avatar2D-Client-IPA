@@ -42,6 +42,7 @@ final class CommandShop1 extends Command {
             }
          }
 
+         PopupShop.addStr("Id: " + var1.IDPart);
          PopupShop.addStr(this.nameItem);
          if (this.timeLimit != null) {
             PopupShop.addStr(this.timeLimit);

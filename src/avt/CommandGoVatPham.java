@@ -20,6 +20,7 @@ final class CommandGoVatPham extends Command {
    public final void update() {
       if (this.ii == PopupShop.focus) {
          PopupShop.resetIsTrans();
+         PopupShop.addStr("Id: " + this.item.ID);
          PopupShop.addStr(this.item.des);
          PopupShop.addStr(T.priceStr + Canvas.getPriceMoney(this.item.priceXu, this.item.priceLuong, false));
       }

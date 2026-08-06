@@ -1,0 +1,34 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+        gradlePluginPortal()
+        maven { url 'https://s01.oss.sonatype.org' }
+    }
+    dependencies {
+        classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$robovmVersion"
+    }
+}
+apply plugin: 'robovm'
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+ext {
+    mainClassName = "ios.IOSLauncher"
+}
+
+robovm {
+    archs = 'arm64'
+    iosSkipSigning = true
+}
+
+launchIPhoneSimulator.dependsOn build
+launchIPadSimulator.dependsOn build
+launchIOSDevice.dependsOn build
+createIPA.dependsOn build
+
+dependencies {
+    implementation "com.mobidevelop.robovm:robovm-cocoatouch:$robovmVersion"
+    implementation "com.mobidevelop.robovm:robovm-rt:$robovmVersion"
+    implementation project(':core')
+}

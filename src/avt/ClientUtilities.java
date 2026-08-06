@@ -22,9 +22,12 @@ public final class ClientUtilities {
    private static final String RMS_EVENT = "event258";
    private static final String RMS_NPC = "npc258";
    private static final String RMS_FISHING = "fish258";
-   private static final String RMS_SMART_FISHING = "smartFish258";
    private static final int STONE_SHOP_NPC_ID = 2000000011;
    private static final byte STONE_SHOP_MENU_BYTE = -4;
+   private static final String TOOL_PICKAXE_XU = "cuốc thần kỳ xu";
+   private static final String TOOL_PICKAXE_GOLD = "cuốc thần kỳ lượng";
+   private static final String TOOL_SHOVEL_XU = "cuốc thường xu";
+   private static final String TOOL_SHOVEL_GOLD = "cuốc thường lượng";
 
    public static boolean autoChat;
    public static boolean autoKiss;
@@ -76,6 +79,11 @@ public final class ClientUtilities {
 
    static boolean fishingAutoLogin;
    static boolean fishingAutoBuyBait;
+   static boolean fishingAutoBuyTicket;
+   static boolean fishingAutoBuyRod;
+   static boolean fishingAutoSellStone;
+   static int fishingSelectedTicket; // 0 = vé thường (448), 1 = vé VIP (449)
+   static int fishingSelectedRod; // 0 = cần thường, 1 = cần VIP
    static boolean fishingRedFieldEnabled;
    static int fishingCounter;
    static int fishingSoldCounter;
@@ -110,83 +118,13 @@ public final class ClientUtilities {
    private static int fishingAutoBaitMoveTargetY = -1;
    private static int fishingAutoBaitForceExitTries;
    private static int fishingAutoBaitDirectBuyRemain;
+   private static boolean fishingAutoBuyTicketRequested;
+   private static boolean fishingAutoBuyRodRequested;
+   private static int fishingAutoBuyTicketStep;
+   private static int fishingAutoBuyRodStep;
+   private static boolean fishingAutoBuyPending;
+   private static boolean fishingAutoBuyBaitPending;
 
-   // Smart fishing (CaiTien-style settings)
-   static boolean smartFishingEnabled;
-   static byte smartFishingMap = 16; // 14/15/16
-   static boolean smartFishingAutoFarm = true;
-   static int smartFishingFarmMinutes = 5;
-   private static long smartFishingNextFarmAtMs;
-   private static long smartFishingReturnToFishAtMs;
-   private static byte smartFishingReturnMap = -1;
-   private static long smartFishingFarmCareNextTryAtMs;
-   private static boolean smartFishingFarmCareStarted;
-   private static long smartFishingNextMapSwitchAtMs;
-   // 0 idle
-   // 1 handler8, 2 handler10, 3 join25, 4 join24(farm)
-   // 5 quick care, 6 back25, 7 handler8, 8 handler9, 9 join13, 10 join fishing map
-   private static byte smartFishingPhase;
-   private static long smartFishingNextStepAtMs;
-   private static long smartFishingQuickCareMinUntilMs;
-   private static long smartFishLastDiagLogMs;
-   /** Delay after handler switches before next network action */
-   private static final long SMART_FISH_HANDLER_GAP_MS = 350L;
-   /** Delay after park joins / farm enter */
-   private static final long SMART_FISH_MAP_GAP_MS = 1800L;
-
-   private static void logSmartFish(String msg) {
-      System.out.println("[SMART_FISH] " + msg);
-   }
-
-   private static void logSmartFishDiagThrottled(String msg) {
-      long t = System.currentTimeMillis();
-      if (t - smartFishLastDiagLogMs < 2000L) {
-         return;
-      }
-      smartFishLastDiagLogMs = t;
-      logSmartFish(msg);
-   }
-
-   private static void requestSmartFishingNeutralHandler() {
-      try {
-         logSmartFish("getHandler(8) call");
-         GlobalService.gI().getHandler(8);
-      } catch (Throwable t) {
-         logSmartFish("getHandler(8) failed: " + t);
-      }
-   }
-
-   private static boolean trySmartFishingJoinPark(int mapId, int boardId) {
-      long now = System.currentTimeMillis();
-      if (now < smartFishingNextMapSwitchAtMs) {
-         logSmartFishDiagThrottled("doJoinPark(" + mapId + "," + boardId + ") blocked cooldown "
-               + (smartFishingNextMapSwitchAtMs - now) + "ms phase=" + smartFishingPhase
-               + " typemap=" + LoadMap.TYPEMAP);
-         return false;
-      }
-      logSmartFish("doJoinPark(" + mapId + "," + boardId + ") phase=" + smartFishingPhase
-            + " typemap=" + LoadMap.TYPEMAP);
-      Canvas.startWaitDlg();
-      ParkService.gI().doJoinPark(mapId, boardId);
-      smartFishingNextMapSwitchAtMs = now + 2000L;
-      return true;
-   }
-
-   private static void beginSmartFishingCycle() {
-      smartFishingReturnMap = smartFishingMap;
-      smartFishingFarmCareStarted = false;
-      smartFishingQuickCareMinUntilMs = 0L;
-      smartFishLastDiagLogMs = 0L;
-      smartFishingPhase = 1;
-      smartFishingNextStepAtMs = System.currentTimeMillis() + 200L;
-      logSmartFish("beginSmartFishingCycle phase=1 in 200ms typemap=" + LoadMap.TYPEMAP);
-      if (Canvas.menuMain != null) {
-         Canvas.menuMain = null;
-      }
-      if (Canvas.currentDialog != null) {
-         Canvas.endDlg();
-      }
-   }
 
    private static String titleCaseWords(String s) {
       if (s == null) return "";
@@ -208,41 +146,60 @@ public final class ClientUtilities {
       return new String(a);
    }
 
+   private static String toolDisplayName(String toolKey) {
+      if (toolKey == null) {
+         return "";
+      }
+      if (TOOL_PICKAXE_XU.equals(toolKey)) {
+         return titleCaseWords(T.utilToolPickaxeXu);
+      }
+      if (TOOL_PICKAXE_GOLD.equals(toolKey)) {
+         return titleCaseWords(T.utilToolPickaxeGold);
+      }
+      if (TOOL_SHOVEL_XU.equals(toolKey)) {
+         return titleCaseWords(T.utilToolShovelXu);
+      }
+      if (TOOL_SHOVEL_GOLD.equals(toolKey)) {
+         return titleCaseWords(T.utilToolShovelGold);
+      }
+      return titleCaseWords(toolKey);
+   }
+
    private static String autoStoneToolStatusLine() {
       String tool = null;
       int bought = 0;
       int lim = 0;
 
       if (autoStonePickaxeXu && (autoStonePickaxeXuBuyLimit <= 0 || autoStonePickaxeXuBought < autoStonePickaxeXuBuyLimit)) {
-         tool = "cuốc thần kỳ xu";
+         tool = TOOL_PICKAXE_XU;
          bought = autoStonePickaxeXuBought;
          lim = autoStonePickaxeXuBuyLimit;
       } else if (autoStonePickaxeGold && (autoStonePickaxeGoldBuyLimit <= 0 || autoStonePickaxeGoldBought < autoStonePickaxeGoldBuyLimit)) {
-         tool = "cuốc thần kỳ lượng";
+         tool = TOOL_PICKAXE_GOLD;
          bought = autoStonePickaxeGoldBought;
          lim = autoStonePickaxeGoldBuyLimit;
       } else if (autoStoneShovelXu && (autoStoneShovelXuBuyLimit <= 0 || autoStoneShovelXuBought < autoStoneShovelXuBuyLimit)) {
-         tool = "cuốc thường xu";
+         tool = TOOL_SHOVEL_XU;
          bought = autoStoneShovelXuBought;
          lim = autoStoneShovelXuBuyLimit;
       } else if (autoStoneShovelGold && (autoStoneShovelGoldBuyLimit <= 0 || autoStoneShovelGoldBought < autoStoneShovelGoldBuyLimit)) {
-         tool = "cuốc thường lượng";
+         tool = TOOL_SHOVEL_GOLD;
          bought = autoStoneShovelGoldBought;
          lim = autoStoneShovelGoldBuyLimit;
       }
 
       if (tool == null) {
-         return "Đang cuốc: Không có (đã hết giới hạn)";
+         return T.utilPickaxeNone;
       }
-      String limText = lim <= 0 ? "Không giới hạn" : String.valueOf(lim);
-      return "Đang cuốc: " + titleCaseWords(tool) + " | Đã mua: " + bought + " | Giới hạn: " + limText;
+      String limText = lim <= 0 ? T.utilUnlimited : String.valueOf(lim);
+      return T.utilPickaxePrefix + toolDisplayName(tool) + T.utilBoughtPrefix + bought + T.utilLimitSuffix + limText;
    }
 
    private static String autoStoneToolNameForOverlay() {
-      if (autoStonePickaxeXu && (autoStonePickaxeXuBuyLimit <= 0 || autoStonePickaxeXuBought < autoStonePickaxeXuBuyLimit)) return "cuốc thần kỳ xu";
-      if (autoStonePickaxeGold && (autoStonePickaxeGoldBuyLimit <= 0 || autoStonePickaxeGoldBought < autoStonePickaxeGoldBuyLimit)) return "cuốc thần kỳ lượng";
-      if (autoStoneShovelXu && (autoStoneShovelXuBuyLimit <= 0 || autoStoneShovelXuBought < autoStoneShovelXuBuyLimit)) return "cuốc thường xu";
-      if (autoStoneShovelGold && (autoStoneShovelGoldBuyLimit <= 0 || autoStoneShovelGoldBought < autoStoneShovelGoldBuyLimit)) return "cuốc thường lượng";
+      if (autoStonePickaxeXu && (autoStonePickaxeXuBuyLimit <= 0 || autoStonePickaxeXuBought < autoStonePickaxeXuBuyLimit)) return TOOL_PICKAXE_XU;
+      if (autoStonePickaxeGold && (autoStonePickaxeGoldBuyLimit <= 0 || autoStonePickaxeGoldBought < autoStonePickaxeGoldBuyLimit)) return TOOL_PICKAXE_GOLD;
+      if (autoStoneShovelXu && (autoStoneShovelXuBuyLimit <= 0 || autoStoneShovelXuBought < autoStoneShovelXuBuyLimit)) return TOOL_SHOVEL_XU;
+      if (autoStoneShovelGold && (autoStoneShovelGoldBuyLimit <= 0 || autoStoneShovelGoldBought < autoStoneShovelGoldBuyLimit)) return TOOL_SHOVEL_GOLD;
       return null;
    }
 
@@ -269,22 +226,22 @@ public final class ClientUtilities {
       if (curLim <= 0) return "";
 
       boolean after = false;
-      if ("cuốc thần kỳ xu".equals(cur)) {
+      if (TOOL_PICKAXE_XU.equals(cur)) {
          after = true;
       }
       if (after) {
-         if (autoStonePickaxeGold && (autoStonePickaxeGoldBuyLimit <= 0 || autoStonePickaxeGoldBought < autoStonePickaxeGoldBuyLimit)) return "cuốc thần kỳ lượng";
-         if (autoStoneShovelXu && (autoStoneShovelXuBuyLimit <= 0 || autoStoneShovelXuBought < autoStoneShovelXuBuyLimit)) return "cuốc thường xu";
-         if (autoStoneShovelGold && (autoStoneShovelGoldBuyLimit <= 0 || autoStoneShovelGoldBought < autoStoneShovelGoldBuyLimit)) return "cuốc thường lượng";
+         if (autoStonePickaxeGold && (autoStonePickaxeGoldBuyLimit <= 0 || autoStonePickaxeGoldBought < autoStonePickaxeGoldBuyLimit)) return TOOL_PICKAXE_GOLD;
+         if (autoStoneShovelXu && (autoStoneShovelXuBuyLimit <= 0 || autoStoneShovelXuBought < autoStoneShovelXuBuyLimit)) return TOOL_SHOVEL_XU;
+         if (autoStoneShovelGold && (autoStoneShovelGoldBuyLimit <= 0 || autoStoneShovelGoldBought < autoStoneShovelGoldBuyLimit)) return TOOL_SHOVEL_GOLD;
          return null;
       }
-      if ("cuốc thần kỳ lượng".equals(cur)) {
-         if (autoStoneShovelXu && (autoStoneShovelXuBuyLimit <= 0 || autoStoneShovelXuBought < autoStoneShovelXuBuyLimit)) return "cuốc thường xu";
-         if (autoStoneShovelGold && (autoStoneShovelGoldBuyLimit <= 0 || autoStoneShovelGoldBought < autoStoneShovelGoldBuyLimit)) return "cuốc thường lượng";
+      if (TOOL_PICKAXE_GOLD.equals(cur)) {
+         if (autoStoneShovelXu && (autoStoneShovelXuBuyLimit <= 0 || autoStoneShovelXuBought < autoStoneShovelXuBuyLimit)) return TOOL_SHOVEL_XU;
+         if (autoStoneShovelGold && (autoStoneShovelGoldBuyLimit <= 0 || autoStoneShovelGoldBought < autoStoneShovelGoldBuyLimit)) return TOOL_SHOVEL_GOLD;
          return null;
       }
-      if ("cuốc thường xu".equals(cur)) {
-         if (autoStoneShovelGold && (autoStoneShovelGoldBuyLimit <= 0 || autoStoneShovelGoldBought < autoStoneShovelGoldBuyLimit)) return "cuốc thường lượng";
+      if (TOOL_SHOVEL_XU.equals(cur)) {
+         if (autoStoneShovelGold && (autoStoneShovelGoldBuyLimit <= 0 || autoStoneShovelGoldBought < autoStoneShovelGoldBuyLimit)) return TOOL_SHOVEL_GOLD;
          return null;
       }
       return null;
@@ -293,32 +250,32 @@ public final class ClientUtilities {
    public static String getAutoStoneOverlayLine1() {
       if (!autoStoneEnabled) return null;
       String tool = autoStoneToolNameForOverlay();
-      if (tool == null) return "Đang đào: Không có";
-      return "Đang đào: " + titleCaseWords(tool);
+      if (tool == null) return T.utilMiningNone;
+      return T.utilMiningPrefix + toolDisplayName(tool);
    }
 
    public static String getAutoStoneOverlayLine2() {
       if (!autoStoneEnabled) return null;
       String tool = autoStoneToolNameForOverlay();
-      if (tool == null) return "Giới hạn: 0/0";
+      if (tool == null) return T.utilLimitPrefix + "0/0";
       int bought = autoStoneBoughtForOverlay();
       int lim = autoStoneLimitForOverlay();
-      String limText = lim <= 0 ? "Không giới hạn" : String.valueOf(lim);
-      return "Giới hạn: " + bought + "/" + limText;
+      String limText = lim <= 0 ? T.utilUnlimited : String.valueOf(lim);
+      return T.utilLimitPrefix + bought + "/" + limText;
    }
 
    public static String getAutoStoneOverlayLine3() {
       if (!autoStoneEnabled) return null;
       String tool = autoStoneToolNameForOverlay();
-      if (tool == null) return "Đạt giới hạn sẽ mua: Không có";
+      if (tool == null) return T.utilNextBuyNone;
       String next = autoStoneNextToolNameForOverlay();
       if (next != null && next.length() == 0) {
-         return "Đạt giới hạn sẽ mua: (Không chuyển - Không giới hạn)";
+         return T.utilNextBuyNoSwitch;
       }
       if (next == null) {
-         return "Đạt giới hạn sẽ mua: Không có";
+         return T.utilNextBuyNone;
       }
-      return "Đạt giới hạn sẽ mua: " + titleCaseWords(next);
+      return T.utilNextBuyPrefix + toolDisplayName(next);
    }
 
    
@@ -371,16 +328,16 @@ public final class ClientUtilities {
       v.addElement(new Command(T.utilAutoClick, new IActionUtilityCmd((byte)7)));
       v.addElement(new Command(T.utilSpeed, new IActionUtilityCmd((byte)8)));
       v.addElement(new Command(T.utilGameRoom, new IActionUtilityCmd((byte)9)));
-      v.addElement(new Command("Chuyển nhân vật", new IActionUtilityCmd((byte)13)));
+      v.addElement(new Command(T.loginSwitchCharacter, new IActionUtilityCmd((byte)13)));
       v.addElement(new Command(T.utilVietnameseIME + ": " + boolCap(vietnameseTyping), new IActionUtilityCmd((byte)10)));
-      v.addElement(new Command("Auto đào đá", new IActionUtilityCmd((byte)11)));
+      v.addElement(new Command(T.menuAutoMining, new IActionUtilityCmd((byte)11)));
      
       return v;
    }
 
    public static void stopAutoDialLuckyFromUtility() {
       DialLuckyScr.gI().stopAutoDialFromUtility();
-      Canvas.startOKDlg("Đã tắt auto quay số.");
+      Canvas.startOKDlg(T.utilAutoDialStopped);
    }
 
    public static void openUtilitySubmenu() {
@@ -390,11 +347,11 @@ public final class ClientUtilities {
 
    public static void openEventSubmenu() {
       Vector v = new Vector();
-      v.addElement(new Command("Cài đặt NPC", new IActionEventCmd((byte)0)));
-      v.addElement(new Command("Cài đặt", new IActionEventCmd((byte)1)));
-      v.addElement(new Command("Bộ đếm quà", new IActionEventCmd((byte)2)));
-      v.addElement(new Command("Về nông trại", new IActionEventCmd((byte)3)));
-      v.addElement(new Command("Báo danh sự kiện", new IActionEventCmd((byte)4)));
+      v.addElement(new Command(T.eventNpcSettings, new IActionEventCmd((byte)0)));
+      v.addElement(new Command(T.option, new IActionEventCmd((byte)1)));
+      v.addElement(new Command(T.eventGiftCounter, new IActionEventCmd((byte)2)));
+      v.addElement(new Command(T.eventGoFarm, new IActionEventCmd((byte)3)));
+      v.addElement(new Command(T.eventCheckin, new IActionEventCmd((byte)4)));
       Menu.gI().startAt(v, -1);
       Menu.h = null;
    }
@@ -474,10 +431,10 @@ public final class ClientUtilities {
 
    static void openNpcSettingsSubmenu() {
       Vector v = new Vector();
-      v.addElement(new Command("Auto NPC: " + (autoNpcEnabled ? "Bật" : "Tắt"), new IActionNpcCmd((byte)0)));
-      v.addElement(new Command("Tấn công: " + (autoNpcAttackEnabled ? "Bật" : "Tắt"), new IActionNpcCmd((byte)1)));
-      v.addElement(new Command("Cài đặt t.kiếm", new IActionNpcCmd((byte)3)));
-      v.addElement(new Command("Cài đặt t.công", new IActionNpcCmd((byte)4)));
+      v.addElement(new Command(T.npcAutoPrefix + boolCap(autoNpcEnabled), new IActionNpcCmd((byte)0)));
+      v.addElement(new Command(T.npcAttackPrefix + boolCap(autoNpcAttackEnabled), new IActionNpcCmd((byte)1)));
+      v.addElement(new Command(T.npcSearchSettings, new IActionNpcCmd((byte)3)));
+      v.addElement(new Command(T.npcAttackSettings, new IActionNpcCmd((byte)4)));
       Menu.gI().startAt(v, -1);
       Menu.h = null;
    }
@@ -503,7 +460,7 @@ public final class ClientUtilities {
    private static void openRememberedNpcListMenuInternal() {
       Vector v = new Vector();
       if (rememberedNpcList == null || rememberedNpcList.size() == 0) {
-         Canvas.startOKDlg("Danh sách NPC đang trống");
+         Canvas.startOKDlg(T.npcListEmpty);
          if (!rememberedNpcListFromMapMenu) {
             openNpcSettingsSubmenu();
          }
@@ -515,15 +472,15 @@ public final class ClientUtilities {
          int p = entry.indexOf('|');
          String id = p < 0 ? entry : entry.substring(0, p);
          String name = p < 0 ? "" : safe(entry.substring(p + 1));
-         String caption = safe(name).trim().length() > 0 ? safe(name) : "NPC";
+         String caption = safe(name).trim().length() > 0 ? safe(name) : T.npcDefaultName;
          v.addElement(new Command(caption, new IActionRememberedNpcCommunicate(id)));
       }
 
-      v.addElement(new Command("Xoá d.sach npc", new IActionNpcCmd((byte)11)));
+      v.addElement(new Command(T.npcClearList, new IActionNpcCmd((byte)11)));
       if (rememberedNpcListFromMapMenu) {
-         v.addElement(new Command("Quay lại", new IActionNoop()));
+         v.addElement(new Command(T.loginBack, new IActionNoop()));
       } else {
-         v.addElement(new Command("Quay lại", new IActionNpcCmd((byte)7)));
+         v.addElement(new Command(T.loginBack, new IActionNpcCmd((byte)7)));
       }
       Menu.gI().startAt(v, -1);
       Menu.h = null;
@@ -535,7 +492,7 @@ public final class ClientUtilities {
       }
 
       persistNpcSettings();
-      Canvas.startOKDlg("Đã xoá danh sách NPC");
+      Canvas.startOKDlg(T.npcListCleared);
       if (!rememberedNpcListFromMapMenu) {
          openNpcSettingsSubmenu();
       }
@@ -549,50 +506,50 @@ public final class ClientUtilities {
       Vector v = new Vector();
       String key = safe(npcSearchKeyword).trim();
       if (key.length() == 0) {
-         key = "Tên NPC";
+         key = T.npcNameKey;
       }
       v.addElement(new Command(key + ": " + (npcSearchEnabled ? "ON" : "OFF"), new IActionNpcCmd((byte)6)));
-      v.addElement(new Command("Quay lại", new IActionNpcCmd((byte)7)));
+      v.addElement(new Command(T.loginBack, new IActionNpcCmd((byte)7)));
       Menu.gI().startAt(v, -1);
       Menu.h = null;
    }
 
    static void openNpcAttackSettingsForm() {
       Vector v = new Vector();
-      v.addElement(new Command("Tấn công: " + (autoNpcAttackEnabled ? "ON" : "OFF"), new IActionNpcCmd((byte)8)));
-      v.addElement(new Command("Quay lại", new IActionNpcCmd((byte)9)));
+      v.addElement(new Command(T.npcAttackPrefix + (autoNpcAttackEnabled ? "ON" : "OFF"), new IActionNpcCmd((byte)8)));
+      v.addElement(new Command(T.loginBack, new IActionNpcCmd((byte)9)));
       Menu.gI().startAt(v, -1);
       Menu.h = null;
    }
 
    static void rememberFocusedNpc() {
       if (LoadMap.focusObj == null || LoadMap.focusObj.catagory != 0) {
-         Canvas.startOKDlg("Chưa trỏ vào NPC");
+         Canvas.startOKDlg(T.npcNotPointed);
          return;
       }
 
       Avatar a = (Avatar) LoadMap.focusObj;
       if (a == null) {
-         Canvas.startOKDlg("Chưa trỏ vào NPC");
+         Canvas.startOKDlg(T.npcNotPointed);
          return;
       }
 
       if (!isEncodedNpcId(a.IDDB)) {
-         Canvas.startOKDlg("Chưa trỏ vào NPC");
+         Canvas.startOKDlg(T.npcNotPointed);
          return;
       }
 
       String entry = String.valueOf(a.IDDB) + "|" + safe(a.name);
       for (int i = 0; i < rememberedNpcList.size(); i++) {
          if (entry.equals(rememberedNpcList.elementAt(i))) {
-            Canvas.startOKDlg("NPC đã có trong bộ nhớ");
+            Canvas.startOKDlg(T.npcAlreadySaved);
             return;
          }
       }
 
       rememberedNpcList.addElement(entry);
       persistNpcSettings();
-      Canvas.startOKDlg("Đã lưu NPC: " + safe(a.name));
+      Canvas.startOKDlg(T.npcSavedPrefix + safe(a.name));
    }
 
    private static boolean matchesConfiguredNpcName(String name) {
@@ -779,28 +736,28 @@ public final class ClientUtilities {
    }
 
    static void openEventSettingsForm() {
-      final Form form = new Form("Cài đặt");
+      final Form form = new Form(T.option);
 
-      final TextField tfNpcList = new TextField("Danh sách NPC (keyword)", safe(npcSearchKeyword), 200, TextField.ANY);
-      final TextField tfCheckin = new TextField("Nội dung báo danh", eventCheckinChat == null ? "" : eventCheckinChat, 200, TextField.ANY);
-      final TextField tfZoneMs = new TextField("Quãng nghỉ(ms) Chuyển khu", String.valueOf(eventChangeZoneIntervalMs), 8, TextField.NUMERIC);
+      final TextField tfNpcList = new TextField(T.utilNpcKeyword, safe(npcSearchKeyword), 200, TextField.ANY);
+      final TextField tfCheckin = new TextField(T.utilCheckinContent, eventCheckinChat == null ? "" : eventCheckinChat, 200, TextField.ANY);
+      final TextField tfZoneMs = new TextField(T.utilZoneInterval, String.valueOf(eventChangeZoneIntervalMs), 8, TextField.NUMERIC);
 
-      final ChoiceGroup cgScope = new ChoiceGroup("Phạm vi", ChoiceGroup.EXCLUSIVE);
-      cgScope.append("Tất cả các map", null);
-      cgScope.append("Chỉ map hiện tại", null);
+      final ChoiceGroup cgScope = new ChoiceGroup(T.utilScope, ChoiceGroup.EXCLUSIVE);
+      cgScope.append(T.utilScopeAllMaps, null);
+      cgScope.append(T.utilScopeCurrentMap, null);
       cgScope.setSelectedIndex(eventScopeAllMaps ? 0 : 1, true);
 
-      final ChoiceGroup cgAttack = new ChoiceGroup("Tấn công", ChoiceGroup.EXCLUSIVE);
-      cgAttack.append("Không", null);
-      cgAttack.append("Có", null);
+      final ChoiceGroup cgAttack = new ChoiceGroup(T.utilAttack, ChoiceGroup.EXCLUSIVE);
+      cgAttack.append(T.utilAttackNone, null);
+      cgAttack.append(T.utilAttackYes, null);
       cgAttack.setSelectedIndex(autoNpcAttackEnabled ? 1 : 0, true);
 
-      final ChoiceGroup cgAttackType = new ChoiceGroup("Loại Tấn công", ChoiceGroup.EXCLUSIVE);
-      cgAttackType.append("Liên tục", null);
-      cgAttackType.append("Chỉ 1 lần", null);
+      final ChoiceGroup cgAttackType = new ChoiceGroup(T.utilAttackType, ChoiceGroup.EXCLUSIVE);
+      cgAttackType.append(T.utilAttackContinuous, null);
+      cgAttackType.append(T.utilAttackOnce, null);
       cgAttackType.setSelectedIndex(npcAttackType == 1 ? 1 : 0, true);
 
-      final TextField tfAttackMs = new TextField("Quãng nghỉ(ms) Tấn công", String.valueOf(npcAttackDelayMs), 8, TextField.NUMERIC);
+      final TextField tfAttackMs = new TextField(T.utilAttackInterval, String.valueOf(npcAttackDelayMs), 8, TextField.NUMERIC);
 
       form.append(tfNpcList);
       form.append(tfCheckin);
@@ -809,11 +766,11 @@ public final class ClientUtilities {
       form.append(cgAttack);
       form.append(cgAttackType);
       form.append(tfAttackMs);
-      form.append("Lưu ý Auto Tấn công chỉ đi kèm");
+      form.append(T.utilAttackNote1);
 
-      final javax.microedition.lcdui.Command cmdSave = new javax.microedition.lcdui.Command("Lưu", 4, 1);
+      final javax.microedition.lcdui.Command cmdSave = new javax.microedition.lcdui.Command(T.loginSave, 4, 1);
       final javax.microedition.lcdui.Command cmdCancel = new javax.microedition.lcdui.Command(T.cancel, 2, 1);
-      final javax.microedition.lcdui.Command cmdAttackOpt = new javax.microedition.lcdui.Command("Cài đặt t.công", 4, 2);
+      final javax.microedition.lcdui.Command cmdAttackOpt = new javax.microedition.lcdui.Command(T.npcAttackSettings, 4, 2);
       form.addCommand(cmdSave);
       form.addCommand(cmdCancel);
       form.addCommand(cmdAttackOpt);
@@ -838,7 +795,7 @@ public final class ClientUtilities {
                try {
                   ms = Integer.parseInt(tfZoneMs.getString().trim());
                } catch (Exception e) {
-                  Canvas.startOKDlg("Quãng nghỉ chuyển khu không hợp lệ");
+                  Canvas.startOKDlg(T.utilZoneIntervalInvalid);
                   return;
                }
                if (ms < 1) ms = 1;
@@ -849,7 +806,7 @@ public final class ClientUtilities {
                try {
                   atkMs = Integer.parseInt(tfAttackMs.getString().trim());
                } catch (Exception e) {
-                  Canvas.startOKDlg("Quãng nghỉ tấn công không hợp lệ");
+                  Canvas.startOKDlg(T.utilAttackIntervalInvalid);
                   return;
                }
                if (atkMs < 1) atkMs = 1;
@@ -858,7 +815,7 @@ public final class ClientUtilities {
 
                persistEventSettings();
                persistNpcSettings();
-               Canvas.addServerInfo("Lưu cài đặt thành công");
+               Canvas.addServerInfo(T.utilSaveSettingsOk);
             }
 
             Canvas.instance.setFullScreenMode(true);
@@ -871,8 +828,8 @@ public final class ClientUtilities {
 
    static void openGiftCounterMenu() {
       Vector v = new Vector();
-      v.addElement(new Command("Đã tặng (AutoGift): " + autoGiftCount, new IActionEventCmd((byte)10)));
-      v.addElement(new Command("Reset bộ đếm", new IActionEventCmd((byte)11)));
+      v.addElement(new Command(T.eventGiftCountPrefix + autoGiftCount, new IActionEventCmd((byte)10)));
+      v.addElement(new Command(T.eventResetCounter, new IActionEventCmd((byte)11)));
       Menu.gI().startAt(v, -1);
       Menu.h = null;
    }
@@ -951,29 +908,29 @@ public final class ClientUtilities {
    }
 
    static void openNpcAttackAdvancedSettingsForm() {
-      final Form form = new Form("Cài đặt");
+      final Form form = new Form(T.option);
       form.append(String.valueOf(eventChangeZoneIntervalMs));
 
-      final ChoiceGroup cgAttack = new ChoiceGroup("Tấn công", ChoiceGroup.EXCLUSIVE);
-      cgAttack.append("Không", null);
-      cgAttack.append("Có", null);
+      final ChoiceGroup cgAttack = new ChoiceGroup(T.utilAttack, ChoiceGroup.EXCLUSIVE);
+      cgAttack.append(T.utilAttackNone, null);
+      cgAttack.append(T.utilAttackYes, null);
       cgAttack.setSelectedIndex(autoNpcAttackEnabled ? 1 : 0, true);
       form.append(cgAttack);
 
-      form.append("Lưu ý Auto Tấn công chỉ đi kèm");
-      form.append("khi NPC đó có trạng thái Tìm là");
+      form.append(T.utilAttackNote1);
+      form.append(T.utilAttackNote2);
       form.append(npcAttackOnlyIfFindOn ? "ON" : "OFF");
 
-      final ChoiceGroup cgType = new ChoiceGroup("Loại Tấn công", ChoiceGroup.EXCLUSIVE);
-      cgType.append("Liên tục", null);
-      cgType.append("Chỉ 1 lần", null);
+      final ChoiceGroup cgType = new ChoiceGroup(T.utilAttackType, ChoiceGroup.EXCLUSIVE);
+      cgType.append(T.utilAttackContinuous, null);
+      cgType.append(T.utilAttackOnce, null);
       cgType.setSelectedIndex(npcAttackType == 1 ? 1 : 0, true);
       form.append(cgType);
 
-      final TextField tfAttackMs = new TextField("Quãng nghỉ(ms) Tấn công", String.valueOf(npcAttackDelayMs), 8, TextField.NUMERIC);
+      final TextField tfAttackMs = new TextField(T.utilAttackInterval, String.valueOf(npcAttackDelayMs), 8, TextField.NUMERIC);
       form.append(tfAttackMs);
 
-      final javax.microedition.lcdui.Command cmdSave = new javax.microedition.lcdui.Command("Lưu", 4, 1);
+      final javax.microedition.lcdui.Command cmdSave = new javax.microedition.lcdui.Command(T.loginSave, 4, 1);
       final javax.microedition.lcdui.Command cmdCancel = new javax.microedition.lcdui.Command(T.cancel, 2, 1);
       form.addCommand(cmdSave);
       form.addCommand(cmdCancel);
@@ -987,14 +944,14 @@ public final class ClientUtilities {
                try {
                   ms = Integer.parseInt(tfAttackMs.getString().trim());
                } catch (Exception e) {
-                  Canvas.startOKDlg("Quãng nghỉ tấn công không hợp lệ");
+                  Canvas.startOKDlg(T.utilAttackIntervalInvalid);
                   return;
                }
                if (ms < 1) ms = 1;
                if (ms > 600000) ms = 600000;
                npcAttackDelayMs = ms;
                persistNpcSettings();
-               Canvas.addServerInfo("Lưu cài đặt thành công");
+               Canvas.addServerInfo(T.utilSaveSettingsOk);
             }
 
             Canvas.instance.setFullScreenMode(true);
@@ -1024,32 +981,32 @@ public final class ClientUtilities {
 
    public static void openAutoStoneSubmenu() {
       Vector v = new Vector();
-      v.addElement(new Command("Bật/Tắt Auto: " + boolCap(autoStoneEnabled), new IActionAutoStoneSub((byte)0)));
-      v.addElement(new Command("Cài đặt auto", new IActionAutoStoneSub((byte)1)));
-      v.addElement(new Command("Cài đặt auto bán đá", new IActionAutoStoneSub((byte)2)));
+      v.addElement(new Command(T.utilAutoStoneToggle + boolCap(autoStoneEnabled), new IActionAutoStoneSub((byte)0)));
+      v.addElement(new Command(T.utilAutoStoneSettings, new IActionAutoStoneSub((byte)1)));
+      v.addElement(new Command(T.utilAutoStoneSellSettings, new IActionAutoStoneSub((byte)2)));
       Menu.gI().startAt(v, -1);
       Menu.h = null;
    }
 
    public static void openAutoStoneSellSettingsForm() {
-      final Form form = new Form("Cài đặt auto bán đá");
-      final ChoiceGroup cgStone = new ChoiceGroup("Tự bán", ChoiceGroup.MULTIPLE);
-      cgStone.append("Đá cuội", null);
-      cgStone.append("Đá trắng", null);
-      cgStone.append("Đá lam", null);
-      cgStone.append("Đá lục", null);
-      cgStone.append("Đá hồng", null);
-      cgStone.append("Đá tím", null);
-      cgStone.append("Đá vàng", null);
-      cgStone.append("Đá cam", null);
-      cgStone.append("Đá huyền không", null);
+      final Form form = new Form(T.utilAutoStoneSellForm);
+      final ChoiceGroup cgStone = new ChoiceGroup(T.utilAutoSell, ChoiceGroup.MULTIPLE);
+      cgStone.append(T.stonePebble, null);
+      cgStone.append(T.stoneWhite, null);
+      cgStone.append(T.stoneBlue, null);
+      cgStone.append(T.stoneGreen, null);
+      cgStone.append(T.stonePink, null);
+      cgStone.append(T.stonePurple, null);
+      cgStone.append(T.stoneGold, null);
+      cgStone.append(T.stoneOrange, null);
+      cgStone.append(T.stoneVoid, null);
 
       for (int i = 0; i < autoStoneSellStoneSelected.length && i < 9; i++) {
          cgStone.setSelectedIndex(i, autoStoneSellStoneSelected[i]);
       }
 
       form.append(cgStone);
-      final javax.microedition.lcdui.Command cmdSave = new javax.microedition.lcdui.Command("Lưu", 4, 1);
+      final javax.microedition.lcdui.Command cmdSave = new javax.microedition.lcdui.Command(T.loginSave, 4, 1);
       final javax.microedition.lcdui.Command cmdCancel = new javax.microedition.lcdui.Command(T.cancel, 2, 1);
       form.addCommand(cmdSave);
       form.addCommand(cmdCancel);
@@ -1061,7 +1018,7 @@ public final class ClientUtilities {
                }
 
                persistAutoStoneSettings();
-               Canvas.startOKDlg("Đã lưu cài đặt auto bán đá");
+               Canvas.startOKDlg(T.utilAutoStoneSellSaved);
             }
 
             Canvas.instance.setFullScreenMode(true);
@@ -1073,20 +1030,20 @@ public final class ClientUtilities {
    }
 
    public static void openAutoStoneSettingsForm() {
-      final Form form = new Form("Cài đặt auto đào đá");
+      final Form form = new Form(T.utilAutoStoneMineForm);
       form.append(autoStoneToolStatusLine());
-      final TextField tfInterval = new TextField("Time đào (ms)", String.valueOf(autoStoneIntervalMs), 10, TextField.NUMERIC);
-      final TextField tfStartKey = new TextField("Phím bật/tắt auto đào", String.valueOf(autoStoneStartKey), 12, TextField.ANY);
-      final ChoiceGroup cgOptions = new ChoiceGroup("Tùy chọn", ChoiceGroup.MULTIPLE);
-      cgOptions.append("Tự hồi phục sức khỏe", null);
-      cgOptions.append("Auto cuốc thần kỳ xu", null);
-      cgOptions.append("Auto cuốc thần kỳ lượng", null);
-      cgOptions.append("Auto cuốc thường xu", null);
-      cgOptions.append("Auto cuốc thường lượng", null);
-      final TextField tfLimitPickaxeXu = new TextField("Giới hạn mua cuốc TK xu (0=ko giới hạn)", String.valueOf(autoStonePickaxeXuBuyLimit), 6, TextField.NUMERIC);
-      final TextField tfLimitPickaxeGold = new TextField("Giới hạn mua cuốc TK lượng (0=ko giới hạn)", String.valueOf(autoStonePickaxeGoldBuyLimit), 6, TextField.NUMERIC);
-      final TextField tfLimitShovelXu = new TextField("Giới hạn mua cuốc thường xu (0=ko giới hạn)", String.valueOf(autoStoneShovelXuBuyLimit), 6, TextField.NUMERIC);
-      final TextField tfLimitShovelGold = new TextField("Giới hạn mua cuốc thường lượng (0=ko giới hạn)", String.valueOf(autoStoneShovelGoldBuyLimit), 6, TextField.NUMERIC);
+      final TextField tfInterval = new TextField(T.utilMineTime, String.valueOf(autoStoneIntervalMs), 10, TextField.NUMERIC);
+      final TextField tfStartKey = new TextField(T.utilMineToggleKey, String.valueOf(autoStoneStartKey), 12, TextField.ANY);
+      final ChoiceGroup cgOptions = new ChoiceGroup(T.utilMineOptions, ChoiceGroup.MULTIPLE);
+      cgOptions.append(T.utilMineRecoverHealth, null);
+      cgOptions.append(T.utilMinePickaxeXuOpt, null);
+      cgOptions.append(T.utilMinePickaxeGoldOpt, null);
+      cgOptions.append(T.utilMineShovelXuOpt, null);
+      cgOptions.append(T.utilMineShovelGoldOpt, null);
+      final TextField tfLimitPickaxeXu = new TextField(T.utilMineLimitPickaxeXu, String.valueOf(autoStonePickaxeXuBuyLimit), 6, TextField.NUMERIC);
+      final TextField tfLimitPickaxeGold = new TextField(T.utilMineLimitPickaxeGold, String.valueOf(autoStonePickaxeGoldBuyLimit), 6, TextField.NUMERIC);
+      final TextField tfLimitShovelXu = new TextField(T.utilMineLimitShovelXu, String.valueOf(autoStoneShovelXuBuyLimit), 6, TextField.NUMERIC);
+      final TextField tfLimitShovelGold = new TextField(T.utilMineLimitShovelGold, String.valueOf(autoStoneShovelGoldBuyLimit), 6, TextField.NUMERIC);
       cgOptions.setSelectedIndex(0, autoStoneRecoverHealth);
       cgOptions.setSelectedIndex(1, autoStonePickaxeXu);
       cgOptions.setSelectedIndex(2, autoStonePickaxeGold);
@@ -1099,7 +1056,7 @@ public final class ClientUtilities {
       form.append(tfLimitPickaxeGold);
       form.append(tfLimitShovelXu);
       form.append(tfLimitShovelGold);
-      final javax.microedition.lcdui.Command cmdSave = new javax.microedition.lcdui.Command("Lưu", 4, 1);
+      final javax.microedition.lcdui.Command cmdSave = new javax.microedition.lcdui.Command(T.loginSave, 4, 1);
       final javax.microedition.lcdui.Command cmdCancel = new javax.microedition.lcdui.Command(T.cancel, 2, 1);
       form.addCommand(cmdSave);
       form.addCommand(cmdCancel);
@@ -1110,7 +1067,7 @@ public final class ClientUtilities {
                try {
                   ms = Integer.parseInt(tfInterval.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Time đào không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidMineTime);
                   return;
                }
 
@@ -1124,7 +1081,7 @@ public final class ClientUtilities {
                try {
                   startKey = Integer.parseInt(tfStartKey.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Phím bật/tắt không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidToggleKey);
                   return;
                }
 
@@ -1135,25 +1092,25 @@ public final class ClientUtilities {
                try {
                   limPickaxeXu = Integer.parseInt(tfLimitPickaxeXu.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Giới hạn cuốc TK xu không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidPickaxeXuLimit);
                   return;
                }
                try {
                   limPickaxeGold = Integer.parseInt(tfLimitPickaxeGold.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Giới hạn cuốc TK lượng không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidPickaxeGoldLimit);
                   return;
                }
                try {
                   limShovelXu = Integer.parseInt(tfLimitShovelXu.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Giới hạn cuốc thường xu không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidShovelXuLimit);
                   return;
                }
                try {
                   limShovelGold = Integer.parseInt(tfLimitShovelGold.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Giới hạn cuốc thường lượng không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidShovelGoldLimit);
                   return;
                }
                if (limPickaxeXu < 0) limPickaxeXu = 0;
@@ -1173,7 +1130,7 @@ public final class ClientUtilities {
                ClientUtilities.autoStoneShovelXuBuyLimit = limShovelXu;
                ClientUtilities.autoStoneShovelGoldBuyLimit = limShovelGold;
                ClientUtilities.persistAutoStoneSettings();
-               Canvas.startOKDlg("Đã lưu cài đặt Auto đào đá");
+               Canvas.startOKDlg(T.utilAutoStoneSaved);
             }
 
             Canvas.instance.setFullScreenMode(true);
@@ -1206,21 +1163,21 @@ public final class ClientUtilities {
                try {
                   code = Integer.parseInt(tfCode.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Mã không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidCode);
                   return;
                }
 
                try {
                   limit = Integer.parseInt(tfLimit.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Số lần không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidLimit);
                   return;
                }
 
                try {
                   ms = Integer.parseInt(tfInterval.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Quãng nghỉ không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidInterval);
                   return;
                }
 
@@ -1289,28 +1246,28 @@ public final class ClientUtilities {
                try {
                   gid = Integer.parseInt(tfGift.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Quà tặng không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidGift);
                   return;
                }
 
                try {
                   ms = Integer.parseInt(tfInterval.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Quãng nghỉ không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidInterval);
                   return;
                }
 
                try {
                   limit = Integer.parseInt(tfLimit.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Số lần không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidLimit);
                   return;
                }
 
                try {
                   pay = Integer.parseInt(tfPayBy.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Tặng bằng không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidPayBy);
                   return;
                }
 
@@ -1378,21 +1335,21 @@ public final class ClientUtilities {
                try {
                   k = Integer.parseInt(tfKey.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Mã phím không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidKeyCode);
                   return;
                }
 
                try {
                   s = Integer.parseInt(tfStart.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Phím khởi động không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidStartKey);
                   return;
                }
 
                try {
                   ms = Integer.parseInt(tfInterval.getString().trim());
                } catch (Exception var2) {
-                  Canvas.startOKDlg("Quãng nghỉ không hợp lệ");
+                  Canvas.startOKDlg(T.utilInvalidInterval);
                   return;
                }
 
@@ -1646,7 +1603,7 @@ public final class ClientUtilities {
       loadPersistedEventSettings();
       loadPersistedNpcSettings();
       loadPersistedFishingSettings();
-      loadPersistedSmartFishingSettings();
+     
       map13GuideShown = false;
       lastObservedMapType = -1;
    }
@@ -1692,307 +1649,8 @@ public final class ClientUtilities {
             sell += (fishingSellFishSelected[i] ? "1" : "0");
             if (i + 1 < fishingSellFishSelected.length) sell += ",";
          }
-         CRes.a(RMS_FISHING, (fishingAutoLogin ? "1" : "0") + "|" + (fishingAutoBuyBait ? "1" : "0") + "|" + (fishingRedFieldEnabled ? "1" : "0") + "|" + fishingCounter + "|" + fishingSoldCounter + "|" + sell);
+         CRes.a(RMS_FISHING, (fishingAutoLogin ? "1" : "0") + "|" + (fishingAutoBuyBait ? "1" : "0") + "|" + (fishingRedFieldEnabled ? "1" : "0") + "|" + fishingCounter + "|" + fishingSoldCounter + "|" + sell + "|" + (fishingAutoBuyTicket ? "1" : "0") + "|" + fishingSelectedTicket + "|" + (fishingAutoBuyRod ? "1" : "0") + "|" + fishingSelectedRod + "|" + (autoStoneEnabled ? "1" : "0") + "|" + (fishingAutoSellStone ? "1" : "0"));
       } catch (Exception e) {
-      }
-   }
-
-   private static void persistSmartFishingSettings() {
-      try {
-         // enabled|map|autoFarm|minutes
-         String s =
-                 (smartFishingEnabled ? "1" : "0") + "|"
-                 + (smartFishingMap & 255) + "|"
-                 + (smartFishingAutoFarm ? "1" : "0") + "|"
-                 + smartFishingFarmMinutes;
-         CRes.a(RMS_SMART_FISHING, s);
-      } catch (Throwable t) {
-      }
-   }
-
-   private static void loadPersistedSmartFishingSettings() {
-      try {
-         String s = CRes.b(RMS_SMART_FISHING);
-         if (s == null) return;
-         String[] parts = s.split("\\|");
-         if (parts.length > 0) smartFishingEnabled = "1".equals(parts[0].trim());
-         if (parts.length > 1) {
-            try {
-               int m = Integer.parseInt(parts[1].trim());
-               if (m == 14 || m == 15 || m == 16) smartFishingMap = (byte)m;
-            } catch (Throwable t) {
-            }
-         }
-         if (parts.length > 2) smartFishingAutoFarm = "1".equals(parts[2].trim());
-         if (parts.length > 3) {
-            try {
-               int mins = Integer.parseInt(parts[3].trim());
-               if (mins < 0) mins = 0;
-               if (mins > 1440) mins = 1440;
-               smartFishingFarmMinutes = mins;
-            } catch (Throwable t) {
-            }
-         }
-      } catch (Throwable t) {
-      }
-   }
-
-   static void toggleSmartFishingEnabled() {
-      smartFishingEnabled = !smartFishingEnabled;
-      persistSmartFishingSettings();
-      if (smartFishingEnabled) {
-         smartFishingNextFarmAtMs = System.currentTimeMillis() + (long)smartFishingFarmMinutes * 60_000L;
-         smartFishingReturnToFishAtMs = 0L;
-         smartFishingFarmCareNextTryAtMs = System.currentTimeMillis() + 1200L;
-         smartFishingNextMapSwitchAtMs = 0L;
-         beginSmartFishingCycle();
-         Canvas.addServerInfo("Auto câu cá: Bật");
-      } else {
-         smartFishingReturnToFishAtMs = 0L;
-         smartFishingReturnMap = -1;
-         smartFishingFarmCareNextTryAtMs = 0L;
-         smartFishingFarmCareStarted = false;
-         smartFishingNextMapSwitchAtMs = 0L;
-         smartFishingPhase = 0;
-         smartFishingNextStepAtMs = 0L;
-         smartFishingQuickCareMinUntilMs = 0L;
-         Canvas.addServerInfo("Auto câu cá: Tắt");
-      }
-   }
-
-   static void openSmartFishingSettingsMenu() {
-      Vector v = new Vector();
-      v.addElement(new Command("Auto câu cá: " + (smartFishingEnabled ? "Bật" : "Tắt"), new IActionSmartFishing((byte)0)));
-      v.addElement(new Command("Cài đặt auto nâng cao", new IActionSmartFishing((byte)1)));
-      Menu.gI().startAt(v, -1);
-      Menu.h = null;
-   }
-
-   static void openSmartFishingSettingsForm() {
-      final Form form = new Form("Cài đặt auto nâng cao");
-
-      final ChoiceGroup cgMap = new ChoiceGroup("Bạn muốn câu cá", ChoiceGroup.EXCLUSIVE);
-      cgMap.append("Câu Cá mập, chim, đuối, ngựa (Map 16)", null);
-      cgMap.append("Câu Cá lóc, nóc, cua (Map 15)", null);
-      cgMap.append("Câu Cá rô, chép, vàng, lòng tong (Map 14)", null);
-      int mapIdx = 0;
-      if (smartFishingMap == 15) mapIdx = 1;
-      if (smartFishingMap == 14) mapIdx = 2;
-      cgMap.setSelectedIndex(mapIdx, true);
-
-      final ChoiceGroup cgFarm = new ChoiceGroup("Bạn muốn chăm sóc nông trại", ChoiceGroup.EXCLUSIVE);
-      cgFarm.append("Chăm sóc nông trại thông minh", null);
-      cgFarm.append("Không chăm sóc", null);
-      cgFarm.setSelectedIndex(smartFishingAutoFarm ? 0 : 1, true);
-
-      final TextField tfMin = new TextField("Thời gian về nông trại (Phút)", String.valueOf(smartFishingFarmMinutes), 4, TextField.NUMERIC);
-
-      form.append(cgMap);
-      form.append(cgFarm);
-      form.append(tfMin);
-
-      final javax.microedition.lcdui.Command cmdSave = new javax.microedition.lcdui.Command("Lưu", 4, 1);
-      final javax.microedition.lcdui.Command cmdCancel = new javax.microedition.lcdui.Command(T.cancel, 2, 1);
-      form.addCommand(cmdSave);
-      form.addCommand(cmdCancel);
-
-      form.setCommandListener(new CommandListener() {
-         public void commandAction(javax.microedition.lcdui.Command c, Displayable d) {
-            if (c == cmdSave) {
-               int i = cgMap.getSelectedIndex();
-               smartFishingMap = (byte)(i == 2 ? 14 : (i == 1 ? 15 : 16));
-               smartFishingAutoFarm = cgFarm.getSelectedIndex() == 0;
-               int mins;
-               try {
-                  mins = Integer.parseInt(tfMin.getString().trim());
-               } catch (Throwable t) {
-                  mins = smartFishingFarmMinutes;
-               }
-               if (mins < 0) mins = 0;
-               if (mins > 1440) mins = 1440;
-               smartFishingFarmMinutes = mins;
-               persistSmartFishingSettings();
-               Canvas.addServerInfo("Đã lưu cài đặt auto");
-               if (smartFishingEnabled) {
-                  smartFishingNextFarmAtMs = System.currentTimeMillis() + (long)smartFishingFarmMinutes * 60_000L;
-               }
-            }
-            Canvas.instance.setFullScreenMode(true);
-            Display.getDisplay(GameMidlet.instance).setCurrent(Canvas.instance);
-            ClientUtilities.openFishingSettingsSubmenu();
-         }
-      });
-
-      Display.getDisplay(GameMidlet.instance).setCurrent(form);
-   }
-
-   private static void smartFishingTick() {
-      if (!smartFishingEnabled) return;
-      if (Canvas.menuMain != null || Canvas.currentDialog != null || ChatTextField.isShow) {
-         if (smartFishingPhase != 0) {
-            logSmartFishDiagThrottled("tick blocked UI phase=" + smartFishingPhase
-                  + " menuMain=" + (Canvas.menuMain != null)
-                  + " dialog=" + (Canvas.currentDialog != null)
-                  + " chat=" + ChatTextField.isShow
-                  + " typemap=" + LoadMap.TYPEMAP);
-         }
-         return;
-      }
-      if (!Session_ME.gI().isConnected()) {
-         if (smartFishingPhase != 0) {
-            logSmartFishDiagThrottled("tick blocked disconnected phase=" + smartFishingPhase);
-         }
-         return;
-      }
-
-      long now = System.currentTimeMillis();
-      // 8 -> 10 -> 25(0) -> 24/53 (farm) -> 25(0) -> 8 -> 9 -> 13 -> fishing map
-      if (smartFishingPhase != 0) {
-         if (now < smartFishingNextStepAtMs) {
-            logSmartFishDiagThrottled("phase wait phase=" + smartFishingPhase
-                  + " in " + (smartFishingNextStepAtMs - now) + "ms typemap=" + LoadMap.TYPEMAP);
-            return;
-         }
-
-         switch (smartFishingPhase) {
-            case 1:
-               logSmartFish("phase1 run typemap=" + LoadMap.TYPEMAP);
-               requestSmartFishingNeutralHandler();
-               smartFishingPhase = 2;
-               smartFishingNextStepAtMs = now + SMART_FISH_HANDLER_GAP_MS;
-               logSmartFish("phase1->2 next in " + SMART_FISH_HANDLER_GAP_MS + "ms");
-               return;
-            case 2:
-               logSmartFish("phase2 getHandler(10) typemap=" + LoadMap.TYPEMAP);
-               try {
-                  GlobalService.gI().getHandler(10);
-               } catch (Throwable t) {
-                  logSmartFish("phase2 getHandler(10) failed: " + t);
-               }
-               smartFishingPhase = 3;
-               smartFishingNextStepAtMs = now + SMART_FISH_MAP_GAP_MS;
-               logSmartFish("phase2->3 next in " + SMART_FISH_MAP_GAP_MS + "ms (before join 25)");
-               return;
-            case 3:
-               if (trySmartFishingJoinPark(25, 0)) {
-                  smartFishingPhase = 4;
-                  smartFishingNextStepAtMs = now + SMART_FISH_MAP_GAP_MS;
-                  logSmartFish("phase3->4 next in " + SMART_FISH_MAP_GAP_MS + "ms");
-               }
-               return;
-            case 4:
-               if (LoadMap.TYPEMAP == 25) {
-                  logSmartFish("phase4 doJoinFarm self typemap=25");
-                  try { FarmScr.gI().doJoinFarm(GameMidlet.avatar.IDDB, true); } catch (Throwable t) {
-                     logSmartFish("phase4 doJoinFarm failed: " + t);
-                  }
-                  smartFishingPhase = 5;
-                  smartFishingNextStepAtMs = now + SMART_FISH_MAP_GAP_MS;
-                  logSmartFish("phase4->5 next in " + SMART_FISH_MAP_GAP_MS + "ms");
-               } else {
-                  logSmartFishDiagThrottled("phase4 wait TYPEMAP==25 have " + LoadMap.TYPEMAP);
-                  smartFishingNextStepAtMs = now + 600L;
-               }
-               return;
-            case 5:
-               if (LoadMap.TYPEMAP == 24 || LoadMap.TYPEMAP == 53) {
-                  if (Canvas.currentMyScreen != FarmScr.gI()) {
-                     logSmartFishDiagThrottled("phase5 wait FarmScr screen=" + Canvas.currentMyScreen
-                           + " typemap=" + LoadMap.TYPEMAP);
-                     smartFishingNextStepAtMs = now + 400L;
-                     return;
-                  }
-                  if (!smartFishingFarmCareStarted) {
-                     logSmartFish("phase5 quickCare command 101");
-                     try { FarmScr.gI().commandActionPointer(101, -1); } catch (Throwable t) {
-                        logSmartFish("phase5 quickCare failed: " + t);
-                     }
-                     smartFishingFarmCareStarted = true;
-                     smartFishingQuickCareMinUntilMs = now + 1500L;
-                     smartFishingNextStepAtMs = now + 1200L;
-                     return;
-                  }
-                  if (now < smartFishingQuickCareMinUntilMs) {
-                     smartFishingNextStepAtMs = now + 300L;
-                     return;
-                  }
-                  if (Canvas.currentDialog == null && !FarmScr.gI().isQuickCareBusyForAuto()) {
-                     smartFishingPhase = 6;
-                     smartFishingNextStepAtMs = now + SMART_FISH_MAP_GAP_MS;
-                     logSmartFish("phase5->6 quickCare done next in " + SMART_FISH_MAP_GAP_MS + "ms");
-                  } else {
-                     logSmartFishDiagThrottled("phase5 quickCare busy dialog="
-                           + (Canvas.currentDialog != null));
-                     smartFishingNextStepAtMs = now + 600L;
-                  }
-               } else {
-                  logSmartFishDiagThrottled("phase5 wait farm TYPEMAP have " + LoadMap.TYPEMAP);
-                  smartFishingNextStepAtMs = now + 600L;
-               }
-               return;
-            case 6:
-               if (trySmartFishingJoinPark(25, 0)) {
-                  smartFishingPhase = 7;
-                  smartFishingNextStepAtMs = now + SMART_FISH_HANDLER_GAP_MS;
-                  logSmartFish("phase6->7 next in " + SMART_FISH_HANDLER_GAP_MS + "ms");
-               }
-               return;
-            case 7:
-               logSmartFish("phase7 second getHandler(8)");
-               requestSmartFishingNeutralHandler();
-               smartFishingPhase = 8;
-               smartFishingNextStepAtMs = now + SMART_FISH_HANDLER_GAP_MS;
-               logSmartFish("phase7->8 next in " + SMART_FISH_HANDLER_GAP_MS + "ms");
-               return;
-            case 8:
-               logSmartFish("phase8 getHandler(9)");
-               try {
-                  GlobalService.gI().getHandler(9);
-               } catch (Throwable t) {
-                  logSmartFish("phase8 getHandler(9) failed: " + t);
-               }
-               smartFishingPhase = 9;
-               smartFishingNextStepAtMs = now + SMART_FISH_MAP_GAP_MS;
-               logSmartFish("phase8->9 next in " + SMART_FISH_MAP_GAP_MS + "ms");
-               return;
-            case 9:
-               if (trySmartFishingJoinPark(13, -1)) {
-                  smartFishingPhase = 10;
-                  smartFishingNextStepAtMs = now + SMART_FISH_MAP_GAP_MS;
-                  logSmartFish("phase9->10 next in " + SMART_FISH_MAP_GAP_MS + "ms");
-               }
-               return;
-            case 10:
-               if (trySmartFishingJoinPark(smartFishingMap, -1)) {
-                  smartFishingPhase = 0;
-                  smartFishingReturnMap = -1;
-                  smartFishingFarmCareStarted = false;
-                  smartFishingNextStepAtMs = 0L;
-                  smartFishingQuickCareMinUntilMs = 0L;
-                  logSmartFish("cycle end idle joinFishMap=" + smartFishingMap);
-               }
-               return;
-         }
-      }
-
-      // When idle, avoid interrupting other in-game activities.
-      if (GameMidlet.avatar != null && GameMidlet.avatar.task != 0 && GameMidlet.avatar.task != -5) return;
-      if (Bus.isRun) return;
-
-      if (smartFishingAutoFarm && smartFishingFarmMinutes > 0) {
-         if (smartFishingNextFarmAtMs == 0L) {
-            smartFishingNextFarmAtMs = now + (long)smartFishingFarmMinutes * 60_000L;
-         }
-         if (now >= smartFishingNextFarmAtMs) {
-            smartFishingNextFarmAtMs = now + (long)smartFishingFarmMinutes * 60_000L;
-            beginSmartFishingCycle();
-            return;
-         }
-      }
-
-      int cur = LoadMap.TYPEMAP;
-      if (cur != 14 && cur != 15 && cur != 16) {
-         trySmartFishingJoinPark(smartFishingMap, -1);
       }
    }
 
@@ -2031,6 +1689,36 @@ public final class ClientUtilities {
                fishingSellFishSelected[i] = "1".equals(sells[i].trim());
             }
          }
+         if (parts.length > 6) {
+            fishingAutoBuyTicket = "1".equals(parts[6].trim());
+         }
+         if (parts.length > 7) {
+            try {
+               fishingSelectedTicket = Integer.parseInt(parts[7].trim());
+               if (fishingSelectedTicket < 0) fishingSelectedTicket = 0;
+               if (fishingSelectedTicket > 1) fishingSelectedTicket = 1;
+            } catch (Exception ex) {
+               fishingSelectedTicket = 0;
+            }
+         }
+         if (parts.length > 8) {
+            fishingAutoBuyRod = "1".equals(parts[8].trim());
+         }
+         if (parts.length > 9) {
+            try {
+               fishingSelectedRod = Integer.parseInt(parts[9].trim());
+               if (fishingSelectedRod < 0) fishingSelectedRod = 0;
+               if (fishingSelectedRod > 1) fishingSelectedRod = 1;
+            } catch (Exception ex) {
+               fishingSelectedRod = 0;
+            }
+         }
+         if (parts.length > 10) {
+            autoStoneEnabled = "1".equals(parts[10].trim());
+         }
+         if (parts.length > 11) {
+            fishingAutoSellStone = "1".equals(parts[11].trim());
+         }
          if (fishingAutoLogin) {
             ensureFishingAutoLoginThread();
          }
@@ -2040,13 +1728,12 @@ public final class ClientUtilities {
 
    static void openFishingSettingsSubmenu() {
       Vector v = new Vector();
-      v.addElement(new Command("Cài đặt", new IActionFishingSettings((byte)0)));
-      v.addElement(new Command("Rương đồ", new IActionFishingSettings((byte)1)));
-      v.addElement(new Command("Reset bộ đếm", new IActionFishingSettings((byte)2)));
-      v.addElement(new Command("Auto login: " + (fishingAutoLogin ? "Bật" : "Tắt"), new IActionFishingSettings((byte)3)));
-      v.addElement(new Command("Auto câu cá", new IActionSmartFishing((byte)2)));
+      v.addElement(new Command(T.menuAutoFishingSettings, new IActionFishingSettings((byte)0)));
+      v.addElement(new Command(T.container, new IActionFishingSettings((byte)1)));
+      v.addElement(new Command(T.fishResetCounter, new IActionFishingSettings((byte)2)));
+      v.addElement(new Command(T.fishAutoLoginPrefix + boolCap(fishingAutoLogin), new IActionFishingSettings((byte)3)));
       if (Canvas.currentMyScreen == FishingScr.gI() && (LoadMap.TYPEMAP == 14 || LoadMap.TYPEMAP == 15 || LoadMap.TYPEMAP == 16)) {
-         v.addElement(new Command("D.Sách Npc", new IActionMapNpcCmd((byte)1)));
+         v.addElement(new Command(T.mapNpcList, new IActionMapNpcCmd((byte)1)));
       }
       Menu.gI().startAt(v, -1);
       Menu.h = null;
@@ -2073,7 +1760,7 @@ public final class ClientUtilities {
       if (GameMidlet.listContainer != null) {
          openPlayerContainerSubmenu();
       } else {
-         Canvas.addServerInfo("Đang tải dữ liệu rương, hãy mở lại sau 1 giây.");
+         Canvas.addServerInfo(T.fishLoadingChest);
       }
    }
 
@@ -2083,9 +1770,9 @@ public final class ClientUtilities {
       System.out.println("[FISH_AUTO_LOGIN] toggleFishingAutoLogin -> " + fishingAutoLogin);
       if (fishingAutoLogin) {
          ensureFishingAutoLoginThread();
-         Canvas.startOKDlg("Đã bật auto login");
+         Canvas.startOKDlg(T.fishAutoLoginOn);
       } else {
-         Canvas.startOKDlg("Đã tắt auto login");
+         Canvas.startOKDlg(T.fishAutoLoginOff);
       }
    }
 
@@ -2187,7 +1874,7 @@ public final class ClientUtilities {
       fishingAutoBaitForceExitTries = 0;
       fishingAutoBaitDirectBuyRemain = 0;
       persistFishingSettings();
-      Canvas.addServerInfo("Auto mua mồi: " + (fishingAutoBuyBait ? "Bật" : "Tắt"));
+      Canvas.addServerInfo(T.fishAutoBaitToggle + boolCap(fishingAutoBuyBait));
    }
 
    public static void onDialogShown(String msg) {
@@ -2198,7 +1885,7 @@ public final class ClientUtilities {
       String s = safe(msg).toLowerCase();
       String sn = normalizeForNpcMatch(s);
 
-      // Auto login câu cá: nếu gặp dialog mất kết nối thì tự về Login và auto đăng nhập lại
+      
       try {
          if (fishingAutoLogin && (sn.indexOf("matketnoi") >= 0 || sn.indexOf("khongtheketnoi") >= 0)) {
             onFishingAutoDisconnected();
@@ -2208,7 +1895,7 @@ public final class ClientUtilities {
       } catch (Throwable t) {
       }
       if (autoStoneEnabled) {
-         // Auto đào đá: handle only specific dialogs; keep other dialogs intact.
+        
          try {
             if (autoStoneRecoverHealth && sn.indexOf("suckhoekhongdu") >= 0) {
                ParkService.gI().doBuyItem((short)7);
@@ -2223,7 +1910,7 @@ public final class ClientUtilities {
                     || sn.indexOf("tinhdaodatbangniemtinha") >= 0
                     || sn.indexOf("daodatbangniemtinha") >= 0
                     || (sn.indexOf("alodao") >= 0 && sn.indexOf("niem.tinha") >= 0)) {
-               // Dialog hết dụng cụ (cuốc/xẻng): mua tool theo tick đã chọn
+               
                boolean bought = false;
                if (autoStonePickaxeXu && (autoStonePickaxeXuBuyLimit <= 0 || autoStonePickaxeXuBought < autoStonePickaxeXuBuyLimit)) {
                   markAutoStonePendingPurchase((byte)0);
@@ -2254,7 +1941,7 @@ public final class ClientUtilities {
          } catch (Throwable t) {
          }
 
-         // Tắt hoàn toàn hiển thị dialog khi auto đào đá đang bật.
+        
          try {
             Canvas.endDlg();
          } catch (Throwable tt) {
@@ -2266,16 +1953,55 @@ public final class ClientUtilities {
       if (map != 13 && map != 14 && map != 15 && map != 16) {
          return;
       }
-if (
-  sn.indexOf("bancansudungmoicau") >= 0 ||
-  sn.indexOf("caukhatruongnaydungmoicau") >= 0 ||
-  (sn.indexOf("moicau") >= 0 && sn.indexOf("caucatrongkhuvucnay") >= 0) ||
-  sn.indexOf("trungkien") >= 0
-) {         fishingAutoBaitRequested = true;
+      if (sn.indexOf("bancansudungmoicau") >= 0 ||
+         sn.indexOf("caukhatruongnaydungmoicau") >= 0 ||
+         (sn.indexOf("moicau") >= 0 && sn.indexOf("caucatrongkhuvucnay") >= 0) ||
+         sn.indexOf("trungkien") >= 0 ||
+         (sn.indexOf("heti") >= 0 && sn.indexOf("moi") >= 0 && sn.indexOf("cau") >= 0 && sn.indexOf("vuilongmuathem") >= 0) ||
+         (sn.indexOf("moi") >= 0 && sn.indexOf("cau") >= 0 && sn.indexOf("vuimua") >= 0)
+      ) {
+         fishingAutoBaitRequested = true;
          fishingAutoBaitForceExitTries = 0;
          fishingAutoBaitNextAtMs = 0L;
          forceExitFishingState();
-         Canvas.addServerInfo("Phát hiện hết mồi, tự đi mua...");
+         // Đóng dialog trước khi đi
+         try { Canvas.endDlg(); } catch (Throwable ttt) {}
+         // Đi đến map 13 mua mồi
+         fishingAutoBaitReturnMap = (byte)LoadMap.TYPEMAP;
+         fishingAutoBaitSitX = 924;
+         fishingAutoBaitSitY = 119;
+         fishingAutoBuyBaitPending = true;
+         GlobalService.gI().getHandler(9);
+         ParkService.gI().doJoinPark(13, -1);
+         Canvas.addServerInfo("Phat hien het moi, di mua...");
+         return;
+      }
+
+      // Xử lý dialog hết vé câu cá hoặc thiếu cần câu
+      boolean isNeedTicketOrRod = (
+         (sn.indexOf("vecaucamoi") >= 0 && (sn.indexOf("khuvucnay") >= 0 || sn.indexOf("khuvuc") >= 0)) ||
+         (sn.indexOf("vecauca") >= 0 && sn.indexOf("map") >= 0) ||
+         (sn.indexOf("banccan") >= 0 && sn.indexOf("cau") >= 0 && sn.indexOf("cauca") >= 0) ||
+         (sn.indexOf("trangbi") >= 0 && sn.indexOf("cau") >= 0 && sn.indexOf("cauca") >= 0) ||
+         (sn.indexOf("can") >= 0 && sn.indexOf("cau") >= 0 && sn.indexOf("cauca") >= 0 && sn.indexOf("vatpham") >= 0) ||
+         (sn.indexOf("cancau") >= 0 && sn.indexOf("cuca") >= 0)
+      );
+
+      if (isNeedTicketOrRod && (fishingAutoBuyRod || fishingAutoBuyTicket)) {
+         // Canvas.addServerInfo("Phat hien can mua - bat dau mua ngay!");
+         try { Canvas.endDlg(); } catch (Throwable tt) {}
+        
+         int ticketId = getFishingTicketId();
+         int rodId = getFishingRodId();
+         if (fishingAutoBuyTicket) {
+            // Canvas.addServerInfo("Mua ve: " + ticketId);
+            AvatarService.gI().doBuyItem(ticketId, 1);
+         }
+         if (fishingAutoBuyRod) {
+            // Canvas.addServerInfo("Mua can: " + rodId);
+            AvatarService.gI().doBuyItem(rodId, 1);
+         }
+         return;
       }
    }
 
@@ -2489,7 +2215,7 @@ if (
    public static void toggleAutoStoneEnabled() {
       autoStoneEnabled = !autoStoneEnabled;
       resetAutoStoneSchedule();
-      Canvas.addServerInfo("Auto đào đá: " + (autoStoneEnabled ? "Bật" : "Tắt"));
+      Canvas.addServerInfo(T.fishAutoStoneToggle + boolCap(autoStoneEnabled));
    }
 
    public static boolean handleAutoStoneStartHotKey(int keyCode) {
@@ -2510,29 +2236,63 @@ if (
       return new String[]{s.substring(0, p1), s.substring(p1 + 1, p2), s.substring(p2 + 1)};
    }
 
-   static void openFishingSettingsForm() {
-      final Form form = new Form("Cài đặt");
-      final ChoiceGroup cgRed = new ChoiceGroup("Tùy chọn", ChoiceGroup.EXCLUSIVE);
-      cgRed.append("Tự động bỏ KCX", null);
-      cgRed.append("Giữ KCX", null);
+   static void openFishingSettingsForm(boolean showAutoStone) {
+      final Form form = new Form(T.mapFishingSettings);
+      final ChoiceGroup cgRed = new ChoiceGroup(T.utilMineOptions, ChoiceGroup.EXCLUSIVE);
+      cgRed.append(T.fishAutoDropKcx, null);
+      cgRed.append(T.fishKeepKcx, null);
       cgRed.setSelectedIndex(fishingRedFieldEnabled ? 0 : 1, true);
-      final ChoiceGroup cgFish = new ChoiceGroup("Danh sách cá cần bắn", ChoiceGroup.MULTIPLE);
-      cgFish.append("Cá chép vàng", null);
-      cgFish.append("Cá rô", null);
-      cgFish.append("Cá lồng tong", null);
-      cgFish.append("Cá lóc", null);
-      cgFish.append("Cá nóc", null);
-      cgFish.append("Cua", null);
-      cgFish.append("Cá mập", null);
-      cgFish.append("Cá đuối", null);
-      cgFish.append("Cá ngựa", null);
-      cgFish.append("Cá chim", null);
+      final ChoiceGroup cgFish = new ChoiceGroup(T.fishSellList, ChoiceGroup.MULTIPLE);
+      for (int i = 0; i < T.fishNames.length; i++) {
+         cgFish.append(T.fishNames[i], null);
+      }
       for (int i = 0; i < fishingSellFishSelected.length && i < 10; i++) {
          cgFish.setSelectedIndex(i, fishingSellFishSelected[i]);
       }
+      final ChoiceGroup cgTicket = new ChoiceGroup(T.fishBuyTicket, ChoiceGroup.EXCLUSIVE);
+      cgTicket.append(T.fishAutoBuyTicketOpt, null);
+      cgTicket.append(T.fishNoBuyTicket, null);
+      cgTicket.setSelectedIndex(fishingAutoBuyTicket ? 0 : 1, true);
+      final ChoiceGroup cgTicketType = new ChoiceGroup(T.fishTicketType, ChoiceGroup.EXCLUSIVE);
+      for (int i = 0; i < T.fishTicketTypes.length; i++) {
+         cgTicketType.append(T.fishTicketTypes[i], null);
+      }
+      if (fishingSelectedTicket < 0 || fishingSelectedTicket > 2) fishingSelectedTicket = 0;
+      cgTicketType.setSelectedIndex(fishingSelectedTicket, true);
+      final ChoiceGroup cgRod = new ChoiceGroup(T.fishBuyRod, ChoiceGroup.EXCLUSIVE);
+      cgRod.append(T.fishAutoBuyRodOpt, null);
+      cgRod.append(T.fishNoBuyRod, null);
+      cgRod.setSelectedIndex(fishingAutoBuyRod ? 0 : 1, true);
+      final ChoiceGroup cgRodType = new ChoiceGroup(T.fishRodType, ChoiceGroup.EXCLUSIVE);
+      for (int i = 0; i < T.fishRodTypes.length; i++) {
+         cgRodType.append(T.fishRodTypes[i], null);
+      }
+      if (fishingSelectedRod < 0 || fishingSelectedRod > 2) fishingSelectedRod = 0;
+      cgRodType.setSelectedIndex(fishingSelectedRod, true);
       form.append(cgRed);
       form.append(cgFish);
-      final javax.microedition.lcdui.Command cmdSave = new javax.microedition.lcdui.Command("Lưu", 4, 1);
+      form.append(cgTicket);
+      form.append(cgTicketType);
+      form.append(cgRod);
+      form.append(cgRodType);
+      final ChoiceGroup cgAutoStone;
+      final ChoiceGroup cgSellStone;
+      if (showAutoStone) {
+         cgAutoStone = new ChoiceGroup(T.fishAutoStoneGroup, ChoiceGroup.EXCLUSIVE);
+         cgAutoStone.append(T.fishEnableAutoStone, null);
+         cgAutoStone.append(T.fishDisableAutoStone, null);
+         cgAutoStone.setSelectedIndex(autoStoneEnabled ? 0 : 1, true);
+         cgSellStone = new ChoiceGroup(T.fishSellStoneGroup, ChoiceGroup.EXCLUSIVE);
+         cgSellStone.append(T.fishEnableSellStone, null);
+         cgSellStone.append(T.fishDisableSellStone, null);
+         cgSellStone.setSelectedIndex(fishingAutoSellStone ? 0 : 1, true);
+         form.append(cgAutoStone);
+         form.append(cgSellStone);
+      } else {
+         cgAutoStone = null;
+         cgSellStone = null;
+      }
+      final javax.microedition.lcdui.Command cmdSave = new javax.microedition.lcdui.Command(T.loginSave, 4, 1);
       final javax.microedition.lcdui.Command cmdCancel = new javax.microedition.lcdui.Command(T.cancel, 2, 1);
       form.addCommand(cmdSave);
       form.addCommand(cmdCancel);
@@ -2543,8 +2303,16 @@ if (
                for (int i = 0; i < fishingSellFishSelected.length && i < 10; i++) {
                   fishingSellFishSelected[i] = cgFish.isSelected(i);
                }
+               fishingAutoBuyTicket = cgTicket.getSelectedIndex() == 0;
+               fishingSelectedTicket = cgTicketType.getSelectedIndex();
+               fishingAutoBuyRod = cgRod.getSelectedIndex() == 0;
+               fishingSelectedRod = cgRodType.getSelectedIndex();
+               if (showAutoStone) {
+                  autoStoneEnabled = cgAutoStone.getSelectedIndex() == 0;
+                  fishingAutoSellStone = cgSellStone.getSelectedIndex() == 0;
+               }
                persistFishingSettings();
-               Canvas.addServerInfo("Đã lưu cài đặt câu cá");
+               Canvas.addServerInfo(T.fishSettingsSaved);
             }
             Canvas.instance.setFullScreenMode(true);
             Display.getDisplay(GameMidlet.instance).setCurrent(Canvas.instance);
@@ -2557,7 +2325,7 @@ if (
    static void toggleFishingRedField() {
       fishingRedFieldEnabled = !fishingRedFieldEnabled;
       persistFishingSettings();
-      Canvas.addServerInfo("Tự động bỏ KCX: " + (fishingRedFieldEnabled ? "Bật" : "Tắt"));
+      Canvas.addServerInfo(T.fishRedFieldToggle + boolCap(fishingRedFieldEnabled));
    }
 
    static void resetFishingCounter() {
@@ -2570,7 +2338,7 @@ if (
       } catch (Throwable t) {
       }
       persistFishingSettings();
-      Canvas.addServerInfo("Đã reset bộ đếm");
+      Canvas.addServerInfo(T.fishCounterResetMsg);
    }
 
    private static void incFishCount(Hashtable table, Vector order, short idFish) {
@@ -2617,10 +2385,27 @@ if (
       // fallback cho các id cá phổ biến
       int idx = fishSellIndexFromId(idFish);
       if (idx >= 0) {
-         String[] names = new String[]{"Cá chép vàng", "Cá rô", "Cá lòng tong", "Cá lóc", "Cá nóc", "Cua", "Cá mập", "Cá đuối", "Cá ngựa", "Cá chim"};
-         if (idx < names.length) return names[idx];
+         if (idx < T.fishNames.length) return T.fishNames[idx];
       }
       return "ID " + idFish;
+   }
+
+   private static int getFishingTicketId() {
+      switch (fishingSelectedTicket) {
+         case 0: return 458; // Vé câu cá rô
+         case 1: return 459; // Vé câu cá lóc
+         case 2: return 460; // Vé câu cá mập
+         default: return 458;
+      }
+   }
+
+   private static int getFishingRodId() {
+      switch (fishingSelectedRod) {
+         case 0: return 442; // Cần câu tre
+         case 1: return 445; // Cần câu sắt
+         case 2: return 446; 
+         default: return 442;
+      }
    }
 
    static void onFishingCaught(short idFish) {
@@ -2727,8 +2512,8 @@ if (
       int y = 30;
       int dy = AvMain.hBorder + 2;
     
-      Canvas.borderFont.drawString(g, "Số cá câu được: " + fishingCounter, Canvas.hw, y, 2);
-      Canvas.borderFont.drawString(g, "Số cá đã bán: " + fishingSoldCounter, Canvas.hw, y + dy, 2);
+      Canvas.borderFont.drawString(g, T.fishCaughtCountPrefix + fishingCounter, Canvas.hw, y, 2);
+      Canvas.borderFont.drawString(g, T.fishSoldCountPrefix + fishingSoldCounter, Canvas.hw, y + dy, 2);
 
       int x = Canvas.w - 2; 
       int line = 0;
@@ -2849,13 +2634,13 @@ if (
    }
 
    public static void openSpeedInputDialog() {
-      Canvas.inputDlg.setImg(T.utilSpeedInputPrompt + "\nTốc độ hiện tại: " + ClientUtilities.utilSpeed1to100, new IActionUtilitySpeedOk(), 1, String.valueOf(ClientUtilities.utilSpeed1to100));
+      Canvas.inputDlg.setImg(T.utilSpeedInputPrompt + "\n" + T.utilSpeedCurrentPrefix + ClientUtilities.utilSpeed1to100, new IActionUtilitySpeedOk(), 1, String.valueOf(ClientUtilities.utilSpeed1to100));
    }
 
    public static void openSpeedSubmenu() {
       Vector v = new Vector();
-      v.addElement(new Command("Cài đặt", new IActionUtilitySpeedSub((byte)0)));
-      v.addElement(new Command("Reset", new IActionUtilitySpeedSub((byte)1)));
+      v.addElement(new Command(T.option, new IActionUtilitySpeedSub((byte)0)));
+      v.addElement(new Command(T.utilSpeedResetBtn, new IActionUtilitySpeedSub((byte)1)));
       Menu.gI().startAt(v, -1);
       Menu.h = null;
    }
@@ -2864,7 +2649,7 @@ if (
       utilSpeed1to100 = 50;
       persistUtilSpeed();
       resetAutoTickCounter();
-      Canvas.startOKDlg("Đã reset tốc độ về 50");
+      Canvas.startOKDlg(T.utilSpeedResetMsg);
       openUtilitySubmenu();
    }
 
@@ -3041,7 +2826,7 @@ if (
          return;
       }
 
-      if (Canvas.menuMain != null || Canvas.currentDialog != null || ChatTextField.isShow) {
+      if (ChatTextField.isShow) {
          if (autoClickInjectAwaitRelease) {
             try {
                Canvas.instance.keyReleased(autoClickKeyCode);
@@ -3138,10 +2923,10 @@ if (
       boolean avatarTaskBlocksMapAutos = GameMidlet.avatar != null
             && GameMidlet.avatar.task != 0
             && GameMidlet.avatar.task != -5;
-      if (avatarTaskBlocksMapAutos && !(smartFishingEnabled && smartFishingPhase != 0)) {
+      if (avatarTaskBlocksMapAutos) {
          return;
       }
-      if (Bus.isRun && !(smartFishingEnabled && smartFishingPhase != 0)) {
+      if (Bus.isRun) {
          return;
       }
       if (autoChat) {
@@ -3187,12 +2972,6 @@ if (
                } else {
                   a = (byte)autoTrollCode;
                }
-               System.out.println("[AUTO_TROLL] doAction=" + a
-                       + " count=" + autoTrollCount
-                       + " limit=" + autoTrollLimit
-                       + " gapMs=" + gap
-                       + " avatarTask=" + GameMidlet.avatar.task
-                       + " isBusRun=" + Bus.isRun);
                closeAutoTrollUiIfNeeded();
                MapScr.doAction(a);
                ++autoTrollCount;
@@ -3221,8 +3000,6 @@ if (
       }
 
       autoFishingBaitTick();
-
-      smartFishingTick();
 
       if (!autoKiss && !autoHit && !autoGift && !autoTroll) {
          return;
@@ -3371,30 +3148,100 @@ if (
          return;
       }
 
+      // Xử lý mua mồi trực tiếp trên map 13
+      if (map == 13 && fishingAutoBuyBaitPending) {
+         if (GameMidlet.avatar.x != 286 || GameMidlet.avatar.y != 48) {
+            GameMidlet.avatar.posFocus = new AvPosition(286, 48);
+            GameMidlet.avatar.l();
+            MapScr.doMove(286, 48, 2, (short)0);
+            fishingAutoBaitNextAtMs = now + 2000L;
+            return;
+         }
+         // Đã đến vị trí, mua mồi
+         AvatarService.gI().doBuyItem(448, 1);
+         fishingAutoBuyBaitPending = false;
+         fishingAutoBaitRequested = false;
+         fishingAutoBaitNextAtMs = now + 1500L;
+         // Quay về map 16
+         fishingAutoBaitReturnX = 924;
+         fishingAutoBaitReturnY = 119;
+         fishingAutoBaitNeedReturnMove = true;
+         ParkService.gI().doJoinPark(16, -1);
+         return;
+      }
+
       Avatar npc = findFishingNpcOnCurrentMap();
       if (npc == null) {
          fishingAutoBaitNextAtMs = now + 1200L;
          return;
       }
 
-      if (!fishingAutoBaitPendingBuy) {
+      // Kiểm tra nếu có request mua vé/cần từ dialog
+      boolean hasBuyRequest = fishingAutoBuyTicketRequested || fishingAutoBuyRodRequested || fishingAutoBaitRequested;
+      if (!fishingAutoBaitPendingBuy && hasBuyRequest) {
          fishingAutoBaitPendingBuy = true;
          fishingAutoBaitBuyStep = 0;
          fishingAutoBaitMoveDownRemain = 1;
          fishingAutoBaitEnterRemain = 30;
          fishingAutoBaitDirectBuyRemain = 30;
+         fishingAutoBuyTicketStep = 0;
+         fishingAutoBuyRodStep = 0;
+         fishingAutoBuyPending = true;
          fishingAutoBaitNextAtMs = now + 900L;
          return;
       }
 
-      // Keep direct buy by item 448, plus NPC-menu fallback for server variants.
-      if (fishingAutoBaitDirectBuyRemain > 0) {
-         AvatarService.gI().doBuyItem(448, 1);
-         GlobalService.gI().doMenuOption(npc.IDDB, (byte)0, 3);
-         Canvas.startWaitDlg();
-         --fishingAutoBaitDirectBuyRemain;
-         fishingAutoBaitNextAtMs = now + 170L;
+      if (!fishingAutoBaitPendingBuy) {
+         fishingAutoBaitNextAtMs = now + 1000L;
          return;
+      }
+
+      // Xử lý mua vé, cần, mồi theo thứ tự
+      if (fishingAutoBuyPending) {
+         // Mua vé trước
+         if (fishingAutoBuyTicket && fishingAutoBuyTicketStep == 0) {
+            AvatarService.gI().doBuyItem(getFishingTicketId(), 1);
+            Canvas.startWaitDlg();
+            fishingAutoBuyTicketStep = 1;
+            fishingAutoBaitNextAtMs = now + 300L;
+            return;
+         }
+         if (fishingAutoBuyTicket && fishingAutoBuyTicketStep == 1) {
+            GlobalService.gI().doMenuOption(npc.IDDB, (byte)0, 3);
+            fishingAutoBuyTicketStep = 2;
+            fishingAutoBaitNextAtMs = now + 300L;
+            return;
+         }
+
+         // Mua cần
+         if (fishingAutoBuyRod && fishingAutoBuyRodStep == 0) {
+            AvatarService.gI().doBuyItem(getFishingRodId(), 1);
+            Canvas.startWaitDlg();
+            fishingAutoBuyRodStep = 1;
+            fishingAutoBaitNextAtMs = now + 300L;
+            return;
+         }
+         if (fishingAutoBuyRod && fishingAutoBuyRodStep == 1) {
+            GlobalService.gI().doMenuOption(npc.IDDB, (byte)0, 3);
+            fishingAutoBuyRodStep = 2;
+            fishingAutoBaitNextAtMs = now + 300L;
+            return;
+         }
+
+         // Mua mồi
+         if (fishingAutoBuyBait && fishingAutoBaitDirectBuyRemain > 0) {
+            AvatarService.gI().doBuyItem(448, 1);
+            GlobalService.gI().doMenuOption(npc.IDDB, (byte)0, 3);
+            Canvas.startWaitDlg();
+            --fishingAutoBaitDirectBuyRemain;
+            fishingAutoBaitNextAtMs = now + 170L;
+            return;
+         }
+
+         // Hoàn thành mua
+         fishingAutoBuyPending = false;
+         fishingAutoBuyTicketRequested = false;
+         fishingAutoBuyRodRequested = false;
       }
 
       fishingAutoBaitPendingBuy = false;
@@ -3442,14 +3289,6 @@ if (
       long now = System.currentTimeMillis();
       if (now >= autoTrollDebugNextLogAtMs) {
          autoTrollDebugNextLogAtMs = now + 800L;
-         System.out.println("[AUTO_TROLL] ui-check screen="
-                 + (Canvas.currentMyScreen == null ? "null" : Canvas.currentMyScreen.getClass().getName())
-                 + " displayCurrent="
-                 + (Display.getDisplay(GameMidlet.instance).getCurrent() == null
-                    ? "null"
-                    : Display.getDisplay(GameMidlet.instance).getCurrent().getClass().getName())
-                 + " menuMain=" + (Canvas.menuMain != null)
-                 + " dialog=" + (Canvas.currentDialog != null));
       }
 
       try {
@@ -3468,21 +3307,17 @@ if (
 
       try {
          if (Display.getDisplay(GameMidlet.instance).getCurrent() != Canvas.instance) {
-            System.out.println("[AUTO_TROLL] forcing Display current => Canvas.instance");
             Canvas.instance.setFullScreenMode(true);
             Display.getDisplay(GameMidlet.instance).setCurrent(Canvas.instance);
          }
       } catch (Throwable t) {
-         System.out.println("[AUTO_TROLL] setCurrent(Canvas) error: " + t.toString());
       }
 
       try {
          if (Canvas.currentMyScreen != MapScr.gI()) {
-            System.out.println("[AUTO_TROLL] forcing current screen => MapScr");
             MapScr.gI().switchToMe();
          }
       } catch (Throwable t) {
-         System.out.println("[AUTO_TROLL] MapScr.switchToMe error: " + t.toString());
       }
    }
 
@@ -3543,7 +3378,7 @@ if (
 
          if (!autoNpcFoundNotified) {
             autoNpcFoundNotified = true;
-            Canvas.addServerInfo("Đã tìm thấy NPC: " + safe(found.name));
+            Canvas.addServerInfo(T.npcFoundPrefix + safe(found.name));
          }
 
          moveToFoundNpc(found, now);
@@ -3712,7 +3547,7 @@ if (
 
          Canvas.startOKDlg(out);
       } catch (Throwable t) {
-         Canvas.startOKDlg("Không đọc được danh sách NPC.");
+         Canvas.startOKDlg(T.npcListReadError);
       }
    }
 
@@ -3730,7 +3565,7 @@ final class IActionUtilitySpeedOk implements IAction {
       try {
          var0 = Integer.parseInt(Canvas.inputDlg.getText().trim());
       } catch (Exception var2) {
-         Canvas.startOKDlg("Nhập số 1-100");
+         Canvas.startOKDlg(T.utilSpeedInputRange);
          return;
       }
 
@@ -3907,7 +3742,7 @@ final class IActionRememberedNpcCommunicate implements IAction {
       try {
          npcId = Integer.parseInt(this.npcIdText.trim());
       } catch (Exception e) {
-         Canvas.startOKDlg("ID NPC không hợp lệ");
+         Canvas.startOKDlg(T.npcIdInvalid);
          ClientUtilities.reopenRememberedNpcListMenu();
          return;
       }
@@ -4035,7 +3870,7 @@ final class IActionFishingSettings implements IAction {
    public final void perform() {
       switch (this.code) {
          case 0:
-            ClientUtilities.openFishingSettingsForm();
+            ClientUtilities.openFishingSettingsForm(false);
             return;
          case 1:
             ClientUtilities.requestContainerAndOpen();
@@ -4047,30 +3882,6 @@ final class IActionFishingSettings implements IAction {
          case 3:
             ClientUtilities.toggleFishingAutoLogin();
             ClientUtilities.openFishingSettingsSubmenu();
-            return;
-         default:
-      }
-   }
-}
-
-final class IActionSmartFishing implements IAction {
-   private final byte code;
-
-   IActionSmartFishing(byte code) {
-      this.code = code;
-   }
-
-   public final void perform() {
-      switch (this.code) {
-         case 0:
-            ClientUtilities.toggleSmartFishingEnabled();
-            ClientUtilities.openSmartFishingSettingsMenu();
-            return;
-         case 1:
-            ClientUtilities.openSmartFishingSettingsForm();
-            return;
-         case 2:
-            ClientUtilities.openSmartFishingSettingsMenu();
             return;
          default:
       }
@@ -4244,7 +4055,7 @@ final class IActionAutoChatBreakOk implements IAction {
       try {
          var0 = Integer.parseInt(Canvas.inputDlg.getText().trim());
       } catch (Exception var2) {
-         Canvas.startOKDlg("Nhập số giây 1-120");
+         Canvas.startOKDlg(T.utilChatSecondsRange);
          return;
       }
 

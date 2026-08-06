@@ -46,9 +46,6 @@ public final class PopupShop extends MyScreen {
    private boolean L = false;
    private int M = 0;
    private int N;
-   private static int rememberedFocusTap = -1;
-   private static int rememberedFocus = -1;
-   private byte containerPreviewDirect = Base.RIGHT;
 
    public static PopupShop gI() {
       if (me == null) {
@@ -56,11 +53,6 @@ public final class PopupShop extends MyScreen {
       }
 
       return me;
-   }
-
-   public static void rememberSelectionForNextOpen() {
-      rememberedFocusTap = focusTap;
-      rememberedFocus = focus;
    }
 
    public final void switchToMe() {
@@ -85,10 +77,7 @@ public final class PopupShop extends MyScreen {
             return;
          case 1:
             if (focus < this.listCell[focusTap].size()) {
-               Command cmd = (Command)this.listCell[focusTap].elementAt(focus);
-               String tabName = (name != null && focusTap >= 0 && focusTap < name.length) ? name[focusTap] : "null";
-               System.out.println("DEBUG POPUPSHOP_SELECT: tab=" + focusTap + " tabName=" + tabName + " focus=" + focus + " caption=" + cmd.caption + " action=" + (cmd.action == null ? "null" : cmd.action.getClass().getName()) + " idx=" + cmd.subIndex + " menu=" + cmd.indexMenu);
-               cmd.action.perform();
+               ((Command)this.listCell[focusTap].elementAt(focus)).action.perform();
                this.setCaption();
             }
 
@@ -228,19 +217,6 @@ public final class PopupShop extends MyScreen {
    }
 
    public final void addElement(String[] var1, Vector[] var2, Vector var3) {
-      boolean isContainerPopupInput = false;
-      if (var1 != null && var1.length >= 2) {
-         isContainerPopupInput = T.container.equals(var1[0]) && T.wearing.equals(var1[1]);
-      }
-
-      if (isContainerPopupInput && Canvas.currentMyScreen == gI()) {
-         // Refresh while container popup is already open: keep current cursor.
-         rememberedFocusTap = focusTap;
-         rememberedFocus = focus;
-      } else if (isContainerPopupInput && GameMidlet.avatar != null) {
-         this.containerPreviewDirect = GameMidlet.avatar.direct;
-      }
-
       focusTap = 0;
       this.listCell = var2;
       this.listCell_ = new Command[var2.length];
@@ -253,27 +229,6 @@ public final class PopupShop extends MyScreen {
       k = false;
       PaintPopup.gI().a(name[focusTap], w, sai, this.v);
       this.setCmyLim();
-      if (isContainerPopupInput && rememberedFocusTap >= 0) {
-         if (rememberedFocusTap < this.v) {
-            focusTap = rememberedFocusTap;
-            this.setCmyLim();
-         }
-
-         if (this.listCell[focusTap] != null && this.listCell[focusTap].size() > 0) {
-            if (rememberedFocus < 0) {
-               focus = 0;
-            } else if (rememberedFocus >= this.listCell[focusTap].size()) {
-               focus = this.listCell[focusTap].size() - 1;
-            } else {
-               focus = rememberedFocus;
-            }
-            Canvas.cameraList.setSelect(focus);
-            this.setCaption();
-         }
-
-         rememberedFocusTap = -1;
-         rememberedFocus = -1;
-      }
    }
 
    public final void setCmyLim() {
@@ -284,10 +239,11 @@ public final class PopupShop extends MyScreen {
       }
 
       if (this.listCell[focusTap] != null) {
+         hAllCell = this.listCell[focusTap].size() / 5;
          boolean isContainerTab = name != null && focusTap >= 0 && focusTap < name.length && name[focusTap] != null && name[focusTap].equals(T.container);
          if (isContainerTab) {
-            numH = 2;
-         } else if ((hAllCell = this.listCell[focusTap].size() / 5) >= 3 && !this.isFull && !isHorizontal && !this.yy[focusTap]) {
+            numH = 5;
+         } else if (hAllCell >= 3 && !this.isFull && !isHorizontal && !this.yy[focusTap]) {
             numH = 5;
          } else {
             numH = 2;
@@ -310,9 +266,8 @@ public final class PopupShop extends MyScreen {
          num = 5;
       }
 
-      boolean isContainerTab = name != null && focusTap >= 0 && focusTap < name.length && name[focusTap] != null && name[focusTap].equals(T.container);
       duCam = -h / 2;
-      if (isContainerTab || numH > 2 || isHorizontal || this.yy[focusTap]) {
+      if (numH > 2 || isHorizontal || this.yy[focusTap]) {
          duCam = 0;
       }
 
@@ -345,20 +300,6 @@ public final class PopupShop extends MyScreen {
          super.left = this.listCell_[focusTap];
       } else {
          super.left = null;
-      }
-
-      boolean isContainerPopup = name != null && name.length >= 2 && T.container.equals(name[0]) && T.wearing.equals(name[1]);
-      boolean isContainerTabFocused = isContainerPopup && focusTap == 0;
-      if (isContainerTabFocused) {
-         super.left = new Command(T.menu, new IAction() {
-            public void perform() {
-               PopupShop.this.openContainerPreviewMenu();
-            }
-         });
-      }
-
-      if (isContainerPopup && MapScr.avatarShop != null) {
-         MapScr.avatarShop.update();
       }
 
    }
@@ -551,10 +492,6 @@ public final class PopupShop extends MyScreen {
          super.center = null;
       }
 
-      if (name != null && name.length >= 2 && T.container.equals(name[0]) && T.wearing.equals(name[1])) {
-         this.refreshContainerPreviewLikeShop();
-      }
-
       isTransFocus = true;
       this.fliped = Canvas.getSecond();
    }
@@ -592,14 +529,6 @@ public final class PopupShop extends MyScreen {
       }
 
       if (this.listCell[focusTap] != null) {
-         boolean isContainerPopup = name != null && name.length >= 2 && T.container.equals(name[0]) && T.wearing.equals(name[1]);
-         if (isContainerPopup && GameMidlet.avatar != null) {
-            // Refresh preview data before drawing so the selected equipment
-            // is always reflected immediately in the popup.
-            this.refreshContainerPreviewLikeShop();
-            this.paintContainerAvatarPreview(var1);
-         }
-
          if (this.yy[focusTap]) {
             Canvas.fontChatB.drawString(var1, this.z[focusTap], 0, 0, 0);
             var1.translate(0, hDuHori);
@@ -645,14 +574,11 @@ public final class PopupShop extends MyScreen {
                var1.fillArc(8 * AvMain.hd, numH * h + 40 * AvMain.hd - 10 * AvMain.hd, 44 * AvMain.hd, 20 * AvMain.hd, 0, 360);
                MapScr.avatarShop.paintIcon(var1, 30 * AvMain.hd, numH * h + 45 * AvMain.hd, false);
                var1.translate(60 * AvMain.hd, 0);
-            } else if (isContainerPopup) {
-               // Container popup uses left preview area too; move text panel to the right.
-               var1.translate(60 * AvMain.hd, 0);
             }
 
             var11 = var1;
             if (strDes != null && focus < this.listCell[focusTap].size()) {
-               var4 = (isHorizontal || isContainerPopup) ? 80 : 0;
+               var4 = isHorizontal ? 80 : 0;
                var1.setClip(0, numH * h, w - var4 + 5, sai);
 
                for(var5 = 0; var5 < strDes.size(); ++var5) {
@@ -724,145 +650,6 @@ public final class PopupShop extends MyScreen {
       }
 
       Canvas.paintPlus(var1);
-   }
-
-   private void paintContainerAvatarPreview(Graphics var1) {
-      if (MapScr.avatarShop == null) {
-         this.refreshContainerPreviewLikeShop();
-      }
-      this.sanitizeAvatarShopPreview();
-      if (MapScr.avatarShop == null) {
-         return;
-      }
-      int cx = 30 * AvMain.hd;
-      int cy = numH * h + 75 * AvMain.hd;
-      var1.setClip(0, numH * h, w - 5, sai + 20 * AvMain.hd);
-      var1.setColor(15790320);
-      var1.fillArc(cx - 22 * AvMain.hd, cy - 15 * AvMain.hd, 44 * AvMain.hd, 20 * AvMain.hd, 0, 360);
-      MapScr.avatarShop.paintIcon(var1, cx, cy, false);
-      var1.setClip(0, 0, Canvas.w, Canvas.h);
-   }
-
-   private void sanitizeAvatarShopPreview() {
-      if (MapScr.avatarShop == null || MapScr.avatarShop.seriPart == null) {
-         return;
-      }
-
-      for(int i = MapScr.avatarShop.seriPart.size() - 1; i >= 0; --i) {
-         SeriPart sp = (SeriPart)MapScr.avatarShop.seriPart.elementAt(i);
-         if (sp == null || !this.isValidPartId(sp.idPart)) {
-            MapScr.avatarShop.seriPart.removeElementAt(i);
-         }
-      }
-   }
-
-   private boolean isValidPartId(short idPart) {
-      if (idPart < 0) {
-         return false;
-      } else {
-         return idPart >= 2000 || idPart < AvatarData.listPart.length;
-      }
-   }
-
-   private void openContainerPreviewMenu() {
-      Vector menu = new Vector();
-      final Command removeCommand = this.getContainerRemoveCommand();
-      menu.addElement(new Command("Bỏ", new IAction() {
-         public void perform() {
-            if (removeCommand != null) {
-               removeCommand.perform();
-            }
-         }
-      }));
-      menu.addElement(new Command("Nâng cấp rương", new IAction() {
-         public void perform() {
-            PopupShop.this.performContainerUpgrade();
-         }
-      }));
-
-      menu.addElement(new Command("Nhân vật", new IAction() {
-         public void perform() {
-            PopupShop.this.openContainerCharacterSubmenu();
-         }
-      }));
-      Menu.gI().startAt(menu, -1);
-   }
-
-   private void performContainerUpgrade() {
-      Canvas.startOKDlg(T.getData, new IAction() {
-         public void perform() {
-            GlobalService.gI().doUpdateContainer(0);
-            Canvas.startWaitDlg();
-         }
-      });
-   }
-
-   private void openContainerCharacterSubmenu() {
-      Vector menu = new Vector();
-      menu.addElement(new Command("Xoay trái", new IAction() {
-         public void perform() {
-            PopupShop.this.rotateContainerPreview(false);
-         }
-      }));
-      menu.addElement(new Command("Xoay phải", new IAction() {
-         public void perform() {
-            PopupShop.this.rotateContainerPreview(true);
-         }
-      }));
-      Menu.gI().startAt(menu, -1);
-   }
-
-   private Command getContainerRemoveCommand() {
-      if (GameMidlet.listContainer != null) {
-         
-         return MapScr.gI().cmdDellPart(GameMidlet.listContainer, 1, 0, false);
-      }
-
-      if (this.listCell_ != null && this.listCell_.length > 0) {
-         return this.listCell_[0];
-      }
-
-      return null;
-   }
-
-   private void rotateContainerPreview(boolean toRight) {
-      if (MapScr.avatarShop == null) {
-         this.refreshContainerPreviewLikeShop();
-      }
-
-      if (MapScr.avatarShop != null) {
-         this.containerPreviewDirect = toRight ? Base.RIGHT : Base.LEFT;
-         MapScr.avatarShop.direct = this.containerPreviewDirect;
-      }
-   }
-
-   private void refreshContainerPreviewLikeShop() {
-      if (GameMidlet.avatar == null) {
-         return;
-      }
-
-      byte previewDirect = this.containerPreviewDirect;
-
-      MapScr.setAvatarShop(GameMidlet.avatar);
-      if (MapScr.avatarShop != null) {
-         MapScr.avatarShop.direct = previewDirect;
-      }
-      if (focusTap == 0 && GameMidlet.listContainer != null && focus >= 0 && focus < GameMidlet.listContainer.size()) {
-         SeriPart selected = (SeriPart)GameMidlet.listContainer.elementAt(focus);
-         if (selected != null) {
-            if (this.isValidPartId(selected.idPart)) {
-               Part p = AvatarData.getPart(selected.idPart);
-               if (p != null) {
-                  MapScr.setAvatarShop(p);
-                  if (MapScr.avatarShop != null) {
-                     MapScr.avatarShop.direct = previewDirect;
-                  }
-               }
-            }
-         }
-      }
-
-      this.sanitizeAvatarShopPreview();
    }
 
    public static void resetIsTrans() {

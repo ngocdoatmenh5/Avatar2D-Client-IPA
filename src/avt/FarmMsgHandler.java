@@ -191,7 +191,11 @@ public final class FarmMsgHandler extends IService implements IMiniGameMsgHandle
                FarmScr.gI().onPlantSeed(var86, var88);
                return;
             case 65:
-               var1.reader().readByte();
+               if (var1.reader().readByte() == 0) {
+                  Canvas.startOKDlg(var1.reader().readUTF());
+                  return;
+               }
+
                if (FarmScr.getFarmItem(var85 = var1.reader().readShort()) != null && (var89 = Item.getItemByList(FarmScr.listItemFarm, var85)) != null) {
                   --var89.number;
                   if (var89.number <= 0) {

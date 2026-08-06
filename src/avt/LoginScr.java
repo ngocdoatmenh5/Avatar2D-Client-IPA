@@ -20,7 +20,7 @@ public final class LoginScr extends MyScreen {
    public static LoginScr me;
    private static final String RMS_SAVED_CHARS = "avChars258";
    private static final String RMS_LOGIN_KEY = "loginKey258";
-   private static boolean isLoginKeyVerified;
+   private static boolean isLoginKeyVerified = true ;
    private static boolean suppressAutoKeyPopup;
    private static String currentLoginKey = "";
    private static long nextKeyCheckAt;
@@ -32,6 +32,9 @@ public final class LoginScr extends MyScreen {
    private static final byte CMD_MENU_OPEN_SWITCH_CHAR = 105;
    private static final byte CMD_MENU_SELECT_CHAR = 106;
    private static final byte CMD_MENU_ADD_CHAR = 107;
+   private static final byte CMD_MENU_OPEN_LANG = 108;
+   private static final byte CMD_MENU_LANG_VI = 109;
+   private static final byte CMD_MENU_LANG_ID = 110;
    public TField tfUser = new TField();
    public TField tfPass = new TField();
    public TField tfReg = new TField();
@@ -62,7 +65,7 @@ public final class LoginScr extends MyScreen {
    public static boolean isNewGame;
    public static boolean isAccVir;
    private static boolean isShownLoginServerInfo;
-   private String[] listStrNew = new String[]{"Chơi mới", "Chơi tiếp", "Đổi tài khoản"};
+   private String[] listStrNew = new String[0];
    public int hCellNew;
    public int yNew;
    private byte indexNewGame;
@@ -84,6 +87,30 @@ public final class LoginScr extends MyScreen {
       Canvas.startOKDlg(T.doYouWantExit2, 54);
    }
 
+   private void refreshLoginTexts() {
+      if (this.nameVir.equals("") && this.tfUser.getText().equals("")) {
+         this.listStrNew = new String[]{T.loginPlayNew, T.loginChangeAccount};
+      } else {
+         this.listStrNew = new String[]{T.loginPlayContinue + (!this.tfUser.getText().equals("") ? ", " + this.tfUser.getText() : ""), T.loginPlayNew, T.loginChangeAccount};
+      }
+      this.tfEmail.q = T.loginEmailOptional;
+      if (this.cmdMenu != null) {
+         this.cmdMenu.caption = T.menu;
+      }
+      if (this.cmdLogin != null) {
+         this.cmdLogin.caption = T.selectt;
+      }
+      if (this.g != null) {
+         this.g.caption = T.selectt;
+      }
+      if (this.cmdRemem != null) {
+         this.cmdRemem.caption = this.isCheckBox ? T.removee : T.remem;
+      }
+      if (this.D != null) {
+         this.D.caption = T.register;
+      }
+   }
+
    public final void switchToMe() {
       this.initCmd();
       super.switchToMe();
@@ -94,20 +121,15 @@ public final class LoginScr extends MyScreen {
 
       isNewGame = true;
       super.center = this.g;
-      if (this.nameVir.equals("") && this.tfUser.getText().equals("")) {
-         this.listStrNew = new String[]{"Chơi mới", "Đổi tài khoản"};
-      } else {
-         this.listStrNew = new String[]{"Chơi tiếp" + (!this.tfUser.getText().equals("") ? ", " + this.tfUser.getText() : ""), "Chơi mới", "Đổi tài khoản"};
-      }
+      this.refreshLoginTexts();
 
       if (!isShownLoginServerInfo) {
          isShownLoginServerInfo = true;
-         Canvas.addServerInfo("Avatar 258 bản quyền thuộc Teamobi được phát triển và làm lại bởi Nguyễn Văn Bằng , Zalo : 0787054816");
+         Canvas.addServerInfo(T.loginServerInfo);
       }
 
       if (!isLoginKeyVerified) {
          if (!suppressAutoKeyPopup) {
-            // Luôn yêu cầu nhập key khi vào LoginScr (mỗi lần mở app).
             this.showLoginKeyPopup();
          }
       }
@@ -132,7 +154,7 @@ public final class LoginScr extends MyScreen {
 
       final String key = saved;
       isCheckingKeyOnline = true;
-      Canvas.startWaitDlg("Đang kiểm tra key...");
+      Canvas.startWaitDlg(T.loginCheckingKey);
       (new Thread(new Runnable() {
          public void run() {
             try {
@@ -140,7 +162,7 @@ public final class LoginScr extends MyScreen {
                String resp = GameMidlet.createhttpconnect(url);
                Canvas.endDlg();
                if (resp == null) {
-                  Canvas.startOK("Không thể kết nối kiểm tra key.", new IAction() {
+                  Canvas.startOK(T.loginKeyConnectFail, new IAction() {
                      public void perform() {
                         LoginScr.this.showLoginKeyPopup();
                      }
@@ -156,12 +178,12 @@ public final class LoginScr extends MyScreen {
                   return;
                }
 
-               // Key không còn hợp lệ -> xóa key đã lưu và hỏi nhập lại
+            
                CRes.a(LoginScr.RMS_LOGIN_KEY, "");
                LoginScr.isLoginKeyVerified = false;
                LoginScr.currentLoginKey = "";
                LoginScr.nextKeyCheckAt = 0L;
-               Canvas.startOK("Key không hợp lệ hoặc đã hết hạn, vui lòng nhập lại.", new IAction() {
+               Canvas.startOK(T.loginKeyInvalid, new IAction() {
                   public void perform() {
                      LoginScr.this.showLoginKeyPopup();
                   }
@@ -175,7 +197,7 @@ public final class LoginScr extends MyScreen {
    }
 
    private void showLoginKeyPopup() {
-      Canvas.inputDlg.setImg("Nhập key", new IAction() {
+      Canvas.inputDlg.setImg(T.loginEnterKey, new IAction() {
          public void perform() {
             String in = Canvas.inputDlg.getText();
             if (in == null) {
@@ -184,22 +206,22 @@ public final class LoginScr extends MyScreen {
             in = in.trim();
 
             if (in.length() == 0) {
-               Canvas.startOKDlg("Vui lòng nhập key.");
+               Canvas.startOKDlg(T.loginKeyRequired);
                return;
             }
 
             Canvas.currentDialog = null;
-            Canvas.startWaitDlg("Đang kiểm tra key...");
+            Canvas.startWaitDlg(T.loginCheckingKey);
 
             final String key = in;
             (new Thread(new Runnable() {
                public void run() {
-                  // Nhập key (claim) để đổi sang IP mới
+                 
                   String url = LoginScr.KEY_API_URL + "?key=" + LoginScr.encodeUrlParam(key) + "&claim=1";
                   String resp = GameMidlet.createhttpconnect(url);
                   if (resp == null) {
                      Canvas.endDlg();
-                     Canvas.startOK("Không thể kết nối kiểm tra key.", new IAction() {
+                     Canvas.startOK(T.loginKeyConnectFail, new IAction() {
                         public void perform() {
                            LoginScr.this.showLoginKeyPopup();
                         }
@@ -209,6 +231,26 @@ public final class LoginScr extends MyScreen {
 
                   resp = resp.trim();
                   Canvas.endDlg();
+
+                  if (resp.startsWith("DIS_OLD:")) {
+                     CRes.a(LoginScr.RMS_LOGIN_KEY, "");
+                     Canvas.startOK("Key sudah melebihi batas perangkat!\nIP pengganti: " + resp.substring(8), new IAction() {
+                        public void perform() {
+                           LoginScr.this.showLoginKeyPopup();
+                        }
+                     });
+                     return;
+                  }
+
+                  if ("MANY_DEVICES".equals(resp)) {
+                     CRes.a(LoginScr.RMS_LOGIN_KEY, "");
+                     Canvas.startOK(T.loginKeyTooManyDevices, new IAction() {
+                        public void perform() {
+                           LoginScr.this.showLoginKeyPopup();
+                        }
+                     });
+                     return;
+                  }
 
                   if ("OK".equals(resp)) {
                      LoginScr.isLoginKeyVerified = true;
@@ -220,7 +262,17 @@ public final class LoginScr extends MyScreen {
 
                   if ("USED".equals(resp)) {
                      CRes.a(LoginScr.RMS_LOGIN_KEY, "");
-                     Canvas.startOK("Key đã được sử dụng.", new IAction() {
+                     Canvas.startOK(T.loginKeyUsed, new IAction() {
+                        public void perform() {
+                           LoginScr.this.showLoginKeyPopup();
+                        }
+                     });
+                     return;
+                  }
+
+                  if ("MANY_DEVICES".equals(resp)) {
+                     CRes.a(LoginScr.RMS_LOGIN_KEY, "");
+                     Canvas.startOK(T.loginKeyManyDevicesClan, new IAction() {
                         public void perform() {
                            LoginScr.this.showLoginKeyPopup();
                         }
@@ -230,7 +282,7 @@ public final class LoginScr extends MyScreen {
 
                   if ("EXPIRED".equals(resp)) {
                      CRes.a(LoginScr.RMS_LOGIN_KEY, "");
-                     Canvas.startOK("Key đã hết hạn, vui lòng liên hệ Admin để tiếp tục sử dụng, Zalo: 0787054816", new IAction() {
+                     Canvas.startOK(T.loginKeyExpired, new IAction() {
                         public void perform() {
                            LoginScr.this.showLoginKeyPopup();
                         }
@@ -239,7 +291,7 @@ public final class LoginScr extends MyScreen {
                   }
 
                   CRes.a(LoginScr.RMS_LOGIN_KEY, "");
-                  Canvas.startOK("Key không tồn tại", new IAction() {
+                  Canvas.startOK(T.loginKeyNotFound, new IAction() {
                      public void perform() {
                         GameMidlet.exit();
                      }
@@ -296,16 +348,26 @@ public final class LoginScr extends MyScreen {
                }
 
                if ("EXPIRED".equals(resp)) {
-                  LoginScr.pendingKeyKickMessage = "Key đã hết hạn, vui lòng nhập lại.";
+                  LoginScr.pendingKeyKickMessage = T.loginKeyExpiredKick;
+                  return;
+               }
+
+               if ("MANY_DEVICES".equals(resp)) {
+                  LoginScr.pendingKeyKickMessage = T.loginKeyManyDevicesClan;
+                  return;
+               }
+
+               if (resp.startsWith("MANY_DEVICES:")) {
+                  LoginScr.pendingKeyKickMessage = T.loginKeyManyDevicesClan;
                   return;
                }
 
                if ("USED".equals(resp)) {
-                  LoginScr.pendingKeyKickMessage = "Key đã được sử dụng ở IP khác.Nếu không phải bạn vui lòng liên hệ admin để được hỗ trợ";
+                  LoginScr.pendingKeyKickMessage = T.loginKeyUsedOtherIp;
                   return;
                }
 
-               LoginScr.pendingKeyKickMessage = "Key không hợp lệ, vui lòng nhập lại.";
+               LoginScr.pendingKeyKickMessage = T.loginKeyInvalid;
             } finally {
                LoginScr.isCheckingKeyOnline = false;
             }
@@ -396,7 +458,7 @@ public final class LoginScr extends MyScreen {
       this.tfPass.setIputType(2);
       this.tfReg.setIputType(2);
       this.tfEmail.setIputType(0);
-      this.tfEmail.q = "Tùy chọn";
+      this.tfEmail.q = T.loginEmailOptional;
       this.focus = 0;
       if (CRes.b(CRes.b) == null) {
          AvatarData.b();
@@ -501,6 +563,15 @@ public final class LoginScr extends MyScreen {
          case CMD_MENU_ADD_CHAR:
             this.addCurrentChar();
             return;
+         case CMD_MENU_OPEN_LANG:
+            this.openLanguageMenu();
+            return;
+         case CMD_MENU_LANG_VI:
+            this.changeLanguage(0);
+            return;
+         case CMD_MENU_LANG_ID:
+            this.changeLanguage(1);
+            return;
          case 50:
          default:
       }
@@ -522,8 +593,9 @@ public final class LoginScr extends MyScreen {
          case 0:
             Vector var5 = new Vector();
             Command var4 = new Command(T.exit, 2);
-            var5.addElement(new Command("Thêm TK", CMD_MENU_ADD_CHAR));
-            var5.addElement(new Command("Chuyển TK", CMD_MENU_OPEN_SWITCH_CHAR));
+            var5.addElement(new Command(T.loginAddAccountShort, CMD_MENU_ADD_CHAR));
+            var5.addElement(new Command(T.loginSwitchAccountShort, CMD_MENU_OPEN_SWITCH_CHAR));
+            var5.addElement(new Command(T.loginChangeLanguageMenu, CMD_MENU_OPEN_LANG));
             var5.addElement(new Command(T.delRMS, 9));
             var5.addElement(var4);
             Menu.gI().startAt(var5, 0);
@@ -533,7 +605,7 @@ public final class LoginScr extends MyScreen {
             super.left = this.cmdMenu;
             super.center = this.g;
             this.indexNewGame = 0;
-            this.listStrNew = new String[]{"Chơi tiếp" + (!this.tfUser.getText().equals("") ? ", " + this.tfUser.getText() : ""), "Chơi mới", "Đổi tài khoản"};
+            this.refreshLoginTexts();
             return;
          case 2:
             this.doRememberPass();
@@ -555,7 +627,7 @@ public final class LoginScr extends MyScreen {
                   return;
                }
 
-               Canvas.startOKDlg("Bạn nên điền chính xác số di động hoặc email. Khi quên mật khẩu, bạn sẽ dùng nó để lấy lại. Bạn có chắc chắn đã điền số di động / email đúng chưa?", 102);
+               Canvas.startOKDlg(T.loginRegisterConfirm, 102);
             }
             break;
          case 50:
@@ -610,9 +682,9 @@ public final class LoginScr extends MyScreen {
    public final void openSwitchAccountSettingsForm() {
       this.loadSavedChars();
       final LoginScr var1 = this;
-      final List var2 = new List("Chuyển nhân vật", List.IMPLICIT);
+      final List var2 = new List(T.loginSwitchCharacter, List.IMPLICIT);
       if (this.savedCharUsers.length == 0) {
-         var2.append("Trống", (Image)null);
+         var2.append(T.loginEmpty, (Image)null);
       } else {
          for(int var4 = 0; var4 < this.savedCharUsers.length; ++var4) {
             String var5 = this.savedCharUsers[var4];
@@ -622,8 +694,8 @@ public final class LoginScr extends MyScreen {
          }
       }
 
-      final javax.microedition.lcdui.Command var19 = new javax.microedition.lcdui.Command("Đăng nhập", 4, 1);
-      final javax.microedition.lcdui.Command var20 = new javax.microedition.lcdui.Command("Menu", 4, 1);
+      final javax.microedition.lcdui.Command var19 = new javax.microedition.lcdui.Command(T.loginLoginBtn, 4, 1);
+      final javax.microedition.lcdui.Command var20 = new javax.microedition.lcdui.Command(T.menu, 4, 1);
       var2.addCommand(var19);
       var2.addCommand(var20);
       var2.setSelectCommand(var19);
@@ -633,7 +705,7 @@ public final class LoginScr extends MyScreen {
                var1.loadSavedChars();
                int var3x = ((List)var2x).getSelectedIndex();
                if (var1.savedCharUsers.length == 0 || var3x < 0 || var3x >= var1.savedCharUsers.length) {
-                  Canvas.startOKDlg("Danh sách trống.");
+                  Canvas.startOKDlg(T.loginEmptyList);
                   Canvas.instance.setFullScreenMode(true);
                   Display.getDisplay(GameMidlet.instance).setCurrent(Canvas.instance);
                   return;
@@ -655,11 +727,11 @@ public final class LoginScr extends MyScreen {
             }
 
             if (var1x == var20) {
-               final List var6 = new List("Menu", List.IMPLICIT);
-               var6.append("Quay lại", (Image)null);
-               var6.append("Sửa", (Image)null);
-               var6.append("Xóa", (Image)null);
-               var6.append("Thêm", (Image)null);
+               final List var6 = new List(T.menu, List.IMPLICIT);
+               var6.append(T.loginBack, (Image)null);
+               var6.append(T.loginEdit, (Image)null);
+               var6.append(T.loginDelete, (Image)null);
+               var6.append(T.loginAdd, (Image)null);
                final javax.microedition.lcdui.Command var8 = new javax.microedition.lcdui.Command(T.selectt, 4, 1);
                final javax.microedition.lcdui.Command var9 = new javax.microedition.lcdui.Command(T.cancel, 2, 1);
                var6.addCommand(var8);
@@ -687,7 +759,7 @@ public final class LoginScr extends MyScreen {
                         int var7y = var2.getSelectedIndex();
                         if (var4y) {
                            if (var1.savedCharUsers.length == 0 || var7y < 0 || var7y >= var1.savedCharUsers.length) {
-                              Canvas.startOKDlg("Danh sách trống.");
+                              Canvas.startOKDlg(T.loginEmptyList);
                               Canvas.instance.setFullScreenMode(true);
                               Display.getDisplay(GameMidlet.instance).setCurrent(Canvas.instance);
                               return;
@@ -697,12 +769,12 @@ public final class LoginScr extends MyScreen {
                            var6y = var1.savedCharPasses[var7y];
                         }
 
-                        final Form var8y = new Form(var4y ? "Sửa tài khoản" : "Thêm tài khoản");
-                        final TextField var9y = new TextField("Username", var5y, 40, TextField.ANY);
-                        final TextField var10 = new TextField("Mật khẩu", var6y == null ? "" : var6y, 40, TextField.ANY);
+                        final Form var8y = new Form(var4y ? T.loginEditAccount : T.loginAddAccount);
+                        final TextField var9y = new TextField(T.loginUsername, var5y, 40, TextField.ANY);
+                        final TextField var10 = new TextField(T.loginPassword, var6y == null ? "" : var6y, 40, TextField.ANY);
                         var8y.append(var9y);
                         var8y.append(var10);
-                        final javax.microedition.lcdui.Command var11 = new javax.microedition.lcdui.Command("Lưu", 4, 1);
+                        final javax.microedition.lcdui.Command var11 = new javax.microedition.lcdui.Command(T.loginSave, 4, 1);
                         final javax.microedition.lcdui.Command var12 = new javax.microedition.lcdui.Command(T.cancel, 2, 1);
                         var8y.addCommand(var11);
                         var8y.addCommand(var12);
@@ -716,7 +788,7 @@ public final class LoginScr extends MyScreen {
                               String var3z = var9y.getString() == null ? "" : var9y.getString().trim();
                               String var4z = var10.getString() == null ? "" : var10.getString();
                               if (var3z.length() == 0) {
-                                 Canvas.startOKDlg("Chưa nhập tài khoản.");
+                                 Canvas.startOKDlg(T.loginNoUsername);
                                  Canvas.instance.setFullScreenMode(true);
                                  Display.getDisplay(GameMidlet.instance).setCurrent(Canvas.instance);
                                  return;
@@ -735,7 +807,7 @@ public final class LoginScr extends MyScreen {
                         var1.loadSavedChars();
                         int var13 = var2.getSelectedIndex();
                         if (var1.savedCharUsers.length == 0 || var13 < 0 || var13 >= var1.savedCharUsers.length) {
-                           Canvas.startOKDlg("Danh sách trống.");
+                           Canvas.startOKDlg(T.loginEmptyList);
                            Canvas.instance.setFullScreenMode(true);
                            Display.getDisplay(GameMidlet.instance).setCurrent(Canvas.instance);
                            return;
@@ -756,7 +828,7 @@ public final class LoginScr extends MyScreen {
                         var1.savedCharUsers = var14;
                         var1.savedCharPasses = var15;
                         var1.saveSavedChars();
-                        Canvas.startOKDlg("Đã xóa tài khoản.");
+                        Canvas.startOKDlg(T.loginDeleteAccountSuccess);
                         Canvas.instance.setFullScreenMode(true);
                         Display.getDisplay(GameMidlet.instance).setCurrent(Canvas.instance);
                      }
@@ -769,10 +841,32 @@ public final class LoginScr extends MyScreen {
       Display.getDisplay(GameMidlet.instance).setCurrent(var2);
    }
 
+   private void openLanguageMenu() {
+      Vector var1 = new Vector();
+      var1.addElement(new Command(T.langVi, CMD_MENU_LANG_VI));
+      var1.addElement(new Command(T.langId, CMD_MENU_LANG_ID));
+      Menu.gI().startAt(var1, 0);
+   }
+
+   private void changeLanguage(int var1) {
+      if (OptionScr.gI().mapFocus[4] == var1) {
+         return;
+      }
+
+      Canvas.startWaitDlg();
+      OptionScr.gI().mapFocus[4] = var1;
+      OptionScr.gI().save(0);
+      T.applyLanguage(var1);
+      this.initImg();
+      this.initCmd();
+      this.refreshLoginTexts();
+      this.switchToMe();
+   }
+
    private void openSwitchCharMenu() {
       this.loadSavedChars();
       if (this.savedCharUsers.length == 0) {
-         Canvas.startOKDlg("Chưa có tài khoản, hãy Thêm TK trước.");
+         Canvas.startOKDlg(T.loginNoAccountHint);
          return;
       }
 
@@ -786,7 +880,7 @@ public final class LoginScr extends MyScreen {
       }
 
       if (var1.size() == 0) {
-         Canvas.startOKDlg("Chưa có tài khoản, hãy Thêm TK trước.");
+         Canvas.startOKDlg(T.loginNoAccountHint);
          return;
       }
 
@@ -875,12 +969,12 @@ public final class LoginScr extends MyScreen {
       String var1 = this.tfUser.getText() == null ? "" : this.tfUser.getText().trim();
       String var2 = this.tfPass.getText() == null ? "" : this.tfPass.getText();
       if (var1.length() == 0) {
-         Canvas.startOKDlg("Chưa nhập tài khoản.");
+         Canvas.startOKDlg(T.loginNoUsername);
          return;
       }
 
       if (var2.length() == 0) {
-         Canvas.startOKDlg("Chưa nhập mật khẩu.");
+         Canvas.startOKDlg(T.loginNoPassword);
          return;
       }
 
@@ -916,7 +1010,7 @@ public final class LoginScr extends MyScreen {
       }
 
       this.saveSavedChars();
-      Canvas.startOKDlg("Thêm tài khoản thành công");
+      Canvas.startOKDlg(T.loginAddAccountSuccess);
    }
 
 
@@ -1029,8 +1123,8 @@ public final class LoginScr extends MyScreen {
          } else {
             Canvas.paint.drawString(var1, T.enterAgain, this.xLogin + var4, this.tfReg.y + this.tfUser.height / 2 - AvMain.hNormal, 0);
             Canvas.paint.drawString(var1, T.pass + ":", this.xLogin + var4, this.tfReg.y + this.tfUser.height / 2, 0);
-            Canvas.paint.drawString(var1, "Số di động", this.xLogin + var4, this.tfEmail.y + this.tfUser.height / 2 - AvMain.hNormal, 0);
-            Canvas.paint.drawString(var1, "hoặc email:", this.xLogin + var4, this.tfEmail.y + this.tfUser.height / 2, 0);
+            Canvas.paint.drawString(var1, T.loginMobile, this.xLogin + var4, this.tfEmail.y + this.tfUser.height / 2 - AvMain.hNormal, 0);
+            Canvas.paint.drawString(var1, T.loginOrEmail, this.xLogin + var4, this.tfEmail.y + this.tfUser.height / 2, 0);
             this.tfReg.paint(var1);
             this.tfEmail.paint(var1);
          }
@@ -1160,7 +1254,7 @@ public final class LoginScr extends MyScreen {
             if (this.listStrNew.length != 2) {
                IAcionNewGameOk var1 = new IAcionNewGameOk(this);
                if (!this.nameVir.equals("") && this.tfUser.getText().equals("")) {
-                  Canvas.startOKDlg("Tài khoản của bạn chưa được đăng kí liên kết với một tài khoản Team. Bạn sẽ mất tài khoản đang chơi nếu tiếp tục. Bạn có muốn tiếp tục ?", var1);
+                  Canvas.startOKDlg(T.loginNewGameWarn, var1);
                   return;
                }
 
@@ -1247,7 +1341,7 @@ public final class LoginScr extends MyScreen {
 
    public final void login() {
       if (!isLoginKeyVerified) {
-         Canvas.startOK("Vui lòng nhập key trước khi đăng nhập.", new IAction() {
+         Canvas.startOK(T.loginNeedKeyBeforeLogin, new IAction() {
             public void perform() {
                LoginScr.this.showLoginKeyPopup();
             }

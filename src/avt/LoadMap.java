@@ -1130,7 +1130,7 @@ public final class LoadMap {
       this.setMap(var11, var1, true);
       TYPEMAP = var1 - 1;
       System.out.println("index: " + TYPEMAP);
-      if (weather != -1 && TYPEMAP < bg.length && bg[TYPEMAP] != -1) {
+      if (weather != -1 && TYPEMAP >= 0 && TYPEMAP < bg.length && bg[TYPEMAP] != -1) {
          AnimateEffect var8 = new AnimateEffect(weather, 0);
          Canvas.currentEffect.addElement(var8);
       }
@@ -2019,7 +2019,7 @@ public final class LoadMap {
       if ((n28 = LoadMap.TYPEMAP) != -1 && LoadMap.idTileImg != -1) {
          n28 = LoadMap.typeAny;
       }
-      if (n - 1 != 19) {
+      if (n - 1 != 19 && (n < 68 || n > 111)) {
          int n29 = 0;
          while (n29 < LoadMap.type.length) {
             final int n30 = n29 / LoadMap.wMap;
@@ -2465,6 +2465,10 @@ public final class LoadMap {
    }
 
    private static void setTypeSeat(MapItem var0, MapItemType var1) {
+      if (var1 == null || type == null) {
+         return;
+      }
+
       byte var2 = 88;
       if (var1.iconID == 1) {
          var2 = 79;
@@ -2474,7 +2478,10 @@ public final class LoadMap {
 
       for(int var3 = 0; var3 < var1.listNotTrans.size(); ++var3) {
          AvPosition var4 = (AvPosition)var1.listNotTrans.elementAt(var3);
-         type[(var0.y + var4.y) * wMap + var0.x + var4.x] = (short)var2;
+         int var5 = (var0.y + var4.y) * wMap + var0.x + var4.x;
+         if (var5 >= 0 && var5 < type.length) {
+            type[var5] = (short)var2;
+         }
       }
 
    }

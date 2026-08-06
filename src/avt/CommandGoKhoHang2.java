@@ -22,6 +22,7 @@ final class CommandGoKhoHang2 extends Command {
    public final void update() {
       if (PopupShop.isTransFocus && this.II == PopupShop.focus - FarmScr.itemProduct.size()) {
          PopupShop.resetIsTrans();
+         PopupShop.addStr("Id: " + this.fItem.ID);
          PopupShop.addStr(this.fItem.des);
          PopupShop.addStr(T.number + this.item.number);
          if (this.fItem.priceLuong > 0) {

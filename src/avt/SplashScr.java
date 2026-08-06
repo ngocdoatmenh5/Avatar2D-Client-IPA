@@ -47,6 +47,7 @@ public final class SplashScr extends MyScreen {
          } else if (splashScrStat == 52) {
             LoginScr.gI().loadLogin();
             OptionScr.gI().load();
+            T.applyLanguage(OptionScr.gI().mapFocus[4]);
             if (!LoginScr.isSelectedLanguage) {
                LoginScr.isSelectedLanguage = true;
                AvatarData.delErrorRms("avatarSV");
@@ -76,6 +77,7 @@ public final class SplashScr extends MyScreen {
       Canvas.startWaitDlg();
       OptionScr.gI().mapFocus[4] = var0;
       OptionScr.gI().save(0);
+      T.applyLanguage(var0);
       LoginScr.gI().initImg();
       LoginScr.gI().switchToMe();
       imgLogoo = null;

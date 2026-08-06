@@ -18,8 +18,8 @@ import javax.microedition.midlet.MIDlet;
 
 public class GameMidlet extends MIDlet {
    public static final String APP_VERSION = "2.5.8";
-   public static String[][][] nameSV = new String[][][]{{{"Xu So Stown", "Thanh Pho Stown"}}};
-   public static String[][][] ipSV = new String[][][]{{{"160.191.242.130"}}};
+   public static String[][][] nameSV = new String[][][]{{{"Xu So Avatar", "Thanh Pho Tuoi Tho"}}};
+   public static String[][][] ipSV = new String[][][]{{{"127.0.0.1"}}};
    public static int[][][] PORT = new int[][][]{{{19128}}};
    public static final String[][] linkGetHost = new String[][]{{"http://teamobi.com/srvips/avatar2.txt"}, {"http://teamobi.com/srvips/avatarinterd2.txt"}};
    public static int CLIENT_TYPE = 8;

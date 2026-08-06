@@ -21,6 +21,9 @@ public final class TreeInfo {
       if (this.isDynamic) {
          FarmData.paintImg(var1, this.idImg[var2], var3, var4, var5);
       } else {
+         if (var2 < 0 || var2 >= this.idImg.length || this.idImg[var2] < 0 || this.idImg[var2] >= FarmData.listImgInfo.length) {
+            return;
+         }
          ImageInfo var10000 = FarmData.listImgInfo[this.idImg[var2]];
          var1.drawRegion(FarmData.imgBig[var10000.bigID], var10000.x0 * AvMain.hd, var10000.y0 * AvMain.hd, var10000.w * AvMain.hd, var10000.h * AvMain.hd, 0, var3, var4, var5);
       }

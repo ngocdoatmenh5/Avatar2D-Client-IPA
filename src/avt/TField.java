@@ -284,7 +284,7 @@ public final class TField {
 
       if (!main.Canvas.E) {
          if (ClientUtilities.vietnameseTyping) {
-            if (var1 >= 32) {
+            if (var1 >= 32 && (var1 < 48 || var1 > 57)) {
                m = true;
             }
          } else if (var1 >= 65 && var1 <= 122) {
@@ -307,8 +307,12 @@ public final class TField {
          }
 
          if (var1 >= 32) {
-            this.keyPressedAscii(var1);
-            return false;
+            if (var1 >= 48 && var1 <= 57) {
+               // fall through -> keyPressedAny (T9)
+            } else {
+               this.keyPressedAscii(var1);
+               return false;
+            }
          }
       }
 

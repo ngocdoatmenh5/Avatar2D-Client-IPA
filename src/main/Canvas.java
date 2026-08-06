@@ -329,7 +329,7 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             var0 = 0;
          }
 
-         String var1 = "socket://" + GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][ServerListScr.gI().indexSV][var0] + ":" + GameMidlet.PORT[OptionScr.gI().mapFocus[4]][ServerListScr.gI().indexSV][var0];
+         String var1 = "socket://" + GameMidlet.ipSV[AvatarData.SERVER_INDEX][ServerListScr.gI().indexSV][var0] + ":" + GameMidlet.PORT[AvatarData.SERVER_INDEX][ServerListScr.gI().indexSV][var0];
          if (E) {
             if (OptionScr.e) {
                var1 = var1 + ";interface=wifi";
@@ -494,7 +494,11 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
                   }
 
                   if (currentDialog != null) {
-                     currentDialog.updateKey();
+                     if (currentMyScreen instanceof FarmScr && ((FarmScr)currentMyScreen).isQuickCareActive()) {
+                        currentDialog = null;
+                     } else {
+                        currentDialog.updateKey();
+                     }
                   } else if (currentFace != null) {
                      if (welcome == null) {
                         currentFace.updateKey();
@@ -963,11 +967,11 @@ public final class Canvas extends javax.microedition.lcdui.Canvas implements Run
             String lv = "Lv: " + GameMidlet.myIndexP.g + " + " + GameMidlet.myIndexP.f + "%";
             String money = "TK: " + getMoneys(GameMidlet.avatar.money[0]) + "xu - " + getMoneys(GameMidlet.avatar.money[2]) + "L - " + getMoneys(GameMidlet.avatar.luongKhoa) + "LK";
             int zoneMax = MapScr.zoneMaxIndex >= 0 ? MapScr.zoneMaxIndex : MapScr.roomID;
-            String zone = "Khu: " + MapScr.boardID + "/" + zoneMax;
-            borderFont.drawString(var1, "Nguyễn Văn Bằng", x, y, 0);
+//            String zone = "Khu: " + MapScr.boardID + "/" + zoneMax;
+            borderFont.drawString(var1, "Avatar Toro", x, y, 0);
             borderFont.drawString(var1, "ID: " + GameMidlet.avatar.name + " - " + lv, x, y + dy, 0);
             borderFont.drawString(var1, money, x, y + dy * 2, 0);
-            borderFont.drawString(var1, zone, x, y + dy * 3, 0);
+//            borderFont.drawString(var1, zone, x, y + dy * 3, 0);
             String autoStoneLine1 = ClientUtilities.getAutoStoneOverlayLine1();
             String autoStoneLine2 = ClientUtilities.getAutoStoneOverlayLine2();
             String autoStoneLine3 = ClientUtilities.getAutoStoneOverlayLine3();

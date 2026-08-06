@@ -27,8 +27,7 @@ final class CommandGoKhoHang1 extends Command {
    public final void update() {
       if (this.f == PopupShop.focus) {
          PopupShop.resetIsTrans();
-         short var10000 = this.g.ID;
-         boolean var10001 = true;
+         PopupShop.addStr("Id: " + this.g.ID);
          PopupShop.addStr(this.g.name);
          PopupShop.addStr(T.number + this.g.number);
          PopupShop.addStr(T.inCome + Canvas.getMoneys(this.g.price[0] * this.g.number) + T.dola);

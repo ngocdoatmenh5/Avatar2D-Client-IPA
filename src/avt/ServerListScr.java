@@ -32,6 +32,10 @@ public final class ServerListScr extends MyScreen {
    }
 
    public final void switchToMe() {
+      AvatarData.ensureServerArraySize();
+      if (!AvatarData.hasServerList(AvatarData.SERVER_INDEX)) {
+         AvatarData.refreshServerListFromHost();
+      }
       super.switchToMe();
       this.e();
       this.indexUSer = 0;
@@ -62,7 +66,7 @@ public final class ServerListScr extends MyScreen {
                if (!this.isSelected) {
                   this.isSelected = true;
                   this.e();
-                  super.selected_ = 1 + CRes.rnd(GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][this.indexSV].length - 1);
+                  super.selected_ = 1 + CRes.rnd(GameMidlet.nameSV[AvatarData.SERVER_INDEX][this.indexSV].length - 1);
                   this.chans();
                   return;
                }
@@ -100,35 +104,16 @@ public final class ServerListScr extends MyScreen {
    private void onGetText() {
       while(true) {
          Canvas.startWaitCancelDlg(T.pleaseWait);
-         if (this.indexUSer >= GameMidlet.linkGetHost[OptionScr.gI().mapFocus[4]].length) {
+         if (this.indexUSer >= GameMidlet.linkGetHost[AvatarData.SERVER_INDEX].length) {
             Canvas.startOKDlg(T.canNotConnect);
             this.indexUSer = 0;
             return;
          }
 
          String var1;
-         if ((var1 = GameMidlet.createhttpconnect(GameMidlet.linkGetHost[OptionScr.gI().mapFocus[4]][this.indexUSer])) != null) {
-            String[] var6 = Canvas.normalFont.split(var1, "*");
-            GameMidlet.PORT[OptionScr.gI().mapFocus[4]] = new int[var6.length - 1][];
-            GameMidlet.ipSV[OptionScr.gI().mapFocus[4]] = new String[var6.length - 1][];
-            GameMidlet.nameSV[OptionScr.gI().mapFocus[4]] = new String[var6.length - 1][];
-
-            for(int var2 = 1; var2 < var6.length; ++var2) {
-               String[] var3 = Canvas.normalFont.split(var6[var2], "\n");
-               GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2 - 1] = new String[var3.length - 1];
-               GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2 - 1] = new String[var3.length - 2];
-               GameMidlet.PORT[OptionScr.gI().mapFocus[4]][var2 - 1] = new int[var3.length - 2];
-               GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2 - 1][0] = var3[0];
-
-               for(int var4 = 1; var4 < var3.length - 1; ++var4) {
-                  String[] var5 = Canvas.normalFont.split(var3[var4], ":");
-                  GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2 - 1][var4] = var5[0];
-                  GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2 - 1][var4 - 1] = var5[1];
-                  var5[2] = var5[2].substring(0, var5[2].length() - 1);
-                  GameMidlet.PORT[OptionScr.gI().mapFocus[4]][var2 - 1][var4 - 1] = Integer.parseInt(var5[2]);
-               }
-            }
-
+         if ((var1 = GameMidlet.createhttpconnect(GameMidlet.linkGetHost[AvatarData.SERVER_INDEX][this.indexUSer])) != null) {
+            AvatarData.ensureServerArraySize();
+            AvatarData.applyServerListText(var1, AvatarData.SERVER_INDEX);
             AvatarData.e();
             Canvas.endDlg();
             this.e();
@@ -153,7 +138,12 @@ public final class ServerListScr extends MyScreen {
       x = PaintPopup.gI().x + 4;
       y = PaintPopup.gI().y + PaintPopup.hTab + AvMain.hDuBox;
       hDis = PaintPopup.gI().h - (PaintPopup.hTab + (AvMain.hDuBox << 1));
-      cmyLim = GameMidlet.nameSV[OptionScr.gI().mapFocus[4]].length * MyScreen.hText + (this.isSelected ? GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][this.indexSV].length * MyScreen.hText : 0) - hDis;
+      String[][] var2 = GameMidlet.nameSV[AvatarData.SERVER_INDEX];
+      if (var2 == null) {
+         var2 = new String[0][];
+      }
+
+      cmyLim = var2.length * MyScreen.hText + (this.isSelected && this.indexSV >= 0 && this.indexSV < var2.length ? var2[this.indexSV].length * MyScreen.hText : 0) - hDis;
       cmtoY = 0;
       cmy = 0;
       if (cmyLim < 0) {
@@ -211,19 +201,19 @@ public final class ServerListScr extends MyScreen {
 
    private void setIndex(int var1) {
       this.indexSV = var1;
-      if (this.indexSV >= GameMidlet.nameSV[OptionScr.gI().mapFocus[4]].length) {
+      if (this.indexSV >= GameMidlet.nameSV[AvatarData.SERVER_INDEX].length) {
          this.indexSV = 0;
       }
 
       if (this.indexSV < 0) {
-         this.indexSV = GameMidlet.nameSV[OptionScr.gI().mapFocus[4]].length - 1;
+         this.indexSV = GameMidlet.nameSV[AvatarData.SERVER_INDEX].length - 1;
       }
 
    }
 
    public final void setSelected(int var1, boolean var2) {
       super.selected_ = var1;
-      if (super.selected_ >= GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][this.indexSV].length || super.selected_ <= 0) {
+      if (super.selected_ >= GameMidlet.nameSV[AvatarData.SERVER_INDEX][this.indexSV].length || super.selected_ <= 0) {
          super.selected_ = 0;
          if (var2) {
             this.isSelected = false;
@@ -273,7 +263,7 @@ public final class ServerListScr extends MyScreen {
             var5 = (cmtoY + Canvas.py - y) / MyScreen.hText;
             if (this.isSelected) {
                super.selected_ = var5 - this.indexSV;
-            } else if (var5 >= 0 && var5 < GameMidlet.nameSV[OptionScr.gI().mapFocus[4]].length) {
+            } else if (var5 >= 0 && var5 < GameMidlet.nameSV[AvatarData.SERVER_INDEX].length) {
                this.indexSV = var5;
             }
 
@@ -306,7 +296,7 @@ public final class ServerListScr extends MyScreen {
                if (!super.isHide_) {
                   int var7 = (cmtoY + Canvas.py - y) / MyScreen.hText;
                   if (this.isSelected) {
-                     if (var7 - this.indexSV > 0 && var7 - this.indexSV < GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][this.indexSV].length) {
+                     if (var7 - this.indexSV > 0 && var7 - this.indexSV < GameMidlet.nameSV[AvatarData.SERVER_INDEX][this.indexSV].length) {
                         super.selected_ = var7 - this.indexSV;
                         this.commandTab(0, -1);
                      } else {
@@ -317,14 +307,14 @@ public final class ServerListScr extends MyScreen {
                            var1 = true;
                         }
 
-                        if (var7 >= GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][this.indexSV].length - this.indexSV && var7 < GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][this.indexSV].length - 1 + GameMidlet.nameSV[OptionScr.gI().mapFocus[4]].length) {
+                        if (var7 >= GameMidlet.nameSV[AvatarData.SERVER_INDEX][this.indexSV].length - this.indexSV && var7 < GameMidlet.nameSV[AvatarData.SERVER_INDEX][this.indexSV].length - 1 + GameMidlet.nameSV[AvatarData.SERVER_INDEX].length) {
                            this.isSelected = false;
                            super.selected_ = 0;
-                           this.indexSV = var7 - GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][this.indexSV].length + 1;
+                           this.indexSV = var7 - GameMidlet.nameSV[AvatarData.SERVER_INDEX][this.indexSV].length + 1;
                            var1 = true;
                         }
                      }
-                  } else if (var7 >= 0 && var7 < GameMidlet.nameSV[OptionScr.gI().mapFocus[4]].length) {
+                  } else if (var7 >= 0 && var7 < GameMidlet.nameSV[AvatarData.SERVER_INDEX].length) {
                      this.indexSV = var7;
                      this.commandTab(0, -1);
                   }
@@ -372,14 +362,18 @@ public final class ServerListScr extends MyScreen {
       }
 
       int var2 = (MyScreen.hText - AvMain.hNormal) / 2;
+      String[][] var6 = GameMidlet.nameSV[AvatarData.SERVER_INDEX];
+      if (var6 == null) {
+         var6 = new String[0][];
+      }
 
-      for(int var3 = 0; var3 < GameMidlet.nameSV[OptionScr.gI().mapFocus[4]].length; ++var3) {
-         Canvas.normalFont.drawString(var1, GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var3][0], 24 * AvMain.hd, var2, 0);
+      for(int var3 = 0; var3 < var6.length; ++var3) {
+         Canvas.normalFont.drawString(var1, var6[var3][0], 24 * AvMain.hd, var2, 0);
          PaintPopup.imgArrowUp.drawFrame(0, 14 * AvMain.hd, var2 + AvMain.hNormal / 2, 5, 3, var1);
          var2 += MyScreen.hText;
          if (this.isSelected && this.indexSV == var3) {
-            for(int var4 = 1; var4 < GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var3].length; ++var4) {
-               Canvas.normalFont.drawString(var1, GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var3][var4], 36 * AvMain.hd, var2, 0);
+            for(int var4 = 1; var4 < var6[var3].length; ++var4) {
+               Canvas.normalFont.drawString(var1, var6[var3][var4], 36 * AvMain.hd, var2, 0);
                var1.drawImage(this.img, 24 * AvMain.hd, var2 + AvMain.hNormal / 2, 3);
                var2 += MyScreen.hText;
             }

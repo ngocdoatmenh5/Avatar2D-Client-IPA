@@ -18,6 +18,7 @@ final class CommandBuyItemCuaHang extends Command {
    public final void update() {
       if (this.f == PopupShop.focus && PopupShop.isTransFocus) {
          PopupShop.resetIsTrans();
+         PopupShop.addStr("Id: " + this.f);
          PopupShop.addStr(FarmData.treeInfo[this.f].name1 + "(" + FarmData.treeInfo[this.f].harvestTime + T.h + ")");
          PopupShop.addStr(T.priceStr + Canvas.getPriceMoney(FarmData.treeInfo[this.f].priceSeed[0], FarmData.treeInfo[this.f].priceSeed[1], false));
          PopupShop.addStr(T.roomName[2] + ": " + FarmData.treeInfo[this.f].lv);

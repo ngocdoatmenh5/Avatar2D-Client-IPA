@@ -1,0 +1,19 @@
+apply plugin: 'java-library'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['../src']
+        }
+        resources {
+            srcDirs = ['../resources']
+        }
+    }
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}

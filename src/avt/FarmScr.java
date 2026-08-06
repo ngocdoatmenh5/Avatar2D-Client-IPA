@@ -18,8 +18,9 @@ public final class FarmScr extends MyScreen {
    private static final byte CMD_FARM_LOBBY = 108;
    private static final byte CMD_FARM_SWITCH_ACC = 109;
    private static final byte CMD_FARM_LOGOUT = 110;
-   private static final byte CMD_FARM_EXIT = 111;
-   private static final byte CMD_CROP_HARVEST = 112;
+   private static final byte CMD_FARM_COM_CHAO = 120;
+   private static final byte CMD_FARM_EXIT = 112;
+   private static final byte CMD_CROP_HARVEST = 122;
    private static final byte CMD_CROP_SOW = 113;
    private static final byte CMD_CROP_TILL = 114;
    private static final byte CMD_CROP_FERTILIZE = 115;
@@ -105,6 +106,10 @@ public final class FarmScr extends MyScreen {
    private int rangeSowFrom = -1;
    private boolean isBatchSellAnimal = false;
    private int batchSellRemain = 0;
+   public boolean isQuickCareActive() {
+      return quickCareThrottleActive || quickCareQueueRunning || quickCareQueueType.size() > 0;
+   }
+
    private static final int QUICK_CARE_DELAY_MS = 50;
    private boolean quickCareThrottleActive = false;
    private Vector quickCareQueueType = new Vector();
@@ -245,6 +250,7 @@ public final class FarmScr extends MyScreen {
       this.K.addElement(new Command(T.farmLobby, CMD_FARM_LOBBY));
       this.K.addElement(new Command(T.farmSwitchAccount, CMD_FARM_SWITCH_ACC));
       this.K.addElement(new Command(T.farmLogout, CMD_FARM_LOGOUT));
+//      this.K.addElement(new Command(T.farmComChao, CMD_FARM_COM_CHAO));
       this.K.addElement(new Command(T.farmExit, CMD_FARM_EXIT));
    }
 
@@ -268,7 +274,31 @@ public final class FarmScr extends MyScreen {
       Menu.gI().startAt(var1, -1);
    }
 
+   /** Cây đủ giờ thu hoạch (theo time từ server / đếm local, khớp thanh thời gian). */
+   private static boolean isCellHarvestReady(CellFarm c) {
+      if (c == null || c.idTree == -1) {
+         return false;
+      }
+      TreeInfo ti = FarmData.getTreeInfoByID(c.idTree);
+      return ti != null && c.time >= ti.harvestTime * 60;
+   }
+
+   private void tickCellTime(int cellIndex) {
+      CellFarm c = (CellFarm)cell.elementAt(cellIndex);
+      if (c.idTree != -1 && c.statusTree < 6) {
+         ++c.time;
+         c.tempTime = (long)c.time * 60L;
+         this.setInfoCell(cellIndex);
+      }
+   }
+
    private boolean useItemForCell(int var1, int var2, int var3) {
+      if (var1 >= 0 && var1 < cell.size()) {
+         CellFarm c = (CellFarm)cell.elementAt(var1);
+         if (isCellHarvestReady(c)) {
+            return false;
+         }
+      }
       for(int var4 = 0; var4 < listItemFarm.size(); ++var4) {
          Item var5 = (Item)listItemFarm.elementAt(var4);
          FarmItem var6 = getFarmItem(var5.ID);
@@ -769,16 +799,24 @@ public final class FarmScr extends MyScreen {
    }
 
    private void doQuickCareAll() {
+      System.out.println("[QUICK_CARE_AUTO] doQuickCareAll START idFarm=" + idFarm + " myID=" + GameMidlet.avatar.IDDB + " isAutoVatNuoi=" + isAutoVatNuoi);
       if (idFarm != GameMidlet.avatar.IDDB) {
+         System.out.println("[QUICK_CARE_AUTO] FAIL: not owner farm");
          Canvas.startOKDlg(T.notOnFarmOther);
          return;
       }
 
       if (isAutoVatNuoi) {
+         System.out.println("[QUICK_CARE_AUTO] FAIL: auto vat nuoi already on");
          Canvas.startOKDlg("Chăm sóc tự động đang bật.");
          return;
       }
 
+      // Reset pending flags to prevent stuck state in AutoFishingFarmCare
+      this.quickCarePendingLobbyRebuy = false;
+      this.quickCarePendingRebuyAfterSow = false;
+
+      System.out.println("[QUICK_CARE_AUTO] doQuickCareAll proceeding with care");
       boolean var1 = false;
       boolean harvestedCrop = false;
       this.quickCareAutoSellSessionActive = false;
@@ -793,7 +831,7 @@ public final class FarmScr extends MyScreen {
       CellFarm var3;
       for(var2 = 0; var2 < cell.size(); ++var2) {
          var3 = (CellFarm)cell.elementAt(var2);
-         if (var3.statusTree == 5) {
+         if (isCellHarvestReady(var3)) {
             this.quickCareEnqueue((byte)3, var2, 0);
             ++this.quickCarePendingHarvestTreeAcks;
             var1 = true;
@@ -801,7 +839,7 @@ public final class FarmScr extends MyScreen {
             continue;
          }
 
-         if (var3.idTree != -1 && var3.statusTree < 6) {
+         if (var3.idTree != -1 && var3.statusTree < 6 && !isCellHarvestReady(var3)) {
             if (var3.isWorm && this.useItemForCell(var2, 7, -1)) {
                var1 = true;
             }
@@ -927,7 +965,7 @@ public final class FarmScr extends MyScreen {
 
       for(int var2 = 0; var2 < cell.size(); ++var2) {
          CellFarm var3 = (CellFarm)cell.elementAt(var2);
-         if (var3.statusTree == 5) {
+         if (isCellHarvestReady(var3)) {
             FarmService.gI().doHervest(idFarm, var2);
             var1 = true;
          }
@@ -1152,6 +1190,16 @@ public final class FarmScr extends MyScreen {
       this.quickCareQueueRunning = true;
       this.quickCareNextSendAtMs = 0L;
    }
+
+   public void startAutoFishingQuickCare() {
+      System.out.println("[SMART_FISH] FarmScr.startAutoFishingQuickCare screen=" + Canvas.currentMyScreen
+              + " typemap=" + LoadMap.TYPEMAP + " dialog=" + (Canvas.currentDialog != null)
+              + " queueTypeSize=" + this.quickCareQueueType.size()
+              + " queueRunning=" + this.quickCareQueueRunning);
+      this.doQuickCareAll();
+   }
+
+
 
    private void quickCareTickQueue() {
       if (!this.quickCareQueueRunning) {
@@ -1526,6 +1574,8 @@ public final class FarmScr extends MyScreen {
    }
 
    public final void close() {
+      MapScr.typeJoin = -1;
+      MapScr.typeCasino = -1;
       Canvas.startWaitDlg();
       GlobalService.gI().getHandler(8);
    }
@@ -1536,8 +1586,8 @@ public final class FarmScr extends MyScreen {
          Canvas.startWaitDlg();
          FarmService.gI().doRequestPricePlant(idFarm);
       } else if (var1 >= 0 && var1 < cell.size()) {
-         CellFarm var8;
-         if ((var8 = (CellFarm)cell.elementAt(var1)).statusTree == 5) {
+         CellFarm var8 = (CellFarm)cell.elementAt(var1);
+         if (isCellHarvestReady(var8)) {
             this.doHarvest();
             return;
          }
@@ -1809,8 +1859,9 @@ public final class FarmScr extends MyScreen {
             MapScr.exitGame();
             return;
          case CMD_FARM_EXIT:
-            MapScr.gI().doExit();
+            this.close();
             return;
+
          case CMD_CROP_HARVEST:
             this.doCropHarvestAll();
             return;
@@ -2369,13 +2420,7 @@ public final class FarmScr extends MyScreen {
          this.curTimeCooking = System.currentTimeMillis();
 
          for(int var1 = 0; var1 < cell.size(); ++var1) {
-            CellFarm var9;
-            if ((var9 = (CellFarm)cell.elementAt(var1)).idTree != -1 && var9.statusTree < 5) {
-               ++var9.tempTime;
-               if ((long)(FarmData.getTreeByID(var9.idTree).harvestTime * 60 * 60) - var9.tempTime <= 0L) {
-                  var9.statusTree = 5;
-               }
-            }
+            this.tickCellTime(var1);
          }
       }
 
@@ -2553,7 +2598,7 @@ public final class FarmScr extends MyScreen {
                      focusCell.x = var4.x / LoadMap.w;
                      focusCell.y = var4.y / LoadMap.w;
                      if (this.isChamSoc) {
-                        if (var4.statusTree == 5) {
+                        if (isCellHarvestReady(var4)) {
                            this.pendingHarvestPromptCellIndex = var3.anchor;
                            this.pendingHarvestPromptResume = true;
                            FarmService.gI().doHervest(idFarm, var3.anchor);
@@ -2586,7 +2631,7 @@ public final class FarmScr extends MyScreen {
                               this.setGieoHat();
                            }
                         }
-                     } else if (var4.statusTree == 5) {
+                     } else if (isCellHarvestReady(var4)) {
                         this.doHarvest();
                         this.setGieoHat();
                      } else {
@@ -2703,7 +2748,7 @@ public final class FarmScr extends MyScreen {
             focusCell.y = var13.y / LoadMap.w;
             if (this.isSelectedCell && var11 >= 0 && var11 < cell.size()) {
                idSelected = var11;
-               if (var13.idTree != -1 && var13.statusTree != 5 && var13.statusTree < 6) {
+               if (var13.idTree != -1 && !isCellHarvestReady(var13) && var13.statusTree < 6) {
                   Canvas.isPointerRelease = false;
                   if (this.isChamSoc) {
                      if (!var13.isSelected) {
@@ -2712,12 +2757,12 @@ public final class FarmScr extends MyScreen {
 
                      var13.isSelected = true;
                      this.setGieoHat();
-                  } else if (var13.statusTree != 5) {
+                  } else if (!isCellHarvestReady(var13)) {
                      Canvas.startOKDlg(T.acc);
                   }
                } else {
                   Canvas.isPointerRelease = false;
-                  if (this.isChamSoc && var13.statusTree != 5) {
+                  if (this.isChamSoc && !isCellHarvestReady(var13)) {
                      Canvas.startOKDlg(T.viewRule);
                   } else {
                      if (!var13.isSelected) {
@@ -2780,7 +2825,6 @@ public final class FarmScr extends MyScreen {
    public final void paintMain(Graphics var1) {
       Canvas.loadMap.paint(var1);
       Canvas.loadMap.paintBackGround(var1);
-      this.paintCellIndices(var1);
       if (idSelected >= 0) {
          if (this.n >= 8) {
             this.n = 0;
@@ -2804,25 +2848,6 @@ public final class FarmScr extends MyScreen {
 
       Canvas.resetTrans(var1);
       LoadMap.paintEffectCamera(var1);
-   }
-
-   private void paintCellIndices(Graphics g) {
-      if (cell == null) {
-         return;
-      }
-
-      for (int i = 0; i < cell.size(); i++) {
-         CellFarm c = (CellFarm)cell.elementAt(i);
-         if (c == null) {
-            continue;
-         }
-
-         String cellNumber = String.valueOf(i + 1);
-         int tx = c.x * AvMain.hd;
-         int ty = (c.y - 6) * AvMain.hd;
-         g.setColor(16777215);
-         Canvas.smallFontRed.drawString(g, cellNumber, tx, ty, 2);
-      }
    }
 
    public static void a(Vector var0, Vector var1, Vector var2, Vector var3, byte var4, int var5, boolean var6) {
@@ -2922,7 +2947,7 @@ public final class FarmScr extends MyScreen {
       }
 
       CellFarm c = (CellFarm)cell.elementAt(cellIndex);
-      if (c == null || c.idTree == -1 || c.statusTree >= 6) {
+      if (c == null || c.idTree == -1 || c.statusTree >= 6 || isCellHarvestReady(c)) {
          return;
       }
 
@@ -3259,14 +3284,23 @@ public final class FarmScr extends MyScreen {
       if ((var4 = (CellFarm)cell.elementAt(var1)).idTree == -1) {
          this.setStatusCell(var4, 2);
       } else {
-         TreeInfo var2;
-         int var3 = (var2 = FarmData.getTreeInfoByID(var4.idTree)).harvestTime * 60 / 5;
-         var4.statusTree = var4.time / var3;
-         if (var4.statusTree >= 5) {
-            var4.statusTree = 5;
+         TreeInfo var2 = FarmData.getTreeInfoByID(var4.idTree);
+         int full = var2.harvestTime * 60;
+         int var3 = full / 5;
+         if (var3 <= 0) {
+            var3 = 1;
          }
 
-         if (var4.time < 0 || var2.dieTime != -1 && var4.time - var2.harvestTime * 60 > var2.dieTime * 60 || var4.hervestPer == 100 || var4.statusTree < 0) {
+         if (var4.time >= full || var4.hervestPer == 100) {
+            var4.statusTree = 5;
+         } else {
+            var4.statusTree = var4.time / var3;
+            if (var4.statusTree > 4) {
+               var4.statusTree = 4;
+            }
+         }
+
+         if (var4.time < 0 || var2.dieTime != -1 && var4.time - full > var2.dieTime * 60 || var4.statusTree < 0) {
             var4.statusTree = 6;
          }
 
@@ -3715,8 +3749,9 @@ public final class FarmScr extends MyScreen {
             MapScr.exitGame();
             return;
          case CMD_FARM_EXIT:
-            MapScr.gI().doExit();
+            this.close();
             return;
+
          case CMD_CROP_HARVEST:
             this.doCropHarvestAll();
             return;
@@ -3956,6 +3991,10 @@ public final class FarmScr extends MyScreen {
       }
 
    }
+
+//   public final void doOpenComChao() {
+//      Canvas.startOK("Menu Cơm cháo đang phát triển!");
+//   }
 
    public static void onHarvestStarFruit(short var0, short var1) {
       for(int var2 = 0; var2 < starFruil.xFruit.length; ++var2) {

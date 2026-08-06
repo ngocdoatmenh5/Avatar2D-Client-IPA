@@ -59,7 +59,7 @@ public final class OnScreen extends MyScreen {
       Canvas.endDlg();
       if (l == null) {
          FilePack.b(T.aw);
-         FrameImage.init("up", 13 * AvMain.hd, 11 * AvMain.hd);
+         FrameImage.init("iconGame", 13 * AvMain.hd, 11 * AvMain.hd);
          FilePack.reset();
 
          try {
@@ -80,7 +80,7 @@ public final class OnScreen extends MyScreen {
 
       super.switchToMe();
       this.g = Canvas.h / 2 - AvMain.hNormal;
-      this.j = 4;
+      this.j = 3;
       this.k = 70 * AvMain.hd;
       if (Canvas.stypeInt == 0) {
          this.k = 40;
@@ -134,7 +134,13 @@ public final class OnScreen extends MyScreen {
                   MapScr.typeCasino = (byte)var1;
                   return;
                case 4:
+                  Canvas.startWaitDlg();
+                  GlobalService.gI().getHandler(3);
+                  MapScr.typeCasino = 4;
+                  return;
+               case 5:
                   TransMoneyDlg.gI().init();
+                  return;
                default:
                   return;
             }
@@ -342,7 +348,13 @@ public final class OnScreen extends MyScreen {
       var1.translate(-n, 0);
 
       for(int var2 = 0; var2 < T.selectLanguage.length; ++var2) {
-         l.drawFrame(var2, var2 % this.j * this.h, var2 / this.j * this.i, 0, 3, var1);
+         int iconIndex = var2;
+         if (var2 == 4) {
+            iconIndex = 5;
+         } else if (var2 == 5) {
+            iconIndex = 4;
+         }
+         l.drawFrame(iconIndex, var2 % this.j * this.h, var2 / this.j * this.i, 0, 3, var1);
          Canvas.M.drawString(var1, T.selectLanguage[var2], var2 % this.j * this.h, var2 / this.j * this.i + l.frameHeight / 2 + 5, 2);
          if (this.e == var2 && (!Canvas.isKeyBoard || !r)) {
             var1.drawImage(s, var2 % this.j * this.h, var2 / this.j * this.i, 3);

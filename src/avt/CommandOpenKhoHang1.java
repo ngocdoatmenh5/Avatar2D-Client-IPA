@@ -19,6 +19,7 @@ final class CommandOpenKhoHang1 extends Command {
    public final void update() {
       if (this.g == PopupShop.focus) {
          PopupShop.resetIsTrans();
+         PopupShop.addStr("Id: " + this.f.ID);
          PopupShop.addStr(this.f.name);
          PopupShop.addStr(T.number + this.f.number);
       }

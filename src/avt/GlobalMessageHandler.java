@@ -1112,6 +1112,10 @@ public final class GlobalMessageHandler extends IService implements IMessageHand
                      }
                   }
 
+                  if (var2 < 0 && this.miniGameMessageHandler == HomeMsgHandler.instance) {
+                     var2 = 21;
+                  }
+
                   MapScr.gI().onJoinPark((byte)var2, (byte)var3, (short)var4, (short)var5, var6, var65, var66);
                   if (LoadMap.TYPEMAP == 21) {
                      Canvas.load = 0;

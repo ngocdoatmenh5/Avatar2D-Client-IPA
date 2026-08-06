@@ -446,8 +446,8 @@ public final class HouseScr extends MyScreen implements IChatable {
       }
 
       LoadMap.rememMap = -1;
-      var1 = -1;
-      var2 = 0;
+      int doorStartX = -1;
+      int doorWidth = 0;
 
       int var8;
       int var14;
@@ -463,14 +463,48 @@ public final class HouseScr extends MyScreen implements IChatable {
          if (LoadMap.map[(LoadMap.Hmap - 1) * var4 + var8] == this.imgTileMap.img.getHeight() / (24 * AvMain.hd) - 1) {
             LoadMap.map[(LoadMap.Hmap - 1) * var4 + var8] = LoadMap.map[(LoadMap.Hmap - 2) * var4 + var8];
             LoadMap.type[(LoadMap.Hmap - 1) * var4 + var8] = 21;
-            ++var2;
-            if (var1 == -1) {
-               var1 = (byte)(var8 * 24);
+            ++doorWidth;
+            if (doorStartX == -1) {
+               doorStartX = var8 * 24;
             }
          }
       }
 
-      this.posJoin = new AvPosition(var1 + var2 * 24 / 2, LoadMap.Hmap * 24 - 30);
+      int spawnX;
+      int spawnY = LoadMap.Hmap * 24 - 30;
+      if (doorStartX != -1 && doorWidth > 0) {
+         spawnX = doorStartX + doorWidth * 24 / 2;
+      } else {
+         int fallback = -1;
+
+         for(int i = 0; i < LoadMap.map.length; ++i) {
+            if (LoadMap.type[i] == 80) {
+               fallback = i;
+               break;
+            }
+         }
+
+         if (fallback != -1) {
+            spawnX = fallback % LoadMap.wMap * 24 + 12;
+            spawnY = fallback / LoadMap.wMap * 24 + 12;
+         } else {
+            spawnX = LoadMap.wMap * 12;
+         }
+      }
+
+      int spawnTileX = spawnX / 24;
+      int spawnTileY = spawnY / 24;
+      int spawnIndex = spawnTileY * LoadMap.wMap + spawnTileX;
+      int spawnType = spawnIndex >= 0 && spawnIndex < LoadMap.type.length ? LoadMap.type[spawnIndex] : -999;
+      int spawnMapVal = spawnIndex >= 0 && spawnIndex < LoadMap.map.length ? LoadMap.map[spawnIndex] : -999;
+      int doorTileStart = doorStartX == -1 ? -1 : doorStartX / 24;
+      int bottomRow = LoadMap.Hmap - 1;
+      int firstBottomIndex = bottomRow * var4;
+      int firstBottomMapVal = firstBottomIndex >= 0 && firstBottomIndex < LoadMap.map.length ? LoadMap.map[firstBottomIndex] : -999;
+      int firstBottomTypeVal = firstBottomIndex >= 0 && firstBottomIndex < LoadMap.type.length ? LoadMap.type[firstBottomIndex] : -999;
+      System.out.println("[HouseJoin] typeHome=" + this.typeHome + ", idHouse=" + this.idHouse + ", wMap=" + LoadMap.wMap + ", hMap=" + LoadMap.Hmap + ", doorStartX=" + doorStartX + ", doorTileStart=" + doorTileStart + ", doorWidth=" + doorWidth + ", spawnX=" + spawnX + ", spawnY=" + spawnY + ", spawnTile=(" + spawnTileX + "," + spawnTileY + "), spawnIndex=" + spawnIndex + ", mapVal=" + spawnMapVal + ", typeVal=" + spawnType + ", firstBottomMapVal=" + firstBottomMapVal + ", firstBottomTypeVal=" + firstBottomTypeVal + ")");
+
+      this.posJoin = new AvPosition(spawnX, spawnY);
       GameMidlet.avatar.x = this.posJoin.x;
       GameMidlet.avatar.y = this.posJoin.y;
       Pet var11;

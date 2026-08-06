@@ -17,6 +17,7 @@ final class CommandGiftDef extends Command {
    public final void update() {
       if (PopupShop.isTransFocus && PopupShop.focus - this.g == this.f) {
          PopupShop.resetIsTrans();
+         PopupShop.addStr("Id: " + this.h.IDIcon);
          PopupShop.addStr(T.nameStr + this.h.name);
          PopupShop.addStr(T.priceStr + this.h.money + (this.h.typeMoney == 0 ? T.xu : T.gold));
       }

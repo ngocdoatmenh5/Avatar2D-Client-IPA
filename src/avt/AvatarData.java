@@ -16,6 +16,7 @@ import main.Canvas;
 import main.GameMidlet;
 
 public final class AvatarData {
+   public static final int SERVER_INDEX = 0;
    private static int verImg;
    private static int verPart;
    private static int verItemImg;
@@ -691,17 +692,17 @@ public final class AvatarData {
       DataOutputStream var1 = new DataOutputStream(var0);
 
       try {
-         var1.writeByte(OptionScr.gI().mapFocus[4]);
-         var1.writeByte(GameMidlet.ipSV[OptionScr.gI().mapFocus[4]].length);
+         var1.writeByte(SERVER_INDEX);
+         var1.writeByte(GameMidlet.ipSV[SERVER_INDEX].length);
 
-         for(int var2 = 0; var2 < GameMidlet.ipSV[OptionScr.gI().mapFocus[4]].length; ++var2) {
-            var1.writeByte(GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2].length);
-            var1.writeUTF(GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2][0]);
+         for(int var2 = 0; var2 < GameMidlet.ipSV[SERVER_INDEX].length; ++var2) {
+            var1.writeByte(GameMidlet.ipSV[SERVER_INDEX][var2].length);
+            var1.writeUTF(GameMidlet.nameSV[SERVER_INDEX][var2][0]);
 
-            for(int var3 = 0; var3 < GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2].length; ++var3) {
-               var1.writeUTF(GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2][var3 + 1]);
-               var1.writeUTF(GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2][var3]);
-               var1.writeInt(GameMidlet.PORT[OptionScr.gI().mapFocus[4]][var2][var3]);
+            for(int var3 = 0; var3 < GameMidlet.ipSV[SERVER_INDEX][var2].length; ++var3) {
+               var1.writeUTF(GameMidlet.nameSV[SERVER_INDEX][var2][var3 + 1]);
+               var1.writeUTF(GameMidlet.ipSV[SERVER_INDEX][var2][var3]);
+               var1.writeInt(GameMidlet.PORT[SERVER_INDEX][var2][var3]);
             }
          }
 
@@ -717,31 +718,31 @@ public final class AvatarData {
       DataInputStream var0;
       if ((var0 = loadRMS("avatarSV")) != null) {
          try {
-            if (var0.readByte() == OptionScr.gI().mapFocus[4]) {
-               byte var1;
-               if ((var1 = var0.readByte()) == 0) {
-                  delErrorRms("avatarSV");
-               } else {
-                  GameMidlet.nameSV = new String[2][var1][];
-                  GameMidlet.ipSV = new String[2][var1][];
-                  GameMidlet.PORT = new int[2][var1][];
+            var0.readByte();
+            byte var1;
+            if ((var1 = var0.readByte()) == 0) {
+               delErrorRms("avatarSV");
+            } else {
+               ensureServerArraySize();
+               GameMidlet.nameSV[SERVER_INDEX] = new String[var1][];
+               GameMidlet.ipSV[SERVER_INDEX] = new String[var1][];
+               GameMidlet.PORT[SERVER_INDEX] = new int[var1][];
 
-                  for(int var2 = 0; var2 < var1; ++var2) {
-                     byte var3 = var0.readByte();
-                     GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2] = new String[var3 + 1];
-                     GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2][0] = var0.readUTF();
-                     GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2] = new String[var3];
-                     GameMidlet.PORT[OptionScr.gI().mapFocus[4]][var2] = new int[var3];
+               for(int var2 = 0; var2 < var1; ++var2) {
+                  byte var3 = var0.readByte();
+                  GameMidlet.nameSV[SERVER_INDEX][var2] = new String[var3 + 1];
+                  GameMidlet.nameSV[SERVER_INDEX][var2][0] = var0.readUTF();
+                  GameMidlet.ipSV[SERVER_INDEX][var2] = new String[var3];
+                  GameMidlet.PORT[SERVER_INDEX][var2] = new int[var3];
 
-                     for(int var4 = 0; var4 < var3; ++var4) {
-                        GameMidlet.nameSV[OptionScr.gI().mapFocus[4]][var2][var4 + 1] = var0.readUTF();
-                        GameMidlet.ipSV[OptionScr.gI().mapFocus[4]][var2][var4] = var0.readUTF();
-                        GameMidlet.PORT[OptionScr.gI().mapFocus[4]][var2][var4] = var0.readInt();
-                     }
+                  for(int var4 = 0; var4 < var3; ++var4) {
+                     GameMidlet.nameSV[SERVER_INDEX][var2][var4 + 1] = var0.readUTF();
+                     GameMidlet.ipSV[SERVER_INDEX][var2][var4] = var0.readUTF();
+                     GameMidlet.PORT[SERVER_INDEX][var2][var4] = var0.readInt();
                   }
-
-                  var0.close();
                }
+
+               var0.close();
             }
          } catch (IOException var5) {
             var5.printStackTrace();
@@ -749,6 +750,67 @@ public final class AvatarData {
          }
       }
 
+   }
+
+   public static void ensureServerArraySize() {
+      if (GameMidlet.nameSV == null || GameMidlet.nameSV.length < 2) {
+         String[][][] var0 = GameMidlet.nameSV;
+         String[][][] var1 = GameMidlet.ipSV;
+         int[][][] var2 = GameMidlet.PORT;
+         GameMidlet.nameSV = new String[2][][];
+         GameMidlet.ipSV = new String[2][][];
+         GameMidlet.PORT = new int[2][][];
+
+         for(int var3 = 0; var0 != null && var3 < var0.length && var3 < 2; ++var3) {
+            GameMidlet.nameSV[var3] = var0[var3];
+            GameMidlet.ipSV[var3] = var1[var3];
+            GameMidlet.PORT[var3] = var2[var3];
+         }
+      }
+
+   }
+
+   public static boolean hasServerList(int var0) {
+      return GameMidlet.nameSV != null && GameMidlet.nameSV.length > var0 && GameMidlet.nameSV[var0] != null && GameMidlet.nameSV[var0].length > 0;
+   }
+
+   public static void applyServerListText(String var0, int var1) {
+      String[] var6 = Canvas.normalFont.split(var0, "*");
+      GameMidlet.PORT[var1] = new int[var6.length - 1][];
+      GameMidlet.ipSV[var1] = new String[var6.length - 1][];
+      GameMidlet.nameSV[var1] = new String[var6.length - 1][];
+
+      for(int var2 = 1; var2 < var6.length; ++var2) {
+         String[] var3 = Canvas.normalFont.split(var6[var2], "\n");
+         GameMidlet.nameSV[var1][var2 - 1] = new String[var3.length - 1];
+         GameMidlet.ipSV[var1][var2 - 1] = new String[var3.length - 2];
+         GameMidlet.PORT[var1][var2 - 1] = new int[var3.length - 2];
+         GameMidlet.nameSV[var1][var2 - 1][0] = var3[0];
+
+         for(int var4 = 1; var4 < var3.length - 1; ++var4) {
+            String[] var5 = Canvas.normalFont.split(var3[var4], ":");
+            GameMidlet.nameSV[var1][var2 - 1][var4] = var5[0];
+            GameMidlet.ipSV[var1][var2 - 1][var4 - 1] = var5[1];
+            var5[2] = var5[2].substring(0, var5[2].length() - 1);
+            GameMidlet.PORT[var1][var2 - 1][var4 - 1] = Integer.parseInt(var5[2]);
+         }
+      }
+
+   }
+
+   public static boolean refreshServerListFromHost() {
+      ensureServerArraySize();
+
+      for(int var1 = 0; var1 < GameMidlet.linkGetHost[SERVER_INDEX].length; ++var1) {
+         String var2;
+         if ((var2 = GameMidlet.createhttpconnect(GameMidlet.linkGetHost[SERVER_INDEX][var1])) != null) {
+            applyServerListText(var2, SERVER_INDEX);
+            e();
+            return true;
+         }
+      }
+
+      return false;
    }
 
    private static BigImgInfo getBigImgInfoList(int var0) {

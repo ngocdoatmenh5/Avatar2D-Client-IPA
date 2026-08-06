@@ -15,6 +15,9 @@ public final class MsgDlg extends Dialog {
    private int y;
    public boolean isWaiting = false;
    private int num = 0;
+   private int colorIndex = 0;
+   private static final int[] RAINBOW_COLORS = new int[]{0xFFFF0000, 0xFFFF7F00, 0xFFFFFF00, 0xFF00FF00, 0xFF0000FF, 0xFF4B0082, 0xFF9400D3, 0xFFFF0000, 0xFFFF7F00};
+   public static FrameImage[] imgLoadRainbow = new FrameImage[9];
    private int size = 0;
    private int hText;
    private int hDu;
@@ -26,6 +29,15 @@ public final class MsgDlg extends Dialog {
    private long limitTime;
    private long timeEnd;
    private int u = 0;
+   private int spinAngle = 0;
+   private static final int[] sinTable = new int[360];
+   private static final int[] cosTable = new int[360];
+   static {
+      for (int i = 0; i < 360; i++) {
+         sinTable[i] = (int)(Math.sin(Math.toRadians(i)) * 100);
+         cosTable[i] = (int)(Math.cos(Math.toRadians(i)) * 100);
+      }
+   }
 
    public MsgDlg() {
       this.hText = AvMain.hBlack;
@@ -109,6 +121,7 @@ public final class MsgDlg extends Dialog {
       if (this.isWaiting) {
          this.h += 25 * AvMain.hd + 4;
          this.hDu += 25 * AvMain.hd + 4;
+         this.colorIndex = 0;
       }
 
       int var2 = this.hCell * 3 + (AvMain.hd - 1) * 15;
@@ -129,7 +142,20 @@ public final class MsgDlg extends Dialog {
          }
 
          if (this.isWaiting) {
-            imgLoad.drawFrame(this.num, this.x + this.w / 2, this.y + 4 + (this.h - this.hDu) / 2 + this.info.size() * AvMain.hBlack / 2 + (this.h - (4 + (this.h - this.hDu) / 2 + this.info.size() * AvMain.hBlack / 2)) / 2, 0, 3, var1);
+            int cx = this.x + this.w / 2;
+            int cy = this.y + 4 + (this.h - this.hDu) / 2 + this.info.size() * AvMain.hBlack / 2 + (this.h - (4 + (this.h - this.hDu) / 2 + this.info.size() * AvMain.hBlack / 2)) / 2;
+            int radius = 7 * AvMain.hd;
+            int dotRadius = 2 * AvMain.hd;
+            int numDots = 8;
+            int[] colors = new int[]{0xFFFF0000, 0xFFFFFF00, 0xFF00FF00, 0xFF00FFFF, 0xFF0000FF, 0xFFFF00FF, 0xFFFF0000, 0xFFFFFF00, 0xFF00FF00};
+            for (int i = 0; i < numDots; i++) {
+               int angle = this.spinAngle + (360 / numDots) * i;
+               int dx = cx + (radius * cosTable[angle % 360]) / 100;
+               int dy = cy - (radius * sinTable[angle % 360]) / 100;
+               int color = colors[i % colors.length];
+               var1.setColor(color);
+               var1.fillArc(dx - dotRadius, dy - dotRadius, dotRadius * 2, dotRadius * 2, 0, 360);
+            }
          }
 
          if (this.size > 0) {
@@ -187,6 +213,13 @@ public final class MsgDlg extends Dialog {
          if (this.num >= 8) {
             this.num = 0;
          }
+
+         ++this.colorIndex;
+         if (this.colorIndex >= 8) {
+            this.colorIndex = 0;
+         }
+
+         this.spinAngle = (this.spinAngle + 15) % 360;
 
          if ((long)Canvas.getSecond() - this.limitTime > 30L) {
             String var1 = "";

@@ -108,12 +108,12 @@ public final class MapScr extends MyScreen implements IChatable {
    }
 
    public final void doExit() {
+      Canvas.startWaitDlg();
       typeJoin = -1;
       typeCasino = -1;
       if (GameMidlet.CLIENT_TYPE == 8) {
-         ClientUtilities.requestChangeZone();
+         this.joinCitymap();
       } else {
-         Canvas.startWaitDlg();
          GlobalService.gI().getHandler(8);
       }
 
@@ -167,18 +167,26 @@ public final class MapScr extends MyScreen implements IChatable {
          }
 
          if (LoadMap.TYPEMAP == 16) {
-            var1.addElement(new Command("Cài đặt câu cá", new IActionOpenFishingSettingsMenu()));
-         } else {
-            var1.addElement(new Command("Thêm NPC", new IActionMapNpcCmd((byte)0)));
+            var1.addElement(new Command(T.mapFishingSettings, new IActionOpenFishingSettingsMenu()));
+         }
+         if (LoadMap.TYPEMAP == 16) {
+            var1.addElement(new Command(T.mapAddNpc, new IActionMapNpcCmd((byte)0)));
             if (ClientUtilities.hasRememberedNpc()) {
-               var1.addElement(new Command("D.Sách Npc", new IActionMapNpcCmd((byte)1)));
+               var1.addElement(new Command(T.mapNpcList, new IActionMapNpcCmd((byte)1)));
             }
-            var1.addElement(new Command("Menu event", new IActionOpenEventSubmenu()));
+            var1.addElement(new Command(T.eventMenu, new IActionOpenEventSubmenu()));
+            var1.addElement(new Command(T.utilities, new IActionOpenUtilitySubmenu()));
+         } else {
+            var1.addElement(new Command(T.mapAddNpc, new IActionMapNpcCmd((byte)0)));
+            if (ClientUtilities.hasRememberedNpc()) {
+               var1.addElement(new Command(T.mapNpcList, new IActionMapNpcCmd((byte)1)));
+            }
+            var1.addElement(new Command(T.eventMenu, new IActionOpenEventSubmenu()));
             var1.addElement(new Command(T.utilities, new IActionOpenUtilitySubmenu()));
          }
 
          if (LoadMap.TYPEMAP == 14 || LoadMap.TYPEMAP == 15) {
-            var1.addElement(new Command("Cài đặt câu cá", new IActionOpenFishingSettingsMenu()));
+            var1.addElement(new Command(T.mapFishingSettings, new IActionOpenFishingSettingsMenu()));
          }
       }
 
@@ -487,15 +495,6 @@ public final class MapScr extends MyScreen implements IChatable {
       if (var2 == -1) {
          Canvas.startOK(T.areaIsFull, 52, (AvMain)null);
       } else {
-         if (var1 == 25) {
-            if (FarmMsgHandler.instance == null) {
-               FarmMsgHandler.instance = new FarmMsgHandler();
-            }
-
-            GlobalMessageHandler.gI().miniGameMessageHandler = FarmMsgHandler.instance;
-         } else {
-            ParkMsgHandler.onHandler();
-         }
          if (LoadMap.idTileImg == -1) {
             LoadMap.mapItemType = var6;
             LoadMap.mapItem = var7;
@@ -590,7 +589,9 @@ public final class MapScr extends MyScreen implements IChatable {
             Canvas.endDlg();
          }
 
-         ClientUtilities.onAfterJoinPark(roomID);
+         if (roomID != 21 && LoadMap.TYPEMAP != 21) {
+            ClientUtilities.onAfterJoinPark(roomID);
+         }
          Canvas.instance.sizeChanged(0, 0);
          if (Canvas.isInitChar) {
             if (LoadMap.TYPEMAP == 9 && Welcome.indexMapScr != 0) {
@@ -639,7 +640,7 @@ public final class MapScr extends MyScreen implements IChatable {
             var0 = 22;
             break;
          case 4:
-            var0 = 21;
+            var0 = 23;
             break;
          case 5:
             var0 = 22;
@@ -1033,7 +1034,6 @@ public final class MapScr extends MyScreen implements IChatable {
 
          if (var0 == GameMidlet.avatar.IDDB) {
             if (Canvas.currentMyScreen == PopupShop.gI()) {
-               PopupShop.rememberSelectionForNextOpen();
                PopupShop.gI().close();
             }
 
@@ -1318,7 +1318,7 @@ public final class MapScr extends MyScreen implements IChatable {
                      var11 = var6[var20];
                   }
 
-                  var3 = "Tặng";
+                  var3 = T.mapGive;
                   int var10000;
                   int var10003;
                   if (var23.zOrder == 20) {
@@ -1364,7 +1364,7 @@ public final class MapScr extends MyScreen implements IChatable {
                   }
                }
 
-               String[] var25 = new String[]{"Áo", "Quần", "Trang sức", "Nón", "Cầm tay", "Khác"};
+               String[] var25 = T.shopCategories;
                byte[] var26 = new byte[]{0, 1, 2, 3, 4, 5};
                Vector[] var15 = new Vector[var20];
                byte[] var12 = new byte[var20];
@@ -1411,7 +1411,7 @@ public final class MapScr extends MyScreen implements IChatable {
                   if (var2 == 100) {
                      var11 = T.dial;
                   } else if (var2 == 26) {
-                     var11 = "Tặng";
+                     var11 = T.mapGive;
                   } else {
                      var11 = T.buy;
                   }
@@ -1744,7 +1744,7 @@ public final class MapScr extends MyScreen implements IChatable {
          Vector var1;
          (var1 = new Vector()).addElement(new Command(T.goHome, 0));
          var1.addElement(new Command(T.joinFrHome, 1));
-         Menu.gI().startAt(var1, -1);
+         Menu.gI().startAt(var1, 2);
       }
 
    }

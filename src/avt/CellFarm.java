@@ -60,8 +60,8 @@ public final class CellFarm extends SubObject {
                   var1.fillRect(var2 - 3 * MyObject.hd, var3 - 37 * MyObject.hd, this.vitalityPer * 30 / 100 * MyObject.hd, 3 * MyObject.hd);
                   var1.setColor(2512938);
                   var1.drawRect(var2 - 4 * MyObject.hd, var3 - 38 * MyObject.hd, 31 * MyObject.hd, 4 * MyObject.hd);
-                  long var8 = (long)(var4.harvestTime * 60 * 60) - this.tempTime;
                   long var10 = (long)(var4.harvestTime * 60 - this.time);
+                  long var8 = var10 * 60L;
                   String var20 = "";
                   if (var8 < 0L) {
                      var8 = 0L;
@@ -71,7 +71,7 @@ public final class CellFarm extends SubObject {
                   long var15 = var8 / 60L % 60L;
                   long var17 = var8 % 60L;
                   var20 = var20 + var13 + ":" + var15 + ":" + var17;
-                  if (var10 <= 0L || var8 <= 0L) {
+                  if (var10 <= 0L) {
                      var20 = T.canHarvest;
                   }
 

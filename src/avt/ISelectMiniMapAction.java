@@ -22,11 +22,8 @@ final class ISelectMiniMapAction implements IAction {
             break;
          case 7:
             GlobalService.gI().getHandler(10);
-            break;
-         default:
-            GlobalService.gI().getHandler(9);
       }
 
-      Canvas.startWaitDlg(var1 + MiniMap.gI().getSelectedZoneLabel() + "...");
+      Canvas.startWaitDlg(var1 + T.nameRegion[MiniMap.gI().selected] + "...");
    }
 }

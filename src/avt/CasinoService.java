@@ -72,9 +72,27 @@ public final class CasinoService extends IService {
       this.sendMessage();
    }
 
+   public final void skipTurn() {
+      try {
+         this.createMessageWithBoard((byte)49);
+      } catch (Exception var2) {
+      }
+
+      this.sendMessage();
+   }
+
    public final void e() {
       try {
          this.createMessageWithBoard((byte)49);
+      } catch (Exception var2) {
+      }
+
+      this.sendMessage();
+   }
+
+   public final void haBai() {
+      try {
+         this.createMessageWithBoard((byte)21);
       } catch (Exception var2) {
       }
 

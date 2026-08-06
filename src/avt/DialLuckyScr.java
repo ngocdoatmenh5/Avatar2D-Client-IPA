@@ -76,23 +76,23 @@ public final class DialLuckyScr extends MyScreen {
          return null;
       }
 
-      return "Đang quay: " + name;
+      return T.dialSpinningPrefix + name;
    }
 
    public final String getDialCountText() {
       if (this.autoDialCount <= 0 && !this.isAutoDial) {
-         return "Số lần quay: 0";
+         return T.dialCountPrefix + "0";
       }
 
       if (this.isAutoDial) {
          if (this.autoDialLimit <= 0) {
-            return "Số lần quay: " + this.autoDialCount;
+            return T.dialCountPrefix + this.autoDialCount;
          }
 
-         return "Số lần quay: " + this.autoDialCount + "/" + this.autoDialLimit;
+         return T.dialCountPrefix + this.autoDialCount + "/" + this.autoDialLimit;
       }
 
-      return "Số lần quay: " + this.autoDialCount;
+      return T.dialCountPrefix + this.autoDialCount;
    }
 
    public final String getSpinningGiftText() {
@@ -108,8 +108,8 @@ public final class DialLuckyScr extends MyScreen {
       switch (gift.type) {
          case 1: {
             Part p = AvatarData.getPart(gift.idPart);
-            if (p == null) return "Đang quay: Item";
-            return "Đang quay: " + AvatarData.getName(p);
+            if (p == null) return T.dialSpinningPrefix + T.dialSpinningItem;
+            return T.dialSpinningPrefix + AvatarData.getName(p);
          }
          default:
             return null;
@@ -272,26 +272,26 @@ public final class DialLuckyScr extends MyScreen {
 
    private void openMainMenu() {
       Vector var1 = new Vector();
-      var1.addElement(new Command("Giới hạn: " + this.getLimitText(), CMD_MAIN_OPEN_SETTINGS, this));
-      var1.addElement(new Command("Cài đặt", CMD_MAIN_OPEN_SETTINGS, this));
+      var1.addElement(new Command(T.dialLimitPrefix + this.getLimitText(), CMD_MAIN_OPEN_SETTINGS, this));
+      var1.addElement(new Command(T.option, CMD_MAIN_OPEN_SETTINGS, this));
       Menu.gI().startAt(var1, -1);
    }
 
    
 
    private void openSettingsForm() {
-      final Form var1 = new Form("Cài đặt");
-      final ChoiceGroup var2 = new ChoiceGroup("Tùy chọn", 2);
-      var2.append("Xóa đồ rác", null);
+      final Form var1 = new Form(T.option);
+      final ChoiceGroup var2 = new ChoiceGroup(T.utilMineOptions, 2);
+      var2.append(T.dialDeleteJunk, null);
       var2.setSelectedIndex(0, true);
-      final TextField var3 = new TextField("Số lần(0 tức là không giới hạn)", String.valueOf(this.tempAutoDialLimit), 10, 2);
-      final TextField var4 = new TextField("Quãng nghỉ(ms) - Quay số", String.valueOf(this.tempAutoDialDelay), 10, 2);
+      final TextField var3 = new TextField(T.dialLimitField, String.valueOf(this.tempAutoDialLimit), 10, 2);
+      final TextField var4 = new TextField(T.dialDelayField, String.valueOf(this.tempAutoDialDelay), 10, 2);
       var1.append(var2);
       var1.append(var3);
       var1.append(var4);
-      var1.append("Lưu ý: Nếu cho phép bạn hãy chỉnh Quãng nghỉ thấp hơn để quay nhanh hơn.");
-      final javax.microedition.lcdui.Command var5 = new javax.microedition.lcdui.Command("Lưu", 4, 1);
-      final javax.microedition.lcdui.Command var6 = new javax.microedition.lcdui.Command("Hủy", 2, 1);
+      var1.append(T.dialDelayNote);
+      final javax.microedition.lcdui.Command var5 = new javax.microedition.lcdui.Command(T.loginSave, 4, 1);
+      final javax.microedition.lcdui.Command var6 = new javax.microedition.lcdui.Command(T.cancel, 2, 1);
       var1.addCommand(var5);
       var1.addCommand(var6);
       var1.setCommandListener(new CommandListener() {
@@ -301,7 +301,7 @@ public final class DialLuckyScr extends MyScreen {
                      int var3x = Integer.parseInt(var3.getString());
                      int var4x = Integer.parseInt(var4.getString());
                      if (var3x < 0 || var4x < 0) {
-                        Canvas.startOKDlg("Giá trị không hợp lệ!");
+                        Canvas.startOKDlg(T.dialInvalidValue);
                         return;
                      }
 
@@ -314,7 +314,7 @@ public final class DialLuckyScr extends MyScreen {
                      DialLuckyScr.this.persistAutoDialSettings();
                      Canvas.startOKDlg(DialLuckyScr.this.getAutoStatusText());
                   } catch (Exception var5x) {
-                     Canvas.startOKDlg("Giá trị không hợp lệ!");
+                     Canvas.startOKDlg(T.dialInvalidValue);
                      return;
                   }
                }
@@ -327,14 +327,14 @@ public final class DialLuckyScr extends MyScreen {
    }
 
    private String getLimitText() {
-      return this.autoDialLimit == 0 ? "Đóng" : String.valueOf(this.autoDialLimit);
+      return this.autoDialLimit == 0 ? T.dialLimitOff : String.valueOf(this.autoDialLimit);
    }
 
    private String getAutoStatusText() {
       if (this.autoDialLimit == 0) {
-         return "Auto Quay Số - Giới hạn: Đóng.";
+         return T.dialAutoLimitOff;
       } else {
-         return "Auto Quay Số giới hạn: " + this.autoDialLimit + " lần.";
+         return T.dialAutoLimitOnPrefix + this.autoDialLimit + T.dialAutoLimitOnSuffix;
       }
    }
 
@@ -359,7 +359,7 @@ public final class DialLuckyScr extends MyScreen {
       } else if (this.autoDialLimit != 0 && this.autoDialCount >= this.autoDialLimit) {
          this.isAutoDial = false;
          this.isAutoRunning = false;
-         Canvas.startOKDlg("Đã đến giới hạn quay!");
+         Canvas.startOKDlg(T.dialLimitReached);
          this.refreshCommands();
          return false;
       } else if (System.currentTimeMillis() < this.nextAutoDialAt) {
@@ -660,7 +660,7 @@ public final class DialLuckyScr extends MyScreen {
                this.nextAutoDialAt = 0L;
                this.g = 0;
                this.refreshCommands();
-               Canvas.startOKDlg("Đã ra item vĩnh viễn, dừng Auto Quay Số.");
+               Canvas.startOKDlg(T.dialForeverItemStop);
             }
          }
          Canvas.endDlg();

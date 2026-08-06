@@ -64,7 +64,7 @@ public final class FishingScr extends MyScreen {
          case 10:
          case 11:
          case 12:
-            Canvas.addFlyTextSmall("Đang phát triển", GameMidlet.avatar.x, GameMidlet.avatar.y - 40, -1, 1, -1);
+            Canvas.addFlyTextSmall(T.fishDeveloping, GameMidlet.avatar.x, GameMidlet.avatar.y - 40, -1, 1, -1);
             return;
          default:
       }

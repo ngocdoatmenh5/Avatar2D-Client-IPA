@@ -27,3 +27,9 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Build & Gradle ###
+build/
+.gradle/
+*.class
+sources_*.txt

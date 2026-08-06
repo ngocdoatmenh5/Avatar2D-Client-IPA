@@ -1,0 +1,16 @@
+package javax.wireless.messaging;
+
+import javax.microedition.io.Connection;
+import java.io.IOException;
+
+public interface MessageConnection extends Connection {
+    String TEXT_MESSAGE = "text";
+    String BINARY_MESSAGE = "binary";
+
+    Message newMessage(String type);
+    Message newMessage(String type, String address);
+    void send(Message message) throws IOException;
+    Message receive() throws IOException;
+    void setMessageListener(MessageListener l) throws IOException;
+    int numberOfSegments(Message message);
+}

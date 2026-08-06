@@ -34,6 +34,7 @@ final class CommandShopOffline1 extends Command {
             var1 = T.hair;
          }
 
+         PopupShop.addStr("Id: " + this.g.IDPart);
          PopupShop.addStr(var1 + AvatarData.getName(this.g));
          PopupShop.addStr(Canvas.getPriceMoney(this.g.price[0], this.g.price[1], true));
          PopupShop.addStr(T.youAreBittenByDog + AvatarData.getLevel(this.g));
