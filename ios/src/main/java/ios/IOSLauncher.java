@@ -6,7 +6,9 @@ import org.robovm.apple.uikit.UIApplicationDelegateAdapter;
 import org.robovm.apple.uikit.UIApplicationLaunchOptions;
 import org.robovm.apple.uikit.UIScreen;
 import org.robovm.apple.uikit.UIWindow;
+import org.robovm.apple.coregraphics.CGRect;
 
+import javax.microedition.lcdui.Displayable;
 import main.GameMidlet;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,28 +19,46 @@ public class IOSLauncher extends UIApplicationDelegateAdapter {
 
     @Override
     public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions launchOptions) {
-        window = new UIWindow(UIScreen.getMainScreen().getBounds());
+        CGRect bounds = UIScreen.getMainScreen().getBounds();
+        int screenW = (int) bounds.getWidth();
+        int screenH = (int) bounds.getHeight();
+
+        // Set screen dimensions BEFORE creating Canvas
+        Displayable.setScreenSize(screenW, screenH);
+
+        // Set microedition.platform system property to prevent NullPointerException
+        System.setProperty("microedition.platform", "iOS");
+        System.setProperty("microedition.encoding", "UTF-8");
+        System.setProperty("microedition.locale", "en-US");
+
+        window = new UIWindow(bounds);
         viewController = new IOSViewController();
-        
-        // CRITICAL FIX FOR IOS / LIVECONTAINER CRASH: Set non-null rootViewController
+
+        // CRITICAL: Set rootViewController before makeKeyAndVisible
         window.setRootViewController(viewController);
         window.makeKeyAndVisible();
 
-        // Boot MIDlet in Java ME compatibility runtime on iOS
-        try {
-            GameMidlet midlet = new GameMidlet();
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+        // Boot MIDlet on a background thread to avoid blocking UI
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    GameMidlet midlet = new GameMidlet();
+                    midlet.startApp();
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                }
+            }
+        }).start();
 
-        // Start 30 FPS display refresh timer for smooth rendering
+        // Start 30 FPS display refresh timer
         Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 IOSCanvasView.requestRepaint();
             }
-        }, 0, 33);
+        }, 100, 33);
 
         return true;
     }

@@ -3,6 +3,13 @@ package javax.microedition.lcdui;
 public abstract class Displayable {
     private String title;
     private CommandListener commandListener;
+    private static int screenWidth = 320;
+    private static int screenHeight = 480;
+
+    public static void setScreenSize(int w, int h) {
+        screenWidth = w;
+        screenHeight = h;
+    }
 
     public String getTitle() {
         return title;
@@ -31,11 +38,11 @@ public abstract class Displayable {
     }
 
     public int getWidth() {
-        return 320;
+        return screenWidth;
     }
 
     public int getHeight() {
-        return 240;
+        return screenHeight;
     }
 
     protected void sizeChanged(int w, int h) {
