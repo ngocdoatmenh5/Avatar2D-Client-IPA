@@ -79,16 +79,16 @@ public final class ChatTextField extends AvMain {
 
    public final void startChat(int var1, IChatable var2) {
       if (Canvas.currentFace == null) {
-         this.tfChat.keyPressed(var1);
-         if (!this.tfChat.getText().equals("")) {
-            this.parentMyScreen = var2;
-            isShow = true;
+         this.parentMyScreen = var2;
+         isShow = true;
+         this.tfChat.setFocus(true);
+         if (var1 != 0) {
+            this.tfChat.keyPressed(var1);
          }
-
          this.init();
       }
-
    }
+
 
    public final void updateKey() {
       this.tfChat.update();

@@ -41,7 +41,7 @@ public final class ClientUtilities {
    public static int autoClickIntervalMs = 100;
    public static boolean autoClickShowToggleNotice = true;
    public static boolean vietnameseTyping = true;
-   public static int utilSpeed1to100 = 50;
+   public static int utilSpeed1to100 = 20;
    public static int autoChatIntervalSeconds = 3;
    public static String autoChatMessage = ":)";
    public static int autoGiftGiftId = 102;
@@ -3194,12 +3194,13 @@ public final class ClientUtilities {
    }
 
    public static void resetSpeedToDefault() {
-      utilSpeed1to100 = 50;
+      utilSpeed1to100 = 20;
       persistUtilSpeed();
       resetAutoTickCounter();
-      Canvas.startOKDlg("Đã reset tốc độ về 50");
+      Canvas.startOKDlg("Đã reset tốc độ về 20");
       openUtilitySubmenu();
    }
+
 
    public static int computeAutoPeriodTicks() {
       int s = utilSpeed1to100;

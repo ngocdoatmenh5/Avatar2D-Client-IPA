@@ -768,11 +768,12 @@ public final class Canvas extends AvCanvasBase implements Runnable, CommandListe
                keyPressed[12] = true;
                return;
             case 0:
-               if (currentMyScreen == MapScr.gI() && !ChatTextField.isShow) {
-                  ChatTextField.gI().parentMyScreen = MapScr.gI();
-                  ChatTextField.isShow = true;
+               if (!ChatTextField.isShow) {
+                  avt.IChatable chatOwner = (currentMyScreen instanceof avt.IChatable) ? (avt.IChatable) currentMyScreen : avt.MapScr.gI();
+                  ChatTextField.gI().startChat(0, chatOwner);
                }
                return;
+
             case -5:
             case 10:
                keyHold[5] = true;
