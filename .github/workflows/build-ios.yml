@@ -1,0 +1,45 @@
+name: Build iOS App (.IPA)
+
+on:
+  push:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Validate Gradle wrapper / Gradle setup
+        run: |
+          gradle -v
+
+      - name: Build Core Module
+        run: |
+          gradle :core:build --stacktrace
+
+      - name: Build iOS IPA Package (RoboVM)
+        run: |
+          gradle :ios:createIPA --stacktrace
+
+      - name: Locate compiled IPA file
+        id: locate_ipa
+        run: |
+          mkdir -p build_output
+          find ios/build -name "*.ipa" -exec cp {} build_output/ \; || true
+          ls -la build_output/
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Avatar2D-iOS-App
+          path: build_output/
